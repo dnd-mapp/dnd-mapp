@@ -1,11 +1,7 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "references": [{ "path": "./tsconfig.lib.json" }],
+    "extends": "./tsconfig.json",
     "include": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.d.ts"],
     "compilerOptions": {
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "outDir": "./out-tsc/jest",
         "types": ["node", "jest"]
     }
 }

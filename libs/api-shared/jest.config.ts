@@ -14,7 +14,7 @@ export default async () => {
         transform: {
             '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
         },
-        moduleFileExtensions: ['ts', 'js', 'html'],
-        coverageDirectory: 'test-output/jest/coverage',
+        moduleFileExtensions: ['ts', 'js'],
+        coverageDirectory: '../../reports/api-shared',
     };
 };

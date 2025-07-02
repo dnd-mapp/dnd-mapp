@@ -1,19 +1,6 @@
 {
-    "extends": "../../tsconfig.base.json",
+    "extends": "./tsconfig.json",
     "include": ["src/**/*.ts"],
-    "exclude": ["out-tsc", "dist", "jest.config.ts", "src/**/*.spec.ts", "eslint.config.mjs"],
-    "compilerOptions": {
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "outDir": "dist",
-        "rootDir": "src",
-        "target": "ES2024",
-        "tsBuildInfoFile": "dist/tsconfig.app.tsbuildinfo",
-        "types": ["node"]
-    },
-    "references": [
-        {
-            "path": "../../libs/api-shared/tsconfig.lib.json"
-        }
-    ]
+    "exclude": ["jest.config.ts", "src/**/*.spec.ts", "eslint.config.mjs"],
+    "compilerOptions": {}
 }

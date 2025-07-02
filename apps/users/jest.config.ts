@@ -1,4 +1,5 @@
 import { readFile } from 'fs/promises';
+import { Config } from 'jest';
 
 export default async () => {
     // Reading the SWC compilation config for the spec files
@@ -8,6 +9,7 @@ export default async () => {
     swcJestConfig.swcrc = false;
 
     return {
+        coverageDirectory: '../../reports/users',
         displayName: '@dnd-mapp/dma-users',
         moduleFileExtensions: ['ts', 'js'],
         preset: '../../jest.preset.js',
@@ -15,5 +17,5 @@ export default async () => {
         transform: {
             '^.+\\.[tj]s$': ['@swc/jest', swcJestConfig],
         },
-    };
+    } satisfies Config;
 };

@@ -10,7 +10,6 @@ module.exports = {
         '!<rootDir>/src/*.d.ts',
     ],
     collectCoverage: true,
-    coverageDirectory: 'reports/coverage',
     coverageReporters: ['text-summary', 'html'],
     // Don't enforce code coverage for now to speed up development.
     // coverageThreshold: {
@@ -21,6 +20,9 @@ module.exports = {
     //         statements: 80,
     //     },
     // },
+    moduleNameMapper: {
+        '@dnd-mapp/dma-api-shared': ['libs/api-shared/src/public_api.ts'],
+    },
     randomize: true,
     showSeed: true,
 };

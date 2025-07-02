@@ -18,7 +18,7 @@
                 "!{projectRoot}/test/**/*",
                 "!{projectRoot}/reports/**/*"
             ],
-            "outputs": ["{projectRoot}/dist"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "options": {
                 "command": "webpack-cli build"
             },

@@ -9,7 +9,7 @@ export default async () => {
     swcJestConfig.swcrc = false;
 
     return {
-        coverageDirectory: '<rootDir>/reports/coverage',
+        coverageDirectory: '../../reports/auth',
         displayName: '@dnd-mapp/dma-auth',
         globalSetup: '<rootDir>/test/global-setup.ts',
         globalTeardown: '<rootDir>/test/global-teardown.ts',

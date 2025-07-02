@@ -11,12 +11,13 @@ export const USER_SERVICE_HOST = '0.0.0.0:5000';
 
 export const USER_SERVICE_NAME = 'UsersService';
 
-export const withUserPackage = () =>
-    ({
+export const withUserPackage = (basePath: string) => {
+    return {
         name: USER_CLIENT_NAME,
         transport: Transport.GRPC,
         options: {
             package: USER_PACKAGE_NAME,
-            protoPath: join('dist', USER_SERVICE_DEFINITION_PATH),
+            protoPath: join(basePath, USER_SERVICE_DEFINITION_PATH),
         },
-    }) satisfies ClientProviderOptions;
+    } satisfies ClientProviderOptions;
+};
