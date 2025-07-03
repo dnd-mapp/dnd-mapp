@@ -9,8 +9,8 @@ export default async () => {
     swcJestConfig.swcrc = false;
 
     return {
-        displayName: '@dnd-mapp/dma-api-gateway',
-        coverageDirectory: '../../reports/api-gateway',
+        displayName: '@dnd-mapp/api-gateway',
+        coverageDirectory: '../../reports/apps/api-gateway',
         moduleFileExtensions: ['ts', 'js'],
         preset: '../../jest.preset.js',
         testEnvironment: 'node',

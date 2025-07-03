@@ -1,5 +1,5 @@
 {
-    "name": "@dnd-mapp/dma-api-gateway",
+    "name": "@dnd-mapp/api-gateway",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "apps/api-gateway/src",
     "projectType": "application",
@@ -43,10 +43,10 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/dma-api-gateway:build:prod"
+                    "buildTarget": "@dnd-mapp/api-gateway:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/dma-api-gateway:build:dev"
+                    "buildTarget": "@dnd-mapp/api-gateway:build:dev"
                 }
             }
         },
