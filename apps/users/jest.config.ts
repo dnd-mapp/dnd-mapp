@@ -9,8 +9,8 @@ export default async () => {
     swcJestConfig.swcrc = false;
 
     return {
-        coverageDirectory: '../../reports/users',
-        displayName: '@dnd-mapp/dma-users',
+        coverageDirectory: '../../reports/apps/users',
+        displayName: '@dnd-mapp/users',
         moduleFileExtensions: ['ts', 'js'],
         preset: '../../jest.preset.js',
         testEnvironment: 'node',
