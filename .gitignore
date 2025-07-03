@@ -19,12 +19,11 @@ dist/
 node_modules/
 .nx/
 **/prisma/client/
+.angular
+reports/
 
 # OS
 .DS_Store
-
-# Tests
-reports/
 
 *.pem
 *.key
@@ -32,5 +31,3 @@ reports/
 
 .docker/mariadb/
 .docker/dbeaver-workspace/
-
-test-output
