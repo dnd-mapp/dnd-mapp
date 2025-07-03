@@ -20,6 +20,7 @@
         "noUnusedParameters": true,
         "paths": {
             "@dnd-mapp/api-shared": ["libs/api-shared/src/public_api.ts"],
+            "@dnd-mapp/auth": ["apps/auth/src/index.ts"],
         },
         "rootDir": ".",
         "skipDefaultLibCheck": true,

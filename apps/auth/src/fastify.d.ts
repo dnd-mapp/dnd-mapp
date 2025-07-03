@@ -1,4 +1,4 @@
-import { ScopeName, User } from '@dnd-mapp/dma-auth';
+import { ScopeName, User } from '@dnd-mapp/auth';
 import '@fastify/cookie';
 import 'fastify';
 
