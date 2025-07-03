@@ -2,7 +2,6 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
-import { rendererAppName } from './constants';
 import { UpdateService } from './update';
 
 export class DmaDesktopApp {
@@ -91,7 +90,6 @@ export class DmaDesktopApp {
      * Some APIs can only be used after this event occurs.
      */
     private static async onReady() {
-        if (!rendererAppName) return;
         DmaDesktopApp.initializeMainWindow();
         await DmaDesktopApp.loadMainWindow();
     }
@@ -140,7 +138,7 @@ export class DmaDesktopApp {
         } else {
             await this.mainWindow.loadURL(
                 format({
-                    pathname: join(__dirname, '..', rendererAppName, 'browser', 'index.html'),
+                    pathname: join(__dirname, '..', 'desktop-app-ui', 'browser', 'index.html'),
                     protocol: 'file:',
                     slashes: true,
                 })

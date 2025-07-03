@@ -1,3 +1,4 @@
+import { tryCatch } from '@dnd-mapp/shared';
 import { dialog } from 'electron';
 import { AppUpdater, autoUpdater, UpdateDownloadedEvent } from 'electron-updater';
 import { AppUpdaterEvents } from 'electron-updater/out/AppUpdater';
@@ -18,7 +19,7 @@ export class UpdateService {
     private electronUpdater: AppUpdater;
 
     private readonly autoUpdaterEventListeners = {
-        [ElectronUpdaterEventNames.ERROR]: (error: Error, message: string) => this.onUpdateError(message, error),
+        [ElectronUpdaterEventNames.ERROR]: (_error: Error, message: string) => this.onUpdateError(message),
         [ElectronUpdaterEventNames.CHECKING_FOR_UPDATE]: () => this.onCheckingForUpdate(),
         [ElectronUpdaterEventNames.UPDATE_UNAVAILABLE]: () => this.onUpdateUnavailable(),
         [ElectronUpdaterEventNames.UPDATE_AVAILABLE]: () => this.onUpdateAvailable(),
@@ -66,12 +67,11 @@ export class UpdateService {
     }
 
     private async checkForUpdates() {
-        await this.electronUpdater.checkForUpdates();
+        await tryCatch(this.electronUpdater.checkForUpdates());
     }
 
-    private onUpdateError(message: string, error: Error) {
-        console.error('There was a problem updating the application');
-        console.error(message, error);
+    private onUpdateError(message: string) {
+        console.error(message);
     }
 
     private onCheckingForUpdate() {

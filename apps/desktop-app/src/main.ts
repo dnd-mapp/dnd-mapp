@@ -7,9 +7,5 @@ async function main() {
 }
 
 (async () => {
-    const { error } = await tryCatch(main());
-
-    if (error) {
-        console.error(error);
-    }
+    await tryCatch(main());
 })();
