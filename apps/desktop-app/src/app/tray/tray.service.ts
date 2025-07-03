@@ -1,5 +1,5 @@
-import { Menu, Tray, app, screen } from 'electron';
-import { ICON_PATH } from '../constants';
+import { Menu, Tray, app } from 'electron';
+import { DEFAULT_ICON_PATH } from '../constants';
 
 export class TrayService {
     public static instance() {
@@ -24,9 +24,7 @@ export class TrayService {
     }
 
     private initializeTray() {
-        this.tray = new Tray(ICON_PATH);
-
-        console.log(screen.getPrimaryDisplay().scaleFactor);
+        this.tray = new Tray(DEFAULT_ICON_PATH);
 
         this.tray.setToolTip('DnD Mapp');
 

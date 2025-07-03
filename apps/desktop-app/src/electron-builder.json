@@ -18,6 +18,7 @@
         "vPrefixedTagName": false
     },
     "win": {
+        "icon": "dist/apps/desktop-app/assets/images/favicon/256x256.png",
         "target": "nsis"
     },
     "nsis": {

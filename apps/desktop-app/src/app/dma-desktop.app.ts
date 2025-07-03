@@ -2,6 +2,7 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
+import { DEFAULT_ICON_PATH } from './constants';
 import { TrayService } from './tray';
 import { UpdateService } from './update';
 
@@ -117,6 +118,7 @@ export class DmaDesktopApp {
             width: width,
             height: height,
             show: false,
+            icon: DEFAULT_ICON_PATH,
             webPreferences: {
                 preload: join(__dirname, 'main.preload.js'),
                 sandbox: true,
