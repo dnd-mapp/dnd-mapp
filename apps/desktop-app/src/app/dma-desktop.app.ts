@@ -2,12 +2,14 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
+import { TrayService } from './tray';
 import { UpdateService } from './update';
 
 export class DmaDesktopApp {
     private static mainWindow: BrowserWindow;
 
     private static updateService: UpdateService;
+    private static trayService: TrayService;
 
     private static quited = false;
 
@@ -79,10 +81,12 @@ export class DmaDesktopApp {
 
     private static async initializeServices() {
         this.updateService = await UpdateService.instance();
+        this.trayService = TrayService.instance();
     }
 
     private static async destroyServices() {
         this.updateService = this.updateService.destroy();
+        this.trayService = this.trayService.destroy();
     }
 
     /**

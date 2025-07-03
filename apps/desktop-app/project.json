@@ -12,7 +12,19 @@
             "dependsOn": ["^build"],
             "cache": true,
             "options": {
-                "assets": ["apps/desktop-app/src/assets"],
+                "assets": [
+                    "apps/desktop-app/src/assets",
+                    {
+                        "input": "apps/desktop-app",
+                        "glob": "package.json",
+                        "output": "./"
+                    },
+                    {
+                        "glob": "**/*",
+                        "input": "libs/shared/assets",
+                        "output": "assets"
+                    }
+                ],
                 "main": "apps/desktop-app/src/main.ts",
                 "outputPath": "dist/apps/desktop-app",
                 "tsConfig": "apps/desktop-app/tsconfig.app.json"
@@ -20,13 +32,6 @@
             "defaultConfiguration": "prod",
             "configurations": {
                 "prod": {
-                    "assets": [
-                        {
-                            "input": "apps/desktop-app",
-                            "glob": "package.json",
-                            "output": "./"
-                        }
-                    ],
                     "externalDependencies": [],
                     "fileReplacements": [
                         {
