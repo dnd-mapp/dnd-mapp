@@ -1,5 +1,5 @@
 {
-    "name": "@dnd-mapp/dma-as",
+    "name": "@dnd-mapp/source",
     "version": "0.0.1",
     "license": "AGPL-3.0-only",
     "description": "The Authentication Server for the DnD-Mapp platform",
