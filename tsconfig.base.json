@@ -19,7 +19,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
-            "@dnd-mapp/dma-api-shared": ["libs/api-shared/src/public_api.ts"]
+            "@dnd-mapp/api-shared": ["libs/api-shared/src/public_api.ts"],
         },
         "rootDir": ".",
         "skipDefaultLibCheck": true,

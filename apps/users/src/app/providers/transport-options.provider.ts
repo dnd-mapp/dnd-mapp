@@ -1,4 +1,4 @@
-import { USER_PACKAGE_NAME, USER_SERVICE_DEFINITION_PATH, USER_SERVICE_HOST } from '@dnd-mapp/dma-api-shared';
+import { USER_PACKAGE_NAME, USER_SERVICE_DEFINITION_PATH, USER_SERVICE_HOST } from '@dnd-mapp/api-shared';
 import { Server } from '@grpc/grpc-js';
 import { PackageDefinition } from '@grpc/proto-loader';
 import { ReflectionService } from '@grpc/reflection';

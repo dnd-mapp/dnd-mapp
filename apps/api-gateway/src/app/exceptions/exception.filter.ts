@@ -1,4 +1,4 @@
-import { prettifyError, rpcCodeToHttpError, rpcCodeToHttpStatus } from '@dnd-mapp/dma-api-shared';
+import { prettifyError, rpcCodeToHttpError, rpcCodeToHttpStatus } from '@dnd-mapp/api-shared';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
 import type { FastifyReply } from 'fastify';
 
