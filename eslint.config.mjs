@@ -68,7 +68,7 @@ export default [
                         },
                         {
                             sourceTag: 'framework:electron',
-                            allowedExternalImports: ['electron'],
+                            allowedExternalImports: ['electron', 'electron-updater', 'electron-updater/*'],
                         },
                     ],
                 },
