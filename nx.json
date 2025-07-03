@@ -14,11 +14,6 @@
         "sharedGlobals": ["{workspaceRoot}/.github/workflows/build.yml}"]
     },
     "targetDefaults": {
-        "test": {
-            "dependsOn": ["build"],
-            "options": {
-                "passWithNoTests": true
-            }
         }
     },
     "plugins": [
@@ -51,13 +46,6 @@
             "plugin": "@nx/eslint/plugin",
             "options": {
                 "targetName": "lint"
-            }
-        },
-        {
-            "plugin": "@nx/jest/plugin",
-            "exclude": [],
-            "options": {
-                "targetName": "test"
             }
         },
         {

@@ -51,8 +51,21 @@
             }
         },
         "test": {
+            "executor": "@nx/jest:jest",
+            "dependsOn": ["build"],
             "options": {
+                "jestConfig": "apps/api-gateway/jest.config.ts",
                 "passWithNoTests": true
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "ci": true
+                },
+                "dev": {
+                    "ci": false,
+                    "watch": true
+                }
             }
         }
     }

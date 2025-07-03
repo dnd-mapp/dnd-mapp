@@ -63,6 +63,7 @@
         },
         "test": {
             "executor": "@nx/jest:jest",
+            "dependsOn": ["build"],
             "options": {
                 "jestConfig": "apps/users/jest.config.ts",
                 "passWithNoTests": true

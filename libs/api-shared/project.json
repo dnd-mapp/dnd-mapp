@@ -4,5 +4,23 @@
     "sourceRoot": "libs/api-shared/src",
     "projectType": "library",
     "tags": ["scope:shared", "framework:nest", "framework:node"],
-    "targets": {}
+    "targets": {
+        "test": {
+            "executor": "@nx/jest:jest",
+            "options": {
+                "jestConfig": "libs/api-shared/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "ci": true
+                },
+                "dev": {
+                    "ci": false,
+                    "watch": true
+                }
+            }
+        }
+    }
 }
