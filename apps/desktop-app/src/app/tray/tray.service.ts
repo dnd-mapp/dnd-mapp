@@ -1,10 +1,11 @@
-import { Menu, Tray, app } from 'electron';
-import { DEFAULT_ICON_PATH } from '../constants';
+import { app, Menu, Tray } from 'electron';
+import { getIcon } from '../utils';
 
 export class TrayService {
-    public static instance() {
+    public static async instance() {
         if (this._instance) return this._instance;
         this._instance = new TrayService();
+        await this._instance.initialize();
 
         return this._instance;
     }
@@ -12,9 +13,7 @@ export class TrayService {
 
     private tray: Tray;
 
-    private constructor() {
-        this.initializeTray();
-    }
+    private constructor() {}
 
     public destroy(): null {
         this.tray.destroy();
@@ -23,8 +22,8 @@ export class TrayService {
         return null;
     }
 
-    private initializeTray() {
-        this.tray = new Tray(DEFAULT_ICON_PATH);
+    private async initialize() {
+        this.tray = new Tray(await getIcon());
 
         this.tray.setToolTip('DnD Mapp');
 

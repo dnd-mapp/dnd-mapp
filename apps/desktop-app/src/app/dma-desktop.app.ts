@@ -2,9 +2,9 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
-import { DEFAULT_ICON_PATH } from './constants';
 import { TrayService } from './tray';
 import { UpdateService } from './update';
+import { getIcon } from './utils';
 
 export class DmaDesktopApp {
     private static mainWindow: BrowserWindow;
@@ -82,7 +82,7 @@ export class DmaDesktopApp {
 
     private static async initializeServices() {
         this.updateService = await UpdateService.instance();
-        this.trayService = TrayService.instance();
+        this.trayService = await TrayService.instance();
     }
 
     private static async destroyServices() {
@@ -95,7 +95,7 @@ export class DmaDesktopApp {
      * Some APIs can only be used after this event occurs.
      */
     private static async onReady() {
-        DmaDesktopApp.initializeMainWindow();
+        await DmaDesktopApp.initializeMainWindow();
         await DmaDesktopApp.loadMainWindow();
     }
 
@@ -108,7 +108,7 @@ export class DmaDesktopApp {
         await DmaDesktopApp.onReady();
     }
 
-    private static initializeMainWindow() {
+    private static async initializeMainWindow() {
         const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
         const width = Math.min(1280, workAreaSize.width || 1280);
         const height = Math.min(720, workAreaSize.height || 720);
@@ -118,7 +118,7 @@ export class DmaDesktopApp {
             width: width,
             height: height,
             show: false,
-            icon: DEFAULT_ICON_PATH,
+            icon: await getIcon(),
             webPreferences: {
                 preload: join(__dirname, 'main.preload.js'),
                 sandbox: true,
