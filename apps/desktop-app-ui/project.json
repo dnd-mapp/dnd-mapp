@@ -27,6 +27,11 @@
                 "outputPath": "dist/apps/desktop-app-ui",
                 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "styles": ["apps/desktop-app-ui/src/styles.scss"],
+                "stylePreprocessorOptions": {
+                    "sass": {
+                        "silenceDeprecations": ["color-functions", "global-builtin", "import"]
+                    }
+                },
                 "tsConfig": "apps/desktop-app-ui/tsconfig.app.json"
             },
             "defaultConfiguration": "prod",
