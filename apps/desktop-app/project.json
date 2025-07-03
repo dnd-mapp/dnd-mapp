@@ -1,0 +1,100 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "@dnd-mapp/desktop-app",
+    "projectType": "application",
+    "sourceRoot": "apps/desktop-app/src",
+    "tags": ["scope:desktop-app", "framework:electron"],
+    "implicitDependencies": ["@dnd-mapp/desktop-app-ui"],
+    "targets": {
+        "build": {
+            "executor": "nx-electron:build",
+            "outputs": ["{options.outputPath}"],
+            "dependsOn": ["^build"],
+            "cache": true,
+            "options": {
+                "assets": ["apps/desktop-app/src/assets"],
+                "main": "apps/desktop-app/src/main.ts",
+                "outputPath": "dist/apps/desktop-app",
+                "tsConfig": "apps/desktop-app/tsconfig.app.json"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "assets": [
+                        {
+                            "input": "apps/desktop-app",
+                            "glob": "package.json",
+                            "output": "./"
+                        }
+                    ],
+                    "externalDependencies": [],
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/desktop-app/src/environments/environment.ts",
+                            "with": "apps/desktop-app/src/environments/environment.prod.ts"
+                        }
+                    ],
+                    "extractLicenses": true,
+                    "obfuscate": true,
+                    "optimization": true,
+                    "sourceMap": false
+                },
+                "dev": {
+                    "inspect": false
+                }
+            }
+        },
+        "serve": {
+            "executor": "nx-electron:execute",
+            "continuous": true,
+            "dependsOn": ["build"],
+            "options": {
+                "buildTarget": "@dnd-mapp/desktop-app:build:dev",
+                "inspect": false,
+                "waitUntilTargets": ["@dnd-mapp/desktop-app-ui:serve"]
+            }
+        },
+        "package": {
+            "executor": "nx-electron:package",
+            "dependsOn": ["build"],
+            "options": {
+                "frontendProject": "desktop-app-ui",
+                "makerOptionsPath": "apps/desktop-app/src/electron-builder.json",
+                "name": "desktop-app",
+                "prepackageOnly": true,
+                "publishPolicy": "never",
+                "sourcePath": "dist/apps"
+            },
+            "defaultConfiguration": "windows",
+            "configurations": {
+                "windows": {
+                    "arch": "x64",
+                    "platform": "windows",
+                    "outputPath": "dist/packages/windows-x64"
+                }
+            }
+        },
+        "make": {
+            "executor": "nx-electron:package",
+            "dependsOn": ["build"],
+            "options": {
+                "frontendProject": "desktop-app-ui",
+                "makerOptionsPath": "apps/desktop-app/src/electron-builder.json",
+                "name": "desktop-app",
+                "publishPolicy": "never",
+                "sourcePath": "dist/apps"
+            },
+            "defaultConfiguration": "windows",
+            "configurations": {
+                "windows": {
+                    "arch": "x64",
+                    "platform": "windows",
+                    "outputPath": "dist/executables/windows-x64"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}

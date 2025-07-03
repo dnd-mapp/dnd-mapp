@@ -19,11 +19,11 @@ export default [
                     depConstraints: [
                         {
                             sourceTag: 'api:public',
-                            onlyDependOnLibsWithTags: ['api:internal', 'scope:shared', 'framework:nest'],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'api:internal'],
                         },
                         {
                             sourceTag: 'api:internal',
-                            onlyDependOnLibsWithTags: ['scope:shared', 'framework:nest'],
+                            onlyDependOnLibsWithTags: ['scope:shared'],
                         },
                         {
                             sourceTag: 'scope:shared',
@@ -31,11 +31,11 @@ export default [
                         },
                         {
                             sourceTag: 'scope:desktop-app',
-                            onlyDependOnLibsWithTags: ['scope:shared'],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:desktop-app'],
                         },
                         {
                             sourceTag: 'scope:ui',
-                            onlyDependOnLibsWithTags: ['scope:shared'],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:ui'],
                         },
                         {
                             sourceTag: 'framework:nest',
@@ -65,6 +65,10 @@ export default [
                         {
                             sourceTag: 'framework:angular',
                             allowedExternalImports: ['@angular/*'],
+                        },
+                        {
+                            sourceTag: 'framework:electron',
+                            allowedExternalImports: ['electron'],
                         },
                     ],
                 },

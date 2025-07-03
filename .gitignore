@@ -22,6 +22,8 @@ node_modules/
 .angular
 reports/
 
+tmp/
+
 # OS
 .DS_Store
 
