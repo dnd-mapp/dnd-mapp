@@ -30,6 +30,14 @@ export default [
                             onlyDependOnLibsWithTags: ['scope:shared'],
                         },
                         {
+                            sourceTag: 'scope:desktop-app',
+                            onlyDependOnLibsWithTags: ['scope:shared'],
+                        },
+                        {
+                            sourceTag: 'scope:ui',
+                            onlyDependOnLibsWithTags: ['scope:shared'],
+                        },
+                        {
                             sourceTag: 'framework:nest',
                             allowedExternalImports: [
                                 '@fastify/cookie',
@@ -53,6 +61,10 @@ export default [
                                 'prisma/*',
                                 'rxjs',
                             ],
+                        },
+                        {
+                            sourceTag: 'framework:angular',
+                            allowedExternalImports: ['@angular/*'],
                         },
                     ],
                 },

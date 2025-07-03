@@ -14,48 +14,29 @@
         "sharedGlobals": ["{workspaceRoot}/.github/workflows/build.yml}"]
     },
     "targetDefaults": {
+        "@angular/build:application": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
         }
     },
     "plugins": [
-        {
-            "plugin": "@nx/js/typescript",
-            "exclude": ["libs/api-shared/*"],
-            "options": {
-                "build": {
-                    "targetName": "build",
-                    "configName": "tsconfig.lib.json",
-                    "buildDepsName": "build-deps",
-                    "watchDepsName": "watch-deps"
-                },
-                "typecheck": {
-                    "targetName": "typecheck"
-                }
-            }
-        },
-        {
-            "plugin": "@nx/webpack/plugin",
-            "options": {
-                "buildTargetName": "build",
-                "serveTargetName": "serve",
-                "previewTargetName": "preview",
-                "buildDepsTargetName": "build-deps",
-                "watchDepsTargetName": "watch-deps"
-            }
-        },
         {
             "plugin": "@nx/eslint/plugin",
             "options": {
                 "targetName": "lint"
             }
-        },
-        {
-            "plugin": "@nx/js/typescript",
-            "include": ["libs/api-shared/*"],
-            "options": {
-                "typecheck": {
-                    "targetName": "typecheck"
-                }
-            }
         }
-    ]
+    ],
+    "generators": {
+        "@nx/angular:application": {
+            "e2eTestRunner": "none",
+            "linter": "eslint",
+            "style": "scss",
+            "unitTestRunner": "none"
+        },
+        "@nx/angular:component": {
+            "changeDetection": "OnPush"
+        }
+    }
 }

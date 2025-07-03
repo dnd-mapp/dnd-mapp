@@ -1,0 +1,103 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "@dnd-mapp/desktop-app-ui",
+    "projectType": "application",
+    "sourceRoot": "apps/desktop-app-ui/src",
+    "prefix": "dma",
+    "tags": ["framework:angular", "scope:desktop-app", "scope:ui"],
+    "targets": {
+        "build": {
+            "executor": "@angular/build:application",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "allowedCommonJsDependencies": [],
+                "assets": [
+                    {
+                        "glob": "**/*",
+                        "input": "apps/desktop-app-ui/public"
+                    }
+                ],
+                "baseHref": "./",
+                "browser": "apps/desktop-app-ui/src/main.ts",
+                "inlineStyleLanguage": "scss",
+                "outputPath": "dist/apps/desktop-app-ui",
+                "scripts": [],
+                "styles": ["apps/desktop-app-ui/src/styles.scss"],
+                "tsConfig": "apps/desktop-app-ui/tsconfig.app.json"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "4kb",
+                            "maximumError": "8kb"
+                        }
+                    ]
+                },
+                "dev": {
+                    "extractLicenses": false,
+                    "namedChunks": true,
+                    "optimization": false,
+                    "sourceMap": true
+                }
+            }
+        },
+        "serve": {
+            "executor": "@angular/build:dev-server",
+            "continuous": true,
+            "options": {
+                "hmr": false,
+                "host": "localhost.desktop-app.dnd-mapp.net",
+                "port": 443,
+                "ssl": true,
+                "sslKey": "certificate-key.pem",
+                "sslCert": "certificate.pem"
+            },
+            "defaultConfiguration": "dev",
+            "configurations": {
+                "prod": {
+                    "buildTarget": "@dnd-mapp/desktop-app-ui:build:prod"
+                },
+                "dev": {
+                    "buildTarget": "@dnd-mapp/desktop-app-ui:build:dev"
+                }
+            }
+        },
+        "test": {
+            "executor": "@angular/build:karma",
+            "options": {
+                "assets": [
+                    {
+                        "glob": "**/*",
+                        "input": "public"
+                    }
+                ],
+                "codeCoverage": true,
+                "inlineStyleLanguage": "scss",
+                "karmaConfig": "apps/desktop-app-ui/karma.conf.js",
+                "scripts": [],
+                "styles": ["apps/desktop-app-ui/src/styles.scss"],
+                "tsConfig": "apps/desktop-app-ui/tsconfig.spec.json"
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "watch": false
+                },
+                "dev": {
+                    "watch": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}
