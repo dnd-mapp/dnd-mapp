@@ -15,6 +15,10 @@
                     {
                         "glob": "**/*",
                         "input": "apps/desktop-app-ui/public"
+                    },
+                    {
+                        "glob": "**/*",
+                        "input": "libs/shared/assets"
                     }
                 ],
                 "baseHref": "./",
@@ -76,7 +80,11 @@
                 "assets": [
                     {
                         "glob": "**/*",
-                        "input": "public"
+                        "input": "apps/desktop-app-ui/public"
+                    },
+                    {
+                        "glob": "**/*",
+                        "input": "libs/shared/assets"
                     }
                 ],
                 "codeCoverage": true,
