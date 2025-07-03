@@ -1,4 +1,5 @@
 import { app, Menu, Tray } from 'electron';
+import { DmaDesktopApp } from '../dma-desktop.app';
 import { getIcon } from '../utils';
 
 export class TrayService {
@@ -22,6 +23,18 @@ export class TrayService {
         return null;
     }
 
+    public configureContextMenu() {
+        const menu = Menu.buildFromTemplate([
+            {
+                label: DmaDesktopApp.devToolsShown() ? 'Close DevTools' : 'Open DevTools',
+                click: () => this.onToggleDevTools(),
+            },
+            { label: 'Quit', role: 'quit', click: () => this.onCloseApplication() },
+        ]);
+
+        this.tray.setContextMenu(menu);
+    }
+
     private async initialize() {
         this.tray = new Tray(await getIcon());
 
@@ -30,13 +43,11 @@ export class TrayService {
         this.configureContextMenu();
     }
 
-    private configureContextMenu() {
-        const menu = Menu.buildFromTemplate([{ label: 'Quit', role: 'quit', click: () => this.onCloseApplication() }]);
-
-        this.tray.setContextMenu(menu);
-    }
-
     private onCloseApplication() {
         app.quit();
+    }
+
+    private onToggleDevTools() {
+        DmaDesktopApp.toggleDevTools();
     }
 }

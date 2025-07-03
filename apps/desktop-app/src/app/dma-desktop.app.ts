@@ -8,6 +8,7 @@ import { getIcon } from './utils';
 
 export class DmaDesktopApp {
     private static mainWindow: BrowserWindow;
+    private static showingDevTools = false;
 
     private static updateService: UpdateService;
     private static trayService: TrayService;
@@ -53,6 +54,20 @@ export class DmaDesktopApp {
         });
     }
 
+    public static devToolsShown() {
+        return this.showingDevTools;
+    }
+
+    public static toggleDevTools() {
+        this.showingDevTools = !this.showingDevTools;
+
+        if (this.showingDevTools) {
+            this.mainWindow.webContents.openDevTools({ mode: 'detach' });
+        } else {
+            this.mainWindow.webContents.closeDevTools();
+        }
+    }
+
     private static async onWindowAllClosed() {
         if (process.platform === 'darwin') return;
         app.quit();
@@ -73,11 +88,10 @@ export class DmaDesktopApp {
     }
 
     private static async onRedirect(event: Event<WebContentsWillNavigateEventParams>, url: string) {
-        if (url !== this.mainWindow.webContents.getURL()) {
-            // this is a normal external redirect, open it in a new browser window
-            event.preventDefault();
-            await shell.openExternal(url);
-        }
+        if (url == this.mainWindow.webContents.getURL()) return;
+        // this is a normal external redirect, open it in a new browser window
+        event.preventDefault();
+        await shell.openExternal(url);
     }
 
     private static async initializeServices() {
@@ -130,11 +144,13 @@ export class DmaDesktopApp {
         // If the main window is ready to show, close the splash window and show the main window
         this.mainWindow.once('ready-to-show', () => this.mainWindow.show());
 
+        // Emitted when the window is closed.
+        this.mainWindow.on('closed', () => this.onClose());
+
         // handle all external redirects in a new browser window
         this.mainWindow.webContents.on('will-navigate', async (event, url) => await this.onRedirect(event, url));
 
-        // Emitted when the window is closed.
-        this.mainWindow.on('closed', () => this.onClose());
+        this.mainWindow.webContents.on('devtools-closed', () => this.onDevtoolsClosed());
     }
 
     private static async loadMainWindow() {
@@ -150,5 +166,10 @@ export class DmaDesktopApp {
                 })
             );
         }
+    }
+
+    private static onDevtoolsClosed() {
+        this.showingDevTools = false;
+        this.trayService.configureContextMenu();
     }
 }
