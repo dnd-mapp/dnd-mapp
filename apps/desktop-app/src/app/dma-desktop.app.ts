@@ -2,22 +2,29 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
-import { environment } from '../environments';
 import { rendererAppName } from './constants';
+import { UpdateService } from './update';
 
 export class DmaDesktopApp {
     private static mainWindow: BrowserWindow;
+
+    private static updateService: UpdateService;
+
+    private static quited = false;
 
     /**
      * We pass the App and the BrowserWindow into this function so this class has no dependencies.
      * This makes the code easier to write tests for.
      */
-    public static main() {
+    public static bootstrapApp() {
         // Quit when all windows are closed.
         app.on('window-all-closed', () => this.onWindowAllClosed());
 
         // App is ready to load data
-        app.on('ready', async () => await this.onReady());
+        app.on('ready', async () => {
+            await this.initializeServices();
+            await this.onReady();
+        });
 
         // App is activated
         app.on('activate', async () => await this.onActivate());
@@ -30,14 +37,30 @@ export class DmaDesktopApp {
             }
             callback(false);
         });
+
+        app.on('quit', async () => await this.onQuit());
+        app.on('will-quit', async () => await this.onQuit());
+        app.on('before-quit', async () => await this.onQuit());
+
+        process.on('uncaughtException', (error) => {
+            console.error(error);
+        });
+
+        process.on('unhandledRejection', (error) => {
+            console.error(error);
+        });
     }
 
-
-    }
-
-    private static onWindowAllClosed() {
+    private static async onWindowAllClosed() {
         if (process.platform === 'darwin') return;
         app.quit();
+    }
+
+    private static async onQuit() {
+        if (this.quited) return;
+        this.quited = true;
+
+        await this.destroyServices();
     }
 
     private static onClose() {
@@ -55,13 +78,21 @@ export class DmaDesktopApp {
         }
     }
 
+    private static async initializeServices() {
+        this.updateService = await UpdateService.instance();
+    }
+
+    private static async destroyServices() {
+        this.updateService = this.updateService.destroy();
+    }
+
     /**
      * This method will be called when Electron has finished initialization and is ready to create browser windows.
      * Some APIs can only be used after this event occurs.
      */
     private static async onReady() {
         if (!rendererAppName) return;
-        DmaDesktopApp.initMainWindow();
+        DmaDesktopApp.initializeMainWindow();
         await DmaDesktopApp.loadMainWindow();
     }
 
@@ -74,7 +105,7 @@ export class DmaDesktopApp {
         await DmaDesktopApp.onReady();
     }
 
-    private static initMainWindow() {
+    private static initializeMainWindow() {
         const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
         const width = Math.min(1280, workAreaSize.width || 1280);
         const height = Math.min(720, workAreaSize.height || 720);
@@ -115,6 +146,5 @@ export class DmaDesktopApp {
                 })
             );
         }
-        this.mainWindow.webContents.openDevTools({ mode: 'detach' });
     }
 }

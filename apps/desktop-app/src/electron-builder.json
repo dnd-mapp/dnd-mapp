@@ -5,9 +5,6 @@
     "artifactName": "${productName} ${version}.${ext}",
     "copyright": "Copyright © 2025 ${author}",
     "beforeBuild": "apps/desktop-app/build/before-build.mjs",
-    "win": {
-        "target": "nsis"
-    },
     "extraMetadata": {
         "name": "DnD Mapp",
         "description": "DnD Mapp",
@@ -15,6 +12,13 @@
         "author": {
             "name": "NoNamer777"
         }
+    },
+    "publish": {
+        "provider": "github",
+        "vPrefixedTagName": false
+    },
+    "win": {
+        "target": "nsis"
     },
     "nsis": {
         "artifactName": "${productName} Setup ${version}.${ext}",

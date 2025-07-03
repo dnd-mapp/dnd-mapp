@@ -1,21 +1,15 @@
-import { DmaDesktopApp, ElectronEvents, UpdateEvents } from './app';
+import { tryCatch } from '@dnd-mapp/shared';
+import { DmaDesktopApp, ElectronEvents } from './app';
 
-export default class Main {
-    public static bootstrapApp() {
-        DmaDesktopApp.main();
-    }
-
-    public static bootstrapAppEvents() {
-        ElectronEvents.bootstrapElectronEvents();
-
-        // Initialize auto updater service
-        if (DmaDesktopApp.isDevelopmentMode()) UpdateEvents.initAutoUpdateService();
-    }
+async function main() {
+    DmaDesktopApp.bootstrapApp();
+    ElectronEvents.bootstrapElectronEvents();
 }
 
-// Handle setup events as quickly as possible
 (async () => {
-    // Bootstrap the application
-    Main.bootstrapApp();
-    Main.bootstrapAppEvents();
+    const { error } = await tryCatch(main());
+
+    if (error) {
+        console.error(error);
+    }
 })();
