@@ -25,7 +25,7 @@
                 "browser": "apps/desktop-app-ui/src/main.ts",
                 "inlineStyleLanguage": "scss",
                 "outputPath": "dist/apps/desktop-app-ui",
-                "scripts": [],
+                "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "styles": ["apps/desktop-app-ui/src/styles.scss"],
                 "tsConfig": "apps/desktop-app-ui/tsconfig.app.json"
             },
