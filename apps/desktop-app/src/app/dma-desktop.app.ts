@@ -32,11 +32,7 @@ export class DmaDesktopApp {
         });
     }
 
-    public static isDevelopmentMode() {
-        const isEnvironmentSet = 'ELECTRON_IS_DEV' in process.env;
-        const getFromEnvironment = parseInt(process.env['ELECTRON_IS_DEV'], 10) === 1;
 
-        return isEnvironmentSet ? getFromEnvironment : !environment.production;
     }
 
     private static onWindowAllClosed() {
