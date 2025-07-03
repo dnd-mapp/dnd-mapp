@@ -1,4 +1,4 @@
-# @dnd-mapp/dma-as
+# Dnd Mapp
 
 [![License](https://img.shields.io/github/license/dnd-mapp/dma-as)](LICENSE)
 [![Build](https://github.com/dnd-mapp/dma-as/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/dnd-mapp/dma-as/actions/workflows/build.yml)

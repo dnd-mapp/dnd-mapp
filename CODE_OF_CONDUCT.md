@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We as contributors, maintainers, and members of this community pledge to make participation in **@dnd-mapp/dma-ui** a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
+We as contributors, maintainers, and members of this community pledge to make participation in **@dnd-mapp/dma-as** a harassment-free experience for everyone, regardless of age, body size, visible or invisible disability, ethnicity, gender identity and expression, level of experience, education, socio-economic status, nationality, personal appearance, race, religion, or sexual identity and orientation.
 
 We are committed to fostering an open, welcoming, and inclusive environment.
 
