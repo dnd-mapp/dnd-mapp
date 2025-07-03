@@ -57,7 +57,6 @@
             "executor": "@angular/build:dev-server",
             "continuous": true,
             "options": {
-                "hmr": false,
                 "host": "localhost.desktop-app.dnd-mapp.net",
                 "port": 443,
                 "ssl": true,
