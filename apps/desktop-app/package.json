@@ -2,5 +2,7 @@
     "name": "@dnd-mapp/desktop-app",
     "version": "0.0.1",
     "private": true,
-    "dependencies": {}
+    "dependencies": {
+        "electron-updater": "~6.6.0"
+    }
 }
