@@ -4,11 +4,18 @@
             <div class="d-inline-block align-text-top">
                 <img ngSrc="images/favicon/32x32.png" fill alt="DnD Mapp logo.png" loading="lazy" />
             </div>
-            DnD Mapp
+            <span>{{ 'APP_NAME' | translate }}</span>
         </a>
         <ul class="navbar-nav me-auto">
             <li class="nav-item">
-                <a class="nav-link" routerLink="/notifications" routerLinkActive="active">Notifications</a>
+                <a class="nav-link" routerLink="/notifications" routerLinkActive="active">
+                    {{ 'NAV_LABEL_NOTIFICATIONS' | translate }}
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/settings" routerLinkActive="active">
+                    {{ 'NAV_LABEL_SETTINGS' | translate }}
+                </a>
             </li>
         </ul>
     </div>

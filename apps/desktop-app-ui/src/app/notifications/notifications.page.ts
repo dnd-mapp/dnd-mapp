@@ -4,6 +4,7 @@ import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angu
 import { NotificationData } from '@dnd-mapp/desktop-shared';
 import { from } from 'rxjs';
 import { DESKTOP_APP_API } from '../core/api';
+import { TranslatePipe } from '../localisation';
 
 const MAX_LENGTH_TITLE = 40 as const;
 
@@ -14,7 +15,7 @@ const MAX_LENGTH_MESSAGE = 100 as const;
     templateUrl: './notifications.page.html',
     styleUrl: './notifications.page.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [FormsModule, ReactiveFormsModule],
+    imports: [FormsModule, ReactiveFormsModule, TranslatePipe],
 })
 export class NotificationsPage {
     private readonly formBuilder = inject(FormBuilder);
@@ -30,7 +31,7 @@ export class NotificationsPage {
         silent: this.formBuilder.control(false),
     });
 
-    protected onShowMessage() {
+    protected onShowNotification() {
         from(this.desktopAppApi.sendNotification(this.form.value as NotificationData))
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe();
