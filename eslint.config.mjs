@@ -74,6 +74,7 @@ export default [
                                 'electron',
                                 'electron-updater',
                                 'electron-updater/*',
+                                'rxjs',
                             ],
                         },
                     ],
