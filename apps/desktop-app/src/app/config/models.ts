@@ -10,8 +10,10 @@ export class AppConfig {
     @IsEnum(Locales)
     @IsNotEmpty()
     @IsString()
-    locale: Locale;
+    public locale: Locale;
 }
+
+export type AppSetting = keyof AppConfig;
 
 export const DEFAULT_APP_CONFIG = plainToInstance(AppConfig, {
     locale: DEFAULT_LOCALE,
