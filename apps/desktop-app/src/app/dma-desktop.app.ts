@@ -74,6 +74,10 @@ export class DmaDesktopApp {
         }
     }
 
+    public static sendIpcMessage(channel: string, ...args: unknown[]) {
+        this.mainWindow?.webContents.send(channel, ...args);
+    }
+
     private static async onWindowAllClosed() {
         if (process.platform === 'darwin') return;
         app.quit();
