@@ -1,4 +1,5 @@
 import { app, Menu, Tray } from 'electron';
+import { Subject } from 'rxjs';
 import { DmaDesktopApp } from '../dma-desktop.app';
 import { TranslationService } from '../lokalisation';
 import { getIcon } from '../utils';
@@ -16,18 +17,25 @@ export class TrayService {
     private translationService: TranslationService;
     private tray: Tray;
 
+    private readonly destroy$ = new Subject<void>();
+
     private constructor() {}
 
     private async initialize() {
         this.translationService = await TranslationService.instance();
-        this.tray = new Tray(await getIcon());
 
-        this.tray.setToolTip('DnD Mapp');
-
+        await this.configureTray();
         this.configureContextMenu();
+
+        this.translationService.translationsUpdated$.pipe().subscribe({
+            next: () => this.configureContextMenu(),
+        });
     }
 
     public destroy(): null {
+        this.destroy$.next();
+        this.destroy$.complete();
+
         this.tray.destroy();
 
         TrayService._instance = null;
@@ -52,6 +60,11 @@ export class TrayService {
         ]);
 
         this.tray.setContextMenu(menu);
+    }
+
+    private async configureTray() {
+        this.tray = new Tray(await getIcon());
+        this.tray.setToolTip(this.translationService.getTranslation('APP_NAME'));
     }
 
     private onCloseApplication() {
