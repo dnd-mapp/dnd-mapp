@@ -7,5 +7,9 @@
         <label for="notification-message-input" class="form-label">Message</label>
         <textarea class="form-control" id="notification-message-input" rows="3" formControlName="message"></textarea>
     </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="silent-notification-check" formControlName="silent" />
+        <label for="silent-notification-check" class="form-check-label">Silent</label>
+    </div>
     <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Show notification</button>
 </form>

@@ -34,12 +34,13 @@ export class NotificationService {
     }
 
     private async onSendNotification(data: NotificationData) {
-        const { title, message } = data;
+        const { title, message, silent } = data;
 
         const notification = new Notification({
             icon: await getIcon(),
             title: title,
             body: message,
+            silent: silent,
         });
 
         notification.show();

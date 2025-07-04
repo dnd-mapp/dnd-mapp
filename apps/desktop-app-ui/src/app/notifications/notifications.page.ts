@@ -27,6 +27,7 @@ export class NotificationsPage {
             Validators.required,
             Validators.maxLength(MAX_LENGTH_MESSAGE),
         ]),
+        silent: this.formBuilder.control(false),
     });
 
     protected onShowMessage() {
