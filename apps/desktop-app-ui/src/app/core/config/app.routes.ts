@@ -10,6 +10,10 @@ export const appRoutes: Route[] = [
         loadComponent: async () => (await import('../../notifications')).NotificationsPage,
     },
     {
+        path: 'settings',
+        loadComponent: async () => (await import('../../settings')).SettingsPage,
+    },
+    {
         path: '**',
         redirectTo: '',
     },

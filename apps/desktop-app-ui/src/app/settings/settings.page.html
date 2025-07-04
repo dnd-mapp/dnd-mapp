@@ -1,0 +1,15 @@
+<form class="w-50" [formGroup]="form" (ngSubmit)="onApplySettings()">
+    <div class="mb-3">
+        <label for="locale-select" class="form-label"> {{ 'INPUT_LABEL_SETTING_LOCALE' | translate }} </label>
+        <select class="form-select" id="locale-select" formControlName="locale">
+            @for (option of localeOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+        </select>
+    </div>
+    <div class="d-flex gap-3">
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || form.pristine">
+            {{ 'BUTTON_LABEL_APPLY' | translate }}
+        </button>
+    </div>
+</form>
