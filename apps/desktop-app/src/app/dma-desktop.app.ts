@@ -3,6 +3,7 @@ import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
 import { ConfigService } from './config';
+import { TranslationService } from './lokalisation';
 import { NotificationService } from './notifications';
 import { TrayService } from './tray';
 import { UpdateService } from './update';
@@ -16,6 +17,7 @@ export class DmaDesktopApp {
     private static trayService: TrayService;
     private static notificationService: NotificationService;
     private static configService: ConfigService;
+    private static translationService: TranslationService;
 
     private static quited = false;
 
@@ -107,6 +109,7 @@ export class DmaDesktopApp {
      */
     private static async initializeServices() {
         this.configService = await ConfigService.instance();
+        this.translationService = await TranslationService.instance();
         this.updateService = await UpdateService.instance();
         this.trayService = await TrayService.instance();
         this.notificationService = NotificationService.instance();
@@ -123,6 +126,7 @@ export class DmaDesktopApp {
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
         this.notificationService = this.notificationService.destroy();
+        this.translationService = this.translationService.destroy();
         this.configService = this.configService.destroy();
     }
 
