@@ -2,6 +2,7 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
+import { NotificationService } from './notifications';
 import { TrayService } from './tray';
 import { UpdateService } from './update';
 import { getIcon } from './utils';
@@ -12,6 +13,7 @@ export class DmaDesktopApp {
 
     private static updateService: UpdateService;
     private static trayService: TrayService;
+    private static notificationService: NotificationService;
 
     private static quited = false;
 
@@ -97,11 +99,13 @@ export class DmaDesktopApp {
     private static async initializeServices() {
         this.updateService = await UpdateService.instance();
         this.trayService = await TrayService.instance();
+        this.notificationService = NotificationService.instance();
     }
 
     private static async destroyServices() {
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
+        this.notificationService = this.notificationService.destroy();
     }
 
     /**
