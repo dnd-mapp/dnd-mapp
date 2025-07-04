@@ -1,0 +1,11 @@
+<form class="w-50" [formGroup]="form" (ngSubmit)="onShowMessage()">
+    <div class="mb-3">
+        <label for="notification-title-input" class="form-label">Title</label>
+        <input type="text" class="form-control" id="notification-title-input" formControlName="title" />
+    </div>
+    <div class="mb-3">
+        <label for="notification-message-input" class="form-label">Message</label>
+        <textarea class="form-control" id="notification-message-input" rows="3" formControlName="message"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Show notification</button>
+</form>
