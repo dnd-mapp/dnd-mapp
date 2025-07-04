@@ -1,5 +1,6 @@
 import { app, Menu, Tray } from 'electron';
 import { DmaDesktopApp } from '../dma-desktop.app';
+import { TranslationService } from '../lokalisation';
 import { getIcon } from '../utils';
 
 export class TrayService {
@@ -12,9 +13,19 @@ export class TrayService {
     }
     private static _instance: TrayService;
 
+    private translationService: TranslationService;
     private tray: Tray;
 
     private constructor() {}
+
+    private async initialize() {
+        this.translationService = await TranslationService.instance();
+        this.tray = new Tray(await getIcon());
+
+        this.tray.setToolTip('DnD Mapp');
+
+        this.configureContextMenu();
+    }
 
     public destroy(): null {
         this.tray.destroy();
@@ -24,23 +35,23 @@ export class TrayService {
     }
 
     public configureContextMenu() {
+        const {
+            TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS,
+            TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
+            TRAY_MENU_BUTTON_LABEL_QUIT,
+        } = this.translationService.getTranslations();
+
         const menu = Menu.buildFromTemplate([
             {
-                label: DmaDesktopApp.devToolsShown() ? 'Close DevTools' : 'Open DevTools',
+                label: DmaDesktopApp.devToolsShown()
+                    ? TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS
+                    : TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
                 click: () => this.onToggleDevTools(),
             },
-            { label: 'Quit', role: 'quit', click: () => this.onCloseApplication() },
+            { label: TRAY_MENU_BUTTON_LABEL_QUIT, role: 'quit', click: () => this.onCloseApplication() },
         ]);
 
         this.tray.setContextMenu(menu);
-    }
-
-    private async initialize() {
-        this.tray = new Tray(await getIcon());
-
-        this.tray.setToolTip('DnD Mapp');
-
-        this.configureContextMenu();
     }
 
     private onCloseApplication() {

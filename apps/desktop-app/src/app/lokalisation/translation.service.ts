@@ -19,7 +19,7 @@ export class TranslationService {
 
     private locale: Locale;
 
-    private _translations: Translations;
+    private translations: Translations;
 
     private constructor() {}
 
@@ -27,7 +27,7 @@ export class TranslationService {
         this.configService = await ConfigService.instance();
 
         this.locale = this.configService.getSetting('locale');
-        await this.getTranslations();
+        await this.loadTranslations();
     }
 
     public destroy(): null {
@@ -35,13 +35,13 @@ export class TranslationService {
         return null;
     }
 
-    public get translations() {
-        return this._translations;
+    public getTranslations() {
+        return this.translations;
     }
 
-    private async getTranslations() {
+    private async loadTranslations() {
         const translationFilePath = join(TRANSLATION_FILES_FOLDER_PATH, `${this.locale}.json`);
 
-        this._translations = await this.fileService.readFile(translationFilePath);
+        this.translations = await this.fileService.readFile(translationFilePath);
     }
 }
