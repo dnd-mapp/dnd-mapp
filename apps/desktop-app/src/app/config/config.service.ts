@@ -3,7 +3,14 @@ import { validate } from 'class-validator';
 import { app } from 'electron';
 import { join } from 'path';
 import { FileService } from '../file-system';
-import { APP_CONFIG_FILE_NAME, APP_FOLDER_NAME, AppConfig, AppSetting, DEFAULT_APP_CONFIG } from './models';
+import {
+    APP_CONFIG_FILE_NAME,
+    APP_FOLDER_NAME,
+    AppConfig,
+    AppSetting,
+    AppSettingType,
+    DEFAULT_APP_CONFIG,
+} from './models';
 
 export class ConfigService {
     public static async instance() {
@@ -34,8 +41,17 @@ export class ConfigService {
         return null;
     }
 
-    public getSetting<Setting extends AppSetting>(setting: Setting): AppConfig[Setting] {
+    public getSetting<Setting extends AppSetting>(setting: Setting) {
         return this.config[setting];
+    }
+
+    public async updateSetting<Setting extends AppSetting, SettingValue extends AppSettingType<Setting>>(
+        setting: Setting,
+        value: SettingValue
+    ) {
+        this.config[setting] = value;
+
+        await this.writeConfig();
     }
 
     private async verifyAppFolderExists() {
@@ -60,6 +76,10 @@ export class ConfigService {
     private async createConfig() {
         this.config = instanceToInstance(DEFAULT_APP_CONFIG);
 
+        await this.writeConfig();
+    }
+
+    private async writeConfig() {
         await this.fileService.writeFile(this.configFilePath, this.config);
     }
 

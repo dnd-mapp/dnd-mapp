@@ -15,6 +15,8 @@ export class AppConfig {
 
 export type AppSetting = keyof AppConfig;
 
+export type AppSettingType<Setting extends AppSetting> = AppConfig[Setting];
+
 export const DEFAULT_APP_CONFIG = plainToInstance(AppConfig, {
     locale: DEFAULT_LOCALE,
 });
