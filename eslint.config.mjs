@@ -68,7 +68,13 @@ export default [
                         },
                         {
                             sourceTag: 'framework:electron',
-                            allowedExternalImports: ['electron', 'electron-updater', 'electron-updater/*'],
+                            allowedExternalImports: [
+                                'class-transformer',
+                                'class-validator',
+                                'electron',
+                                'electron-updater',
+                                'electron-updater/*',
+                            ],
                         },
                     ],
                 },

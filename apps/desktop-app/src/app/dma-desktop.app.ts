@@ -2,6 +2,7 @@ import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventP
 import { join } from 'path';
 import * as process from 'process';
 import { format } from 'url';
+import { ConfigService } from './config';
 import { NotificationService } from './notifications';
 import { TrayService } from './tray';
 import { UpdateService } from './update';
@@ -14,6 +15,7 @@ export class DmaDesktopApp {
     private static updateService: UpdateService;
     private static trayService: TrayService;
     private static notificationService: NotificationService;
+    private static configService: ConfigService;
 
     private static quited = false;
 
@@ -96,16 +98,32 @@ export class DmaDesktopApp {
         await shell.openExternal(url);
     }
 
+    /**
+     * Initialize services used in the application.
+     *
+     * NOTE: The order in which services initialize is important! Make sure that services that depend on other services
+     * are initialized after those depending services have been initialized.
+     * @private
+     */
     private static async initializeServices() {
+        this.configService = await ConfigService.instance();
         this.updateService = await UpdateService.instance();
         this.trayService = await TrayService.instance();
         this.notificationService = NotificationService.instance();
     }
 
+    /**
+     * Destroy the services that are used in the application.
+     *
+     * NOTE: The order in which these services are destroyed is important! Services can only be destroyed once they're
+     * no longer a dependency themselves.
+     * @private
+     */
     private static async destroyServices() {
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
         this.notificationService = this.notificationService.destroy();
+        this.configService = this.configService.destroy();
     }
 
     /**
