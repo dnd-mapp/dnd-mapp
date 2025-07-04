@@ -1,7 +1,8 @@
+import { Locale, Translations } from '@dnd-mapp/desktop-shared';
 import { join } from 'path';
 import { ConfigService } from '../config';
 import { FileService } from '../file-system';
-import { Locale, TRANSLATION_FILES_FOLDER_PATH, Translations } from './models';
+import { TRANSLATION_FILES_FOLDER_PATH } from './models';
 
 export class TranslationService {
     public static async instance() {

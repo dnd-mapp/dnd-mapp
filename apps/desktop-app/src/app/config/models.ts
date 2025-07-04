@@ -1,6 +1,6 @@
+import { DEFAULT_LOCALE, Locale, Locales } from '@dnd-mapp/desktop-shared';
 import { plainToInstance } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { DEFAULT_LOCALE, Locale, Locales } from '../lokalisation';
 
 export const APP_FOLDER_NAME = 'DnD Mapp' as const;
 
