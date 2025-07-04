@@ -1,8 +1,9 @@
 import { NativeImage, nativeImage } from 'electron';
 import { readFile } from 'fs/promises';
 import { join } from 'path';
+import { ASSETS_PATH } from '../file-system';
 
-const baseIconsPath = join(__dirname, 'assets', 'images', 'favicon');
+const baseIconsPath = join(ASSETS_PATH, 'images', 'favicon');
 
 export function getIconOfSize(size: string) {
     return join(baseIconsPath, `${size}.png`);
