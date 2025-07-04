@@ -64,7 +64,7 @@ export default [
                         },
                         {
                             sourceTag: 'framework:angular',
-                            allowedExternalImports: ['@angular/*'],
+                            allowedExternalImports: ['@angular/*', 'rxjs'],
                         },
                         {
                             sourceTag: 'framework:electron',

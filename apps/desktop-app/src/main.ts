@@ -1,9 +1,8 @@
 import { tryCatch } from '@dnd-mapp/shared';
-import { DmaDesktopApp, ElectronEvents } from './app';
+import { DmaDesktopApp } from './app';
 
 async function main() {
     DmaDesktopApp.bootstrapApp();
-    ElectronEvents.bootstrapElectronEvents();
 }
 
 (async () => {
