@@ -10,7 +10,6 @@ export type Locale = (typeof Locales)[keyof typeof Locales];
 
 export const DEFAULT_LOCALE = Locales.EN_US;
 
-export const TRANSLATION_FILES_FOLDER_PATH = join(ASSETS_PATH, 'localization');
 
 export interface Translations {
     APP_NAME: string;
@@ -23,3 +22,4 @@ export interface Translations {
     TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS: string;
     TRAY_MENU_BUTTON_LABEL_QUIT: string;
 }
+export const TRANSLATION_FILES_FOLDER_PATH = join(ASSETS_PATH, 'localisation');
