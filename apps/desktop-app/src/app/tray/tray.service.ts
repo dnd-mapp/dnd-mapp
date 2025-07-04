@@ -2,7 +2,7 @@ import { app, Menu, Tray } from 'electron';
 import { Subject } from 'rxjs';
 import { DmaDesktopApp } from '../dma-desktop.app';
 import { TranslationService } from '../lokalisation';
-import { getIcon } from '../utils';
+import { getIcon, isRunningInDevelopmentMode } from '../utils';
 
 export class TrayService {
     public static async instance() {
@@ -61,6 +61,7 @@ export class TrayService {
                 label: DmaDesktopApp.devToolsShown()
                     ? TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS
                     : TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
+                visible: isRunningInDevelopmentMode(),
                 click: () => this.onToggleDevTools(),
             },
             { type: 'separator' },
