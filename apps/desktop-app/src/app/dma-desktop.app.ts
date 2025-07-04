@@ -180,7 +180,7 @@ export class DmaDesktopApp {
         // handle all external redirects in a new browser window
         this.mainWindow.webContents.on('will-navigate', async (event, url) => await this.onRedirect(event, url));
 
-        this.mainWindow.webContents.on('devtools-closed', () => this.onDevtoolsClosed());
+        this.mainWindow.webContents.on('devtools-closed', async () => await this.onDevtoolsClosed());
     }
 
     private static async loadMainWindow() {
@@ -198,8 +198,8 @@ export class DmaDesktopApp {
         }
     }
 
-    private static onDevtoolsClosed() {
+    private static async onDevtoolsClosed() {
         this.showingDevTools = false;
-        this.trayService.configureContextMenu();
+        await this.trayService.configureContextMenu();
     }
 }

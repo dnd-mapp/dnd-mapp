@@ -25,10 +25,10 @@ export class TrayService {
         this.translationService = await TranslationService.instance();
 
         await this.configureTray();
-        this.configureContextMenu();
+        await this.configureContextMenu();
 
         this.translationService.translationsUpdated$.pipe().subscribe({
-            next: () => this.configureContextMenu(),
+            next: async () => await this.configureContextMenu(),
         });
     }
 
@@ -42,8 +42,9 @@ export class TrayService {
         return null;
     }
 
-    public configureContextMenu() {
+    public async configureContextMenu() {
         const {
+            APP_NAME,
             TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS,
             TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
             TRAY_MENU_BUTTON_LABEL_QUIT,
@@ -51,11 +52,18 @@ export class TrayService {
 
         const menu = Menu.buildFromTemplate([
             {
+                label: APP_NAME,
+                icon: (await getIcon()).resize({ height: 16, width: 16, quality: 'best' }),
+                enabled: false,
+            },
+            { type: 'separator' },
+            {
                 label: DmaDesktopApp.devToolsShown()
                     ? TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS
                     : TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
                 click: () => this.onToggleDevTools(),
             },
+            { type: 'separator' },
             { label: TRAY_MENU_BUTTON_LABEL_QUIT, role: 'quit', click: () => this.onCloseApplication() },
         ]);
 
