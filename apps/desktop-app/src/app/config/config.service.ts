@@ -109,7 +109,13 @@ export class ConfigService {
         });
 
         if (validationErrors.length > 0) {
-            throw validationErrors[0];
+            const error = validationErrors[0];
+
+            await this.logService.error(
+                `Config Validation failed. - Reason: ${Object.values(error.constraints)[0]}`,
+                error
+            );
+            return null;
         }
         await this.logService.debug('Retrieved config validated successfully');
         return parsedConfig;
