@@ -1,4 +1,5 @@
 import { SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
+import { ConfigService } from '../config';
 import { ConsoleLogger } from './loggers';
 import { createLogObject, LogData, Loggers, SeverityPriorityLevel, SeverityPriorityLevels } from './models';
 
@@ -14,13 +15,15 @@ export class LogService {
     }
     private static rootLogger: LogService;
 
+    private configService: ConfigService;
+
     private readonly context: string;
     private readonly root: boolean;
 
     /** Only used by the rootLogger. */
     private loggers: Loggers = [];
     private bufferedLogs: LogData[] = [];
-    private readonly logLevel: SeverityPriorityLevel = SeverityPriorityLevels[SeverityLevels.DEBUG];
+    private logLevel: SeverityPriorityLevel;
 
     private constructor(context: string, root: boolean) {
         this.context = context;
@@ -32,6 +35,10 @@ export class LogService {
     public async initialize() {
         if (!this.root) return;
         await this.info('Initializing LogService');
+
+        this.configService = await ConfigService.instance();
+
+        this.logLevel = SeverityPriorityLevels[await this.configService.getSetting('logLevel')];
 
         this.loggers = [new ConsoleLogger()];
         await Promise.all(this.loggers.map((logger) => logger.initialize()));
