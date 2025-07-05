@@ -25,7 +25,7 @@ export class AppWindowController implements WindowController {
 
     private async initialize() {
         this.trayService = await TrayService.instance();
-        this.controllerManager = ControllerManager.instance();
+        this.controllerManager = await ControllerManager.instance();
 
         await this.initializeWindow();
     }
@@ -102,7 +102,7 @@ export class AppWindowController implements WindowController {
 
     private async onClose() {
         this.window = null;
-        this.controllerManager.removeController(this);
+        await this.controllerManager.removeController(this);
         await this.trayService.configureContextMenu();
     }
 

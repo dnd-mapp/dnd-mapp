@@ -28,7 +28,7 @@ export class TrayService {
     private async initialize() {
         await this.logService.info('Initializing TrayService');
         this.translationService = await TranslationService.instance();
-        this.controllerManager = ControllerManager.instance();
+        this.controllerManager = await ControllerManager.instance();
 
         await this.configureTray();
         await this.configureContextMenu();
@@ -61,7 +61,7 @@ export class TrayService {
             TRAY_MENU_BUTTON_LABEL_QUIT,
         } = this.translationService.getTranslations();
 
-        const appWindowController = this.controllerManager.getController(AppWindowController);
+        const appWindowController = await this.controllerManager.getController(AppWindowController);
 
         const menu = Menu.buildFromTemplate([
             {
@@ -101,7 +101,7 @@ export class TrayService {
     }
 
     private async onToggleDevTools() {
-        const appWindowController = this.controllerManager.getController(AppWindowController);
+        const appWindowController = await this.controllerManager.getController(AppWindowController);
 
         if (!appWindowController) return;
         await appWindowController.toggleDevTools();

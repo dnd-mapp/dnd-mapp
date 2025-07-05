@@ -36,7 +36,7 @@ export class TranslationService {
         await this.logService.info('Initializing TranslationService');
 
         this.configService = await ConfigService.instance();
-        this.controllerManager = ControllerManager.instance();
+        this.controllerManager = await ControllerManager.instance();
 
         await this.setupIpcHandlers();
         await this.loadInitialLocale();
@@ -98,7 +98,7 @@ export class TranslationService {
         const translationFilePath = join(TRANSLATION_FILES_FOLDER_PATH, `${this.locale}.json`);
 
         this.translations = await this.fileService.readFile(translationFilePath);
-        this.controllerManager.sendIpcMessages(DmaDesktopAppEvents.TRANSLATIONS_UPDATED, this.translations);
+        await this.controllerManager.sendIpcMessages(DmaDesktopAppEvents.TRANSLATIONS_UPDATED, this.translations);
     }
 
     private async onLocaleUpdate(locale: Locale) {
