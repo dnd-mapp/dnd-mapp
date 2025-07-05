@@ -24,7 +24,7 @@ export class ConfigService {
     private static _instance: ConfigService;
 
     private readonly fileService = FileService.instance();
-    private readonly logService = LogService.withContext(ConfigService.name);
+    private logService = LogService.withContext(ConfigService.name);
 
     private appFolderPath: string;
     private configFilePath: string;
@@ -41,6 +41,8 @@ export class ConfigService {
 
     public async destroy(): Promise<null> {
         await this.logService.info('Destroying ConfigService');
+
+        this.logService = await this.logService.destroy();
         ConfigService._instance = null;
         return null;
     }

@@ -13,7 +13,7 @@ export class NotificationService {
     }
     private static _instance: NotificationService;
 
-    private readonly logService = LogService.withContext(NotificationService.name);
+    private logService = LogService.withContext(NotificationService.name);
 
     private constructor() {}
 
@@ -26,6 +26,7 @@ export class NotificationService {
         await this.logService.info('Destroying NotificationService');
         await this.removeIpcListeners();
 
+        this.logService = await this.logService.destroy();
         NotificationService._instance = null;
         return null;
     }

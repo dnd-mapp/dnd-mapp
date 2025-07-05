@@ -19,7 +19,7 @@ export class TranslationService {
     private static _instance: TranslationService;
 
     private readonly fileService = FileService.instance();
-    private readonly logService = LogService.withContext(TranslationService.name);
+    private logService = LogService.withContext(TranslationService.name);
     private configService: ConfigService;
     private controllerManager: ControllerManager;
 
@@ -47,6 +47,7 @@ export class TranslationService {
         await this.logService.info('Destroying TranslationService');
         await this.removeIpcHandlers();
 
+        this.logService = await this.logService.destroy();
         TranslationService._instance = null;
         return null;
     }

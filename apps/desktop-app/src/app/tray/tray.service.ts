@@ -16,7 +16,7 @@ export class TrayService {
     }
     private static _instance: TrayService;
 
-    private readonly logService = LogService.withContext(TrayService.name);
+    private logService = LogService.withContext(TrayService.name);
     private translationService: TranslationService;
     private controllerManager: ControllerManager;
     private tray: Tray;
@@ -45,6 +45,7 @@ export class TrayService {
 
         this.tray.destroy();
 
+        this.logService = await this.logService.destroy();
         TrayService._instance = null;
         return null;
     }
