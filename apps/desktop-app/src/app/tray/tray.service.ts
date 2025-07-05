@@ -1,5 +1,6 @@
 import { app, Menu, Tray } from 'electron';
 import { Subject } from 'rxjs';
+import { LogService } from '../logging';
 import { TranslationService } from '../lokalisation';
 import { ControllerManager } from '../ui';
 import { AppWindowController } from '../ui/app-window.controller';
@@ -15,6 +16,7 @@ export class TrayService {
     }
     private static _instance: TrayService;
 
+    private readonly logService = LogService.withContext(TrayService.name);
     private translationService: TranslationService;
     private controllerManager: ControllerManager;
     private tray: Tray;
@@ -24,6 +26,7 @@ export class TrayService {
     private constructor() {}
 
     private async initialize() {
+        await this.logService.info('Initializing TrayService');
         this.translationService = await TranslationService.instance();
         this.controllerManager = ControllerManager.instance();
 
@@ -35,7 +38,8 @@ export class TrayService {
         });
     }
 
-    public destroy(): null {
+    public async destroy(): Promise<null> {
+        await this.logService.info('Destroying TrayService');
         this.destroy$.next();
         this.destroy$.complete();
 
@@ -47,6 +51,7 @@ export class TrayService {
 
     public async configureContextMenu() {
         if (this.tray.isDestroyed()) return;
+        await this.logService.debug('Configuring the Context menu of the Tray icon');
 
         const {
             APP_NAME,
@@ -74,20 +79,23 @@ export class TrayService {
                 click: async () => await this.onToggleDevTools(),
             },
             { type: 'separator' },
-            { label: TRAY_MENU_BUTTON_LABEL_QUIT, role: 'quit', click: () => this.onCloseApplication() },
+            { label: TRAY_MENU_BUTTON_LABEL_QUIT, role: 'quit', click: async () => await this.onCloseApplication() },
         ]);
 
         this.tray.setContextMenu(menu);
     }
 
     private async configureTray() {
+        await this.logService.debug('Configuring the Tray icon');
+
         this.tray = new Tray(await getIcon());
         this.tray.setToolTip(await this.translationService.getTranslation('APP_NAME'));
 
         this.tray.on('click', async () => await this.onTrayClicked());
     }
 
-    private onCloseApplication() {
+    private async onCloseApplication() {
+        await this.logService.info('Closing application via the Tray Context menu');
         app.quit();
     }
 
@@ -99,7 +107,9 @@ export class TrayService {
     }
 
     private async onTrayClicked() {
-        await this.controllerManager.openAppWindow();
+        if (!(await this.controllerManager.openAppWindow())) return;
+        await this.logService.info('Tray icon clicked');
+
         await this.configureContextMenu();
     }
 }

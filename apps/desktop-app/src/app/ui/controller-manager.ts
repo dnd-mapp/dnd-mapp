@@ -22,11 +22,12 @@ export class ControllerManager {
     }
 
     public async openAppWindow() {
-        if (this.hasController(AppWindowController.name)) return;
+        if (this.hasController(AppWindowController.name)) return false;
         const controller = await AppWindowController.instance();
         await controller.showWindow();
 
         this.setController(controller);
+        return true;
     }
 
     /** Sends messages to all controllers and windows. */
