@@ -1,5 +1,13 @@
 import { ConsoleLogger } from './loggers';
-import { LogData, Loggers, SeverityLevel, SeverityLevels } from './models';
+import {
+    createLogObject,
+    LogData,
+    Loggers,
+    SeverityLevel,
+    SeverityLevels,
+    SeverityPriorityLevel,
+    SeverityPriorityLevels,
+} from './models';
 
 const logContexts = new Map<string, LogService>();
 
@@ -15,9 +23,11 @@ export class LogService {
 
     private readonly context: string;
     private readonly root: boolean;
-    private loggers: Loggers = [];
 
+    /** Only used by the rootLogger. */
+    private loggers: Loggers = [];
     private bufferedLogs: LogData[] = [];
+    private readonly logLevel: SeverityPriorityLevel = SeverityPriorityLevels[SeverityLevels.ERROR];
 
     private constructor(context: string, root: boolean) {
         this.context = context;
@@ -53,35 +63,28 @@ export class LogService {
     }
 
     public async info(message: string) {
-        await this.log(SeverityLevels.INFO, message);
+        await this.log(createLogObject(SeverityLevels.INFO, this.context, message));
     }
 
     public async debug(message: string) {
-        await this.log(SeverityLevels.DEBUG, message);
+        await this.log(createLogObject(SeverityLevels.DEBUG, this.context, message));
     }
 
     public async warn(message: string, data?: unknown) {
-        await this.log(SeverityLevels.WARNING, message, data);
+        await this.log(createLogObject(SeverityLevels.WARNING, this.context, message, data));
     }
 
     public async error(message: string, data?: unknown) {
-        await this.log(SeverityLevels.ERROR, message, data);
+        await this.log(createLogObject(SeverityLevels.ERROR, this.context, message, data));
     }
 
-    private async log(severity: SeverityLevel, message: string, data?: unknown) {
-        const logData: LogData = {
-            timestamp: new Date(),
-            severity: severity,
-            context: this.context,
-            message: message,
-            ...(data ? { data: data } : {}),
-        };
+    private async log(logData: LogData) {
         if (!this.isInitialized) {
             this.rootLogger.bufferedLogs = [...this.rootLogger.bufferedLogs, logData];
             return;
         }
         if (this.hasBufferedLogs) await this.processBufferedLogs();
-        await Promise.all(this.rootLogger.loggers.map((logger) => logger.log(logData)));
+        await this.processLog(logData);
     }
 
     private get isInitialized() {
@@ -96,10 +99,17 @@ export class LogService {
         return this.rootLogger.bufferedLogs.length > 0;
     }
 
+    private async processLog(logData: LogData) {
+        if (this.severityLevelPriority(logData.severity) > this.rootLogger.logLevel) return;
+        await Promise.all(this.rootLogger.loggers.map((logger) => logger.log(logData)));
+    }
+
     private async processBufferedLogs() {
-        for (const log of this.rootLogger.bufferedLogs) {
-            await Promise.all(this.rootLogger.loggers.map((logger) => logger.log(log)));
-        }
+        await Promise.all(this.rootLogger.bufferedLogs.map((logData) => this.rootLogger.processLog(logData)));
         this.rootLogger.bufferedLogs = [];
+    }
+
+    private severityLevelPriority(severity: SeverityLevel) {
+        return SeverityPriorityLevels[severity];
     }
 }
