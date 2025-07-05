@@ -27,7 +27,7 @@ export class LogService {
     /** Only used by the rootLogger. */
     private loggers: Loggers = [];
     private bufferedLogs: LogData[] = [];
-    private readonly logLevel: SeverityPriorityLevel = SeverityPriorityLevels[SeverityLevels.ERROR];
+    private readonly logLevel: SeverityPriorityLevel = SeverityPriorityLevels[SeverityLevels.DEBUG];
 
     private constructor(context: string, root: boolean) {
         this.context = context;
