@@ -72,7 +72,7 @@ export class TranslationService {
     }
 
     private async loadInitialLocale() {
-        this.locale = this.configService.getSetting('locale');
+        this.locale = await this.configService.getSetting('locale');
     }
 
     private async loadTranslations() {
