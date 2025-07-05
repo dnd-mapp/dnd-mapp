@@ -105,12 +105,12 @@ export class DmaDesktopApp {
     private static async destroyServices() {
         await this.logService.info('Destroying services');
 
-        this.controllerManager = await this.controllerManager.destroy();
-        this.notificationService = await this.notificationService.destroy();
-        this.updateService = await this.updateService.destroy();
-        this.trayService = await this.trayService.destroy();
-        this.translationService = await this.translationService.destroy();
-        this.configService = await this.configService.destroy();
-        this.logService = await this.logService.destroy();
+        this.controllerManager = await this.controllerManager?.destroy();
+        this.notificationService = await this.notificationService?.destroy();
+        this.updateService = await this.updateService?.destroy();
+        this.trayService = await this.trayService?.destroy();
+        this.translationService = await this.translationService?.destroy();
+        this.configService = await this.configService?.destroy();
+        this.logService = await this.logService?.destroy();
     }
 }

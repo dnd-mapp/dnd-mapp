@@ -84,6 +84,10 @@ export class ConfigService {
             return;
         }
         this.config = await this.validateConfig(configContents);
+
+        if (this.config === null) {
+            app.quit();
+        }
     }
 
     private async createConfig() {
