@@ -9,6 +9,13 @@ export const SeverityLevels = {
 
 export type SeverityLevel = (typeof SeverityLevels)[keyof typeof SeverityLevels];
 
+export const ConsoleFunctionPerSeverityLevel = {
+    [SeverityLevels.INFO]: 'info',
+    [SeverityLevels.DEBUG]: 'debug',
+    [SeverityLevels.WARNING]: 'log',
+    [SeverityLevels.ERROR]: 'error',
+} as const;
+
 export const SeverityColors = {
     [SeverityLevels.INFO]: chalk.green,
     [SeverityLevels.DEBUG]: chalk.white,

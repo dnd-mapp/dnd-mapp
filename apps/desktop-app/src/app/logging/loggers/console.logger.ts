@@ -1,4 +1,4 @@
-import { LogData, Logger, SeverityColors, SeverityLevels } from '../models';
+import { ConsoleFunctionPerSeverityLevel, LogData, Logger, SeverityColors, SeverityLevels } from '../models';
 
 export class ConsoleLogger implements Logger {
     public initialized = false;
@@ -15,7 +15,7 @@ export class ConsoleLogger implements Logger {
         const { severity } = data;
         const log = this.constructLog(data);
 
-        console[severity](SeverityColors[severity](log));
+        console[ConsoleFunctionPerSeverityLevel[severity]](SeverityColors[severity](log));
 
         if (data.data && (severity === SeverityLevels.WARNING || severity === SeverityLevels.ERROR)) {
             console.error(data.data);
