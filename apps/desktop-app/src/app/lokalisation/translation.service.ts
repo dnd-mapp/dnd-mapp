@@ -3,8 +3,8 @@ import { ipcMain } from 'electron';
 import { join } from 'path';
 import { Subject } from 'rxjs';
 import { ConfigService } from '../config';
-import { DmaDesktopApp } from '../dma-desktop.app';
 import { FileService } from '../file-system';
+import { ControllerManager } from '../ui';
 import { TRANSLATION_FILES_FOLDER_PATH } from './models';
 
 export class TranslationService {
@@ -19,6 +19,7 @@ export class TranslationService {
 
     private readonly fileService = FileService.instance();
     private configService: ConfigService;
+    private controllerManager: ControllerManager;
 
     private locale: Locale;
 
@@ -33,6 +34,7 @@ export class TranslationService {
 
     private async initialize() {
         this.configService = await ConfigService.instance();
+        this.controllerManager = ControllerManager.instance();
 
         await this.loadInitialLocale();
         await this.loadTranslations();
@@ -77,7 +79,8 @@ export class TranslationService {
         const translationFilePath = join(TRANSLATION_FILES_FOLDER_PATH, `${this.locale}.json`);
 
         this.translations = await this.fileService.readFile(translationFilePath);
-        DmaDesktopApp.sendIpcMessage(DmaDesktopAppEvents.TRANSLATIONS_UPDATED, this.translations);
+
+        this.controllerManager.sendIpcMessages(DmaDesktopAppEvents.TRANSLATIONS_UPDATED, this.translations);
     }
 
     private async onLocaleUpdate(locale: Locale) {
