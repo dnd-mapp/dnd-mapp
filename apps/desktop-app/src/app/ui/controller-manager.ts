@@ -48,7 +48,9 @@ export class ControllerManager {
     /** Sends messages to all controllers and windows. */
     public async sendIpcMessages(channel: string, ...args: unknown[]) {
         await this.logService.debug(`Sending message "${channel}" over IPC to all controllers`);
-        [...this.controllers.values()].forEach((controller) => controller.sendIpcMessage(channel, ...args));
+        await Promise.all(
+            [...this.controllers.values()].map((controller) => controller.sendIpcMessage(channel, ...args))
+        );
     }
 
     public async getController<T extends WindowController>(ControllerType: Constructable<T>) {
@@ -67,7 +69,9 @@ export class ControllerManager {
         await this.logService.debug(`Removing controller of type "${controllerName}"`);
 
         if (!this.hasController(controllerName)) return;
-        controller.destroy();
+        await this.logService.debug(`Deregistering controller of type "${controllerName}"`);
+
+        await controller.destroy();
         this.controllers.delete(controllerName);
     }
 

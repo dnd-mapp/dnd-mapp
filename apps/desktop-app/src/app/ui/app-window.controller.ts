@@ -1,6 +1,7 @@
 import { app, BrowserWindow, screen } from 'electron';
 import { join } from 'path';
 import { format } from 'url';
+import { LogService } from '../logging';
 import { TrayService } from '../tray';
 import { getIcon } from '../utils';
 import { ControllerManager } from './controller-manager';
@@ -18,19 +19,23 @@ export class AppWindowController implements WindowController {
 
     private trayService: TrayService;
     private controllerManager: ControllerManager;
+    private loggingService = LogService.withContext(AppWindowController.name);
 
     private window: BrowserWindow;
 
     private showingDevTools = false;
 
     private async initialize() {
+        await this.loggingService.info('Initializing AppWindowController');
         this.trayService = await TrayService.instance();
         this.controllerManager = await ControllerManager.instance();
 
         await this.initializeWindow();
     }
 
-    public destroy() {
+    public async destroy() {
+        await this.loggingService.info('Destroying AppWindowController');
+
         if (this.window) {
             this.window.close();
             this.window = null;
@@ -39,6 +44,8 @@ export class AppWindowController implements WindowController {
     }
 
     public async showWindow() {
+        await this.loggingService.debug(`Loading window contents`);
+
         // Load the index.html of the app.
         if (!app.isPackaged) {
             await this.window.loadURL(`https://localhost.desktop-app.dnd-mapp.net`);
@@ -53,7 +60,8 @@ export class AppWindowController implements WindowController {
         }
     }
 
-    public sendIpcMessage(channel: string, ...args: unknown[]) {
+    public async sendIpcMessage(channel: string, ...args: unknown[]) {
+        await this.loggingService.info(`Sending IPC message "${channel}" to main app window`);
         this.window?.webContents.send(channel, ...args);
     }
 
@@ -62,6 +70,7 @@ export class AppWindowController implements WindowController {
     }
 
     public async toggleDevTools() {
+        await this.loggingService.debug('DevTools have been toggled');
         this.showingDevTools = !this.showingDevTools;
 
         if (this.showingDevTools) {
@@ -73,6 +82,8 @@ export class AppWindowController implements WindowController {
     }
 
     private async initializeWindow() {
+        await this.loggingService.info('Initializing main app window');
+
         const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
         const width = Math.min(1280, workAreaSize.width || 1280);
         const height = Math.min(720, workAreaSize.height || 720);
@@ -92,7 +103,7 @@ export class AppWindowController implements WindowController {
         this.window.center();
 
         // If the window is ready to show, close the splash window and show the window
-        this.window.once('ready-to-show', () => this.window.show());
+        this.window.once('ready-to-show', async () => await this.onReadyToShow());
 
         // Emitted when the window is closed.
         this.window.on('closed', async () => await this.onClose());
@@ -100,13 +111,21 @@ export class AppWindowController implements WindowController {
         this.window.webContents.on('devtools-closed', async () => await this.onDevtoolsClosed());
     }
 
+    private async onReadyToShow() {
+        await this.loggingService.info('Showing main app window');
+        this.window.show();
+    }
+
     private async onClose() {
+        await this.loggingService.info('Main app window has been closed');
+
         this.window = null;
         await this.controllerManager.removeController(this);
         await this.trayService.configureContextMenu();
     }
 
     private async onDevtoolsClosed() {
+        await this.loggingService.info('DevTools window has been closed');
         this.showingDevTools = false;
     }
 }
