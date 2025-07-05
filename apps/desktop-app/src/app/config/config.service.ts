@@ -1,3 +1,4 @@
+import { DEFAULT_LOCALE, DEFAULT_LOG_LEVEL } from '@dnd-mapp/desktop-shared';
 import { instanceToInstance, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { app } from 'electron';
@@ -78,22 +79,17 @@ export class ConfigService {
         this.configFilePath = join(this.appFolderPath, APP_CONFIG_FILE_NAME);
         const configContents = await this.fileService.readFile(this.configFilePath);
 
-        if (!configContents) {
+        if (configContents) {
+            this.config = await this.validateConfig(configContents);
+        } else {
             await this.logService.debug('Config not found on disk. Creating config with default values');
-            await this.createConfig();
-            return;
+            this.config = instanceToInstance(DEFAULT_APP_CONFIG);
         }
-        this.config = await this.validateConfig(configContents);
+        await this.writeConfig();
 
         if (this.config === null) {
             app.quit();
         }
-    }
-
-    private async createConfig() {
-        this.config = instanceToInstance(DEFAULT_APP_CONFIG);
-
-        await this.writeConfig();
     }
 
     private async writeConfig() {
@@ -105,6 +101,12 @@ export class ConfigService {
         await this.logService.debug('Validating retrieved config');
         const parsedConfig = plainToInstance(AppConfig, data);
 
+        if (parsedConfig.locale === undefined) {
+            parsedConfig.locale = DEFAULT_LOCALE;
+        }
+        if (parsedConfig.logLevel === undefined) {
+            parsedConfig.logLevel = DEFAULT_LOG_LEVEL;
+        }
         const validationErrors = await validate(parsedConfig, {
             forbidNonWhitelisted: true,
             dismissDefaultMessages: true,
