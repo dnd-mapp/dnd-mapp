@@ -20,6 +20,6 @@ export class ConsoleLogger implements Logger {
 
     private constructLog(data: LogData) {
         const { timestamp, context, severity, message } = data;
-        return `${timestamp.toLocaleString()} - ${severity.toUpperCase()} [${context}]: ${message}`;
+        return `${timestamp.toLocaleString()} - ${severity.toUpperCase()}\t[${context}]: ${message}`;
     }
 }
