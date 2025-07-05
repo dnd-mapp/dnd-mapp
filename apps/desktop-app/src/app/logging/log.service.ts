@@ -1,13 +1,6 @@
+import { SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
 import { ConsoleLogger } from './loggers';
-import {
-    createLogObject,
-    LogData,
-    Loggers,
-    SeverityLevel,
-    SeverityLevels,
-    SeverityPriorityLevel,
-    SeverityPriorityLevels,
-} from './models';
+import { createLogObject, LogData, Loggers, SeverityPriorityLevel, SeverityPriorityLevels } from './models';
 
 const logContexts = new Map<string, LogService>();
 

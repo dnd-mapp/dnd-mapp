@@ -1,13 +1,5 @@
+import { SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
 import chalk from 'chalk';
-
-export const SeverityLevels = {
-    INFO: 'info',
-    DEBUG: 'debug',
-    WARNING: 'warn',
-    ERROR: 'error',
-} as const;
-
-export type SeverityLevel = (typeof SeverityLevels)[keyof typeof SeverityLevels];
 
 export const ConsoleFunctionPerSeverityLevel = {
     [SeverityLevels.INFO]: 'info',
