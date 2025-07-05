@@ -109,7 +109,7 @@ export class DmaDesktopApp {
         this.notificationService = this.notificationService.destroy();
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
-        this.translationService = this.translationService.destroy();
+        this.translationService = await this.translationService.destroy();
         this.configService = await this.configService.destroy();
         this.logService = await this.logService.destroy();
     }

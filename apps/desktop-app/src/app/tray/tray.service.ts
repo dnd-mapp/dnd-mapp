@@ -82,7 +82,7 @@ export class TrayService {
 
     private async configureTray() {
         this.tray = new Tray(await getIcon());
-        this.tray.setToolTip(this.translationService.getTranslation('APP_NAME'));
+        this.tray.setToolTip(await this.translationService.getTranslation('APP_NAME'));
 
         this.tray.on('click', async () => await this.onTrayClicked());
     }
