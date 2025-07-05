@@ -40,6 +40,11 @@ export class LogService {
             logContexts.delete(this.context);
             return null;
         }
+        const remainingLogServices = [...logContexts.values()].filter(({ root }) => !root);
+
+        for (const logService of remainingLogServices) {
+            await logService.destroy();
+        }
         await Promise.all(this.rootLogger.loggers.map((logger) => logger.destroy()));
         this.rootLogger.loggers = [];
 
