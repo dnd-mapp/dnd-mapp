@@ -12,7 +12,14 @@ export class TranslationService {
     private readonly listeners = new Subscription();
 
     public getTranslation(key: TranslationKey) {
-        return linkedSignal(() => (this.translations() === null ? key : this.translations()[key]));
+        return linkedSignal(() => {
+            if (this.translations() === null) return key;
+            if (!this.translations()[key]) {
+                console.warn(`MISSING TRANSLATIONS FOR KEY "${key}"`);
+                return key;
+            }
+            return this.translations()[key];
+        });
     }
 
     public retrieveInitialTranslations() {
