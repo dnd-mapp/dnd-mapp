@@ -1,23 +1,19 @@
-import { app, BrowserWindow, Event, screen, shell, WebContentsWillNavigateEventParams } from 'electron';
-import { join } from 'path';
+import { app } from 'electron';
 import * as process from 'process';
-import { format } from 'url';
 import { ConfigService } from './config';
 import { TranslationService } from './lokalisation';
 import { NotificationService } from './notifications';
 import { TrayService } from './tray';
+import { ControllerManager } from './ui';
 import { UpdateService } from './update';
-import { getIcon } from './utils';
 
 export class DmaDesktopApp {
-    private static mainWindow: BrowserWindow;
-    private static showingDevTools = false;
-
     private static updateService: UpdateService;
     private static trayService: TrayService;
     private static notificationService: NotificationService;
     private static configService: ConfigService;
     private static translationService: TranslationService;
+    private static controllerManager: ControllerManager;
 
     private static quited = false;
 
@@ -26,18 +22,16 @@ export class DmaDesktopApp {
      * This makes the code easier to write tests for.
      */
     public static bootstrapApp() {
-        // Quit when all windows are closed.
-        app.on('window-all-closed', () => this.onWindowAllClosed());
+        if (!app.requestSingleInstanceLock()) {
+            app.quit();
+        }
 
         // App is ready to load data
         app.on('ready', async () => {
             await this.initializeServices();
-            await this.onReady();
         });
 
-        // App is activated
-        app.on('activate', async () => await this.onActivate());
-
+        // Ignore certificate errors in dev mode in order to connect to the UI app over HTTPS.
         app.on('certificate-error', (event, _webContents, url, _error, _certificate, callback) => {
             if (url.includes(`localhost.desktop-app.dnd-mapp.net`)) {
                 event.preventDefault();
@@ -51,6 +45,10 @@ export class DmaDesktopApp {
         app.on('will-quit', async () => await this.onQuit());
         app.on('before-quit', async () => await this.onQuit());
 
+        app.on('window-all-closed', () => {
+            // Do nothing on purpose to prevent the application from exiting.
+        });
+
         process.on('uncaughtException', (error) => {
             console.error(error);
         });
@@ -60,48 +58,11 @@ export class DmaDesktopApp {
         });
     }
 
-    public static devToolsShown() {
-        return this.showingDevTools;
-    }
-
-    public static toggleDevTools() {
-        this.showingDevTools = !this.showingDevTools;
-
-        if (this.showingDevTools) {
-            this.mainWindow.webContents.openDevTools({ mode: 'detach' });
-        } else {
-            this.mainWindow.webContents.closeDevTools();
-        }
-    }
-
-    public static sendIpcMessage(channel: string, ...args: unknown[]) {
-        this.mainWindow?.webContents.send(channel, ...args);
-    }
-
-    private static async onWindowAllClosed() {
-        if (process.platform === 'darwin') return;
-        app.quit();
-    }
-
     private static async onQuit() {
         if (this.quited) return;
         this.quited = true;
 
         await this.destroyServices();
-    }
-
-    private static onClose() {
-        // Dereference the window object, usually you would store windows
-        // in an array if your app supports multi windows, this is the time
-        // when you should delete the corresponding element.
-        this.mainWindow = null;
-    }
-
-    private static async onRedirect(event: Event<WebContentsWillNavigateEventParams>, url: string) {
-        if (url == this.mainWindow.webContents.getURL()) return;
-        // this is a normal external redirect, open it in a new browser window
-        event.preventDefault();
-        await shell.openExternal(url);
     }
 
     /**
@@ -114,9 +75,10 @@ export class DmaDesktopApp {
     private static async initializeServices() {
         this.configService = await ConfigService.instance();
         this.translationService = await TranslationService.instance();
-        this.updateService = await UpdateService.instance();
         this.trayService = await TrayService.instance();
+        this.updateService = await UpdateService.instance();
         this.notificationService = NotificationService.instance();
+        this.controllerManager = ControllerManager.instance();
     }
 
     /**
@@ -127,79 +89,11 @@ export class DmaDesktopApp {
      * @private
      */
     private static async destroyServices() {
+        this.controllerManager = this.controllerManager.destroy();
+        this.notificationService = this.notificationService.destroy();
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
-        this.notificationService = this.notificationService.destroy();
         this.translationService = this.translationService.destroy();
         this.configService = this.configService.destroy();
-    }
-
-    /**
-     * This method will be called when Electron has finished initialization and is ready to create browser windows.
-     * Some APIs can only be used after this event occurs.
-     */
-    private static async onReady() {
-        await DmaDesktopApp.initializeMainWindow();
-        await DmaDesktopApp.loadMainWindow();
-    }
-
-    /**
-     * On macOS, it's common to re-create a window in the app when the
-     * dock icon is clicked and there are no other windows open.
-     */
-    private static async onActivate() {
-        if (DmaDesktopApp.mainWindow !== null) return;
-        await DmaDesktopApp.onReady();
-    }
-
-    private static async initializeMainWindow() {
-        const workAreaSize = screen.getPrimaryDisplay().workAreaSize;
-        const width = Math.min(1280, workAreaSize.width || 1280);
-        const height = Math.min(720, workAreaSize.height || 720);
-
-        // Create the browser window.
-        this.mainWindow = new BrowserWindow({
-            width: width,
-            height: height,
-            show: false,
-            icon: await getIcon(),
-            webPreferences: {
-                preload: join(__dirname, 'main.preload.js'),
-                sandbox: true,
-            },
-        });
-        this.mainWindow.setMenu(null);
-        this.mainWindow.center();
-
-        // If the main window is ready to show, close the splash window and show the main window
-        this.mainWindow.once('ready-to-show', () => this.mainWindow.show());
-
-        // Emitted when the window is closed.
-        this.mainWindow.on('closed', () => this.onClose());
-
-        // handle all external redirects in a new browser window
-        this.mainWindow.webContents.on('will-navigate', async (event, url) => await this.onRedirect(event, url));
-
-        this.mainWindow.webContents.on('devtools-closed', async () => await this.onDevtoolsClosed());
-    }
-
-    private static async loadMainWindow() {
-        // Load the index.html of the app.
-        if (!app.isPackaged) {
-            await this.mainWindow.loadURL(`https://localhost.desktop-app.dnd-mapp.net`);
-        } else {
-            await this.mainWindow.loadURL(
-                format({
-                    pathname: join(__dirname, '..', 'desktop-app-ui', 'browser', 'index.html'),
-                    protocol: 'file:',
-                    slashes: true,
-                })
-            );
-        }
-    }
-
-    private static async onDevtoolsClosed() {
-        this.showingDevTools = false;
-        await this.trayService.configureContextMenu();
     }
 }
