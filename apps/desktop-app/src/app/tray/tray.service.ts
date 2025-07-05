@@ -83,6 +83,8 @@ export class TrayService {
     private async configureTray() {
         this.tray = new Tray(await getIcon());
         this.tray.setToolTip(this.translationService.getTranslation('APP_NAME'));
+
+        this.tray.on('click', async () => await this.onTrayClicked());
     }
 
     private onCloseApplication() {
@@ -94,5 +96,10 @@ export class TrayService {
 
         if (!appWindowController) return;
         await appWindowController.toggleDevTools();
+    }
+
+    private async onTrayClicked() {
+        await this.controllerManager.openAppWindow();
+        await this.configureContextMenu();
     }
 }
