@@ -60,6 +60,13 @@ export class UpdateService {
         this.electronUpdater.autoDownload = false;
         this.electronUpdater.autoInstallOnAppQuit = false;
         this.electronUpdater.fullChangelog = false;
+
+        this.electronUpdater.logger = {
+            info: async (message) => await this.logService.info(message),
+            debug: async (message) => await this.logService.debug(message),
+            warn: async (message) => await this.logService.warn(message),
+            error: async (message) => await this.logService.error(message),
+        };
     }
 
     private async setupAutoUpdaterEventListeners() {
