@@ -4,38 +4,44 @@ import { LogData, Loggers, SeverityLevel, SeverityLevels } from './models';
 const logContexts = new Map<string, LogService>();
 
 export class LogService {
-    public static async withContext(context: string, root = false) {
+    public static withContext(context: string, root = false) {
         if (logContexts.has(context)) return logContexts.get(context);
         const logService = new LogService(context, root);
-        await logService.initialize();
 
         logContexts.set(context, logService);
         return logService;
     }
+    private static rootLogger: LogService;
 
     private readonly context: string;
     private readonly root: boolean;
-    private loggers: Loggers = [new ConsoleLogger()];
+    private loggers: Loggers = [];
 
     private bufferedLogs: LogData[] = [];
 
-    constructor(context: string, root: boolean) {
+    private constructor(context: string, root: boolean) {
         this.context = context;
         this.root = root;
+
+        if (root) LogService.rootLogger = this;
     }
 
-    private async initialize() {
+    public async initialize() {
         if (!this.root) return;
+        await this.info('Initializing LogService');
+
+        this.loggers = [new ConsoleLogger()];
         await Promise.all(this.loggers.map((logger) => logger.initialize()));
     }
 
     public async destroy(): Promise<null> {
+        await this.info(`Destroying LogService of context "${this.context}"`);
         if (!this.root) {
             logContexts.delete(this.context);
             return null;
         }
-        await Promise.all(this.loggers.map((logger) => logger.destroy()));
-        this.loggers = [];
+        await Promise.all(this.rootLogger.loggers.map((logger) => logger.destroy()));
+        this.rootLogger.loggers = [];
 
         logContexts.delete(this.context);
         return null;
@@ -65,25 +71,29 @@ export class LogService {
             message: message,
         };
         if (!this.isInitialized) {
-            this.bufferedLogs = [...this.bufferedLogs, logData];
+            this.rootLogger.bufferedLogs = [...this.rootLogger.bufferedLogs, logData];
             return;
         }
         if (this.hasBufferedLogs) await this.processBufferedLogs();
-        await Promise.all(this.loggers.map((logger) => logger.log(logData)));
+        await Promise.all(this.rootLogger.loggers.map((logger) => logger.log(logData)));
     }
 
     private get isInitialized() {
-        return this.loggers.every(({ initialized }) => initialized);
+        return this.rootLogger.loggers.length > 0 && this.rootLogger.loggers.every(({ initialized }) => initialized);
+    }
+
+    private get rootLogger() {
+        return LogService.rootLogger;
     }
 
     private get hasBufferedLogs() {
-        return this.bufferedLogs.length > 0;
+        return this.rootLogger.bufferedLogs.length > 0;
     }
 
     private async processBufferedLogs() {
-        for (const log of this.bufferedLogs) {
-            await Promise.all(this.loggers.map((logger) => logger.log(log)));
+        for (const log of this.rootLogger.bufferedLogs) {
+            await Promise.all(this.rootLogger.loggers.map((logger) => logger.log(log)));
         }
-        this.bufferedLogs = [];
+        this.rootLogger.bufferedLogs = [];
     }
 }

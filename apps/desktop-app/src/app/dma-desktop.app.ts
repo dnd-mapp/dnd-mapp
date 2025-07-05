@@ -1,6 +1,8 @@
 import { app } from 'electron';
 import * as process from 'process';
+import { environment } from '../environments';
 import { ConfigService } from './config';
+import { LogService } from './logging';
 import { TranslationService } from './lokalisation';
 import { NotificationService } from './notifications';
 import { TrayService } from './tray';
@@ -14,6 +16,7 @@ export class DmaDesktopApp {
     private static configService: ConfigService;
     private static translationService: TranslationService;
     private static controllerManager: ControllerManager;
+    private static logService = LogService.withContext(DmaDesktopApp.name, true);
 
     private static quited = false;
 
@@ -73,6 +76,7 @@ export class DmaDesktopApp {
      * @private
      */
     private static async initializeServices() {
+        await this.logService.initialize();
         this.configService = await ConfigService.instance();
         this.translationService = await TranslationService.instance();
         this.trayService = await TrayService.instance();
@@ -94,6 +98,7 @@ export class DmaDesktopApp {
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
         this.translationService = this.translationService.destroy();
-        this.configService = this.configService.destroy();
+        this.configService = await this.configService.destroy();
+        this.logService = await this.logService.destroy();
     }
 }
