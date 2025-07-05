@@ -55,20 +55,21 @@ export class LogService {
         await this.log(SeverityLevels.DEBUG, message);
     }
 
-    public async warn(message: string) {
-        await this.log(SeverityLevels.WARNING, message);
+    public async warn(message: string, data?: unknown) {
+        await this.log(SeverityLevels.WARNING, message, data);
     }
 
-    public async error(message: string) {
-        await this.log(SeverityLevels.ERROR, message);
+    public async error(message: string, data?: unknown) {
+        await this.log(SeverityLevels.ERROR, message, data);
     }
 
-    private async log(severity: SeverityLevel, message: string) {
+    private async log(severity: SeverityLevel, message: string, data?: unknown) {
         const logData: LogData = {
             timestamp: new Date(),
             severity: severity,
             context: this.context,
             message: message,
+            ...(data ? { data: data } : {}),
         };
         if (!this.isInitialized) {
             this.rootLogger.bufferedLogs = [...this.rootLogger.bufferedLogs, logData];

@@ -1,4 +1,4 @@
-import { LogData, Logger, SeverityColors } from '../models';
+import { LogData, Logger, SeverityColors, SeverityLevels } from '../models';
 
 export class ConsoleLogger implements Logger {
     public initialized = false;
@@ -16,6 +16,10 @@ export class ConsoleLogger implements Logger {
         const log = this.constructLog(data);
 
         console[severity](SeverityColors[severity](log));
+
+        if (data.data && (severity === SeverityLevels.WARNING || severity === SeverityLevels.ERROR)) {
+            console.error(data.data);
+        }
     }
 
     private constructLog(data: LogData) {

@@ -21,6 +21,7 @@ export interface LogData {
     context: string;
     severity: SeverityLevel;
     message: string;
+    data?: unknown;
 }
 
 export interface Logger {
