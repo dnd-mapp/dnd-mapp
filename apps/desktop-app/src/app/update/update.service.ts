@@ -71,6 +71,7 @@ export class UpdateService {
     }
 
     private async removeAutoUpdaterEventListeners() {
+        if (!this.electronUpdater) return;
         await this.logService.debug('Removing AutoUpdater event listeners');
 
         Object.entries(this.autoUpdaterEventListeners).forEach(([eventName, listener]) => {
