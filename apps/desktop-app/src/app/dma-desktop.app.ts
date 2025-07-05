@@ -24,13 +24,14 @@ export class DmaDesktopApp {
      * We pass the App and the BrowserWindow into this function so this class has no dependencies.
      * This makes the code easier to write tests for.
      */
-    public static bootstrapApp() {
+    public static async bootstrapApp() {
         if (!app.requestSingleInstanceLock()) {
             app.quit();
         }
 
         // App is ready to load data
         app.on('ready', async () => {
+            await this.logService.info(`Initializing DnD Mapp Desktop Application v${environment.version}`);
             await this.initializeServices();
         });
 
@@ -52,11 +53,16 @@ export class DmaDesktopApp {
             // Do nothing on purpose to prevent the application from exiting.
         });
 
-        process.on('uncaughtException', (error) => {
+        process.on('uncaughtException', async (error) => {
+            await this.logService.error(`Unhandled exception caught: ${error.message}`);
             console.error(error);
         });
 
-        process.on('unhandledRejection', (error) => {
+        process.on('unhandledRejection', async (error) => {
+            let message = 'Unhandled rejected promise caught';
+
+            if (error instanceof Error) message += `: ${error.message}`;
+            await this.logService.error(message);
             console.error(error);
         });
     }
@@ -64,6 +70,8 @@ export class DmaDesktopApp {
     private static async onQuit() {
         if (this.quited) return;
         this.quited = true;
+
+        await this.logService.info('Exiting application gracefully...');
 
         await this.destroyServices();
     }
@@ -76,6 +84,8 @@ export class DmaDesktopApp {
      * @private
      */
     private static async initializeServices() {
+        await this.logService.info('Initializing services');
+
         await this.logService.initialize();
         this.configService = await ConfigService.instance();
         this.translationService = await TranslationService.instance();
@@ -93,6 +103,8 @@ export class DmaDesktopApp {
      * @private
      */
     private static async destroyServices() {
+        await this.logService.info('Destroying services');
+
         this.controllerManager = this.controllerManager.destroy();
         this.notificationService = this.notificationService.destroy();
         this.updateService = this.updateService.destroy();

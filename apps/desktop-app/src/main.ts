@@ -2,7 +2,7 @@ import { tryCatch } from '@dnd-mapp/shared';
 import { DmaDesktopApp } from './app';
 
 async function main() {
-    DmaDesktopApp.bootstrapApp();
+    await DmaDesktopApp.bootstrapApp();
 }
 
 (async () => {
