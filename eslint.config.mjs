@@ -69,6 +69,7 @@ export default [
                         {
                             sourceTag: 'framework:electron',
                             allowedExternalImports: [
+                                'chalk',
                                 'class-transformer',
                                 'class-validator',
                                 'electron',
