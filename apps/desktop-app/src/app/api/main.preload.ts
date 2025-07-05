@@ -4,6 +4,7 @@ import {
     DmaDesktopAppEvents,
     Locale,
     NotificationData,
+    SeverityLevel,
     Translations,
 } from '@dnd-mapp/desktop-shared';
 import { contextBridge, ipcRenderer } from 'electron';
@@ -24,6 +25,11 @@ const desktopAppApi: DmaDesktopAppApi = {
             listener(translations);
         });
         return () => ipcRenderer.removeAllListeners(DmaDesktopAppEvents.TRANSLATIONS_UPDATED);
+    },
+
+    logLevel: async () => await ipcRenderer.invoke(DmaDesktopAppEvents.LOG_LEVEL),
+    updateLogLevel: async (logLevel: SeverityLevel) => {
+        await ipcRenderer.invoke(DmaDesktopAppEvents.UPDATE_LOG_LEVEL, logLevel);
     },
 };
 

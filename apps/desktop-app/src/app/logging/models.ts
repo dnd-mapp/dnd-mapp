@@ -8,15 +8,6 @@ export const ConsoleFunctionPerSeverityLevel = {
     [SeverityLevels.ERROR]: 'error',
 } as const;
 
-export const SeverityPriorityLevels = {
-    [SeverityLevels.INFO]: 3,
-    [SeverityLevels.DEBUG]: 4,
-    [SeverityLevels.WARNING]: 2,
-    [SeverityLevels.ERROR]: 1,
-} as const;
-
-export type SeverityPriorityLevel = (typeof SeverityPriorityLevels)[keyof typeof SeverityPriorityLevels];
-
 export const SeverityColors = {
     [SeverityLevels.INFO]: chalk.green,
     [SeverityLevels.DEBUG]: chalk.white,

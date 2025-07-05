@@ -1,7 +1,15 @@
-import { SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
+import {
+    DmaDesktopAppEvents,
+    fromLevelToPriority,
+    fromPriorityToLevel,
+    SeverityLevel,
+    SeverityLevels,
+    SeverityPriorityLevel,
+} from '@dnd-mapp/desktop-shared';
+import { ipcMain } from 'electron';
 import { ConfigService } from '../config';
 import { ConsoleLogger } from './loggers';
-import { createLogObject, LogData, Loggers, SeverityPriorityLevel, SeverityPriorityLevels } from './models';
+import { createLogObject, LogData, Loggers } from './models';
 
 const logContexts = new Map<string, LogService>();
 
@@ -37,8 +45,9 @@ export class LogService {
         await this.info('Initializing LogService');
 
         this.configService = await ConfigService.instance();
+        await this.setupIpcHandlers();
 
-        this.logLevel = SeverityPriorityLevels[await this.configService.getSetting('logLevel')];
+        this.logLevel = fromLevelToPriority(await this.configService.getSetting('logLevel'));
 
         this.loggers = [new ConsoleLogger()];
         await Promise.all(this.loggers.map((logger) => logger.initialize()));
@@ -50,6 +59,8 @@ export class LogService {
             logContexts.delete(this.context);
             return null;
         }
+        await this.removeIpcHandlers();
+
         const remainingLogServices = [...logContexts.values()].filter(({ root }) => !root);
 
         for (const logService of remainingLogServices) {
@@ -87,6 +98,30 @@ export class LogService {
         await this.processLog(logData);
     }
 
+    private async setupIpcHandlers() {
+        await this.rootLogger.debug('Setting up IPC message handlers for log level requests');
+
+        ipcMain.handle(DmaDesktopAppEvents.LOG_LEVEL, () => fromPriorityToLevel(this.logLevel));
+        ipcMain.handle(
+            DmaDesktopAppEvents.UPDATE_LOG_LEVEL,
+            async (_event, logLevel: SeverityLevel) => await this.onLogLevelUpdate(logLevel)
+        );
+    }
+
+    private async removeIpcHandlers() {
+        await this.rootLogger.debug('Removing IPC message handlers for log level requests');
+
+        ipcMain.removeHandler(DmaDesktopAppEvents.LOG_LEVEL);
+        ipcMain.removeHandler(DmaDesktopAppEvents.UPDATE_LOG_LEVEL);
+    }
+
+    private async onLogLevelUpdate(logLevel: SeverityLevel) {
+        this.logLevel = fromLevelToPriority(logLevel);
+
+        await this.configService.updateSetting('logLevel', logLevel);
+        await this.rootLogger.info(`Log level has been updated to "${logLevel}"`);
+    }
+
     private get isInitialized() {
         return this.rootLogger.loggers.length > 0 && this.rootLogger.loggers.every(({ initialized }) => initialized);
     }
@@ -100,16 +135,12 @@ export class LogService {
     }
 
     private async processLog(logData: LogData) {
-        if (this.severityLevelPriority(logData.severity) > this.rootLogger.logLevel) return;
+        if (fromLevelToPriority(logData.severity) > this.rootLogger.logLevel) return;
         await Promise.all(this.rootLogger.loggers.map((logger) => logger.log(logData)));
     }
 
     private async processBufferedLogs() {
         await Promise.all(this.rootLogger.bufferedLogs.map((logData) => this.rootLogger.processLog(logData)));
         this.rootLogger.bufferedLogs = [];
-    }
-
-    private severityLevelPriority(severity: SeverityLevel) {
-        return SeverityPriorityLevels[severity];
     }
 }

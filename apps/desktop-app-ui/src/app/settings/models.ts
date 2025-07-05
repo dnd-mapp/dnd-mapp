@@ -1,11 +1,22 @@
-import { Locale, Locales } from '@dnd-mapp/desktop-shared';
+import { Locale, Locales, SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
 
-interface LocaleOptions {
+interface SettingOption<T> {
     label: string;
-    value: Locale;
+    value: T;
 }
+
+type LocaleOptions = SettingOption<Locale>;
 
 export const localeOptions: LocaleOptions[] = [
     { label: 'English', value: Locales.EN_US },
     { label: 'Nederlands', value: Locales.NL_NL },
 ] as const;
+
+type LogLevelOption = SettingOption<SeverityLevel>;
+
+export const logLevelOptions: LogLevelOption[] = [
+    { label: 'INFO', value: SeverityLevels.INFO },
+    { label: 'DEBUG', value: SeverityLevels.DEBUG },
+    { label: 'WARN', value: SeverityLevels.WARNING },
+    { label: 'ERROR', value: SeverityLevels.ERROR },
+];
