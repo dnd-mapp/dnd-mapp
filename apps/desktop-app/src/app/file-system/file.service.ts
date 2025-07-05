@@ -15,6 +15,8 @@ export class FileService {
 
     private logService = LogService.withContext(FileService.name);
 
+    private constructor() {}
+
     public async doesPathExists(path: string) {
         await this.logService.debug(`Validating existence of path "${path}"`);
         const { error: statError } = await tryCatch(stat(path));
