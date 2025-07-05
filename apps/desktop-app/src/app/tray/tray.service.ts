@@ -1,7 +1,8 @@
 import { app, Menu, Tray } from 'electron';
 import { Subject } from 'rxjs';
-import { DmaDesktopApp } from '../dma-desktop.app';
 import { TranslationService } from '../lokalisation';
+import { ControllerManager } from '../ui';
+import { AppWindowController } from '../ui/app-window.controller';
 import { getIcon, isRunningInDevelopmentMode } from '../utils';
 
 export class TrayService {
@@ -15,6 +16,7 @@ export class TrayService {
     private static _instance: TrayService;
 
     private translationService: TranslationService;
+    private controllerManager: ControllerManager;
     private tray: Tray;
 
     private readonly destroy$ = new Subject<void>();
@@ -23,6 +25,7 @@ export class TrayService {
 
     private async initialize() {
         this.translationService = await TranslationService.instance();
+        this.controllerManager = ControllerManager.instance();
 
         await this.configureTray();
         await this.configureContextMenu();
@@ -43,12 +46,16 @@ export class TrayService {
     }
 
     public async configureContextMenu() {
+        if (this.tray.isDestroyed()) return;
+
         const {
             APP_NAME,
             TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS,
             TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
             TRAY_MENU_BUTTON_LABEL_QUIT,
         } = this.translationService.getTranslations();
+
+        const appWindowController = this.controllerManager.getController(AppWindowController);
 
         const menu = Menu.buildFromTemplate([
             {
@@ -58,11 +65,13 @@ export class TrayService {
             },
             { type: 'separator' },
             {
-                label: DmaDesktopApp.devToolsShown()
-                    ? TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS
-                    : TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
+                label:
+                    (appWindowController?.devToolsShown() ?? false)
+                        ? TRAY_MENU_BUTTON_LABEL_CLOSE_DEVTOOLS
+                        : TRAY_MENU_BUTTON_LABEL_OPEN_DEVTOOLS,
                 visible: isRunningInDevelopmentMode(),
-                click: () => this.onToggleDevTools(),
+                enabled: appWindowController !== null,
+                click: async () => await this.onToggleDevTools(),
             },
             { type: 'separator' },
             { label: TRAY_MENU_BUTTON_LABEL_QUIT, role: 'quit', click: () => this.onCloseApplication() },
@@ -80,7 +89,10 @@ export class TrayService {
         app.quit();
     }
 
-    private onToggleDevTools() {
-        DmaDesktopApp.toggleDevTools();
+    private async onToggleDevTools() {
+        const appWindowController = this.controllerManager.getController(AppWindowController);
+
+        if (!appWindowController) return;
+        await appWindowController.toggleDevTools();
     }
 }
