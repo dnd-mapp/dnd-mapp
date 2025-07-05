@@ -91,7 +91,7 @@ export class DmaDesktopApp {
         this.translationService = await TranslationService.instance();
         this.trayService = await TrayService.instance();
         this.updateService = await UpdateService.instance();
-        this.notificationService = NotificationService.instance();
+        this.notificationService = await NotificationService.instance();
         this.controllerManager = ControllerManager.instance();
     }
 
@@ -106,7 +106,7 @@ export class DmaDesktopApp {
         await this.logService.info('Destroying services');
 
         this.controllerManager = this.controllerManager.destroy();
-        this.notificationService = this.notificationService.destroy();
+        this.notificationService = await this.notificationService.destroy();
         this.updateService = this.updateService.destroy();
         this.trayService = this.trayService.destroy();
         this.translationService = await this.translationService.destroy();

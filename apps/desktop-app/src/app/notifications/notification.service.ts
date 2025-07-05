@@ -1,39 +1,53 @@
 import { DmaDesktopAppEvents, NotificationData } from '@dnd-mapp/desktop-shared';
 import { ipcMain, Notification } from 'electron';
+import { LogService } from '../logging';
 import { getIcon } from '../utils';
 
 export class NotificationService {
-    public static instance() {
+    public static async instance() {
         if (this._instance) return this._instance;
         this._instance = new NotificationService();
+        await this._instance.initialize();
 
         return this._instance;
     }
     private static _instance: NotificationService;
 
-    private constructor() {
-        this.setupIpcListeners();
+    private readonly logService = LogService.withContext(NotificationService.name);
+
+    private constructor() {}
+
+    private async initialize() {
+        await this.logService.info('Initializing NotificationService');
+        await this.setupIpcHandlers();
     }
 
-    public destroy(): null {
-        this.removeIpcListeners();
+    public async destroy(): Promise<null> {
+        await this.logService.info('Destroying NotificationService');
+        await this.removeIpcListeners();
 
         NotificationService._instance = null;
         return null;
     }
 
-    private removeIpcListeners() {
-        ipcMain.removeHandler(DmaDesktopAppEvents.SEND_NOTIFICATION);
-    }
+    private async setupIpcHandlers() {
+        await this.logService.debug('Setting up IPC handlers for notifications');
 
-    private setupIpcListeners() {
         ipcMain.handle(
             DmaDesktopAppEvents.SEND_NOTIFICATION,
             async (_, data: NotificationData) => await this.onSendNotification(data)
         );
     }
 
+    private async removeIpcListeners() {
+        await this.logService.debug('Removing IPC handlers for notifications');
+
+        ipcMain.removeHandler(DmaDesktopAppEvents.SEND_NOTIFICATION);
+    }
+
     private async onSendNotification(data: NotificationData) {
+        await this.logService.info('Sending notification');
+
         const { title, message, silent } = data;
 
         const notification = new Notification({
@@ -47,6 +61,9 @@ export class NotificationService {
 
         // When clicking on the notification it'll be dismissed.
         // On Windows, this will also remove it from the action center.
-        notification.on('click', () => notification.close());
+        notification.on('click', async () => {
+            notification.close();
+            await this.logService.debug('Notification dismissed');
+        });
     }
 }
