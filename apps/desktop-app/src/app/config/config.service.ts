@@ -24,7 +24,7 @@ export class ConfigService {
     private static _instance: ConfigService;
 
     private readonly fileService = FileService.instance();
-    private logService = LogService.withContext(ConfigService.name);
+    private logService = LogService.withContext('ConfigService');
 
     private appFolderPath: string;
     private configFilePath: string;

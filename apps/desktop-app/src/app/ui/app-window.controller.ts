@@ -19,7 +19,7 @@ export class AppWindowController implements WindowController {
 
     private trayService: TrayService;
     private controllerManager: ControllerManager;
-    private loggingService = LogService.withContext(AppWindowController.name);
+    private loggingService = LogService.withContext('AppWindowController');
 
     private window: BrowserWindow;
 

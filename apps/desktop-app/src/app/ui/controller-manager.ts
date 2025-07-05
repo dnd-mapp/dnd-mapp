@@ -12,7 +12,7 @@ export class ControllerManager {
     }
     private static _instance: ControllerManager;
 
-    private logService = LogService.withContext(ControllerManager.name);
+    private logService = LogService.withContext('ControllerManager');
 
     private controllers: Map<string, WindowController> = new Map();
 

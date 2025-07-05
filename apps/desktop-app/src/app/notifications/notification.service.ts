@@ -13,7 +13,7 @@ export class NotificationService {
     }
     private static _instance: NotificationService;
 
-    private logService = LogService.withContext(NotificationService.name);
+    private logService = LogService.withContext('NotificationService');
 
     private constructor() {}
 

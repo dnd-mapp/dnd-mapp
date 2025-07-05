@@ -16,7 +16,7 @@ export class TrayService {
     }
     private static _instance: TrayService;
 
-    private logService = LogService.withContext(TrayService.name);
+    private logService = LogService.withContext('TrayService');
     private translationService: TranslationService;
     private controllerManager: ControllerManager;
     private tray: Tray;

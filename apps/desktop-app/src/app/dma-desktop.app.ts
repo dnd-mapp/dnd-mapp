@@ -16,7 +16,7 @@ export class DmaDesktopApp {
     private static configService: ConfigService;
     private static translationService: TranslationService;
     private static controllerManager: ControllerManager;
-    private static logService = LogService.withContext(DmaDesktopApp.name, true);
+    private static logService = LogService.withContext('DmaDesktopApp', true);
 
     private static quited = false;
 

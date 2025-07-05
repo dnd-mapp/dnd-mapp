@@ -17,7 +17,7 @@ export class UpdateService {
     }
     private static _instance: UpdateService;
 
-    private logService = LogService.withContext(UpdateService.name);
+    private logService = LogService.withContext('UpdateService');
     private electronUpdater: AppUpdater;
 
     private readonly autoUpdaterEventListeners = {

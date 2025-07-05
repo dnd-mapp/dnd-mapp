@@ -13,7 +13,7 @@ export class FileService {
     }
     private static _instance: FileService;
 
-    private logService = LogService.withContext(FileService.name);
+    private logService = LogService.withContext('FileService');
 
     private constructor() {}
 

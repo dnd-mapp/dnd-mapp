@@ -19,7 +19,7 @@ export class TranslationService {
     private static _instance: TranslationService;
 
     private readonly fileService = FileService.instance();
-    private logService = LogService.withContext(TranslationService.name);
+    private logService = LogService.withContext('TranslationService');
     private configService: ConfigService;
     private controllerManager: ControllerManager;
 
