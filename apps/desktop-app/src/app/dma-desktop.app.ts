@@ -39,7 +39,9 @@ export class DmaDesktopApp {
 
         // Ignore certificate errors in dev mode in order to connect to the UI app over HTTPS.
         app.on('certificate-error', (event, _webContents, url, _error, _certificate, callback) => {
-            if (url.includes(`localhost.desktop-app.dnd-mapp.net`)) {
+            const parsedUrl = new URL(url);
+
+            if (parsedUrl.host.includes(`localhost.desktop-app.dnd-mapp.net`)) {
                 event.preventDefault();
                 callback(true);
                 return;
