@@ -62,20 +62,12 @@
             "executor": "@angular/build:dev-server",
             "continuous": true,
             "options": {
+                "buildTarget": "@dnd-mapp/desktop-app-ui:build:dev",
                 "host": "localhost.desktop-app.dnd-mapp.net",
-                "port": 443,
+                "port": 7100,
                 "ssl": true,
                 "sslKey": "certificate-key.pem",
                 "sslCert": "certificate.pem"
-            },
-            "defaultConfiguration": "dev",
-            "configurations": {
-                "prod": {
-                    "buildTarget": "@dnd-mapp/desktop-app-ui:build:prod"
-                },
-                "dev": {
-                    "buildTarget": "@dnd-mapp/desktop-app-ui:build:dev"
-                }
             }
         },
         "test": {
@@ -94,7 +86,7 @@
                 "codeCoverage": true,
                 "inlineStyleLanguage": "scss",
                 "karmaConfig": "apps/desktop-app-ui/karma.conf.js",
-                "scripts": [],
+                "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "styles": ["apps/desktop-app-ui/src/styles.scss"],
                 "tsConfig": "apps/desktop-app-ui/tsconfig.spec.json"
             },

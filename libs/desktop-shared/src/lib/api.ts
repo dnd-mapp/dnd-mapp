@@ -1,6 +1,6 @@
-import { NotificationData } from './data';
 import { SeverityLevel } from './logging';
 import { Locale, Translations } from './lokalisation';
+import { NotificationData } from './notifications';
 
 export const DMA_DESKTOP_APP_API_NAMESPACE = 'dmaDesktopAppApi' as const;
 
@@ -15,6 +15,9 @@ export const DmaDesktopAppEvents = {
 
     LOG_LEVEL: 'log-level',
     UPDATE_LOG_LEVEL: 'update-log-level',
+
+    WEB_SOCKET_PORT: 'web-socket-port',
+    UPDATE_WEB_SOCKET_PORT: 'update-web-socket-port',
 } as const;
 
 type UnSubscriber = () => void;
@@ -30,4 +33,7 @@ export interface DmaDesktopAppApi {
 
     logLevel(): Promise<SeverityLevel>;
     updateLogLevel(logLevel: SeverityLevel): Promise<void>;
+
+    webSocketPort(): Promise<number>;
+    updateWebSocketPort(webSocketPort: number): Promise<void>;
 }

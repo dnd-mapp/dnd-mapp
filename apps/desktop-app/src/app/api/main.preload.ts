@@ -31,6 +31,11 @@ const desktopAppApi: DmaDesktopAppApi = {
     updateLogLevel: async (logLevel: SeverityLevel) => {
         await ipcRenderer.invoke(DmaDesktopAppEvents.UPDATE_LOG_LEVEL, logLevel);
     },
+
+    webSocketPort: async () => await ipcRenderer.invoke(DmaDesktopAppEvents.WEB_SOCKET_PORT),
+    updateWebSocketPort: async (webSocketPort: number) => {
+        await ipcRenderer.invoke(DmaDesktopAppEvents.UPDATE_WEB_SOCKET_PORT, webSocketPort);
+    },
 };
 
 contextBridge.exposeInMainWorld(DMA_DESKTOP_APP_API_NAMESPACE, desktopAppApi);

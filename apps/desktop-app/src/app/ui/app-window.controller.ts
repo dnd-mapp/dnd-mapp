@@ -48,7 +48,7 @@ export class AppWindowController implements WindowController {
 
         // Load the index.html of the app.
         if (!app.isPackaged) {
-            await this.window.loadURL(`https://localhost.desktop-app.dnd-mapp.net`);
+            await this.window.loadURL(`https://localhost.desktop-app.dnd-mapp.net:7100`);
         } else {
             await this.window.loadURL(
                 format({

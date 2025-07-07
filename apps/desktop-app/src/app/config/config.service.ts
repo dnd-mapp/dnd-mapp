@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, DEFAULT_LOG_LEVEL } from '@dnd-mapp/desktop-shared';
+import { DEFAULT_LOCALE, DEFAULT_LOG_LEVEL, DEFAULT_WEB_SOCKET_PORT } from '@dnd-mapp/desktop-shared';
 import { instanceToInstance, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { app } from 'electron';
@@ -106,6 +106,9 @@ export class ConfigService {
         }
         if (parsedConfig.logLevel === undefined) {
             parsedConfig.logLevel = DEFAULT_LOG_LEVEL;
+        }
+        if (parsedConfig.webSocketPort === undefined) {
+            parsedConfig.webSocketPort = DEFAULT_WEB_SOCKET_PORT;
         }
         const validationErrors = await validate(parsedConfig, {
             forbidNonWhitelisted: true,
