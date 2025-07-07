@@ -1,7 +1,12 @@
+import {
+    WebSocketMessage,
+    WebSocketMessageData,
+    WebSocketMessageType,
+    WebSocketMessageTypes,
+} from '@dnd-mapp/desktop-shared';
 import { nanoid } from 'nanoid';
 import { RawData, WebSocket } from 'ws';
 import { LogService } from '../logging';
-import { WebSocketMessageData, WebSocketMessageType, WebSocketMessageTypes } from './models';
 
 export class WebSocketClient {
     private readonly logService = LogService.withContext(`WebSocketClient`);
