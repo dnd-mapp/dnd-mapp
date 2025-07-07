@@ -20,6 +20,12 @@
                 "browser": "apps/auth-server-client/src/main.ts",
                 "inlineStyleLanguage": "scss",
                 "outputPath": "dist/apps/auth-server-client",
+                "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+                "stylePreprocessorOptions": {
+                    "sass": {
+                        "silenceDeprecations": ["color-functions", "global-builtin", "import"]
+                    }
+                },
                 "styles": ["apps/auth-server-client/src/styles.scss"],
                 "tsConfig": "apps/auth-server-client/tsconfig.app.json"
             },
@@ -39,7 +45,7 @@
                         }
                     ]
                 },
-                "development": {
+                "dev": {
                     "extractLicenses": false,
                     "namedChunks": true,
                     "optimization": false,
@@ -71,7 +77,7 @@
                 "codeCoverage": true,
                 "inlineStyleLanguage": "scss",
                 "karmaConfig": "apps/auth-server-client/karma.conf.js",
-                "scripts": [],
+                "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "styles": ["apps/auth-server-client/src/styles.scss"],
                 "tsConfig": "apps/auth-server-client/tsconfig.spec.json"
             },

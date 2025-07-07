@@ -1,0 +1,7 @@
+<form [formGroup]="form" class="col-4 p-3 border rounded" [ngClass]="borderColor()">
+    <div class="mb-3">
+        <label for="web-socket-port">Web Socket port</label>
+        <input type="number" class="form-control" formControlName="webSocketPort" />
+    </div>
+    <button type="button" class="btn btn-primary" [disabled]="isConnected()" (click)="onConnect()">Connect</button>
+</form>
