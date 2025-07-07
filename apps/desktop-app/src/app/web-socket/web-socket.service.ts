@@ -41,7 +41,11 @@ export class WebSocketService {
 
         await this.configureWebSocketServer();
 
-        this.pingInterval = setInterval(() => pingClients(), PING_INTERVAL_TIME);
+        this.pingInterval = setInterval(async () => {
+            await this.logService.debug('Sending ping to Web Socket clients');
+            await pingClients();
+        }, PING_INTERVAL_TIME);
+
         this.setupIpcHandlers();
     }
 
@@ -108,15 +112,18 @@ export class WebSocketService {
         await this.logService.info('The WebSocketServer has closed');
         deregisterAllWebSocketClients();
 
-        this.webSocketServer.removeListener('connection', (webSocket) => this.onWebSocketConnection(webSocket));
+        this.webSocketServer.removeListener(
+            'connection',
+            async (webSocket) => await this.onWebSocketConnection(webSocket)
+        );
         this.webSocketServer.removeListener('close', async () => await this.onClose());
         this.webSocketServer.removeListener('error', async (error) => await this.onError(error));
 
         this.server.close();
     }
 
-    private onWebSocketConnection(webSocket: WebSocket) {
-        registerWebSocketClient(webSocket);
+    private async onWebSocketConnection(webSocket: WebSocket) {
+        await registerWebSocketClient(webSocket);
     }
 
     private async onWebSocketPortUpdated(webSocketPort: number) {
