@@ -3,6 +3,6 @@
     "files": [],
     "include": [],
     "compilerOptions": {
-        "experimentalDecorators": true,
+        "experimentalDecorators": true
     }
 }
