@@ -8,15 +8,17 @@ import { NotificationService } from './notifications';
 import { TrayService } from './tray';
 import { ControllerManager } from './ui';
 import { UpdateService } from './update';
+import { WebSocketService } from './web-socket';
 
 export class DmaDesktopApp {
+    private static logService = LogService.withContext('DmaDesktopApp', true);
+    private static controllerManager: ControllerManager;
     private static updateService: UpdateService;
     private static trayService: TrayService;
     private static notificationService: NotificationService;
     private static configService: ConfigService;
     private static translationService: TranslationService;
-    private static controllerManager: ControllerManager;
-    private static logService = LogService.withContext('DmaDesktopApp', true);
+    private static webSocketService: WebSocketService;
 
     private static quited = false;
 
@@ -93,6 +95,7 @@ export class DmaDesktopApp {
         this.updateService = await UpdateService.instance();
         this.notificationService = await NotificationService.instance();
         this.controllerManager = await ControllerManager.instance();
+        this.webSocketService = await WebSocketService.instance();
     }
 
     /**
@@ -110,6 +113,7 @@ export class DmaDesktopApp {
         this.updateService = await this.updateService?.destroy();
         this.trayService = await this.trayService?.destroy();
         this.translationService = await this.translationService?.destroy();
+        this.webSocketService = await this.webSocketService?.destroy();
         this.configService = await this.configService?.destroy();
         this.logService = await this.logService?.destroy();
     }
