@@ -97,7 +97,7 @@ export class TranslationService {
 
         const translationFilePath = join(TRANSLATION_FILES_FOLDER_PATH, `${this.locale}.json`);
 
-        this.translations = await this.fileService.readFile(translationFilePath);
+        this.translations = await this.fileService.readFileJSON(translationFilePath);
         await this.controllerManager.sendIpcMessages(DmaDesktopAppEvents.TRANSLATIONS_UPDATED, this.translations);
     }
 

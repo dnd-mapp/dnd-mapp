@@ -77,7 +77,7 @@ export class ConfigService {
         await this.logService.debug('Reading stored config from disk');
 
         this.configFilePath = join(this.appFolderPath, APP_CONFIG_FILE_NAME);
-        const configContents = await this.fileService.readFile(this.configFilePath);
+        const configContents: AppConfig = await this.fileService.readFileJSON(this.configFilePath);
 
         if (configContents) {
             this.config = await this.validateConfig(configContents);

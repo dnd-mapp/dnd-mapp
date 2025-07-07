@@ -26,18 +26,12 @@ export class FileService {
         }
     }
 
-    public async readFile<T>(filePath: string) {
-        await this.logService.debug(`Reading file on path "${filePath}"`);
-        const { data: fileContents, error: readError } = await tryCatch(readFile(filePath, { encoding: 'utf8' }));
+    public async readFileText(filePath: string) {
+        return await this.readFile(filePath);
+    }
 
-        if (readError) {
-            if ('code' in readError && readError.code === 'ENOENT') {
-                await this.logService.warn(`File does not exist on Path "${filePath}"`);
-                return null;
-            }
-            await this.logService.warn(`Something went wrong while reading file on path "${filePath}"`, readError);
-            return null;
-        }
+    public async readFileJSON<T>(filePath: string) {
+        const fileContents = await this.readFile(filePath);
         return JSON.parse(fileContents) as T;
     }
 
@@ -50,5 +44,20 @@ export class FileService {
         if (writeError) {
             await this.logService.warn(`Something went wrong while writing file on path "${filePath}"`, writeError);
         }
+    }
+
+    private async readFile(filePath: string) {
+        await this.logService.debug(`Reading file on path "${filePath}"`);
+        const { data: fileContents, error: readError } = await tryCatch(readFile(filePath, { encoding: 'utf8' }));
+
+        if (readError) {
+            if ('code' in readError && readError.code === 'ENOENT') {
+                await this.logService.warn(`File does not exist on Path "${filePath}"`);
+                return null;
+            }
+            await this.logService.warn(`Something went wrong while reading file on path "${filePath}"`, readError);
+            return null;
+        }
+        return fileContents;
     }
 }
