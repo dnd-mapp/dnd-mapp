@@ -72,10 +72,16 @@
                     {
                         "glob": "**/*",
                         "input": "apps/auth-server-client/public"
+                    },
+                    {
+                        "input": "apps/auth-server-client/.msw",
+                        "glob": "mockServiceWorker.js",
+                        "output": "./"
                     }
                 ],
                 "codeCoverage": true,
                 "inlineStyleLanguage": "scss",
+                "main": "apps/auth-server-client/test/setup-test.ts",
                 "karmaConfig": "apps/auth-server-client/karma.conf.js",
                 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "stylePreprocessorOptions": {
