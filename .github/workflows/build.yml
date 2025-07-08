@@ -6,6 +6,8 @@ on:
     push:
         branches:
             - main
+env:
+    NX_NATIVE_COMMAND_RUNNER: false
 jobs:
     execute:
         name: Execute
