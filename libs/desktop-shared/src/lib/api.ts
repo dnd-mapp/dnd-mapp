@@ -20,7 +20,7 @@ export const DmaDesktopAppEvents = {
     UPDATE_WEB_SOCKET_PORT: 'update-web-socket-port',
 } as const;
 
-type UnSubscriber = () => void;
+export type UnSubscriber = () => void;
 
 export interface DmaDesktopAppApi {
     sendNotification(data: NotificationData): Promise<void>;
