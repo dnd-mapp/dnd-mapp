@@ -2,7 +2,10 @@
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "defaultBase": "main",
     "namedInputs": {
-        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "default": [
+            "{projectRoot}/**/*",
+            "sharedGlobals"
+        ],
         "production": [
             "default",
             "!{projectRoot}/eslint.config.mjs",
@@ -11,11 +14,15 @@
             "!{projectRoot}/jest.config.ts",
             "!{projectRoot}/test/**/*"
         ],
-        "sharedGlobals": ["{workspaceRoot}/.github/workflows/build.yml}"]
+        "sharedGlobals": [
+            "{workspaceRoot}/.github/workflows/build.yml}"
+        ]
     },
     "targetDefaults": {
         "test": {
-            "dependsOn": ["build"],
+            "dependsOn": [
+                "build"
+            ],
             "options": {
                 "passWithNoTests": true
             }
@@ -24,7 +31,9 @@
     "plugins": [
         {
             "plugin": "@nx/js/typescript",
-            "exclude": ["libs/api-shared/*"],
+            "exclude": [
+                "libs/api-shared/*"
+            ],
             "options": {
                 "build": {
                     "targetName": "build",
@@ -62,12 +71,15 @@
         },
         {
             "plugin": "@nx/js/typescript",
-            "include": ["libs/api-shared/*"],
+            "include": [
+                "libs/api-shared/*"
+            ],
             "options": {
                 "typecheck": {
                     "targetName": "typecheck"
                 }
             }
         }
-    ]
+    ],
+    "nxCloudId": "686d0bbba30b49e228878f47"
 }
