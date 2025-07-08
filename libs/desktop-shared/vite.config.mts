@@ -22,6 +22,7 @@ export default defineConfig(() => ({
             include: ['**'],
             provider: 'v8' as const,
             reporter: ['text-summary', 'html'],
+            reportOnFailure: true,
             reportsDirectory: '../../reports/libs/desktop-shared/coverage',
             // thresholds: {
             //     branches: 80,
