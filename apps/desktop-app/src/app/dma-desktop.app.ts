@@ -10,6 +10,8 @@ import { ControllerManager } from './ui';
 import { UpdateService } from './update';
 import { WebSocketService } from './web-socket';
 
+const allowedHosts = [`localhost.desktop-app.dnd-mapp.net`, 'localhost'];
+
 export class DmaDesktopApp {
     private static logService = LogService.withContext('DmaDesktopApp', true);
     private static controllerManager: ControllerManager;
@@ -41,7 +43,7 @@ export class DmaDesktopApp {
         app.on('certificate-error', (event, _webContents, url, _error, _certificate, callback) => {
             const parsedUrl = new URL(url);
 
-            if (parsedUrl.host.includes(`localhost.desktop-app.dnd-mapp.net`)) {
+            if (allowedHosts.includes(parsedUrl.host)) {
                 event.preventDefault();
                 callback(true);
                 return;
