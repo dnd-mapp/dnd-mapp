@@ -5,7 +5,7 @@ export default [
     ...nx.configs['flat/typescript'],
     ...nx.configs['flat/javascript'],
     {
-        ignores: ['**/dist', '**/prisma/client'],
+        ignores: ['**/dist', '**/prisma/client', '**/.msw'],
     },
     {
         files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
@@ -64,7 +64,7 @@ export default [
                         },
                         {
                             sourceTag: 'framework:angular',
-                            allowedExternalImports: ['@angular/*', 'rxjs'],
+                            allowedExternalImports: ['@angular/*', 'msw', 'msw/*', 'nanoid', 'rxjs'],
                         },
                         {
                             sourceTag: 'framework:electron',
