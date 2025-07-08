@@ -17,7 +17,7 @@ export default defineConfig(() => ({
         clearMocks: true,
         coverage: {
             enabled: true,
-            exclude: [...coverageConfigDefaults.exclude],
+            exclude: [...coverageConfigDefaults.exclude, '**/index.ts', '**/public_api.ts'],
             experimentalAstAwareRemapping: true,
             include: ['**'],
             provider: 'v8' as const,
