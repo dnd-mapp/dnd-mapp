@@ -1,8 +1,8 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/auth-server-client",
+    "name": "@dnd-mapp/auth-client",
     "projectType": "application",
-    "sourceRoot": "apps/auth-server-client/src",
+    "sourceRoot": "apps/auth-client/src",
     "prefix": "dma",
     "tags": ["framework:angular", "scope:client", "scope:ui"],
     "targets": {
@@ -14,20 +14,20 @@
                 "assets": [
                     {
                         "glob": "**/*",
-                        "input": "apps/auth-server-client/public"
+                        "input": "apps/auth-client/public"
                     }
                 ],
-                "browser": "apps/auth-server-client/src/main.ts",
+                "browser": "apps/auth-client/src/main.ts",
                 "inlineStyleLanguage": "scss",
-                "outputPath": "dist/apps/auth-server-client",
+                "outputPath": "dist/apps/auth-client",
                 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
-                "styles": ["apps/auth-server-client/src/styles.scss"],
+                "styles": ["apps/auth-client/src/styles.scss"],
                 "stylePreprocessorOptions": {
                     "sass": {
                         "silenceDeprecations": ["color-functions", "global-builtin", "import"]
                     }
                 },
-                "tsConfig": "apps/auth-server-client/tsconfig.app.json"
+                "tsConfig": "apps/auth-client/tsconfig.app.json"
             },
             "defaultConfiguration": "prod",
             "configurations": {
@@ -57,8 +57,8 @@
             "executor": "@angular/build:dev-server",
             "continuous": true,
             "options": {
-                "buildTarget": "@dnd-mapp/auth-server-client:build:dev",
-                "host": "localhost.auth.dnd-mapp.net",
+                "buildTarget": "@dnd-mapp/auth-client:build:dev",
+                "host": "localhost.auth-client.dnd-mapp.net",
                 "port": 7000,
                 "ssl": true,
                 "sslKey": "certificate-key.pem",
@@ -71,26 +71,26 @@
                 "assets": [
                     {
                         "glob": "**/*",
-                        "input": "apps/auth-server-client/public"
+                        "input": "apps/auth-client/public"
                     },
                     {
-                        "input": "apps/auth-server-client/.msw",
+                        "input": "apps/auth-client/.msw",
                         "glob": "mockServiceWorker.js",
                         "output": "./"
                     }
                 ],
                 "codeCoverage": true,
                 "inlineStyleLanguage": "scss",
-                "main": "apps/auth-server-client/test/setup-test.ts",
-                "karmaConfig": "apps/auth-server-client/karma.conf.js",
+                "main": "apps/auth-client/test/setup-test.ts",
+                "karmaConfig": "apps/auth-client/karma.conf.js",
                 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "stylePreprocessorOptions": {
                     "sass": {
                         "silenceDeprecations": ["color-functions", "global-builtin", "import"]
                     }
                 },
-                "styles": ["apps/auth-server-client/src/styles.scss"],
-                "tsConfig": "apps/auth-server-client/tsconfig.spec.json"
+                "styles": ["apps/auth-client/src/styles.scss"],
+                "tsConfig": "apps/auth-client/tsconfig.spec.json"
             },
             "defaultConfiguration": "ci",
             "configurations": {

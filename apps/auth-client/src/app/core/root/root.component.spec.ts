@@ -1,7 +1,7 @@
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Component, provideZonelessChangeDetection } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { RootHarness } from '@dnd-mapp/auth-server-client/testing';
+import { RootHarness } from '@dnd-mapp/auth-client/testing';
 import { RootComponent } from './root.component';
 
 describe('RootComponent', () => {

@@ -21,7 +21,7 @@
         "paths": {
             "@dnd-mapp/api-shared": ["libs/api-shared/src/public_api.ts"],
             "@dnd-mapp/auth": ["apps/auth/src/index.ts"],
-            "@dnd-mapp/auth-server-client/testing": ["apps/auth-server-client/test/index.ts"],
+            "@dnd-mapp/auth-client/testing": ["apps/auth-client/test/index.ts"],
             "@dnd-mapp/desktop-app-ui/testing": ["apps/desktop-app-ui/test/index.ts"],
             "@dnd-mapp/desktop-shared": ["libs/desktop-shared/src/public_api.ts"],
             "@dnd-mapp/shared": ["libs/shared/src/public_api.ts"],
