@@ -10,8 +10,8 @@ export class WebSocketService {
 
     private retryAttempts = 0;
 
-    private reconnectTimeoutId: number;
-    private pingTimeoutId: number;
+    private reconnectTimeoutId: ReturnType<typeof setTimeout>;
+    private pingTimeoutId: ReturnType<typeof setInterval>;
     private isAlive = true;
 
     private webSocketClientId: string;
