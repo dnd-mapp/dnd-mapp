@@ -111,6 +111,7 @@
         "karma-coverage": "~2.2.0",
         "karma-jasmine": "~5.1.0",
         "karma-jasmine-html-reporter": "~2.1.0",
+        "msw": "~2.10.0",
         "node-jose": "~2.2.0",
         "nx": "~21.2.0",
         "nx-electron": "~21.0.0",
