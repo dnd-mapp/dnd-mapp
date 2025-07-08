@@ -86,6 +86,7 @@
                 "codeCoverage": true,
                 "inlineStyleLanguage": "scss",
                 "karmaConfig": "apps/desktop-app-ui/karma.conf.js",
+                "main": "apps/desktop-app-ui/test/setup-test.ts",
                 "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
                 "styles": ["apps/desktop-app-ui/src/styles.scss"],
                 "stylePreprocessorOptions": {
