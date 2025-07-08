@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { WebSocketStatusComponent } from '../web-socket';
+import { WebSocketService } from '../web-socket/web-socket.service';
 
 @Component({
     selector: 'dma-root',
@@ -8,4 +9,10 @@ import { WebSocketStatusComponent } from '../web-socket';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [WebSocketStatusComponent],
 })
-export class RootComponent {}
+export class RootComponent implements OnDestroy {
+    private readonly webSocketService = inject(WebSocketService);
+
+    public ngOnDestroy() {
+        this.webSocketService.stopRetryConnection();
+    }
+}

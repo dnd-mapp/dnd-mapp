@@ -22,6 +22,12 @@ export class WebSocketService {
         this.connect();
     }
 
+    public stopRetryConnection() {
+        if (!this.reconnectTimeoutId) return;
+        clearTimeout(this.reconnectTimeoutId);
+        this.reconnectTimeoutId = null;
+    }
+
     public connect() {
         if (this.status() !== WebSocketClientStatuses.CONNECTING) this.status.set('Connecting');
 
