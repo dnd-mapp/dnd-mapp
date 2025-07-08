@@ -24,9 +24,8 @@ export class WebSocketService {
 
     public connect() {
         if (this.status() !== WebSocketClientStatuses.CONNECTING) this.status.set('Connecting');
-        this.retryAttempts++;
 
-        const timeoutTime = 1_000 + 1_500 * this.retryAttempts;
+        const timeoutTime = 1_000 + 1_500 * this.retryAttempts++;
 
         console.log(`Connecting in ${msToS(timeoutTime)} seconds...`);
 
