@@ -61,7 +61,12 @@
             "unitTestRunner": "none"
         },
         "@nx/angular:component": {
-            "changeDetection": "OnPush"
+            "changeDetection": "OnPush",
+            "style": "scss"
+        },
+        "@nx/angular:library": {
+            "linter": "eslint",
+            "unitTestRunner": "none"
         }
     }
 }

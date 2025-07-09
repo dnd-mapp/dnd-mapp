@@ -24,12 +24,14 @@
         "format:write": "npx prettier -w **/*"
     },
     "dependencies": {
+        "@angular/animations": "~20.0.0",
         "@angular/cdk": "~20.0.0",
         "@angular/common": "~20.0.0",
         "@angular/compiler": "~20.0.0",
         "@angular/core": "~20.0.0",
         "@angular/forms": "~20.0.0",
         "@angular/platform-browser": "~20.0.0",
+        "@angular/platform-browser-dynamic": "~20.0.0",
         "@angular/router": "~20.0.0",
         "@fastify/cookie": "~11.0.0",
         "@grpc/grpc-js": "~1.13.0",
