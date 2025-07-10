@@ -14,14 +14,8 @@
         "seed": "ts-node --transpile-only prisma/seed.ts"
     },
     "scripts": {
-        "postinstall": "electron-builder install-app-deps",
         "nx": "npx nx",
-        "clean": "npx ts-node tools/clean.ts",
-        "build": "npx nx run-many -t build",
-        "test": "npx nx run-many -t test",
-        "lint": "npx nx run-many -t lint",
-        "format:check": "npx prettier -l **/*",
-        "format:write": "npx prettier -w **/*"
+        "clean": "npx ts-node tools/clean.ts"
     },
     "dependencies": {
         "@angular/animations": "~20.0.0",
