@@ -1,0 +1,22 @@
+name: Setup Node.js
+description: Sets up Node.js
+inputs:
+    install-dependencies:
+        description: Whether to install the project dependencies on setup
+        required: false
+        default: 'true'
+runs:
+    using: composite
+    steps:
+        - name: Setup Node.js
+          uses: actions/setup-node@v4
+          with:
+              node-version-file: '.nvmrc'
+              cache: 'npm'
+              cache-dependency-path: './package-lock.json'
+              registry-url: 'https://npm.pkg.github.com'
+              scope: '@dnd-mapp'
+        - name: Install dependencies
+          if: ${{ inputs.install-dependencies == 'true' }}
+          run: npm ci
+          shell: sh

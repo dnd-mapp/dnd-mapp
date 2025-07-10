@@ -1,0 +1,22 @@
+name: Generate Auth token
+description: Uses the DnD-Mapp GitHub Authentication App to generate a token for authenticating and authorizing Git actions.
+inputs:
+    app-id:
+        description: The App ID of the app to generate the token with
+        required: true
+    private-key:
+        description: The private key to grant authorization to generate the token
+        required: true
+outputs:
+    token:
+        description: The authentication token
+        value: ${{ steps.generate-token.outputs.token }}
+runs:
+    using: composite
+    steps:
+        - name: Generate token
+          id: generate-token
+          uses: actions/create-github-app-token@v2
+          with:
+              app-id: ${{ inputs.app-id }}
+              private-key: ${{ inputs.private-key }}

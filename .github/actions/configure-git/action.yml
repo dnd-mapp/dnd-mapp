@@ -1,0 +1,10 @@
+name: Configure Git
+description: Configures the Git user to point to a GitHub Actions bot user.
+runs:
+    using: composite
+    steps:
+        - name: Configure Git
+          shell: bash
+          run: |
+              git config user.name "dnd-mapp-github-authentication-app"
+              git config user.email "actions@github.com"

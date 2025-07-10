@@ -1,0 +1,53 @@
+name: Generate Docker image metadata
+description: Generates metadata for the Docker image
+inputs:
+    release-tags:
+        description: Should tags be generated for the release
+        required: true
+    image-name:
+        description: The name of the Docker image
+        required: true
+outputs:
+    tags:
+        description: The generated Docker image tags
+        value: ${{ steps.setup-metadata-edge.outputs.tags || steps.setup-metadata-release.outputs.tags }}
+    labels:
+        description: The generated Docker image labels
+        value: ${{ steps.setup-metadata-edge.outputs.labels || steps.setup-metadata-release.outputs.labels }}
+    version:
+        description: The generated Docker image version
+        value: ${{ steps.setup-metadata-edge.outputs.version || steps.setup-metadata-release.outputs.version }}
+    annotataions:
+        description: The generated Docker image annotations
+        value: ${{ steps.setup-metadata-edge.outputs.annotations || steps.setup-metadata-release.outputs.annotations }}
+runs:
+    using: composite
+    steps:
+        - name: Set up Docker metadata for edge
+          id: setup-metadata-edge
+          if: ${{ inputs.release-tags == 'false' }}
+          uses: docker/metadata-action@v5
+          with:
+              images: ${{ inputs.image-name }}
+              tags: |
+                  type=schedule,enable=false
+                  type=ref,event=branch,enable=false
+                  type=ref,event=tag,enable=false
+                  type=ref,event=pr,enable=false
+                  type=raw,value=latest,enable=false
+                  type=raw,value=edge
+        - name: Set up Docker metadata for release
+          id: setup-metadata-release
+          if: ${{ inputs.release-tags == 'true' }}
+          uses: docker/metadata-action@v5
+          with:
+              images: ${{ inputs.image-name }}
+              tags: |
+                  type=schedule,enable=false
+                  type=ref,event=branch,enable=false
+                  type=ref,event=tag,enable=false
+                  type=ref,event=pr,enable=false
+                  type=semver,pattern={{major}}
+                  type=semver,pattern={{major}}.{{minor}}
+                  type=semver,pattern={{version}}
+                  type=raw,value=latest
