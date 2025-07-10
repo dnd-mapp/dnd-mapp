@@ -1,7 +1,7 @@
 {
+    "name": "@dnd-mapp/shared-desktop-app",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "library",
-    "name": "@dnd-mapp/desktop-shared",
     "sourceRoot": "libs/shared/src",
     "tags": ["scope:shared", "scope:desktop-app"],
     "targets": {

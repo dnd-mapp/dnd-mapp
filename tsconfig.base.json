@@ -22,9 +22,9 @@
             "@dnd-mapp/auth": ["apps/auth/src/index.ts"],
             "@dnd-mapp/auth-client/testing": ["apps/auth-client/test/index.ts"],
             "@dnd-mapp/desktop-app-ui/testing": ["apps/desktop-app-ui/test/index.ts"],
-            "@dnd-mapp/desktop-shared": ["libs/desktop-shared/src/public_api.ts"],
             "@dnd-mapp/shared": ["libs/shared/src/public_api.ts"],
             "@dnd-mapp/shared-api": ["libs/shared-api/src/public_api.ts"],
+            "@dnd-mapp/shared-desktop-app": ["libs/shared-desktop-app/src/public_api.ts"],
             "@dnd-mapp/users": ["apps/users/src/index.ts"]
         },
         "rootDir": ".",
