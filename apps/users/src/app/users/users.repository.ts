@@ -1,4 +1,4 @@
-import { CreateUserRequest, UpdateEmailData, UpdatePasswordData, UpdateUserData, User } from '@dnd-mapp/api-shared';
+import { CreateUserRequest, UpdateEmailData, UpdatePasswordData, UpdateUserData, User } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { DatabaseService } from '../database';

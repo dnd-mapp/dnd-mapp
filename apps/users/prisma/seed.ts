@@ -1,4 +1,4 @@
-import { AccountStatuses } from '@dnd-mapp/api-shared';
+import { AccountStatuses } from '@dnd-mapp/shared-api';
 import { PrismaClient } from './client';
 
 let prismaClient: PrismaClient;

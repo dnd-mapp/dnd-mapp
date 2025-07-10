@@ -7,7 +7,7 @@ import {
     USER_CLIENT_NAME,
     USER_SERVICE_NAME,
     type UsersServiceConsumer as UsersService,
-} from '@dnd-mapp/api-shared';
+} from '@dnd-mapp/shared-api';
 import {
     Body,
     ClassSerializerInterceptor,

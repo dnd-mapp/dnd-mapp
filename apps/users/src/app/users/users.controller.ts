@@ -8,7 +8,7 @@ import {
     UpdatePasswordRequest,
     UpdateUserRequest,
     USER_SERVICE_NAME,
-} from '@dnd-mapp/api-shared';
+} from '@dnd-mapp/shared-api';
 import type { ServerUnaryCall } from '@grpc/grpc-js';
 import { Metadata } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';

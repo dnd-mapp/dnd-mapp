@@ -1,14 +1,14 @@
 {
-    "name": "@dnd-mapp/api-shared",
+    "name": "@dnd-mapp/shared-api",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "libs/api-shared/src",
+    "sourceRoot": "libs/shared-api/src",
     "projectType": "library",
     "tags": ["scope:shared", "framework:nest", "framework:node"],
     "targets": {
         "test": {
             "executor": "@nx/jest:jest",
             "options": {
-                "jestConfig": "libs/api-shared/jest.config.ts",
+                "jestConfig": "libs/shared-api/jest.config.ts",
                 "passWithNoTests": true
             },
             "defaultConfiguration": "ci",

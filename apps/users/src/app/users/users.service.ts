@@ -10,7 +10,7 @@ import {
     UpdateUserData,
     User,
     UsersServiceProducer,
-} from '@dnd-mapp/api-shared';
+} from '@dnd-mapp/shared-api';
 import { status } from '@grpc/grpc-js';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
