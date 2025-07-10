@@ -5,6 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/apps/auth/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/apps/desktop-app-ui/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/apps/auth-server-client/test" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/apps/auth-client/test" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/.tmp" />
       <excludeFolder url="file://$MODULE_DIR$/temp" />

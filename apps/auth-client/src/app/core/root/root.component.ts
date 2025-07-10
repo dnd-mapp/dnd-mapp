@@ -1,18 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { WebSocketStatusComponent } from '../web-socket';
-import { WebSocketService } from '../web-socket/web-socket.service';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
     selector: 'dma-root',
     templateUrl: './root.component.html',
     styleUrl: './root.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [WebSocketStatusComponent],
+    imports: [RouterOutlet],
 })
-export class RootComponent implements OnDestroy {
-    private readonly webSocketService = inject(WebSocketService);
-
-    public ngOnDestroy() {
-        this.webSocketService.stopRetryConnection();
-    }
-}
+export class RootComponent {}

@@ -17,6 +17,7 @@
                         "input": "apps/auth-client/public"
                     }
                 ],
+                "baseHref": "/app/",
                 "browser": "apps/auth-client/src/main.ts",
                 "inlineStyleLanguage": "scss",
                 "outputPath": "dist/apps/auth-client",
