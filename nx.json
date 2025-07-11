@@ -8,17 +8,30 @@
             "default",
             "!{projectRoot}/eslint.config.mjs",
             "!{projectRoot}/**/*.spec.ts",
+            "!{projectRoot}/test/**/*",
             "!{projectRoot}/tsconfig.spec.json",
             "!{projectRoot}/jest.config.ts",
-            "!{projectRoot}/test/**/*"
+            "!{projectRoot}/karma.conf.js",
+            "!{projectRoot}/**/*.stories.ts",
+            "!{projectRoot}/**/*.mdx",
+            "!{projectRoot}/.storybook/**/*"
         ],
-        "sharedGlobals": ["{workspaceRoot}/.github/workflows/build.yml}"]
+        "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml}"]
     },
     "targetDefaults": {
         "@angular/build:application": {
             "cache": true,
             "dependsOn": ["^build"],
             "inputs": ["production", "^production"]
+        },
+        "@nx/angular:ng-packagr-lite": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
+        },
+        "build-storybook": {
+            "cache": true,
+            "inputs": ["default", "^production", "{projectRoot}/.storybook/**/*"]
         }
     },
     "plugins": [
