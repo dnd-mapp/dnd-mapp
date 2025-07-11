@@ -64,7 +64,16 @@ export default [
                         },
                         {
                             sourceTag: 'framework:angular',
-                            allowedExternalImports: ['@angular/*', 'msw', 'msw/*', 'nanoid', 'rxjs'],
+                            allowedExternalImports: [
+                                '@angular/*',
+                                '@storybook/*',
+                                'msw',
+                                'msw/*',
+                                'nanoid',
+                                'rxjs',
+                                'storybook/*',
+                                'webpack',
+                            ],
                         },
                         {
                             sourceTag: 'framework:electron',
