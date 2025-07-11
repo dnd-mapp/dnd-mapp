@@ -1,0 +1,7 @@
+<div class="button-content" [style.width.em]="contentWidth()">
+    <dma-icon dma-spinner-icon [class.shown]="processing()" />
+    <span #content [class.hidden]="processing()">
+        <ng-content select="dma-leading-button-icon" />
+        <ng-content />
+    </span>
+</div>

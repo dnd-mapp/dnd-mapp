@@ -1,0 +1,6 @@
+@use '../../../../styles/theme-variables' as *;
+
+:host {
+    display: block;
+    border-bottom: 1px solid $on-background;
+}

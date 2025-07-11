@@ -1,0 +1,9 @@
+@use '../../../../styles/theme-variables' as *;
+
+:host {
+    flex: 1 1 auto;
+    display: block;
+    padding: 0.6rem;
+    border-top: 0.1rem $on-surface solid;
+    border-bottom: 0.1rem $on-surface solid;
+}

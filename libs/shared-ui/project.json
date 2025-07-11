@@ -1,0 +1,111 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "@dnd-mapp/shared-ui",
+    "projectType": "library",
+    "sourceRoot": "libs/shared-ui/src",
+    "prefix": "dma",
+    "tags": ["scope:shared", "scope:ui", "framework:angular"],
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:ng-packagr-lite",
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "options": {
+                "project": "libs/shared-ui/ng-package.json"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "tsConfig": "libs/shared-ui/tsconfig.lib.prod.json"
+                },
+                "dev": {
+                    "tsConfig": "libs/shared-ui/tsconfig.lib.json",
+                    "watch": true
+                }
+            }
+        },
+        "test": {
+            "executor": "@angular/build:karma",
+            "options": {
+                "assets": [
+                    {
+                        "input": "libs/shared-ui/styles",
+                        "glob": "**/*"
+                    }
+                ],
+                "codeCoverage": true,
+                "inlineStyleLanguage": "scss",
+                "karmaConfig": "libs/shared-ui/karma.conf.js",
+                "scripts": [],
+                "styles": ["libs/shared-ui/styles/main.scss"],
+                "tsConfig": "libs/shared-ui/tsconfig.spec.json"
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "watch": false
+                },
+                "dev": {
+                    "watch": true
+                }
+            }
+        },
+        "build-storybook": {
+            "executor": "@storybook/angular:build-storybook",
+            "outputs": ["{options.outputDir}"],
+            "options": {
+                "assets": ["libs/shared-ui/src/**/*.svg"],
+                "browserTarget": "@dnd-mapp/shared-ui:build-storybook",
+                "compodoc": false,
+                "configDir": "libs/shared-ui/.storybook",
+                "experimentalZoneless": true,
+                "outputDir": "dist/storybook/shared-ui",
+                "styles": ["libs/shared-ui/.storybook/styles.scss"]
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "dev": {
+                    "sourceMap": true
+                },
+                "ci": {
+                    "quiet": true
+                }
+            }
+        },
+        "storybook": {
+            "executor": "@storybook/angular:start-storybook",
+            "options": {
+                "assets": ["libs/shared-ui/src/**/*.svg"],
+                "browserTarget": "@dnd-mapp/shared-ui:build-storybook",
+                "configDir": "libs/shared-ui/.storybook",
+                "compodoc": false,
+                "enableProdMode": true,
+                "experimentalZoneless": true,
+                "open": false,
+                "port": 8000,
+                "styles": ["libs/shared-ui/.storybook/styles.scss"]
+            },
+            "defaultConfiguration": "dev",
+            "configurations": {
+                "ci": {
+                    "ci": true,
+                    "quiet": true
+                },
+                "dev": {
+                    "host": "localhost.shared-ui.dnd-mapp.net",
+                    "https": true,
+                    "sslCert": "certificate.pem",
+                    "sslKey": "certificate-key.pem"
+                }
+            }
+        },
+        "test-storybook": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "test-storybook -c libs/shared-ui/.storybook --url http://localhost:6000"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}

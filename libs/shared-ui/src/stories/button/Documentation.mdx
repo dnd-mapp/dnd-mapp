@@ -1,0 +1,38 @@
+import { Canvas, Controls, Meta, Subtitle, Title } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './button.stories';
+
+<Meta of={ButtonStories} />
+
+<Title>Button</Title>
+<Subtitle>A button is the primary way to interact with the platform.</Subtitle>
+
+Below you can find the most basic implementation:
+
+#### Default
+
+<Canvas of={ButtonStories.Default} />
+<Controls of={ButtonStories.Default} />
+
+More examples below:
+
+#### Disabled
+
+<Canvas of={ButtonStories.Disabled} />
+
+#### Processing
+
+<Canvas of={ButtonStories.Processing} />
+
+#### Primary
+
+<Canvas of={ButtonStories.Primary} />
+
+#### Dangerous
+
+<Canvas of={ButtonStories.Dangerous} />
+
+#### With a leading icon
+
+You can insert an icon in front of the button's label like so:
+
+<Canvas of={ButtonStories.WithLeadingIcon} />

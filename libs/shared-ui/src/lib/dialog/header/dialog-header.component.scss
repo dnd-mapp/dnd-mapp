@@ -1,0 +1,12 @@
+@use '../../../../styles/theme-variables' as *;
+
+:host {
+    flex: 0 0 auto;
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem;
+    }
+}

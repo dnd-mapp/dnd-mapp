@@ -1,0 +1,22 @@
+{
+    "extends": "../../tsconfig.base.json",
+    "references": [{ "path": "./tsconfig.lib.json" }, { "path": "./.storybook/tsconfig.json" }],
+    "files": [],
+    "include": [],
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "module": "preserve",
+        "moduleResolution": "bundler",
+        "target": "ES2024"
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictMetadataEmit": true,
+        "strictStandalone": true,
+        "strictTemplates": true,
+        "typeCheckHostBindings": true
+    }
+}

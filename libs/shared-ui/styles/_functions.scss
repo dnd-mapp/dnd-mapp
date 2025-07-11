@@ -1,0 +1,9 @@
+@use 'sass:color';
+
+@function hover($color) {
+    @return color.scale($color, $lightness: 5%);
+}
+
+@function active($color) {
+    @return color.scale($color, $lightness: -5%);
+}

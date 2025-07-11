@@ -1,0 +1,85 @@
+@use '../../../styles/theme-variables' as *;
+
+:host {
+    background-color: $surface;
+    color: $on-surface;
+    border-radius: $border-radius;
+    padding: 0.5rem 1rem;
+    border: 1px solid $surface;
+
+    font: inherit;
+
+    &[dma-button='primary'] {
+        background-color: $primary;
+        border-color: $primary;
+        color: $on-primary;
+    }
+
+    &[dma-button='danger'] {
+        background-color: $danger;
+        border-color: $danger;
+        color: $on-danger;
+    }
+
+    &:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: $surface-hover;
+        border-color: $surface-hover;
+
+        &[dma-button='primary'] {
+            background-color: $primary-hover;
+            border-color: $primary-hover;
+        }
+
+        &[dma-button='danger'] {
+            background-color: $danger-hover;
+            border-color: $danger-hover;
+        }
+    }
+
+    &:active:not(:disabled) {
+        cursor: pointer;
+        background-color: $surface-active;
+        border-color: $surface-active;
+
+        &[dma-button='primary'] {
+            background-color: $primary-active;
+            border-color: $primary-active;
+        }
+
+        &[dma-button='danger'] {
+            background-color: $danger-active;
+            border-color: $danger-active;
+        }
+    }
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.5;
+    }
+
+    .button-content {
+        display: flex;
+        justify-content: center;
+        height: 1em;
+        gap: 0.6rem;
+
+        span {
+            display: flex;
+            gap: 0.6rem;
+            width: 100%;
+
+            &.hidden {
+                display: none;
+            }
+        }
+
+        dma-icon[dma-spinner-icon] {
+            display: none;
+
+            &.shown {
+                display: block;
+            }
+        }
+    }
+}

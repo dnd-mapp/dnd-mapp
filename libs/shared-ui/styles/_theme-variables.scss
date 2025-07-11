@@ -1,0 +1,41 @@
+@use 'colors';
+@use 'functions' as *;
+
+$font-size: var(--font-size, 100%);
+
+$font-family: var(--font-family, 'Roboto', sans-serif);
+
+$fw-regular: var(--fw-regular, 400);
+$fw-bold: var(--fw-bold, 600);
+
+$icon-size: var(--icon-size, 1rem);
+$border-radius: var(--border-radius, 0.4rem);
+$opacity-disabled: var(--opacity-disabled, 0.333);
+
+$background: var(--background, colors.$gray04);
+$on-background: var(--on-background, colors.$gray19);
+
+$inverse-background: var(--inverse-background, colors.$gray19);
+$on-inverse-background: var(--on-inverse-background, colors.$gray01);
+
+$surface: var(--surface, colors.$gray05);
+$surface-hover: var(--surface-hover, hover(colors.$gray05));
+$surface-active: var(--surface-active, active(colors.$gray05));
+$on-surface: var(--on-surface, colors.$gray19);
+$on-surface-dim: var(--on-surface-dim, colors.$gray10);
+
+$primary: var(--primary, colors.$blue13);
+$primary-hover: var(--primary-hover, hover(colors.$blue13));
+$primary-active: var(--primary-active, active(colors.$blue13));
+$on-primary: var(--on-primary, colors.$gray19);
+
+$danger: var(--danger, colors.$red09);
+$danger-hover: var(--danger-hover, hover(colors.$red09));
+$danger-active: var(--danger-active, active(colors.$red09));
+$on-danger: var(--on-danger, colors.$gray19);
+
+$warning: var(--warning, colors.$orange);
+$on-warning: var(--on-warning, colors.$gray01);
+
+$success: var(--success, colors.$green07);
+$on-success: var(--on-success, colors.$gray19);

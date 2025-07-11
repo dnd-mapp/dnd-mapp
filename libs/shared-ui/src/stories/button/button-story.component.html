@@ -1,0 +1,6 @@
+<button [dma-button]="buttonType()" [processing]="processing()" [disabled]="disabled()" (click)="click()">
+    @if (withIcon()) {
+        <dma-icon dma-pen-to-square-icon ngProjectAs="dma-leading-button-icon" />
+    }
+    {{ label() }}
+</button>

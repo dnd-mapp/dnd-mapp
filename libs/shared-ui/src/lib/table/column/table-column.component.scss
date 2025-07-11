@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0.5rem;
+    white-space: nowrap;
+
+    &.align-end {
+        justify-content: flex-end;
+    }
+
+    &.align-center {
+        justify-content: center;
+    }
+}

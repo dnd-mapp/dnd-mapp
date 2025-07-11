@@ -1,0 +1,34 @@
+<label class="input-container">
+    @if (hasLeadingIcon()) {
+        <div class="leading-icon-container">
+            <ng-content select="dma-icon" />
+        </div>
+    }
+    <input
+        #input
+        [type]="type()"
+        [value]="_value()"
+        [disabled]="_disabled()"
+        [readOnly]="readonly()"
+        [placeholder]="placeholder()"
+        [autocomplete]="autocomplete()"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        (input)="onInput(input.value)"
+    />
+    <span class="label-contents" [@floatingLabel]="floatingLabelState()">
+        {{ label() }}
+        @if (isRequired) {
+            <span class="required-symbol">*</span>
+        }
+    </span>
+    @if (hasErrors()) {
+        <dma-icon dma-circle-exclamation-icon />
+    }
+</label>
+
+@let message = errorMessage;
+
+@if (message) {
+    <p class="error-message">{{ message }}</p>
+}
