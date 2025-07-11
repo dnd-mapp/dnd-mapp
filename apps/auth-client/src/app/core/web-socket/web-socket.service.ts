@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { DEFAULT_WEB_SOCKET_PORT, WebSocketMessageTypes } from '@dnd-mapp/desktop-shared';
+import { DEFAULT_WEB_SOCKET_PORT, WebSocketMessageTypes } from '@dnd-mapp/shared-desktop-app';
 import { MAX_RETRY_ATTEMPTS, msToS, PING_TIMEOUT, WebSocketClientStatus, WebSocketClientStatuses } from './models';
 
 @Injectable({ providedIn: 'root' })
