@@ -71,7 +71,7 @@ Ensure that you have the following requirements prepared:
     - Generate the certificate and key with the following command:
 
       ```bash
-      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.auth.dndmapp.net localhost
+      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.shared-ui.dnd-mapp.net localhost.auth.dnd-mapp.net localhost.api.dnd-mapp.net localhost.desktop-app.dnd-mapp.net localhost.dnd-mapp.net localhost
       ```
 
 5. Add the `localhost.auth.dndmapp.net` host name to the hosts file on your machine.
