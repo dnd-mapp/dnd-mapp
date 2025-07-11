@@ -3,7 +3,7 @@ import {
     WebSocketMessageData,
     WebSocketMessageType,
     WebSocketMessageTypes,
-} from '@dnd-mapp/desktop-shared';
+} from '@dnd-mapp/shared-desktop-app';
 import { nanoid } from 'nanoid';
 import { RawData, WebSocket } from 'ws';
 import { LogService } from '../logging';

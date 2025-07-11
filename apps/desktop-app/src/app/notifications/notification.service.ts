@@ -1,4 +1,4 @@
-import { DmaDesktopAppEvents, NotificationData } from '@dnd-mapp/desktop-shared';
+import { DmaDesktopAppEvents, NotificationData } from '@dnd-mapp/shared-desktop-app';
 import { ipcMain, Notification } from 'electron';
 import { LogService } from '../logging';
 import { getIcon } from '../utils';

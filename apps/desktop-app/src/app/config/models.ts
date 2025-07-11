@@ -8,7 +8,7 @@ import {
     MIN_WEB_SOCKET_PORT,
     SeverityLevel,
     SeverityLevels,
-} from '@dnd-mapp/desktop-shared';
+} from '@dnd-mapp/shared-desktop-app';
 import { plainToInstance } from 'class-transformer';
 import { IsEnum, IsInt, IsNotEmpty, IsNumber, IsString, Max, Min } from 'class-validator';
 

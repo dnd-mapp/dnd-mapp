@@ -1,4 +1,4 @@
-import { DEFAULT_WEB_SOCKET_PORT } from '@dnd-mapp/desktop-shared';
+import { DEFAULT_WEB_SOCKET_PORT } from '@dnd-mapp/shared-desktop-app';
 
 let mockWebSocketPort = DEFAULT_WEB_SOCKET_PORT;
 

@@ -1,4 +1,4 @@
-import { DmaDesktopAppEvents } from '@dnd-mapp/desktop-shared';
+import { DmaDesktopAppEvents } from '@dnd-mapp/shared-desktop-app';
 import { ipcMain } from 'electron';
 import { createServer as createHttpServer, Server as HttpServer } from 'http';
 import { createServer as createHttpsServer, Server as HttpsServer } from 'https';

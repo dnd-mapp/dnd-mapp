@@ -21,7 +21,7 @@ module.exports = {
     //     },
     // },
     moduleNameMapper: {
-        '@dnd-mapp/api-shared': ['libs/api-shared/src/public_api.ts'],
+        '@dnd-mapp/shared-api': ['libs/shared-api/src/public_api.ts'],
     },
     randomize: true,
     showSeed: true,

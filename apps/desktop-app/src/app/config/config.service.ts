@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, DEFAULT_LOG_LEVEL, DEFAULT_WEB_SOCKET_PORT } from '@dnd-mapp/desktop-shared';
+import { DEFAULT_LOCALE, DEFAULT_LOG_LEVEL, DEFAULT_WEB_SOCKET_PORT } from '@dnd-mapp/shared-desktop-app';
 import { instanceToInstance, plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
 import { app } from 'electron';

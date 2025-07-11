@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Locale, MAX_WEB_SOCKET_PORT, MIN_WEB_SOCKET_PORT, SeverityLevel } from '@dnd-mapp/desktop-shared';
+import { Locale, MAX_WEB_SOCKET_PORT, MIN_WEB_SOCKET_PORT, SeverityLevel } from '@dnd-mapp/shared-desktop-app';
 import { combineLatestWith, from } from 'rxjs';
 import { DESKTOP_APP_API } from '../core/api';
 import { TranslatePipe } from '../localisation';

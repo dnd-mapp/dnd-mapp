@@ -5,7 +5,7 @@ import {
     SeverityLevel,
     SeverityLevels,
     SeverityPriorityLevel,
-} from '@dnd-mapp/desktop-shared';
+} from '@dnd-mapp/shared-desktop-app';
 import { ipcMain } from 'electron';
 import { ConfigService } from '../config';
 import { ConsoleLogger } from './loggers';

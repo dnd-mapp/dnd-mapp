@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { DMA_DESKTOP_APP_API_NAMESPACE, DmaDesktopAppApi } from '@dnd-mapp/desktop-shared';
+import { DMA_DESKTOP_APP_API_NAMESPACE, DmaDesktopAppApi } from '@dnd-mapp/shared-desktop-app';
 
 export const DESKTOP_APP_API = new InjectionToken<DmaDesktopAppApi>('DESKTOP_APP_API', {
     providedIn: 'root',

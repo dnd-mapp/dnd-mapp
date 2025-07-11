@@ -1,4 +1,4 @@
-import { DMA_DESKTOP_APP_API_NAMESPACE, DmaDesktopAppApi } from '@dnd-mapp/desktop-shared';
+import { DMA_DESKTOP_APP_API_NAMESPACE, DmaDesktopAppApi } from '@dnd-mapp/shared-desktop-app';
 
 declare global {
     interface Window {

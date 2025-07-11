@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { TranslationKey } from '@dnd-mapp/desktop-shared';
+import { TranslationKey } from '@dnd-mapp/shared-desktop-app';
 import { TranslationService } from './translation.service';
 
 @Pipe({

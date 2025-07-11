@@ -1,5 +1,5 @@
 import { inject, Injectable, linkedSignal, signal } from '@angular/core';
-import { TranslationKey, Translations } from '@dnd-mapp/desktop-shared';
+import { TranslationKey, Translations } from '@dnd-mapp/shared-desktop-app';
 import { from, Subscription, tap } from 'rxjs';
 import { DESKTOP_APP_API } from '../core/api';
 

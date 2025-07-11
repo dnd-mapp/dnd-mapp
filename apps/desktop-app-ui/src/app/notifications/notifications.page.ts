@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NotificationData } from '@dnd-mapp/desktop-shared';
+import { NotificationData } from '@dnd-mapp/shared-desktop-app';
 import { from } from 'rxjs';
 import { DESKTOP_APP_API } from '../core/api';
 import { TranslatePipe } from '../localisation';

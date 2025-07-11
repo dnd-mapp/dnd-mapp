@@ -23,7 +23,7 @@ export default defineConfig(() => ({
             provider: 'v8' as const,
             reporter: ['text-summary', 'html'],
             reportOnFailure: true,
-            reportsDirectory: '../../reports/libs/desktop-shared/coverage',
+            reportsDirectory: '../../reports/libs/shared-desktop-app/coverage',
             // thresholds: {
             //     branches: 80,
             //     functions: 80,
@@ -34,11 +34,11 @@ export default defineConfig(() => ({
         environment: 'node',
         globals: true,
         include: ['src/**/*.spec.ts'],
-        name: '@dnd-mapp/desktop-shared',
+        name: '@dnd-mapp/shared-desktop-app',
         passWithNoTests: true,
         reporters: [
             'dot',
-            ['html', { outputFile: '../../reports/libs/desktop-shared/index.html' }],
+            ['html', { outputFile: '../../reports/libs/shared-desktop-app/index.html' }],
         ] as InlineConfig['reporters'],
         setupFiles: [] as string[],
         sequence: {

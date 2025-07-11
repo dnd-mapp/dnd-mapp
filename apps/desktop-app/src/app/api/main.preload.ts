@@ -6,7 +6,7 @@ import {
     NotificationData,
     SeverityLevel,
     Translations,
-} from '@dnd-mapp/desktop-shared';
+} from '@dnd-mapp/shared-desktop-app';
 import { contextBridge, ipcRenderer } from 'electron';
 
 const desktopAppApi: DmaDesktopAppApi = {

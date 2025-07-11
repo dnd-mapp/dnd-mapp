@@ -1,4 +1,4 @@
-import { SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
+import { SeverityLevel, SeverityLevels } from '@dnd-mapp/shared-desktop-app';
 
 let mockedLogLevel: SeverityLevel = SeverityLevels.INFO;
 

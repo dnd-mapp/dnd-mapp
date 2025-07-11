@@ -1,4 +1,4 @@
-import { DmaDesktopAppEvents, Locale, TranslationKey, Translations } from '@dnd-mapp/desktop-shared';
+import { DmaDesktopAppEvents, Locale, TranslationKey, Translations } from '@dnd-mapp/shared-desktop-app';
 import { ipcMain } from 'electron';
 import { join } from 'path';
 import { Subject } from 'rxjs';

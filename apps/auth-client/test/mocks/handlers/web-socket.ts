@@ -1,4 +1,4 @@
-import { WebSocketMessageTypes } from '@dnd-mapp/desktop-shared';
+import { WebSocketMessageTypes } from '@dnd-mapp/shared-desktop-app';
 import { ws } from 'msw';
 import { nanoid } from 'nanoid';
 

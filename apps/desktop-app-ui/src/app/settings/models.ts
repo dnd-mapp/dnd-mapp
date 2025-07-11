@@ -1,4 +1,4 @@
-import { Locale, Locales, SeverityLevel, SeverityLevels } from '@dnd-mapp/desktop-shared';
+import { Locale, Locales, SeverityLevel, SeverityLevels } from '@dnd-mapp/shared-desktop-app';
 
 interface SettingOption<T> {
     label: string;

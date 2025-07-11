@@ -1,4 +1,4 @@
-import { Locale, Locales, Translations } from '@dnd-mapp/desktop-shared';
+import { Locale, Locales, Translations } from '@dnd-mapp/shared-desktop-app';
 
 let mockedLocale: Locale = Locales.EN_US;
 

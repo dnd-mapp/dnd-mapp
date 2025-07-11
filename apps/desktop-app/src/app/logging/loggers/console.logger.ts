@@ -1,4 +1,4 @@
-import { SeverityLevels } from '@dnd-mapp/desktop-shared';
+import { SeverityLevels } from '@dnd-mapp/shared-desktop-app';
 import { ConsoleFunctionPerSeverityLevel, LogData, Logger, SeverityColors } from '../models';
 
 export class ConsoleLogger implements Logger {

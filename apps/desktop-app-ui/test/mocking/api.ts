@@ -5,7 +5,7 @@ import {
     SeverityLevel,
     Translations,
     UnSubscriber,
-} from '@dnd-mapp/desktop-shared';
+} from '@dnd-mapp/shared-desktop-app';
 import { getLoggingLevel, resetLogLevel, setLogLevel } from './logging';
 import {
     getMockLocale,

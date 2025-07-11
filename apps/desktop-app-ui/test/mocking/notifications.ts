@@ -1,4 +1,4 @@
-import { NotificationData } from '@dnd-mapp/desktop-shared';
+import { NotificationData } from '@dnd-mapp/shared-desktop-app';
 
 export let mockNotifications: NotificationData[] = [];
 
