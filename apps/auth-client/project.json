@@ -59,7 +59,7 @@
             "continuous": true,
             "options": {
                 "buildTarget": "@dnd-mapp/auth-client:build:dev",
-                "host": "localhost.auth-client.dnd-mapp.net",
+                "host": "localhost.auth.dnd-mapp.net",
                 "port": 7000,
                 "ssl": true,
                 "sslKey": "certificate-key.pem",
