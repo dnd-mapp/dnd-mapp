@@ -15,9 +15,21 @@
                 "args": ["--config apps/users/prisma.config.ts"]
             }
         },
+        "copy-proto-files": {
+            "executor": "nx:run-commands",
+            "inputs": [
+                "{workspaceRoot}/libs/shared-api/src/assets/proto/*.proto",
+                "{workspaceRoot}/tools/copy-proto-files.ts"
+            ],
+            "outputs": ["{projectRoot}/src/assets/proto/*.proto"],
+            "cache": true,
+            "options": {
+                "command": "npx ts-node tools/copy-proto-files.ts --appPath apps/users"
+            }
+        },
         "build": {
             "executor": "nx:run-commands",
-            "dependsOn": ["prisma-generate-client"],
+            "dependsOn": ["prisma-generate-client", "copy-proto-files"],
             "cache": true,
             "inputs": [
                 "{projectRoot}/**/*",
@@ -25,9 +37,7 @@
                 "!{projectRoot}/jest.config.ts",
                 "!{projectRoot}/**/*.spec.ts",
                 "!{projectRoot}/.spec.swcrc",
-                "!{projectRoot}/dist/**/*",
-                "!{projectRoot}/test/**/*",
-                "!{projectRoot}/reports/**/*"
+                "!{projectRoot}/test/**/*"
             ],
             "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "options": {

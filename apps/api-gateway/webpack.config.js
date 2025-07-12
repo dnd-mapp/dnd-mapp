@@ -9,8 +9,9 @@ module.exports = {
         new NxAppWebpackPlugin({
             assets: [
                 {
-                    input: '../../libs/shared-api/src/assets',
-                    glob: '*.proto',
+                    input: 'apps/api-gateway/src/assets',
+                    glob: '**/*',
+                    ignore: ['**/.gitkeep'],
                     output: 'assets',
                 },
             ],

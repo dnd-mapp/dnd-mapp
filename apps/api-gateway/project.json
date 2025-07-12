@@ -4,10 +4,22 @@
     "sourceRoot": "apps/api-gateway/src",
     "projectType": "application",
     "tags": ["api:public", "framework:nest"],
-    "implicitDependencies": ["@dnd-mapp/users"],
     "targets": {
+        "copy-proto-files": {
+            "executor": "nx:run-commands",
+            "inputs": [
+                "{workspaceRoot}/libs/shared-api/src/assets/proto/*.proto",
+                "{workspaceRoot}/tools/copy-proto-files.ts"
+            ],
+            "outputs": ["{projectRoot}/src/assets/proto/*.proto"],
+            "cache": true,
+            "options": {
+                "command": "npx ts-node tools/copy-proto-files.ts --appPath apps/api-gateway"
+            }
+        },
         "build": {
             "executor": "nx:run-commands",
+            "dependsOn": ["copy-proto-files"],
             "cache": true,
             "inputs": [
                 "{projectRoot}/**/*",

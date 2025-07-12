@@ -31,5 +31,8 @@ tmp/
 *.key
 .env
 
+*.proto
+!libs/shared-api/**/*.proto
+
 .docker/mariadb/
 .docker/dbeaver-workspace/
