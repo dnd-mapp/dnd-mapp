@@ -27,9 +27,7 @@
                 "!{projectRoot}/jest.config.ts",
                 "!{projectRoot}/**/*.spec.ts",
                 "!{projectRoot}/.spec.swcrc",
-                "!{projectRoot}/dist/**/*",
-                "!{projectRoot}/test/**/*",
-                "!{projectRoot}/reports/**/*"
+                "!{projectRoot}/test/**/*"
             ],
             "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "options": {
@@ -38,10 +36,10 @@
             "defaultConfiguration": "prod",
             "configurations": {
                 "prod": {
-                    "args": ["node-env=production"]
+                    "args": ["--node-env production"]
                 },
                 "dev": {
-                    "args": ["node-env=development"]
+                    "args": ["--node-env development"]
                 }
             }
         },
@@ -79,6 +77,12 @@
                     "ci": false,
                     "watch": true
                 }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "eslintConfig": "apps/api-gateway/eslint.config.mjs"
             }
         }
     }
