@@ -1,9 +1,9 @@
 import {
     CreateUserRequest,
     DatabaseService,
-    UpdateEmailData,
-    UpdatePasswordData,
-    UpdateUserData,
+    UpdateEmailRequest,
+    UpdatePasswordRequest,
+    UpdateUserRequest,
     User,
 } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
@@ -28,12 +28,12 @@ export class UsersRepository {
     public create = async (data: CreateUserRequest) =>
         plainToInstance(User, await this.databaseService.prismaClient.user.create({ data: data }));
 
-    public async update(data: UpdateUserData) {
-        const { id, username, status, lastLogin, loginAttempts, lockedUntil } = data;
+    public async update(data: UpdateUserRequest) {
+        const { userId, username, status, lastLogin, loginAttempts, lockedUntil } = data;
         return plainToInstance(
             User,
             await this.databaseService.prismaClient.user.update({
-                where: { id: id },
+                where: { id: userId },
                 data: {
                     username: username,
                     status: status,
@@ -45,28 +45,28 @@ export class UsersRepository {
         );
     }
 
-    public async updatePassword(data: UpdatePasswordData) {
-        const { id, password, passwordExpiry } = data;
+    public async updatePassword(data: UpdatePasswordRequest) {
+        const { userId, newPassword, passwordExpiry } = data;
         return plainToInstance(
             User,
             await this.databaseService.prismaClient.user.update({
-                where: { id: id },
+                where: { id: userId },
                 data: {
-                    password: password,
+                    password: newPassword,
                     passwordExpiry: passwordExpiry,
                 },
             })
         );
     }
 
-    public async updateEmail(data: UpdateEmailData) {
-        const { id, email, emailVerified, emailVerificationCode, emailVerificationCodeExpiry } = data;
+    public async updateEmail(data: UpdateEmailRequest) {
+        const { userId, newEmail, emailVerified, emailVerificationCode, emailVerificationCodeExpiry } = data;
         return plainToInstance(
             User,
             await this.databaseService.prismaClient.user.update({
-                where: { id: id },
+                where: { id: userId },
                 data: {
-                    email: email,
+                    email: newEmail,
                     emailVerified: emailVerified,
                     emailVerificationCode: emailVerificationCode,
                     emailVerificationCodeExpiry: emailVerificationCodeExpiry,

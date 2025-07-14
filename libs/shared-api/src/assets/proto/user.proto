@@ -1,8 +1,23 @@
 syntax = "proto3";
 
+import "common.proto";
+
 package user;
 
-message UserResponse {
+service UsersService {
+    rpc GetAll (GetAllRequest) returns (Users);
+    rpc GetOne (GetOneRequest) returns (User);
+
+    rpc Create (CreateRequest) returns (User);
+
+    rpc Update (UpdateRequest) returns (User);
+    rpc UpdatePassword (UpdatePasswordRequest) returns (User);
+    rpc UpdateEmail(UpdateEmailRequest) returns (User);
+
+    rpc Remove (RemoveRequest) returns (EmptyResponse);
+}
+
+message User {
     string id = 1;
     string username = 2;
     string password = 3;
@@ -17,80 +32,62 @@ message UserResponse {
     string locked_until = 12;
 }
 
-message UsersResponse {
-    repeated UserResponse users = 1;
+message Users {
+    repeated User users = 1;
 }
 
-message GetAllUserRequest {}
+message GetAllRequest {
+    bool email_verified = 1;
+    string status = 2;
+}
 
-message GetOneUserRequest {
+message GetOneRequest {
+    oneof user_query {
+        string user_id = 1;
+        string username = 2;
+    }
+}
+
+message CreateRequest {
+    string username = 1;
+    string password = 2;
+    string password_expiry = 3;
+    string email = 4;
+    bool email_verified = 5;
+    string email_verification_code_expiry = 6;
+    string status = 7;
+    string locked_until = 8;
+}
+
+message UpdateRequest {
     string user_id = 1;
     string username = 2;
-}
-
-message UserByUsernameParams {
-    string username = 1;
-}
-
-message CreateUserRequest {
-    string username = 1;
-    string email = 2;
-    bool email_verified = 3;
-    string password = 4;
-    string password_expiry = 5;
-}
-
-message UpdateUserRequest {
-    string user_id = 1;
-    UserResponse data = 2;
+    string password_expiry = 3;
+    string email_verified = 4;
+    string email_verification_code = 5;
+    string email_verification_code_expiry = 6;
+    int32 login_attempts = 7;
+    string last_login = 8;
+    string status = 9;
+    string locked_until = 10;
 }
 
 message UpdatePasswordRequest {
     string user_id = 1;
-    UpdatePasswordData data = 2;
-}
-
-message UpdatePasswordData {
-    string id = 1;
-    string password = 2;
-    string password_expiry = 3;
-    string new_password = 4;
+    string old_password = 2;
+    string new_password = 3;
+    string password_expiry = 4;
 }
 
 message UpdateEmailRequest {
     string user_id = 1;
-    UpdateEmailData data = 2;
+    string old_email = 2;
+    string new_email = 3;
+    bool email_verified = 4;
+    string email_verification_code = 5;
+    string email_verification_code_expiry = 6;
 }
 
-message UpdateEmailData {
-    string id = 1;
-    string email = 2;
-    bool email_verified = 6;
-    string email_verification_code = 7;
-    string email_verification_code_expiry = 8;
-    string new_email = 9;
-}
-
-message RemoveUserRequest {
+message RemoveRequest {
     string user_id = 1;
-    RemoveUserData data = 2;
-}
-
-message RemoveUserData {
-    string id = 1;
-}
-
-message RemoveUserResponse {}
-
-service UsersService {
-    rpc GetAll (GetAllUserRequest) returns (UsersResponse);
-    rpc GetOneBy (GetOneUserRequest) returns (UserResponse);
-
-    rpc Create (CreateUserRequest) returns (UserResponse);
-
-    rpc Update (UpdateUserRequest) returns (UserResponse);
-    rpc UpdatePassword (UpdatePasswordRequest) returns (UserResponse);
-    rpc UpdateEmail (UpdateEmailRequest) returns (UserResponse);
-
-    rpc Remove (RemoveUserRequest) returns (RemoveUserResponse);
 }

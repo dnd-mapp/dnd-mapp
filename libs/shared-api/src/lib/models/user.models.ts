@@ -1,4 +1,5 @@
-import { PartialType, PickType } from '@nestjs/mapped-types';
+import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
+import { PickType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
 import {
     IsBoolean,
@@ -16,7 +17,6 @@ import {
 } from 'class-validator';
 import { Observable } from 'rxjs';
 import { type AccountStatus, AccountStatuses } from './account-status.models';
-import type { WrapperType } from './common';
 
 export const MAX_LOGIN_ATTEMPTS = 3;
 
@@ -73,7 +73,7 @@ export class User {
     public lockedUntil?: Date;
 }
 
-export class GetAllUsersRequest {}
+export class GetAllRequest {}
 
 export class GetAllUsersResponse {
     @ValidateNested({ each: true })
@@ -81,103 +81,109 @@ export class GetAllUsersResponse {
     users: User[];
 }
 
-export class GetOneUserRequest extends PartialType(PickType(User, ['username'] as const)) {
+export class GetOneUserRequest {
     @IsString()
     @IsNotEmpty()
+    @IsOptional()
     public userId?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    @IsOptional()
+    public username?: string;
 }
 
 export class CreateUserRequest extends PickType(User, [
     'username',
     'email',
     'emailVerified',
+    'emailVerificationCodeExpiry',
+    'status',
+    'lockedUntil',
     'password',
     'passwordExpiry',
 ] as const) {}
-
-export class RemoveUserData extends PickType(User, ['id'] as const) {}
 
 export class RemoveUserRequest {
     @IsString()
     @IsNotEmpty()
     public userId: string;
-
-    @ValidateNested()
-    public data: WrapperType<RemoveUserData>;
 }
 
-export class UpdateUserData extends PickType(User, [
-    'id',
+export class UpdateUserRequest extends PickType(User, [
     'username',
+    'passwordExpiry',
+    'emailVerified',
+    'emailVerificationCode',
+    'emailVerificationCodeExpiry',
     'loginAttempts',
     'lastLogin',
     'status',
     'lockedUntil',
-] as const) {}
+] as const) {
+    @IsString()
+    @IsNotEmpty()
+    public userId: string;
+}
 
-export class UpdateUserRequest {
+export class UpdatePasswordRequest extends PickType(User, ['passwordExpiry'] as const) {
     @IsString()
     @IsNotEmpty()
     public userId: string;
 
-    @ValidateNested()
-    public data: WrapperType<UpdateUserData>;
-}
-
-export class UpdatePasswordData extends PickType(User, ['id', 'password', 'passwordExpiry'] as const) {
     @IsString()
     @IsNotEmpty()
     @MinLength(12)
     public newPassword: string;
-}
 
-export class UpdatePasswordRequest {
     @IsString()
     @IsNotEmpty()
-    public userId: string;
-
-    @ValidateNested()
-    public data: WrapperType<UpdatePasswordData>;
+    public oldPassword: string;
 }
 
-export class UpdateEmailData extends PickType(User, [
-    'id',
-    'email',
+export class UpdateEmailRequest extends PickType(User, [
     'emailVerified',
     'emailVerificationCode',
     'emailVerificationCodeExpiry',
 ] as const) {
-    @IsEmail({ allow_display_name: false, require_display_name: false, require_tld: true, allow_ip_domain: false })
-    @IsNotEmpty()
-    @IsString()
-    public newEmail?: string;
-}
-
-export class UpdateEmailRequest {
     @IsString()
     @IsNotEmpty()
     public userId: string;
 
-    @ValidateNested()
-    public data: WrapperType<UpdateEmailData>;
+    @IsEmail({ allow_display_name: false, require_display_name: false, require_tld: true, allow_ip_domain: false })
+    @IsNotEmpty()
+    @IsString()
+    public newEmail?: string;
+
+    @IsString()
+    @IsNotEmpty()
+    public oldEmail: string;
 }
 
 export interface UsersServiceProducer {
-    getAll(data: GetAllUsersRequest): Promise<GetAllUsersResponse>;
-    getOneBy(data: GetOneUserRequest, throwsExceptions?: boolean): Promise<User>;
-    create(data: CreateUserRequest): Promise<User>;
-    update(data: UpdateUserData): Promise<User>;
-    updatePassword(data: UpdatePasswordData): Promise<User>;
-    updateEmail(data: UpdateEmailData): Promise<User>;
-    remove(data: RemoveUserData): Promise<void>;
+    getAll(
+        data: GetAllRequest,
+        metadata: Metadata,
+        call: ServerUnaryCall<unknown, unknown>
+    ): Promise<GetAllUsersResponse>;
+    getOneBy(data: GetOneUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+    create(data: CreateUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+    update(data: UpdateUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+    updatePassword(
+        data: UpdatePasswordRequest,
+        metadata: Metadata,
+        call: ServerUnaryCall<unknown, unknown>
+    ): Promise<User>;
+    updateEmail(data: UpdateEmailRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+    remove(data: RemoveUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<void>;
 }
 
 export interface UsersServiceConsumer {
-    getAll(data: GetAllUsersRequest): Observable<GetAllUsersResponse>;
-    getOneBy(data: GetOneUserRequest, throwsExceptions?: boolean): Observable<User>;
+    getAll(data: GetAllRequest): Observable<GetAllUsersResponse>;
+    getOneBy(data: GetOneUserRequest): Observable<User>;
     create(data: CreateUserRequest): Observable<User>;
-    update(data: UpdateUserRequest): Observable<User>;
-    updatePassword(data: UpdatePasswordRequest): Observable<User>;
-    updateEmail(data: UpdateEmailRequest): Observable<User>;
-    remove(data: RemoveUserRequest): Observable<void>;
+    update(data: UpdateUserRequest, metadata: Metadata): Observable<User>;
+    updatePassword(data: UpdatePasswordRequest, metadata: Metadata): Observable<User>;
+    updateEmail(data: UpdateEmailRequest, metadata: Metadata): Observable<User>;
+    remove(data: RemoveUserRequest, metadata: Metadata): Observable<void>;
 }

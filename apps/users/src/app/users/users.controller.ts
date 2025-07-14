@@ -1,6 +1,6 @@
 import {
     CreateUserRequest,
-    GetAllUsersRequest,
+    GetAllRequest,
     GetOneUserRequest,
     RemoveUserRequest,
     RpcCodes,
@@ -8,6 +8,7 @@ import {
     UpdatePasswordRequest,
     UpdateUserRequest,
     USER_SERVICE_NAME,
+    type UsersServiceProducer,
 } from '@dnd-mapp/shared-api';
 import type { ServerUnaryCall } from '@grpc/grpc-js';
 import { Metadata } from '@grpc/grpc-js';
@@ -18,17 +19,18 @@ import { throwRpcException } from '../utils';
 import { UsersService } from './users.service';
 
 @Controller()
-export class UsersController {
+export class UsersController implements UsersServiceProducer {
     constructor(private readonly usersService: UsersService) {}
 
     @GrpcMethod(USER_SERVICE_NAME)
-    public async getAll(_data: GetAllUsersRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+    public async getAll(_data: GetAllRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        console.log({ _call });
         return await this.usersService.getAll();
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
     public async getOneBy(data: GetOneUserRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        return await this.usersService.getOneBy(data, true);
+        return await this.usersService.getOneBy(data);
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
@@ -37,54 +39,54 @@ export class UsersController {
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
-    public async update(request: UpdateUserRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        if (request.userId !== request.data.id) {
-            throwRpcException(
-                updateFailedInvalidPathAndId(request.userId, request.data.id),
-                RpcCodes.PERMISSION_DENIED
-            );
+    public async update(request: UpdateUserRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        const userId = this.getUserId(metadata);
+
+        if (request.userId !== userId) {
+            throwRpcException(updateFailedInvalidPathAndId(userId, request.userId), RpcCodes.PERMISSION_DENIED);
         }
-        return await this.usersService.update(request.data);
+        return await this.usersService.update(request);
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
     public async updatePassword(
         request: UpdatePasswordRequest,
-        _metadata: Metadata,
+        metadata: Metadata,
         _call: ServerUnaryCall<unknown, unknown>
     ) {
-        if (request.userId !== request.data.id) {
-            throwRpcException(
-                updateFailedInvalidPathAndId(request.userId, request.data.id),
-                RpcCodes.PERMISSION_DENIED
-            );
+        const userId = this.getUserId(metadata);
+
+        if (request.userId !== userId) {
+            throwRpcException(updateFailedInvalidPathAndId(userId, request.userId), RpcCodes.PERMISSION_DENIED);
         }
-        return await this.usersService.updatePassword(request.data);
+        return await this.usersService.updatePassword(request);
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
     public async updateEmail(
         request: UpdateEmailRequest,
-        _metadata: Metadata,
+        metadata: Metadata,
         _call: ServerUnaryCall<unknown, unknown>
     ) {
-        if (request.userId !== request.data.id) {
-            throwRpcException(
-                updateFailedInvalidPathAndId(request.userId, request.data.id),
-                RpcCodes.PERMISSION_DENIED
-            );
+        const userId = this.getUserId(metadata);
+
+        if (request.userId !== userId) {
+            throwRpcException(updateFailedInvalidPathAndId(userId, request.userId), RpcCodes.PERMISSION_DENIED);
         }
-        return await this.usersService.updateEmail(request.data);
+        return await this.usersService.updateEmail(request);
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
-    public async remove(request: RemoveUserRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        if (request.userId !== request.data.id) {
-            throwRpcException(
-                updateFailedInvalidPathAndId(request.userId, request.data.id),
-                RpcCodes.PERMISSION_DENIED
-            );
+    public async remove(request: RemoveUserRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        const userId = this.getUserId(metadata);
+
+        if (request.userId !== userId) {
+            throwRpcException(updateFailedInvalidPathAndId(userId, request.userId), RpcCodes.PERMISSION_DENIED);
         }
-        return await this.usersService.remove(request.data);
+        return await this.usersService.remove(request);
+    }
+
+    private getUserId(metadata: Metadata): string {
+        return metadata.get('userId')[0] as string;
     }
 }
