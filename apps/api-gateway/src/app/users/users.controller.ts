@@ -1,13 +1,14 @@
 import {
     CreateUserRequest,
     HttpStatuses,
-    UpdateEmailData,
-    UpdatePasswordData,
-    UpdateUserData,
+    UpdateEmailRequest,
+    UpdatePasswordRequest,
+    UpdateUserRequest,
     USER_CLIENT_NAME,
     USER_SERVICE_NAME,
     type UsersServiceConsumer as UsersService,
 } from '@dnd-mapp/shared-api';
+import { Metadata } from '@grpc/grpc-js';
 import {
     Body,
     ClassSerializerInterceptor,
@@ -56,22 +57,34 @@ export class UsersController implements OnModuleInit {
     }
 
     @Put('/:userId')
-    public async update(@Param('userId') userId: string, @Body() data: UpdateUserData) {
-        return await lastValueFrom(this.usersService.update({ userId: userId, data: data }));
+    public async update(@Param('userId') userId: string, @Body() data: UpdateUserRequest) {
+        const metadata = new Metadata();
+        metadata.set('userId', userId);
+
+        return await lastValueFrom(this.usersService.update(data, metadata));
     }
 
     @Put('/:userId/password')
-    public async updatePassword(@Param('userId') userId: string, @Body() data: UpdatePasswordData) {
-        return await lastValueFrom(this.usersService.updatePassword({ userId: userId, data: data }));
+    public async updatePassword(@Param('userId') userId: string, @Body() data: UpdatePasswordRequest) {
+        const metadata = new Metadata();
+        metadata.set('userId', userId);
+
+        return await lastValueFrom(this.usersService.updatePassword(data, metadata));
     }
 
     @Put('/:userId/email')
-    public async updateEmail(@Param('userId') userId: string, @Body() data: UpdateEmailData) {
-        return await lastValueFrom(this.usersService.updateEmail({ userId: userId, data: data }));
+    public async updateEmail(@Param('userId') userId: string, @Body() data: UpdateEmailRequest) {
+        const metadata = new Metadata();
+        metadata.set('userId', userId);
+
+        return await lastValueFrom(this.usersService.updateEmail(data, metadata));
     }
 
     @Delete('/:userId')
     public async remove(@Param('userId') userId: string) {
-        await lastValueFrom(this.usersService.remove({ userId: userId, data: { id: userId } }));
+        const metadata = new Metadata();
+        metadata.set('userId', userId);
+
+        await lastValueFrom(this.usersService.remove({ userId: userId }, metadata));
     }
 }
