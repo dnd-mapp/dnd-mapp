@@ -1,0 +1,98 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "@dnd-mapp/roles",
+    "projectType": "application",
+    "sourceRoot": "apps/roles/src",
+    "tags": ["api:internal", "framework:nest"],
+    "targets": {
+        "prisma-generate-client": {
+            "executor": "nx:run-commands",
+            "inputs": ["{projectRoot}/prisma/schema.prisma"],
+            "outputs": ["{projectRoot}/prisma/client"],
+            "cache": true,
+            "options": {
+                "command": "prisma generate client",
+                "args": ["--config apps/roles/prisma.config.ts"]
+            }
+        },
+        "copy-proto-files": {
+            "executor": "nx:run-commands",
+            "inputs": [
+                "{workspaceRoot}/libs/shared-api/src/assets/proto/*.proto",
+                "{workspaceRoot}/tools/copy-proto-files.ts"
+            ],
+            "outputs": ["{projectRoot}/src/assets/proto/*.proto"],
+            "cache": true,
+            "options": {
+                "command": "npx ts-node tools/copy-proto-files.ts --appPath apps/roles"
+            }
+        },
+        "build": {
+            "executor": "nx:run-commands",
+            "dependsOn": ["prisma-generate-client", "copy-proto-files"],
+            "cache": true,
+            "inputs": [
+                "{projectRoot}/**/*",
+                "!{projectRoot}/tsconfig.spec.json",
+                "!{projectRoot}/jest.config.ts",
+                "!{projectRoot}/**/*.spec.ts",
+                "!{projectRoot}/.spec.swcrc",
+                "!{projectRoot}/test/**/*"
+            ],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "options": {
+                "command": "webpack-cli build"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "args": ["--node-env production"]
+                },
+                "dev": {
+                    "args": ["--node-env development"]
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nx/js:node",
+            "dependsOn": ["build"],
+            "continuous": true,
+            "options": {
+                "inspect": false,
+                "runBuildTargetDependencies": false
+            },
+            "defaultConfiguration": "dev",
+            "configurations": {
+                "prod": {
+                    "buildTarget": "@dnd-mapp/roles:build:prod"
+                },
+                "dev": {
+                    "buildTarget": "@dnd-mapp/roles:build:dev"
+                }
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "options": {
+                "jestConfig": "apps/roles/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "ci": true
+                },
+                "dev": {
+                    "ci": false,
+                    "watch": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "eslintConfig": "apps/roles/eslint.config.mjs"
+            }
+        }
+    }
+}

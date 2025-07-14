@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package role;
+
+import "common.proto";
+import "scope.proto";
+
+service RolesService {
+    rpc GetAll (GetAllRequest) returns (Roles);
+    rpc GetOne (GetOneRequest) returns (Role);
+    rpc GetAllScopes (GetAllScopesRequest) returns (scope.Scopes);
+
+    rpc Create (CreateRequest) returns (Role);
+    rpc AddScope (AddScopeRequest) returns (Role);
+
+    rpc Update (UpdateRequest) returns (Role);
+
+    rpc Remove (RemoveRequest) returns (EmptyResponse);
+    rpc RemoveScope (RemoveScopeRequest) returns (Role);
+}
+
+message Role {
+    string id = 1;
+    string name = 2;
+    repeated scope.Scope scopes = 3;
+}
+
+message Roles {
+    repeated Role roles = 1;
+}
+
+message GetAllRequest {
+    repeated string has_scopes = 1;
+}
+
+message GetOneRequest {
+    oneof role_query {
+        string role_id = 1;
+        string name = 2;
+    }
+}
+
+message GetAllScopesRequest {
+    string role_id = 1;
+}
+
+message CreateRequest {
+    string name = 1;
+}
+
+message AddScopeRequest {
+    string scope_id = 1;
+}
+
+message UpdateRequest {
+    string id = 1;
+    string name = 2;
+}
+
+message RemoveRequest {
+    string role_id = 1;
+}
+
+message RemoveScopeRequest {
+    string scope_id = 1;
+}

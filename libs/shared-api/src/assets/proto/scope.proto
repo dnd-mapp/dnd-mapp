@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "common.proto";
+
+package scope;
+
+service ScopesService {
+    rpc GetAll (GetAllRequest) returns (Scopes);
+    rpc GetOne (GetOneRequest) returns (Scope);
+
+    rpc Create (CreateRequest) returns (Scope);
+
+    rpc Update (UpdateRequest) returns (Scope);
+
+    rpc Remove (RemoveRequest) returns (EmptyResponse);
+}
+
+message Scope {
+    string id = 1;
+    string name = 2;
+}
+
+message Scopes {
+    repeated Scope scopes = 1;
+}
+
+message GetAllRequest {}
+
+message GetOneRequest {
+    oneof scope_query {
+        string scope_id = 1;
+        string name = 2;
+    }
+}
+
+message CreateRequest {
+    string name = 1;
+}
+
+message UpdateRequest {
+    string name = 1;
+}
+
+message RemoveRequest {
+    string scope_id = 1;
+}

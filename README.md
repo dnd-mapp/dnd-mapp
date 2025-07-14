@@ -158,6 +158,7 @@ To serve an application locally you can run one of the following commands:
 | api-gateway | npx nx serve api-gateway   | https://localhost.api.dnd-mapp.net:3000       |
 | auth        | npx nx serve auth          | https://0.0.0.0:7200                          |
 | users       | npx nx serve users         | 0.0.0.0:5000                                  |
+| roles       | npx nx serve roles         | 0.0.0.0:5100                                  |
 | auth-client | npx nx serve auth-client   | https://localhost.auth.dnd-mapp:7000          |
 | desktop-app | npx nx serve desktop-app   | https://localhost.desktop-app.dnd-mapp:7100   |
 
