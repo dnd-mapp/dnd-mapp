@@ -53,7 +53,10 @@ export class UsersController implements OnModuleInit {
 
     @Get('/:userId')
     public async getById(@Param('userId') userId: string) {
-        return await lastValueFrom(this.usersService.getOneBy({ userId: userId }));
+        const metadata = new Metadata();
+        metadata.set('userId', userId);
+
+        return await lastValueFrom(this.usersService.getOneBy({}, metadata));
     }
 
     @Put('/:userId')

@@ -3,20 +3,16 @@ import {
     createHash,
     CreateUserRequest,
     GetAllUsersResponse,
-    GetOneUserRequest,
     RemoveUserRequest,
     UpdateEmailRequest,
     UpdatePasswordRequest,
     UpdateUserRequest,
-    User,
 } from '@dnd-mapp/shared-api';
 import { status } from '@grpc/grpc-js';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import {
     createFailedUsernameTaken,
-    getFailedIdNotFound,
-    getFailedUsernameNotFound,
     removeFailedNotFound,
     updateFailedEmailMismatch,
     updateFailedEmailVerificationCodeExpired,
@@ -37,21 +33,8 @@ export class UsersService {
         return plainToInstance(GetAllUsersResponse, { users: users });
     }
 
-    public async getOneBy(data: GetOneUserRequest) {
-        const { userId, username } = data;
-
-        let query: User;
-
-        if (userId) {
-            query = await this.usersRepository.findOneById(userId);
-
-            if (!query) throwRpcException(getFailedIdNotFound(userId), status.NOT_FOUND);
-        } else if (username) {
-            query = await this.usersRepository.findOneByUsername(username);
-
-            if (!query) throwRpcException(getFailedUsernameNotFound(username), status.NOT_FOUND);
-        }
-        return query;
+    public async getById(userId: string) {
+        return await this.usersRepository.findOneById(userId);
     }
 
     public async create(data: CreateUserRequest) {
@@ -74,7 +57,7 @@ export class UsersService {
     }
 
     public async updatePassword(data: UpdatePasswordRequest) {
-        const query = await this.getOneBy({ userId: data.userId });
+        const query = await this.getById(data.userId);
 
         // Create a hash before every check so that bad actors won't be able to guess
         // the current password based on the response time.
@@ -90,7 +73,7 @@ export class UsersService {
     }
 
     public async updateEmail(data: UpdateEmailRequest) {
-        const query = await this.getOneBy({ userId: data.userId });
+        const query = await this.getById(data.userId);
 
         if (!query) {
             throwRpcException(updateFailedNotFound(data.userId), status.NOT_FOUND);
@@ -121,12 +104,20 @@ export class UsersService {
         await this.usersRepository.removeById(data.userId);
     }
 
-    private doesUserExist = async (userId: string) => Boolean(await this.getOneBy({ userId: userId }));
+    private async doesUserExist(userId: string) {
+        return Boolean(await this.getById(userId));
+    }
+
+    private async getByUsername(username: string) {
+        return await this.usersRepository.findOneByUsername(username);
+    }
 
     private async isUsernameTaken(username: string, userId?: string) {
-        const query = await this.getOneBy({ username: username });
+        const query = await this.getByUsername(username);
         return query && (!userId || userId !== query.id);
     }
 
-    private doesPasswordMatch = async (password: string, hash: string) => await compareHashToValue(password, hash);
+    private async doesPasswordMatch(password: string, hash: string) {
+        return await compareHashToValue(password, hash);
+    }
 }

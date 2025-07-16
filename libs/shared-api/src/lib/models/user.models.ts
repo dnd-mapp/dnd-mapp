@@ -81,17 +81,7 @@ export class GetAllUsersResponse {
     users: User[];
 }
 
-export class GetOneUserRequest {
-    @IsString()
-    @IsNotEmpty()
-    @IsOptional()
-    public userId?: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @IsOptional()
-    public username?: string;
-}
+export class GetOneUserRequest {}
 
 export class CreateUserRequest extends PickType(User, [
     'username',
@@ -180,8 +170,8 @@ export interface UsersServiceProducer {
 
 export interface UsersServiceConsumer {
     getAll(data: GetAllRequest): Observable<GetAllUsersResponse>;
-    getOneBy(data: GetOneUserRequest): Observable<User>;
     create(data: CreateUserRequest): Observable<User>;
+    getOneBy(data: GetOneUserRequest, metadata: Metadata): Observable<User>;
     update(data: UpdateUserRequest, metadata: Metadata): Observable<User>;
     updatePassword(data: UpdatePasswordRequest, metadata: Metadata): Observable<User>;
     updateEmail(data: UpdateEmailRequest, metadata: Metadata): Observable<User>;

@@ -10,11 +10,10 @@ import {
     USER_SERVICE_NAME,
     type UsersServiceProducer,
 } from '@dnd-mapp/shared-api';
-import type { ServerUnaryCall } from '@grpc/grpc-js';
-import { Metadata } from '@grpc/grpc-js';
+import { Metadata, ServerUnaryCall, status } from '@grpc/grpc-js';
 import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
-import { updateFailedInvalidPathAndId } from '../models';
+import { getFailedIdNotFound, updateFailedInvalidPathAndId } from '../models';
 import { throwRpcException } from '../utils';
 import { UsersService } from './users.service';
 
@@ -29,8 +28,12 @@ export class UsersController implements UsersServiceProducer {
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
-    public async getOneBy(data: GetOneUserRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        return await this.usersService.getOneBy(data);
+    public async getOneBy(_data: GetOneUserRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        const userId = this.getUserId(metadata);
+        const query = await this.usersService.getById(userId);
+
+        if (!query) throwRpcException(getFailedIdNotFound(userId), status.NOT_FOUND);
+        return query;
     }
 
     @GrpcMethod(USER_SERVICE_NAME)

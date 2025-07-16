@@ -5,15 +5,15 @@ import "common.proto";
 package user;
 
 service UsersService {
+    // /users
     rpc GetAll (GetAllRequest) returns (Users);
-    rpc GetOne (GetOneRequest) returns (User);
-
     rpc Create (CreateRequest) returns (User);
 
+    // /users/:userId
+    rpc GetById (GetByIdRequest) returns (User);
     rpc Update (UpdateRequest) returns (User);
     rpc UpdatePassword (UpdatePasswordRequest) returns (User);
     rpc UpdateEmail(UpdateEmailRequest) returns (User);
-
     rpc Remove (RemoveRequest) returns (EmptyResponse);
 }
 
@@ -41,12 +41,7 @@ message GetAllRequest {
     string status = 2;
 }
 
-message GetOneRequest {
-    oneof user_query {
-        string user_id = 1;
-        string username = 2;
-    }
-}
+message GetByIdRequest {}
 
 message CreateRequest {
     string username = 1;
