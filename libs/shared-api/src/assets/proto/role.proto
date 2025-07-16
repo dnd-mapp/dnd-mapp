@@ -6,16 +6,18 @@ import "common.proto";
 import "scope.proto";
 
 service RolesService {
+    // /roles
     rpc GetAll (GetAllRequest) returns (Roles);
-    rpc GetOne (GetOneRequest) returns (Role);
-    rpc GetAllScopes (GetAllScopesRequest) returns (scope.Scopes);
-
     rpc Create (CreateRequest) returns (Role);
-    rpc AddScope (AddScopeRequest) returns (Role);
 
+    // /roles/:roleId
+    rpc GetById (GetByIdRequest) returns (Role);
     rpc Update (UpdateRequest) returns (Role);
-
     rpc Remove (RemoveRequest) returns (EmptyResponse);
+
+    // /roles/:roleId/scopes
+    rpc GetAllScopes (GetAllScopesRequest) returns (scope.Scopes);
+    rpc AddScope (AddScopeRequest) returns (Role);
     rpc RemoveScope (RemoveScopeRequest) returns (Role);
 }
 
@@ -33,12 +35,7 @@ message GetAllRequest {
     repeated string has_scopes = 1;
 }
 
-message GetOneRequest {
-    oneof role_query {
-        string role_id = 1;
-        string name = 2;
-    }
-}
+message GetByIdRequest {}
 
 message GetAllScopesRequest {
     string role_id = 1;

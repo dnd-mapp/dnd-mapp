@@ -1,5 +1,5 @@
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
-import { IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { Observable } from 'rxjs';
 import { Scope, Scopes } from './scope.models';
 
@@ -29,17 +29,7 @@ export class GetAllRolesRequest {
     public hasScopes: string[];
 }
 
-export class GetOneRoleRequest {
-    @IsNotEmpty()
-    @IsString()
-    @IsOptional()
-    public roleId?: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @IsOptional()
-    public name?: string;
-}
+export class GetRoleByIdRequest {}
 
 export class GetAllScopesOfRoleRequest {
     @IsNotEmpty()
@@ -92,7 +82,13 @@ export class RemoveScopeFromRoleRequest {
 export interface RolesServiceProducer {
     getAll(data: GetAllRolesRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Roles>;
 
-    getOne(data: GetOneRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
+    create(data: CreateRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
+
+    getById(data: GetRoleByIdRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
+
+    update(data: UpdateRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
+
+    remove(data: RemoveRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<void>;
 
     getAllScopesOfRole(
         data: GetAllScopesOfRoleRequest,
@@ -100,13 +96,7 @@ export interface RolesServiceProducer {
         call: ServerUnaryCall<unknown, unknown>
     ): Promise<Scopes>;
 
-    create(data: CreateRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
-
     addScope(data: AddScopeRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
-
-    update(data: UpdateRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Role>;
-
-    remove(data: RemoveRoleRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<void>;
 
     removeScope(
         data: RemoveScopeFromRoleRequest,
@@ -117,11 +107,13 @@ export interface RolesServiceProducer {
 
 export interface RolesServiceConsumer {
     getAll(data: GetAllRolesRequest): Observable<Roles>;
-    getOne(data: GetOneRoleRequest): Observable<Role>;
-    getAllScopesOfRole(data: GetAllScopesOfRoleRequest, metadata: Metadata): Observable<Scopes>;
     create(data: CreateRoleRequest): Observable<Role>;
-    addScope(data: AddScopeRequest, metadata: Metadata): Observable<Role>;
+
+    getById(data: GetRoleByIdRequest, metadata: Metadata): Observable<Role>;
     update(data: UpdateRoleRequest, metadata: Metadata): Observable<Role>;
     remove(data: RemoveRoleRequest, metadata: Metadata): Observable<void>;
+
+    getAllScopesOfRole(data: GetAllScopesOfRoleRequest, metadata: Metadata): Observable<Scopes>;
+    addScope(data: AddScopeRequest, metadata: Metadata): Observable<Role>;
     removeScope(data: RemoveScopeFromRoleRequest, metadata: Metadata): Observable<Role>;
 }

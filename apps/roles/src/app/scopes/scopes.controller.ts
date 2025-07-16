@@ -1,10 +1,9 @@
 import {
     CreateScopeRequest,
     GetAllScopesRequest,
-    GetOneScopeRequest,
+    GetScopeByIdRequest,
     RemoveScopeRequest,
     RpcCodes,
-    Scope,
     SCOPE_SERVICE_NAME,
     ScopesServiceProducer,
     UpdateScopeRequest,
@@ -14,7 +13,6 @@ import { Controller } from '@nestjs/common';
 import { GrpcMethod } from '@nestjs/microservices';
 import {
     getScopeFailedIdNotFound,
-    getScopeFailedNameNotFound,
     removeScopeFailedInvalidPathAndId,
     updateScopeFailedInvalidPathAndId,
 } from '../models';
@@ -31,23 +29,12 @@ export class ScopesController implements ScopesServiceProducer {
     }
 
     @GrpcMethod(SCOPE_SERVICE_NAME)
-    public async getOne(data: GetOneScopeRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        const { scopeId, name } = data;
-        let query: Scope;
+    public async getById(_data: GetScopeByIdRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        const scopeId = this.getScopeId(metadata);
 
-        if (scopeId) {
-            query = await this.scopesService.getById(scopeId);
+        const query = await this.scopesService.getById(scopeId);
 
-            if (!query) {
-                throwRpcException(getScopeFailedIdNotFound(scopeId), RpcCodes.NOT_FOUND);
-            }
-        } else if (name) {
-            query = await this.scopesService.getByName(name);
-
-            if (!query) {
-                throwRpcException(getScopeFailedNameNotFound(name), RpcCodes.NOT_FOUND);
-            }
-        }
+        if (!query) throwRpcException(getScopeFailedIdNotFound(scopeId), RpcCodes.NOT_FOUND);
         return query;
     }
 

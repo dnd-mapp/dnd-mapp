@@ -1,5 +1,5 @@
 import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
-import { IsArray, IsNotEmpty, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString, ValidateNested } from 'class-validator';
 import { Observable } from 'rxjs';
 
 export class Scope {
@@ -20,17 +20,7 @@ export class Scopes {
 
 export class GetAllScopesRequest {}
 
-export class GetOneScopeRequest {
-    @IsNotEmpty()
-    @IsString()
-    @IsOptional()
-    scopeId?: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @IsOptional()
-    name?: string;
-}
+export class GetScopeByIdRequest {}
 
 export class CreateScopeRequest {
     @IsNotEmpty()
@@ -56,16 +46,16 @@ export class RemoveScopeRequest {
 
 export interface ScopesServiceProducer {
     getAll(data: GetAllScopesRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Scopes>;
-    getOne(data: GetOneScopeRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Scope>;
     create(data: CreateScopeRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Scope>;
+    getById(data: GetScopeByIdRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Scope>;
     update(data: UpdateScopeRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<Scope>;
     remove(data: RemoveScopeRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<void>;
 }
 
 export interface ScopesServiceConsumer {
     getAll(data: GetAllScopesRequest): Observable<Scopes>;
-    getOne(data: GetOneScopeRequest): Observable<Scope>;
     create(data: CreateScopeRequest): Observable<Scope>;
+    getById(data: GetScopeByIdRequest, metadata: Metadata): Observable<Scope>;
     update(data: UpdateScopeRequest, metadata: Metadata): Observable<Scope>;
     remove(data: RemoveScopeRequest, metadata: Metadata): Observable<void>;
 }

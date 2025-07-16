@@ -5,13 +5,13 @@ import "common.proto";
 package scope;
 
 service ScopesService {
+    // /scopes
     rpc GetAll (GetAllRequest) returns (Scopes);
-    rpc GetOne (GetOneRequest) returns (Scope);
-
     rpc Create (CreateRequest) returns (Scope);
 
+    // /scopes/:scopeId
+    rpc GetById (GetByIdRequest) returns (Scope);
     rpc Update (UpdateRequest) returns (Scope);
-
     rpc Remove (RemoveRequest) returns (EmptyResponse);
 }
 
@@ -26,12 +26,7 @@ message Scopes {
 
 message GetAllRequest {}
 
-message GetOneRequest {
-    oneof scope_query {
-        string scope_id = 1;
-        string name = 2;
-    }
-}
+message GetByIdRequest {}
 
 message CreateRequest {
     string name = 1;

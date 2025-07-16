@@ -3,10 +3,9 @@ import {
     CreateRoleRequest,
     GetAllRolesRequest,
     GetAllScopesOfRoleRequest,
-    GetOneRoleRequest,
+    GetRoleByIdRequest,
     RemoveRoleRequest,
     RemoveScopeFromRoleRequest,
-    Role,
     ROLE_SERVICE_NAME,
     RolesServiceProducer,
     RpcCodes,
@@ -18,7 +17,6 @@ import { GrpcMethod } from '@nestjs/microservices';
 import {
     addScopeToRoleFailedInvalidPathAndId,
     getRoleFailedIdNotFound,
-    getRoleFailedNameNotFound,
     getScopesOfRoleFailedInvalidPathAndId,
     removeRoleFailedInvalidPathAndId,
     removeScopeFromRoleFailedInvalidPathAndId,
@@ -37,23 +35,12 @@ export class RolesController implements RolesServiceProducer {
     }
 
     @GrpcMethod(ROLE_SERVICE_NAME)
-    public async getOne(data: GetOneRoleRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        const { roleId, name } = data;
-        let result: Role;
+    public async getById(_data: GetRoleByIdRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        const roleId = this.getRoleId(metadata);
 
-        if (roleId) {
-            result = await this.rolesService.getById(roleId);
+        const result = await this.rolesService.getById(roleId);
 
-            if (!result) {
-                throwRpcException(getRoleFailedIdNotFound(roleId), RpcCodes.NOT_FOUND);
-            }
-        } else if (name) {
-            result = await this.rolesService.getByName(name);
-
-            if (!result) {
-                throwRpcException(getRoleFailedNameNotFound(name), RpcCodes.NOT_FOUND);
-            }
-        }
+        if (!result) throwRpcException(getRoleFailedIdNotFound(roleId), RpcCodes.NOT_FOUND);
         return result;
     }
 
