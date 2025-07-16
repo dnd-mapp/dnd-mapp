@@ -1,0 +1,6 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "exclude": ["jest.config.ts", "src/**/*.spec.ts", "eslint.config.mjs"],
+    "compilerOptions": {}
+}

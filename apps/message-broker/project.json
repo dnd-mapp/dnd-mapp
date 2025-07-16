@@ -1,0 +1,67 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "@dnd-mapp/message-broker",
+    "sourceRoot": "apps/message-broker/src",
+    "projectType": "application",
+    "tags": ["api:internal", "framework:nest"],
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "cache": true,
+            "options": {
+                "command": "webpack-cli build"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "args": ["--node-env production"]
+                },
+                "dev": {
+                    "args": ["--node-env development"]
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nx/js:node",
+            "dependsOn": ["build"],
+            "continuous": true,
+            "options": {
+                "inspect": false,
+                "runBuildTargetDependencies": false
+            },
+            "defaultConfiguration": "dev",
+            "configurations": {
+                "prod": {
+                    "buildTarget": "@dnd-mapp/message-broker:build:prod"
+                },
+                "dev": {
+                    "buildTarget": "@dnd-mapp/message-broker:build:dev"
+                }
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "dependsOn": ["build"],
+            "options": {
+                "jestConfig": "apps/message-broker/jest.config.ts",
+                "passWithNoTests": true
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "ci": true
+                },
+                "dev": {
+                    "ci": false,
+                    "watch": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "eslintConfig": "apps/message-broker/eslint.config.mjs"
+            }
+        }
+    }
+}
