@@ -19,20 +19,20 @@ runs:
           shell: bash
           run: |
               filtered=()
-              
+
               IFS=',' read -r -a array <<< "${{ inputs.input-value }}"
               IFS=',' read -r -a filters <<< "${{ inputs.filters }}"
-              
+
               for item in "${array[@]}"; do
                 if [[ ! " ${filters[@]} " =~ " $item " ]]; then
                   filtered+=("$item")
                 fi
               done
-              
+
               if [[ ${#filtered[@]} -eq 0 ]]; then
                 platforms=""
               else
                 platforms=$(IFS=','; echo "${filtered[*]}")
               fi
-              
+
               echo "output-value=$platforms" >> $GITHUB_OUTPUT
