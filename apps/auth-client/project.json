@@ -21,13 +21,9 @@
                 "browser": "apps/auth-client/src/main.ts",
                 "inlineStyleLanguage": "scss",
                 "outputPath": "dist/apps/auth-client",
-                "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+                "scripts": [],
                 "styles": ["apps/auth-client/src/styles.scss"],
-                "stylePreprocessorOptions": {
-                    "sass": {
-                        "silenceDeprecations": ["color-functions", "global-builtin", "import"]
-                    }
-                },
+                "stylePreprocessorOptions": {},
                 "tsConfig": "apps/auth-client/tsconfig.app.json"
             },
             "defaultConfiguration": "prod",
@@ -84,12 +80,8 @@
                 "inlineStyleLanguage": "scss",
                 "main": "apps/auth-client/test/setup-test.ts",
                 "karmaConfig": "apps/auth-client/karma.conf.js",
-                "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
-                "stylePreprocessorOptions": {
-                    "sass": {
-                        "silenceDeprecations": ["color-functions", "global-builtin", "import"]
-                    }
-                },
+                "scripts": [],
+                "stylePreprocessorOptions": {},
                 "styles": ["apps/auth-client/src/styles.scss"],
                 "tsConfig": "apps/auth-client/tsconfig.spec.json"
             },
