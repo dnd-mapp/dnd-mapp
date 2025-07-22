@@ -21,7 +21,7 @@ module.exports = (config) => {
             suppressAll: true,
         },
         coverageReporter: {
-            dir: join(__dirname, '../../reports/apps/auth-server-client'),
+            dir: join(__dirname, '../../reports/apps/auth-client'),
             // check: {
             //     branches: 80,
             //     functions: 80,
