@@ -1,21 +1,28 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { UsersOverviewHarness } from '@dnd-mapp/auth-client/testing';
+import { createTestEnvironment } from '@dnd-mapp/shared-ui/test';
 import { UsersOverviewPage } from './overview.page';
 
-describe('Overview', () => {
-    let component: UsersOverviewPage;
-    let fixture: ComponentFixture<UsersOverviewPage>;
+describe('UsersOverviewPage', () => {
+    @Component({
+        imports: [UsersOverviewPage],
+        template: '<dma-users-overview />',
+    })
+    class TestComponent {}
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [UsersOverviewPage],
-        }).compileComponents();
+    async function setupTest() {
+        const { harness } = await createTestEnvironment({
+            testComponent: TestComponent,
+            harness: UsersOverviewHarness,
+        });
 
-        fixture = TestBed.createComponent(UsersOverviewPage);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        return {
+            harness: harness,
+        };
+    }
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+    it('should render', async () => {
+        const { harness } = await setupTest();
+        expect(harness).toBeDefined();
     });
 });
