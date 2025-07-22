@@ -10,6 +10,10 @@ export const appRoutes: Route[] = [
         loadComponent: async () => (await import('../not-found')).NotFoundPage,
     },
     {
+        path: 'users',
+        loadChildren: async () => (await import('../../users')).userRoutes,
+    },
+    {
         path: '**',
         redirectTo: 'not-found',
     },
