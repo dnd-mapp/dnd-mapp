@@ -12,30 +12,34 @@ $icon-size: var(--icon-size, 1rem);
 $border-radius: var(--border-radius, 0.4rem);
 $opacity-disabled: var(--opacity-disabled, 0.333);
 
-$background: var(--background, colors.$gray04);
-$on-background: var(--on-background, colors.$gray19);
+$background: var(--background, colors.$gray2);
+$on-background: var(--on-background, colors.$gray9);
 
-$inverse-background: var(--inverse-background, colors.$gray19);
-$on-inverse-background: var(--on-inverse-background, colors.$gray01);
+$inverse-background: var(--inverse-background, colors.$gray9);
+$on-inverse-background: var(--on-inverse-background, colors.$gray2);
 
-$surface: var(--surface, colors.$gray05);
-$surface-hover: var(--surface-hover, hover(colors.$gray05));
-$surface-active: var(--surface-active, active(colors.$gray05));
-$on-surface: var(--on-surface, colors.$gray19);
-$on-surface-dim: var(--on-surface-dim, colors.$gray10);
+$surface: var(--surface, colors.$gray3);
+$surface-hover: var(--surface-hover, hover($surface));
+$surface-active: var(--surface-active, active($surface));
+$on-surface: var(--on-surface, colors.$gray9);
+$on-surface-dim: var(--on-surface-dim, colors.$gray9);
 
-$primary: var(--primary, colors.$blue13);
-$primary-hover: var(--primary-hover, hover(colors.$blue13));
-$primary-active: var(--primary-active, active(colors.$blue13));
-$on-primary: var(--on-primary, colors.$gray19);
+$primary: var(--primary, colors.$blue7);
+$primary-hover: var(--primary-hover, hover($primary));
+$primary-active: var(--primary-active, active($primary));
+$on-primary: var(--on-primary, colors.$gray9);
 
-$danger: var(--danger, colors.$red09);
-$danger-hover: var(--danger-hover, hover(colors.$red09));
-$danger-active: var(--danger-active, active(colors.$red09));
-$on-danger: var(--on-danger, colors.$gray19);
+$danger: var(--danger, colors.$red5);
+$danger-hover: var(--danger-hover, hover($danger));
+$danger-active: var(--danger-active, active($danger));
+$on-danger: var(--on-danger, colors.$gray9);
 
-$warning: var(--warning, colors.$orange);
-$on-warning: var(--on-warning, colors.$gray01);
+$warning: var(--warning, colors.$orange5);
+$warning-hover: var(--danger-hover, hover($warning));
+$warning-active: var(--danger-active, active($warning));
+$on-warning: var(--on-warning, colors.$gray9);
 
-$success: var(--success, colors.$green07);
-$on-success: var(--on-success, colors.$gray19);
+$success: var(--success, colors.$green4);
+$success-hover: var(--danger-hover, hover($success));
+$success-active: var(--danger-active, active($success));
+$on-success: var(--on-success, colors.$gray9);

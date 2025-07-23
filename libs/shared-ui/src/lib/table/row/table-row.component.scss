@@ -1,4 +1,3 @@
-@use 'sass:color';
 @use '../../../../styles/colors' as *;
 
 :host {
@@ -9,6 +8,6 @@
 
 :host-context(dma-table-body) {
     &:nth-of-type(even) {
-        background-color: color.scale($gray04, $lightness: 2.5%);
+        //background-color: color.scale($gray04, $lightness: 2.5%);
     }
 }
