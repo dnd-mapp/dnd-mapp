@@ -1,21 +1,8 @@
-$yellow19: #fffff0;
-$yellow18: #feffe0;
-$yellow17: #feffcf;
-$yellow16: #feffbe;
-$yellow15: #feffac;
-$yellow14: #feff99;
-$yellow13: #feff83;
-$yellow12: #feff6b;
-$yellow11: #ffff4b;
-$yellow10: #ffff00;
-$yellow09: #dede00;
-$yellow08: #bebe00;
-$yellow07: #9e9e00;
-$yellow06: #808000;
-$yellow05: #636300;
-$yellow04: #484800;
-$yellow03: #2e2e00;
-$yellow02: #161600;
-$yellow01: #030300;
+$yellow1: oklch(44.3% 0.211 109.8);
+$yellow2: oklch(59.3% 0.211 109.8);
+$yellow3: oklch(74.3% 0.211 109.8);
+$yellow4: oklch(89.3% 0.211 109.8);
+$yellow5: oklch(96.8% 0.211 109.8);
+$yellow6: oklch(100.0% 0.211 109.8);
 
-$yellow: $yellow10;
+$yellow: $yellow5;

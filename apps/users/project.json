@@ -73,7 +73,7 @@
         },
         "test": {
             "executor": "@nx/jest:jest",
-            "dependsOn": ["build"],
+            "dependsOn": ["copy-proto-files", "prisma-generate-files"],
             "options": {
                 "jestConfig": "apps/users/jest.config.ts",
                 "passWithNoTests": true

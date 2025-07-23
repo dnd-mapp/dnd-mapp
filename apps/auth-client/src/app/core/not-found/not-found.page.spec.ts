@@ -1,8 +1,8 @@
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { HomeHarness } from '@dnd-mapp/auth-client/testing';
+import { createTestEnvironment } from '@dnd-mapp/shared-ui/test';
 import { appRoutes } from '../config';
 import { RootComponent } from '../root';
 
@@ -14,20 +14,18 @@ describe('NotFoundPage', () => {
     class TestComponent {}
 
     async function setupTest() {
-        TestBed.configureTestingModule({
-            imports: [TestComponent],
-            providers: [provideZonelessChangeDetection(), provideRouter(appRoutes)],
+        const { harness } = await createTestEnvironment({
+            testComponent: TestComponent,
+            harness: HomeHarness,
+            providers: [provideRouter(appRoutes)],
+            initFunction: async () => {
+                const router = TestBed.inject(Router);
+                await router.navigateByUrl('/');
+            },
         });
 
-        const harnessLoader = TestbedHarnessEnvironment.loader(TestBed.createComponent(TestComponent));
-        const router = TestBed.inject(Router);
-
-        await router.navigateByUrl('/');
-
         return {
-            harnessLoader: harnessLoader,
-            router: router,
-            harness: await harnessLoader.getHarness(HomeHarness),
+            harness: harness,
         };
     }
 

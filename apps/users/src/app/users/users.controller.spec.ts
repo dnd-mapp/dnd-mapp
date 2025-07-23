@@ -1,11 +1,11 @@
 import { Test } from '@nestjs/testing';
+import { AppModule } from '../app.module';
 import { UsersController } from './users.controller';
-import { UsersModule } from './users.module';
 
 describe('UsersController', () => {
     async function setupTest() {
         const app = await Test.createTestingModule({
-            imports: [UsersModule],
+            imports: [AppModule],
         }).compile();
 
         return {

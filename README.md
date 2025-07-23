@@ -82,14 +82,15 @@ Ensure that you have the following requirements prepared:
       sudo nano /etc/hosts
       ```
 
-    - Add the following line at the end of the file:
+    - Add the following lines at the end of the file:
 
-      ```
-      127.0.0.1 localhost.auth.dndmapp.net            # Address for the client of the Authorization server.
-      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
-      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
-      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
+      ```text
       127.0.0.1 localhost.dnd-mapp.net                # Address for the main platform application.
+      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
+      127.0.0.1 localhost.auth.dnd-mapp.net           # Address for the client of the Authorization server.
+      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
+      127.0.0.1 localhost.message-broker.dnd-mapp.net # Address for the Message broker.
+      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
       ```
 
     - Save the file by pressing `Ctrl + O` and close the editor with `CTRL + X`.

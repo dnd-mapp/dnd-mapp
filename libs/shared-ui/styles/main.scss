@@ -1,4 +1,4 @@
-@use './colors' as *;
+@use './colors';
 @use './functions' as *;
 @use './theme-variables' as *;
 
@@ -13,11 +13,11 @@ body {
 }
 
 a {
-    color: $blue15;
+    color: colors.$blue7;
     text-decoration: none;
 
     &:hover {
-        color: hover($blue15);
+        color: hover(colors.$blue7);
         text-decoration: underline;
     }
 }

@@ -1,40 +1,44 @@
-import { ButtonTypes } from '@dnd-mapp/shared-ui';
+import { ButtonComponent, ButtonTypes } from '@dnd-mapp/shared-ui';
 import { Meta, StoryObj } from '@storybook/angular';
-import { withActions } from 'storybook/actions/decorator';
-import { ButtonStoryComponent } from './button-story.component';
 
 const meta = {
     title: 'Components/Button',
     tags: ['!dev'],
-    component: ButtonStoryComponent,
+    component: ButtonComponent,
     args: {
-        buttonType: ButtonTypes.SECONDARY,
-        label: 'My label',
+        label: 'My Button',
+        dmaButton: ButtonTypes.SECONDARY,
         disabled: false,
         processing: false,
     },
-    decorators: [withActions],
-    parameters: {
-        actions: {
-            handles: ['click button[dma-button]'],
-        },
-        docs: {
-            source: {
-                code: `
-                    <button type="button" dma-button>
-                        My Label
-                    </button>
-                `,
-            },
-        },
+    render: (args) => {
+        const { label, ...props } = args;
+
+        return {
+            props: props,
+            template: `
+                <button
+                    type="button"
+                    [dma-button]="this['dmaButton']"
+                    [disabled]="this['disabled']"
+                    [processing]="this['processing']"
+                >
+                    ${label}
+                </button>
+            `,
+        };
     },
     argTypes: {
         label: {
+            name: 'label',
+            control: {
+                type: 'text',
+            },
             table: {
                 category: 'Provided as content',
             },
         },
-        buttonType: {
+        dmaButton: {
             name: 'dma-button',
             control: {
                 type: 'select',
@@ -83,11 +87,11 @@ const meta = {
             },
         },
     },
-} satisfies Meta<ButtonStoryComponent>;
+} satisfies Meta<ButtonComponent & { label: string }>;
 
 export default meta;
 
-type Story = StoryObj<ButtonStoryComponent>;
+type Story = StoryObj<ButtonComponent>;
 
 export const Default: Story = {
     tags: ['dev'],
@@ -98,68 +102,32 @@ export const Disabled: Story = {
     args: {
         disabled: true,
     },
-    parameters: {
-        docs: {
-            source: {
-                code: `<button type="button" dma-button disabled>My Label</button>`,
-            },
-        },
-    },
 };
 
 export const Processing: Story = {
     args: {
         processing: true,
     },
-    parameters: {
-        docs: {
-            source: {
-                code: `<button type="button" dma-button processing>My Label</button>`,
-            },
-        },
-    },
 };
 
 export const Primary: Story = {
     args: {
-        buttonType: 'primary',
-    },
-    parameters: {
-        docs: {
-            source: {
-                code: `<button type="button" dma-button="primary">My Label</button>`,
-            },
-        },
+        dmaButton: 'primary',
     },
 };
 
 export const Dangerous: Story = {
     args: {
-        buttonType: 'danger',
-    },
-    parameters: {
-        docs: {
-            source: {
-                code: `<button type="button" dma-button="danger">My Label</button>`,
-            },
-        },
+        dmaButton: 'danger',
     },
 };
 
 export const WithLeadingIcon: Story = {
-    args: {
-        withIcon: true,
-    },
-    parameters: {
-        docs: {
-            source: {
-                code: `
-                    <button type="button" dma-button>
+    render: (args) => ({
+        props: args,
+        template: `<button type="button" dma-button>
                         <dma-icon dma-pen-to-square-icon ngProjectAs="dma-leading-button-icon" />
                         My Label
-                    </button>
-                `,
-            },
-        },
-    },
+                    </button>`,
+    }),
 };
