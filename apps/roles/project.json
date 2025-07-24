@@ -55,7 +55,6 @@
         },
         "serve": {
             "executor": "@nx/js:node",
-            "dependsOn": ["build"],
             "continuous": true,
             "options": {
                 "inspect": false,
