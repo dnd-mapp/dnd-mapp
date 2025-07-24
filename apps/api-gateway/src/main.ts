@@ -1,3 +1,4 @@
+import { tryCatch } from '@dnd-mapp/shared';
 import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
@@ -17,9 +18,9 @@ async function bootstrap() {
 }
 
 (async () => {
-    try {
-        await bootstrap();
-    } catch (error) {
+    const { error } = await tryCatch(bootstrap());
+
+    if (error) {
         console.error(error);
     }
 })();
