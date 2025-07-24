@@ -1,7 +1,7 @@
 import {
     CreateUserRequest,
     GetAllRequest,
-    GetOneUserRequest,
+    GetUserByIdRequest,
     RemoveUserRequest,
     RpcCodes,
     UpdateEmailRequest,
@@ -23,22 +23,21 @@ export class UsersController implements UsersServiceProducer {
 
     @GrpcMethod(USER_SERVICE_NAME)
     public async getAll(_data: GetAllRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        console.log({ _call });
         return await this.usersService.getAll();
-    }
-
-    @GrpcMethod(USER_SERVICE_NAME)
-    public async getOneBy(_data: GetOneUserRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
-        const userId = this.getUserId(metadata);
-        const query = await this.usersService.getById(userId);
-
-        if (!query) throwRpcException(getFailedIdNotFound(userId), status.NOT_FOUND);
-        return query;
     }
 
     @GrpcMethod(USER_SERVICE_NAME)
     public async create(data: CreateUserRequest, _metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
         return await this.usersService.create(data);
+    }
+
+    @GrpcMethod(USER_SERVICE_NAME)
+    public async getById(_data: GetUserByIdRequest, metadata: Metadata, _call: ServerUnaryCall<unknown, unknown>) {
+        const userId = this.getUserId(metadata);
+        const query = await this.usersService.getById(userId);
+
+        if (!query) throwRpcException(getFailedIdNotFound(userId), status.NOT_FOUND);
+        return query;
     }
 
     @GrpcMethod(USER_SERVICE_NAME)

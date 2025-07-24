@@ -81,7 +81,7 @@ export class GetAllUsersResponse {
     users: User[];
 }
 
-export class GetOneUserRequest {}
+export class GetUserByIdRequest {}
 
 export class CreateUserRequest extends PickType(User, [
     'username',
@@ -156,22 +156,27 @@ export interface UsersServiceProducer {
         metadata: Metadata,
         call: ServerUnaryCall<unknown, unknown>
     ): Promise<GetAllUsersResponse>;
-    getOneBy(data: GetOneUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+
     create(data: CreateUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+
+    getById(data: GetUserByIdRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+
     update(data: UpdateUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+
     updatePassword(
         data: UpdatePasswordRequest,
         metadata: Metadata,
         call: ServerUnaryCall<unknown, unknown>
     ): Promise<User>;
     updateEmail(data: UpdateEmailRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<User>;
+
     remove(data: RemoveUserRequest, metadata: Metadata, call: ServerUnaryCall<unknown, unknown>): Promise<void>;
 }
 
 export interface UsersServiceConsumer {
     getAll(data: GetAllRequest): Observable<GetAllUsersResponse>;
     create(data: CreateUserRequest): Observable<User>;
-    getOneBy(data: GetOneUserRequest, metadata: Metadata): Observable<User>;
+    getById(data: GetUserByIdRequest, metadata: Metadata): Observable<User>;
     update(data: UpdateUserRequest, metadata: Metadata): Observable<User>;
     updatePassword(data: UpdatePasswordRequest, metadata: Metadata): Observable<User>;
     updateEmail(data: UpdateEmailRequest, metadata: Metadata): Observable<User>;

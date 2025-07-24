@@ -14,7 +14,7 @@ service UsersService {
     rpc Update (UpdateRequest) returns (User);
     rpc UpdatePassword (UpdatePasswordRequest) returns (User);
     rpc UpdateEmail(UpdateEmailRequest) returns (User);
-    rpc Remove (RemoveRequest) returns (EmptyResponse);
+    rpc Remove (RemoveRequest) returns (common.EmptyResponse);
 }
 
 message User {

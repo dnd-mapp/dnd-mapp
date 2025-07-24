@@ -12,7 +12,7 @@ service ScopesService {
     // /scopes/:scopeId
     rpc GetById (GetByIdRequest) returns (Scope);
     rpc Update (UpdateRequest) returns (Scope);
-    rpc Remove (RemoveRequest) returns (EmptyResponse);
+    rpc Remove (RemoveRequest) returns (common.EmptyResponse);
 }
 
 message Scope {

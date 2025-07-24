@@ -44,7 +44,7 @@ export class UsersController implements OnModuleInit {
     }
 
     @Post()
-    public async create(data: CreateUserRequest, @Res({ passthrough: true }) response: FastifyReply) {
+    public async create(@Body() data: CreateUserRequest, @Res({ passthrough: true }) response: FastifyReply) {
         const created = await lastValueFrom(this.usersService.create(data));
 
         response.status(HttpStatuses.CREATED).header('location', `${response.request.url}/${created.id}`);
@@ -56,7 +56,7 @@ export class UsersController implements OnModuleInit {
         const metadata = new Metadata();
         metadata.set('userId', userId);
 
-        return await lastValueFrom(this.usersService.getOneBy({}, metadata));
+        return await lastValueFrom(this.usersService.getById({}, metadata));
     }
 
     @Put('/:userId')

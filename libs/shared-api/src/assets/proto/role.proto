@@ -13,7 +13,7 @@ service RolesService {
     // /roles/:roleId
     rpc GetById (GetByIdRequest) returns (Role);
     rpc Update (UpdateRequest) returns (Role);
-    rpc Remove (RemoveRequest) returns (EmptyResponse);
+    rpc Remove (RemoveRequest) returns (common.EmptyResponse);
 
     // /roles/:roleId/scopes
     rpc GetAllScopes (GetAllScopesRequest) returns (scope.Scopes);
