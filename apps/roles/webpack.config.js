@@ -1,6 +1,8 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 
+const isRunningInProduction = process.env['NODE_ENV'] === 'production';
+
 module.exports = {
     output: {
         path: join(__dirname, '../../dist/apps/roles'),
@@ -15,20 +17,17 @@ module.exports = {
                     output: 'assets',
                 },
             ],
-            commonChunk: true,
             compiler: 'tsc',
             externalDependencies: 'all',
-            extractLicenses: true,
-            generatePackageJson: true,
+            extractLicenses: isRunningInProduction,
+            generatePackageJson: isRunningInProduction,
             main: './src/main.ts',
-            namedChunks: true,
-            optimization: false,
+            namedChunks: !isRunningInProduction,
+            optimization: isRunningInProduction,
             outputHashing: 'none',
-            runtimeChunk: true,
             sourceMap: false,
             target: 'node',
             tsConfig: './tsconfig.app.json',
-            vendorChunk: true,
         }),
     ],
 };
