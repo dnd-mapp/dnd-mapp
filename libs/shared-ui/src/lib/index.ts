@@ -6,4 +6,5 @@ export * from './input';
 export * from './navigation';
 export * from './side-bar';
 export * from './table';
+export * from './theming';
 export * from './tooltip';

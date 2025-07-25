@@ -1,34 +1,22 @@
-import { ButtonComponent, ButtonTypes } from '@dnd-mapp/shared-ui';
+import { ButtonTypes } from '@dnd-mapp/shared-ui';
 import { Meta, StoryObj } from '@storybook/angular';
+import { ButtonStoryComponent } from './button-story.component';
 
 const meta = {
     title: 'Components/Button',
     tags: ['!dev'],
-    component: ButtonComponent,
+    component: ButtonStoryComponent,
     args: {
         label: 'My Button',
-        dmaButton: ButtonTypes.SECONDARY,
+        buttonType: ButtonTypes.SECONDARY,
         disabled: false,
         processing: false,
-    },
-    render: (args) => {
-        const { label, ...props } = args;
-
-        return {
-            props: props,
-            template: `
-                <button
-                    type="button"
-                    [dma-button]="this['dmaButton']"
-                    [disabled]="this['disabled']"
-                    [processing]="this['processing']"
-                >
-                    ${label}
-                </button>
-            `,
-        };
+        withLeadingIcon: false,
     },
     argTypes: {
+        clicked: {
+            action: 'click',
+        },
         label: {
             name: 'label',
             control: {
@@ -38,7 +26,7 @@ const meta = {
                 category: 'Provided as content',
             },
         },
-        dmaButton: {
+        buttonType: {
             name: 'dma-button',
             control: {
                 type: 'select',
@@ -87,20 +75,42 @@ const meta = {
             },
         },
     },
-} satisfies Meta<ButtonComponent & { label: string }>;
+} satisfies Meta<ButtonStoryComponent>;
 
 export default meta;
 
-type Story = StoryObj<ButtonComponent>;
+type Story = StoryObj<ButtonStoryComponent>;
 
 export const Default: Story = {
     tags: ['dev'],
     name: 'Interactive',
+    parameters: {
+        docs: {
+            source: {
+                code: `
+                    <button type="button" dma-button>
+                        My Label
+                    </button>
+                `,
+            },
+        },
+    },
 };
 
 export const Disabled: Story = {
     args: {
         disabled: true,
+    },
+    parameters: {
+        docs: {
+            source: {
+                code: `
+                    <button type="button" dma-button disabled>
+                        My Label
+                    </button>
+                `,
+            },
+        },
     },
 };
 
@@ -108,26 +118,67 @@ export const Processing: Story = {
     args: {
         processing: true,
     },
+    parameters: {
+        docs: {
+            source: {
+                code: `
+                    <button type="button" dma-button processing>
+                        My Label
+                    </button>
+                `,
+            },
+        },
+    },
 };
 
 export const Primary: Story = {
     args: {
-        dmaButton: 'primary',
+        buttonType: 'primary',
+    },
+    parameters: {
+        docs: {
+            source: {
+                code: `
+                    <button type="button" dma-button="primary">
+                        My Label
+                    </button>
+                `,
+            },
+        },
     },
 };
 
 export const Dangerous: Story = {
     args: {
-        dmaButton: 'danger',
+        buttonType: 'danger',
+    },
+    parameters: {
+        docs: {
+            source: {
+                code: `
+                    <button type="button" dma-button="danger">
+                        My Label
+                    </button>
+                `,
+            },
+        },
     },
 };
 
 export const WithLeadingIcon: Story = {
-    render: (args) => ({
-        props: args,
-        template: `<button type="button" dma-button>
-                        <dma-icon dma-pen-to-square-icon ngProjectAs="dma-leading-button-icon" />
+    args: {
+        withLeadingIcon: true,
+    },
+    parameters: {
+        docs: {
+            source: {
+                code: `
+                    <button type="button" dma-button>
+                        <dma-icon dma-plus-icon ngProjectAs="dma-leading-button-icon" />
                         My Label
-                    </button>`,
-    }),
+                    </button>
+                `,
+            },
+        },
+    },
 };
