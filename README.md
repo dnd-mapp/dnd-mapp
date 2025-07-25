@@ -89,7 +89,6 @@ Ensure that you have the following requirements prepared:
       127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
       127.0.0.1 localhost.auth.dnd-mapp.net           # Address for the client of the Authorization server.
       127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
-      127.0.0.1 localhost.message-broker.dnd-mapp.net # Address for the Message broker.
       127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
       ```
 

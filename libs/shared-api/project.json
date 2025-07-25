@@ -3,7 +3,7 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/shared-api/src",
     "projectType": "library",
-    "tags": ["scope:shared", "framework:nest", "framework:node"],
+    "tags": ["scope:shared", "framework:nest", "api:internal"],
     "targets": {
         "test": {
             "executor": "@nx/jest:jest",

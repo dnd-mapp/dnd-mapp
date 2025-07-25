@@ -19,11 +19,11 @@ export default [
                     depConstraints: [
                         {
                             sourceTag: 'api:public',
-                            onlyDependOnLibsWithTags: ['scope:shared', 'api:internal'],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'api:internal', 'api:public'],
                         },
                         {
                             sourceTag: 'api:internal',
-                            onlyDependOnLibsWithTags: ['scope:shared'],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'api:internal'],
                         },
                         {
                             sourceTag: 'scope:shared',
@@ -54,6 +54,7 @@ export default [
                                 'grpc-health-check',
                                 'jest',
                                 'juice',
+                                'nanoid',
                                 'node-jose',
                                 'nodemailer',
                                 'nodemailer/*',
