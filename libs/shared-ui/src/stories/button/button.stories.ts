@@ -15,7 +15,7 @@ const meta = {
     },
     argTypes: {
         clicked: {
-            action: 'click',
+            action: 'clicked',
         },
         label: {
             name: 'label',
