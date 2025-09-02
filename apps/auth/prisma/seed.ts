@@ -7,7 +7,7 @@ import {
     ScopeNames,
     ScopesService,
     UsersService,
-} from '@dnd-mapp/auth';
+} from '../src';
 import { INestApplication } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 

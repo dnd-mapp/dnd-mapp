@@ -10,9 +10,6 @@
         "apps/*",
         "libs/*"
     ],
-    "prisma": {
-        "seed": "ts-node --transpile-only prisma/seed.ts"
-    },
     "scripts": {
         "nx": "npx nx",
         "clean": "npx ts-node tools/clean.ts"

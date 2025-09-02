@@ -7,11 +7,15 @@
     "targets": {
         "prisma-generate-client": {
             "executor": "nx:run-commands",
-            "inputs": ["{workspaceRoot}/prisma/**"],
-            "outputs": ["{workspaceRoot}/node_modules/.prisma/client/package.json"],
+            "inputs": [
+                "{projectRoot}/prisma.config.ts",
+                "{projectRoot}/prisma/schema.prisma",
+                "{projectRoot}/prisma/seed.ts"
+            ],
+            "outputs": ["{projectRoot}/prisma/client"],
             "cache": true,
             "options": {
-                "command": "npx prisma generate client"
+                "command": "npx prisma generate client --config apps/auth/prisma.config.ts"
             }
         },
         "build": {
