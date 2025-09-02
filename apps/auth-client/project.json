@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/auth-client",
+    "name": "auth-client",
     "projectType": "application",
     "sourceRoot": "apps/auth-client/src",
     "prefix": "dma",
@@ -54,7 +54,7 @@
             "executor": "@angular/build:dev-server",
             "continuous": true,
             "options": {
-                "buildTarget": "@dnd-mapp/auth-client:build:dev",
+                "buildTarget": "auth-client:build:dev",
                 "host": "localhost.auth.dnd-mapp.net",
                 "port": 7000,
                 "ssl": true,

@@ -10,7 +10,7 @@ export default async () => {
 
     return {
         coverageDirectory: '../../reports/apps/auth',
-        displayName: '@dnd-mapp/auth',
+        displayName: 'auth',
         globalSetup: '<rootDir>/test/global-setup.ts',
         globalTeardown: '<rootDir>/test/global-teardown.ts',
         moduleFileExtensions: ['ts', 'js'],

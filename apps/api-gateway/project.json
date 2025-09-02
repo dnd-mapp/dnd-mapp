@@ -1,6 +1,6 @@
 {
-    "name": "@dnd-mapp/api-gateway",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "api-gateway",
     "sourceRoot": "apps/api-gateway/src",
     "projectType": "application",
     "tags": ["api:public", "framework:nest"],
@@ -54,10 +54,10 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/api-gateway:build:prod"
+                    "buildTarget": "api-gateway:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/api-gateway:build:dev"
+                    "buildTarget": "api-gateway:build:dev"
                 }
             }
         },

@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/shared-ui",
+    "name": "shared-ui",
     "projectType": "library",
     "sourceRoot": "libs/shared-ui/src",
     "prefix": "dma",
@@ -54,7 +54,7 @@
             "outputs": ["{options.outputDir}"],
             "options": {
                 "assets": ["libs/shared-ui/src/**/*.svg"],
-                "browserTarget": "@dnd-mapp/shared-ui:build-storybook",
+                "browserTarget": "shared-ui:build-storybook",
                 "compodoc": false,
                 "configDir": "libs/shared-ui/.storybook",
                 "experimentalZoneless": true,
@@ -75,7 +75,7 @@
             "executor": "@storybook/angular:start-storybook",
             "options": {
                 "assets": ["libs/shared-ui/src/**/*.svg"],
-                "browserTarget": "@dnd-mapp/shared-ui:build-storybook",
+                "browserTarget": "shared-ui:build-storybook",
                 "configDir": "libs/shared-ui/.storybook",
                 "compodoc": false,
                 "enableProdMode": true,

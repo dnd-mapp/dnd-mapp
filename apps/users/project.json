@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/users",
+    "name": "users",
     "sourceRoot": "apps/users/src",
     "projectType": "application",
     "tags": ["api:internal", "framework:nest"],
@@ -63,10 +63,10 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/users:build:prod"
+                    "buildTarget": "users:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/users:build:dev"
+                    "buildTarget": "users:build:dev"
                 }
             }
         },

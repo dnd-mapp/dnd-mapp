@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/auth",
+    "name": "auth",
     "sourceRoot": "apps/auth/src",
     "projectType": "application",
     "tags": ["api:internal", "framework:nest"],
@@ -54,10 +54,10 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/auth:build:prod"
+                    "buildTarget": "auth:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/auth:build:dev"
+                    "buildTarget": "auth:build:dev"
                 }
             }
         },

@@ -10,7 +10,7 @@ export default async () => {
 
     return {
         coverageDirectory: '../../reports/apps/users',
-        displayName: '@dnd-mapp/users',
+        displayName: 'users',
         moduleFileExtensions: ['ts', 'js'],
         preset: '../../jest.preset.js',
         testEnvironment: 'node',

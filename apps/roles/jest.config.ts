@@ -8,7 +8,7 @@ export default async () => {
     swcJestConfig.swcrc = false;
 
     return {
-        displayName: '@dnd-mapp/dma-roles',
+        displayName: 'roles',
         moduleFileExtensions: ['ts', 'js'],
         preset: '../../jest.preset.js',
         testEnvironment: 'node',

@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/roles",
+    "name": "roles",
     "projectType": "application",
     "sourceRoot": "apps/roles/src",
     "tags": ["api:internal", "framework:nest"],
@@ -63,10 +63,10 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/roles:build:prod"
+                    "buildTarget": "roles:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/roles:build:dev"
+                    "buildTarget": "roles:build:dev"
                 }
             }
         },
