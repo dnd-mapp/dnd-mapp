@@ -1,4 +1,4 @@
-import { Theme, ThemeVariables } from '@dnd-mapp/shared-ui';
+import { Theme, ThemeVariables } from './models';
 
 export const BaseTheme = {
     [ThemeVariables.FONT_FAMILY]: `'Roboto', sans-serif`,
