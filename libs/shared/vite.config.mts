@@ -14,6 +14,9 @@ export default defineConfig(() => ({
     //  plugins: [ nxViteTsPaths() ],
     // },
     test: {
+        api: {
+            port: 9876,
+        },
         clearMocks: true,
         coverage: {
             enabled: true,
