@@ -6,13 +6,14 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { AuthenticationModule } from './authentication';
 import { ClientsModule } from './clients';
 import { configOptions, jwtOptions, provideThrottlerGuard, throttlerOptions } from './config';
-import { DatabaseModule } from './database';
+import { DatabaseModule } from '@dnd-mapp/shared-api';
 import { KeysModule } from './keys';
 import { LoggingModule } from './logging';
 import { RolesModule } from './roles';
 import { ScopesModule } from './scopes';
 import { UsersModule } from './users';
 import { WellKnownController } from './well-known.controller';
+import { PrismaClient } from '../../prisma/client';
 
 @Module({
     imports: [
@@ -20,7 +21,7 @@ import { WellKnownController } from './well-known.controller';
         ThrottlerModule.forRoot(throttlerOptions),
         JwtModule.registerAsync(jwtOptions),
         ScheduleModule.forRoot(),
-        DatabaseModule,
+        DatabaseModule.forRoot(PrismaClient),
         LoggingModule,
         UsersModule,
         KeysModule,

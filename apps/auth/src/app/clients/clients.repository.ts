@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '../database';
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Client, CreateClientData } from '../shared';
+import { PrismaClient } from '../../../prisma/client';
 
 const selectedClientAttributes = {
     select: {
@@ -17,12 +18,12 @@ const selectedClientAttributes = {
 
 @Injectable()
 export class ClientsRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
     public findAll = async () =>
         plainToInstance(
             Client,
-            await this.databaseService.client.findMany({
+            await this.databaseService.prisma.client.findMany({
                 ...selectedClientAttributes,
             })
         );
@@ -30,7 +31,7 @@ export class ClientsRepository {
     public create = async (data: CreateClientData) =>
         plainToInstance(
             Client,
-            await this.databaseService.client.create({
+            await this.databaseService.prisma.client.create({
                 ...selectedClientAttributes,
                 data: {
                     audience: data.audience,
@@ -46,7 +47,7 @@ export class ClientsRepository {
     public findById = async (clientId: string) =>
         plainToInstance(
             Client,
-            await this.databaseService.client.findFirst({
+            await this.databaseService.prisma.client.findFirst({
                 ...selectedClientAttributes,
                 where: { id: clientId },
             })
@@ -55,7 +56,7 @@ export class ClientsRepository {
     public findOneByRedirectURL = async (redirectURL: string) =>
         plainToInstance(
             Client,
-            await this.databaseService.client.findFirst({
+            await this.databaseService.prisma.client.findFirst({
                 ...selectedClientAttributes,
                 where: { redirectURLs: { some: { url: redirectURL } } },
             })
@@ -64,7 +65,7 @@ export class ClientsRepository {
     public findByAudience = async (audience: string) =>
         plainToInstance(
             Client,
-            await this.databaseService.client.findFirst({
+            await this.databaseService.prisma.client.findFirst({
                 ...selectedClientAttributes,
                 where: { audience: audience },
             })
@@ -72,12 +73,12 @@ export class ClientsRepository {
 
     public async update(data: Client) {
         const redirectUrls = (
-            await this.databaseService.redirectURL.findMany({ where: { clientId: data.id }, select: { url: true } })
+            await this.databaseService.prisma.redirectURL.findMany({ where: { clientId: data.id }, select: { url: true } })
         ).map(({ url }) => url);
 
         plainToInstance(
             Client,
-            await this.databaseService.client.update({
+            await this.databaseService.prisma.client.update({
                 ...selectedClientAttributes,
                 where: { id: data.id },
                 data: {
@@ -98,7 +99,7 @@ export class ClientsRepository {
     }
 
     public async removeById(clientId: string) {
-        await this.databaseService.redirectURL.deleteMany({ where: { clientId: clientId } });
-        await this.databaseService.client.delete({ where: { id: clientId } });
+        await this.databaseService.prisma.redirectURL.deleteMany({ where: { clientId: clientId } });
+        await this.databaseService.prisma.client.delete({ where: { id: clientId } });
     }
 }

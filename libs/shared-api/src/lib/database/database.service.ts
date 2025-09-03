@@ -4,7 +4,7 @@ import { PRISMA_CLIENT } from './models';
 
 @Injectable()
 export class DatabaseService<T extends PrismaClient> implements OnModuleInit, BeforeApplicationShutdown {
-    constructor(@Inject(PRISMA_CLIENT) public readonly prismaClient: T) {}
+    constructor(@Inject(PRISMA_CLIENT) private readonly prismaClient: T) {}
 
     public async onModuleInit() {
         await this.prismaClient.$connect();

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '../database';
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { TokenMetadata, transformUserRoles } from '../shared';
+import { PrismaClient } from '../../../prisma/client';
 
 const selectedTokenAttributes = {
     select: {
@@ -46,13 +47,13 @@ const selectedTokenAttributes = {
 
 @Injectable()
 export class TokensRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
     public findByJti = async (jti: string) =>
         plainToInstance(
             TokenMetadata,
             this.transformTokenUser(
-                await this.databaseService.token.findFirst({
+                await this.databaseService.prisma.token.findFirst({
                     ...selectedTokenAttributes,
                     where: { jti: jti },
                 })
@@ -63,7 +64,7 @@ export class TokensRepository {
         plainToInstance(
             TokenMetadata,
             this.transformAllTokenUsers(
-                await this.databaseService.token.findMany({ ...selectedTokenAttributes, where: { pti: pti } })
+                await this.databaseService.prisma.token.findMany({ ...selectedTokenAttributes, where: { pti: pti } })
             )
         );
 
@@ -71,7 +72,7 @@ export class TokensRepository {
         plainToInstance(
             TokenMetadata,
             this.transformAllTokenUsers(
-                await this.databaseService.token.findMany({
+                await this.databaseService.prisma.token.findMany({
                     ...selectedTokenAttributes,
                     where: { AND: [{ sub: userId }, { rvk: false }] },
                 })
@@ -82,7 +83,7 @@ export class TokensRepository {
         plainToInstance(
             TokenMetadata,
             this.transformTokenUser(
-                await this.databaseService.token.create({
+                await this.databaseService.prisma.token.create({
                     ...selectedTokenAttributes,
                     data: {
                         tpe: metadata.tpe,
@@ -103,7 +104,7 @@ export class TokensRepository {
         plainToInstance(
             TokenMetadata,
             this.transformTokenUser(
-                await this.databaseService.token.update({
+                await this.databaseService.prisma.token.update({
                     ...selectedTokenAttributes,
                     where: { jti: token.jti },
                     data: {
@@ -121,23 +122,23 @@ export class TokensRepository {
         );
 
     public async removeByJti(jti: string) {
-        await this.databaseService.token.delete({ where: { jti: jti } });
+        await this.databaseService.prisma.token.delete({ where: { jti: jti } });
     }
 
     public async revokeAllBySub(userId: string) {
-        await this.databaseService.token.updateMany({ where: { sub: userId }, data: { rvk: true } });
+        await this.databaseService.prisma.token.updateMany({ where: { sub: userId }, data: { rvk: true } });
     }
 
     public async revokeByJti(jti: string) {
-        await this.databaseService.token.update({ where: { jti: jti }, data: { rvk: true } });
+        await this.databaseService.prisma.token.update({ where: { jti: jti }, data: { rvk: true } });
     }
 
     public async removeAllByAud(aud: string) {
-        await this.databaseService.token.deleteMany({ where: { aud: aud } });
+        await this.databaseService.prisma.token.deleteMany({ where: { aud: aud } });
     }
 
     public async removeAllExpired() {
-        await this.databaseService.token.deleteMany({ where: { exp: { lt: new Date() } } });
+        await this.databaseService.prisma.token.deleteMany({ where: { exp: { lt: new Date() } } });
     }
 
     private transformAllTokenUsers<T = unknown>(data: T[]) {

@@ -1,25 +1,31 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '../database';
+import { PrismaClient } from '../../../prisma/client';
 import { Authorization, AuthorizeRequest, MAX_AUTHORIZATION_CODE_LIFETIME } from '../shared';
 
 @Injectable()
 export class AuthorizationRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
     public getAuthorizationByState = async (state: string) =>
-        plainToInstance(Authorization, await this.databaseService.authorization.findFirst({ where: { state: state } }));
+        plainToInstance(
+            Authorization,
+            await this.databaseService.prisma.authorization.findFirst({ where: { state: state } })
+        );
 
     public getAuthorizationByAuthorizationCode = async (authorizationCode: string) =>
         plainToInstance(
             Authorization,
-            await this.databaseService.authorization.findFirst({ where: { authorizationCode: authorizationCode } })
+            await this.databaseService.prisma.authorization.findFirst({
+                where: { authorizationCode: authorizationCode },
+            })
         );
 
     public storeCodeChallenge = async (data: AuthorizeRequest) =>
         plainToInstance(
             Authorization,
-            await this.databaseService.authorization.create({
+            await this.databaseService.prisma.authorization.create({
                 data: { codeChallenge: data.codeChallenge, state: data.state, redirectUrl: data.redirectUrl },
             })
         );
@@ -27,14 +33,14 @@ export class AuthorizationRepository {
     public update = async (authorization: Authorization) =>
         plainToInstance(
             Authorization,
-            await this.databaseService.authorization.update({
+            await this.databaseService.prisma.authorization.update({
                 where: { authorizationCode: authorization.authorizationCode },
                 data: authorization,
             })
         );
 
     public async removeByAuthorizationCode(authorizationCode: string) {
-        await this.databaseService.authorization.delete({ where: { authorizationCode: authorizationCode } });
+        await this.databaseService.prisma.authorization.delete({ where: { authorizationCode: authorizationCode } });
     }
 
     public async removeExpiredAuthorizationCodes() {
@@ -49,5 +55,6 @@ export class AuthorizationRepository {
         );
     }
 
-    private findAll = async () => plainToInstance(Authorization, await this.databaseService.authorization.findMany());
+    private findAll = async () =>
+        plainToInstance(Authorization, await this.databaseService.prisma.authorization.findMany());
 }

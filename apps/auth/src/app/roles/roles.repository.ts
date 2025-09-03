@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '../database';
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { CreateRoleData, Role, transformAllRoleScopes, transformRoleScopes } from '../shared';
+import { PrismaClient } from '../../../prisma/client';
 
 const selectedRoleAttributes = {
     select: {
@@ -22,13 +23,13 @@ const selectedRoleAttributes = {
 
 @Injectable()
 export class RolesRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
     public findAll = async () =>
         plainToInstance(
             Role,
             transformAllRoleScopes(
-                await this.databaseService.role.findMany({
+                await this.databaseService.prisma.role.findMany({
                     ...selectedRoleAttributes,
                 })
             )
@@ -38,7 +39,7 @@ export class RolesRepository {
         plainToInstance(
             Role,
             transformRoleScopes(
-                await this.databaseService.role.findUnique({ ...selectedRoleAttributes, where: { id: roleId } })
+                await this.databaseService.prisma.role.findUnique({ ...selectedRoleAttributes, where: { id: roleId } })
             )
         );
 
@@ -46,7 +47,7 @@ export class RolesRepository {
         plainToInstance(
             Role,
             transformRoleScopes(
-                await this.databaseService.role.findFirst({ ...selectedRoleAttributes, where: { name: roleName } })
+                await this.databaseService.prisma.role.findFirst({ ...selectedRoleAttributes, where: { name: roleName } })
             )
         );
 
@@ -54,7 +55,7 @@ export class RolesRepository {
         plainToInstance(
             Role,
             transformRoleScopes(
-                await this.databaseService.role.create({
+                await this.databaseService.prisma.role.create({
                     ...selectedRoleAttributes,
                     data: {
                         name: data.name,
@@ -67,7 +68,7 @@ export class RolesRepository {
         plainToInstance(
             Role,
             transformRoleScopes(
-                await this.databaseService.role.update({
+                await this.databaseService.prisma.role.update({
                     ...selectedRoleAttributes,
                     where: { id: data.id },
                     data: {
@@ -79,6 +80,6 @@ export class RolesRepository {
         );
 
     public async removeById(roleId: string) {
-        await this.databaseService.role.delete({ where: { id: roleId } });
+        await this.databaseService.prisma.role.delete({ where: { id: roleId } });
     }
 }
