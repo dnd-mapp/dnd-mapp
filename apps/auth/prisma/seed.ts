@@ -1,3 +1,5 @@
+import { INestApplication } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
 import {
     AccountStatuses,
     AppModule,
@@ -8,8 +10,6 @@ import {
     ScopesService,
     UsersService,
 } from '../src';
-import { INestApplication } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
 
 let app: INestApplication<unknown>;
 
