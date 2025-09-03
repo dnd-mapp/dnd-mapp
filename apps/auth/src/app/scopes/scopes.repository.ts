@@ -1,8 +1,8 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '@dnd-mapp/shared-api';
-import { CreateScopeData, Scope } from '../shared';
 import { PrismaClient } from '../../../prisma/client';
+import { CreateScopeData, Scope } from '../shared';
 
 const selectedScopeAttributes = {
     select: {
@@ -28,14 +28,19 @@ export class ScopesRepository {
     public findAll = async () =>
         plainToInstance(
             Scope,
-            this.transformAllRoleScopes(await this.databaseService.prisma.scope.findMany({ ...selectedScopeAttributes }))
+            this.transformAllRoleScopes(
+                await this.databaseService.prisma.scope.findMany({ ...selectedScopeAttributes })
+            )
         );
 
     public findOneById = async (scopeId: string) =>
         plainToInstance(
             Scope,
             this.transformRoleScopes(
-                await this.databaseService.prisma.scope.findUnique({ ...selectedScopeAttributes, where: { id: scopeId } })
+                await this.databaseService.prisma.scope.findUnique({
+                    ...selectedScopeAttributes,
+                    where: { id: scopeId },
+                })
             )
         );
 
@@ -43,7 +48,10 @@ export class ScopesRepository {
         plainToInstance(
             Scope,
             this.transformRoleScopes(
-                await this.databaseService.prisma.scope.findFirst({ ...selectedScopeAttributes, where: { name: scopeName } })
+                await this.databaseService.prisma.scope.findFirst({
+                    ...selectedScopeAttributes,
+                    where: { name: scopeName },
+                })
             )
         );
 

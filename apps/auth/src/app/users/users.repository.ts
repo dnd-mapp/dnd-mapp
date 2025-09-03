@@ -1,8 +1,8 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '@dnd-mapp/shared-api';
-import { CreateUserData, transformAllUserRoles, transformUserRoles, UpdateUserData, User } from '../shared';
 import { PrismaClient } from '../../../prisma/client';
+import { CreateUserData, transformAllUserRoles, transformUserRoles, UpdateUserData, User } from '../shared';
 
 const selectedUserAttributes = {
     select: {
@@ -67,7 +67,10 @@ export class UsersRepository {
         plainToInstance(
             User,
             transformUserRoles(
-                await this.databaseService.prisma.user.findFirst({ ...selectedUserAttributes, where: { username: username } })
+                await this.databaseService.prisma.user.findFirst({
+                    ...selectedUserAttributes,
+                    where: { username: username },
+                })
             )
         );
 

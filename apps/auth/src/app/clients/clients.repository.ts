@@ -1,8 +1,8 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '@dnd-mapp/shared-api';
-import { Client, CreateClientData } from '../shared';
 import { PrismaClient } from '../../../prisma/client';
+import { Client, CreateClientData } from '../shared';
 
 const selectedClientAttributes = {
     select: {
@@ -73,7 +73,10 @@ export class ClientsRepository {
 
     public async update(data: Client) {
         const redirectUrls = (
-            await this.databaseService.prisma.redirectURL.findMany({ where: { clientId: data.id }, select: { url: true } })
+            await this.databaseService.prisma.redirectURL.findMany({
+                where: { clientId: data.id },
+                select: { url: true },
+            })
         ).map(({ url }) => url);
 
         plainToInstance(

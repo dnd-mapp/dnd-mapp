@@ -1,8 +1,8 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '@dnd-mapp/shared-api';
-import { CreateRoleData, Role, transformAllRoleScopes, transformRoleScopes } from '../shared';
 import { PrismaClient } from '../../../prisma/client';
+import { CreateRoleData, Role, transformAllRoleScopes, transformRoleScopes } from '../shared';
 
 const selectedRoleAttributes = {
     select: {
@@ -47,7 +47,10 @@ export class RolesRepository {
         plainToInstance(
             Role,
             transformRoleScopes(
-                await this.databaseService.prisma.role.findFirst({ ...selectedRoleAttributes, where: { name: roleName } })
+                await this.databaseService.prisma.role.findFirst({
+                    ...selectedRoleAttributes,
+                    where: { name: roleName },
+                })
             )
         );
 

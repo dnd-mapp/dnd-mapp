@@ -1,8 +1,8 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '@dnd-mapp/shared-api';
-import { TokenMetadata, transformUserRoles } from '../shared';
 import { PrismaClient } from '../../../prisma/client';
+import { TokenMetadata, transformUserRoles } from '../shared';
 
 const selectedTokenAttributes = {
     select: {
