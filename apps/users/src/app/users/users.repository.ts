@@ -14,25 +14,22 @@ import { PrismaClient } from '../../../prisma/client';
 export class UsersRepository {
     constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
-    public findAll = async () => plainToInstance(User, await this.databaseService.prismaClient.user.findMany());
+    public findAll = async () => plainToInstance(User, await this.databaseService.prisma.user.findMany());
 
     public findOneById = async (userId: string) =>
-        plainToInstance(User, await this.databaseService.prismaClient.user.findUnique({ where: { id: userId } }));
+        plainToInstance(User, await this.databaseService.prisma.user.findUnique({ where: { id: userId } }));
 
     public findOneByUsername = async (username: string) =>
-        plainToInstance(
-            User,
-            await this.databaseService.prismaClient.user.findUnique({ where: { username: username } })
-        );
+        plainToInstance(User, await this.databaseService.prisma.user.findUnique({ where: { username: username } }));
 
     public create = async (data: CreateUserRequest) =>
-        plainToInstance(User, await this.databaseService.prismaClient.user.create({ data: data }));
+        plainToInstance(User, await this.databaseService.prisma.user.create({ data: data }));
 
     public async update(data: UpdateUserRequest) {
         const { userId, username, status, lastLogin, loginAttempts, lockedUntil } = data;
         return plainToInstance(
             User,
-            await this.databaseService.prismaClient.user.update({
+            await this.databaseService.prisma.user.update({
                 where: { id: userId },
                 data: {
                     username: username,
@@ -49,7 +46,7 @@ export class UsersRepository {
         const { userId, newPassword, passwordExpiry } = data;
         return plainToInstance(
             User,
-            await this.databaseService.prismaClient.user.update({
+            await this.databaseService.prisma.user.update({
                 where: { id: userId },
                 data: {
                     password: newPassword,
@@ -63,7 +60,7 @@ export class UsersRepository {
         const { userId, newEmail, emailVerified, emailVerificationCode, emailVerificationCodeExpiry } = data;
         return plainToInstance(
             User,
-            await this.databaseService.prismaClient.user.update({
+            await this.databaseService.prisma.user.update({
                 where: { id: userId },
                 data: {
                     email: newEmail,
@@ -76,6 +73,6 @@ export class UsersRepository {
     }
 
     public async removeById(userId: string) {
-        await this.databaseService.prismaClient.user.delete({ where: { id: userId } });
+        await this.databaseService.prisma.user.delete({ where: { id: userId } });
     }
 }
