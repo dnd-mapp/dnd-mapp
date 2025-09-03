@@ -3,14 +3,14 @@
 !*/
 
 !*.ts
-!*.mts
-!*.cts
+!*.[mc]ts
 !*.js
-!*.cjs
-!*.mjs
+!*.[mc]js
 !*.json
 !*.yml
 !*.html
+!*.css
+!*.scss
 
 dist/
 reports/
