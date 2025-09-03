@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/desktop-app-ui",
+    "name": "desktop-app-ui",
     "projectType": "application",
     "sourceRoot": "apps/desktop-app-ui/src",
     "prefix": "dma",

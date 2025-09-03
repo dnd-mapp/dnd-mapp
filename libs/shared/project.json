@@ -1,7 +1,7 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "shared",
     "projectType": "library",
-    "name": "@dnd-mapp/shared",
     "sourceRoot": "libs/shared/src",
     "tags": ["scope:shared"],
     "targets": {

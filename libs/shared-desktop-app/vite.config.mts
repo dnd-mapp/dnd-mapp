@@ -34,7 +34,7 @@ export default defineConfig(() => ({
         environment: 'node',
         globals: true,
         include: ['src/**/*.spec.ts'],
-        name: '@dnd-mapp/shared-desktop-app',
+        name: 'shared-desktop-app',
         passWithNoTests: true,
         reporters: [
             'dot',

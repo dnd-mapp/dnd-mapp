@@ -8,7 +8,7 @@ export default async () => {
     swcJestConfig.swcrc = false;
 
     return {
-        displayName: '@dnd-mapp/shared-api',
+        displayName: 'shared-api',
         preset: '../../jest.preset.js',
         testEnvironment: 'node',
         transform: {

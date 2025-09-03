@@ -1,5 +1,5 @@
 {
-    "name": "@dnd-mapp/shared-desktop-app",
+    "name": "shared-desktop-app",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "library",
     "sourceRoot": "libs/shared/src",

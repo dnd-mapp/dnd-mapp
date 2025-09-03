@@ -1,5 +1,5 @@
 {
-    "name": "@dnd-mapp/shared-api",
+    "name": "shared-api",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/shared-api/src",
     "projectType": "library",
