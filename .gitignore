@@ -2,7 +2,6 @@
 .idea/*
 !.idea/jsLinters
 !.idea/runConfigurations
-!.idea/dma-as.iml
 !.idea/modules.xml
 !.idea/prettier.xml
 !.idea/vcs.xml
@@ -19,7 +18,7 @@ dist/
 node_modules/
 .nx/
 **/prisma/client/
-.angular
+.angular/
 reports/
 
 tmp/
