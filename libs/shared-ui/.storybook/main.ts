@@ -29,6 +29,10 @@ const config: StorybookConfig = {
                 test: new RegExp(rule.test.toString().replace('svg|', '')),
             };
         });
+        config.infrastructureLogging = {
+            colors: true,
+            level: 'warn',
+        };
         return config;
     },
 };
