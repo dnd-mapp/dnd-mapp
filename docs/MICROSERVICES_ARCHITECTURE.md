@@ -31,3 +31,48 @@ architecture-beta
     token_ms:R <--> L:token_db
     role_ms:R <--> L:role_db
 ```
+
+```mermaid
+graph TD
+    subgraph Microservice A 
+        A[Publisher Client]
+    end
+    subgraph Microservice B
+        B[Subscriber Client]
+    end
+    subgraph Broker Server
+        C{Broker Logic}
+        D[(messages.log)]
+        C -- Persists to --> D
+    end
+
+    A -- TCP Connection --> C
+    B -- TCP Connection --> C
+    C -- Pushes Messages --> B
+```
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant API Gateway
+    participant Users Service
+    participant Message Bus
+    participant User Provisioning Worker
+    participant Roles Service
+
+    Client->>+API Gateway: POST /users
+    API Gateway->>+Users Service: createUser({ email, ... })
+    Users Service->>Users Service: Save user to DB
+    Users Service->>Message Bus: Publish [user.created] event
+    Users Service-->>-API Gateway: Success (User object w/o roles)
+    API Gateway-->>-Client: 201 Created
+
+    Message Bus-->>+User Provisioning Worker: Consume [user.created] event
+    User Provisioning Worker->>User Provisioning Worker: Read config (Default Role = "member")
+    User Provisioning Worker->>+Roles Service: findRoleByName({ name: "member" })
+    Roles Service-->>-User Provisioning Worker: Return Role object (with roleId)
+    User Provisioning Worker->>+Users Service: addRoleToUser({ userId, roleId })
+    Users Service->>Users Service: Update user in DB with roleId
+    Users Service-->>-User Provisioning Worker: Success
+    deactivate User Provisioning Worker
+```
