@@ -40,6 +40,7 @@ export default [
                         {
                             sourceTag: 'framework:nest',
                             allowedExternalImports: [
+                                '@dotenvx/dotenvx',
                                 '@fastify/cookie',
                                 '@prisma',
                                 '@prisma/*',
