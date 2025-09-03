@@ -1,1 +1,18 @@
-<p>TableStoryComponent works!</p>
+<dma-table>
+    <dma-table-header>
+        <dma-table-row>
+            <dma-table-column>ID</dma-table-column>
+            <dma-table-column>Username</dma-table-column>
+            <dma-table-column>Email</dma-table-column>
+        </dma-table-row>
+    </dma-table-header>
+    <dma-table-body>
+        @for (user of data; track user.id) {
+            <dma-table-row>
+                <dma-table-column>{{ user.id }}</dma-table-column>
+                <dma-table-column>{{ user.username }}</dma-table-column>
+                <dma-table-column>{{ user.email }}</dma-table-column>
+            </dma-table-row>
+        }
+    </dma-table-body>
+</dma-table>
