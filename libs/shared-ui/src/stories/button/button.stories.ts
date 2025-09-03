@@ -1,5 +1,6 @@
 import { ButtonTypes } from '@dnd-mapp/shared-ui';
 import { Meta, StoryObj } from '@storybook/angular';
+import { fn } from 'storybook/test';
 import { ButtonStoryComponent } from './button-story.component';
 
 const meta = {
@@ -12,10 +13,14 @@ const meta = {
         disabled: false,
         processing: false,
         withLeadingIcon: false,
+        clicked: fn(),
     },
     argTypes: {
         clicked: {
             action: 'clicked',
+            table: {
+                disable: true,
+            },
         },
         label: {
             name: 'label',
