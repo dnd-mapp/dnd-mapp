@@ -1,9 +1,10 @@
 import { readFile } from 'fs/promises';
 import { Config } from 'jest';
+import { cwd } from 'process';
 
 export default async () => {
     // Reading the SWC compilation config for the spec files
-    const swcJestConfig = JSON.parse(await readFile(`${__dirname}/.spec.swcrc`, 'utf-8'));
+    const swcJestConfig = JSON.parse(await readFile(`${cwd()}/apps/users/.spec.swcrc`, 'utf-8'));
 
     // Disable .swcrc look-up by SWC core because we're passing in swcJestConfig ourselves
     swcJestConfig.swcrc = false;
