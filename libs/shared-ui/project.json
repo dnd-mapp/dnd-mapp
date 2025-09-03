@@ -66,9 +66,7 @@
                 "dev": {
                     "sourceMap": true
                 },
-                "ci": {
-                    "quiet": true
-                }
+                "ci": {}
             }
         },
         "storybook": {
@@ -78,7 +76,6 @@
                 "browserTarget": "shared-ui:build-storybook",
                 "configDir": "libs/shared-ui/.storybook",
                 "compodoc": false,
-                "enableProdMode": true,
                 "experimentalZoneless": true,
                 "open": false,
                 "port": 8000,
