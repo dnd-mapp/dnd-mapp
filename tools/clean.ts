@@ -1,6 +1,6 @@
 import { rm } from 'fs/promises';
 
-const directories = ['node_modules/', 'dist/', 'reports/'] as const;
+const directories = ['.angular/', '.nx/', 'dist/', 'node_modules/', 'reports/', 'tmp/'] as const;
 
 async function clean() {
     console.log('Cleaning repository...');
