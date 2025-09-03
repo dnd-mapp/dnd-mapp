@@ -1,0 +1,120 @@
+@use '../../../styles/theme-variables' as *;
+
+:host {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 1rem;
+
+    .input-container {
+        display: grid;
+        border: 0.01rem solid $on-surface;
+        width: calc(100% - 1.02rem);
+        border-radius: $border-radius;
+        padding: 0.5rem;
+        grid-template-columns: 1fr auto;
+        margin-top: 0.5rem;
+        gap: 1rem;
+
+        input {
+            display: block;
+            background: $surface;
+            color: $on-surface;
+            border: none;
+            outline: none;
+            font-size: inherit;
+            width: 100%;
+            grid-row: 1;
+            grid-column: 1;
+            justify-self: stretch;
+
+            &[readonly] {
+                cursor: default;
+            }
+
+            &:focus &::placeholder {
+                visibility: visible;
+                color: $on-surface-dim;
+            }
+
+            &:not(:focus)::placeholder {
+                visibility: hidden;
+            }
+        }
+
+        .label-contents {
+            position: relative;
+            display: inline-block;
+            background: $surface;
+            justify-self: start;
+            grid-row: 1;
+            grid-column: 1;
+            height: min-content;
+
+            .required-symbol {
+                color: $danger;
+            }
+        }
+
+        dma-icon:last-of-type {
+            grid-row: 1;
+            grid-column: 2;
+            justify-self: end;
+        }
+
+        &:not(:has(.leading-icon-container)) {
+            input {
+                margin-left: 0.3rem;
+            }
+        }
+
+        &:has(.leading-icon-container) {
+            padding: 0;
+            width: 100%;
+            grid-template-columns: auto 1fr auto;
+
+            .leading-icon-container {
+                border-right: 0.01rem solid $on-surface;
+                padding: 0.5rem;
+                justify-self: start;
+                grid-column: 1;
+                grid-row: 1;
+            }
+
+            input {
+                grid-column: 2;
+                padding: 0.5rem 0;
+            }
+
+            .label-contents {
+                grid-column: 2;
+                padding: 0.5rem 0;
+            }
+
+            dma-icon:last-of-type {
+                grid-column: 3;
+                padding: 0.5rem;
+            }
+        }
+    }
+
+    &.ng-invalid.ng-touched {
+        color: $danger;
+
+        .input-container {
+            border-color: $danger;
+
+            .leading-icon-container {
+                border-color: $danger;
+            }
+
+            input {
+                color: $danger;
+            }
+        }
+
+        .error-message {
+            margin-top: 0.4rem;
+            font-size: 0.85rem;
+        }
+    }
+}

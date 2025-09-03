@@ -1,24 +1,31 @@
 const { NxAppWebpackPlugin } = require('@nx/webpack/app-plugin');
 const { join } = require('path');
 
+const isRunningInProduction = process.env['NODE_ENV'] === 'production';
+
 module.exports = {
     output: {
-        path: join(__dirname, 'dist'),
+        path: join(__dirname, '../../dist/apps/api-gateway'),
     },
     plugins: [
         new NxAppWebpackPlugin({
             assets: [
                 {
-                    input: '../../libs/api-shared/src/assets',
-                    glob: '*.proto',
+                    input: 'apps/api-gateway/src/assets',
+                    glob: '**/*',
+                    ignore: ['**/.gitkeep'],
                     output: 'assets',
                 },
             ],
             compiler: 'tsc',
-            generatePackageJson: true,
+            externalDependencies: 'all',
+            extractLicenses: isRunningInProduction,
+            generatePackageJson: isRunningInProduction,
             main: './src/main.ts',
-            optimization: false,
+            namedChunks: !isRunningInProduction,
+            optimization: isRunningInProduction,
             outputHashing: 'none',
+            sourceMap: false,
             target: 'node',
             tsConfig: './tsconfig.app.json',
         }),

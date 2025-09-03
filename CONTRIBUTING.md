@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for considering contributing to **@dnd-mapp/dma-ui**! We welcome contributions of all kinds, including bug reports, feature requests, code contributions, and documentation improvements. Please take a moment to review this guide to ensure a smooth contribution process.
+Thank you for considering contributing to **@dnd-mapp/dma-as**! We welcome contributions of all kinds, including bug reports, feature requests, code contributions, and documentation improvements. Please take a moment to review this guide to ensure a smooth contribution process.
 
 ---
 
@@ -28,7 +28,7 @@ This project adheres to a [Code of Conduct](./CODE_OF_CONDUCT.md). By participat
 
 ### Reporting Bugs
 
-If you find a bug, please open an issue on the [Issues](https://github.com/dnd-mapp/dma-ui/issues) page. Include the following details:
+If you find a bug, please open an issue on the [Issues](https://github.com/dnd-mapp/dma-as/issues) page. Include the following details:
 
 - A clear and descriptive title.
 - Steps to reproduce the issue.
@@ -40,7 +40,7 @@ If you find a bug, please open an issue on the [Issues](https://github.com/dnd-m
 
 We welcome feature suggestions! to suggest a feature:
 
-1. Check the [Issues](https://github.com/dnd-mapp/dma-ui/issues) page to see if someone else hasn't already suggested your feature.
+1. Check the [Issues](https://github.com/dnd-mapp/dma-as/issues) page to see if someone else hasn't already suggested your feature.
 2. If not, open a new issue and provide:
    - A clear and descriptive title.
    - A detailed explanation of the feature.
@@ -103,4 +103,4 @@ By contributing to this repository, you agree that your contributions will be li
 
 ___
 
-Thank you for contributing to **@dnd-mapp/dma-ui**! Your support and effort are greatly appreciated.
+Thank you for contributing to **@dnd-mapp/dma-as**! Your support and effort are greatly appreciated.

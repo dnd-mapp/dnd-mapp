@@ -23,5 +23,17 @@ model User {
     lastLogin                   DateTime? @map(name: "last_login")
     lockedUntil                 DateTime? @map(name: "locked_until")
 
+    roles UserRole[]
+
     @@map(name: "users")
+}
+
+model UserRole {
+    userId String @map(name: "user_id")
+    roleId String @map(name: "role_id")
+
+    user User @relation(fields: [userId], references: [id], map: "fk_user_role", onDelete: Cascade)
+
+    @@id(fields: [userId, roleId], name: "pk_user_role")
+    @@map(name: "user_role")
 }

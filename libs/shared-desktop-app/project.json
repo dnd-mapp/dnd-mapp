@@ -1,0 +1,24 @@
+{
+    "name": "shared-desktop-app",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "library",
+    "sourceRoot": "libs/shared/src",
+    "tags": ["scope:shared", "scope:desktop-app"],
+    "targets": {
+        "test": {
+            "executor": "nx:run-commands",
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "command": "vitest run",
+                    "env": {
+                        "CI": "true"
+                    }
+                },
+                "dev": {
+                    "command": "vitest watch"
+                }
+            }
+        }
+    }
+}

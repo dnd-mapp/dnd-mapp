@@ -1,6 +1,7 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '../database';
+import { PrismaClient } from '../../../prisma/client';
 import { CreateUserData, transformAllUserRoles, transformUserRoles, UpdateUserData, User } from '../shared';
 
 const selectedUserAttributes = {
@@ -42,13 +43,13 @@ const selectedUserAttributes = {
 
 @Injectable()
 export class UsersRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
     public findAll = async () =>
         plainToInstance(
             User,
             transformAllUserRoles(
-                await this.databaseService.user.findMany({
+                await this.databaseService.prisma.user.findMany({
                     ...selectedUserAttributes,
                 })
             )
@@ -58,7 +59,7 @@ export class UsersRepository {
         plainToInstance(
             User,
             transformUserRoles(
-                await this.databaseService.user.findFirst({ ...selectedUserAttributes, where: { id: userId } })
+                await this.databaseService.prisma.user.findFirst({ ...selectedUserAttributes, where: { id: userId } })
             )
         );
 
@@ -66,7 +67,10 @@ export class UsersRepository {
         plainToInstance(
             User,
             transformUserRoles(
-                await this.databaseService.user.findFirst({ ...selectedUserAttributes, where: { username: username } })
+                await this.databaseService.prisma.user.findFirst({
+                    ...selectedUserAttributes,
+                    where: { username: username },
+                })
             )
         );
 
@@ -76,7 +80,7 @@ export class UsersRepository {
         return plainToInstance(
             User,
             transformUserRoles(
-                await this.databaseService.user.update({
+                await this.databaseService.prisma.user.update({
                     ...selectedUserAttributes,
                     where: { id: data.id },
                     data: {
@@ -119,7 +123,7 @@ export class UsersRepository {
         plainToInstance(
             User,
             transformUserRoles(
-                await this.databaseService.user.update({
+                await this.databaseService.prisma.user.update({
                     ...selectedUserAttributes,
                     where: { id: data.id },
                     data: {
@@ -134,7 +138,7 @@ export class UsersRepository {
         plainToInstance(
             User,
             transformUserRoles(
-                await this.databaseService.user.create({
+                await this.databaseService.prisma.user.create({
                     ...selectedUserAttributes,
                     data: {
                         username: data.username,
@@ -156,6 +160,6 @@ export class UsersRepository {
         );
 
     public async removeById(userId: string) {
-        await this.databaseService.user.delete({ where: { id: userId } });
+        await this.databaseService.prisma.user.delete({ where: { id: userId } });
     }
 }

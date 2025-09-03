@@ -1,0 +1,40 @@
+@use './colors';
+@use './functions';
+@use './theme-variables' as tv;
+
+html,
+body {
+    background-color: tv.$background;
+    color: tv.$on-background;
+
+    font-family: tv.$font-family;
+    font-size: tv.$font-size;
+    font-weight: tv.$fw-regular;
+    height: 100dvh;
+}
+
+a {
+    color: colors.$blue7;
+    text-decoration: none;
+
+    &:hover {
+        color: functions.hover(colors.$blue7);
+        text-decoration: underline;
+    }
+}
+
+.dma-tooltip-start {
+    margin-right: 0.5rem;
+}
+
+.dma-tooltip-end {
+    margin-left: 0.5rem;
+}
+
+.dma-tooltip-top {
+    margin-bottom: 0.5rem;
+}
+
+.dma-tooltip-bottom {
+    margin-top: 0.5rem;
+}

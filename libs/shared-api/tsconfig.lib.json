@@ -1,0 +1,11 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "exclude": ["jest.config.ts", "src/**/*.spec.ts"],
+    "compilerOptions": {
+        "declaration": true,
+        "target": "ES2024",
+        "tsBuildInfoFile": "dist/tsconfig.lib.tsbuildinfo",
+        "types": ["node"]
+    }
+}

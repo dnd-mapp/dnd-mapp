@@ -1,0 +1,11 @@
+@use '../../../styles/theme-variables' as *;
+
+:host {
+    background-color: $inverse-background;
+    color: $on-inverse-background;
+    padding: 0.4rem;
+    border-radius: 0.2rem;
+
+    font-size: 80%;
+    opacity: 0;
+}

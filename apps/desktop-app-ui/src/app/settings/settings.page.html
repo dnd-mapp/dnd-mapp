@@ -1,0 +1,32 @@
+<form class="w-50" [formGroup]="form" (ngSubmit)="onApplySettings()">
+    <div class="mb-3">
+        <label for="locale-select" class="form-label"> {{ 'INPUT_LABEL_SETTING_LOCALE' | translate }} </label>
+        <select class="form-select" id="locale-select" formControlName="locale">
+            @for (option of localeOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+        </select>
+        <div class="form-text">This determines the language shown in the UI, notifications, etc.</div>
+    </div>
+    <div class="mb-3">
+        <label for="log-level-select" class="form-label"> {{ 'INPUT_LABEL_SETTING_LOG_LEVEL' | translate }} </label>
+        <select class="form-select" id="log-level-select" formControlName="logLevel">
+            @for (option of logLevelOptions; track option.value) {
+            <option [value]="option.value">{{ option.label }}</option>
+            }
+        </select>
+        <div class="form-text">This determines how much information is shown in the outputted logs.</div>
+    </div>
+    <div class="mb-3">
+        <label for="web-socket-port" class="form-label">Web Socket port</label>
+        <input type="number" class="form-control" id="web-socket-port" formControlName="webSocketPort" />
+        <div class="form-text">
+            This determines on which port the Web Socket server of this application is available.
+        </div>
+    </div>
+    <div class="d-flex gap-3">
+        <button type="submit" class="btn btn-primary" [disabled]="form.invalid || form.pristine">
+            {{ 'BUTTON_LABEL_APPLY' | translate }}
+        </button>
+    </div>
+</form>

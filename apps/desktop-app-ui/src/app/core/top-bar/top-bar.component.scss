@@ -1,0 +1,15 @@
+:host {
+    display: block;
+
+    .navbar-brand {
+        div {
+            position: relative;
+            height: 2rem;
+            width: 2rem;
+
+            img {
+                object-fit: contain;
+            }
+        }
+    }
+}

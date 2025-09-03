@@ -1,23 +1,27 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/dma-auth",
+    "name": "auth",
     "sourceRoot": "apps/auth/src",
     "projectType": "application",
     "tags": ["api:internal", "framework:nest"],
     "targets": {
         "prisma-generate-client": {
             "executor": "nx:run-commands",
-            "inputs": ["{workspaceRoot}/prisma/**"],
-            "outputs": ["{workspaceRoot}/node_modules/.prisma/client/package.json"],
+            "inputs": [
+                "{projectRoot}/prisma.config.ts",
+                "{projectRoot}/prisma/schema.prisma",
+                "{projectRoot}/prisma/seed.ts"
+            ],
+            "outputs": ["{projectRoot}/prisma/client"],
             "cache": true,
             "options": {
-                "command": "npx prisma generate client"
+                "command": "npx prisma generate client --config apps/auth/prisma.config.ts"
             }
         },
         "build": {
             "executor": "nx:run-commands",
             "dependsOn": ["prisma-generate-client"],
-            "outputs": ["{projectRoot}/dist"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "cache": true,
             "options": {
                 "command": "webpack-cli build"
@@ -50,16 +54,29 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/dma-auth:build:prod"
+                    "buildTarget": "auth:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/dma-auth:build:dev"
+                    "buildTarget": "auth:build:dev"
                 }
             }
         },
         "test": {
+            "executor": "@nx/jest:jest",
+            "dependsOn": ["build"],
             "options": {
+                "jestConfig": "apps/auth/jest.config.ts",
                 "passWithNoTests": true
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "ci": true
+                },
+                "dev": {
+                    "ci": false,
+                    "watch": true
+                }
             }
         }
     }

@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-We actively support the following versions of **@dnd-mapp/dma-ui**:
+We actively support the following versions of **@dnd-mapp/dma-as**:
 
 | Version | Supported         |
 |---------|-------------------|
@@ -14,7 +14,7 @@ If you are using an unsupported version, we recommend upgrading to the latest ve
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in **@dnd-mapp/dma-ui**, please help us address it responsibly by following these steps:
+If you discover a security vulnerability in **@dnd-mapp/dma-as**, please help us address it responsibly by following these steps:
 
 1. **Do not disclose the vulnerability publicly**:
     - Avoid creating GitHub issues or pull requests that describe the vulnerability.
@@ -38,7 +38,7 @@ If you discover a security vulnerability in **@dnd-mapp/dma-ui**, please help us
 
 ## Security Best Practices
 
-To help keep your deployment of **@dnd-mapp/dma-ui** secure, we recommend the following:
+To help keep your deployment of **@dnd-mapp/dma-as** secure, we recommend the following:
 
 - **Keep dependencies up to date**:
     - Regularly update your dependencies to ensure you receive the latest security patches.
@@ -53,14 +53,14 @@ To help keep your deployment of **@dnd-mapp/dma-ui** secure, we recommend the fo
 
 ## Acknowledgments
 
-We appreciate the efforts of security researchers and contributors who help us improve the security of **@dnd-mapp/dma-ui**. If you would like to be publicly acknowledged for reporting a vulnerability, please let us know when you contact us.
+We appreciate the efforts of security researchers and contributors who help us improve the security of **@dnd-mapp/dma-as**. If you would like to be publicly acknowledged for reporting a vulnerability, please let us know when you contact us.
 
 ---
 
 ## Disclaimer
 
-While we strive to ensure the security of **@dnd-mapp/dma-ui**, no software is completely free of vulnerabilities. Users are responsible for securing their own environments and deployments.
+While we strive to ensure the security of **@dnd-mapp/dma-as**, no software is completely free of vulnerabilities. Users are responsible for securing their own environments and deployments.
 
 ---
 
-Thank you for helping us keep **@dnd-mapp/dma-ui** secure!
+Thank you for helping us keep **@dnd-mapp/dma-as** secure!

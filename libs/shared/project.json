@@ -1,0 +1,24 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "shared",
+    "projectType": "library",
+    "sourceRoot": "libs/shared/src",
+    "tags": ["scope:shared"],
+    "targets": {
+        "test": {
+            "executor": "nx:run-commands",
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "command": "vitest run",
+                    "env": {
+                        "CI": "true"
+                    }
+                },
+                "dev": {
+                    "command": "vitest watch"
+                }
+            }
+        }
+    }
+}

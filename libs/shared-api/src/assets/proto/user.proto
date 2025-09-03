@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+import "common.proto";
+
+package user;
+
+service UsersService {
+    // /users
+    rpc GetAll (GetAllRequest) returns (Users);
+    rpc Create (CreateRequest) returns (User);
+
+    // /users/:userId
+    rpc GetById (GetByIdRequest) returns (User);
+    rpc Update (UpdateRequest) returns (User);
+    rpc UpdatePassword (UpdatePasswordRequest) returns (User);
+    rpc UpdateEmail(UpdateEmailRequest) returns (User);
+    rpc Remove (RemoveRequest) returns (common.EmptyResponse);
+}
+
+message User {
+    string id = 1;
+    string username = 2;
+    string password = 3;
+    string password_expiry = 4;
+    string email = 5;
+    bool email_verified = 6;
+    string email_verification_code = 7;
+    string email_verification_code_expiry = 8;
+    int32 login_attempts = 9;
+    string last_login = 10;
+    string status = 11;
+    string locked_until = 12;
+}
+
+message Users {
+    repeated User users = 1;
+}
+
+message GetAllRequest {
+    bool email_verified = 1;
+    string status = 2;
+}
+
+message GetByIdRequest {}
+
+message CreateRequest {
+    string username = 1;
+    string password = 2;
+    string password_expiry = 3;
+    string email = 4;
+    bool email_verified = 5;
+    string email_verification_code_expiry = 6;
+    string status = 7;
+    string locked_until = 8;
+}
+
+message UpdateRequest {
+    string user_id = 1;
+    string username = 2;
+    string password_expiry = 3;
+    string email_verified = 4;
+    string email_verification_code = 5;
+    string email_verification_code_expiry = 6;
+    int32 login_attempts = 7;
+    string last_login = 8;
+    string status = 9;
+    string locked_until = 10;
+}
+
+message UpdatePasswordRequest {
+    string user_id = 1;
+    string old_password = 2;
+    string new_password = 3;
+    string password_expiry = 4;
+}
+
+message UpdateEmailRequest {
+    string user_id = 1;
+    string old_email = 2;
+    string new_email = 3;
+    bool email_verified = 4;
+    string email_verification_code = 5;
+    string email_verification_code_expiry = 6;
+}
+
+message RemoveRequest {
+    string user_id = 1;
+}

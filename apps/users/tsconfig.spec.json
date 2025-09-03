@@ -1,11 +1,9 @@
 {
-    "extends": "../../tsconfig.base.json",
-    "references": [{ "path": "./tsconfig.app.json" }],
-    "include": ["./src/**/*.d.ts", "./jest.config.ts", "./src/**/*.spec.ts"],
+    "extends": "./tsconfig.json",
+    "include": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.d.ts"],
+    "exclude": ["eslint.config.mjs", "prisma.config.ts", "prisma/**/*"],
     "compilerOptions": {
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "outDir": "./out-tsc/jest",
+        "sourceMap": false,
         "types": ["node", "jest"]
     }
 }

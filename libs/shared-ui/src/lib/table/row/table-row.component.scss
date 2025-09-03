@@ -1,0 +1,13 @@
+@use '../../../../styles/colors' as *;
+
+:host {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+:host-context(dma-table-body) {
+    &:nth-of-type(even) {
+        //background-color: color.scale($gray04, $lightness: 2.5%);
+    }
+}

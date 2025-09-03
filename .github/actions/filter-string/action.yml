@@ -1,0 +1,38 @@
+name: String filter
+description: Remove a section from a string and returns the result.
+inputs:
+    input-value:
+        description: The string that needs to be filtered on.
+        required: true
+    filters:
+        description: A string containing a list of comma separated items that need to be removed from the input value.
+        required: true
+outputs:
+    platforms:
+        description: The filtered string
+        value: ${{ steps.filter-string.outputs.output-value }}
+runs:
+    using: composite
+    steps:
+        - name: Filter String
+          id: filter-string
+          shell: bash
+          run: |
+              filtered=()
+
+              IFS=',' read -r -a array <<< "${{ inputs.input-value }}"
+              IFS=',' read -r -a filters <<< "${{ inputs.filters }}"
+
+              for item in "${array[@]}"; do
+                if [[ ! " ${filters[@]} " =~ " $item " ]]; then
+                  filtered+=("$item")
+                fi
+              done
+
+              if [[ ${#filtered[@]} -eq 0 ]]; then
+                platforms=""
+              else
+                platforms=$(IFS=','; echo "${filtered[*]}")
+              fi
+
+              echo "output-value=$platforms" >> $GITHUB_OUTPUT

@@ -1,12 +1,25 @@
 {
-    "name": "@dnd-mapp/dma-api-gateway",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "api-gateway",
     "sourceRoot": "apps/api-gateway/src",
     "projectType": "application",
     "tags": ["api:public", "framework:nest"],
     "targets": {
+        "copy-proto-files": {
+            "executor": "nx:run-commands",
+            "inputs": [
+                "{workspaceRoot}/libs/shared-api/src/assets/proto/*.proto",
+                "{workspaceRoot}/tools/copy-proto-files.ts"
+            ],
+            "outputs": ["{projectRoot}/src/assets/proto/*.proto"],
+            "cache": true,
+            "options": {
+                "command": "npx ts-node tools/copy-proto-files.ts --appPath apps/api-gateway"
+            }
+        },
         "build": {
             "executor": "nx:run-commands",
+            "dependsOn": ["copy-proto-files"],
             "cache": true,
             "inputs": [
                 "{projectRoot}/**/*",
@@ -14,21 +27,19 @@
                 "!{projectRoot}/jest.config.ts",
                 "!{projectRoot}/**/*.spec.ts",
                 "!{projectRoot}/.spec.swcrc",
-                "!{projectRoot}/dist/**/*",
-                "!{projectRoot}/test/**/*",
-                "!{projectRoot}/reports/**/*"
+                "!{projectRoot}/test/**/*"
             ],
-            "outputs": ["{projectRoot}/dist"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "options": {
                 "command": "webpack-cli build"
             },
             "defaultConfiguration": "prod",
             "configurations": {
                 "prod": {
-                    "args": ["node-env=production"]
+                    "args": ["--node-env production"]
                 },
                 "dev": {
-                    "args": ["node-env=development"]
+                    "args": ["--node-env development"]
                 }
             }
         },
@@ -43,16 +54,35 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/dma-api-gateway:build:prod"
+                    "buildTarget": "api-gateway:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/dma-api-gateway:build:dev"
+                    "buildTarget": "api-gateway:build:dev"
                 }
             }
         },
         "test": {
+            "executor": "@nx/jest:jest",
+            "dependsOn": ["build"],
             "options": {
+                "jestConfig": "apps/api-gateway/jest.config.ts",
                 "passWithNoTests": true
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "ci": true
+                },
+                "dev": {
+                    "ci": false,
+                    "watch": true
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "eslintConfig": "apps/api-gateway/eslint.config.mjs"
             }
         }
     }

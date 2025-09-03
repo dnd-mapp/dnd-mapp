@@ -1,0 +1,68 @@
+@use '../../../styles/theme-variables' as *;
+@use '../../../styles/functions' as *;
+
+:host {
+    display: inline-block;
+    border: 0.01rem solid $surface;
+    padding: 0.3rem;
+    border-radius: $border-radius;
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+
+        .checkbox-container {
+            border: 0.01rem solid $on-surface;
+            border-radius: $border-radius;
+            padding: 0.2rem;
+
+            dma-icon {
+                visibility: hidden;
+            }
+
+            &.checked {
+                background-color: $primary;
+                border-color: $primary;
+
+                dma-icon {
+                    visibility: visible;
+                }
+            }
+        }
+
+        input {
+            display: none;
+            visibility: hidden;
+        }
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: $surface-hover;
+
+        label {
+            cursor: pointer;
+
+            .checkbox-container {
+                background-color: $on-surface;
+                border-color: $on-surface;
+
+                dma-icon {
+                    visibility: visible;
+                    color: $surface-hover;
+                }
+
+                &.checked {
+                    background-color: $primary-hover;
+                    border-color: $primary-hover;
+
+                    dma-icon {
+                        visibility: visible;
+                        color: $on-surface;
+                    }
+                }
+            }
+        }
+    }
+}

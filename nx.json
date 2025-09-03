@@ -1,53 +1,40 @@
 {
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
     "defaultBase": "main",
-    "nxCloudId": "686d0bbba30b49e228878f47",
+    "neverConnectToCloud": true,
     "namedInputs": {
         "default": ["{projectRoot}/**/*", "sharedGlobals"],
         "production": [
             "default",
             "!{projectRoot}/eslint.config.mjs",
             "!{projectRoot}/**/*.spec.ts",
+            "!{projectRoot}/test/**/*",
             "!{projectRoot}/tsconfig.spec.json",
             "!{projectRoot}/jest.config.ts",
-            "!{projectRoot}/test/**/*"
+            "!{projectRoot}/karma.conf.js",
+            "!{projectRoot}/**/*.stories.ts",
+            "!{projectRoot}/**/*.mdx",
+            "!{projectRoot}/.storybook/**/*"
         ],
-        "sharedGlobals": ["{workspaceRoot}/.github/workflows/build.yml}"]
+        "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml}"]
     },
     "targetDefaults": {
-        "test": {
-            "dependsOn": ["build"],
-            "options": {
-                "passWithNoTests": true
-            }
+        "@angular/build:application": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
+        },
+        "@nx/angular:ng-packagr-lite": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
+        },
+        "build-storybook": {
+            "cache": true,
+            "inputs": ["default", "^production", "{projectRoot}/.storybook/**/*"]
         }
     },
     "plugins": [
-        {
-            "plugin": "@nx/js/typescript",
-            "exclude": ["libs/api-shared/*"],
-            "options": {
-                "build": {
-                    "targetName": "build",
-                    "configName": "tsconfig.lib.json",
-                    "buildDepsName": "build-deps",
-                    "watchDepsName": "watch-deps"
-                },
-                "typecheck": {
-                    "targetName": "typecheck"
-                }
-            }
-        },
-        {
-            "plugin": "@nx/webpack/plugin",
-            "options": {
-                "buildTargetName": "build",
-                "serveTargetName": "serve",
-                "previewTargetName": "preview",
-                "buildDepsTargetName": "build-deps",
-                "watchDepsTargetName": "watch-deps"
-            }
-        },
         {
             "plugin": "@nx/eslint/plugin",
             "options": {
@@ -55,20 +42,44 @@
             }
         },
         {
-            "plugin": "@nx/jest/plugin",
-            "exclude": [],
+            "plugin": "@nx/vite/plugin",
             "options": {
-                "targetName": "test"
+                "buildTargetName": "build",
+                "testTargetName": "test",
+                "serveTargetName": "serve",
+                "devTargetName": "dev",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static",
+                "typecheckTargetName": "typecheck",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
             }
         },
         {
-            "plugin": "@nx/js/typescript",
-            "include": ["libs/api-shared/*"],
+            "plugin": "@nx/webpack/plugin",
             "options": {
-                "typecheck": {
-                    "targetName": "typecheck"
-                }
+                "buildTarget": "build",
+                "serveTargetName": "serve",
+                "previewTargetName": "preview",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
             }
         }
-    ]
+    ],
+    "generators": {
+        "@nx/angular:application": {
+            "e2eTestRunner": "none",
+            "linter": "eslint",
+            "style": "scss",
+            "unitTestRunner": "none"
+        },
+        "@nx/angular:component": {
+            "style": "scss",
+            "changeDetection": "OnPush"
+        },
+        "@nx/angular:library": {
+            "linter": "eslint",
+            "unitTestRunner": "none"
+        }
+    }
 }

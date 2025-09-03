@@ -1,0 +1,13 @@
+@use '../../../styles/theme-variables' as *;
+
+:host {
+    display: block;
+    width: $icon-size;
+    height: $icon-size;
+    vertical-align: -0.125rem;
+
+    svg {
+        height: 100%;
+        width: 100%;
+    }
+}

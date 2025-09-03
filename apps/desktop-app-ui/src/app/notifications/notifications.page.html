@@ -1,0 +1,23 @@
+<form class="w-50" [formGroup]="form" (ngSubmit)="onShowNotification()">
+    <div class="mb-3">
+        <label for="notification-title-input" class="form-label">
+            {{ 'INPUT_LABEL_NOTIFICATION_TITLE' | translate }}
+        </label>
+        <input type="text" class="form-control" id="notification-title-input" formControlName="title" />
+    </div>
+    <div class="mb-3">
+        <label for="notification-message-input" class="form-label">
+            {{ 'INPUT_LABEL_NOTIFICATION_BODY' | translate }}
+        </label>
+        <textarea class="form-control" id="notification-message-input" rows="3" formControlName="message"></textarea>
+    </div>
+    <div class="form-check mb-3">
+        <input type="checkbox" class="form-check-input" id="silent-notification-check" formControlName="silent" />
+        <label for="silent-notification-check" class="form-check-label">
+            {{ 'CHECKBOX_LABEL_NOTIFICATION_SILENT' | translate }}
+        </label>
+    </div>
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+        {{ 'BUTTON_LABEL_SEND_NOTIFICATION' | translate }}
+    </button>
+</form>

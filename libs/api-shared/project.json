@@ -1,8 +1,0 @@
-{
-    "name": "@dnd-mapp/dma-api-shared",
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "libs/api-shared/src",
-    "projectType": "library",
-    "tags": ["scope:shared", "framework:nest", "framework:node"],
-    "targets": {}
-}

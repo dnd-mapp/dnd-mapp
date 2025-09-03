@@ -19,18 +19,20 @@ dist/
 node_modules/
 .nx/
 **/prisma/client/
+.angular
+reports/
+
+tmp/
 
 # OS
 .DS_Store
-
-# Tests
-reports/
 
 *.pem
 *.key
 .env
 
+*.proto
+!libs/shared-api/**/*.proto
+
 .docker/mariadb/
 .docker/dbeaver-workspace/
-
-test-output

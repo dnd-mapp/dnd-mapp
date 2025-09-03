@@ -1,21 +1,17 @@
-# @dnd-mapp/dma-as
+# Dnd Mapp
 
-[![License](https://img.shields.io/github/license/dnd-mapp/dma-as)](LICENSE)
-[![Build](https://github.com/dnd-mapp/dma-as/actions/workflows/build.yml/badge.svg?branch=main&event=push)](https://github.com/dnd-mapp/dma-as/actions/workflows/build.yml)
+[![License](https://img.shields.io/github/license/dnd-mapp/dnd-mapp)](LICENSE)
+[![CI](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/ci.yml)
 
 ## Overview
 
-**@dnd-mapp/dma-as** contains the source code the Authentication Server of the DnD-Mapp platform. This server exposes an API in order to:
-
-- Manage Users.
-- Generate JWT tokens for authentication and authorization.
-- Assign roles to Users to enable Roll-based Access Control (RBAC).
+**@dnd-mapp/dnd-mapp** contains the source code of the DnD-Mapp platform.
 
 ---
 
 ## Getting started
 
-Follow these steps to get started developing **@dnd-mapp/dma-as**
+Follow these steps to get started developing **@dnd-mapp/dnd-mapp**
 
 ### Prerequisites
 
@@ -45,13 +41,13 @@ Ensure that you have the following requirements prepared:
 1. Clone the repository
 
     ```bash
-    git clone https://github.com/dnd-mapp/dma-as.git
+    git clone https://github.com/dnd-mapp/dnd-mapp.git
     ```
 
 2. Navigate to the project directory
 
     ```bash
-    cd dma-as
+    cd dnd-mapp
     ```
 
 3. Install Dependencies
@@ -71,10 +67,10 @@ Ensure that you have the following requirements prepared:
     - Generate the certificate and key with the following command:
 
       ```bash
-      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.auth.dndmapp.net localhost
+      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.shared-ui.dnd-mapp.net localhost.auth.dnd-mapp.net localhost.api.dnd-mapp.net localhost.desktop-app.dnd-mapp.net localhost.dnd-mapp.net localhost
       ```
 
-5. Add the `localhost.auth.dndmapp.net` host name to the hosts file on your machine.
+5. Add the `localhost.*` host names to the hosts file on your machine.
 
    #### For Mac / Linux
 
@@ -86,10 +82,14 @@ Ensure that you have the following requirements prepared:
       sudo nano /etc/hosts
       ```
 
-    - Add the following line at the end of the file:
+    - Add the following lines at the end of the file:
 
-      ```
-      127.0.0.1 localhost.auth.dndmapp.net
+      ```text
+      127.0.0.1 localhost.dnd-mapp.net                # Address for the main platform application.
+      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
+      127.0.0.1 localhost.auth.dnd-mapp.net           # Address for the client of the Authorization server.
+      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
+      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
       ```
 
     - Save the file by pressing `Ctrl + O` and close the editor with `CTRL + X`.
@@ -108,7 +108,11 @@ Ensure that you have the following requirements prepared:
     - Add the following line at the end of the file:
 
       ```
-      127.0.0.1 localhost.auth.dndmapp.net
+      127.0.0.1 localhost.auth.dnd-mapp.net            # Address for the client of the Authorization server.
+      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
+      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
+      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
+      127.0.0.1 localhost.dnd-mapp.net                # Address for the main platform application.
       ```
 
     - Save the file by pressing `Ctrl + S` after which you may close Notepad.
@@ -144,31 +148,51 @@ Ensure that you have the following requirements prepared:
 
    Close Microsoft Management Console (you do not need to save the console). Then **restart** your browser.
 
-### Running the project
+### Running a project
 
-To serve the application locally you can run the following command:
+To serve an application locally you can run one of the following commands:
 
-```bash
-npm run start
-```
+| Project     | Command                    | Address                                       |
+|-------------|----------------------------|-----------------------------------------------|
+| shared-ui   | npx nx storybook shared-ui | https://localhost.shared-ui.dnd-mapp.net:8000 |
+| api-gateway | npx nx serve api-gateway   | https://localhost.api.dnd-mapp.net:3000       |
+| auth        | npx nx serve auth          | https://0.0.0.0:7200                          |
+| users       | npx nx serve users         | 0.0.0.0:5000                                  |
+| roles       | npx nx serve roles         | 0.0.0.0:5100                                  |
+| auth-client | npx nx serve auth-client   | https://localhost.auth.dnd-mapp:7000          |
+| desktop-app | npx nx serve desktop-app   | https://localhost.desktop-app.dnd-mapp:7100   |
 
 ---
 
 ## Usage
 
-In order to run tests, run the following command:
+### Building
+
+In order to compile for a particular application, run the following command format and replace the name of the project with the desired project name that you wish to compile
 
 ```bash
-npm run test
+npx nx build <project-name>
+```
+
+### Testing
+
+In order to run tests for a particular library or application, run the following command format and replace the name of the project with the desired project of which you want to run tests:
+
+```bash
+npx nx test <project-name>
 ```
 
 Or run them in dev mode, which will rerun the tests after each file change:
 
 ```bash
-npm run test-dev
+npx nx test <project-name> -c dev
 ```
 
-For creating and writing tests, we make use of [Jest](https://jestjs.io/).
+For creating and writing tests, we make use of different frameworks depending on the application or library:
+- For an Angular project, we typically use [Karma]() in combination with [Jasmine]().
+- For a NestJs project, we typically use [Jest](https://jestjs.io/).
+- For an Electron project, we typically use [Vitest]().
+- For a plain Typescript library we also use Vitest.
 
 ---
 

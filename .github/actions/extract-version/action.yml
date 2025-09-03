@@ -1,0 +1,12 @@
+name: Extract version
+description: |
+    Extracts the version from the @dnd-mapp/dma-ui package.json
+    and stores the value in the VERSION environment variable
+runs:
+    using: composite
+    steps:
+        - name: Extract version
+          shell: bash
+          run: |
+              VERSION=$(jq -r '.version' packages/dma-ui/package.json)
+              echo "VERSION=$VERSION" >> $GITHUB_ENV

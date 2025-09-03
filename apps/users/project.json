@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "name": "@dnd-mapp/dma-users",
+    "name": "users",
     "sourceRoot": "apps/users/src",
     "projectType": "application",
     "tags": ["api:internal", "framework:nest"],
@@ -15,9 +15,21 @@
                 "args": ["--config apps/users/prisma.config.ts"]
             }
         },
+        "copy-proto-files": {
+            "executor": "nx:run-commands",
+            "inputs": [
+                "{workspaceRoot}/libs/shared-api/src/assets/proto/*.proto",
+                "{workspaceRoot}/tools/copy-proto-files.ts"
+            ],
+            "outputs": ["{projectRoot}/src/assets/proto/*.proto"],
+            "cache": true,
+            "options": {
+                "command": "npx ts-node tools/copy-proto-files.ts --appPath apps/users"
+            }
+        },
         "build": {
             "executor": "nx:run-commands",
-            "dependsOn": ["prisma-generate-client"],
+            "dependsOn": ["prisma-generate-client", "copy-proto-files"],
             "cache": true,
             "inputs": [
                 "{projectRoot}/**/*",
@@ -25,11 +37,9 @@
                 "!{projectRoot}/jest.config.ts",
                 "!{projectRoot}/**/*.spec.ts",
                 "!{projectRoot}/.spec.swcrc",
-                "!{projectRoot}/dist/**/*",
-                "!{projectRoot}/test/**/*",
-                "!{projectRoot}/reports/**/*"
+                "!{projectRoot}/test/**/*"
             ],
-            "outputs": ["{projectRoot}/dist"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "options": {
                 "command": "webpack-cli build"
             },
@@ -45,7 +55,6 @@
         },
         "serve": {
             "executor": "@nx/js:node",
-            "dependsOn": ["build"],
             "continuous": true,
             "options": {
                 "inspect": false,
@@ -54,15 +63,16 @@
             "defaultConfiguration": "dev",
             "configurations": {
                 "prod": {
-                    "buildTarget": "@dnd-mapp/dma-users:build:prod"
+                    "buildTarget": "users:build:prod"
                 },
                 "dev": {
-                    "buildTarget": "@dnd-mapp/dma-users:build:dev"
+                    "buildTarget": "users:build:dev"
                 }
             }
         },
         "test": {
             "executor": "@nx/jest:jest",
+            "dependsOn": ["copy-proto-files", "prisma-generate-files"],
             "options": {
                 "jestConfig": "apps/users/jest.config.ts",
                 "passWithNoTests": true

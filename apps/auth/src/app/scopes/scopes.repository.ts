@@ -1,6 +1,7 @@
+import { DatabaseService } from '@dnd-mapp/shared-api';
 import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { DatabaseService } from '../database';
+import { PrismaClient } from '../../../prisma/client';
 import { CreateScopeData, Scope } from '../shared';
 
 const selectedScopeAttributes = {
@@ -22,19 +23,24 @@ const selectedScopeAttributes = {
 
 @Injectable()
 export class ScopesRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: DatabaseService<PrismaClient>) {}
 
     public findAll = async () =>
         plainToInstance(
             Scope,
-            this.transformAllRoleScopes(await this.databaseService.scope.findMany({ ...selectedScopeAttributes }))
+            this.transformAllRoleScopes(
+                await this.databaseService.prisma.scope.findMany({ ...selectedScopeAttributes })
+            )
         );
 
     public findOneById = async (scopeId: string) =>
         plainToInstance(
             Scope,
             this.transformRoleScopes(
-                await this.databaseService.scope.findUnique({ ...selectedScopeAttributes, where: { id: scopeId } })
+                await this.databaseService.prisma.scope.findUnique({
+                    ...selectedScopeAttributes,
+                    where: { id: scopeId },
+                })
             )
         );
 
@@ -42,7 +48,10 @@ export class ScopesRepository {
         plainToInstance(
             Scope,
             this.transformRoleScopes(
-                await this.databaseService.scope.findFirst({ ...selectedScopeAttributes, where: { name: scopeName } })
+                await this.databaseService.prisma.scope.findFirst({
+                    ...selectedScopeAttributes,
+                    where: { name: scopeName },
+                })
             )
         );
 
@@ -50,7 +59,7 @@ export class ScopesRepository {
         plainToInstance(
             Scope,
             this.transformRoleScopes(
-                await this.databaseService.scope.create({
+                await this.databaseService.prisma.scope.create({
                     ...selectedScopeAttributes,
                     data: {
                         name: data.name,
@@ -72,7 +81,7 @@ export class ScopesRepository {
         return plainToInstance(
             Scope,
             this.transformRoleScopes(
-                await this.databaseService.scope.update({
+                await this.databaseService.prisma.scope.update({
                     ...selectedScopeAttributes,
                     where: { id: data.id },
                     data: {
@@ -95,7 +104,7 @@ export class ScopesRepository {
     }
 
     public async removeById(scopeId: string) {
-        await this.databaseService.scope.delete({ where: { id: scopeId } });
+        await this.databaseService.prisma.scope.delete({ where: { id: scopeId } });
     }
 
     private transformAllRoleScopes<T = unknown>(data: T[]) {
