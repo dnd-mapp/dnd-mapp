@@ -67,7 +67,7 @@ Ensure that you have the following requirements prepared:
     - Generate the certificate and key with the following command:
 
       ```bash
-      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.shared-ui.dnd-mapp.net localhost.auth.dnd-mapp.net localhost.api.dnd-mapp.net localhost.desktop-app.dnd-mapp.net localhost.dnd-mapp.net localhost
+      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.shared-ui.dnd-mapp.net localhost.auth.dnd-mapp.net localhost.api.dnd-mapp.net localhost.desktop-app.dnd-mapp.net localhost.www.dnd-mapp.net localhost
       ```
 
 5. Add the `localhost.*` host names to the hosts file on your machine.
@@ -85,11 +85,11 @@ Ensure that you have the following requirements prepared:
     - Add the following lines at the end of the file:
 
       ```text
-      127.0.0.1 localhost.dnd-mapp.net                # Address for the main platform application.
-      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
-      127.0.0.1 localhost.auth.dnd-mapp.net           # Address for the client of the Authorization server.
-      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
-      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
+      127.0.0.1 localhost.www.dnd-mapp.net          # Address for the main platform application.
+      127.0.0.1 localhost.api.dnd-mapp.net          # Address for the client of the API.
+      127.0.0.1 localhost.auth.dnd-mapp.net         # Address for the client of the Authorization server.
+      127.0.0.1 localhost.desktop-app.dnd-mapp.net  # Address for the UI of the desktop-app.
+      127.0.0.1 localhost.shared-ui.dnd-mapp.net    # Address for the Storybook app for the shared-ui project.
       ```
 
     - Save the file by pressing `Ctrl + O` and close the editor with `CTRL + X`.
@@ -158,6 +158,7 @@ To serve an application locally you can run one of the following commands:
 | api-gateway | npx nx serve api-gateway   | https://localhost.api.dnd-mapp.net:3000       |
 | auth        | npx nx serve auth          | https://0.0.0.0:7200                          |
 | users       | npx nx serve users         | 0.0.0.0:5000                                  |
+| dnd-mapp    | npx nx serve dnd-mapp      | https://localhost.www.dnd-mapp.net:7300       |
 | roles       | npx nx serve roles         | 0.0.0.0:5100                                  |
 | auth-client | npx nx serve auth-client   | https://localhost.auth.dnd-mapp:7000          |
 | desktop-app | npx nx serve desktop-app   | https://localhost.desktop-app.dnd-mapp:7100   |
