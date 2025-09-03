@@ -7,7 +7,6 @@
     "targets": {
         "test": {
             "executor": "nx:run-commands",
-            "continuous": true,
             "defaultConfiguration": "ci",
             "configurations": {
                 "ci": {
