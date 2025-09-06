@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'dma-plus-icon, dma-icon[dma-plus-icon]',
+    selector: 'dma-plus-so-icon, dma-icon[dma-plus-so-icon]',
     templateUrl: './plus.icon.svg',
-    styleUrl: '../icons.scss',
+    styleUrl: '../../icons.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlusIcon {}

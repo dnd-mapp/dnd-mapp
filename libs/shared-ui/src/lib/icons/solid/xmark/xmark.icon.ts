@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'dma-xmark-icon, dma-icon[dma-xmark-icon]',
+    selector: 'dma-xmark-so-icon, dma-icon[dma-xmark-so-icon]',
     templateUrl: './xmark.icon.svg',
-    styleUrl: '../icons.scss',
+    styleUrl: '../../icons.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class XmarkIcon {}
