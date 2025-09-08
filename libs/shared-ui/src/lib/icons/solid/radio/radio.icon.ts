@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-    selector: 'dma-circle-so-icon, dma-icon[dma-circle-so-icon]',
-    templateUrl: './circle.icon.svg',
+    selector: 'dma-radio-so-icon, dma-icon[dma-radio-so-icon]',
+    templateUrl: './radio.icon.svg',
     styleUrl: '../../icons.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CircleSoIcon {}
+export class RadioSoIcon {}

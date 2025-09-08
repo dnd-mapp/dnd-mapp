@@ -12,6 +12,7 @@ export * from './music/music.icon';
 export * from './pen-to-square/pen-to-square.icon';
 export * from './plus/plus.icon';
 export * from './podcast/podcast.icon';
+export * from './radio/radio.icon';
 export * from './spinner/spinner.icon';
 export * from './trash/trash.icon';
 export * from './user-group/user-group.icon';

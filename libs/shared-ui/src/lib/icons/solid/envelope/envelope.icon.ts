@@ -6,4 +6,4 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     styleUrl: '../../icons.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EnvelopeIcon {}
+export class EnvelopeSoIcon {}
