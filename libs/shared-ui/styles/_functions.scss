@@ -1,9 +1,0 @@
-@use 'sass:color';
-
-@function hover($color) {
-    @return oklch(from $color calc(l * 0.95) c h);
-}
-
-@function active($color) {
-    @return oklch(from $color calc(l * 0.9) c h);
-}

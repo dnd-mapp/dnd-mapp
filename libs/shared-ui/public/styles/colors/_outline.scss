@@ -1,0 +1,4 @@
+@use './palettes';
+
+$outline: var(--outline, palettes.$neutral-variant50);
+$outline-variant: var(--outline-variant, palettes.$neutral-variant80);

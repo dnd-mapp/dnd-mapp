@@ -1,0 +1,16 @@
+@use './palettes';
+
+$primary: var(--primary, palettes.$primary40);
+$on-primary: var(--on-primary, palettes.$primary100);
+
+$primary-container: var(--primary-container, palettes.$primary90);
+$on-primary-container: var(--on-primary-container, palettes.$primary30);
+
+$primary-fixed: var(--primary-fixed, palettes.$primary90);
+$on-primary-fixed: var(--on-primary-fixed, palettes.$primary10);
+
+$primary-fixed-dim: var(--primary-fixed-dim, palettes.$primary80);
+
+$on-primary-fixed-variant: var(--on-primary-fixed-variant, palettes.$primary30);
+
+$inverse-primary: var(--inverse-primary, palettes.$primary80);

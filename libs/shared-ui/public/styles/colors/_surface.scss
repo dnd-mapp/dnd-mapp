@@ -1,0 +1,25 @@
+@use './palettes';
+
+$surface: var(--surface, palettes.$neutral98);
+$on-surface: var(--on-surface, palettes.$neutral10);
+
+$surface-variant: var(--surface-variant, palettes.$neutral-variant90);
+$on-surface-variant: var(--on-surface-variant, palettes.$neutral-variant30);
+
+$inverse-surface: var(--inverse-surface, palettes.$neutral20);
+$on-inverse-surface: var(--on-inverse-surface, palettes.$neutral95);
+
+$surface-container-highest: var(--surface-container-highest, palettes.$neutral90);
+$surface-container-high: var(--surface-container-high, palettes.$neutral92);
+$surface-container: var(--surface-container, palettes.$neutral94);
+$surface-container-low: var(--surface-container-low, palettes.$neutral96);
+$surface-container-lowest: var(--surface-container-lowest, palettes.$neutral100);
+
+$surface-bright: var(--surface-bright, palettes.$neutral98);
+$surface-dim: var(--surface-dim, palettes.$neutral87);
+
+$background: var(--background, palettes.$neutral98);
+$on-background: var(--on-background, palettes.$neutral10);
+
+$scrim: var(--scrim, palettes.$neutral0);
+$shadow: var(--shadow, palettes.$neutral0);

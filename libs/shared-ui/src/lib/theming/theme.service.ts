@@ -3,7 +3,7 @@ import { DEFAULT_THEME, ThemeName, Themes } from './themes';
 
 @Injectable()
 export class ThemeService {
-    public readonly theme = signal(DEFAULT_THEME);
+    private readonly theme = signal(DEFAULT_THEME);
 
     private hostElement: HTMLElement;
 
@@ -17,9 +17,7 @@ export class ThemeService {
     }
 
     private updateThemeVariables() {
-        if (!this.hostElement) {
-            return;
-        }
+        if (!this.hostElement) return;
         const theme = Themes[this.theme()];
 
         if (!theme) {

@@ -1,0 +1,18 @@
+@use './colors';
+@use './fonts';
+@use './typography';
+
+html,
+body {
+    background-color: colors.$background;
+    color: colors.$on-background;
+
+    font-family: typography.$font-family;
+    font-size: typography.$font-size;
+    font-weight: typography.$font-weight-regular;
+    height: 100dvh;
+}
+
+* {
+    margin: 0;
+}

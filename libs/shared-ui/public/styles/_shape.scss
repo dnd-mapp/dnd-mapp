@@ -1,0 +1,13 @@
+$extra-small-corner: var(--extra-small-corner, 0.25rem);
+$small-corner: var(--small-corner, 0.5rem);
+$medium-corner: var(--medium-corner, 0.75rem);
+$large-corner: var(--large-corner, 1rem);
+$large-increased-corner: var(--large-increased-corner, 1.25rem);
+$extra-large-corner: var(--extra-large-corner, 1.75rem);
+$extra-large-increased-corner: var(--extra-large-increased-corner, 2rem);
+$extra-extra-large-corner: var(--extra-extra-large-corner, 3rem);
+$full-corner: var(--full-corner, 10rem);
+
+@function inner-radius($outer-radius, $padding) {
+    @return $outer-radius - $padding;
+}

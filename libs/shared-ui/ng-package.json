@@ -1,6 +1,13 @@
 {
     "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "assets": ["./styles/**/*", "./README.md"],
+    "assets": [
+        "./README.md",
+        {
+            "input": "./public",
+            "glob": "**/*",
+            "output": "./"
+        }
+    ],
     "dest": "../../dist/libs/shared-ui",
     "lib": {
         "entryFile": "src/index.ts"
