@@ -1,0 +1,14 @@
+<div class="nav-item-state-indicator">
+    <!--    TODO: Add badges    -->
+    @if (hasOneIcon()) {
+        <ng-content select="dma-nav-item-icon" />
+    } @else {
+        @if (active()) {
+            <ng-content select="dma-nav-item-active-icon" />
+        } @else {
+            <ng-content select="dma-nav-item-inactive-icon" />
+        }
+    }
+    <span class="nav-item-label layout-horizontal">{{ label() }}</span>
+</div>
+<span class="nav-item-label layout-vertical">{{ label() }}</span>

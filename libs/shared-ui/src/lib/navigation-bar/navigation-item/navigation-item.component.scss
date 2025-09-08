@@ -1,0 +1,64 @@
+@use '../../styles';
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25em;
+    flex-grow: 1;
+
+    cursor: default;
+
+    color: styles.$on-surface-variant;
+
+    .nav-item-state-indicator {
+        display: flex;
+        align-self: center;
+        height: 2em;
+        width: 3.5rem;
+        align-items: center;
+        justify-content: center;
+        border-radius: styles.$full-corner;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .nav-item-label {
+        text-align: center;
+        font-size: 0.75em;
+        font-weight: 500;
+
+        &.layout-horizontal {
+            display: none;
+        }
+    }
+
+    @media (min-width: styles.$window-size-medium) {
+        flex-grow: 0;
+
+        .nav-item-state-indicator {
+            padding: 0 1em;
+            height: 2.5em;
+            gap: 0.25em;
+        }
+
+        .nav-item-label {
+            &.layout-horizontal {
+                display: inline-block;
+            }
+
+            &.layout-vertical {
+                display: none;
+            }
+        }
+    }
+
+    &.active {
+        color: styles.$on-secondary-container;
+
+        .nav-item-state-indicator {
+            background-color: styles.$secondary-container;
+        }
+    }
+}

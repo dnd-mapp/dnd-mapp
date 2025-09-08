@@ -11,3 +11,8 @@ $icon-size: 1em;
         width: 100%;
     }
 }
+
+:host-context(dma-navigation-item) {
+    font-size: 1.5em;
+    flex: 0 0 auto;
+}

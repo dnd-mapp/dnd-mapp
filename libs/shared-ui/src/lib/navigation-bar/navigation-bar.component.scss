@@ -1,0 +1,14 @@
+@use '../styles';
+
+:host {
+    display: flex;
+    align-items: center;
+    background-color: styles.$surface-container;
+    height: 4em;
+    justify-content: space-evenly;
+
+    @media (min-width: styles.$window-size-medium) {
+        justify-content: center;
+        padding: 0 2.5em;
+    }
+}
