@@ -2,8 +2,6 @@ import { ComponentHarness, HarnessLoader, HarnessQuery } from '@angular/cdk/test
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { provideZonelessChangeDetection, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
-import { provideTestingTooltipDelays } from '../providers';
 
 interface CreateTestEnvironmentParams<T, H extends ComponentHarness> {
     testComponent?: Type<T>;
@@ -20,12 +18,8 @@ export async function createTestEnvironment<T, H extends ComponentHarness>(param
 
     TestBed.configureTestingModule({
         imports: [...(params.imports ?? []), ...(params.testComponent ? [params.testComponent] : [])],
-        providers: [
-            provideNoopAnimations(),
-            provideTestingTooltipDelays(),
-            provideZonelessChangeDetection(),
-            ...(params.providers ?? []),
-        ],
+        providers: [provideZonelessChangeDetection(), ...(params.providers ?? [])],
+        animationsEnabled: false,
     });
 
     if (params.initFunction) await params.initFunction();
