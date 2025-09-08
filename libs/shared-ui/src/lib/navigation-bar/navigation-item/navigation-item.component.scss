@@ -3,24 +3,41 @@
 :host {
     display: flex;
     flex-direction: column;
-    gap: 0.25em;
     flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25em;
+    height: 100%;
 
     cursor: default;
 
+    &:hover {
+        cursor: pointer;
+    }
+
     color: styles.$on-surface-variant;
+    user-select: none;
 
     .nav-item-state-indicator {
-        display: flex;
-        align-self: center;
+        display: grid;
         height: 2em;
         width: 3.5rem;
-        align-items: center;
-        justify-content: center;
         border-radius: styles.$full-corner;
 
-        &:hover {
-            cursor: pointer;
+        .nav-item-content-container,
+        dma-state-layer {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        dma-state-layer {
+            border-radius: styles.$full-corner;
+        }
+
+        .nav-item-content-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
@@ -38,9 +55,13 @@
         flex-grow: 0;
 
         .nav-item-state-indicator {
-            padding: 0 1em;
             height: 2.5em;
-            gap: 0.25em;
+            width: unset;
+
+            .nav-item-content-container {
+                gap: 0.25em;
+                padding: 0 1em;
+            }
         }
 
         .nav-item-label {

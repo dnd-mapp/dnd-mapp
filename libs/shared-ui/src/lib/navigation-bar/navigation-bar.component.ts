@@ -63,12 +63,12 @@ export class NavigationBarComponent implements AfterContentInit {
     }
 
     private calculateSpacePerItem() {
-        // TODO: Replace magic numbers with actual values.
+        // TODO: Replace magic numbers with concrete values.
         // Divides the minimum bar size (when in horizontal mode, which equals the minimum width of a medium window),
         // minus the total padding of the bar, by the root font size.
         const availableSpace = (600 - 80) / 16;
         const minWidth = availableSpace / this.items().length;
 
-        this.items().forEach((item) => item.minWidth.set(`${minWidth}em`));
+        this.items().forEach((item) => item.minWidth.set(minWidth));
     }
 }
