@@ -9,6 +9,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, tap } from 'rxjs';
+import { getRootFontSize, windowSizeMedium } from '../theming';
+import { navigationBarPadding } from './models';
 import { NavigationItemComponent } from './navigation-item';
 
 @Component({
@@ -63,10 +65,13 @@ export class NavigationBarComponent implements AfterContentInit {
     }
 
     private calculateSpacePerItem() {
-        // TODO: Replace magic numbers with concrete values.
+        const rootFontSize = getRootFontSize();
+        const padding = navigationBarPadding * rootFontSize * 2;
+        const minNavigationBarWidth = windowSizeMedium * rootFontSize;
+
         // Divides the minimum bar size (when in horizontal mode, which equals the minimum width of a medium window),
         // minus the total padding of the bar, by the root font size.
-        const availableSpace = (600 - 80) / 16;
+        const availableSpace = (minNavigationBarWidth - padding) / rootFontSize;
         const minWidth = availableSpace / this.items().length;
 
         this.items().forEach((item) => item.minWidth.set(minWidth));

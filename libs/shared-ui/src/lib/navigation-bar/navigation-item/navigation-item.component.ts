@@ -14,6 +14,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { StateDirective, StateLayerComponent } from '../../state';
+import { getRootFontSize } from '../../theming';
 
 @Component({
     selector: 'dma-navigation-item',
@@ -48,9 +49,10 @@ export class NavigationItemComponent implements AfterViewInit {
     protected paddingStyle = signal('0');
 
     public ngAfterViewInit() {
-        // TODO: Replace magic numbers with concrete values.
+        const rootFontSize = getRootFontSize();
+
         // Calculates the current width (in ems) of the navigation item.
-        const width = Number(getComputedStyle(this.elementRef.nativeElement).width.replace('px', '')) / 16;
+        const width = Number(getComputedStyle(this.elementRef.nativeElement).width.replace('px', '')) / rootFontSize;
         const padding = (this.minWidth() - width) / 2;
 
         this.paddingStyle.set(`0 ${padding}em`);
