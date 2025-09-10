@@ -1,0 +1,31 @@
+@use '../../assets/styles';
+
+$badge-small-size: 0.375em;
+$badge-large-size: 1em;
+
+:host {
+    display: inline-flex;
+    justify-content: center;
+    align-items: baseline;
+    height: $badge-small-size;
+    width: $badge-small-size;
+    border-radius: styles.$full-corner;
+    background-color: styles.$error;
+    color: styles.$on-error;
+
+    .badge-label {
+        display: block;
+        font-size: 0.6875em;
+        line-height: 1em;
+        font-weight: styles.$font-weight-bold;
+    }
+
+    &.large {
+        border-radius: styles.$small-corner;
+        height: $badge-large-size;
+        padding: 0.25em;
+        width: unset;
+        min-width: 1em;
+        max-width: 2.125em;
+    }
+}
