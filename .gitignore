@@ -2,9 +2,7 @@
 .idea/*
 !.idea/jsLinters
 !.idea/runConfigurations
-!.idea/modules.xml
 !.idea/prettier.xml
-!.idea/vcs.xml
 
 # IDE - VSCode
 .vscode/*
