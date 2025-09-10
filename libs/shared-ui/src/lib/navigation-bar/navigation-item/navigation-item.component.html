@@ -1,16 +1,17 @@
 <div class="nav-item-state-indicator">
     <dma-state-layer color="on-surface-variant" />
-    <!--    TODO: Add badges    -->
     <div class="nav-item-content-container">
-        @if (hasOneIcon()) {
-            <ng-content select="dma-nav-item-icon" />
-        } @else {
-            @if (active()) {
-                <ng-content select="dma-nav-item-active-icon" />
+        <div class="nav-item-icon-container" [dmaBadge]="currentBadgeType()">
+            @if (hasOneIcon()) {
+                <ng-content select="dma-nav-item-icon" />
             } @else {
-                <ng-content select="dma-nav-item-inactive-icon" />
+                @if (active()) {
+                    <ng-content select="dma-nav-item-active-icon" />
+                } @else {
+                    <ng-content select="dma-nav-item-inactive-icon" />
+                }
             }
-        }
+        </div>
         <span class="nav-item-label layout-horizontal">{{ label() }}</span>
     </div>
 </div>

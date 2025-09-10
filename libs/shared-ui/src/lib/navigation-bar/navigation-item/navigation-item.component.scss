@@ -21,7 +21,7 @@
     .nav-item-state-indicator {
         display: grid;
         height: 2em;
-        width: 3.5rem;
+        width: 3.5em;
         border-radius: styles.$full-corner;
 
         .nav-item-content-container,
@@ -44,14 +44,22 @@
     .nav-item-label {
         text-align: center;
         font-size: 0.75em;
-        font-weight: 500;
+        font-weight: styles.$font-weight-bold;
 
         &.layout-horizontal {
             display: none;
         }
     }
 
-    @media (min-width: styles.$window-size-medium) {
+    &.active {
+        color: styles.$on-secondary-container;
+
+        .nav-item-state-indicator {
+            background-color: styles.$secondary-container;
+        }
+    }
+
+    .navigation-bar-layout-horizontal & {
         flex-grow: 0;
 
         .nav-item-state-indicator {
@@ -72,14 +80,6 @@
             &.layout-vertical {
                 display: none;
             }
-        }
-    }
-
-    &.active {
-        color: styles.$on-secondary-container;
-
-        .nav-item-state-indicator {
-            background-color: styles.$secondary-container;
         }
     }
 }
