@@ -13,11 +13,8 @@
         }
     },
     "peerDependencies": {
-        "@angular/animations": "~20.2.0",
         "@angular/cdk": "~20.2.0",
-        "@angular/common": "~20.2.0",
         "@angular/core": "~20.2.0",
-        "@angular/forms": "~20.2.0",
         "@angular/router": "~20.2.0",
         "rxjs": "~7.8.0"
     }
