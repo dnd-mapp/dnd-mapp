@@ -28,7 +28,7 @@
             "options": {
                 "assets": [
                     {
-                        "input": "libs/shared-ui/styles",
+                        "input": "libs/shared-ui/src/assets",
                         "glob": "**/*"
                     }
                 ],
@@ -36,7 +36,7 @@
                 "inlineStyleLanguage": "scss",
                 "karmaConfig": "libs/shared-ui/karma.conf.js",
                 "scripts": [],
-                "styles": ["libs/shared-ui/styles/main.scss"],
+                "styles": ["libs/shared-ui/src/assets/styles/main.scss"],
                 "tsConfig": "libs/shared-ui/tsconfig.spec.json"
             },
             "defaultConfiguration": "ci",
@@ -55,7 +55,7 @@
             "options": {
                 "assets": [
                     {
-                        "input": "libs/shared-ui/public",
+                        "input": "libs/shared-ui/src/assets",
                         "glob": "**/*",
                         "output": "."
                     }
@@ -80,7 +80,7 @@
             "options": {
                 "assets": [
                     {
-                        "input": "libs/shared-ui/public",
+                        "input": "libs/shared-ui/src/assets",
                         "glob": "**/*",
                         "output": "."
                     }

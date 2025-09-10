@@ -3,9 +3,9 @@
     "assets": [
         "./README.md",
         {
-            "input": "./public",
+            "input": "./src/assets",
             "glob": "**/*",
-            "output": "./"
+            "output": "assets"
         }
     ],
     "dest": "../../dist/libs/shared-ui",
