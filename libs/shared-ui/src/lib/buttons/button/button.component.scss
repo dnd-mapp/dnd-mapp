@@ -10,6 +10,9 @@
     padding: 0 1.5em;
 
     .button-contents {
+        display: flex;
+        align-items: center;
+        gap: 0.5714285714em;
         font-size: 0.875em;
         font-weight: styles.$font-weight-bold;
         line-height: 1.4285714286em;
@@ -39,6 +42,10 @@
         height: 2em;
         border-width: 0.062em;
         padding: 0 0.75em;
+
+        .button-contents {
+            gap: 0.5714285714em;
+        }
     }
 
     &[dma-button-size='me'] {
@@ -48,6 +55,7 @@
 
         .button-contents {
             font-size: 1em;
+            gap: 0.5em;
             font-weight: styles.$font-weight-bold;
             line-height: 1.5em;
         }
@@ -64,6 +72,7 @@
 
         .button-contents {
             font-size: 1.5em;
+            gap: 0.5em;
             font-weight: styles.$font-weight-regular;
             line-height: 1.3333333333em;
         }
@@ -80,6 +89,7 @@
 
         .button-contents {
             font-size: 2em;
+            gap: 0.5em;
             font-weight: styles.$font-weight-regular;
             line-height: 1.25em;
         }

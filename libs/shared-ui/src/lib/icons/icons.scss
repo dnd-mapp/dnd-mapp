@@ -10,9 +10,25 @@ $icon-size: 1em;
         height: 100%;
         width: 100%;
     }
-}
 
-:host-context(dma-navigation-item) {
-    font-size: 1.5em;
-    flex: 0 0 auto;
+    :where(dma-navigation-item) & {
+        font-size: 1.5em;
+        flex: 0 0 auto;
+    }
+
+    :where(button[dma-button]) & {
+        font-size: 1.4285714286em;
+    }
+
+    :where(button[dma-button][dma-button-size='me']) & {
+        font-size: 1.5em;
+    }
+
+    :where(button[dma-button][dma-button-size='lg']) & {
+        font-size: 1.3333333333em;
+    }
+
+    :where(button[dma-button][dma-button-size='xl']) & {
+        font-size: 1.25em;
+    }
 }

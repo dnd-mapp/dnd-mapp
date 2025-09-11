@@ -20,6 +20,7 @@ const meta = {
         toggle: false,
         selected: false,
         label: 'My Button label',
+        withIcon: false,
     },
     argTypes: {
         type: {
@@ -33,6 +34,19 @@ const meta = {
         shape: {
             options: Object.values(ButtonShapes),
             control: 'select',
+        toggle: {
+            table: {
+                defaultValue: {
+                    summary: 'false',
+                },
+            },
+        },
+        selected: {
+            table: {
+                defaultValue: {
+                    summary: 'false',
+                },
+            },
         },
     },
 } satisfies Meta<ButtonStoryComponent>;

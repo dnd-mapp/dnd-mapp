@@ -13,7 +13,7 @@ import {
     ButtonComponent,
     buttonShapeAttribute,
     buttonSizeAttribute,
-    buttonTypeAttribute,
+    buttonTypeAttribute, PlusSoIcon,
     ThemeDirective,
 } from '@dnd-mapp/shared-ui';
 
@@ -23,7 +23,7 @@ import {
     styleUrl: './button-story.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     hostDirectives: [ThemeDirective],
-    imports: [ButtonComponent],
+    imports: [ButtonComponent, PlusSoIcon],
 })
 export class ButtonStoryComponent {
     private readonly destroyRef = inject(DestroyRef);
@@ -37,6 +37,8 @@ export class ButtonStoryComponent {
     public readonly toggle = input(false, { transform: booleanAttribute });
 
     public readonly selected = input(false, { transform: booleanAttribute });
+
+    public readonly withIcon = input(false, { transform: booleanAttribute });
 
     public readonly selectedChange = output<boolean>();
 

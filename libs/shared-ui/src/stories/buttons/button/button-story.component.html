@@ -7,5 +7,8 @@
     [selected]="isSelected()"
     (selectedChange)="onSelectedChange($event)"
 >
+    @if (withIcon()) {
+        <dma-icon dma-plus-so-icon />
+    }
     {{ label() }}
 </button>
