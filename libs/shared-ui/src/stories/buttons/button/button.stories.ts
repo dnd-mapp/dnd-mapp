@@ -25,15 +25,55 @@ const meta = {
     argTypes: {
         type: {
             options: Object.values(ButtonTypes),
-            control: 'select',
+            control: {
+                type: 'select',
+                labels: {
+                    [ButtonTypes.ELEVATED]: 'Elevated',
+                    [ButtonTypes.FILLED]: 'Filled',
+                    [ButtonTypes.TONAL]: 'Tonal',
+                    [ButtonTypes.OUTLINED]: 'Outlined',
+                    [ButtonTypes.TEXT]: 'Text',
+                },
+            },
+            table: {
+                defaultValue: {
+                    summary: DEFAULT_BUTTON_TYPE,
+                },
+            },
         },
         size: {
             options: Object.values(ButtonSizes),
-            control: 'select',
+            control: {
+                type: 'select',
+                labels: {
+                    [ButtonSizes.EXTRA_SMALL]: 'Extra small',
+                    [ButtonSizes.SMALL]: 'Small',
+                    [ButtonSizes.MEDIUM]: 'Medium',
+                    [ButtonSizes.LARGE]: 'Large',
+                    [ButtonSizes.EXTRA_LARGE]: 'Extra large',
+                },
+            },
+            table: {
+                defaultValue: {
+                    summary: DEFAULT_BUTTON_SIZE,
+                },
+            },
         },
         shape: {
             options: Object.values(ButtonShapes),
-            control: 'select',
+            control: {
+                type: 'select',
+                labels: {
+                    [ButtonShapes.ROUND]: 'Round',
+                    [ButtonShapes.SQUARE]: 'Square',
+                },
+            },
+            table: {
+                defaultValue: {
+                    summary: DEFAULT_BUTTON_SHAPE,
+                },
+            },
+        },
         toggle: {
             table: {
                 defaultValue: {
