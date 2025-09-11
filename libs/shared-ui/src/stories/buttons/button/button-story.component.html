@@ -1,0 +1,11 @@
+<button
+    type="button"
+    [dmaButton]="type()"
+    [dmaButtonSize]="size()"
+    [dmaButtonShape]="shape()"
+    [toggle]="toggle()"
+    [selected]="isSelected()"
+    (selectedChange)="onSelectedChange($event)"
+>
+    {{ label() }}
+</button>

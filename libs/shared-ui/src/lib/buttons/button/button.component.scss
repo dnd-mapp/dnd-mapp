@@ -1,0 +1,151 @@
+@use '../../../assets/styles';
+
+:host {
+    display: inline-block;
+    font-size: inherit;
+    border: 0.062em solid styles.$primary;
+    background-color: styles.$primary;
+    color: styles.$on-primary;
+    height: 2.5em;
+    padding: 0 1.5em;
+
+    .button-contents {
+        font-size: 0.875em;
+        font-weight: styles.$font-weight-bold;
+        line-height: 1.4285714286em;
+    }
+
+    &[dma-toggle-button] {
+        background-color: styles.$surface-container;
+        border-color: styles.$surface-container;
+        color: styles.$on-surface-variant;
+
+        &.selected {
+            background-color: styles.$primary;
+            border-color: styles.$primary;
+            color: styles.$on-primary;
+        }
+    }
+
+    &[dma-button-shape='round'] {
+        border-radius: styles.$full-corner;
+    }
+
+    &[dma-button-shape='square'] {
+        border-radius: styles.$medium-corner;
+    }
+
+    &[dma-button-size='xs'] {
+        height: 2em;
+        border-width: 0.062em;
+        padding: 0 0.75em;
+    }
+
+    &[dma-button-size='me'] {
+        height: 3.5em;
+        border-width: 0.062em;
+        padding: 0 1.5em;
+
+        .button-contents {
+            font-size: 1em;
+            font-weight: styles.$font-weight-bold;
+            line-height: 1.5em;
+        }
+
+        &[dma-button-shape='square'] {
+            border-radius: styles.$large-corner;
+        }
+    }
+
+    &[dma-button-size='lg'] {
+        height: 6em;
+        border-width: 0.125em;
+        padding: 0 3em;
+
+        .button-contents {
+            font-size: 1.5em;
+            font-weight: styles.$font-weight-regular;
+            line-height: 1.3333333333em;
+        }
+
+        &[dma-button-shape='square'] {
+            border-radius: styles.$extra-large-corner;
+        }
+    }
+
+    &[dma-button-size='xl'] {
+        height: 8.5em;
+        border-width: 0.1875em;
+        padding: 0 4em;
+
+        .button-contents {
+            font-size: 2em;
+            font-weight: styles.$font-weight-regular;
+            line-height: 1.25em;
+        }
+
+        &[dma-button-shape='square'] {
+            border-radius: styles.$extra-large-corner;
+        }
+    }
+
+    &[dma-button='elevated'] {
+        background-color: styles.$surface-container-low;
+        border-color: styles.$surface-container-low;
+        color: styles.$primary;
+
+        &[dma-toggle-button] {
+            background-color: styles.$surface-container-low;
+            border-color: styles.$surface-container-low;
+            color: styles.$on-surface-variant;
+
+            &.selected {
+                background-color: styles.$primary;
+                border-color: styles.$primary;
+                color: styles.$on-primary;
+            }
+        }
+    }
+
+    &[dma-button='tonal'] {
+        background-color: styles.$secondary-container;
+        border-color: styles.$secondary-container;
+        color: styles.$on-secondary-container;
+
+        &[dma-toggle-button] {
+            background-color: styles.$secondary-container;
+            border-color: styles.$secondary-container;
+            color: styles.$on-secondary-container;
+
+            &.selected {
+                background-color: styles.$secondary;
+                border-color: styles.$secondary;
+                color: styles.$on-secondary;
+            }
+        }
+    }
+
+    &[dma-button='outlined'] {
+        background-color: transparent;
+        border-color: styles.$outline-variant;
+        color: styles.$on-surface-variant;
+
+        &[dma-toggle-button] {
+            background-color: transparent;
+            border-color: transparent;
+            color: styles.$on-surface-variant;
+
+            &.selected {
+                background-color: styles.$inverse-surface;
+                border-color: styles.$inverse-surface;
+                color: styles.$on-inverse-surface;
+            }
+        }
+    }
+
+    &[dma-button='text'] {
+        background-color: transparent;
+        border-color: transparent;
+        color: styles.$primary;
+    }
+}
