@@ -1,11 +1,12 @@
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { applicationConfig, Preview } from '@storybook/angular';
+import { Preview } from '@storybook/angular';
+import { useArgs } from 'storybook/preview-api';
 
 const preview: Preview = {
     decorators: [
-        applicationConfig({
-            providers: [provideAnimationsAsync()],
-        }),
+        (story, context) => {
+            const [, updateArgs] = useArgs();
+            return story({ ...context, updateArgs });
+        },
     ],
 };
 

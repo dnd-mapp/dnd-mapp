@@ -89,6 +89,12 @@ const meta = {
             },
         },
     },
+    render: (args, { updateArgs }) => ({
+        props: {
+            ...args,
+            selectedChange: (selected: boolean) => updateArgs({ selected }),
+        },
+    }),
 } satisfies Meta<ButtonStoryComponent>;
 
 export default meta;
