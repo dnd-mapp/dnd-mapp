@@ -13,7 +13,8 @@ import {
     ButtonComponent,
     buttonShapeAttribute,
     buttonSizeAttribute,
-    buttonTypeAttribute, PlusSoIcon,
+    buttonTypeAttribute,
+    PlusSoIcon,
     ThemeDirective,
 } from '@dnd-mapp/shared-ui';
 
@@ -37,6 +38,8 @@ export class ButtonStoryComponent {
     public readonly toggle = input(false, { transform: booleanAttribute });
 
     public readonly selected = input(false, { transform: booleanAttribute });
+
+    public readonly disabled = input(false, { transform: booleanAttribute });
 
     public readonly withIcon = input(false, { transform: booleanAttribute });
 

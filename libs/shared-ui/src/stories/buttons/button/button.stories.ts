@@ -19,6 +19,7 @@ const meta = {
         shape: DEFAULT_BUTTON_SHAPE,
         toggle: false,
         selected: false,
+        disabled: false,
         label: 'My Button label',
         withIcon: false,
     },

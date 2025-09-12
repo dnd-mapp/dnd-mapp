@@ -10,9 +10,11 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { StateDirective, StateLayerComponent } from '../../state';
 import {
     buttonShapeAttribute,
     buttonSizeAttribute,
+    ButtonType,
     buttonTypeAttribute,
     ButtonTypes,
     DEFAULT_BUTTON_SHAPE,
@@ -26,15 +28,17 @@ import {
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    hostDirectives: [StateDirective],
     host: {
         '[attr.dma-button]': 'type()',
         '[attr.dma-button-size]': 'size()',
         '[attr.dma-button-shape]': 'shape()',
         '[attr.dma-toggle-button]': 'isToggleButton()',
+        '[attr.disabled]': 'isDisabled()',
         '[class.selected]': 'selectedStyle()',
         '(click)': 'onClick()',
     },
-    imports: [],
+    imports: [StateLayerComponent],
 })
 export class ButtonComponent {
     private readonly destroyRef = inject(DestroyRef);
@@ -51,6 +55,10 @@ export class ButtonComponent {
 
     public readonly selected = input(false, { transform: booleanAttribute });
 
+    public readonly disabled = input(false, { transform: booleanAttribute });
+
+    protected readonly isDisabled = computed(() => (this.disabled() ? '' : undefined));
+
     public readonly selectedChange = output<boolean>();
 
     protected readonly isToggleButton = computed(() =>
@@ -59,6 +67,10 @@ export class ButtonComponent {
 
     protected readonly selectedStyle = computed(
         () => this.isSelected() && this.toggle() && this.type() !== ButtonTypes.TEXT
+    );
+
+    protected readonly stateLayerColor = computed(() =>
+        this.getStateLayerColor(this.type(), this.toggle(), this.selectedStyle())
     );
 
     private readonly isSelected = signal(false);
@@ -75,5 +87,28 @@ export class ButtonComponent {
         if (!this.toggle()) return;
         this.isSelected.update((selected) => !selected);
         this.selectedChange.emit(this.isSelected());
+    }
+
+    private getStateLayerColor(type: ButtonType, toggle: boolean, selected: boolean) {
+        switch (type) {
+            case ButtonTypes.ELEVATED:
+                if (toggle && selected) return 'on-primary';
+                return 'primary';
+
+            case ButtonTypes.TONAL:
+                if (toggle && selected) return 'on-secondary';
+                return 'on-secondary-container';
+
+            case ButtonTypes.OUTLINED:
+                if (toggle && selected) return 'on-inverse-surface';
+                return 'on-surface-variant';
+
+            case ButtonTypes.TEXT:
+                return 'primary';
+
+            default:
+                if (toggle && selected) return 'on-surface-variant';
+                return 'on-primary';
+        }
     }
 }

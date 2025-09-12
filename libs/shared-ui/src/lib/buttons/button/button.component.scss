@@ -1,32 +1,48 @@
 @use '../../../assets/styles';
 
 :host {
-    display: inline-block;
+    display: inline-grid;
     font-size: inherit;
-    border: 0.062em solid styles.$primary;
+    border: none;
     background-color: styles.$primary;
     color: styles.$on-primary;
+    padding: 0;
     height: 2.5em;
-    padding: 0 1.5em;
+
+    .button-contents,
+    dma-state-layer {
+        grid-column: 1;
+        grid-row: 1;
+        border-radius: inherit;
+    }
 
     .button-contents {
         display: flex;
         align-items: center;
+        padding: 0 1.5em;
+        border: 0.062em solid styles.$primary;
         gap: 0.5714285714em;
         font-size: 0.875em;
         font-weight: styles.$font-weight-bold;
         line-height: 1.4285714286em;
     }
 
+    &:hover {
+        cursor: pointer;
+    }
+
     &[dma-toggle-button] {
         background-color: styles.$surface-container;
-        border-color: styles.$surface-container;
         color: styles.$on-surface-variant;
 
         &.selected {
             background-color: styles.$primary;
             border-color: styles.$primary;
             color: styles.$on-primary;
+        }
+
+        .button-contents {
+            border-color: styles.$surface-container;
         }
     }
 
@@ -40,22 +56,22 @@
 
     &[dma-button-size='xs'] {
         height: 2em;
-        border-width: 0.062em;
-        padding: 0 0.75em;
 
         .button-contents {
+            border-width: 0.062em;
+            padding: 0 0.75em;
             gap: 0.5714285714em;
         }
     }
 
     &[dma-button-size='me'] {
         height: 3.5em;
-        border-width: 0.062em;
-        padding: 0 1.5em;
 
         .button-contents {
             font-size: 1em;
             gap: 0.5em;
+            padding: 0 1.5em;
+            border-width: 0.062em;
             font-weight: styles.$font-weight-bold;
             line-height: 1.5em;
         }
@@ -67,96 +83,133 @@
 
     &[dma-button-size='lg'] {
         height: 6em;
-        border-width: 0.125em;
-        padding: 0 3em;
 
         .button-contents {
             font-size: 1.5em;
+            padding: 0 3em;
+            border-width: 0.125em;
             gap: 0.5em;
             font-weight: styles.$font-weight-regular;
             line-height: 1.3333333333em;
         }
 
-        &[dma-button-shape='square'] {
+        &[dma-button-shape='square'] .button-contents {
             border-radius: styles.$extra-large-corner;
         }
     }
 
     &[dma-button-size='xl'] {
         height: 8.5em;
-        border-width: 0.1875em;
-        padding: 0 4em;
 
         .button-contents {
             font-size: 2em;
+            padding: 0 4em;
+            border-width: 0.1875em;
             gap: 0.5em;
             font-weight: styles.$font-weight-regular;
             line-height: 1.25em;
         }
 
-        &[dma-button-shape='square'] {
+        &[dma-button-shape='square'] .button-contents {
             border-radius: styles.$extra-large-corner;
         }
     }
 
     &[dma-button='elevated'] {
         background-color: styles.$surface-container-low;
-        border-color: styles.$surface-container-low;
         box-shadow: 0 1px 2px oklch(0 0 0 / 0.3);
         color: styles.$primary;
 
+        .button-contents {
+            border-color: styles.$surface-container-low;
+        }
+
         &[dma-toggle-button] {
             background-color: styles.$surface-container-low;
-            border-color: styles.$surface-container-low;
             color: styles.$on-surface-variant;
+
+            .button-contents {
+                border-color: styles.$surface-container-low;
+            }
 
             &.selected {
                 background-color: styles.$primary;
-                border-color: styles.$primary;
                 color: styles.$on-primary;
+
+                .button-contents {
+                    border-color: styles.$primary;
+                }
             }
         }
     }
 
     &[dma-button='tonal'] {
         background-color: styles.$secondary-container;
-        border-color: styles.$secondary-container;
         color: styles.$on-secondary-container;
+
+        .button-contents {
+            border-color: styles.$secondary-container;
+        }
 
         &[dma-toggle-button] {
             background-color: styles.$secondary-container;
-            border-color: styles.$secondary-container;
             color: styles.$on-secondary-container;
+
+            .button-contents {
+                border-color: styles.$secondary-container;
+            }
 
             &.selected {
                 background-color: styles.$secondary;
-                border-color: styles.$secondary;
                 color: styles.$on-secondary;
+
+                .button-contents {
+                    border-color: styles.$secondary;
+                }
             }
         }
     }
 
     &[dma-button='outlined'] {
         background-color: transparent;
-        border-color: styles.$outline-variant;
         color: styles.$on-surface-variant;
+
+        .button-contents {
+            border-color: styles.$outline-variant;
+        }
 
         &[dma-toggle-button] {
             background-color: transparent;
-            border-color: transparent;
             color: styles.$on-surface-variant;
 
             &.selected {
                 background-color: styles.$inverse-surface;
-                border-color: styles.$inverse-surface;
                 color: styles.$on-inverse-surface;
+
+                .button-contents {
+                    border-color: styles.$inverse-surface;
+                }
             }
         }
     }
 
     &[dma-button='text'] {
         background-color: transparent;
-        border-color: transparent;
         color: styles.$primary;
+
+        .button-contents {
+            border-color: transparent;
+        }
+    }
+
+    &:disabled {
+        background-color: styles.$disabled;
+
+        .button-contents {
+            border-color: styles.$disabled-border;
+        }
+
+        color: styles.$on-disabled;
+        cursor: default;
     }
 }

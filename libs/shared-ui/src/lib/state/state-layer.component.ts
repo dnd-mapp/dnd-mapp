@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { StateDirective } from './state.directive';
 
 @Component({
@@ -17,7 +17,9 @@ export class StateLayerComponent {
 
     public readonly color = input.required<string>();
 
-    protected readonly opacity = computed(() => this.stateDirective?.opacity() / 100);
+    public readonly disabled = input(false, { transform: booleanAttribute });
+
+    protected readonly opacity = computed(() => (this.disabled() ? 0 : this.stateDirective.opacity() / 100));
 
     protected readonly backgroundColor = computed(() => `var(--${this.color()})`);
 }

@@ -23,3 +23,7 @@ $on-background: var(--on-background, palettes.$neutral10);
 
 $scrim: var(--scrim, palettes.$neutral0);
 $shadow: var(--shadow, palettes.$neutral0);
+
+$disabled: var(--disabled, oklch(from $on-surface l c h / 0.1));
+$disabled-border: var(--disabled, oklch(from $on-surface l c h / 0.001));
+$on-disabled: var(--disabled, oklch(from $on-surface l c h / 0.38));

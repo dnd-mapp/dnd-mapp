@@ -5,6 +5,7 @@
     [dmaButtonShape]="shape()"
     [toggle]="toggle()"
     [selected]="isSelected()"
+    [disabled]="disabled()"
     (selectedChange)="onSelectedChange($event)"
 >
     @if (withIcon()) {
