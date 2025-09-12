@@ -1,3 +1,5 @@
+@use '../../assets/styles';
+
 $icon-size: 1em;
 
 :host {
@@ -17,7 +19,7 @@ $icon-size: 1em;
     }
 
     :where(button[dma-button]) & {
-        font-size: 1.4285714286em;
+        font-size: 1.25em;
     }
 
     :where(button[dma-button][dma-button-size='me']) & {
@@ -25,10 +27,10 @@ $icon-size: 1em;
     }
 
     :where(button[dma-button][dma-button-size='lg']) & {
-        font-size: 1.3333333333em;
+        font-size: 2em;
     }
 
     :where(button[dma-button][dma-button-size='xl']) & {
-        font-size: 1.25em;
+        font-size: 2.5em;
     }
 }
