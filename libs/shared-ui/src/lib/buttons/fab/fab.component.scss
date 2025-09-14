@@ -1,0 +1,100 @@
+@use '../../../assets/styles';
+
+:host {
+    display: inline-block;
+    border: none;
+    background-color: transparent;
+    font-size: inherit;
+    padding: 0;
+
+    &.floating {
+        position: absolute;
+        right: 1em;
+        bottom: 1em;
+
+        &.above-nav-bar {
+            bottom: 5em;
+        }
+    }
+
+    .fab-contents {
+        display: grid;
+        align-items: center;
+        border-radius: styles.$large-corner;
+        height: 3.5em;
+        width: 3.5em;
+        box-shadow: 0 0.25em 0.5em oklch(from styles.$shadow l c h / 0.15);
+        background-color: styles.$primary-container;
+        color: styles.$on-primary-container;
+
+        dma-state-layer {
+            grid-column: 1;
+            grid-row: 1;
+            justify-self: stretch;
+            border-radius: styles.$large-corner;
+        }
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &[dma-fab-size='medium'] {
+        .fab-contents {
+            border-radius: styles.$large-increased-corner;
+            height: 5em;
+            width: 5em;
+
+            dma-state-layer {
+                border-radius: styles.$large-increased-corner;
+            }
+        }
+    }
+
+    &[dma-fab-size='large'] {
+        .fab-contents {
+            width: 6em;
+            height: 6em;
+            border-radius: styles.$extra-large-corner;
+
+            dma-state-layer {
+                border-radius: styles.$large-increased-corner;
+            }
+        }
+    }
+
+    &[dma-fab='tonal-secondary'] {
+        .fab-contents {
+            background-color: styles.$secondary-container;
+            color: styles.$on-secondary-container;
+        }
+    }
+
+    &[dma-fab='tonal-tertiary'] {
+        .fab-contents {
+            background-color: styles.$tertiary-container;
+            color: styles.$on-tertiary-container;
+        }
+    }
+
+    &[dma-fab='primary'] {
+        .fab-contents {
+            background-color: styles.$primary;
+            color: styles.$on-primary;
+        }
+    }
+
+    &[dma-fab='secondary'] {
+        .fab-contents {
+            background-color: styles.$secondary;
+            color: styles.$on-secondary;
+        }
+    }
+
+    &[dma-fab='tertiary'] {
+        .fab-contents {
+            background-color: styles.$tertiary;
+            color: styles.$on-tertiary;
+        }
+    }
+}

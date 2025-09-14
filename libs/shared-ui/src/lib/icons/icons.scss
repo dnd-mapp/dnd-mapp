@@ -33,4 +33,19 @@ $icon-size: 1em;
     :where(button[dma-button][dma-button-size='xl']) & {
         font-size: 2.5em;
     }
+
+    :where(button[dma-fab]) & {
+        font-size: 1.5em;
+        grid-column: 1;
+        grid-row: 1;
+        justify-self: center;
+    }
+
+    :where(button[dma-fab-size='medium']) & {
+        font-size: 1.75em;
+    }
+
+    :where(button[dma-fab-size='large']) & {
+        font-size: 2.25em;
+    }
 }

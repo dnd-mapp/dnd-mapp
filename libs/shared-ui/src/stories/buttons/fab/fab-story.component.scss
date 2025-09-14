@@ -1,0 +1,10 @@
+:host {
+    display: block;
+    padding: 2em;
+    font-size: inherit;
+
+    &.floating {
+        padding: 0;
+        padding-top: 10.25em;
+    }
+}
