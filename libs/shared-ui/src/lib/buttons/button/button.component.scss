@@ -1,4 +1,5 @@
 @use '../../../assets/styles';
+@use '../variables';
 
 :host {
     display: inline-grid;
@@ -39,7 +40,7 @@
         border-radius: styles.$full-corner;
     }
 
-    &[dma-button-shape='square'] {
+    &[dma-button-shape='#{variables.$button-shape-square}'] {
         .button-contents,
         dma-state-layer {
             border-radius: styles.$medium-corner;
@@ -60,7 +61,7 @@
         }
     }
 
-    &[dma-button-size='xs'] {
+    &[dma-button-size='#{variables.$button-size-extra-small}'] {
         height: 2em;
 
         .button-contents {
@@ -70,7 +71,7 @@
         }
     }
 
-    &[dma-button-size='me'] {
+    &[dma-button-size='#{variables.$button-size-medium}'] {
         height: 3.5em;
 
         .button-contents {
@@ -85,7 +86,7 @@
             }
         }
 
-        &[dma-button-shape='square'] {
+        &[dma-button-shape='#{variables.$button-shape-square}'] {
             .button-contents,
             dma-state-layer {
                 border-radius: styles.$large-corner;
@@ -93,7 +94,7 @@
         }
     }
 
-    &[dma-button-size='lg'] {
+    &[dma-button-size='#{variables.$button-size-large}'] {
         height: 6em;
 
         .button-contents {
@@ -108,7 +109,7 @@
             }
         }
 
-        &[dma-button-shape='square'] {
+        &[dma-button-shape='#{variables.$button-shape-square}'] {
             .button-contents,
             dma-state-layer {
                 border-radius: styles.$extra-large-corner;
@@ -116,7 +117,7 @@
         }
     }
 
-    &[dma-button-size='xl'] {
+    &[dma-button-size='#{variables.$button-size-extra-large}'] {
         height: 8.5em;
 
         .button-contents {
@@ -131,7 +132,7 @@
             }
         }
 
-        &[dma-button-shape='square'] {
+        &[dma-button-shape='#{variables.$button-shape-square}'] {
             .button-contents,
             dma-state-layer {
                 border-radius: styles.$extra-large-corner;
@@ -139,7 +140,7 @@
         }
     }
 
-    &[dma-button='elevated']:not(:disabled) {
+    &[dma-button='#{variables.$button-type-elevated}']:not(:disabled) {
         .button-contents {
             color: styles.$primary;
             background-color: styles.$surface-container-low;
@@ -162,7 +163,7 @@
         }
     }
 
-    &[dma-button='tonal']:not(:disabled) {
+    &[dma-button='#{variables.$button-type-tonal}']:not(:disabled) {
         .button-contents {
             background-color: styles.$secondary-container;
             color: styles.$on-secondary-container;
@@ -184,7 +185,7 @@
         }
     }
 
-    &[dma-button='outlined']:not(:disabled) {
+    &[dma-button='#{variables.$button-type-outlined}']:not(:disabled) {
         .button-contents {
             background-color: transparent;
             color: styles.$on-surface-variant;
@@ -205,7 +206,7 @@
         }
     }
 
-    &[dma-button='text'] .button-contents {
+    &[dma-button='#{variables.$button-type-text}'] .button-contents {
         background-color: transparent;
         color: styles.$primary;
         border-color: transparent;
