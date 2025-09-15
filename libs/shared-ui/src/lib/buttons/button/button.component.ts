@@ -13,6 +13,7 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { StateDirective, StateLayerComponent } from '../../state';
 import {
     buttonShapeAttribute,
+    ButtonSize,
     buttonSizeAttribute,
     ButtonType,
     buttonTypeAttribute,
@@ -20,7 +21,7 @@ import {
     DEFAULT_BUTTON_SHAPE,
     DEFAULT_BUTTON_SIZE,
     DEFAULT_BUTTON_TYPE,
-} from './models';
+} from '../models';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -31,7 +32,7 @@ import {
     hostDirectives: [StateDirective],
     host: {
         '[attr.dma-button]': 'type()',
-        '[attr.dma-button-size]': 'size()',
+        '[attr.dma-button-size]': 'buttonSize()',
         '[attr.dma-button-shape]': 'shape()',
         '[attr.dma-toggle-button]': 'isToggleButton()',
         '[attr.disabled]': 'isDisabled()',
@@ -57,9 +58,13 @@ export class ButtonComponent {
 
     public readonly disabled = input(false, { transform: booleanAttribute });
 
+    public readonly buttonSize = signal<ButtonSize>(DEFAULT_BUTTON_SIZE);
+
     protected readonly isDisabled = computed(() => (this.disabled() ? '' : undefined));
 
     public readonly selectedChange = output<boolean>();
+
+    public readonly selected$ = toObservable(this.selected).pipe(takeUntilDestroyed(this.destroyRef));
 
     protected readonly isToggleButton = computed(() =>
         this.toggle() && this.type() !== ButtonTypes.TEXT ? '' : undefined
@@ -76,6 +81,12 @@ export class ButtonComponent {
     private readonly isSelected = signal(false);
 
     constructor() {
+        toObservable(this.size)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (size) => this.buttonSize.set(size),
+            });
+
         toObservable(this.selected)
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
