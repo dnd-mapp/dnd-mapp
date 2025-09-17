@@ -60,11 +60,13 @@ export class ButtonComponent {
 
     public readonly buttonSize = signal<ButtonSize>(DEFAULT_BUTTON_SIZE);
 
-    protected readonly isDisabled = computed(() => (this.disabled() ? '' : undefined));
-
     public readonly selectedChange = output<boolean>();
 
-    public readonly selected$ = toObservable(this.selected).pipe(takeUntilDestroyed(this.destroyRef));
+    protected readonly isDisabled = computed(() => (this.disabled() ? '' : undefined));
+
+    private readonly isSelected = signal(false);
+
+    public readonly selected$ = toObservable(this.isSelected).pipe(takeUntilDestroyed(this.destroyRef));
 
     protected readonly isToggleButton = computed(() =>
         this.toggleable() && this.type() !== ButtonTypes.TEXT ? '' : undefined
@@ -78,8 +80,6 @@ export class ButtonComponent {
         this.getStateLayerColor(this.type(), this.toggleable(), this.selectedStyle())
     );
 
-    private readonly isSelected = signal(false);
-
     constructor() {
         toObservable(this.size)
             .pipe(takeUntilDestroyed(this.destroyRef))
@@ -92,6 +92,10 @@ export class ButtonComponent {
             .subscribe({
                 next: (selected) => this.isSelected.set(selected),
             });
+    }
+
+    public toggle() {
+        this.isSelected.update((selected) => !selected);
     }
 
     protected onClick() {
