@@ -18,7 +18,7 @@ describe('ButtonComponent', () => {
             [dmaButton]="type()"
             [dmaButtonSize]="size()"
             [dmaButtonShape]="shape()"
-            [toggle]="toggle()"
+            [toggleable]="toggle()"
             [selected]="isSelected()"
             (selectedChange)="onSelectedChange($event)"
         >

@@ -35,7 +35,7 @@ export class ButtonStoryComponent {
 
     public readonly shape = input.required({ transform: buttonShapeAttribute });
 
-    public readonly toggle = input(false, { transform: booleanAttribute });
+    public readonly toggleable = input(false, { transform: booleanAttribute });
 
     public readonly selected = input(false, { transform: booleanAttribute });
 

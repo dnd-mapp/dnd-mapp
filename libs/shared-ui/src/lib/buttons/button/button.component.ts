@@ -52,7 +52,7 @@ export class ButtonComponent {
     // eslint-disable-next-line @angular-eslint/no-input-rename
     public readonly shape = input(DEFAULT_BUTTON_SHAPE, { transform: buttonShapeAttribute, alias: 'dmaButtonShape' });
 
-    public readonly toggle = input(false, { transform: booleanAttribute });
+    public readonly toggleable = input(false, { transform: booleanAttribute });
 
     public readonly selected = input(false, { transform: booleanAttribute });
 
@@ -67,15 +67,15 @@ export class ButtonComponent {
     public readonly selected$ = toObservable(this.selected).pipe(takeUntilDestroyed(this.destroyRef));
 
     protected readonly isToggleButton = computed(() =>
-        this.toggle() && this.type() !== ButtonTypes.TEXT ? '' : undefined
+        this.toggleable() && this.type() !== ButtonTypes.TEXT ? '' : undefined
     );
 
     protected readonly selectedStyle = computed(
-        () => this.isSelected() && this.toggle() && this.type() !== ButtonTypes.TEXT
+        () => this.isSelected() && this.toggleable() && this.type() !== ButtonTypes.TEXT
     );
 
     protected readonly stateLayerColor = computed(() =>
-        this.getStateLayerColor(this.type(), this.toggle(), this.selectedStyle())
+        this.getStateLayerColor(this.type(), this.toggleable(), this.selectedStyle())
     );
 
     private readonly isSelected = signal(false);
@@ -95,30 +95,30 @@ export class ButtonComponent {
     }
 
     protected onClick() {
-        if (!this.toggle()) return;
+        if (!this.toggleable()) return;
         this.isSelected.update((selected) => !selected);
         this.selectedChange.emit(this.isSelected());
     }
 
-    private getStateLayerColor(type: ButtonType, toggle: boolean, selected: boolean) {
+    private getStateLayerColor(type: ButtonType, toggleable: boolean, selected: boolean) {
         switch (type) {
             case ButtonTypes.ELEVATED:
-                if (toggle && selected) return 'on-primary';
+                if (toggleable && selected) return 'on-primary';
                 return 'primary';
 
             case ButtonTypes.TONAL:
-                if (toggle && selected) return 'on-secondary';
+                if (toggleable && selected) return 'on-secondary';
                 return 'on-secondary-container';
 
             case ButtonTypes.OUTLINED:
-                if (toggle && selected) return 'on-inverse-surface';
+                if (toggleable && selected) return 'on-inverse-surface';
                 return 'on-surface-variant';
 
             case ButtonTypes.TEXT:
                 return 'primary';
 
             default:
-                if (toggle && selected) return 'on-surface-variant';
+                if (toggleable && selected) return 'on-surface-variant';
                 return 'on-primary';
         }
     }

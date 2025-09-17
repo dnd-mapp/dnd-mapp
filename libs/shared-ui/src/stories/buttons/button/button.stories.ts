@@ -17,7 +17,7 @@ const meta = {
         type: DEFAULT_BUTTON_TYPE,
         size: DEFAULT_BUTTON_SIZE,
         shape: DEFAULT_BUTTON_SHAPE,
-        toggle: false,
+        toggleable: false,
         selected: false,
         disabled: false,
         label: 'My Button label',
@@ -75,7 +75,7 @@ const meta = {
                 },
             },
         },
-        toggle: {
+        toggleable: {
             table: {
                 defaultValue: {
                     summary: 'false',
