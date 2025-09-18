@@ -34,7 +34,7 @@ import {
         '[attr.dma-button]': 'type()',
         '[attr.dma-button-size]': 'buttonSize()',
         '[attr.dma-button-shape]': 'shape()',
-        '[attr.dma-toggle-button]': 'isToggleButton()',
+        '[attr.dma-toggle-button]': 'isToggleable()',
         '[attr.disabled]': 'isDisabled()',
         '[class.selected]': 'selectedStyle()',
         '(click)': 'onClick()',
@@ -54,6 +54,8 @@ export class ButtonComponent {
 
     public readonly toggleable = input(false, { transform: booleanAttribute });
 
+    public readonly isToggleable = signal(false);
+
     public readonly selected = input(false, { transform: booleanAttribute });
 
     public readonly disabled = input(false, { transform: booleanAttribute });
@@ -69,15 +71,15 @@ export class ButtonComponent {
     public readonly selected$ = toObservable(this.isSelected).pipe(takeUntilDestroyed(this.destroyRef));
 
     protected readonly isToggleButton = computed(() =>
-        this.toggleable() && this.type() !== ButtonTypes.TEXT ? '' : undefined
+        this.isToggleable() && this.type() !== ButtonTypes.TEXT ? '' : undefined
     );
 
     protected readonly selectedStyle = computed(
-        () => this.isSelected() && this.toggleable() && this.type() !== ButtonTypes.TEXT
+        () => this.isSelected() && this.isToggleable() && this.type() !== ButtonTypes.TEXT
     );
 
     protected readonly stateLayerColor = computed(() =>
-        this.getStateLayerColor(this.type(), this.toggleable(), this.selectedStyle())
+        this.getStateLayerColor(this.type(), this.isToggleable(), this.selectedStyle())
     );
 
     constructor() {
@@ -85,6 +87,12 @@ export class ButtonComponent {
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (size) => this.buttonSize.set(size),
+            });
+
+        toObservable(this.toggleable)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (toggleable) => this.isToggleable.set(toggleable),
             });
 
         toObservable(this.selected)
@@ -99,7 +107,7 @@ export class ButtonComponent {
     }
 
     protected onClick() {
-        if (!this.toggleable()) return;
+        if (!this.isToggleable()) return;
         this.isSelected.update((selected) => !selected);
         this.selectedChange.emit(this.isSelected());
     }

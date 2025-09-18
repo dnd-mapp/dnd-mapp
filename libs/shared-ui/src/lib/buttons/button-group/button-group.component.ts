@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, contentChildren, DestroyRef, inject, input, output } from '@angular/core';
+import {
+    AfterContentInit,
+    booleanAttribute,
+    ChangeDetectionStrategy,
+    Component,
+    contentChildren,
+    DestroyRef,
+    inject,
+    Injector,
+    input,
+    output,
+} from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { map, merge, switchMap } from 'rxjs';
 import { ButtonComponent } from '../button';
@@ -14,11 +25,14 @@ import { buttonSizeAttribute, DEFAULT_BUTTON_SIZE } from '../models';
     },
     imports: [],
 })
-export class ButtonGroupComponent<T = unknown> {
+export class ButtonGroupComponent<T = unknown> implements AfterContentInit {
     private readonly destroyRef = inject(DestroyRef);
+    private readonly injector = inject(Injector);
 
     // eslint-disable-next-line @angular-eslint/no-input-rename
     public readonly size = input(DEFAULT_BUTTON_SIZE, { transform: buttonSizeAttribute, alias: 'dmaButtonSize' });
+
+    public readonly toggleable = input(false, { transform: booleanAttribute });
 
     public readonly value = input<T>(null);
 
@@ -28,14 +42,20 @@ export class ButtonGroupComponent<T = unknown> {
 
     private selectedOption: ButtonComponent = null;
 
-    constructor() {
-        toObservable(this.buttons)
+    public ngAfterContentInit() {
+        toObservable(this.toggleable, { injector: this.injector })
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe({
+                next: (toggleable) => this.makeButtonsToggleable(toggleable),
+            });
+
+        toObservable(this.buttons, { injector: this.injector })
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe({
                 next: (buttons) => this.setButtonSize([...buttons]),
             });
 
-        toObservable(this.buttons)
+        toObservable(this.buttons, { injector: this.injector })
             .pipe(
                 switchMap((buttons) =>
                     merge(
@@ -49,6 +69,10 @@ export class ButtonGroupComponent<T = unknown> {
             .subscribe({
                 next: ({ button, selected }) => this.setSelectedOption(button, selected),
             });
+    }
+
+    private makeButtonsToggleable(toggleable: boolean) {
+        this.buttons().forEach((button) => button.isToggleable.set(toggleable));
     }
 
     private setButtonSize(buttons: ButtonComponent[]) {
