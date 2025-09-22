@@ -1,5 +1,5 @@
-import { ClientProviderOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { withPackage } from './package.provider';
 
 export const ROLE_PACKAGE_NAME = 'role';
 
@@ -19,24 +19,18 @@ export const ROLE_SERVICE_NAME = 'RolesService';
 
 export const SCOPE_SERVICE_NAME = 'ScopesService';
 
-export function withRolePackage(baseDir: string): ClientProviderOptions {
-    return {
-        name: ROLE_CLIENT_NAME,
-        transport: Transport.GRPC,
-        options: {
-            package: ROLE_PACKAGE_NAME,
-            protoPath: join(baseDir, ROLE_SERVICE_DEFINITION_PATH),
-        },
-    };
+export function withRolePackage(baseDir: string) {
+    return withPackage({
+        clientName: ROLE_CLIENT_NAME,
+        packageName: ROLE_PACKAGE_NAME,
+        protoDefinitionPath: join(baseDir, ROLE_SERVICE_DEFINITION_PATH),
+    });
 }
 
-export function withScopePackage(baseDir: string): ClientProviderOptions {
-    return {
-        name: SCOPE_CLIENT_NAME,
-        transport: Transport.GRPC,
-        options: {
-            package: SCOPE_PACKAGE_NAME,
-            protoPath: join(baseDir, SCOPE_SERVICE_DEFINITION_PATH),
-        },
-    };
+export function withScopePackage(baseDir: string) {
+    return withPackage({
+        clientName: SCOPE_CLIENT_NAME,
+        packageName: SCOPE_PACKAGE_NAME,
+        protoDefinitionPath: join(baseDir, SCOPE_SERVICE_DEFINITION_PATH),
+    });
 }
