@@ -22,6 +22,7 @@ import {
     DEFAULT_BUTTON_SIZE,
     DEFAULT_BUTTON_TYPE,
 } from '../models';
+import { ToggleDirective } from '../toggle.directive';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -29,12 +30,19 @@ import {
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    hostDirectives: [StateDirective],
+    hostDirectives: [
+        StateDirective,
+        {
+            directive: ToggleDirective,
+            inputs: ['selected', 'dmaToggle: toggleable'],
+            outputs: ['selectedChange'],
+        },
+    ],
     host: {
         '[attr.dma-button]': 'type()',
         '[attr.dma-button-size]': 'buttonSize()',
         '[attr.dma-button-shape]': 'shape()',
-        '[attr.dma-toggle-button]': 'isToggleable()',
+        '[attr.dma-toggle-button]': 'isToggleButton()',
         '[attr.disabled]': 'isDisabled()',
         '[class.selected]': 'selectedStyle()',
         '(click)': 'onClick()',
@@ -43,6 +51,7 @@ import {
 })
 export class ButtonComponent {
     private readonly destroyRef = inject(DestroyRef);
+    protected readonly toggleDirective = inject(ToggleDirective);
 
     public readonly type = input(DEFAULT_BUTTON_TYPE, { transform: buttonTypeAttribute, alias: 'dmaButton' });
 
@@ -51,12 +60,6 @@ export class ButtonComponent {
 
     // eslint-disable-next-line @angular-eslint/no-input-rename
     public readonly shape = input(DEFAULT_BUTTON_SHAPE, { transform: buttonShapeAttribute, alias: 'dmaButtonShape' });
-
-    public readonly toggleable = input(false, { transform: booleanAttribute });
-
-    public readonly isToggleable = signal(false);
-
-    public readonly selected = input(false, { transform: booleanAttribute });
 
     public readonly disabled = input(false, { transform: booleanAttribute });
 
@@ -71,15 +74,15 @@ export class ButtonComponent {
     public readonly selected$ = toObservable(this.isSelected).pipe(takeUntilDestroyed(this.destroyRef));
 
     protected readonly isToggleButton = computed(() =>
-        this.isToggleable() && this.type() !== ButtonTypes.TEXT ? '' : undefined
+        this.toggleDirective.enabled() && this.type() !== ButtonTypes.TEXT ? '' : undefined
     );
 
     protected readonly selectedStyle = computed(
-        () => this.isSelected() && this.isToggleable() && this.type() !== ButtonTypes.TEXT
+        () => this.toggleDirective.isSelected() && this.toggleDirective.isEnabled() && this.type() !== ButtonTypes.TEXT
     );
 
     protected readonly stateLayerColor = computed(() =>
-        this.getStateLayerColor(this.type(), this.isToggleable(), this.selectedStyle())
+        this.getStateLayerColor(this.type(), this.toggleDirective.isEnabled(), this.selectedStyle())
     );
 
     constructor() {
@@ -88,18 +91,6 @@ export class ButtonComponent {
             .subscribe({
                 next: (size) => this.buttonSize.set(size),
             });
-
-        toObservable(this.toggleable)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-                next: (toggleable) => this.isToggleable.set(toggleable),
-            });
-
-        toObservable(this.selected)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe({
-                next: (selected) => this.isSelected.set(selected),
-            });
     }
 
     public toggle() {
@@ -107,9 +98,8 @@ export class ButtonComponent {
     }
 
     protected onClick() {
-        if (!this.isToggleable()) return;
-        this.isSelected.update((selected) => !selected);
-        this.selectedChange.emit(this.isSelected());
+        if (!this.toggleDirective.isEnabled()) return;
+        this.toggleDirective.toggle();
     }
 
     private getStateLayerColor(type: ButtonType, toggleable: boolean, selected: boolean) {
