@@ -19,7 +19,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
-            "@dnd-mapp/web-client/test": ["apps/web-client/test"],
+            "@dnd-mapp/web-client/test": ["apps/web-client/test"]
         },
         "rootDir": ".",
         "skipDefaultLibCheck": true,
