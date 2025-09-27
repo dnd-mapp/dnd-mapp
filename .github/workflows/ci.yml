@@ -6,12 +6,6 @@ on:
     push:
         branches:
             - main
-env:
-    COOKIE_SIGNING_SECRET: ${{ secrets.COOKIE_SIGNING_SECRET }}
-    DATABASE_URL: ${{ secrets.DATABASE_URL }}
-    EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-    EMAIL_USER: ${{ secrets.EMAIL_USER }}
-    ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}
 jobs:
     ci:
         name: CI
@@ -19,16 +13,24 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v4
+
             - name: Set up Node.js
               uses: ./.github/actions/setup-node
+
             - name: Set main branch ref
               if: github.ref != 'refs/heads/main'
               run: git rev-parse --verify main || git remote set-branches origin main && git fetch --depth 1 origin main && git branch main origin/main
+
             - name: Check linting
               run: npx nx affected -t lint
+
             - name: Check formatting
               run: npx nx format:check
+
             - name: Compile code
               run: npx nx affected -t build
+
             - name: Run tests
-              run: npx nx affected -t test
+              run: |
+                  npx playwright install chromium
+                  npx nx affected -t test

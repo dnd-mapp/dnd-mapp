@@ -1,0 +1,92 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "web-client",
+    "projectType": "application",
+    "prefix": "dma",
+    "sourceRoot": "apps/web-client/src",
+    "tags": ["type:angular", "scope:client"],
+    "targets": {
+        "build": {
+            "executor": "@angular/build:application",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "assets": [
+                    {
+                        "glob": "**/*",
+                        "input": "apps/web-client/public"
+                    }
+                ],
+                "browser": "apps/web-client/src/main.ts",
+                "inlineStyleLanguage": "scss",
+                "outputPath": "dist/apps/web-client",
+                "scripts": [],
+                "security": {
+                    "autoCsp": true
+                },
+                "styles": ["apps/web-client/src/styles.scss"],
+                "subresourceIntegrity": true,
+                "tsConfig": "apps/web-client/tsconfig.app.json"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "4kb",
+                            "maximumError": "8kb"
+                        }
+                    ]
+                },
+                "dev": {
+                    "extractLicenses": false,
+                    "namedChunks": true,
+                    "optimization": false,
+                    "sourceMap": true
+                }
+            }
+        },
+        "serve-static": {
+            "executor": "@nx/web:file-server",
+            "continuous": true,
+            "options": {
+                "buildTarget": "web-client:build:dev",
+                "parallel": true,
+                "spa": true,
+                "staticFilePath": "dist/apps/web-client/browser"
+            },
+            "configurations": {
+                "dev": {
+                    "host": "localhost.www.dndmapp.dev",
+                    "ssl": true,
+                    "sslCert": "certificate.pem",
+                    "sslKey": "certificate-key.pem"
+                },
+                "remote": {
+                    "host": "0.0.0.0"
+                }
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "outputs": ["{workspaceRoot}/reports/apps/web-client"],
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "command": "vitest run --config apps/web-client/vite.config.mts"
+                },
+                "dev": {
+                    "command": "vitest --config apps/web-client/vite.config.mts"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}

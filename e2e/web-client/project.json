@@ -1,0 +1,9 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "web-client-e2e",
+    "projectType": "application",
+    "sourceRoot": "e2e/web-client/src",
+    "implicitDependencies": ["web-client"],
+    "tags": ["type:playwright"],
+    "targets": {}
+}

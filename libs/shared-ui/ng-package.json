@@ -1,8 +1,0 @@
-{
-    "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-    "assets": ["./styles/**/*", "./README.md"],
-    "dest": "../../dist/libs/shared-ui",
-    "lib": {
-        "entryFile": "src/index.ts"
-    }
-}

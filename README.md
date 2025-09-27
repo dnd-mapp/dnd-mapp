@@ -18,21 +18,13 @@ Follow these steps to get started developing **@dnd-mapp/dnd-mapp**
 Ensure that you have the following requirements prepared:
 
 - [Git](https://git-scm.com/)
-- [Node.js](https://nodejs.org/en) v22.14 and npm v10.9.  
-  We recommend using tools like [nvm](https://github.com/nvm-sh/nvm) or [nvm-windows](https://github.com/coreybutler/nvm-windows) to make it easier for yourself to switch between different versions of Node. Once installed, you can run one of the following commands to install the right version of Node.js:
+- [Node.js](https://nodejs.org/en) v22 and npm v11.  
+  We recommend using tools like [mise](https://mise.jdx.dev/) to make it easier for yourself to switch between different versions of Node. Once installed, you can run one of the following commands to install the right version of Node.js:
 
-    - When using nvm:
-
-      ```bash 
-      nvm install
-      ````
-
-    - When using nvm-windows
-
-      ```bash
-      nvm install 22.14
-      nvm use 22.14
-      ```
+  ```bash 
+  mise install
+  ```
+  
 - [mkcert](https://github.com/FiloSottile/mkcert)  
   This tool is required to generate a local certificate and key in order to serve the application over https. Visit the GitHub repository of the tool in order to find out more how to install it on your machine.
 
@@ -67,7 +59,7 @@ Ensure that you have the following requirements prepared:
     - Generate the certificate and key with the following command:
 
       ```bash
-      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.shared-ui.dnd-mapp.net localhost.auth.dnd-mapp.net localhost.api.dnd-mapp.net localhost.desktop-app.dnd-mapp.net localhost.dnd-mapp.net localhost
+      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.www.dndmapp.dev localhost
       ```
 
 5. Add the `localhost.*` host names to the hosts file on your machine.
@@ -85,11 +77,7 @@ Ensure that you have the following requirements prepared:
     - Add the following lines at the end of the file:
 
       ```text
-      127.0.0.1 localhost.dnd-mapp.net                # Address for the main platform application.
-      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
-      127.0.0.1 localhost.auth.dnd-mapp.net           # Address for the client of the Authorization server.
-      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
-      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
+      127.0.0.1 localhost.www.dndmapp.dev          # Address for the main platform application.
       ```
 
     - Save the file by pressing `Ctrl + O` and close the editor with `CTRL + X`.
@@ -107,12 +95,8 @@ Ensure that you have the following requirements prepared:
 
     - Add the following line at the end of the file:
 
-      ```
-      127.0.0.1 localhost.auth.dnd-mapp.net            # Address for the client of the Authorization server.
-      127.0.0.1 localhost.shared-ui.dnd-mapp.net      # Address for the Storybook app for the shared-ui project.
-      127.0.0.1 localhost.api.dnd-mapp.net            # Address for the client of the API.
-      127.0.0.1 localhost.desktop-app.dnd-mapp.net    # Address for the UI of the desktop-app.
-      127.0.0.1 localhost.dnd-mapp.net                # Address for the main platform application.
+      ```text
+      127.0.0.1 localhost.www.dndmapp.dev                # Address for the main platform application.
       ```
 
     - Save the file by pressing `Ctrl + S` after which you may close Notepad.
@@ -152,15 +136,9 @@ Ensure that you have the following requirements prepared:
 
 To serve an application locally you can run one of the following commands:
 
-| Project     | Command                    | Address                                       |
-|-------------|----------------------------|-----------------------------------------------|
-| shared-ui   | npx nx storybook shared-ui | https://localhost.shared-ui.dnd-mapp.net:8000 |
-| api-gateway | npx nx serve api-gateway   | https://localhost.api.dnd-mapp.net:3000       |
-| auth        | npx nx serve auth          | https://0.0.0.0:7200                          |
-| users       | npx nx serve users         | 0.0.0.0:5000                                  |
-| roles       | npx nx serve roles         | 0.0.0.0:5100                                  |
-| auth-client | npx nx serve auth-client   | https://localhost.auth.dnd-mapp:7000          |
-| desktop-app | npx nx serve desktop-app   | https://localhost.desktop-app.dnd-mapp:7100   |
+| Project    | Command                 | Address                                |
+|------------|-------------------------|----------------------------------------|
+| web-client | npx nx serve web-client | https://localhost.www.dndmapp.dev:4200 |
 
 ---
 

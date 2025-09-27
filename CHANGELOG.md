@@ -21,4 +21,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Placeholder for upcoming fixes.
 
 ---
-

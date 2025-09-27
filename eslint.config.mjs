@@ -5,91 +5,29 @@ export default [
     ...nx.configs['flat/typescript'],
     ...nx.configs['flat/javascript'],
     {
-        ignores: ['**/dist', '**/prisma/client', '**/.msw'],
+        ignores: ['**/dist', '**/vite.config.*.timestamp*', '**/vitest.config.*.timestamp*'],
     },
     {
-        files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+        files: ['**/*.ts', '**/*.js'],
         rules: {
             '@nx/enforce-module-boundaries': [
                 'error',
                 {
-                    allowCircularSelfDependency: true,
                     enforceBuildableLibDependency: true,
-                    allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
+                    allowCircularSelfDependency: true,
+                    allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
                     depConstraints: [
                         {
-                            sourceTag: 'api:public',
-                            onlyDependOnLibsWithTags: ['scope:shared', 'api:internal', 'api:public'],
+                            sourceTag: 'scope:client',
+                            onlyDependOnLibsWithTags: [],
                         },
                         {
-                            sourceTag: 'api:internal',
-                            onlyDependOnLibsWithTags: ['scope:shared', 'api:internal'],
+                            sourceTag: 'type:angular',
+                            allowedExternalImports: ['@analogjs/*', '@angular/*'],
                         },
                         {
-                            sourceTag: 'scope:shared',
-                            onlyDependOnLibsWithTags: ['scope:shared'],
-                        },
-                        {
-                            sourceTag: 'scope:desktop-app',
-                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:desktop-app'],
-                        },
-                        {
-                            sourceTag: 'scope:ui',
-                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:ui'],
-                        },
-                        {
-                            sourceTag: 'framework:nest',
-                            allowedExternalImports: [
-                                '@dotenvx/dotenvx',
-                                '@fastify/cookie',
-                                '@prisma',
-                                '@prisma/*',
-                                '@grpc/*',
-                                '@nestjs/*',
-                                'bcryptjs',
-                                'class-transformer',
-                                'class-validator',
-                                'dotenv',
-                                'dotenv/*',
-                                'fastify',
-                                'grpc-health-check',
-                                'jest',
-                                'juice',
-                                'nanoid',
-                                'node-jose',
-                                'nodemailer',
-                                'nodemailer/*',
-                                'prisma',
-                                'prisma/*',
-                                'rxjs',
-                            ],
-                        },
-                        {
-                            sourceTag: 'framework:angular',
-                            allowedExternalImports: [
-                                '@angular/*',
-                                '@storybook/*',
-                                'msw',
-                                'msw/*',
-                                'nanoid',
-                                'rxjs',
-                                'storybook/*',
-                                'webpack',
-                            ],
-                        },
-                        {
-                            sourceTag: 'framework:electron',
-                            allowedExternalImports: [
-                                'chalk',
-                                'class-transformer',
-                                'class-validator',
-                                'electron',
-                                'electron-updater',
-                                'electron-updater/*',
-                                'nanoid',
-                                'rxjs',
-                                'ws',
-                            ],
+                            sourceTag: 'type:playwright',
+                            allowedExternalImports: ['@nx/*', '@playwright/*'],
                         },
                     ],
                 },
@@ -97,10 +35,7 @@ export default [
         },
     },
     {
-        files: ['**/*.ts', '**/*.tsx', '**/*.cts', '**/*.mts', '**/*.js', '**/*.jsx', '**/*.cjs', '**/*.mjs'],
-        // Override or add rules here
-        rules: {
-            '@typescript-eslint/no-unused-vars': 'off', // Let the TypeScript compiler handle unused variable errors/warnings.
-        },
+        files: ['**/*.ts', '**/*.cts', '**/*.mts', '**/*.js', '**/*.cjs', '**/*.mjs'],
+        rules: {},
     },
 ];
