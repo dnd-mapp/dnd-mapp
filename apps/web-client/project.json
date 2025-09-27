@@ -19,7 +19,12 @@
                 "browser": "apps/web-client/src/main.ts",
                 "inlineStyleLanguage": "scss",
                 "outputPath": "dist/apps/web-client",
+                "scripts": [],
+                "security": {
+                    "autoCsp": true
+                },
                 "styles": ["apps/web-client/src/styles.scss"],
+                "subresourceIntegrity": true,
                 "tsConfig": "apps/web-client/tsconfig.app.json"
             },
             "defaultConfiguration": "prod",
@@ -39,19 +44,32 @@
                     ]
                 },
                 "dev": {
-                    "optimization": false,
                     "extractLicenses": false,
+                    "namedChunks": true,
+                    "optimization": false,
                     "sourceMap": true
                 }
             }
         },
-        "serve": {
+        "serve-static": {
+            "executor": "@nx/web:file-server",
             "continuous": true,
-            "executor": "@angular/build:dev-server",
             "options": {
                 "buildTarget": "web-client:build:dev",
-                "allowedHosts": ["local-dev.dndmapp.nl.eu.org"],
-                "host": "0.0.0.0"
+                "parallel": true,
+                "spa": true,
+                "staticFilePath": "dist/apps/web-client/browser"
+            },
+            "configurations": {
+                "dev": {
+                    "host": "localhost.www.dndmapp.dev",
+                    "ssl": true,
+                    "sslCert": "certificate.pem",
+                    "sslKey": "certificate-key.pem"
+                },
+                "remote": {
+                    "host": "0.0.0.0"
+                }
             }
         },
         "test": {
