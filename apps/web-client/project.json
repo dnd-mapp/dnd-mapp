@@ -55,10 +55,16 @@
             }
         },
         "test": {
-            "executor": "@nx/vite:test",
-            "outputs": ["{options.reportsDirectory}"],
-            "options": {
-                "reportsDirectory": "../../reports/apps/web-client"
+            "executor": "nx:run-commands",
+            "outputs": ["{workspaceRoot}/reports/apps/web-client"],
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "command": "vitest run --config apps/web-client/vite.config.mts"
+                },
+                "dev": {
+                    "command": "vitest --config apps/web-client/vite.config.mts"
+                }
             }
         },
         "lint": {

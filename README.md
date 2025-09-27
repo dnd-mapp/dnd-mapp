@@ -59,7 +59,7 @@ Ensure that you have the following requirements prepared:
     - Generate the certificate and key with the following command:
 
       ```bash
-      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.www.dnd-mapp.net localhost
+      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.www.dndmapp.dev localhost
       ```
 
 5. Add the `localhost.*` host names to the hosts file on your machine.
@@ -77,7 +77,7 @@ Ensure that you have the following requirements prepared:
     - Add the following lines at the end of the file:
 
       ```text
-      127.0.0.1 localhost.www.dnd-mapp.net          # Address for the main platform application.
+      127.0.0.1 localhost.www.dndmapp.dev          # Address for the main platform application.
       ```
 
     - Save the file by pressing `Ctrl + O` and close the editor with `CTRL + X`.
@@ -96,7 +96,7 @@ Ensure that you have the following requirements prepared:
     - Add the following line at the end of the file:
 
       ```text
-      127.0.0.1 localhost.www.dnd-mapp.net                # Address for the main platform application.
+      127.0.0.1 localhost.www.dndmapp.dev                # Address for the main platform application.
       ```
 
     - Save the file by pressing `Ctrl + S` after which you may close Notepad.
@@ -136,8 +136,9 @@ Ensure that you have the following requirements prepared:
 
 To serve an application locally you can run one of the following commands:
 
-| Project     | Command                    | Address                                       |
-|-------------|----------------------------|-----------------------------------------------|
+| Project    | Command                 | Address                                |
+|------------|-------------------------|----------------------------------------|
+| web-client | npx nx serve web-client | https://localhost.www.dndmapp.dev:4200 |
 
 ---
 
