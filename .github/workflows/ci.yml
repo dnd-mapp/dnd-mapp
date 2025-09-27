@@ -31,4 +31,6 @@ jobs:
               run: npx nx affected -t build
 
             - name: Run tests
-              run: npx nx affected -t test
+              run: |
+                  npx playwright install chromium
+                  npx nx affected -t test
