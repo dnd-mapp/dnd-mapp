@@ -19,16 +19,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
-            "@dnd-mapp/auth": ["apps/auth/src/index.ts"],
-            "@dnd-mapp/auth-client/testing": ["apps/auth-client/test/index.ts"],
-            "@dnd-mapp/desktop-app-ui/testing": ["apps/desktop-app-ui/test/index.ts"],
-            "@dnd-mapp/shared": ["libs/shared/src/public_api.ts"],
-            "@dnd-mapp/shared-api": ["libs/shared-api/src/public_api.ts"],
-            "@dnd-mapp/shared-desktop-app": ["libs/shared-desktop-app/src/public_api.ts"],
-            "@dnd-mapp/shared-ui": ["libs/shared-ui/src/index.ts"],
-            "@dnd-mapp/shared-ui/test": ["libs/shared-ui/test/src/index.ts"],
-            "@dnd-mapp/shared-ui/utils": ["libs/shared-ui/utils/src/index.ts"],
-            "@dnd-mapp/users": ["apps/users/src/index.ts"]
+            "@dnd-mapp/web-client/test": ["apps/web-client/test"],
         },
         "rootDir": ".",
         "skipDefaultLibCheck": true,

@@ -4,19 +4,14 @@
     "neverConnectToCloud": true,
     "namedInputs": {
         "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml}"],
         "production": [
             "default",
             "!{projectRoot}/eslint.config.mjs",
             "!{projectRoot}/**/*.spec.ts",
             "!{projectRoot}/test/**/*",
-            "!{projectRoot}/tsconfig.spec.json",
-            "!{projectRoot}/jest.config.ts",
-            "!{projectRoot}/karma.conf.js",
-            "!{projectRoot}/**/*.stories.ts",
-            "!{projectRoot}/**/*.mdx",
-            "!{projectRoot}/.storybook/**/*"
-        ],
-        "sharedGlobals": ["{workspaceRoot}/.github/workflows/ci.yml}"]
+            "!{projectRoot}/tsconfig.spec.json"
+        ]
     },
     "targetDefaults": {
         "@angular/build:application": {
@@ -24,14 +19,18 @@
             "dependsOn": ["^build"],
             "inputs": ["production", "^production"]
         },
-        "@nx/angular:ng-packagr-lite": {
+        "@nx/eslint:lint": {
             "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
+            "inputs": [
+                "default",
+                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/.eslintignore",
+                "{workspaceRoot}/eslint.config.mjs"
+            ]
         },
-        "build-storybook": {
+        "@nx/vite:test": {
             "cache": true,
-            "inputs": ["default", "^production", "{projectRoot}/.storybook/**/*"]
+            "inputs": ["default", "^production"]
         }
     },
     "plugins": [
@@ -42,36 +41,18 @@
             }
         },
         {
-            "plugin": "@nx/vite/plugin",
+            "plugin": "@nx/playwright/plugin",
             "options": {
-                "buildTargetName": "build",
-                "testTargetName": "test",
-                "serveTargetName": "serve",
-                "devTargetName": "dev",
-                "previewTargetName": "preview",
-                "serveStaticTargetName": "serve-static",
-                "typecheckTargetName": "typecheck",
-                "buildDepsTargetName": "build-deps",
-                "watchDepsTargetName": "watch-deps"
-            }
-        },
-        {
-            "plugin": "@nx/webpack/plugin",
-            "options": {
-                "buildTarget": "build",
-                "serveTargetName": "serve",
-                "previewTargetName": "preview",
-                "buildDepsTargetName": "build-deps",
-                "watchDepsTargetName": "watch-deps"
+                "targetName": "e2e"
             }
         }
     ],
     "generators": {
         "@nx/angular:application": {
-            "e2eTestRunner": "none",
+            "e2eTestRunner": "playwright",
             "linter": "eslint",
             "style": "scss",
-            "unitTestRunner": "none"
+            "unitTestRunner": "vitest"
         },
         "@nx/angular:component": {
             "style": "scss",
@@ -79,7 +60,7 @@
         },
         "@nx/angular:library": {
             "linter": "eslint",
-            "unitTestRunner": "none"
+            "unitTestRunner": "vitest"
         }
     }
 }

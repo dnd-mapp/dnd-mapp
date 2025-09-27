@@ -1,7 +1,0 @@
-@use './palettes';
-
-$error: var(--error, palettes.$error40);
-$on-error: var(--on-error, palettes.$error100);
-
-$error-container: var(--error-container, palettes.$error90);
-$on-error-container: var(--on-error-container, palettes.$error30);

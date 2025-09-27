@@ -1,8 +1,0 @@
-{
-    "extends": "./tsconfig.json",
-    "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "test/**/*.ts"],
-    "compilerOptions": {
-        "outDir": "../../dist/out-tsc",
-        "types": ["jasmine", "node"]
-    }
-}
