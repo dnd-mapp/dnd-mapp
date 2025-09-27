@@ -1,2 +1,18 @@
-$background: oklch(0.98 0 0);
-$on-background: oklch(0.1 0 0);
+$font-family: var(--font-family, #{'Roboto', sans-serif});
+$font-size: var(--font-size, 100%);
+
+$fw-normal: var(--fw-normal, 400);
+
+$background: var(--background, oklch(98% 0 0));
+$on-background: var(--on-background, oklch(10% 0 0));
+
+$surface: var(--surface, oklch(95% 0 0));
+$on-surface: var(--on-surface, oklch(10% 0 0));
+
+@function hover($color) {
+    @return oklch(from $color calc(l - 0.05) c h);
+}
+
+@function active($color) {
+    @return oklch(from $color calc(l - 0.1) c h);
+}
