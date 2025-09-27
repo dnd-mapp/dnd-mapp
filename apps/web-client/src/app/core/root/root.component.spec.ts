@@ -1,7 +1,5 @@
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Component, provideZonelessChangeDetection } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-import { RootHarness } from '@dnd-mapp/web-client/test';
+import { Component } from '@angular/core';
+import { RootHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
 import { RootComponent } from './root.component';
 
 describe('RootComponent', () => {
@@ -12,15 +10,13 @@ describe('RootComponent', () => {
     class TestComponent {}
 
     async function setupTest() {
-        TestBed.configureTestingModule({
-            imports: [TestComponent],
-            providers: [provideZonelessChangeDetection()],
+        const { harness } = await setupEnvironment({
+            component: TestComponent,
+            harness: RootHarness,
         });
 
-        const harnessLoader = TestbedHarnessEnvironment.loader(TestBed.createComponent(TestComponent));
-
         return {
-            harness: await harnessLoader.getHarness(RootHarness),
+            harness: harness,
         };
     }
 
