@@ -1,0 +1,68 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "web-client",
+    "projectType": "application",
+    "prefix": "dma",
+    "sourceRoot": "apps/web-client/src",
+    "tags": ["framework:angular", "scope:web-client"],
+    "targets": {
+        "build": {
+            "executor": "@angular/build:application",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "assets": [
+                    {
+                        "glob": "**/*",
+                        "input": "apps/web-client/public"
+                    }
+                ],
+                "browser": "apps/web-client/src/main.ts",
+                "inlineStyleLanguage": "scss",
+                "outputPath": "dist/apps/web-client",
+                "styles": ["apps/web-client/src/styles.scss"],
+                "tsConfig": "apps/web-client/tsconfig.app.json"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "4kb",
+                            "maximumError": "8kb"
+                        }
+                    ]
+                },
+                "dev": {
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            }
+        },
+        "serve": {
+            "continuous": true,
+            "executor": "@angular/build:dev-server",
+            "options": {
+                "buildTarget": "web-client:build:dev",
+                "allowedHosts": ["local-dev.dndmapp.nl.eu.org"],
+                "host": "0.0.0.0"
+            }
+        },
+        "test": {
+            "executor": "@nx/vite:test",
+            "outputs": ["{options.reportsDirectory}"],
+            "options": {
+                "reportsDirectory": "../../reports/apps/web-client"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}
