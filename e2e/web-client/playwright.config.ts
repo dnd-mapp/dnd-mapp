@@ -17,6 +17,8 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
 export default defineConfig({
     ...nxE2EPreset(__filename, { testDir: './src' }),
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+    outputDir: '../../reports/e2e/web-client',
+    reporter: [['html', { outputFolder: '../../reports/e2e/web-client' }], ['dot']],
     use: {
         baseURL,
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -24,7 +26,7 @@ export default defineConfig({
     },
     /* Run your local dev server before starting the tests */
     webServer: {
-        command: 'npx nx serve web-client',
+        command: 'npx nx serve-static web-client',
         url: 'http://localhost:4200',
         reuseExistingServer: true,
         cwd: workspaceRoot,

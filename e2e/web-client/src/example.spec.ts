@@ -1,6 +1,6 @@
 import { expect, test } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+test('has text contents', async ({ page }) => {
     await page.goto('/');
 
     // Expect p to contain a string.
