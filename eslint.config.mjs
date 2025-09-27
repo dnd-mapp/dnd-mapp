@@ -14,11 +14,20 @@ export default [
                 'error',
                 {
                     enforceBuildableLibDependency: true,
+                    allowCircularSelfDependency: true,
                     allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$'],
                     depConstraints: [
                         {
-                            sourceTag: '*',
-                            onlyDependOnLibsWithTags: ['*'],
+                            sourceTag: 'scope:client',
+                            onlyDependOnLibsWithTags: [],
+                        },
+                        {
+                            sourceTag: 'type:angular',
+                            allowedExternalImports: ['@analogjs/*', '@angular/*'],
+                        },
+                        {
+                            sourceTag: 'type:playwright',
+                            allowedExternalImports: ['@nx/*', '@playwright/*'],
                         },
                     ],
                 },
