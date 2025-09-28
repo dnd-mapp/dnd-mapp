@@ -23,7 +23,7 @@ export default [
                         },
                         {
                             sourceTag: 'type:angular',
-                            allowedExternalImports: ['@analogjs/*', '@angular/*'],
+                            allowedExternalImports: ['@analogjs/*', '@angular/*', 'rxjs'],
                         },
                         {
                             sourceTag: 'type:playwright',
