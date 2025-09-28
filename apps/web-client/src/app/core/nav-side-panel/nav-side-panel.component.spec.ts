@@ -1,0 +1,27 @@
+import { Component } from '@angular/core';
+import { NavSidePanelHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { NavSidePanelComponent } from './nav-side-panel.component';
+
+describe('NavSidePanelComponent', () => {
+    @Component({
+        template: `<dma-nav-side-panel />`,
+        imports: [NavSidePanelComponent],
+    })
+    class TestComponent {}
+
+    async function setupTest() {
+        const { harness } = await setupEnvironment({
+            component: TestComponent,
+            harness: NavSidePanelHarness,
+        });
+
+        return {
+            harness: harness,
+        };
+    }
+
+    it('should render', async () => {
+        const { harness } = await setupTest();
+        expect(harness).toBeDefined();
+    });
+});
