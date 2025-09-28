@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import {
-    AppBarComponent,
-    BarsSoIconComponent,
-    ButtonComponent,
-    IndentSoIconComponent,
-    ThemeDirective,
-    ToggleSideSheetButtonDirective,
-} from '../../shared';
+import { ThemeDirective } from '../../shared';
+import { HeaderComponent } from '../header';
 
 @Component({
     selector: 'dma-root',
@@ -14,12 +8,6 @@ import {
     styleUrl: './root.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     hostDirectives: [ThemeDirective],
-    imports: [
-        AppBarComponent,
-        BarsSoIconComponent,
-        ButtonComponent,
-        ToggleSideSheetButtonDirective,
-        IndentSoIconComponent,
-    ],
+    imports: [HeaderComponent],
 })
 export class RootComponent {}
