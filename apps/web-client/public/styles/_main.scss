@@ -20,3 +20,8 @@ body {
     margin: 0;
     box-sizing: border-box;
 }
+
+.dma-side-sheet-backdrop {
+    top: 3em !important;
+    background-color: oklch(0 0 0 / 0.32);
+}
