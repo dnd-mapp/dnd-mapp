@@ -1,1 +1,3 @@
-<ng-template [cdkPortalOutlet]="componentPortal()" />
+@if (hasComponent()) {
+    <ng-template [cdkPortalOutlet]="componentPortal()" />
+}

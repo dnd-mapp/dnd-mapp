@@ -13,5 +13,7 @@ import { ThemeDirective } from '../theming';
 export class SideSheetComponent<T> {
     public readonly component = input<Type<T>>(null);
 
+    protected readonly hasComponent = computed(() => this.component() !== null);
+
     protected readonly componentPortal = computed(() => new ComponentPortal(this.component()));
 }
