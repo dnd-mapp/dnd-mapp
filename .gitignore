@@ -18,6 +18,7 @@ node_modules/
 **/prisma/client/
 .angular/
 reports/
+**/__screenshots__
 
 tmp/
 
