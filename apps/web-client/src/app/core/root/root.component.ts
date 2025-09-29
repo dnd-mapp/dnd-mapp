@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { ThemeDirective } from '../../shared';
 import { HeaderComponent } from '../header';
 
@@ -8,6 +9,6 @@ import { HeaderComponent } from '../header';
     styleUrl: './root.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     hostDirectives: [ThemeDirective],
-    imports: [HeaderComponent],
+    imports: [HeaderComponent, RouterOutlet],
 })
 export class RootComponent {}
