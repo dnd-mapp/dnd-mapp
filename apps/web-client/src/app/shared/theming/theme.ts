@@ -19,6 +19,8 @@ export const ThemeVariables = {
     ON_BACKGROUND: 'on-background',
     SURFACE: 'surface',
     ON_SURFACE: 'on-surface',
+    DANGER: 'danger',
+    ON_DANGER: 'on-danger',
 } as const;
 
 export type ThemeVariable = (typeof ThemeVariables)[keyof typeof ThemeVariables];

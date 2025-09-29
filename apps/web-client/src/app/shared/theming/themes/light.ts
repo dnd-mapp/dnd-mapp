@@ -7,4 +7,6 @@ export const light: Theme = {
     [ThemeVariables.ON_BACKGROUND]: 'oklch(10% 0 0)',
     [ThemeVariables.SURFACE]: 'oklch(95% 0 0)',
     [ThemeVariables.ON_SURFACE]: 'oklch(10% 0 0)',
+    [ThemeVariables.DANGER]: 'oklch(55% 0.206 27.272)',
+    [ThemeVariables.ON_DANGER]: 'oklch(95% 0 0)',
 } as const;

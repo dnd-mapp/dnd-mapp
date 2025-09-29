@@ -9,6 +9,9 @@ $on-background: var(--on-background, oklch(10% 0 0));
 $surface: var(--surface, oklch(95% 0 0));
 $on-surface: var(--on-surface, oklch(10% 0 0));
 
+$danger: var(--danger, oklch(55% 0.206 27.272));
+$on-danger: var(--on-danger, oklch(95% 0 0));
+
 @function hover($color) {
     @return oklch(from $color calc(l - 0.05) c h);
 }
