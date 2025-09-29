@@ -43,10 +43,10 @@ export class SideSheetService<T> {
 
         const { overlayRef } = this.overlayService.show({
             scrollingStrategy: this.overlay.scrollStrategies.block(),
-            positionStrategy: this.overlay.position().global().top('3em'),
+            positionStrategy: this.overlay.position().global().top('3.5em'),
             hasBackdrop: true,
             backdropClass: ['dma-side-sheet-backdrop'],
-            height: 'calc(100% - 3em)',
+            height: 'calc(100% - 3.5em)',
         });
 
         this.overlayRef = overlayRef;
