@@ -18,6 +18,10 @@ export const appRoutes: Route[] = [
         loadComponent: async () => (await import('../not-found')).NotFoundPage,
     },
     {
+        path: 'spells',
+        loadChildren: async () => (await import('../../spells')).spellsRoutes,
+    },
+    {
         path: '**',
         redirectTo: 'not-found',
     },
