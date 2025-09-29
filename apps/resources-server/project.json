@@ -5,6 +5,16 @@
     "sourceRoot": "apps/resources-server/src",
     "tags": ["type:nest", "scope:server", "scope:resources"],
     "targets": {
+        "prisma-generate-client": {
+            "executor": "nx:run-commands",
+            "cache": true,
+            "inputs": ["{projectRoot}/.prisma/schema.prisma"],
+            "outputs": ["{projectRoot}/.prisma/client"],
+            "options": {
+                "command": "npx prisma generate client",
+                "args": ["--config apps/resources-server/prisma.config.ts"]
+            }
+        },
         "build": {
             "executor": "nx:run-commands",
             "options": {
