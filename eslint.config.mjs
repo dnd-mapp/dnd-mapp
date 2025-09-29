@@ -5,7 +5,7 @@ export default [
     ...nx.configs['flat/typescript'],
     ...nx.configs['flat/javascript'],
     {
-        ignores: ['**/.angular', '**/.msw', '**/.nx', '**/dist', '**/node_modules', '**/reports'],
+        ignores: ['**/.angular', '**/.msw', '**/.nx', '**/dist', '**/node_modules', '**/reports', '**/.prisma/client'],
     },
     {
         files: ['**/*.ts', '**/*.js'],
