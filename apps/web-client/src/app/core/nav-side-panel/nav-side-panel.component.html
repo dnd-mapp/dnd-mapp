@@ -1,0 +1,43 @@
+<nav>
+    <dma-nav-link route="/" exactMatch>
+        <dma-icon dma-house-so-icon />
+        Home
+    </dma-nav-link>
+    <dma-nav-link route="/characters">
+        <dma-icon dma-users-so-icon />
+        Characters
+    </dma-nav-link>
+    <dma-nav-link route="/campaigns">
+        <dma-icon dma-compass-so-icon />
+        Campaigns
+    </dma-nav-link>
+    <dma-nav-menu-trigger label="Knowledge">
+        <dma-icon dma-book-so-icon />
+        <dma-nav-menu-container>
+            <dma-nav-link route="/rules">Rules and Mechanics</dma-nav-link>
+            <dma-nav-link route="/spells">Spells</dma-nav-link>
+        </dma-nav-menu-container>
+    </dma-nav-menu-trigger>
+
+    <div class="trailing-content">
+        @if (isAuthenticated()) {
+            <button type="button" dmaButton (click)="onMyProfile()">
+                <dma-icon dma-circle-user-so-icon ngProjectAs="dma-leading-button-icon" />
+                {{ authenticatedUser().username }}
+            </button>
+            <button type="button" dmaButton="danger-subtle" (click)="onLogOut()">
+                <dma-icon dma-arrow-right-from-bracket-so-icon ngProjectAs="dma-leading-button-icon" />
+                Log out
+            </button>
+        } @else {
+            <button type="button" dmaButton (click)="onSignUp()">
+                <dma-icon dma-user-plus-so-icon ngProjectAs="dma-leading-button-icon" />
+                Sign up
+            </button>
+            <button type="button" dmaButton (click)="onLogIn()">
+                <dma-icon dma-arrow-right-to-bracket-so-icon ngProjectAs="dma-leading-button-icon" />
+                Log in
+            </button>
+        }
+    </div>
+</nav>

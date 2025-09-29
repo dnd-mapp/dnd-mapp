@@ -1,0 +1,15 @@
+<button type="button" dmaButton (click)="onMenuToggle()">
+    <ng-container ngProjectAs="dma-leading-button-icon">
+        <ng-content select="dma-icon" />
+    </ng-container>
+    {{ label() }}
+    @if (isOpen()) {
+        <dma-icon dma-chevron-up-so-icon ngProjectAs="dma-trailing-button-icon" />
+    } @else {
+        <dma-icon dma-chevron-down-so-icon ngProjectAs="dma-trailing-button-icon" />
+    }
+</button>
+
+@if (isOpen()) {
+    <ng-content select="dma-nav-menu-container" />
+}

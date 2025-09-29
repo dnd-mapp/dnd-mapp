@@ -57,9 +57,11 @@
             "options": {
                 "buildTarget": "web-client:build:dev",
                 "parallel": true,
+                "maxParallel": 1,
                 "spa": true,
                 "staticFilePath": "dist/apps/web-client/browser"
             },
+            "defaultConfiguration": "dev",
             "configurations": {
                 "dev": {
                     "host": "localhost.www.dndmapp.dev",

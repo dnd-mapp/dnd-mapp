@@ -1,0 +1,51 @@
+@use '../../../../public/styles/variables';
+
+:host {
+    display: inline-block;
+    font-size: inherit;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+
+    .button-content {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        gap: 1em;
+        padding: 0.5em;
+        background-color: variables.$surface;
+        color: variables.$on-surface;
+        border-radius: 0.33em;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        .button-content {
+            background-color: variables.hover(variables.$surface);
+        }
+    }
+
+    &:active .button-content {
+        background-color: variables.active(variables.$surface);
+    }
+
+    &[dma-button-type='danger'] {
+        .button-content {
+            background-color: variables.$danger;
+            color: variables.$on-danger;
+        }
+
+        &:hover .button-content {
+            background-color: variables.hover(variables.$danger);
+        }
+
+        &:active .button-content {
+            background-color: variables.active(variables.$danger);
+        }
+    }
+
+    &[dma-button-type='danger-subtle'] .button-content {
+        color: variables.$danger;
+    }
+}

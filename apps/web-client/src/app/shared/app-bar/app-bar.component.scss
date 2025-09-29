@@ -1,0 +1,11 @@
+@use '../../../../public/styles/variables';
+
+:host {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    padding: 0.5em 1em;
+
+    background-color: variables.$surface;
+    color: variables.$on-surface;
+}

@@ -9,18 +9,19 @@
 !*.json
 !*.yml
 !*.html
+!*.svg
 !*.css
 !*.scss
 
 dist/
 reports/
 .angular/
+.nx/
 
 .idea/
 .vscode/
 
 node_modules/
+.msw/
 
 package-lock.json
-
-**/.mws/
