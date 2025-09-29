@@ -25,9 +25,26 @@
         }
     }
 
-    &:active {
+    &:active .button-content {
+        background-color: variables.active(variables.$surface);
+    }
+
+    &[dma-button-type='danger'] {
         .button-content {
-            background-color: variables.active(variables.$surface);
+            background-color: variables.$danger;
+            color: variables.$on-danger;
         }
+
+        &:hover .button-content {
+            background-color: variables.hover(variables.$danger);
+        }
+
+        &:active .button-content {
+            background-color: variables.active(variables.$danger);
+        }
+    }
+
+    &[dma-button-type='danger-subtle'] .button-content {
+        color: variables.$danger;
     }
 }
