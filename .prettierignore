@@ -23,5 +23,6 @@ reports/
 
 node_modules/
 .msw/
+**/.prisma/client
 
 package-lock.json
