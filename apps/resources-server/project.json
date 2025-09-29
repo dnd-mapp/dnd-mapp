@@ -1,0 +1,50 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "resources-server",
+    "projectType": "application",
+    "sourceRoot": "apps/resources-server/src",
+    "tags": ["type:nest", "scope:server", "scope:resources"],
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "webpack-cli build",
+                "cwd": "apps/resources-server"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "args": ["--node-env production"]
+                },
+                "dev": {
+                    "args": ["--node-env development"]
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nx/js:node",
+            "continuous": true,
+            "dependsOn": ["build"],
+            "options": {
+                "buildTarget": "resources-server:build:dev",
+                "host": "localhost.resources.dnd-mapp.dev",
+                "inspect": false,
+                "port": 4300,
+                "runBuildTargetDependencies": false,
+                "watch": true
+            }
+        },
+        "test": {
+            "options": {
+                "jestConfig": "apps/resources-server/jest.config.ts"
+            },
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {},
+                "dev": {
+                    "watchAll": true
+                }
+            }
+        }
+    }
+}
