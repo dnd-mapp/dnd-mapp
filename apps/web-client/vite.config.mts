@@ -9,7 +9,11 @@ const isCI = Boolean(process.env['CI']);
 
 export default defineConfig(() => ({
     cacheDir: '../../node_modules/.vite/apps/web-client',
-    plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+    plugins: [
+        angular(),
+        nxViteTsPaths(),
+        nxCopyAssetsPlugin(['*.md', { input: '../../.msw', glob: '*', output: '.' }]),
+    ],
     root: __dirname,
     test: {
         browser: {
