@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { NavSidePanelHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
 import { NavSidePanelComponent } from './nav-side-panel.component';
 
@@ -13,6 +14,7 @@ describe('NavSidePanelComponent', () => {
         const { harness } = await setupEnvironment({
             component: TestComponent,
             harness: NavSidePanelHarness,
+            providers: [provideRouter([])],
         });
 
         return {
