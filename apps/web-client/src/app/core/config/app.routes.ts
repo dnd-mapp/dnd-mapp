@@ -10,6 +10,10 @@ export const appRoutes: Route[] = [
         loadChildren: async () => (await import('../../campaigns')).campaignsRoutes,
     },
     {
+        path: 'characters',
+        loadChildren: async () => (await import('../../characters')).charactersRoutes,
+    },
+    {
         path: 'not-found',
         loadComponent: async () => (await import('../not-found')).NotFoundPage,
     },
