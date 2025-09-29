@@ -1,4 +1,5 @@
 export * from './header.harness';
 export * from './home.harness';
 export * from './nav-side-panel.harness';
+export * from './not-found.harness';
 export * from './root.harness';
