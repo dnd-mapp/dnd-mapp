@@ -15,6 +15,7 @@ export const ThemeVariables = {
     FONT_FAMILY: 'font-family',
     FONT_SIZE: 'font-size',
     FONT_WEIGHT_NORMAL: 'fw-normal',
+    FONT_WEIGHT_BOLD: 'fw-bold',
     BACKGROUND: 'background',
     ON_BACKGROUND: 'on-background',
     SURFACE: 'surface',
