@@ -14,6 +14,10 @@ export const appRoutes: Route[] = [
         loadChildren: async () => (await import('../../characters')).charactersRoutes,
     },
     {
+        path: 'rules',
+        loadChildren: async () => (await import('../../rules')).rulesRoutes,
+    },
+    {
         path: 'not-found',
         loadComponent: async () => (await import('../not-found')).NotFoundPage,
     },
