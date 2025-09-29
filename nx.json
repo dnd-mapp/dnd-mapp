@@ -55,6 +55,20 @@
             }
         },
         {
+            "plugin": "@nx/vite/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "testTargetName": "vite:test",
+                "serveTargetName": "serve",
+                "devTargetName": "dev",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static",
+                "typecheckTargetName": "typecheck",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
             "plugin": "@nx/webpack/plugin",
             "options": {
                 "buildTargetName": "build",

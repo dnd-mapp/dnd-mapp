@@ -19,6 +19,7 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
+            "@dnd-mapp/shared": ["libs/shared/src/index.ts"],
             "@dnd-mapp/web-client/test": ["apps/web-client/test"]
         },
         "rootDir": ".",
