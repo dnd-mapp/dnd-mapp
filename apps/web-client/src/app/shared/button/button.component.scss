@@ -10,7 +10,8 @@
     .button-content {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: start;
+        gap: 1em;
         padding: 0.5em;
         background-color: variables.$surface;
         color: variables.$on-surface;

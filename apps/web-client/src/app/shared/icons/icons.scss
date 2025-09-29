@@ -10,4 +10,8 @@
     &.mirror {
         transform: rotate(180deg);
     }
+
+    &:where(button[dmaButton] &):not(:only-of-type):last-of-type {
+        margin-left: auto;
+    }
 }
