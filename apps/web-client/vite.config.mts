@@ -48,7 +48,7 @@ export default defineConfig(() => ({
         name: 'web-client',
         open: false,
         outputFile: '../../reports/apps/web-client/index.html',
-        reporters: ['hanging-process', 'dot', 'html'],
+        reporters: ['dot', 'html'],
         sequence: {
             shuffle: true,
         },
