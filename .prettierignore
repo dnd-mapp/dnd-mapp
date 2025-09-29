@@ -9,12 +9,14 @@
 !*.json
 !*.yml
 !*.html
+!*.svg
 !*.css
 !*.scss
 
 dist/
 reports/
 .angular/
+.nx/
 
 .idea/
 .vscode/
