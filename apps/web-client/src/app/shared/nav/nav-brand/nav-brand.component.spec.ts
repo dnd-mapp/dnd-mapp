@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HeaderHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
-import { HeaderComponent } from './header.component';
+import { NavBrandHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { NavBrandComponent } from './nav-brand.component';
 
-describe('Header', () => {
+describe('NavBrandComponent', () => {
     @Component({
-        template: `<dma-header />`,
-        imports: [HeaderComponent],
+        template: `<dma-nav-brand />`,
+        imports: [NavBrandComponent],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: HeaderHarness,
+            harness: NavBrandHarness,
             providers: [provideRouter([])],
         });
 

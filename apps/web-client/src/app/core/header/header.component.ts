@@ -4,6 +4,7 @@ import {
     BarsSoIconComponent,
     ButtonComponent,
     IndentSoIconComponent,
+    NavBrandComponent,
     SideSheetService,
     ToggleSideSheetButtonDirective,
 } from '../../shared';
@@ -20,6 +21,7 @@ import { NavSidePanelComponent } from '../nav-side-panel';
         ButtonComponent,
         IndentSoIconComponent,
         ToggleSideSheetButtonDirective,
+        NavBrandComponent,
     ],
 })
 export class HeaderComponent implements OnInit, OnDestroy {

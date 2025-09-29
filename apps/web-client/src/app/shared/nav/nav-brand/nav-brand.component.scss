@@ -1,0 +1,16 @@
+@use '../../../../../public/styles/variables';
+
+:host {
+    a {
+        font-size: 125%;
+        font-weight: variables.$fw-bold;
+        color: variables.$on-surface;
+        text-decoration: none;
+
+        &:hover {
+            text-decoration: underline;
+            text-decoration-thickness: 0.05em;
+            cursor: pointer;
+        }
+    }
+}

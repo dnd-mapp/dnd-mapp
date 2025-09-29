@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { RootHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
 import { RootComponent } from './root.component';
 
@@ -13,6 +14,7 @@ describe('RootComponent', () => {
         const { harness } = await setupEnvironment({
             component: TestComponent,
             harness: RootHarness,
+            providers: [provideRouter([])],
         });
 
         return {
