@@ -11,6 +11,11 @@
         "e2e/*",
         "libs/*"
     ],
+    "msw": {
+        "workerDirectory": [
+            ".msw"
+        ]
+    },
     "scripts": {
         "nx": "npx nx",
         "clean": "npx ts-node tools/clean.ts"
