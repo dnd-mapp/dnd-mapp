@@ -52,7 +52,7 @@ export default defineConfig(() => ({
         sequence: {
             shuffle: true,
         },
-        setupFiles: ['test/test-setup.ts'],
+        setupFiles: ['test/setup-test.ts'],
         ui: !isCI,
         uiBase: '/web-app/',
         watch: !isCI,
