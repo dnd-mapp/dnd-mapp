@@ -1,4 +1,16 @@
 :host {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
     height: 100%;
+
+    dma-header {
+        flex: 0 0 auto;
+    }
+
+    main {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: center;
+    }
 }
