@@ -22,7 +22,6 @@ reports/
 .vscode/
 
 node_modules/
+.msw/
 
 package-lock.json
-
-**/.mws/
