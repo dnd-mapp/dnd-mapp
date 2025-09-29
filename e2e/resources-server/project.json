@@ -3,6 +3,7 @@
     "name": "resources-server-e2e",
     "projectType": "application",
     "implicitDependencies": ["resources-server"],
+    "tags": ["type:jest", "scope:e2e", "scope:server"],
     "targets": {
         "e2e": {
             "executor": "@nx/jest:jest",

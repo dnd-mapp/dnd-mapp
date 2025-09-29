@@ -19,15 +19,35 @@ export default [
                     depConstraints: [
                         {
                             sourceTag: 'scope:client',
-                            onlyDependOnLibsWithTags: [],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:client'],
+                        },
+                        {
+                            sourceTag: 'scope:server',
+                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:server'],
+                        },
+                        {
+                            sourceTag: 'scope:e2e',
+                            onlyDependOnLibsWithTags: ['scope:e2e', 'scope:shared'],
+                        },
+                        {
+                            sourceTag: 'scope:shared',
+                            onlyDependOnLibsWithTags: ['scope:shared'],
                         },
                         {
                             sourceTag: 'type:angular',
                             allowedExternalImports: ['@analogjs/*', '@angular/*', 'msw', 'msw/browser', 'rxjs'],
                         },
                         {
+                            sourceTag: 'type:nest',
+                            allowedExternalImports: ['@nestjs/*', 'jest'],
+                        },
+                        {
                             sourceTag: 'type:playwright',
                             allowedExternalImports: ['@nx/*', '@playwright/*'],
+                        },
+                        {
+                            sourceTag: 'type:jest',
+                            allowedExternalImports: ['@nx/*', 'axios', 'jest'],
                         },
                     ],
                 },
