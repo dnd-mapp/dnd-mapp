@@ -10,7 +10,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Spell {
+model Spells {
     id   String @id @default(nanoid()) @db.VarChar(24)
     name String @unique(map: "uq_spell_name") @db.VarChar(255)
 
