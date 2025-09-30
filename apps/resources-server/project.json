@@ -15,6 +15,14 @@
                 "args": ["--config apps/resources-server/prisma.config.ts"]
             }
         },
+        "prisma-db-push": {
+            "executor": "nx:run-commands",
+            "inputs": ["{projectRoot}/.prisma/schema.prisma"],
+            "options": {
+                "command": "npx prisma db push",
+                "args": ["--config apps/resources-server/prisma.config.ts"]
+            }
+        },
         "build": {
             "executor": "nx:run-commands",
             "options": {
