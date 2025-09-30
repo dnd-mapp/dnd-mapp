@@ -12,7 +12,7 @@ export async function validate(environmentVariables: PlainEnvironmentVariables) 
         stopAtFirstError: true,
     });
 
-    if (validationErrors) {
+    if (validationErrors.length > 0) {
         const validationError = validationErrors[0];
         throw new Error(Object.values(validationError.constraints)[0]);
     }
