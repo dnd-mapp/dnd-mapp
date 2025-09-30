@@ -39,7 +39,14 @@ export default [
                         },
                         {
                             sourceTag: 'type:nest',
-                            allowedExternalImports: ['@nestjs/*', '@dotenvx/*', 'jest', 'prisma/*'],
+                            allowedExternalImports: [
+                                '@nestjs/*',
+                                '@dotenvx/*',
+                                'class-transformer',
+                                'class-validator',
+                                'jest',
+                                'prisma/*',
+                            ],
                         },
                         {
                             sourceTag: 'type:playwright',
