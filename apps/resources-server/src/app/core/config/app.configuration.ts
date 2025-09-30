@@ -1,4 +1,5 @@
 import {
+    DEFAULT_CORS_ORIGINS,
     DEFAULT_DATABASE_HOST,
     DEFAULT_DATABASE_PORT,
     DEFAULT_DATABASE_SCHEMA,
@@ -24,7 +25,10 @@ function getValueFromEnv<T extends EnvironmentVariableType>(key: EnvironmentVari
     const value = process.env[key];
 
     if (value === undefined && fallback !== undefined) return fallback;
-    if (fallback && typeof fallback === 'number') return parseNumber(value, fallback) as T;
+    if (fallback) {
+        if (typeof fallback === 'number') return parseNumber(value, fallback) as T;
+        if (Array.isArray(fallback)) return value.split(',') as T;
+    }
     return value as T;
 }
 
@@ -32,6 +36,9 @@ export function appConfiguration() {
     return {
         host: getValueFromEnv(EnvironmentVariableNames.SERVER_HOST, DEFAULT_SERVER_HOST),
         port: getValueFromEnv(EnvironmentVariableNames.SERVER_PORT, DEFAULT_SERVER_PORT),
+        cors: {
+            origins: getValueFromEnv(EnvironmentVariableNames.CORS_ALLOWED_ORIGINS, DEFAULT_CORS_ORIGINS),
+        },
         database: {
             host: getValueFromEnv(EnvironmentVariableNames.DATABASE_HOST, DEFAULT_DATABASE_HOST),
             port: getValueFromEnv(EnvironmentVariableNames.DATABASE_PORT, DEFAULT_DATABASE_PORT),

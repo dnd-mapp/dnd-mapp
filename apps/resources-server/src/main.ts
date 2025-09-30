@@ -1,12 +1,19 @@
 import { tryCatchAsync } from '@dnd-mapp/shared';
 import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { AppModule } from './app';
+import { AppModule, configureCors } from './app';
 
 async function bootstrapApp() {
     const app = await NestFactory.create(AppModule, new FastifyAdapter());
 
+    configService = app.get(ConfigService);
+
+    const origins = configService.get<string[]>('cors.origins');
+
+    app.enableCors(configureCors(origins));
     app.enableShutdownHooks();
 
     const port = process.env['PORT'] || 4300;
