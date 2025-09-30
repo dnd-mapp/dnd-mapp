@@ -12,6 +12,7 @@ import {
     EnvironmentVariableName,
     EnvironmentVariableNames,
     EnvironmentVariableType,
+    SslConfiguration,
 } from './definitions';
 
 function parseNumber(value: string, fallback: number) {
@@ -32,6 +33,10 @@ function getValueFromEnv<T extends EnvironmentVariableType>(key: EnvironmentVari
     return value as T;
 }
 
+function sslEnabled() {
+    return process.env[EnvironmentVariableNames.SSL_KEY_PATH] && process.env[EnvironmentVariableNames.SSL_CERT_PATH];
+}
+
 export function appConfiguration() {
     return {
         host: getValueFromEnv(EnvironmentVariableNames.SERVER_HOST, DEFAULT_SERVER_HOST),
@@ -39,6 +44,14 @@ export function appConfiguration() {
         cors: {
             origins: getValueFromEnv(EnvironmentVariableNames.CORS_ALLOWED_ORIGINS, DEFAULT_CORS_ORIGINS),
         },
+        ...(sslEnabled()
+            ? {
+                  ssl: {
+                      certPath: getValueFromEnv(EnvironmentVariableNames.SSL_CERT_PATH),
+                      keyPath: getValueFromEnv(EnvironmentVariableNames.SSL_KEY_PATH),
+                  } satisfies SslConfiguration,
+              }
+            : null),
         database: {
             host: getValueFromEnv(EnvironmentVariableNames.DATABASE_HOST, DEFAULT_DATABASE_HOST),
             port: getValueFromEnv(EnvironmentVariableNames.DATABASE_PORT, DEFAULT_DATABASE_PORT),

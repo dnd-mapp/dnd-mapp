@@ -1,2 +1,2 @@
 export * from './app.module';
-export { configureCors } from './core';
+export { SslConfiguration, configureCors } from './core';
