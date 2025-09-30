@@ -1,13 +1,11 @@
-import { plainToInstance } from 'class-transformer';
+import { transform } from '@dnd-mapp/shared';
 import { validate as validateInstance } from 'class-validator';
 import { EnvironmentVariables } from './definitions';
 
 type PlainEnvironmentVariables = Record<string, unknown>;
 
 export async function validate(environmentVariables: PlainEnvironmentVariables) {
-    const parsedConfig = plainToInstance(EnvironmentVariables, environmentVariables, {
-        enableImplicitConversion: true,
-    });
+    const parsedConfig = transform(environmentVariables, EnvironmentVariables);
 
     const validationErrors = await validateInstance(parsedConfig, {
         forbidUnknownValues: true,
