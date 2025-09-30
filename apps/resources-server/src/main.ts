@@ -7,6 +7,8 @@ import { AppModule } from './app';
 async function bootstrapApp() {
     const app = await NestFactory.create(AppModule, new FastifyAdapter());
 
+    app.enableShutdownHooks();
+
     const port = process.env['PORT'] || 4300;
     await app.listen(port);
 
