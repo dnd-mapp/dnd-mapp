@@ -30,6 +30,10 @@ export default [
                             onlyDependOnLibsWithTags: ['scope:e2e', 'scope:shared'],
                         },
                         {
+                            sourceTag: 'scope:static-resources',
+                            onlyDependOnLibsWithTags: ['scope:static-resources', 'scope:shared'],
+                        },
+                        {
                             sourceTag: 'scope:shared',
                             onlyDependOnLibsWithTags: ['scope:shared'],
                         },
