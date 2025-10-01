@@ -1,4 +1,5 @@
 import {
+    DEFAULT_CLIENT_STATIC_FILES_PATH,
     DEFAULT_CORS_ORIGINS,
     DEFAULT_DATABASE_HOST,
     DEFAULT_DATABASE_PORT,
@@ -41,6 +42,10 @@ export function appConfiguration() {
     return {
         host: getValueFromEnv(EnvironmentVariableNames.SERVER_HOST, DEFAULT_SERVER_HOST),
         port: getValueFromEnv(EnvironmentVariableNames.SERVER_PORT, DEFAULT_SERVER_PORT),
+        clientStaticFilesPath: getValueFromEnv(
+            EnvironmentVariableNames.CLIENT_STATIC_FILES_PATH,
+            DEFAULT_CLIENT_STATIC_FILES_PATH,
+        ),
         cors: {
             origins: getValueFromEnv(EnvironmentVariableNames.CORS_ALLOWED_ORIGINS, DEFAULT_CORS_ORIGINS),
         },

@@ -5,9 +5,10 @@ import { PORT_RANGE_MAX, PORT_RANGE_MIN } from './constants';
 export const EnvironmentVariableNames = {
     SERVER_HOST: 'SERVER_HOST',
     SERVER_PORT: 'SERVER_PORT',
+    CORS_ALLOWED_ORIGINS: 'CORS_ALLOWED_ORIGINS',
+    CLIENT_STATIC_FILES_PATH: 'CLIENT_STATIC_FILES_PATH',
     SSL_CERT_PATH: 'SSL_CERT_PATH',
     SSL_KEY_PATH: 'SSL_KEY_PATH',
-    CORS_ALLOWED_ORIGINS: 'CORS_ALLOWED_ORIGINS',
     DATABASE_HOST: 'DATABASE_HOST',
     DATABASE_PORT: 'DATABASE_PORT',
     DATABASE_SCHEMA: 'DATABASE_SCHEMA',
@@ -37,6 +38,11 @@ export class EnvironmentVariables {
     @IsOptional()
     @Transform(({ value }) => ((value as string) || '').split(','))
     [EnvironmentVariableNames.CORS_ALLOWED_ORIGINS]?: string[];
+
+    @IsNotEmpty()
+    @IsString()
+    @IsOptional()
+    [EnvironmentVariableNames.CLIENT_STATIC_FILES_PATH]?: string;
 
     @IsNotEmpty()
     @IsString()
@@ -95,6 +101,7 @@ export interface AppConfiguration {
     host: string;
     port: number;
     cors: CorsConfiguration;
+    clientStaticFilesPath: string;
     database: DatabaseConfiguration;
     ssl?: SslConfiguration;
 }

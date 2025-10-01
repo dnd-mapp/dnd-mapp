@@ -3,6 +3,7 @@ export const DEFAULT_SERVER_HOST = 'localhost' as const;
 export const DEFAULT_SERVER_PORT = 4300 as const;
 
 export const DEFAULT_CORS_ORIGINS = ['http://localhost:4200'];
+export const DEFAULT_CLIENT_STATIC_FILES_PATH = 'dist/apps/resources-client/browser';
 
 export const DEFAULT_DATABASE_HOST = 'localhost' as const;
 
