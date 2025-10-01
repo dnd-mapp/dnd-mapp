@@ -39,6 +39,7 @@ async function bootstrapApp() {
 
     const origins = configService.get<string[]>('cors.origins');
 
+    app.setGlobalPrefix('server', { exclude: ['/app', '/'] });
     app.enableCors(configureCors(origins));
     app.enableShutdownHooks();
 

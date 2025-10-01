@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { SpellsService } from './spells.service';
 
-@Controller('spells')
+@Controller('/spells')
 export class SpellsController {
     private readonly spellsService: SpellsService;
 

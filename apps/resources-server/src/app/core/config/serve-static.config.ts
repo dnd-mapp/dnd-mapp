@@ -9,6 +9,7 @@ export const serveStaticConfig: ServeStaticModuleAsyncOptions = {
             rootPath: resolve(configService.get<string>('clientStaticFilesPath')),
             renderPath: '*',
             serveRoot: '/app',
+            useGlobalPrefix: false,
             serveStaticOptions: {
                 fallthrough: true,
             },
