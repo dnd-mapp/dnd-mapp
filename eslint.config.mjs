@@ -48,6 +48,7 @@ export default [
                                 '@dotenvx/*',
                                 'class-transformer',
                                 'class-validator',
+                                'fastify',
                                 'jest',
                                 'prisma/*',
                             ],
