@@ -16,6 +16,7 @@
                         "input": "apps/resources-client/public"
                     }
                 ],
+                "baseHref": "/app/",
                 "browser": "apps/resources-client/src/main.ts",
                 "inlineStyleLanguage": "scss",
                 "outputPath": "dist/apps/resources-client",
@@ -30,7 +31,6 @@
             "defaultConfiguration": "prod",
             "configurations": {
                 "prod": {
-                    "baseHref": "/app/",
                     "budgets": [
                         {
                             "type": "initial",
