@@ -1,18 +1,19 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
-    output   = "./client"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  output        = "./client"
 }
 
 datasource db {
-    provider = "mysql"
-    url      = env("DATABASE_URL")
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Spells {
-    id   String @id @default(nanoid()) @db.VarChar(24)
-    name String @unique(map: "uq_spell_name") @db.VarChar(255)
+  id   String @id @default(nanoid()) @db.VarChar(24)
+  name String @unique(map: "uq_spell_name") @db.VarChar(255)
 
-    @@map(name: "spells")
+  @@map(name: "spells")
 }
