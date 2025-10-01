@@ -77,7 +77,8 @@ export class EnvironmentVariables {
 
     @IsNotEmpty()
     @IsString()
-    [EnvironmentVariableNames.DATABASE_PASSWORD]: string;
+    @IsOptional()
+    [EnvironmentVariableNames.DATABASE_PASSWORD]?: string;
 }
 
 export interface DatabaseConfiguration {
@@ -85,7 +86,7 @@ export interface DatabaseConfiguration {
     port: number;
     schema: string;
     user: string;
-    password: string;
+    password?: string;
 }
 
 export interface CorsConfiguration {
