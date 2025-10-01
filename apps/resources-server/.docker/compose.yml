@@ -1,0 +1,14 @@
+services:
+    resources-server:
+        image: dnd-mapp/resources-server
+        container_name: dma-resources-server
+        restart: unless-stopped
+        ports:
+            - '4300:4300'
+        environment:
+            DATABASE_URL: 'mysql://user:password@localhost:3306/my_db'
+        networks:
+            - custom_bridge
+networks:
+    custom_bridge:
+        external: true
