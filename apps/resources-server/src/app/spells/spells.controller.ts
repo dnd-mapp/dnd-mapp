@@ -1,5 +1,16 @@
-import { CreateSpellDto } from '@dnd-mapp/shared';
-import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Res } from '@nestjs/common';
+import { CreateSpellDto, Spell } from '@dnd-mapp/shared';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Get,
+    HttpStatus,
+    NotFoundException,
+    Param,
+    Post,
+    Put,
+    Res,
+} from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 import { SpellsService } from './spells.service';
 
@@ -33,5 +44,13 @@ export class SpellsController {
             throw new NotFoundException();
         }
         return queryResult;
+    }
+
+    @Put('/:spellId')
+    public async update(@Param('spellId') spellId: string, @Body() data: Spell) {
+        if (spellId !== data.id) {
+            throw new BadRequestException();
+        }
+        return await this.spellsService.update(data);
     }
 }

@@ -39,4 +39,12 @@ export class SpellsRepository {
         });
         return transform(created, Spell);
     }
+
+    public async update(data: Spell) {
+        const updated = await this.databaseService.spells.update({
+            where: { id: data.id },
+            data: { name: data.name },
+        });
+        return transform(updated, Spell);
+    }
 }
