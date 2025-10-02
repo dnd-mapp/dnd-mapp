@@ -1,4 +1,4 @@
-import { Spell, transformAll } from '@dnd-mapp/shared';
+import { CreateSpellDto, Spell, transform, transformAll } from '@dnd-mapp/shared';
 import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../shared';
 
@@ -14,7 +14,22 @@ export class SpellsRepository {
         const results = await this.databaseService.spells.findMany({
             orderBy: { name: 'asc' },
         });
-
         return transformAll(results, Spell);
+    }
+
+    public async findOneByName(name: string) {
+        const result = await this.databaseService.spells.findUnique({
+            where: { name: name },
+        });
+        return transform(result, Spell);
+    }
+
+    public async create(data: CreateSpellDto) {
+        const created = await this.databaseService.spells.create({
+            data: {
+                name: data.name,
+            },
+        });
+        return transform(created, Spell);
     }
 }
