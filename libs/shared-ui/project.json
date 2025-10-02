@@ -1,0 +1,26 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "shared-ui",
+    "projectType": "library",
+    "sourceRoot": "libs/shared-ui/src",
+    "prefix": "dma",
+    "tags": ["type:angular", "scope:shared"],
+    "targets": {
+        "test": {
+            "executor": "nx:run-commands",
+            "outputs": ["{workspaceRoot}/reports/libs/shared-ui"],
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "command": "vitest run --config libs/shared-ui/vite.config.mts"
+                },
+                "dev": {
+                    "command": "vitest --config libs/shared-ui/vite.config.mts"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}

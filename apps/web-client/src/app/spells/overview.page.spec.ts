@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { setupEnvironment, SpellsOverviewHarness } from '@dnd-mapp/web-client/test';
+import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { SpellsOverviewHarness } from '@dnd-mapp/web-client/test';
 import { OverviewPage } from './overview.page';
 
 describe('OverviewPage', () => {

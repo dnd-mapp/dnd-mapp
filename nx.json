@@ -10,7 +10,8 @@
             "!{projectRoot}/eslint.config.mjs",
             "!{projectRoot}/**/*.spec.ts",
             "!{projectRoot}/test/**/*",
-            "!{projectRoot}/tsconfig.spec.json"
+            "!{projectRoot}/tsconfig.spec.json",
+            "!{projectRoot}/jest.config.ts"
         ]
     },
     "targetDefaults": {
@@ -41,9 +42,41 @@
             }
         },
         {
+            "plugin": "@nx/jest/plugin",
+            "options": {
+                "targetName": "test"
+            },
+            "exclude": ["e2e/resources-server/**/*"]
+        },
+        {
             "plugin": "@nx/playwright/plugin",
             "options": {
                 "targetName": "e2e"
+            }
+        },
+        {
+            "plugin": "@nx/vite/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "testTargetName": "vite:test",
+                "serveTargetName": "serve",
+                "devTargetName": "dev",
+                "previewTargetName": "preview",
+                "serveStaticTargetName": "serve-static",
+                "typecheckTargetName": "typecheck",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps"
+            }
+        },
+        {
+            "plugin": "@nx/webpack/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "serveTargetName": "serve",
+                "previewTargetName": "preview",
+                "buildDepsTargetName": "build-deps",
+                "watchDepsTargetName": "watch-deps",
+                "serveStaticTargetName": "serve-static"
             }
         }
     ],

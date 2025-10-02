@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "exclude": ["src/**/*.spec.ts", "test/**/*", "vite.config.mts"],
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "inlineSources": true,
+        "outDir": "../../dist/out-tsc",
+        "types": []
+    }
+}

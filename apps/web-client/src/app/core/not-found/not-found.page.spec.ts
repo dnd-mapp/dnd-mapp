@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { NotFoundHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { NotFoundHarness } from '@dnd-mapp/web-client/test';
 import { NotFoundPage } from './not-found.page';
 
 describe('NotFoundPage', () => {

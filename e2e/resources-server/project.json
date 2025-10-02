@@ -1,0 +1,17 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "resources-server-e2e",
+    "projectType": "application",
+    "implicitDependencies": ["resources-server"],
+    "tags": ["type:jest", "scope:e2e", "scope:server"],
+    "targets": {
+        "e2e": {
+            "executor": "@nx/jest:jest",
+            "dependsOn": ["resources-server:serve"],
+            "outputs": ["{workspaceRoot}/reports/{e2eProjectRoot}"],
+            "options": {
+                "jestConfig": "e2e/resources-server/jest.config.ts"
+            }
+        }
+    }
+}

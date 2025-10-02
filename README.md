@@ -20,7 +20,6 @@ Ensure that you have the following requirements prepared:
 - [Git](https://git-scm.com/)
 - [Node.js](https://nodejs.org/en) v22 and npm v11.  
   We recommend using tools like [mise](https://mise.jdx.dev/) to make it easier for yourself to switch between different versions of Node. Once installed, you can run one of the following commands to install the right version of Node.js:
-
   ```bash 
   mise install
   ```
@@ -31,35 +30,31 @@ Ensure that you have the following requirements prepared:
 ### Installation
 
 1. Clone the repository
-
     ```bash
     git clone https://github.com/dnd-mapp/dnd-mapp.git
     ```
 
 2. Navigate to the project directory
-
     ```bash
     cd dnd-mapp
     ```
 
 3. Install Dependencies
-
     ```bash
     npm ci
     ```
 
 4. Generate the local certificate and key
     - If you've not done so already, install mkcert in the root CA like so:
-
       ```bash
       mkcert -install
       ```
+
       A browser restart is required if you've done this step, and you've got a browser open.
 
     - Generate the certificate and key with the following command:
-
       ```bash
-      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.www.dndmapp.dev localhost
+      mkcert -cert-file certificate.pem -key-file certificate-key.pem localhost.resources.dndmapp.dev localhost.www.dndmapp.dev localhost
       ```
 
 5. Add the `localhost.*` host names to the hosts file on your machine.
@@ -69,17 +64,11 @@ Ensure that you have the following requirements prepared:
    In order to add the host name on a machine running mac, you'll need to:
 
     - Open a terminal and enter the following command (you may need to enter your password):
-
       ```bash
       sudo nano /etc/hosts
       ```
 
-    - Add the following lines at the end of the file:
-
-      ```text
-      127.0.0.1 localhost.www.dndmapp.dev          # Address for the main platform application.
-      ```
-
+    - Add the contents below at the end of the file
     - Save the file by pressing `Ctrl + O` and close the editor with `CTRL + X`.
 
    #### For Windows
@@ -88,15 +77,14 @@ Ensure that you have the following requirements prepared:
 
     - Open Notepad in Administrator mode
     - Open the following file in Notepad:
-
       ```
       C:\Windows\System32\Drivers\etc\hosts
       ```
 
     - Add the following line at the end of the file:
-
       ```text
-      127.0.0.1 localhost.www.dndmapp.dev                # Address for the main platform application.
+      127.0.0.1 localhost.www.dndmapp.dev          # Address for the main platform application.
+      127.0.0.1 localhost.resources.dndmapp.dev    # Address for the resources server.
       ```
 
     - Save the file by pressing `Ctrl + S` after which you may close Notepad.
@@ -136,9 +124,10 @@ Ensure that you have the following requirements prepared:
 
 To serve an application locally you can run one of the following commands:
 
-| Project    | Command                 | Address                                |
-|------------|-------------------------|----------------------------------------|
-| web-client | npx nx serve web-client | https://localhost.www.dndmapp.dev:4200 |
+| Project          | Command                        | Address                                      |
+|------------------|--------------------------------|----------------------------------------------|
+| web-client       | npx nx serve-static web-client | https://localhost.www.dndmapp.dev:4200       |
+| resources-server | npx nx serve resources-server  | https://localhost.resources.dndmapp.dev:4300 |
 
 ---
 
@@ -167,9 +156,8 @@ npx nx test <project-name> -c dev
 ```
 
 For creating and writing tests, we make use of different frameworks depending on the application or library:
-- For an Angular project, we typically use [Karma]() in combination with [Jasmine]().
+- For an Angular project, we typically use [Vitest](https://vitest.dev/guide/).
 - For a NestJs project, we typically use [Jest](https://jestjs.io/).
-- For an Electron project, we typically use [Vitest]().
 - For a plain Typescript library we also use Vitest.
 
 ---

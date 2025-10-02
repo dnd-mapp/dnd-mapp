@@ -19,6 +19,11 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "paths": {
+            "@dnd-mapp/resources-client/test": ["apps/resources-client/test"],
+            "@dnd-mapp/resources-server/prisma": ["apps/resources-server/.prisma/client"],
+            "@dnd-mapp/shared": ["libs/shared/src/index.ts"],
+            "@dnd-mapp/shared-ui": ["libs/shared-ui/src/index.ts"],
+            "@dnd-mapp/shared-ui/test": ["libs/shared-ui/test/index.ts"],
             "@dnd-mapp/web-client/test": ["apps/web-client/test"]
         },
         "rootDir": ".",

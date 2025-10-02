@@ -10,6 +10,7 @@
             "executor": "@angular/build:application",
             "outputs": ["{options.outputPath}"],
             "options": {
+                "allowedCommonJsDependencies": ["reflect-metadata", "class-validator"],
                 "assets": [
                     {
                         "glob": "**/*",
@@ -24,7 +25,6 @@
                     "autoCsp": true
                 },
                 "styles": ["apps/web-client/src/styles.scss"],
-                "subresourceIntegrity": true,
                 "tsConfig": "apps/web-client/tsconfig.app.json"
             },
             "defaultConfiguration": "prod",
@@ -41,7 +41,8 @@
                             "maximumWarning": "4kb",
                             "maximumError": "8kb"
                         }
-                    ]
+                    ],
+                    "subresourceIntegrity": true
                 },
                 "dev": {
                     "extractLicenses": false,
@@ -51,27 +52,16 @@
                 }
             }
         },
-        "serve-static": {
-            "executor": "@nx/web:file-server",
+        "serve": {
+            "executor": "@angular/build:dev-server",
             "continuous": true,
             "options": {
-                "buildTarget": "web-client:build:dev",
-                "parallel": true,
-                "maxParallel": 1,
-                "spa": true,
-                "staticFilePath": "dist/apps/web-client/browser"
-            },
-            "defaultConfiguration": "dev",
-            "configurations": {
-                "dev": {
-                    "host": "localhost.www.dndmapp.dev",
-                    "ssl": true,
-                    "sslCert": "certificate.pem",
-                    "sslKey": "certificate-key.pem"
-                },
-                "remote": {
-                    "host": "0.0.0.0"
-                }
+                "buildTarget": "resources-client:build:dev",
+                "host": "localhost.www.dndmapp.dev",
+                "port": 4200,
+                "ssl": true,
+                "sslCert": "certificate.pem",
+                "sslKey": "certificate-key.pem"
             }
         },
         "test": {

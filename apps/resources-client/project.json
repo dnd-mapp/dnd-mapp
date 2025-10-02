@@ -1,0 +1,86 @@
+{
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "name": "resources-client",
+    "projectType": "application",
+    "prefix": "dma",
+    "sourceRoot": "apps/resources-client/src",
+    "tags": ["type:angular", "scope:client", "scope:static-resources"],
+    "targets": {
+        "build": {
+            "executor": "@angular/build:application",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "allowedCommonJsDependencies": ["reflect-metadata", "class-validator"],
+                "assets": [
+                    {
+                        "input": "apps/resources-client/public",
+                        "glob": "**/*",
+                        "ignore": ["**/*template*"]
+                    }
+                ],
+                "baseHref": "/app/",
+                "browser": "apps/resources-client/src/main.ts",
+                "inlineStyleLanguage": "scss",
+                "outputPath": "dist/apps/resources-client",
+                "scripts": [],
+                "security": {
+                    "autoCsp": true
+                },
+                "styles": ["apps/resources-client/src/styles.scss"],
+                "tsConfig": "apps/resources-client/tsconfig.app.json"
+            },
+            "defaultConfiguration": "prod",
+            "configurations": {
+                "prod": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "4kb",
+                            "maximumError": "8kb"
+                        }
+                    ],
+                    "subresourceIntegrity": true
+                },
+                "dev": {
+                    "extractLicenses": false,
+                    "namedChunks": true,
+                    "optimization": false,
+                    "sourceMap": true
+                }
+            }
+        },
+        "serve": {
+            "executor": "@angular/build:dev-server",
+            "continuous": true,
+            "options": {
+                "buildTarget": "resources-client:build:dev",
+                "host": "localhost.resources.dndmapp.dev",
+                "port": 4350,
+                "ssl": true,
+                "sslCert": "certificate.pem",
+                "sslKey": "certificate-key.pem"
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "outputs": ["{workspaceRoot}/reports/apps/resources-client"],
+            "defaultConfiguration": "ci",
+            "configurations": {
+                "ci": {
+                    "command": "vitest run --config apps/resources-client/vite.config.mts"
+                },
+                "dev": {
+                    "command": "vitest --config apps/resources-client/vite.config.mts"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint"
+        }
+    }
+}

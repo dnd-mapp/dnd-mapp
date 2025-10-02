@@ -5,7 +5,7 @@ export default [
     ...nx.configs['flat/typescript'],
     ...nx.configs['flat/javascript'],
     {
-        ignores: ['**/.angular', '**/.msw', '**/.nx', '**/dist', '**/node_modules', '**/reports'],
+        ignores: ['**/.angular', '**/.msw', '**/.nx', '**/dist', '**/node_modules', '**/reports', '**/.prisma/client'],
     },
     {
         files: ['**/*.ts', '**/*.js'],
@@ -19,15 +19,56 @@ export default [
                     depConstraints: [
                         {
                             sourceTag: 'scope:client',
-                            onlyDependOnLibsWithTags: [],
+                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:client'],
+                        },
+                        {
+                            sourceTag: 'scope:server',
+                            onlyDependOnLibsWithTags: ['scope:shared', 'scope:server'],
+                        },
+                        {
+                            sourceTag: 'scope:e2e',
+                            onlyDependOnLibsWithTags: ['scope:e2e', 'scope:shared'],
+                        },
+                        {
+                            sourceTag: 'scope:static-resources',
+                            onlyDependOnLibsWithTags: ['scope:static-resources', 'scope:shared'],
+                        },
+                        {
+                            sourceTag: 'scope:shared',
+                            onlyDependOnLibsWithTags: ['scope:shared'],
                         },
                         {
                             sourceTag: 'type:angular',
-                            allowedExternalImports: ['@analogjs/*', '@angular/*', 'msw', 'msw/browser', 'rxjs'],
+                            allowedExternalImports: [
+                                '@analogjs/*',
+                                '@angular/*',
+                                'class-validator',
+                                'class-transform',
+                                'msw',
+                                'msw/browser',
+                                'reflect-metadata',
+                                'rxjs',
+                            ],
+                        },
+                        {
+                            sourceTag: 'type:nest',
+                            allowedExternalImports: [
+                                '@nestjs/*',
+                                '@dotenvx/*',
+                                'class-transformer',
+                                'class-validator',
+                                'fastify',
+                                'jest',
+                                'prisma/*',
+                            ],
                         },
                         {
                             sourceTag: 'type:playwright',
                             allowedExternalImports: ['@nx/*', '@playwright/*'],
+                        },
+                        {
+                            sourceTag: 'type:jest',
+                            allowedExternalImports: ['@nx/*', 'axios', 'jest'],
                         },
                     ],
                 },

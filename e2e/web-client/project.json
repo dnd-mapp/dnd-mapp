@@ -4,6 +4,6 @@
     "projectType": "application",
     "sourceRoot": "e2e/web-client/src",
     "implicitDependencies": ["web-client"],
-    "tags": ["type:playwright"],
+    "tags": ["type:playwright", "scope:e2e", "scope:client"],
     "targets": {}
 }

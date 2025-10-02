@@ -1,0 +1,11 @@
+{
+    "extends": "./tsconfig.json",
+    "include": ["src/**/*.ts"],
+    "exclude": ["jest.config.ts", "src/**/*.spec.ts", "test/**/*.ts"],
+    "compilerOptions": {
+        "module": "CommonJS",
+        "outDir": "../../dist/out-tsc",
+        "target": "ES2024",
+        "types": ["node"]
+    }
+}

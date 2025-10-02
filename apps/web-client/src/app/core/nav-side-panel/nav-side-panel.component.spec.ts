@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { NavSidePanelHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { NavSidePanelHarness } from '@dnd-mapp/web-client/test';
 import { NavSidePanelComponent } from './nav-side-panel.component';
 
 describe('NavSidePanelComponent', () => {

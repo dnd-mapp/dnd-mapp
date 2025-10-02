@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { RootHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { RootHarness } from '@dnd-mapp/web-client/test';
 import { RootComponent } from './root.component';
 
 describe('RootComponent', () => {

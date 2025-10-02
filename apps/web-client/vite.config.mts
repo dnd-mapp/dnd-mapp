@@ -30,8 +30,8 @@ export default defineConfig(() => ({
         clearMocks: true,
         coverage: {
             enabled: true,
-            include: ['src/app/**/*'],
             exclude: ['**/index.ts', 'src/app/**/config/**/*'],
+            include: ['src/app/**/*'],
             provider: 'v8' as const,
             reporter: ['html', 'text-summary'],
             reportOnFailure: true,
@@ -48,11 +48,11 @@ export default defineConfig(() => ({
         name: 'web-client',
         open: false,
         outputFile: '../../reports/apps/web-client/index.html',
-        reporters: ['hanging-process', 'dot', 'html'],
+        reporters: ['dot', 'html'],
+        setupFiles: ['test/setup-test.ts'],
         sequence: {
             shuffle: true,
         },
-        setupFiles: ['test/test-setup.ts'],
         ui: !isCI,
         uiBase: '/web-app/',
         watch: !isCI,
