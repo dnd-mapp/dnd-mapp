@@ -1,8 +1,6 @@
 {
     "extends": "./tsconfig.json",
-    "files": [
-        "test/test-setup.ts"
-    ],
+    "files": ["test/test-setup.ts"],
     "include": ["vite.config.mts", "src/**/*.spec.ts", "test/**/*.ts"],
     "compilerOptions": {
         "outDir": "../../dist/out-tsc",
