@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ThemeDirective } from '@dnd-mapp/shared-ui';
 
 @Component({
@@ -9,4 +10,15 @@ import { ThemeDirective } from '@dnd-mapp/shared-ui';
     hostDirectives: [ThemeDirective],
     imports: [],
 })
-export class RootComponent {}
+export class RootComponent implements OnInit {
+    private readonly themeDirective = inject(ThemeDirective);
+    private readonly destroyRef = inject(DestroyRef);
+
+    public ngOnInit() {
+        this.themeDirective.initialize().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+
+        this.destroyRef.onDestroy(() => {
+            this.themeDirective.destroy();
+        });
+    }
+}
