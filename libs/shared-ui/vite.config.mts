@@ -1,5 +1,4 @@
 /// <reference types='vitest' />
-/// <reference types="@vitest/browser/providers/playwright" />
 import angular from '@analogjs/vite-plugin-angular';
 import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
@@ -8,7 +7,7 @@ import { defineConfig } from 'vite';
 const isCI = Boolean(process.env['CI']);
 
 export default defineConfig(() => ({
-    cacheDir: '../../node_modules/.vite/apps/web-client',
+    cacheDir: '../../node_modules/.vite/libs/shared-ui',
     plugins: [
         angular(),
         nxViteTsPaths(),
@@ -30,12 +29,12 @@ export default defineConfig(() => ({
         clearMocks: true,
         coverage: {
             enabled: true,
-            exclude: ['**/index.ts', 'src/app/**/config/**/*'],
-            include: ['src/app/**/*'],
+            exclude: ['**/index.ts'],
+            include: ['src/lib/**/*'],
             provider: 'v8' as const,
             reporter: ['html', 'text-summary'],
             reportOnFailure: true,
-            reportsDirectory: '../../reports/apps/web-client/coverage',
+            reportsDirectory: '../../reports/libs/shared-ui/coverage',
             // thresholds: {
             //     branches: 80,
             //     functions: 80,
@@ -45,16 +44,16 @@ export default defineConfig(() => ({
         },
         globals: true,
         include: ['src/**/*.spec.ts'],
-        name: 'web-client',
+        name: 'shared-ui',
         open: false,
-        outputFile: '../../reports/apps/web-client/index.html',
+        outputFile: '../../reports/libs/shared-ui/index.html',
         reporters: ['dot', 'html'],
-        setupFiles: ['test/setup-test.ts'],
+        setupFiles: ['src/test-setup.ts'],
         sequence: {
             shuffle: true,
         },
         ui: !isCI,
-        uiBase: '/web-app/',
+        uiBase: '/shared-ui/',
         watch: !isCI,
     },
     // Uncomment this if you are using workers.
