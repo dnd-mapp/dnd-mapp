@@ -1,3 +1,5 @@
+// organize-imports-ignore
+import 'reflect-metadata';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { tryCatchAsync } from '@dnd-mapp/shared';
 import { appConfig, RootComponent } from './app';

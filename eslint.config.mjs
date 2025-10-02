@@ -39,7 +39,16 @@ export default [
                         },
                         {
                             sourceTag: 'type:angular',
-                            allowedExternalImports: ['@analogjs/*', '@angular/*', 'msw', 'msw/browser', 'rxjs'],
+                            allowedExternalImports: [
+                                '@analogjs/*',
+                                '@angular/*',
+                                'class-validator',
+                                'class-transform',
+                                'msw',
+                                'msw/browser',
+                                'reflect-metadata',
+                                'rxjs',
+                            ],
                         },
                         {
                             sourceTag: 'type:nest',

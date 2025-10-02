@@ -5,6 +5,7 @@
     "include": [],
     "compilerOptions": {
         "emitDecoratorMetadata": false,
+        "experimentalDecorators": true,
         "isolatedModules": true,
         "module": "preserve",
         "moduleResolution": "bundler",

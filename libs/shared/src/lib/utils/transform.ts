@@ -5,7 +5,7 @@ interface Type<T> extends Function {
     new (...args: unknown[]): T;
 }
 
-const transformOptions: ClassTransformOptions = {
+export const transformOptions: ClassTransformOptions = {
     enableCircularCheck: true,
     enableImplicitConversion: true,
 };

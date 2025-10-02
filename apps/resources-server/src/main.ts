@@ -1,10 +1,10 @@
 import { tryCatchAsync } from '@dnd-mapp/shared';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { readFile } from 'fs/promises';
-import { AppModule, configureCors, SslConfiguration } from './app';
+import { AppModule, configureCors, SslConfiguration, validationOptions } from './app';
 
 async function bootstrapApp() {
     const appContext = await NestFactory.createApplicationContext(AppModule);
@@ -42,6 +42,7 @@ async function bootstrapApp() {
     app.setGlobalPrefix('server', { exclude: ['/app', '/'] });
     app.enableCors(configureCors(origins));
     app.enableShutdownHooks();
+    app.useGlobalPipes(new ValidationPipe(validationOptions));
 
     const port = configService.get<number>('port');
     const host = configService.get<string>('host');

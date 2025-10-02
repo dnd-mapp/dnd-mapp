@@ -10,6 +10,7 @@
             "executor": "@angular/build:application",
             "outputs": ["{options.outputPath}"],
             "options": {
+                "allowedCommonJsDependencies": ["reflect-metadata", "class-validator"],
                 "assets": [
                     {
                         "glob": "**/*",

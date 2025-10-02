@@ -4,6 +4,7 @@
     "files": [],
     "include": [],
     "compilerOptions": {
+        "experimentalDecorators": true,
         "importHelpers": true,
         "module": "CommonJS"
     }
