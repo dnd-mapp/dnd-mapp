@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { CharactersOverviewHarness } from '@dnd-mapp/web-client/test';
-import { OverviewPage } from './overview.page';
+import { setupEnvironment, ThemeHarness } from '@dnd-mapp/shared-ui/test';
+import { ThemeDirective } from './theme.directive';
 
-describe('OverviewPage', () => {
+describe('ThemeDirective', () => {
     @Component({
-        template: `<dma-characters-overview />`,
-        imports: [OverviewPage],
+        template: `<div dmaTheme>Hello</div>`,
+        imports: [ThemeDirective],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: CharactersOverviewHarness,
+            harness: ThemeHarness,
         });
 
         return {

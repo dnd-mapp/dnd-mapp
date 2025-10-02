@@ -48,7 +48,7 @@ export default defineConfig(() => ({
         open: false,
         outputFile: '../../reports/libs/shared-ui/index.html',
         reporters: ['dot', 'html'],
-        setupFiles: ['src/test-setup.ts'],
+        setupFiles: ['test/setup-test.ts'],
         sequence: {
             shuffle: true,
         },

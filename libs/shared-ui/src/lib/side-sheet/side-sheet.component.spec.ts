@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { CharactersOverviewHarness } from '@dnd-mapp/web-client/test';
-import { OverviewPage } from './overview.page';
+import { setupEnvironment, SideSheetHarness } from '@dnd-mapp/shared-ui/test';
+import { SideSheetComponent } from './side-sheet.component';
 
-describe('OverviewPage', () => {
+describe('SideSheetComponent', () => {
     @Component({
-        template: `<dma-characters-overview />`,
-        imports: [OverviewPage],
+        template: `<dma-side-sheet />`,
+        imports: [SideSheetComponent],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: CharactersOverviewHarness,
+            harness: SideSheetHarness,
         });
 
         return {

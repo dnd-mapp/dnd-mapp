@@ -7,7 +7,7 @@ import {
     NavBrandComponent,
     SideSheetService,
     ToggleSideSheetButtonDirective,
-} from '../../shared';
+} from '@dnd-mapp/shared-ui';
 import { NavSidePanelComponent } from '../nav-side-panel';
 
 @Component({

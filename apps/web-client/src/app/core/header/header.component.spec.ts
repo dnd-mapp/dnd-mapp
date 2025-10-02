@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HeaderHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { HeaderHarness } from '@dnd-mapp/web-client/test';
 import { HeaderComponent } from './header.component';
 
 describe('Header', () => {

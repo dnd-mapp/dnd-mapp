@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { CharactersOverviewHarness } from '@dnd-mapp/web-client/test';
-import { OverviewPage } from './overview.page';
+import { CloseSideSheetButtonHarness, setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { CloseSideSheetButtonDirective } from './close-side-sheet-button.directive';
 
-describe('OverviewPage', () => {
+describe('CloseSideSheetButtonDirective', () => {
     @Component({
-        template: `<dma-characters-overview />`,
-        imports: [OverviewPage],
+        template: `<button type="button" dmaCloseSideSheetButton>Hello</button>`,
+        imports: [CloseSideSheetButtonDirective],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: CharactersOverviewHarness,
+            harness: CloseSideSheetButtonHarness,
         });
 
         return {

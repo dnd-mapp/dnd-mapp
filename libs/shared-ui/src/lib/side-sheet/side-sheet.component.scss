@@ -1,0 +1,10 @@
+@use '../../../public/styles/variables';
+
+:host {
+    display: block;
+    height: 100%;
+
+    background-color: variables.$surface;
+    color: variables.$on-surface;
+    padding: 0.5em 1em;
+}

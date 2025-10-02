@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ThemeDirective } from '../../shared';
+import { ThemeDirective } from '@dnd-mapp/shared-ui';
 import { HeaderComponent } from '../header';
 
 @Component({

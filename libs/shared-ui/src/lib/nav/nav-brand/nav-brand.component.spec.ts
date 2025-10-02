@@ -1,19 +1,20 @@
 import { Component } from '@angular/core';
-import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { CharactersOverviewHarness } from '@dnd-mapp/web-client/test';
-import { OverviewPage } from './overview.page';
+import { provideRouter } from '@angular/router';
+import { NavBrandHarness, setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { NavBrandComponent } from './nav-brand.component';
 
-describe('OverviewPage', () => {
+describe('NavBrandComponent', () => {
     @Component({
-        template: `<dma-characters-overview />`,
-        imports: [OverviewPage],
+        template: `<dma-nav-brand />`,
+        imports: [NavBrandComponent],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: CharactersOverviewHarness,
+            harness: NavBrandHarness,
+            providers: [provideRouter([])],
         });
 
         return {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { HomeHarness, setupEnvironment } from '@dnd-mapp/web-client/test';
+import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { HomeHarness } from '@dnd-mapp/web-client/test';
 import { HomePage } from './home.page';
 
 describe('HomePage', () => {

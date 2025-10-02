@@ -1,19 +1,18 @@
 import { Component } from '@angular/core';
-import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { CharactersOverviewHarness } from '@dnd-mapp/web-client/test';
-import { OverviewPage } from './overview.page';
+import { ButtonHarness, setupEnvironment } from '@dnd-mapp/shared-ui/test';
+import { ButtonComponent } from './button.component';
 
-describe('OverviewPage', () => {
+describe('ButtonComponent', () => {
     @Component({
-        template: `<dma-characters-overview />`,
-        imports: [OverviewPage],
+        template: `<button type="button" dmaButton>My button label</button>`,
+        imports: [ButtonComponent],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: CharactersOverviewHarness,
+            harness: ButtonHarness,
         });
 
         return {

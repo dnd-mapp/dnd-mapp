@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnIni
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { User } from '@dnd-mapp/shared';
-import { filter } from 'rxjs';
 import {
     ArrowRightFromBracketSoIconComponent,
     ArrowRightToBracketSoIconComponent,
@@ -17,7 +16,8 @@ import {
     SideSheetService,
     UserPlusSoIconComponent,
     UsersSoIconComponent,
-} from '../../shared';
+} from '@dnd-mapp/shared-ui';
+import { filter } from 'rxjs';
 
 @Component({
     selector: 'dma-nav-side-panel',
