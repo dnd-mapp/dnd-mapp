@@ -56,7 +56,9 @@ export class SpellsController {
     }
 
     @Delete('/:spellId')
-    public async remove(@Param('spellId') spellId: string) {
+    public async remove(@Param('spellId') spellId: string, @Res({ passthrough: true }) response: FastifyReply) {
         await this.spellsService.remove(spellId);
+
+        response.status(HttpStatus.NO_CONTENT);
     }
 }
