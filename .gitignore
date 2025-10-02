@@ -29,6 +29,8 @@ tmp/
 *.pem
 *.key
 .env
+**/public/config.json
+**/.docker/config.json
 
 *.proto
 !libs/shared-api/**/*.proto

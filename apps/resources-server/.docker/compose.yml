@@ -9,6 +9,8 @@ services:
             DATABASE_URL: 'mysql://user:password@localhost:3306/my_db'
         networks:
             - custom_bridge
+        volumes:
+            - ./config.json:/app/browser/config.json
 networks:
     custom_bridge:
         external: true

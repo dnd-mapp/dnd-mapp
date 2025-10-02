@@ -13,8 +13,9 @@
                 "allowedCommonJsDependencies": ["reflect-metadata", "class-validator"],
                 "assets": [
                     {
+                        "input": "apps/resources-client/public",
                         "glob": "**/*",
-                        "input": "apps/resources-client/public"
+                        "ignore": ["**/*template*"]
                     }
                 ],
                 "baseHref": "/app/",
