@@ -3,6 +3,7 @@ import {
     BadRequestException,
     Body,
     Controller,
+    Delete,
     Get,
     HttpStatus,
     NotFoundException,
@@ -52,5 +53,10 @@ export class SpellsController {
             throw new BadRequestException();
         }
         return await this.spellsService.update(data);
+    }
+
+    @Delete('/:spellId')
+    public async remove(@Param('spellId') spellId: string) {
+        await this.spellsService.remove(spellId);
     }
 }

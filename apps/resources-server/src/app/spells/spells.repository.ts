@@ -47,4 +47,8 @@ export class SpellsRepository {
         });
         return transform(updated, Spell);
     }
+
+    public async remove(spellId: string) {
+        await this.databaseService.spells.delete({ where: { id: spellId } });
+    }
 }

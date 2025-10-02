@@ -35,6 +35,13 @@ export class SpellsService {
         return await this.spellsRepository.update(data);
     }
 
+    public async remove(spellId: string) {
+        if (!(await this.spellExists(spellId))) {
+            throw new NotFoundException();
+        }
+        await this.spellsRepository.remove(spellId);
+    }
+
     private async getByName(name: string) {
         return await this.spellsRepository.findOneByName(name);
     }
