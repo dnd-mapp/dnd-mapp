@@ -15,7 +15,9 @@ export default {
     // },
     displayName: 'resources-server',
     moduleFileExtensions: ['ts', 'js'],
-    moduleNameMapper: {},
+    moduleNameMapper: {
+        '@dnd-mapp/resources-server/prisma': ['<rootDir>/.prisma/client'],
+    },
     preset: '../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/test/setup-test.ts'],
     slowTestThreshold: 300,

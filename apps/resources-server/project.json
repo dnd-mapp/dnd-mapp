@@ -55,6 +55,7 @@
             }
         },
         "test": {
+            "dependsOn": ["prisma-generate-client"],
             "options": {
                 "jestConfig": "apps/resources-server/jest.config.ts"
             },
