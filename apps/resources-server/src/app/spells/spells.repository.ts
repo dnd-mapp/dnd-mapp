@@ -11,17 +11,24 @@ export class SpellsRepository {
     }
 
     public async findAll() {
-        const results = await this.databaseService.spells.findMany({
+        const queryResult = await this.databaseService.spells.findMany({
             orderBy: { name: 'asc' },
         });
-        return transformAll(results, Spell);
+        return transformAll(queryResult, Spell);
+    }
+
+    public async findOneById(spellId: string) {
+        const queryResult = await this.databaseService.spells.findUnique({
+            where: { id: spellId },
+        });
+        return transform(queryResult, Spell);
     }
 
     public async findOneByName(name: string) {
-        const result = await this.databaseService.spells.findUnique({
+        const queryResult = await this.databaseService.spells.findUnique({
             where: { name: name },
         });
-        return transform(result, Spell);
+        return transform(queryResult, Spell);
     }
 
     public async create(data: CreateSpellDto) {

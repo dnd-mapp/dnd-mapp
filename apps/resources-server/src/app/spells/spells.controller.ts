@@ -1,5 +1,5 @@
 import { CreateSpellDto } from '@dnd-mapp/shared';
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Post, Res } from '@nestjs/common';
 import { FastifyReply } from 'fastify';
 import { SpellsService } from './spells.service';
 
@@ -23,5 +23,15 @@ export class SpellsController {
 
         response.code(HttpStatus.CREATED).headers({ location: `${url}/${created.id}` });
         return created;
+    }
+
+    @Get('/:spellId')
+    public async getById(@Param('spellId') spellId: string) {
+        const queryResult = await this.spellsService.getById(spellId);
+
+        if (!queryResult) {
+            throw new NotFoundException();
+        }
+        return queryResult;
     }
 }

@@ -14,6 +14,10 @@ export class SpellsService {
         return await this.spellsRepository.findAll();
     }
 
+    public async getById(spellId: string) {
+        return await this.spellsRepository.findOneById(spellId);
+    }
+
     public async create(data: CreateSpellDto) {
         if (await this.isNameTaken(data.name)) {
             throw new BadRequestException();
