@@ -10,7 +10,7 @@ When a Docker image is created for this server, the `resources-client` project w
 
 This server requires a database to persist it data. In order to connect to, read data from and write data to the database the server uses [Prisma]().
 
-In the root of the workspace you'll find a [dot env file](../../.env). If it doesn't exist, you can copy the [template file](../../.env-template). This file determines on a workspace scope which database will be used for all server applications. In the root of the project you'll find another [dot env file](./.env). Again, if it doesn't exist, you can copy and rename the [template file](./.env-template). This dot env file configures specific settings for this server application, including the database user, password, and schema. If you want to overwrite the workspace settings that determine which database is used, you can uncomment the `DATABASE_HOST` and `DATABASE_PORT` variables and adjust them accordingly.
+In the root of the workspace you'll find a [dot env file](../../.env). If it doesn't exist, you can copy the [template file](../../.env.template). This file determines on a workspace scope which database will be used for all server applications. In the root of the project you'll find another [dot env file](./.env). Again, if it doesn't exist, you can copy and rename the [template file](.env.template). This dot env file configures specific settings for this server application, including the database user, password, and schema. If you want to overwrite the workspace settings that determine which database is used, you can uncomment the `DATABASE_HOST` and `DATABASE_PORT` variables and adjust them accordingly.
 
 ## HTTPS
 

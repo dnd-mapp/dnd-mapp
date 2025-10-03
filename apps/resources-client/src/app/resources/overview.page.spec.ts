@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { RootHarness } from '@dnd-mapp/resources-client/test';
+import { ResourcesOverviewHarness } from '@dnd-mapp/resources-client/test';
 import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { RootComponent } from './root.component';
+import { OverviewPage } from './overview.page';
 
-describe('RootComponent', () => {
+describe('OverviewPage', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-resources-overview />`,
+        imports: [OverviewPage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: RootHarness,
-            providers: [provideRouter([])],
+            harness: ResourcesOverviewHarness,
         });
 
         return {

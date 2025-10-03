@@ -1,21 +1,19 @@
 import { Component } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { RootHarness } from '@dnd-mapp/resources-client/test';
+import { NotFoundHarness } from '@dnd-mapp/resources-client/test';
 import { setupEnvironment } from '@dnd-mapp/shared-ui/test';
-import { RootComponent } from './root.component';
+import { NotFoundPage } from './not-found.page';
 
-describe('RootComponent', () => {
+describe('NotFoundPage', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-not-found />`,
+        imports: [NotFoundPage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupEnvironment({
             component: TestComponent,
-            harness: RootHarness,
-            providers: [provideRouter([])],
+            harness: NotFoundHarness,
         });
 
         return {
