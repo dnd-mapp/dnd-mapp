@@ -1,0 +1,28 @@
+@use '../../../../../libs/shared-ui/public/styles/variables';
+
+:host {
+    display: flex;
+    width: 100%;
+    padding: 0 2em;
+    gap: 0.5em;
+
+    aside {
+        flex: 0 0 auto;
+    }
+
+    article {
+        flex: 1 1 auto;
+    }
+
+    article,
+    aside {
+        background-color: variables.$surface;
+        color: variables.$on-surface;
+        padding: 1em;
+        border-radius: 0.8em;
+
+        dma-select {
+            display: block;
+        }
+    }
+}

@@ -1,1 +1,10 @@
-<p>ResourcesOverviewComponent works!</p>
+<aside>
+    <h1>Resources</h1>
+    <dma-select>
+        @for (option of resourceOptions; track option.value) {
+        <dma-option [value]="option.value">{{ option.label }}</dma-option>
+        }
+    </dma-select>
+</aside>
+
+<article>main content</article>
