@@ -177,3 +177,4 @@ This project is licensed under the [AGPL-3.0 License](LICENSE). See the LICENSE.
 ## Acknowledgments
 
 - This repository contains [ESLint](https://eslint.org/) to maintain linting and [Prettier](https://prettier.io/) maintain formatting. Please make sure that your IDEA is correctly configured to run these tools automatically. For the JetBrains editors configuration files are already included to automatically configure the Prettier and ESLint tools so that they're run on every save.
+- Favicon: [Treasure map icons created by juicy_fish - Flaticon](https://www.flaticon.com/free-icons/treasure-map)
