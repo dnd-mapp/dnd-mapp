@@ -1,0 +1,9 @@
+<div class="dma-select-label-container" #anchor (click)="onToggle()">
+    {{ label() }}
+</div>
+
+<ng-template #overlay>
+    <div class="dma-options-container">
+        <ng-content select="dma-option" />
+    </div>
+</ng-template>
