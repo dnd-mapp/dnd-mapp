@@ -1,0 +1,21 @@
+@use '../../../public/styles/variables';
+
+:host {
+    display: block;
+    width: 100%;
+    padding: 0.5em 1em;
+
+    &:last-child {
+        border-radius: 0 0 0.5em 0.5em;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: variables.hover(variables.$surface);
+    }
+
+    &.selected {
+        background-color: variables.active(variables.$surface);
+        font-weight: variables.$fw-bold;
+    }
+}

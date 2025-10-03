@@ -1,0 +1,14 @@
+<div class="dma-select-label-container" #anchor (click)="onToggle()">
+    {{ label() }}
+    @if (isOpen()) {
+        <dma-icon dma-chevron-up-so-icon />
+    } @else {
+        <dma-icon dma-chevron-down-so-icon />
+    }
+</div>
+
+<ng-template #overlay>
+    <div class="dma-options-container">
+        <ng-content select="dma-option" />
+    </div>
+</ng-template>
