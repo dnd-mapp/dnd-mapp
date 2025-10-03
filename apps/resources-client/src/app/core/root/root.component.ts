@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { RouterOutlet } from '@angular/router';
 import { ThemeDirective } from '@dnd-mapp/shared-ui';
+import { HeaderComponent } from '../header';
 
 @Component({
     selector: 'dma-root',
@@ -8,7 +10,7 @@ import { ThemeDirective } from '@dnd-mapp/shared-ui';
     styleUrl: './root.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     hostDirectives: [ThemeDirective],
-    imports: [],
+    imports: [HeaderComponent, RouterOutlet],
 })
 export class RootComponent implements OnInit {
     private readonly themeDirective = inject(ThemeDirective);
