@@ -9,6 +9,8 @@ export const dark: Theme = {
     [ThemeVariables.ON_BACKGROUND]: 'oklch(95% 0 0)',
     [ThemeVariables.SURFACE]: 'oklch(25% 0 0)',
     [ThemeVariables.ON_SURFACE]: 'oklch(92% 0 0)',
+    [ThemeVariables.PRIMARY]: 'oklch(0.55 0.140 245)',
+    [ThemeVariables.ON_PRIMARY]: 'oklch(98% 0 0)',
     [ThemeVariables.DANGER]: 'oklch(66% 0.186 23.361)',
     [ThemeVariables.ON_DANGER]: 'oklch(95% 0 0)',
     [ThemeVariables.BORDER]: 'oklch(30% 0 0)',

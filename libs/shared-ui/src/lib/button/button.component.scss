@@ -10,12 +10,12 @@
     .button-content {
         display: flex;
         align-items: center;
-        justify-content: start;
+        justify-content: center;
         gap: 1em;
         padding: 0.5em;
         background-color: variables.$surface;
         color: variables.$on-surface;
-        border-radius: 0.33em;
+        border-radius: 0.5em;
     }
 
     &:hover {
@@ -28,6 +28,21 @@
 
     &:active .button-content {
         background-color: variables.active(variables.$surface);
+    }
+
+    &[dma-button-type='primary'] {
+        .button-content {
+            background-color: variables.$primary;
+            color: variables.$on-primary;
+        }
+
+        &:hover .button-content {
+            background-color: variables.hover(variables.$primary);
+        }
+
+        &:active .button-content {
+            background-color: variables.active(variables.$primary);
+        }
     }
 
     &[dma-button-type='danger'] {

@@ -22,6 +22,8 @@ export const ThemeVariables = {
     ON_BACKGROUND: 'on-background',
     SURFACE: 'surface',
     ON_SURFACE: 'on-surface',
+    PRIMARY: 'primary',
+    ON_PRIMARY: 'on-primary',
     DANGER: 'danger',
     ON_DANGER: 'on-danger',
     BORDER: 'border',

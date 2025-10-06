@@ -1,5 +1,6 @@
 export const ButtonTypes = {
     TEXT: 'text',
+    PRIMARY: 'primary',
     DANGER: 'danger',
     DANGER_SUBTLE: 'danger-subtle',
 } as const;
