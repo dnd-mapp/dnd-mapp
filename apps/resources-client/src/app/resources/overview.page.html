@@ -1,6 +1,6 @@
 <aside>
     <h1>Resources</h1>
-    <dma-select>
+    <dma-select (valueChange)="onSelectResourceType($event)">
         @for (option of resourceOptions; track option.value) {
         <dma-option [value]="option.value" [selected]="option.selected">{{ option.label }}</dma-option>
         }
