@@ -29,6 +29,7 @@ import { selectPositions } from './select-positions';
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.open]': 'isOpen()',
+        '(window:click)': 'onGlobalClick(isOpen())',
     },
     exportAs: 'dmaSelect',
     imports: [ChevronDownSoIconComponent, ChevronUpSoIconComponent],
@@ -59,6 +60,8 @@ export class SelectComponent implements AfterContentInit {
 
     private overlayRef = signal<OverlayRef>(null);
 
+    private globalClicks = 0;
+
     constructor() {
         toObservable(this.options)
             .pipe(
@@ -85,6 +88,11 @@ export class SelectComponent implements AfterContentInit {
         else this.open();
     }
 
+    protected onGlobalClick(isOpen: boolean) {
+        if (!isOpen || ++this.globalClicks <= 1) return;
+        this.close();
+    }
+
     private open() {
         const positionStrategy = this.overlay
             .position()
@@ -106,6 +114,7 @@ export class SelectComponent implements AfterContentInit {
         this.overlayRef.set(overlayRef);
 
         this.overlayRef().attach(new TemplatePortal(this.overlayTemplateRef(), this.viewContainerRef));
+        this.globalClicks = 0;
     }
 
     private close() {
