@@ -1,0 +1,31 @@
+@use '../../../public/styles/variables';
+
+:host {
+    display: inline-block;
+
+    .dma-select-label-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5em 1em;
+        border: solid variables.$border 0.0625em;
+        border-radius: 0.5em;
+        width: 100%;
+
+        &:hover {
+            cursor: pointer;
+            background-color: variables.hover(variables.$surface);
+        }
+    }
+
+    &.open .dma-select-label-container {
+        border-radius: 0.5em 0.5em 0 0;
+        border-bottom: none;
+    }
+}
+
+.dma-options-container {
+    border: solid variables.$border 0.0625em;
+    border-radius: 0 0 0.5em 0.5em;
+    width: 100%;
+}

@@ -10,6 +10,7 @@ export class OverlayService {
         const overlayRef = this.overlay.create({
             disposeOnNavigation: true,
             ...(options.height ? { height: options.height } : {}),
+            ...(options.minWidth ? { minWidth: options.minWidth } : {}),
             ...(options.scrollingStrategy ? { scrollStrategy: options.scrollingStrategy } : {}),
             ...(options.positionStrategy ? { positionStrategy: options.positionStrategy } : {}),
             ...(options.hasBackdrop ? { hasBackdrop: true } : {}),

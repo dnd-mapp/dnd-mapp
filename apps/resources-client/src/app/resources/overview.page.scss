@@ -20,5 +20,10 @@
         color: variables.$on-surface;
         padding: 1em;
         border-radius: 0.8em;
+
+        dma-select {
+            margin-top: 1em;
+            display: block;
+        }
     }
 }

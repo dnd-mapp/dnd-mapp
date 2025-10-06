@@ -6,13 +6,11 @@ export const selectPositions: ConnectedPosition[] = [
         overlayY: 'top',
         originX: 'start',
         originY: 'bottom',
-        offsetY: 4,
     },
     {
         overlayX: 'start',
         overlayY: 'bottom',
         originX: 'start',
         originY: 'top',
-        offsetY: 4,
     },
 ];

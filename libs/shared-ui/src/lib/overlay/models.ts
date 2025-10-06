@@ -4,6 +4,7 @@ export interface OverlayConstructionOptions {
     hasBackdrop?: boolean;
     backdropClass?: string[];
     height?: string;
+    minWidth?: number | string;
     scrollingStrategy?: ScrollStrategy;
     positionStrategy?: PositionStrategy;
 }
