@@ -1,0 +1,9 @@
+<dma-ordered-list>
+    @for (resource of this.resourcesService.resources(); track resource.id) {
+        <dma-list-item [active]="resource.id | resourceSelected" (click)="onSelectResource(resource.id)">{{
+            resource.label
+        }}</dma-list-item>
+    } @empty {
+        <dma-list-item>{{ emptyCollectionMessage() }}</dma-list-item>
+    }
+</dma-ordered-list>

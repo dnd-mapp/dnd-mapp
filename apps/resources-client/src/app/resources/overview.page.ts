@@ -4,6 +4,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { OptionComponent, SelectComponent } from '@dnd-mapp/shared-ui';
 import { from, switchMap } from 'rxjs';
 import { resourceOptions } from './resource-options';
+import { ResourcesListComponent } from './resources-list/resources-list.component';
 import { ResourcesService } from './resources.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { ResourcesService } from './resources.service';
     templateUrl: './overview.page.html',
     styleUrl: './overview.page.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [SelectComponent, OptionComponent, RouterOutlet],
+    imports: [SelectComponent, OptionComponent, RouterOutlet, ResourcesListComponent],
 })
 export class OverviewPage {
     private readonly destroyRef = inject(DestroyRef);
