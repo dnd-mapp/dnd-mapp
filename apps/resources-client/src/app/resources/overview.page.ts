@@ -1,5 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { Router, RouterOutlet } from '@angular/router';
 import { OptionComponent, SelectComponent } from '@dnd-mapp/shared-ui';
+import { from, switchMap } from 'rxjs';
 import { resourceOptions } from './resource-options';
 import { ResourcesService } from './resources.service';
 
@@ -8,9 +11,11 @@ import { ResourcesService } from './resources.service';
     templateUrl: './overview.page.html',
     styleUrl: './overview.page.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [SelectComponent, OptionComponent],
+    imports: [SelectComponent, OptionComponent, RouterOutlet],
 })
 export class OverviewPage {
+    private readonly destroyRef = inject(DestroyRef);
+    private readonly router = inject(Router);
     private readonly resourcesService = inject(ResourcesService);
 
     protected readonly resourceOptions = resourceOptions.map((option) => {
@@ -19,6 +24,15 @@ export class OverviewPage {
 
         return option;
     });
+
+    constructor() {
+        toObservable(this.resourcesService.resourceType)
+            .pipe(
+                switchMap((resourceType) => from(this.router.navigateByUrl(`/resources/${resourceType}`))),
+                takeUntilDestroyed(this.destroyRef),
+            )
+            .subscribe();
+    }
 
     protected onSelectResourceType(value: unknown) {
         this.resourcesService.setResourceType(value);

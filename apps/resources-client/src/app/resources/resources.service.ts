@@ -1,9 +1,18 @@
-import { Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
+import { Resource } from './models';
 import { ResourceType, resourceTypeAttribute, ResourceTypes } from './resource-options';
 
 @Injectable({ providedIn: 'root' })
 export class ResourcesService {
     public readonly resourceType = signal<ResourceType>(ResourceTypes.SPELLS);
+
+    public readonly resource = signal<Resource>(null);
+
+    public readonly hasNonexistingResourceSelected = computed(
+        () => this.hasResourceSelected() && this.resource().id === null,
+    );
+
+    public readonly hasResourceSelected = computed(() => this.resource() !== null);
 
     public setResourceType(value: unknown) {
         this.resourceType.set(resourceTypeAttribute(value));
