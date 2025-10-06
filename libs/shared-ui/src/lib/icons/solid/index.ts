@@ -11,6 +11,7 @@ export * from './compass/compass-so-icon.component';
 export * from './gear/gear-so-icon.component';
 export * from './house/house-so-icon.component';
 export * from './indent/indent-so-icon.component';
+export * from './plus/plus-so-icon.component';
 export * from './user-plus/user-plus-so-icon.component';
 export * from './users/users-so-icon.component';
 export * from './wrench/wrench-so-icon.component';
