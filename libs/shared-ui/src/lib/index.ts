@@ -2,6 +2,7 @@ export * from './app-bar';
 export * from './button';
 export * from './config';
 export * from './icons';
+export * from './list';
 export * from './nav';
 export * from './select';
 export * from './side-sheet';
