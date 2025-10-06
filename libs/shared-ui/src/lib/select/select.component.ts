@@ -9,6 +9,7 @@ import {
     DestroyRef,
     ElementRef,
     inject,
+    output,
     signal,
     TemplateRef,
     viewChild,
@@ -38,11 +39,13 @@ export class SelectComponent implements AfterContentInit {
     private readonly overlay = inject(Overlay);
     private readonly overlayService = inject(OverlayService);
 
-    public readonly value = computed(() => this.selectedOption()?.value());
+    public readonly valueChange = output<unknown>();
 
     protected readonly label = computed(() => this.selectedOption()?.label() ?? 'select');
 
     protected readonly isOpen = computed(() => this.overlayRef() !== null);
+
+    private readonly value = computed(() => this.selectedOption()?.value());
 
     private readonly options = contentChildren(OptionComponent);
 
@@ -68,7 +71,7 @@ export class SelectComponent implements AfterContentInit {
             )
             .subscribe((option) => {
                 this.close();
-                this.selectOption(option);
+                this.selectOption(option, true);
             });
     }
 
@@ -111,9 +114,12 @@ export class SelectComponent implements AfterContentInit {
         this.overlayRef.set(null);
     }
 
-    private selectOption(option: OptionComponent) {
+    private selectOption(option: OptionComponent, emit = false) {
         if (this.hasOptionSelected()) this.selectedOption().isSelected.set(false);
         if (!option.isSelected()) option.isSelected.set(true);
         this.selectedOption.set(option);
+
+        if (!emit) return;
+        this.valueChange.emit(this.value());
     }
 }
