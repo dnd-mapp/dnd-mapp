@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { Router, RouterOutlet } from '@angular/router';
-import { OptionComponent, SelectComponent } from '@dnd-mapp/shared-ui';
+import { ButtonComponent, OptionComponent, PlusSoIconComponent, SelectComponent } from '@dnd-mapp/shared-ui';
 import { from, switchMap } from 'rxjs';
 import { resourceOptions } from './resource-options';
 import { ResourcesListComponent } from './resources-list/resources-list.component';
@@ -12,7 +12,14 @@ import { ResourcesService } from './resources.service';
     templateUrl: './overview.page.html',
     styleUrl: './overview.page.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [SelectComponent, OptionComponent, RouterOutlet, ResourcesListComponent],
+    imports: [
+        SelectComponent,
+        OptionComponent,
+        RouterOutlet,
+        ResourcesListComponent,
+        ButtonComponent,
+        PlusSoIconComponent,
+    ],
 })
 export class OverviewPage {
     private readonly destroyRef = inject(DestroyRef);
@@ -37,5 +44,9 @@ export class OverviewPage {
 
     protected onSelectResourceType(value: unknown) {
         this.resourcesService.setResourceType(value);
+    }
+
+    protected onNewResource() {
+        this.resourcesService.createNewResource();
     }
 }

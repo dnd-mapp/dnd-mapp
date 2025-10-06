@@ -5,6 +5,10 @@
             <dma-option [value]="option.value" [selected]="option.selected">{{ option.label }}</dma-option>
         }
     </dma-select>
+    <button type="button" dmaButton="primary" (click)="onNewResource()">
+        <dma-icon dma-plus-so-icon ngProjectAs="dma-leading-button-icon" />
+        New Spell
+    </button>
     <dma-resources-list emptyCollectionMessage="No Spells were found" />
 </aside>
 

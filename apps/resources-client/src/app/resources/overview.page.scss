@@ -25,5 +25,11 @@
             margin: 1em 0;
             display: block;
         }
+
+        button[dmaButton] {
+            display: block;
+            width: 100%;
+            margin-bottom: 1em;
+        }
     }
 }

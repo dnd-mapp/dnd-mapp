@@ -1,5 +1,6 @@
 import { computed, Injectable, signal } from '@angular/core';
 import { ResourceEntity } from '@dnd-mapp/shared';
+import { ResourceBuilder } from './models/resource.builder';
 import { ResourceType, resourceTypeAttribute, ResourceTypes } from './resource-options';
 
 @Injectable({ providedIn: 'root' })
@@ -18,5 +19,9 @@ export class ResourcesService {
 
     public setResourceType(value: unknown) {
         this.resourceType.set(resourceTypeAttribute(value));
+    }
+
+    public createNewResource() {
+        this.resources.update((resources) => [new ResourceBuilder().build(), ...resources]);
     }
 }
