@@ -1,21 +1,27 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from '@angular/core';
+import { OptionHarness, setupEnvironment } from '@dnd-mapp/shared-ui/test';
 import { OptionComponent } from './option.component';
 
 describe('OptionComponent', () => {
-    let component: OptionComponent;
-    let fixture: ComponentFixture<OptionComponent>;
+    @Component({
+        template: `<dma-option [value]="1">my Label</dma-option>`,
+        imports: [OptionComponent],
+    })
+    class TestComponent {}
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [OptionComponent],
-        }).compileComponents();
+    async function setupTest() {
+        const { harness } = await setupEnvironment({
+            component: TestComponent,
+            harness: OptionHarness,
+        });
 
-        fixture = TestBed.createComponent(OptionComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
+        return {
+            harness: harness,
+        };
+    }
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
+    it('should create', async () => {
+        const { harness } = await setupTest();
+        expect(harness).toBeDefined();
     });
 });
