@@ -15,10 +15,14 @@ $on-danger: var(--on-danger, oklch(95% 0 0));
 
 $border: var(--border, oklch(80% 0 0));
 
+$hover-lightness-mod: var(--hover-lightness-mod, 0.05);
+
 @function hover($color) {
-    @return oklch(from $color calc(l - 0.05) c h);
+    @return oklch(from $color calc(l - $hover-lightness-mod) c h);
 }
 
+$active-lightness-mod: var(--active-lightness-mod, 0.1);
+
 @function active($color) {
-    @return oklch(from $color calc(l - 0.1) c h);
+    @return oklch(from $color calc(l - $active-lightness-mod) c h);
 }

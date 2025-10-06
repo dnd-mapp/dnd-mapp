@@ -16,6 +16,8 @@ export const ThemeVariables = {
     FONT_SIZE: 'font-size',
     FONT_WEIGHT_NORMAL: 'fw-normal',
     FONT_WEIGHT_BOLD: 'fw-bold',
+    HOVER_LIGHTNESS_MODIFIER: 'hover-lightness-mod',
+    ACTIVE_LIGHTNESS_MODIFIER: 'active-lightness-mod',
     BACKGROUND: 'background',
     ON_BACKGROUND: 'on-background',
     SURFACE: 'surface',

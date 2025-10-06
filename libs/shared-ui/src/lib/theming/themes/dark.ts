@@ -3,6 +3,8 @@ import { common } from './common';
 
 export const dark: Theme = {
     ...common,
+    [ThemeVariables.HOVER_LIGHTNESS_MODIFIER]: 0.03,
+    [ThemeVariables.ACTIVE_LIGHTNESS_MODIFIER]: 0.07,
     [ThemeVariables.BACKGROUND]: 'oklch(20% 0 0)',
     [ThemeVariables.ON_BACKGROUND]: 'oklch(95% 0 0)',
     [ThemeVariables.SURFACE]: 'oklch(25% 0 0)',
