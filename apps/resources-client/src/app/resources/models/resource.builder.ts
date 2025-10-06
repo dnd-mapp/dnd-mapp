@@ -15,3 +15,5 @@ export class ResourceBuilder {
         this.resource.id = id;
     }
 }
+
+export const DEFAULT_RESOURCE = new ResourceBuilder().build();
