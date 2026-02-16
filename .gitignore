@@ -16,6 +16,7 @@ node_modules/
 
 # Miscellaneous
 .angular/
+.stylelintcache
 *.pem
 
 # System files
