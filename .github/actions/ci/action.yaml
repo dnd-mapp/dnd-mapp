@@ -12,7 +12,9 @@ runs:
 
         - name: Run linting
           shell: bash
-          run: pnpm lint
+          run: |
+              pnpm lint
+              pnpm stylelint
 
         - name: Compile code
           shell: bash
