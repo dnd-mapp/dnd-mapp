@@ -126,7 +126,7 @@ Navigate to `https://localhost.www.dndmapp.dev:4200/`. The application will auto
 
 ## Code Quality & Editor Setup
 
-We use **ESLint** for static analysis and **Prettier** to maintain a consistent code style.
+We use **ESLint** for logic, **Stylelint** for CSS/SCSS, and **Prettier** for consistent formatting.
 
 ### Visual Studio Code
 
@@ -136,21 +136,30 @@ To automate linting and formatting on save, ensure your `.vscode/settings.json` 
 
 ```json
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+    "editor.defaultFormatter": "esbenp.prettier-vscode", 
+    "editor.formatOnSave": true, 
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit", 
+      "source.fixAll.stylelint": "explicit"
+    },
+    "stylelint.validate": ["css", "postcss"], 
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }, 
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }
 ```
 
 ### WebStorm
+
+#### Stylelint
+
+1. Open **Settings**.
+2. Navigate to **Languages & Frameworks** > **Style Sheets** > **Stylelint**.
+3. Check **Enable**.
+4. Check **Run stylelint --fix on save**.
 
 #### ESLint
 
@@ -174,6 +183,7 @@ To automate linting and formatting on save, ensure your `.vscode/settings.json` 
 - **Start**: `pnpm start` - Runs the dev server.
 - **Build**: `pnpm build` - Compiles the application into the `dist/dnd-mapp/browser` directory.
 - **Lint**: `pnpm lint` - Runs ESLint to check for code quality issues.
+- **Lint Styles**: `pnpm stylelint` - Runs Stylelint to check CSS/Tailwind rules.
 - **Format**: `pnpm format:write` - Manually format all files using Prettier.
 
 ## Tech Stack
@@ -182,7 +192,7 @@ To automate linting and formatting on save, ensure your `.vscode/settings.json` 
 - **Package Manager**: pnpm
 - **Environment Manager**: mise-en-place
 - **Styling**: Tailwind CSS
-- **Linting**: ESLint
+- **Linting**: ESLint & Stylelint
 - **Code Formatting**: Prettier
 - **Local HTTPS**: mkcert
 - **Containerization**: Docker & Nginx

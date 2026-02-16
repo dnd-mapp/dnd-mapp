@@ -60,11 +60,14 @@ We enforce [Conventional Commits](https://www.conventionalcommits.org/) to autom
 
 ### Linting & Formatting
 
-Before submitting a Pull Request, ensure your code adheres to our ESLint and Prettier configurations:
+Before submitting a Pull Request, ensure your code adheres to our ESLint, Stylelint, and Prettier configurations:
 
 ```bash
-# Check for linting errors
+# Check for logic and template linting errors
 pnpm lint
+
+# Check for CSS/Style linting errors
+pnpm stylelint
 
 # Automatically fix formatting issues
 pnpm format:write
@@ -81,7 +84,7 @@ pnpm format:write
 ## 🚀 Pull Request Process
 
 1. **Update your branch**: Ensure your feature branch is rebased on the latest `main`.
-2. **Verify the build**: Run `pnpm build` locally to ensure the Production AOT (Ahead-of-Time) compilation succeeds.
+2. **Verify the build and styles**: Run `pnpm stylelint` and `pnpm build` locally to ensure no regressions.
 3. **Submit PR**: Create a Pull Request with a clear description of the changes and link any relevant issues.
 4. **Review**: At least one code review is required before merging. Address any comments and push updates to the same branch.
 
