@@ -20,13 +20,13 @@
     "pnpm": ">=10.29.3"
   },
   "scripts": {
-    "start": "pnpm ng serve",
-    "build": "pnpm ng build",
-    "build-dev": "pnpm ng build -c development",
+    "start": "pnpm exec ng serve",
+    "build": "pnpm exec ng build",
+    "build-dev": "pnpm exec ng build -c development",
     "docker:build": "docker buildx bake -f .docker/docker-bake.hcl app",
-    "format:check": "pnpm prettier -l .",
-    "format:write": "pnpm prettier -w .",
-    "lint": "pnpm ng lint"
+    "format:check": "pnpm exec prettier -l .",
+    "format:write": "pnpm exec prettier -w .",
+    "lint": "pnpm exec ng lint",
   },
   "dependencies": {
     "@angular/common": "~21.1",
