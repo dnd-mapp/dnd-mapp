@@ -1,0 +1,118 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "cli": {
+        "packageManager": "pnpm",
+        "analytics": "d53d1122-426e-420d-96a8-c928dbf0b2ed",
+        "schematicCollections": ["angular-eslint"]
+    },
+    "projects": {
+        "dnd-mapp": {
+            "projectType": "application",
+            "schematics": {
+                "@schematics/angular:class": {
+                    "skipTests": true
+                },
+                "@schematics/angular:component": {
+                    "addTypeToClassName": true,
+                    "changeDetection": "OnPush",
+                    "skipTests": true,
+                    "type": "component"
+                },
+                "@schematics/angular:directive": {
+                    "addTypeToClassName": true,
+                    "skipTests": true,
+                    "type": "directive"
+                },
+                "@schematics/angular:guard": {
+                    "skipTests": true,
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:interceptor": {
+                    "skipTests": true,
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:pipe": {
+                    "skipTests": true,
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:resolver": {
+                    "skipTests": true,
+                    "typeSeparator": "."
+                },
+                "@schematics/angular:service": {
+                    "addTypeToClassName": true,
+                    "skipTests": true,
+                    "type": "service"
+                },
+                "@schematics/angular:module": {
+                    "typeSeparator": "."
+                }
+            },
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "dma",
+            "architect": {
+                "build": {
+                    "builder": "@angular/build:application",
+                    "options": {
+                        "assets": [
+                            {
+                                "glob": "**/*",
+                                "input": "public"
+                            }
+                        ],
+                        "browser": "src/main.ts",
+                        "security": {
+                            "autoCsp": true
+                        },
+                        "styles": ["src/styles.css"],
+                        "tsConfig": "tsconfig.app.json"
+                    },
+                    "defaultConfiguration": "production",
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kB",
+                                    "maximumError": "1MB"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "4kB",
+                                    "maximumError": "8kB"
+                                }
+                            ],
+                            "subresourceIntegrity": true
+                        },
+                        "development": {
+                            "namedChunks": true,
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular/build:dev-server",
+                    "options": {
+                        "allowedHosts": ["localhost.www.dndmapp.dev"],
+                        "buildTarget": "dnd-mapp:build:development",
+                        "host": "localhost.www.dndmapp.dev",
+                        "port": 4200,
+                        "ssl": true,
+                        "sslCert": "ssl-cert.pem",
+                        "sslKey": "ssl-key.pem"
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-eslint/builder:lint",
+                    "options": {
+                        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+                    }
+                }
+            }
+        }
+    }
+}

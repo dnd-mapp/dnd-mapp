@@ -1,0 +1,23 @@
+.idea/
+
+# Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/mcp.json
+
+# Compiled output
+dist/
+
+# Node
+node_modules/
+
+# Miscellaneous
+.angular/
+*.pem
+
+# System files
+.DS_Store
+Thumbs.db

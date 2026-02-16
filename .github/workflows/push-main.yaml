@@ -1,0 +1,17 @@
+name: Push to main
+on:
+    push:
+        branches:
+            - main
+permissions:
+    contents: read
+jobs:
+    ci:
+        name: CI
+        runs-on: ubuntu-22.04
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: CI
+              uses: ./.github/actions/ci

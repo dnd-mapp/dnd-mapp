@@ -1,0 +1,33 @@
+# Handle line endings automatically for files detected as text
+# and leave binary files untouched.
+*               text=auto
+
+# Ensure standard text files use LF (crucial for Docker/Linux environments)
+*.ts            text eol=lf
+*.js            text eol=lf
+*.json          text eol=lf
+*.html          text eol=lf
+*.css           text eol=lf
+*.scss          text eol=lf
+*.md            text eol=lf
+*.svg           text eol=lf
+
+# Docker & Shell scripts MUST use LF to run correctly in containers
+Dockerfile      text eol=lf
+.dockerignore   text eol=lf
+*.sh            text eol=lf
+
+# pnpm lockfile
+pnpm-lock.yaml  text eol=lf
+
+# Database/Binary files
+*.png           binary
+*.jpg           binary
+*.jpeg          binary
+*.gif           binary
+*.ico           binary
+*.pdf           binary
+
+# GitHub Linguist Overrides
+# Mark generated files or lockfiles to keep PR diffs clean
+pnpm-lock.yaml  linguist-generated=true

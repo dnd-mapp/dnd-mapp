@@ -1,0 +1,19 @@
+name: CI
+description: Runs Continuous Integration checks
+runs:
+    using: composite
+    steps:
+        - name: Set up tools
+          uses: ./.github/actions/setup-tools
+
+        - name: Check formatting
+          shell: bash
+          run: pnpm format:check
+
+        - name: Run linting
+          shell: bash
+          run: pnpm lint
+
+        - name: Compile code
+          shell: bash
+          run: pnpm build

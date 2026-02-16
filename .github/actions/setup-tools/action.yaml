@@ -1,0 +1,24 @@
+name: Setup tools
+description: Set up Node.js, Pnpm, and optionally install dependencies
+inputs:
+    install-dependencies:
+        required: false
+        description: Should dependencies be installed
+        default: 'true'
+runs:
+    using: composite
+    steps:
+        - name: Set up Pnpm
+          uses: pnpm/action-setup@v4
+
+        - name: Set up Node.js
+          uses: actions/setup-node@v6
+          with:
+              node-version-file: .tool-versions
+              cache-dependency-path: pnpm-lock.yaml
+              cache: pnpm
+
+        - name: Install dependencies
+          if: ${{ inputs.install-dependencies == 'true' }}
+          shell: bash
+          run: pnpm install --frozen-lockfile
