@@ -1,6 +1,6 @@
 # D&D Mapp: dnd-mapp
 
-![CI Status](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yml/badge.svg)
+![CI Status](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml/badge.svg)
 ![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg)
 
 The primary interface and gateway for the D&D Mapp platform. Designed specifically for Dungeons & Dragons Fifth Edition, dnd-mapp is a comprehensive toolkit that bridges the gap between digital management and tabletop immersion, providing a seamless experience for both Dungeon Masters and players.
