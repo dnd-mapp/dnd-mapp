@@ -74,7 +74,7 @@ This project uses [mise-en-place](https://mise.jdx.dev/) to manage runtime versi
 
     ```bash
     mkcert -install
-    mkcert -key-file ssl-key.pem -cert-file ssl-cert.pem localhost.www.dndmapp.dev localhost 127.0.0.1
+    pnpm gen:ssl-cert
     ```
 
 ## Docker & Containerization

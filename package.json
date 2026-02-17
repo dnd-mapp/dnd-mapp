@@ -20,6 +20,7 @@
     "pnpm": ">=10.29.3"
   },
   "scripts": {
+    "gen:ssl-cert": "mkcert -key-file ssl-key.pem -cert-file ssl-cert.pem localhost.www.dndmapp.dev localhost 127.0.0.1",
     "start": "pnpm exec ng serve",
     "build": "pnpm exec ng build",
     "build-dev": "pnpm exec ng build -c development",
