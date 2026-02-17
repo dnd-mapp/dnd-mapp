@@ -44,10 +44,9 @@ jobs:
 
             - name: Build and push
               uses: docker/bake-action@v6
+              env: TAGS=["dev", "sha-${{ steps.vars.outputs.sha_short }}"]
               with:
                   source: .
                   files: .docker/docker-bake.hcl
                   targets: app
                   push: true
-                  set: |
-                      *.args.TAGS=["dev", "sha-${{ steps.vars.outputs.sha_short }}"]
