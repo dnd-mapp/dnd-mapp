@@ -1,5 +1,6 @@
 variable "TAGS" {
     default = ["latest"]
+    type = list(string)
 }
 
 group "default" {
