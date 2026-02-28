@@ -13,11 +13,11 @@
   "bugs": {
     "url": "https://github.com/dnd-mapp/dnd-mapp/issues"
   },
-  "packageManager": "pnpm@10.29.3",
+  "packageManager": "pnpm@10.30.3",
   "type": "module",
   "engines": {
-    "node": ">=24.13.1",
-    "pnpm": ">=10.29.3"
+    "node": ">=24.14.0",
+    "pnpm": ">=10.30.3"
   },
   "scripts": {
     "gen:ssl-cert": "mkcert -key-file ssl-key.pem -cert-file ssl-cert.pem localhost.www.dndmapp.dev localhost 127.0.0.1",
@@ -46,17 +46,17 @@
     "@angular/cli": "~21.1",
     "@angular/compiler-cli": "~21.1",
     "@eslint/js": "~9.39",
-    "@tailwindcss/postcss": "~4.1",
+    "@tailwindcss/postcss": "~4.2",
     "angular-eslint": "~21.2",
     "eslint": "~9.39",
     "eslint-config-prettier": "~10.1",
     "postcss": "~8.5",
     "prettier": "~3.8",
     "prettier-plugin-organize-imports": "~4.3",
-    "stylelint": "~17.1",
+    "stylelint": "~17.3",
     "stylelint-config-standard": "~40.0",
-    "tailwindcss": "~4.1",
+    "tailwindcss": "~4.2",
     "typescript": "~5.9",
-    "typescript-eslint": "~8.55"
+    "typescript-eslint": "~8.56"
   }
 }
