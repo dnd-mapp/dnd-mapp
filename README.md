@@ -39,8 +39,8 @@ This project uses [mise-en-place](https://mise.jdx.dev/) to manage runtime versi
 
 1. Install Mise to automatically manage:
 
-    - **Node.js**: v24.13.1
-    - **pnpm**: v10.29.3
+    - **Node.js**: v24.14.0
+    - **pnpm**: v10.30.3
 
 2. **mkcert**: Required for local HTTPS. [Install mkcert](https://github.com/FiloSottile/mkcert#installation).
 
