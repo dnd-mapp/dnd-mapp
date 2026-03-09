@@ -110,31 +110,34 @@ The `mkcert -install` command usually handles the OS trust store automatically.
 
 ## 🎨 Code Style & Linting
 
-We use **Prettier** to maintain a consistent code style. It is recommended to enable "Format on Save" in your IDE.
+We enforce consistent code quality and style using several automated tools. It is recommended to enable "Format on Save" in your IDE.
 
 ### VS Code
 
-1. Install the [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+1. Install the [recommended extensions](./.vscode/extensions.json).
 2. Open `Settings` <kbd>Ctrl</kbd>+<kbd>,</kbd>.
 3. Search for `Editor: Format On Save` and enable it.
 4. Ensure `Editor: Default Formatter` is set to `Prettier - Code formatter`.
 
 ### WebStorm
 
-1. Go to `Settings` > `Languages & Frameworks` > `Prettier`.
-2. Ensure the `Prettier package` points to the project's `node_modules/prettier`.
-3. Check the **On save** checkbox.
-4. (Optional) Check **Run on reformat code action** to replace the default IDE formatter.
+1. Go to `Settings` > `Languages & Frameworks`.
+2. **Prettier:** Ensure the package points to `node_modules/prettier` and check **On save**.
+3. **Stylelint:** Enable it under `Stylelint` and ensure the configuration file is detected.
+4. **Markdown:** Markdownlint support is typically integrated or available via the "Markdownlint" plugin.
 
-### Manual Formatting
+### Manual Verification
 
-```bash
-# Check formatting
-pnpm format:check
+You can run the following commands to check or fix the codebase manually:
 
-# Fix formatting
-pnpm format:write
-```
+| Tool             | Action        | Command                  |
+|:-----------------|:--------------|:-------------------------|
+| **Prettier**     | Format Check  | `pnpm format:check`      |
+| **Prettier**     | Format Fix    | `pnpm format:write`      |
+| **ESLint**       | TS/Logic Lint | `pnpm lint:eslint`       |
+| **Stylelint**    | SCSS Lint     | `pnpm lint:stylelint`    |
+| **Markdownlint** | Docs Lint     | `pnpm lint:markdownlint` |
+| **All**          | Run All Lints | `pnpm lint`              |
 
 ---
 
