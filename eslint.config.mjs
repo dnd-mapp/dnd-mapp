@@ -3,6 +3,7 @@ import angular from 'angular-eslint';
 import eslintConfigPrettierFlat from 'eslint-config-prettier/flat';
 import { defineConfig, globalIgnores } from 'eslint/config';
 import tseslint from 'typescript-eslint';
+import globals from 'globals';
 
 export default defineConfig([
     globalIgnores(['.angular/', 'coverage/', 'dist/', 'node_modules/', 'reports/']),
@@ -12,6 +13,14 @@ export default defineConfig([
             parserOptions: {
                 projectService: true,
             },
+        },
+    },
+    {
+        files: ['.github/scripts/*.mjs'],
+        languageOptions: {
+            globals: {
+                ...globals.node,
+            }
         },
     },
     {
