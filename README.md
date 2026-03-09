@@ -1,61 +1,98 @@
-# @dnd-mapp/dnd-mapp
+# ⚔️ D&D Mapp | Core Web Application
 
-The central hub for the D&D Mapp ecosystem. A high-performance, containerized Angular platform designed to eliminate TTRPG friction through automated mechanical resolution, real-time tactical combat, and unified campaign management. Built for speed and immersion. ⚔️
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+![Angular](https://img.shields.io/badge/Angular-21.2.1-DD0031?style=flat&logo=angular)
+![Vitest](https://img.shields.io/badge/Testing-Vitest-6E9F18?style=flat&logo=vitest)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+The central hub for the **D&D Mapp** ecosystem. This repository contains the primary web-based game engine—a high-performance, containerized Angular platform designed to eliminate TTRPG friction through automated mechanical resolution, real-time tactical combat, and unified campaign management.
 
-## Development server
+## 🛠️ Tech Stack & Features
 
-To start a local development server, run:
+- **Frontend:** Angular 21.2.1 (Signals & Reactive Architecture)
+- **Styling:** Plain SCSS for a modular, framework-agnostic UI.
+- **Testing:** Vitest for lightning-fast unit testing.
+- **Deployment:** Dockerized for consistent environments.
+- **Capabilities:** Real-time WebSocket synchronization, dynamic tactical maps, and automated 5e rule resolution.
 
-```bash
-ng serve
-```
+---
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## 🚀 Getting Started
 
-## Code scaffolding
+### Prerequisites
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- [Node.js](https://nodejs.org/) (Latest LTS recommended)
+- [Angular CLI](https://github.com/angular/angular-cli) (`pnpm install -g @angular/cli`)
+- [Docker](https://www.docker.com/) (For containerized deployment)
 
-```bash
-ng generate component component-name
-```
+### Development Server
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+1. Install dependencies:
 
-```bash
-ng generate --help
-```
+   ```bash
+   pnpm install
+   ```
 
-## Building
+2. Start the local development server:
 
-To build the project run:
+   ```bash
+   pnpm start
+   ```
 
-```bash
-ng build
-```
+3. Navigate to `http://localhost:4200/`. The application will automatically reload on source changes.
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Production Build
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+To compile the project and optimize for performance:
 
 ```bash
-ng e2e
+pnpm build
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Build artifacts will be stored in the `dist/dnd-mapp` directory.
 
-## Additional Resources
+---
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 🧪 Quality Assurance
+
+### Unit Tests
+
+We use **Vitest** for a modern, high-speed testing experience:
+
+```bash
+pnpm test
+```
+
+### End-to-End (E2E)
+
+```bash
+pnpm e2e
+```
+
+*Note: Ensure your preferred E2E driver is configured in the environment.*
+
+### Scaffolding
+
+Generate new components, services, or signals using the CLI:
+
+```bash
+ng generate component feature/map-renderer
+```
+
+---
+
+## 🐳 Dockerization
+
+To build and run the application as a container:
+
+```bash
+docker build -t dndmapp/dnd-mapp .
+docker run -p 4200:4200 dndmapp/dnd-mapp
+```
+
+---
+
+## 🤝 Contributing
+
+We follow a strict type-safe and reactive pattern. Please refer to the [Organization Contributing Guide](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md) before submitting a Pull Request.
+
+**D&D Mapp Team** • *"Roll for initiative!"*
