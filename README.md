@@ -1,6 +1,6 @@
 # ⚔️ D&D Mapp | Core Web Application
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Angular](https://img.shields.io/badge/Angular-21.2.1-DD0031?style=flat&logo=angular)
 ![Vitest](https://img.shields.io/badge/Testing-Vitest-6E9F18?style=flat&logo=vitest)
 [![CI](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml/badge.svg)](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml)
