@@ -1,5 +1,5 @@
 {
-  "name": "dnd-mapp",
+  "name": "@dnd-mapp/dnd-mapp",
   "version": "0.0.0",
   "private": true,
   "scripts": {
