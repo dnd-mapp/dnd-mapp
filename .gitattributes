@@ -1,0 +1,58 @@
+# ---
+# Global Settings
+# ---
+# Handle line endings automatically for files detected as text and leave binary files untouched.
+*                   text=auto eol=lf
+
+# ---
+# Source Code (Standardize on LF)
+# ---
+*.ts                text eol=lf
+*.mts               text eol=lf
+*.cts               text eol=lf
+*.js                text eol=lf
+*.mjs               text eol=lf
+*.cjs               text eol=lf
+*.json              text eol=lf
+*.yaml              text eol=lf
+*.yml               text eol=lf
+*.html              text eol=lf
+*.scss              text eol=lf
+*.css               text eol=lf
+*.md                text eol=lf
+*.svg               text eol=lf
+
+# ---
+# Tooling & Configs
+# ---
+# Ensure shell scripts always use LF for Docker/Linux compatibility
+*.sh                text eol=lf
+*.conf              text eol=lf
+*.hcl               text eol=lf
+Dockerfile          text eol=lf
+.dockerignore       text eol=lf
+
+# Linting and Formatting configs
+.editorconfig       text eol=lf
+.prettier*          text eol=lf
+.stylelint*         text eol=lf
+.markdownlint*      text eol=lf
+.tool-versions      text eol=lf
+*.run.xml           text eol=lf linguist-generated
+
+# pnpm lockfile (Mark as linguist-generated to hide in diffs by default)
+pnpm-lock.yaml      text eol=lf linguist-generated
+pnpm-workspace.yaml text eol=lf linguist-generated
+
+# ---
+# Binary Files
+# ---
+# Explicitly treat these as binary to prevent corruption
+*.png               binary
+*.jpg               binary
+*.jpeg              binary
+*.gif               binary
+*.ico               binary
+*.pdf               binary
+*.woff              binary
+*.woff2             binary
