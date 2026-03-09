@@ -20,7 +20,9 @@
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "noPropertyAccessFromIndexSignature": true,
-        "paths": {},
+        "paths": {
+            "@/test": ["./test/index.ts"]
+        },
         "skipLibCheck": true,
         "strictBindCallApply": true,
         "strictBuiltinIteratorReturn": true,
