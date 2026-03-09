@@ -12,7 +12,7 @@ The central hub for the **D&D Mapp** ecosystem. This repository contains the pri
 - **Styling:** Plain SCSS for a modular, framework-agnostic UI.
 - **Testing:** Vitest for lightning-fast unit testing.
 - **Deployment:** Dockerized for consistent environments.
-- **Capabilities:** Real-time WebSocket synchronization, dynamic tactical maps, and automated 5e rule resolution.
+- **Package Manager:** `pnpm` with strict dependency and engine enforcement.
 
 ---
 
@@ -20,25 +20,35 @@ The central hub for the **D&D Mapp** ecosystem. This repository contains the pri
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (Latest LTS recommended)
-- [Angular CLI](https://github.com/angular/angular-cli) (`pnpm install -g @angular/cli`)
-- [Docker](https://www.docker.com/) (For containerized deployment)
+We use [mise-en-place (mise)](https://mise.jdx.dev/) to manage tool versions defined in `.tool-versions`.
+
+1. **Install Mise** (if not already installed).
+2. **Install required tools:**
+
+   ```bash
+   mise install
+   ```
+
+   *This will automatically set up Node.js `24.14.0` and pnpm `10.31.0` as per project requirements.*
 
 ### Development Server
 
-1. Install dependencies:
+1. **Install dependencies:**
 
    ```bash
    pnpm install
    ```
 
-2. Start the local development server:
+   > [!NOTE]
+   > `engineStrict` and `packageManagerStrictVersion` are enabled to ensure environment parity.
+
+2. **Start the local development server:**
 
    ```bash
    pnpm start
    ```
 
-3. Navigate to `http://localhost:4200/`. The application will automatically reload on source changes.
+3. **Navigate to:** `http://localhost:4200/`. The application will automatically reload on source changes.
 
 ### Production Build
 
@@ -68,8 +78,6 @@ pnpm test
 pnpm e2e
 ```
 
-*Note: Ensure your preferred E2E driver is configured in the environment.*
-
 ### Scaffolding
 
 Generate new components, services, or signals using the CLI:
@@ -93,6 +101,6 @@ docker run -p 4200:4200 dndmapp/dnd-mapp
 
 ## 🤝 Contributing
 
-We follow a strict type-safe and reactive pattern. Please refer to the [Organization Contributing Guide](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md) before submitting a Pull Request.
+We follow a strict type-safe and reactive pattern. This project enforces `strictPeerDependencies` and `strictDepBuilds`. Please refer to the [Organization Contributing Guide](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md) before submitting a Pull Request.
 
 **D&D Mapp Team** • *"Roll for initiative!"*
