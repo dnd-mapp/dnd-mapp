@@ -50,15 +50,35 @@ We use [mise-en-place (mise)](https://mise.jdx.dev/) to manage tool versions def
 
 3. **Navigate to:** `http://localhost:4200/`. The application will automatically reload on source changes.
 
-### Production Build
+---
 
-To compile the project and optimize for performance:
+## 🎨 Code Style & Linting
+
+We use **Prettier** to maintain a consistent code style. It is recommended to enable "Format on Save" in your IDE.
+
+### VS Code
+
+1. Install the [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+2. Open `Settings` <kbd>Ctrl</kbd>+<kbd>,</kbd>.
+3. Search for `Editor: Format On Save` and enable it.
+4. Ensure `Editor: Default Formatter` is set to `Prettier - Code formatter`.
+
+### WebStorm
+
+1. Go to `Settings` > `Languages & Frameworks` > `Prettier`.
+2. Ensure the `Prettier package` points to the project's `node_modules/prettier`.
+3. Check the **On save** checkbox.
+4. (Optional) Check **Run on reformat code action** to replace the default IDE formatter.
+
+### Manual Formatting
 
 ```bash
-pnpm build
-```
+# Check formatting
+pnpm format:check
 
-Build artifacts will be stored in the `dist/dnd-mapp` directory.
+# Fix formatting
+pnpm format:write
+```
 
 ---
 
