@@ -16,7 +16,8 @@
     "format:write": "pnpm exec prettier -w .",
     "lint": "pnpm lint:eslint",
     "lint:eslint": "pnpm exec ng lint",
-    "lint:stylelint": "pnpm exec stylelint \"src/**/*.scss\""
+    "lint:stylelint": "pnpm exec stylelint \"src/**/*.scss\"",
+    "lint:markdownlint": "pnpm exec markdownlint \"**/*.md\""
   },
   "packageManager": "pnpm@10.31.0",
   "engines": {
