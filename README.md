@@ -3,6 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Angular](https://img.shields.io/badge/Angular-21.2.1-DD0031?style=flat&logo=angular)
 ![Vitest](https://img.shields.io/badge/Testing-Vitest-6E9F18?style=flat&logo=vitest)
+![CI](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push.yml/badge.svg)
 
 The central hub for the **D&D Mapp** ecosystem. This repository contains the primary web-based game engine—a high-performance, containerized Angular platform designed to eliminate TTRPG friction through automated mechanical resolution, real-time tactical combat, and unified campaign management.
 
@@ -13,6 +14,7 @@ The central hub for the **D&D Mapp** ecosystem. This repository contains the pri
 - **Testing:** Vitest with **Playwright Browser Mode** for high-fidelity unit testing.
 - **Deployment:** Dockerized for consistent environments.
 - **Package Manager:** `pnpm` with strict dependency and engine enforcement.
+- **CI/CD:** GitHub Actions for automated linting, testing, and builds.
 
 ---
 
@@ -108,6 +110,33 @@ The `mkcert -install` command usually handles the OS trust store automatically.
 
 ---
 
+## 🧪 Quality Assurance & CI
+
+We maintain high standards for code quality through automated pipelines.
+
+### Continuous Integration
+
+Every Pull Request and push to `main` triggers our GitHub Actions pipeline, which performs:
+
+- **Formatting Validation:** Ensures code adheres to Prettier standards.
+- **Linting:** Runs ESLint, Stylelint, and Markdownlint.
+- **Type Checking & Compilation:** Verifies the Angular build.
+- **Unit Testing:** Executes the Vitest suite in a headless Chromium environment.
+
+### Local Testing
+
+```bash
+# Run tests in headless mode
+pnpm test
+
+# Run tests with the Vitest UI and Watch mode (Development)
+pnpm test:development
+```
+
+- **Coverage:** We enforce an **80% coverage threshold**. Reports can be found in `coverage/dnd-mapp/` after running tests.
+
+---
+
 ## 🎨 Code Style & Linting
 
 We enforce consistent code quality and style using several automated tools. It is recommended to enable "Format on Save" in your IDE.
@@ -115,16 +144,8 @@ We enforce consistent code quality and style using several automated tools. It i
 ### VS Code
 
 1. Install the [recommended extensions](./.vscode/extensions.json).
-2. Open `Settings` <kbd>Ctrl</kbd>+<kbd>,</kbd>.
-3. Search for `Editor: Format On Save` and enable it.
-4. Ensure `Editor: Default Formatter` is set to `Prettier - Code formatter`.
-
-### WebStorm
-
-1. Go to `Settings` > `Languages & Frameworks`.
-2. **Prettier:** Ensure the package points to `node_modules/prettier` and check **On save**.
-3. **Stylelint:** Enable it under `Stylelint` and ensure the configuration file is detected.
-4. **Markdown:** Markdownlint support is typically integrated or available via the "Markdownlint" plugin.
+2. Enable **Editor: Format On Save**.
+3. Set **Editor: Default Formatter** to `Prettier - Code formatter`.
 
 ### Manual Verification
 
@@ -141,25 +162,6 @@ You can run the following commands to check or fix the codebase manually:
 
 ---
 
-## 🧪 Quality Assurance
-
-We use **Vitest** for a modern testing experience. Tests run in a **Chromium** instance via Playwright to ensure component behavior is verified against a real DOM.
-
-### Unit Tests
-
-```bash
-# Run tests in headless mode (CI)
-pnpm test
-
-# Run tests with the Vitest UI and Watch mode (Development)
-pnpm test:development
-```
-
-- **Configuration:** Managed in `vitest.config.mts`.
-- **Coverage:** Enforced at 80% across branches, functions, lines, and statements. Reports are generated in `reports/dnd-mapp/`.
-
----
-
 ## 🐳 Dockerization
 
 To build and run the application as a container:
@@ -173,6 +175,6 @@ docker run -p 4200:4200 dndmapp/dnd-mapp
 
 ## 🤝 Contributing
 
-We follow a strict type-safe and reactive pattern. This project enforces `strictPeerDependencies` and `strictDepBuilds`. Please refer to the [Organization Contributing Guide](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md) before submitting a Pull Request.
+We follow a strict type-safe and reactive pattern. This project enforces `strictPeerDependencies` and `strictDepBuilds`. Please refer to the [Organization Contributing Guide](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md) before submitting a Pull Request. **Your PR must pass all CI checks before it can be merged.**
 
 **D&D Mapp Team** • *"Roll for initiative!"*
