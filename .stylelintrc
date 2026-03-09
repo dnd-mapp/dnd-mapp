@@ -1,0 +1,9 @@
+{
+    "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order/error"],
+    "cache": true,
+    "reportDescriptionlessDisables": true,
+    "reportInvalidScopeDisables": true,
+    "reportNeedlessDisables": true,
+    "reportUnscopedDisables": true,
+    "rules": {}
+}

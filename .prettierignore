@@ -15,6 +15,7 @@
 !*.css
 
 !.prettierrc
+!.stylelintrc
 
 pnpm-*.yaml
 
