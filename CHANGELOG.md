@@ -8,6 +8,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Added
 
+- (n/a)
+
+### Changed
+
+- (n/a)
+
+### Deprecated
+
+- (n/a)
+
+### Removed
+
+- (n/a)
+
+### Fixed
+
+- (n/a)
+
+### Security
+
+- (n/a)
+
+---
+
+## [0.1.0] - 2026-03-09
+
+### Added
+
 - Enabled OnPush change detection for better performance and compatibility with zoneless operation.
 - Added global layout styling to establish a consistent look and feel.
 - Updated the page title to a more descriptive value.
@@ -43,21 +71,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Configured environment for scripts used in GitHub Actions workflows.
 - Added a globals package.
 - Extracted steps to build Docker image to a composite action.
-
-### Deprecated
-
-- (n/a)
-
-### Removed
-
-- (n/a)
-
-### Fixed
-
-- (n/a)
-
-### Security
-
-- (n/a)
 
 ---
