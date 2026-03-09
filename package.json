@@ -32,8 +32,15 @@
     "@angular/build": "~21.2",
     "@angular/cli": "~21.2",
     "@angular/compiler-cli": "~21.2",
+    "@types/node": "~24.12",
+    "@vitest/browser-playwright": "~4.0",
+    "@vitest/coverage-v8": "~4.0",
+    "@vitest/ui": "~4.0",
+    "playwright": "~1.58",
     "prettier": "~3.8",
     "prettier-plugin-organize-imports": "~4.3",
-    "typescript": "~5.9"
+    "typescript": "~5.9",
+    "vite": "~7.3",
+    "vitest": "~4.0"
   }
 }
