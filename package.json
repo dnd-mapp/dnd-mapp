@@ -1,6 +1,6 @@
 {
   "name": "@dnd-mapp/dnd-mapp",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The official core web application for the D&D Mapp ecosystem. A containerized Angular-based game engine featuring automated 5e mechanical resolution, real-time tactical combat, and unified campaign management.",
   "license": "MIT",
   "author": "NoNamer777",
