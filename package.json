@@ -13,7 +13,9 @@
     "test": "pnpm exec ng test",
     "test:development": "pnpm exec ng test -c development",
     "format:check": "pnpm exec prettier -l .",
-    "format:write": "pnpm exec prettier -w ."
+    "format:write": "pnpm exec prettier -w .",
+    "lint": "pnpm lint:eslint",
+    "lint:eslint": "ng lint"
   },
   "packageManager": "pnpm@10.31.0",
   "engines": {
