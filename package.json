@@ -21,6 +21,7 @@
     "pnpm": ">=10.31.0"
   },
   "dependencies": {
+    "@angular/cdk": "~21.2",
     "@angular/common": "~21.2",
     "@angular/compiler": "~21.2",
     "@angular/core": "~21.2",
