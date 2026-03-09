@@ -1,6 +1,7 @@
 {
   "name": "@dnd-mapp/dnd-mapp",
   "version": "0.0.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "start": "pnpm exec ng serve",
