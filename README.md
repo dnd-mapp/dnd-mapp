@@ -3,7 +3,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Angular](https://img.shields.io/badge/Angular-21.2.1-DD0031?style=flat&logo=angular)
 ![Vitest](https://img.shields.io/badge/Testing-Vitest-6E9F18?style=flat&logo=vitest)
-![CI](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push.yml/badge.svg)
+[![CI](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml/badge.svg)](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml)
 
 The central hub for the **D&D Mapp** ecosystem. This repository contains the primary web-based game engine—a high-performance, containerized Angular platform designed to eliminate TTRPG friction through automated mechanical resolution, real-time tactical combat, and unified campaign management.
 
