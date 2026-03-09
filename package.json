@@ -11,6 +11,10 @@
     "format:write": "pnpm exec prettier -w ."
   },
   "packageManager": "pnpm@10.31.0",
+  "engines": {
+    "node": ">=24.14.0",
+    "pnpm": ">=10.31.0"
+  },
   "dependencies": {
     "@angular/common": "~21.2",
     "@angular/compiler": "~21.2",
