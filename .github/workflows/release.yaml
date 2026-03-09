@@ -43,7 +43,7 @@ jobs:
               env:
                   VERSION: ${{ inputs.version }}
                   PRERELEASE_ID: ${{ inputs.prerelease-id }}
-              run: node .github/scripts/validate-release-inputs.js
+              run: node .github/scripts/validate-release-inputs.mjs
 
             - name: Generate app token
               id: app-token
@@ -92,7 +92,7 @@ jobs:
               shell: bash
               env:
                   CLEAN_VERSION: ${{ steps.bump-version.outputs.clean-version }}
-              run: node .github/scripts/prepare-release-notes.js
+              run: node .github/scripts/prepare-release-notes.mjs
 
             - name: Update changelog
               shell: bash
