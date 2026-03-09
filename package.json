@@ -10,6 +10,7 @@
     "test:install-browsers": "pnpm exec playwright install chromium",
     "start": "pnpm exec ng serve",
     "build": "pnpm exec ng build",
+    "docker:build": "docker build -f .docker/Dockerfile -t dndmapp/dnd-mapp:latest .",
     "test": "pnpm exec ng test",
     "test:development": "pnpm exec ng test -c development",
     "format:check": "pnpm exec prettier -l .",
