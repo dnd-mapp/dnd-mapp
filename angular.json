@@ -16,17 +16,23 @@
                 "build": {
                     "builder": "@angular/build:application",
                     "options": {
-                        "browser": "src/main.ts",
-                        "tsConfig": "tsconfig.app.json",
-                        "inlineStyleLanguage": "scss",
+                        "allowedCommonJsDependencies": [],
                         "assets": [
                             {
                                 "glob": "**/*",
                                 "input": "public"
                             }
                         ],
-                        "styles": ["src/styles.scss"]
+                        "browser": "src/main.ts",
+                        "inlineStyleLanguage": "scss",
+                        "security": {
+                            "allowedHosts": ["localhost.www.dndmapp.dev:4200"],
+                            "autoCsp": true
+                        },
+                        "styles": ["src/styles.scss"],
+                        "tsConfig": "tsconfig.app.json"
                     },
+                    "defaultConfiguration": "production",
                     "configurations": {
                         "production": {
                             "budgets": [
@@ -41,27 +47,27 @@
                                     "maximumError": "8kB"
                                 }
                             ],
-                            "outputHashing": "all"
+                            "subresourceIntegrity": true
                         },
                         "development": {
-                            "optimization": false,
                             "extractLicenses": false,
-                            "sourceMap": true
+                            "namedChunks": true,
+                            "optimization": false,
+                            "sourceMap": true,
+                            "watch": true
                         }
-                    },
-                    "defaultConfiguration": "production"
+                    }
                 },
                 "serve": {
                     "builder": "@angular/build:dev-server",
-                    "configurations": {
-                        "production": {
-                            "buildTarget": "dnd-mapp:build:production"
-                        },
-                        "development": {
-                            "buildTarget": "dnd-mapp:build:development"
-                        }
-                    },
-                    "defaultConfiguration": "development"
+                    "options": {
+                        "allowedHosts": ["localhost.www.dndmapp.dev:4200"],
+                        "buildTarget": "dnd-mapp:build:development",
+                        "host": "localhost.www.dndmapp.dev",
+                        "ssl": true,
+                        "sslCert": "ssl-cert.pem",
+                        "sslKey": "ssl-key.pem"
+                    }
                 }
             }
         }
