@@ -1,0 +1,8 @@
+name: dnd-mapp
+services:
+    dnd-mapp:
+        image: dndmapp/dnd-mapp:latest
+        container_name: dnd-mapp
+        restart: unless-stopped
+        ports:
+            - '4200:4200/tcp'
