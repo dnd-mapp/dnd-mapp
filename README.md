@@ -158,12 +158,6 @@ pnpm test:development
 - **Configuration:** Managed in `vitest.config.mts`.
 - **Coverage:** Enforced at 80% across branches, functions, lines, and statements. Reports are generated in `reports/dnd-mapp/`.
 
-### End-to-End (E2E)
-
-```bash
-pnpm e2e
-```
-
 ---
 
 ## 🐳 Dockerization
