@@ -21,3 +21,5 @@ reports/
 # System files
 .DS_Store
 Thumbs.db
+
+*.pem
