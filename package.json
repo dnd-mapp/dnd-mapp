@@ -11,6 +11,8 @@
     "start": "pnpm exec ng serve",
     "build": "pnpm exec ng build",
     "docker:build": "docker build -f .docker/Dockerfile -t dndmapp/dnd-mapp:latest .",
+    "docker:compose:up": "docker compose -f .docker/compose.yaml up -d",
+    "docker:compose:down": "docker compose -f .docker/compose.yaml down",
     "test": "pnpm exec ng test",
     "test:development": "pnpm exec ng test -c development",
     "format:check": "pnpm exec prettier -l .",
