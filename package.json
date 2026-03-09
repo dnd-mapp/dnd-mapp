@@ -6,6 +6,7 @@
   "author": "NoNamer777",
   "private": true,
   "scripts": {
+    "gen:ssl-certs": "mkcert -cert-file ssl-cert.pem -key-file ssl-key.pem localhost.www.dndmapp.dev localhost 127.0.0.1",
     "start": "pnpm exec ng serve",
     "build": "pnpm exec ng build",
     "test": "pnpm exec ng test",
