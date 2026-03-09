@@ -8,7 +8,6 @@
   "scripts": {
     "start": "pnpm exec ng serve",
     "build": "pnpm exec ng build",
-    "build:development": "pnpm exec ng build -c development",
     "test": "pnpm exec ng test",
     "format:check": "pnpm exec prettier -l .",
     "format:write": "pnpm exec prettier -w ."
