@@ -137,14 +137,14 @@ function validate(versionInput, prereleaseIdInput, currentVersion) {
     // --- Rule 1: Initializing pre-releases requires a real prerelease-id ---
     if (PRERELEASE_INIT_TYPES.includes(versionInput) && prereleaseIdInput === 'none') {
         throw new Error(
-            `Rule 1 violation: Starting a new prerelease track ("${versionInput}") requires an explicit prerelease-id (alpha | beta | rc). "none" is not allowed here.`,
+            `Rule 1 violation: Starting a new prerelease track ("${versionInput}") requires an explicit prerelease-id (alpha | beta | rc). "none" is not allowed here.`
         );
     }
 
     // --- Rule 2: Cannot use "prerelease" on a stable version ---
     if (!isCurrentVersionPrerelease && versionInput === 'prerelease') {
         throw new Error(
-            `Rule 2 violation: Cannot use version "prerelease" when the current version (${currentVersion}) is not already a prerelease.`,
+            `Rule 2 violation: Cannot use version "prerelease" when the current version (${currentVersion}) is not already a prerelease.`
         );
     }
 
@@ -154,7 +154,7 @@ function validate(versionInput, prereleaseIdInput, currentVersion) {
             // Rule 4
             if (versionInput !== 'prerelease' && versionInput !== 'major') {
                 throw new Error(
-                    `Rule 4 violation: Current version (${currentVersion}) is on the premajor track. Next version must be "prerelease" or "major", got "${versionInput}".`,
+                    `Rule 4 violation: Current version (${currentVersion}) is on the premajor track. Next version must be "prerelease" or "major", got "${versionInput}".`
                 );
             }
         } else if (currentTrack === 'preminor') {
@@ -163,7 +163,7 @@ function validate(versionInput, prereleaseIdInput, currentVersion) {
 
             if (!allowedVersionsPreminor.includes(versionInput)) {
                 throw new Error(
-                    `Rule 5 violation: Current version (${currentVersion}) is on the preminor track. Next version must be one of: ${allowedVersionsPreminor.join(', ')}, got "${versionInput}".`,
+                    `Rule 5 violation: Current version (${currentVersion}) is on the preminor track. Next version must be one of: ${allowedVersionsPreminor.join(', ')}, got "${versionInput}".`
                 );
             }
         } else if (currentTrack === 'prepatch') {
@@ -172,7 +172,7 @@ function validate(versionInput, prereleaseIdInput, currentVersion) {
 
             if (!allowedVersionsPrepatch.includes(versionInput)) {
                 throw new Error(
-                    `Rule 6 violation: Current version (${currentVersion}) is on the prepatch track. Next version must be one of: ${allowedVersionsPrepatch.join(', ')}, got "${versionInput}".`,
+                    `Rule 6 violation: Current version (${currentVersion}) is on the prepatch track. Next version must be one of: ${allowedVersionsPrepatch.join(', ')}, got "${versionInput}".`
                 );
             }
         }
@@ -188,7 +188,7 @@ function validate(versionInput, prereleaseIdInput, currentVersion) {
 
             if (nextWeight < currentWeight) {
                 throw new Error(
-                    `Rules 7-9 violation (Forward-Only): Cannot move prerelease identifier from "${currentPrereleaseId}" to "${prereleaseIdInput}". Identifier progression is: alpha -> beta -> rc -> (stable).`,
+                    `Rules 7-9 violation (Forward-Only): Cannot move prerelease identifier from "${currentPrereleaseId}" to "${prereleaseIdInput}". Identifier progression is: alpha -> beta -> rc -> (stable).`
                 );
             }
         }
