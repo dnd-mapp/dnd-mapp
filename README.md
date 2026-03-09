@@ -10,7 +10,7 @@ The central hub for the **D&D Mapp** ecosystem. This repository contains the pri
 
 - **Frontend:** Angular 21.2.1 (Signals & Reactive Architecture)
 - **Styling:** Plain SCSS for a modular, framework-agnostic UI.
-- **Testing:** Vitest for lightning-fast unit testing.
+- **Testing:** Vitest with **Playwright Browser Mode** for high-fidelity unit testing.
 - **Deployment:** Dockerized for consistent environments.
 - **Package Manager:** `pnpm` with strict dependency and engine enforcement.
 
@@ -26,7 +26,7 @@ We use [mise-en-place (mise)](https://mise.jdx.dev/) to manage tool versions def
 2. **Install [mkcert](https://github.com/FiloSottile/mkcert):**
 
     - **macOS:** `brew install mkcert`
-    - **Linux:** `sudo apt install mkcert` (or your package manager's equivalent)
+    - **Linux:** `sudo apt install mkcert`
     - **Windows:** `choco install mkcert` or `scoop install mkcert`
 
 3. **Install required tools:**
@@ -90,16 +90,21 @@ The `mkcert -install` command usually handles the OS trust store automatically.
    pnpm install
    ```
 
-   > [!NOTE]
-   > `engineStrict` and `packageManagerStrictVersion` are enabled to ensure environment parity.
+2. **Install Playwright Browsers:**
 
-2. **Start the local development server:**
+   Since unit tests run in a real browser environment via Vitest, install the required binaries:
+
+   ```bash
+   pnpm test:install-browsers
+   ```
+
+3. **Start the local development server:**
 
    ```bash
    pnpm start
    ```
 
-3. **Navigate to:** `http://localhost:4200/`. The application will automatically reload on source changes.
+4. **Navigate to:** `https://localhost.www.dndmapp.dev:4200/`.
 
 ---
 
@@ -135,26 +140,25 @@ pnpm format:write
 
 ## 🧪 Quality Assurance
 
+We use **Vitest** for a modern testing experience. Tests run in a **Chromium** instance via Playwright to ensure component behavior is verified against a real DOM.
+
 ### Unit Tests
 
-We use **Vitest** for a modern, high-speed testing experience:
-
 ```bash
+# Run tests in headless mode (CI)
 pnpm test
+
+# Run tests with the Vitest UI and Watch mode (Development)
+pnpm test:development
 ```
+
+- **Configuration:** Managed in `vitest.config.mts`.
+- **Coverage:** Enforced at 80% across branches, functions, lines, and statements. Reports are generated in `reports/dnd-mapp/`.
 
 ### End-to-End (E2E)
 
 ```bash
 pnpm e2e
-```
-
-### Scaffolding
-
-Generate new components, services, or signals using the CLI:
-
-```bash
-ng generate component feature/map-renderer
 ```
 
 ---
