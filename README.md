@@ -164,12 +164,32 @@ You can run the following commands to check or fix the codebase manually:
 
 ## 🐳 Dockerization
 
-To build and run the application as a container:
+The project is fully containerized using a multi-stage Docker build and Nginx for serving the production bundle. Configuration files are located in the `.docker/` directory.
+
+### Build & Deployment
+
+You can interact with the containerized environment using the following `pnpm` scripts:
+
+| Method             | Command                    | Description                                         |
+|:-------------------|:---------------------------|:----------------------------------------------------|
+| **Standard Build** | `pnpm docker:build`        | Build the image using the local Dockerfile.         |
+| **Docker Bake**    | `pnpm docker:bake`         | Multi-platform build (amd64/arm64) via Buildx Bake. |
+| **Compose Up**     | `pnpm docker:compose:up`   | Spin up the stack in detached mode.                 |
+| **Compose Down**   | `pnpm docker:compose:down` | Stop and remove the containers.                     |
+
+### Manual Docker Commands
+
+If you prefer using the CLI directly:
 
 ```bash
-docker build -t dndmapp/dnd-mapp .
-docker run -p 4200:4200 dndmapp/dnd-mapp
+# Build using the specific Dockerfile location
+docker build -f .docker/Dockerfile -t dndmapp/dnd-mapp:latest .
+
+# Run the container locally on port 4200
+docker run -p 4200:4200 dndmapp/dnd-mapp:latest
 ```
+
+The containerized application listens on port `4200` as configured in `default.conf`.
 
 ---
 
