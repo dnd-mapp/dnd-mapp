@@ -3,11 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "start": "pnpm exec ng serve",
+    "build": "pnpm exec ng build",
+    "watch": "pnpm exec ng build --configuration development",
+    "test": "pnpm exec ng test",
     "format:check": "pnpm exec prettier -l .",
     "format:write": "pnpm exec prettier -w ."
   },
