@@ -1,13 +1,32 @@
 {
-  "printWidth": 100,
-  "singleQuote": true,
-  "plugins": ["prettier-plugin-organize-imports"],
+  "arrowParens": "always",
+  "endOfLine": "lf",
   "overrides": [
     {
-      "files": "*.html",
+      "files": ["*.html"],
       "options": {
         "parser": "angular"
       }
+    },
+    {
+      "files": ["*.scss"],
+      "options": {
+        "singleQuote": false
+      }
+    },
+    {
+      "files": ["package.json", "pnpm-*.yaml"],
+      "options": {
+        "tabWidth": 2
+      }
     }
-  ]
+  ],
+  "plugins": ["prettier-plugin-organize-imports"],
+  "printWidth": 120,
+  "quoteProps": "consistent",
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 4,
+  "trailingComma": "es5",
+  "useTabs": false
 }
