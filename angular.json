@@ -68,6 +68,56 @@
                         "sslCert": "ssl-cert.pem",
                         "sslKey": "ssl-key.pem"
                     }
+                },
+                "test": {
+                    "builder": "@angular/build:unit-test",
+                    "options": {
+                        "coverage": true,
+                        "coverageExclude": ["**/index.ts", "**/config/**/*.ts", "src/main.ts"],
+                        "coverageInclude": ["src/app/**/*.ts"],
+                        "coverageReporters": [
+                            "text-summary",
+                            [
+                                "html",
+                                {
+                                    "subdir": "coverage"
+                                }
+                            ]
+                        ],
+                        "include": ["src/**/*.spec.ts"],
+                        "runner": "vitest",
+                        "runnerConfig": "vitest.config.mts",
+                        "tsConfig": "tsconfig.spec.json"
+                    },
+                    "defaultConfiguration": "ci",
+                    "configurations": {
+                        "ci": {
+                            "reporters": [
+                                "dot",
+                                "github-actions",
+                                [
+                                    "html",
+                                    {
+                                        "outputFile": "coverage/dnd-mapp/index.html"
+                                    }
+                                ]
+                            ],
+                            "watch": false
+                        },
+                        "development": {
+                            "reporters": [
+                                "dot",
+                                [
+                                    "html",
+                                    {
+                                        "outputFile": "reports/dnd-mapp/index.html"
+                                    }
+                                ]
+                            ],
+                            "ui": true,
+                            "watch": true
+                        }
+                    }
                 }
             }
         }
