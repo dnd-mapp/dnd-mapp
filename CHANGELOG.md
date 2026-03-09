@@ -36,6 +36,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Added continuous delivery job.
 - Updated README files, including Docker Hub repository info and local LICENSE reference.
 - Ignored additional folders for Stylelint and added a .gitattributes file.
+- Added pipeline to create stable Docker images.
+- Used correct file extensions for scripts.
+- Extracted tools setup steps into a GitHub Action.
+- Added release pipeline.
+- Configured environment for scripts used in GitHub Actions workflows.
+- Added a globals package.
+- Extracted steps to build Docker image to a composite action.
 
 ### Deprecated
 
