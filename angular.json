@@ -68,42 +68,30 @@
     },
     "schematics": {
         "@schematics/angular:component": {
+            "addTypeToClassName": true,
+            "changeDetection": "OnPush",
             "style": "scss",
-            "skipTests": true,
-            "type": "component",
-            "addTypeToClassName": false
-        },
-        "@schematics/angular:class": {
-            "skipTests": true
+            "type": "component"
         },
         "@schematics/angular:directive": {
-            "skipTests": true,
-            "type": "directive",
-            "addTypeToClassName": false
+            "addTypeToClassName": true,
+            "type": "directive"
         },
         "@schematics/angular:guard": {
-            "skipTests": true,
             "typeSeparator": "."
         },
         "@schematics/angular:interceptor": {
-            "skipTests": true,
             "typeSeparator": "."
         },
         "@schematics/angular:pipe": {
-            "skipTests": true,
             "typeSeparator": "."
         },
         "@schematics/angular:resolver": {
-            "skipTests": true,
             "typeSeparator": "."
         },
         "@schematics/angular:service": {
-            "skipTests": true,
             "type": "service",
-            "addTypeToClassName": false
-        },
-        "@schematics/angular:module": {
-            "typeSeparator": "."
+            "addTypeToClassName": true
         }
     }
 }
