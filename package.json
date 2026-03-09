@@ -25,6 +25,7 @@
     "@angular/cli": "~21.2",
     "@angular/compiler-cli": "~21.2",
     "prettier": "~3.8",
+    "prettier-plugin-organize-imports": "~4.3",
     "typescript": "~5.9"
   }
 }
