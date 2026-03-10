@@ -1,0 +1,6 @@
+@use "../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: block;
+    padding: tv.$spacing * 8;
+}

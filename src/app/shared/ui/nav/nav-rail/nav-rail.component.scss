@@ -1,0 +1,16 @@
+@use "../../../../../../public/styles/theme-variables" as tv;
+
+$nav-rail-min-width: tv.$spacing * 18;
+$nav-rail-background: tv.$primary-subtle;
+$nav-rail-on-background: tv.$on-primary-subtle;
+
+:host {
+    display: block;
+
+    width: $nav-rail-min-width;
+    border-right: 1px solid tv.$border;
+
+    color: $nav-rail-on-background;
+
+    background-color: $nav-rail-background;
+}

@@ -1,18 +1,18 @@
-import { RootHarness, setupTestEnvironment } from '@/test';
+import { CampaignsOverviewHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
-import { RootComponent } from './root.component';
+import { CampaignsOverviewPage } from './campaigns-overview.page';
 
-describe('RootComponent', () => {
+describe('CampaignsOverviewPage', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-campaigns-overview />`,
+        imports: [CampaignsOverviewPage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
-            harness: RootHarness,
+            harness: CampaignsOverviewHarness,
         });
 
         return {

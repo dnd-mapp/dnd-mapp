@@ -1,18 +1,18 @@
-import { RootHarness, setupTestEnvironment } from '@/test';
+import { CharactersOverviewHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
-import { RootComponent } from './root.component';
+import { CharactersOverviewPage } from './characters-overview.page';
 
-describe('RootComponent', () => {
+describe('CharactersOverviewPage', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-characters-overview />`,
+        imports: [CharactersOverviewPage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
-            harness: RootHarness,
+            harness: CharactersOverviewHarness,
         });
 
         return {

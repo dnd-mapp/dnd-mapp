@@ -1,18 +1,18 @@
-import { RootHarness, setupTestEnvironment } from '@/test';
+import { CompendiumHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
-import { RootComponent } from './root.component';
+import { CompendiumPage } from './compendium.page';
 
-describe('RootComponent', () => {
+describe('CompendiumPage', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-compendium />`,
+        imports: [CompendiumPage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
-            harness: RootHarness,
+            harness: CompendiumHarness,
         });
 
         return {

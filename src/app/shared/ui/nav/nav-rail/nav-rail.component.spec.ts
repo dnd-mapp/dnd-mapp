@@ -1,18 +1,18 @@
-import { RootHarness, setupTestEnvironment } from '@/test';
+import { NavRailHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
-import { RootComponent } from './root.component';
+import { NavRailComponent } from './nav-rail.component';
 
-describe('RootComponent', () => {
+describe('NavRailComponent', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-nav-rail></dma-nav-rail>`,
+        imports: [NavRailComponent],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
-            harness: RootHarness,
+            harness: NavRailHarness,
         });
 
         return {

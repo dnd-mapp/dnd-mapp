@@ -1,18 +1,18 @@
-import { RootHarness, setupTestEnvironment } from '@/test';
+import { NotFoundHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
-import { RootComponent } from './root.component';
+import { NotFoundPage } from './not-found.page';
 
-describe('RootComponent', () => {
+describe('NotFoundPage', () => {
     @Component({
-        template: `<dma-root />`,
-        imports: [RootComponent],
+        template: `<dma-not-found />`,
+        imports: [NotFoundPage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
-            harness: RootHarness,
+            harness: NotFoundHarness,
         });
 
         return {
