@@ -1,0 +1,19 @@
+@use "./normalize";
+@use "./fonts";
+@use "./theme-variables" as tv;
+
+html,
+body {
+    @include tv.text-base;
+
+    height: 100dvh;
+
+    font-family: tv.$font-family;
+    font-variation-settings: tv.$font-variation-settings;
+    font-optical-sizing: tv.$font-optical-sizing;
+    font-weight: tv.$font-weight-normal;
+    font-style: tv.$font-style;
+    color: tv.$on-background;
+
+    background-color: tv.$background;
+}
