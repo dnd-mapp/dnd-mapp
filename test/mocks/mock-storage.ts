@@ -24,7 +24,7 @@ class MockStorage {
     }
 }
 
-export const mockStorage: MockStorage = new MockStorage();
+export const mockStorage = new MockStorage();
 
 export function provideMockStorage(): ValueProvider {
     return {
