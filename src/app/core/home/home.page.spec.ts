@@ -1,18 +1,18 @@
-import { NotFoundHarness, setupTestEnvironment } from '@/test';
+import { HomeHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
-import { NotFoundPage } from './not-found.page';
+import { HomePage } from './home.page';
 
-describe('NotFoundPage', () => {
+describe('HomePage', () => {
     @Component({
-        template: `<dma-not-found />`,
-        imports: [NotFoundPage],
+        template: `<dma-home />`,
+        imports: [HomePage],
     })
     class TestComponent {}
 
     async function setupTest() {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
-            harness: NotFoundHarness,
+            harness: HomeHarness,
         });
 
         return {
