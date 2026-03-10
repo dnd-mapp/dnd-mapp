@@ -28,7 +28,7 @@ export default defineConfig({
         name: 'dnd-mapp',
         open: false,
         passWithNoTests: true,
-        setupFiles: [],
+        setupFiles: ['test/test-setup.ts'],
         sequence: {
             shuffle: true,
         },
