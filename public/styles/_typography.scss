@@ -1,0 +1,81 @@
+@mixin text-xs {
+    font-size: 0.75rem;
+    line-height: calc(1 / 0.75);
+}
+
+@mixin text-sm {
+    font-size: 0.875rem;
+    line-height: calc(1.25 / 0.875);
+}
+
+@mixin text-base {
+    font-size: 1rem;
+    line-height: calc(1.5 / 1);
+}
+
+@mixin text-lg {
+    font-size: 1.125rem;
+    line-height: calc(1.75 / 1.125);
+}
+
+@mixin text-xl {
+    font-size: 1.25rem;
+    line-height: calc(1.75 / 1.25);
+}
+
+@mixin text-2xl {
+    font-size: 1.5rem;
+    line-height: calc(2 / 1.5);
+}
+
+@mixin text-3xl {
+    font-size: 1.875rem;
+    line-height: calc(2.25 / 1.875);
+}
+
+@mixin text-4xl {
+    font-size: 2.25rem;
+    line-height: calc(2.5 / 2.25);
+}
+
+@mixin text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+@mixin text-6xl {
+    font-size: 3.75rem;
+    line-height: 1;
+}
+
+@mixin text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+}
+
+@mixin text-8xl {
+    font-size: 6rem;
+    line-height: 1;
+}
+
+@mixin text-9xl {
+    font-size: 8rem;
+    line-height: 1;
+}
+
+$font-family: "Roboto";
+$font-family-mono: "Roboto Mono";
+$font-optical-sizing: auto;
+$font-style: normal;
+$font-variation-settings: "wdth" 100;
+
+// Font weight
+$font-weight-thin: 100;
+$font-weight-extralight: 200;
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+$font-weight-black: 900;
