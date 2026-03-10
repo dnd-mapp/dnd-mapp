@@ -1,5 +1,5 @@
 import { resetMocks } from './mocks';
 
-afterEach(() => {
+beforeEach(() => {
     resetMocks();
 });
