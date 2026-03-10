@@ -6,6 +6,10 @@ export const routes: Routes = [
         loadComponent: async () => (await import('../home/home.page')).HomePage,
     },
     {
+        path: 'campaigns',
+        loadChildren: async () => (await import('../../campaign/config/campaign.routes')).campaignRoutes,
+    },
+    {
         path: 'characters',
         loadChildren: async () => (await import('../../character/config/character.routes')).characterRoutes,
     },
