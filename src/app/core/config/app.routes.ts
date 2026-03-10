@@ -14,6 +14,10 @@ export const routes: Routes = [
         loadChildren: async () => (await import('../../character/config/character.routes')).characterRoutes,
     },
     {
+        path: 'compendium',
+        loadChildren: async () => (await import('../../compendium/config/compendium.routes')).compendiumRoutes,
+    },
+    {
         path: 'not-found',
         loadComponent: async () => (await import('../not-found/not-found.page')).NotFoundPage,
     },
