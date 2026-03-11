@@ -21,6 +21,7 @@
         "noUnusedLocals": true,
         "noPropertyAccessFromIndexSignature": true,
         "paths": {
+            "@/auth-ui": ["./src/auth/ui/index.ts"],
             "@/common": ["./src/common/index.ts"],
             "@/shared-ui": ["./src/app/shared/ui/index.ts"],
             "@/test": ["./test/index.ts"]
