@@ -23,6 +23,7 @@ export class NavRailComponent implements OnInit {
     }
 
     protected onToggle(collapsed: boolean) {
+        this.storageService.setItem(StorageKeys.NAV_RAIL_COLLAPSED, collapsed);
         this.collapsed.set(collapsed);
     }
 
