@@ -24,15 +24,9 @@ class MockStorage {
     }
 }
 
-export const mockStorage = new MockStorage();
-
 export function provideMockStorage(): ValueProvider {
     return {
         provide: STORAGE,
-        useValue: mockStorage,
+        useValue: new MockStorage(),
     };
-}
-
-export function resetMockStorage() {
-    mockStorage.clear();
 }
