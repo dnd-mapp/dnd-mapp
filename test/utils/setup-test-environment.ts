@@ -1,6 +1,6 @@
 import { ComponentHarness, HarnessLoader, HarnessQuery } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { Type } from '@angular/core';
+import { ApplicationInitStatus, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideMockStorage } from '../mocks';
 
@@ -19,6 +19,8 @@ export async function setupTestEnvironment<C, H extends ComponentHarness>(
         imports: [...(params.testComponent ? [params.testComponent] : []), ...(params.imports ?? [])],
         providers: [...(params.providers ?? []), provideMockStorage()],
     });
+
+    await TestBed.inject(ApplicationInitStatus).donePromise;
 
     if (params.beforeCreateComponent) {
         params.beforeCreateComponent();
