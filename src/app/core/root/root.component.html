@@ -1,4 +1,9 @@
 <main>
-    <dma-nav-rail></dma-nav-rail>
+    <dma-nav-rail #navRail="">
+        <ng-container dmaNavRailActions>
+            <dma-login-button [iconOnly]="navRail.isCollapsed()" />
+            <dma-signup-button [iconOnly]="navRail.isCollapsed()" />
+        </ng-container>
+    </dma-nav-rail>
     <router-outlet></router-outlet>
 </main>
