@@ -1,3 +1,7 @@
-<div>
-    <ng-content />
+<div class="button-content">
+    @if (iconButton()) {
+        <ng-content select="[dmaIcon]" />
+    } @else {
+        <ng-content />
+    }
 </div>

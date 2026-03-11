@@ -6,6 +6,10 @@
     border-radius: tv.$radius-lg;
     font-weight: tv.$font-weight-medium;
 
+    &.icon-only {
+        padding: tv.$spacing * 1.5;
+    }
+
     &:not(:disabled) {
         &:hover {
             cursor: pointer;
