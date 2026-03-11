@@ -1,1 +1,1 @@
-export * from './mock-storage';
+export * from './browser-storage/mock-storage';
