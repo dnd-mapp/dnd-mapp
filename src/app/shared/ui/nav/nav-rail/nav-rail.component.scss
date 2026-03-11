@@ -1,16 +1,27 @@
 @use "../../../../../../public/styles/theme-variables" as tv;
 
 $nav-rail-min-width: tv.$spacing * 18;
+$nav-rail-max-width: tv.$spacing * 72;
 $nav-rail-background: tv.$primary-subtle;
 $nav-rail-on-background: tv.$on-primary-subtle;
 
 :host {
-    display: block;
+    will-change: width;
 
-    width: $nav-rail-min-width;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+
+    width: $nav-rail-max-width;
     border-right: 1px solid tv.$border;
 
     color: $nav-rail-on-background;
 
     background-color: $nav-rail-background;
+
+    transition: width 100ms ease-in-out;
+
+    &.collapsed {
+        width: $nav-rail-min-width;
+    }
 }
