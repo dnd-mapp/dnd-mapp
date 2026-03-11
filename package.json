@@ -6,6 +6,7 @@
   "author": "NoNamer777",
   "private": true,
   "scripts": {
+    "ng": "pnpm exec ng",
     "gen:ssl-certs": "mkcert -cert-file ssl-cert.pem -key-file ssl-key.pem localhost.www.dndmapp.dev localhost 127.0.0.1",
     "test:install-browsers": "pnpm exec playwright install chromium",
     "start": "pnpm exec ng serve",
