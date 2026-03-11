@@ -1,13 +1,7 @@
 import { DEFAULT_LOCALE, Locale, Translations } from '@/common';
-import { computed, inject, Injectable, provideAppInitializer, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { tap } from 'rxjs';
 import { RequestService } from '../http/request.service';
-
-export function provideTranslations() {
-    return provideAppInitializer(() => {
-        return inject(TranslationService).initialize();
-    });
-}
 
 @Injectable({ providedIn: 'root' })
 export class TranslationService {
