@@ -1,7 +1,9 @@
 import { playwright } from '@vitest/browser-playwright';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
+    plugins: [tsconfigPaths()],
     test: {
         clearMocks: true,
         browser: {
@@ -26,7 +28,6 @@ export default defineConfig({
         name: 'dnd-mapp',
         open: false,
         passWithNoTests: true,
-        setupFiles: [],
         sequence: {
             shuffle: true,
         },

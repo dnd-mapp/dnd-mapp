@@ -2,12 +2,14 @@ import { ComponentHarness, HarnessLoader, HarnessQuery } from '@angular/cdk/test
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideMockStorage } from '../mocks';
 
 interface SetupTestEnvironmentParams<C, H extends ComponentHarness> {
     testComponent?: Type<C>;
     harness?: HarnessQuery<H>;
     imports?: unknown[];
     providers?: unknown[];
+    beforeCreateComponent?: () => void;
 }
 
 export async function setupTestEnvironment<C, H extends ComponentHarness>(
@@ -15,9 +17,12 @@ export async function setupTestEnvironment<C, H extends ComponentHarness>(
 ) {
     TestBed.configureTestingModule({
         imports: [...(params.testComponent ? [params.testComponent] : []), ...(params.imports ?? [])],
-        providers: [...(params.providers ?? [])],
+        providers: [...(params.providers ?? []), provideMockStorage()],
     });
 
+    if (params.beforeCreateComponent) {
+        params.beforeCreateComponent();
+    }
     let fixture: ComponentFixture<C> | undefined;
     let harnessLoader: HarnessLoader | undefined;
     let harness: H | undefined;
