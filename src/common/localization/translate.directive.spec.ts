@@ -17,9 +17,6 @@ describe('TranslateDirective', () => {
     }
 
     async function setupTest() {
-        const warnSpy = vi.spyOn(console, 'warn');
-        warnSpy.mockImplementation(noop);
-
         const { fixture, componentInstance } = await setupTestEnvironment({
             testComponent: TestComponent,
             providers: [provideHttpTesting()],
@@ -35,12 +32,14 @@ describe('TranslateDirective', () => {
             fixture: fixture,
             element: (fixture?.nativeElement as HTMLElement).querySelector('p'),
             componentInstance: componentInstance!,
-            warnSpy: warnSpy,
         };
     }
 
     it('should translate', async () => {
-        const { fixture, element, componentInstance, warnSpy } = await setupTest();
+        const warnSpy = vi.spyOn(console, 'warn');
+        warnSpy.mockImplementation(noop);
+
+        const { fixture, element, componentInstance } = await setupTest();
 
         expect(element?.textContent).toEqual('Log in');
         expect(warnSpy).not.toHaveBeenCalled();

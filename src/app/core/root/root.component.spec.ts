@@ -1,4 +1,4 @@
-import { RootHarness, setupTestEnvironment } from '@/test';
+import { loadTestingTranslations, provideHttpTesting, RootHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
 import { RootComponent } from './root.component';
 
@@ -13,6 +13,10 @@ describe('RootComponent', () => {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
             harness: RootHarness,
+            providers: [provideHttpTesting()],
+            beforeCreateComponent: async () => {
+                await loadTestingTranslations();
+            },
         });
 
         return {
