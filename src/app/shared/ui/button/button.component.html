@@ -2,6 +2,8 @@
     @if (iconButton()) {
         <ng-content select="[dmaIcon]" />
     } @else {
+        <ng-content select="[dmaLeadingIcon]" />
         <ng-content />
+        <ng-content select="[dmaTrailingIcon]" />
     }
 </div>
