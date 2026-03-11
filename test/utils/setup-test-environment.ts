@@ -9,7 +9,7 @@ interface SetupTestEnvironmentParams<C, H extends ComponentHarness> {
     harness?: HarnessQuery<H>;
     imports?: unknown[];
     providers?: unknown[];
-    beforeCreateComponent?: () => void;
+    beforeCreateComponent?: () => Promise<void> | void;
 }
 
 export async function setupTestEnvironment<C, H extends ComponentHarness>(
@@ -23,7 +23,11 @@ export async function setupTestEnvironment<C, H extends ComponentHarness>(
     await TestBed.inject(ApplicationInitStatus).donePromise;
 
     if (params.beforeCreateComponent) {
-        params.beforeCreateComponent();
+        const result = params.beforeCreateComponent();
+
+        if (result instanceof Promise) {
+            await result;
+        }
     }
     let fixture: ComponentFixture<C> | undefined;
     let harnessLoader: HarnessLoader | undefined;

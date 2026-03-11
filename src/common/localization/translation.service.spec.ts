@@ -1,7 +1,6 @@
-import { TestBed } from '@angular/core/testing';
-
 import { expectRequest, provideHttpTesting, setupTestEnvironment } from '@/test';
 import { HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
 import { lastValueFrom } from 'rxjs';
 import { TranslationService } from './translation.service';
 
