@@ -1,6 +1,6 @@
+import { NavRailComponent } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { NavRailComponent } from '../../shared/ui';
 
 @Component({
     selector: 'dma-root',
