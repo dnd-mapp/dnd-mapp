@@ -18,6 +18,8 @@ export class NavRailComponent implements OnInit {
 
     protected readonly collapsed = signal(false);
 
+    public readonly isCollapsed = this.collapsed.asReadonly();
+
     public ngOnInit() {
         this.initializeCollapseState();
     }
