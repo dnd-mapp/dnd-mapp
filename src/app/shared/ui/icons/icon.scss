@@ -1,0 +1,13 @@
+:host {
+    display: inline-flex;
+    flex: 0 0 auto;
+    width: 1.5em;
+    height: 1.5em;
+
+    svg {
+        flex: 1 0 auto;
+        align-items: center;
+        justify-content: center;
+        vertical-align: -0.125em;
+    }
+}
