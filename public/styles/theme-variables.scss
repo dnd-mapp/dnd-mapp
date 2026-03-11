@@ -11,8 +11,20 @@ $surface: c.$neutral-50;
 $on-surface: c.$neutral-900;
 $border: c.$neutral-300;
 
-// Primary
+// Primary subtle
 $on-primary-subtle: c.$neutral-900;
 $primary-subtle: c.$blue-50;
-$primary-subtle-hover: c.$blue-100;
-$primary-subtle-active: c.$blue-200;
+$primary-subtle-hover: color-mix(in oklch, $primary-subtle, $on-primary-subtle 8%);
+$primary-subtle-active: color-mix(in oklch, $primary-subtle, $on-primary-subtle 18%);
+
+// Primary
+$on-primary: c.$neutral-50;
+$primary: c.$blue-900;
+$primary-hover: color-mix(in oklch, $primary, $on-primary 8%);
+$primary-active: color-mix(in oklch, $primary, $on-primary 18%);
+
+// Secondary
+$on-secondary: c.$neutral-900;
+$secondary: c.$neutral-50;
+$secondary-hover: color-mix(in oklch, $secondary, $on-secondary 8%);
+$secondary-active: color-mix(in oklch, $secondary, $on-secondary 18%);
