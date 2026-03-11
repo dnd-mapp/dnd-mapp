@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { AngleLeftIcon, AngleRightIcon } from '../../../icons/solid';
+import { AngleLeftIcon, AngleRightIcon } from '../../../icons';
 
 @Component({
     selector: 'dma-nav-rail-toggle',
