@@ -16,12 +16,17 @@ describe('NavRailComponent', () => {
         });
 
         return {
-            harness: harness,
+            harness: harness!,
         };
     }
 
-    it('should render', async () => {
+    it('should toggle collapsed state', async () => {
         const { harness } = await setupTest();
-        expect(harness).toBeDefined();
+
+        expect(await harness.isCollapsed()).toEqual(false);
+
+        await harness.toggleCollapse();
+
+        expect(await harness.isCollapsed()).toEqual(true);
     });
 });

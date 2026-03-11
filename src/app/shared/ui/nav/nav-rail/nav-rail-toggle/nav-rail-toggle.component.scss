@@ -1,0 +1,19 @@
+@use "../../../../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: tv.$spacing * 2 0;
+    border-top: 1px solid tv.$border;
+
+    &:hover {
+        cursor: pointer;
+        background-color: tv.$primary-subtle-hover;
+    }
+
+    &:active {
+        background-color: tv.$primary-subtle-active;
+    }
+}
