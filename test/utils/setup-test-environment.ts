@@ -9,6 +9,7 @@ interface SetupTestEnvironmentParams<C, H extends ComponentHarness> {
     harness?: HarnessQuery<H>;
     imports?: unknown[];
     providers?: unknown[];
+    beforeCreateComponent?: () => void;
 }
 
 export async function setupTestEnvironment<C, H extends ComponentHarness>(
@@ -19,6 +20,9 @@ export async function setupTestEnvironment<C, H extends ComponentHarness>(
         providers: [...(params.providers ?? []), provideMockStorage()],
     });
 
+    if (params.beforeCreateComponent) {
+        params.beforeCreateComponent();
+    }
     let fixture: ComponentFixture<C> | undefined;
     let harnessLoader: HarnessLoader | undefined;
     let harness: H | undefined;
