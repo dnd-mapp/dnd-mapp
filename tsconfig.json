@@ -23,7 +23,7 @@
         "paths": {
             "@/auth-ui": ["./src/auth/ui/index.ts"],
             "@/common": ["./src/common/index.ts"],
-            "@/shared-ui": ["./src/app/shared/ui/index.ts"],
+            "@/shared-ui": ["./src/shared/ui/index.ts"],
             "@/test": ["./test/index.ts"]
         },
         "skipLibCheck": true,
