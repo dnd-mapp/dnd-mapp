@@ -21,8 +21,8 @@ $nav-rail-on-background: tv.$on-primary-subtle;
 
     transition: width 100ms ease-in-out;
 
-    &.collapsed {
-        width: $nav-rail-min-width;
+    .header {
+        padding: tv.$spacing * 3 tv.$spacing * 4;
     }
 
     .body {
@@ -45,5 +45,9 @@ $nav-rail-on-background: tv.$on-primary-subtle;
             gap: tv.$spacing * 2;
             padding: tv.$spacing * 4;
         }
+    }
+
+    &.collapsed {
+        width: $nav-rail-min-width;
     }
 }

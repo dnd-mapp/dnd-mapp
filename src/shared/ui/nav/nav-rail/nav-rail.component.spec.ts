@@ -2,6 +2,7 @@ import { STORAGE, StorageKeys } from '@/common';
 import { NavRailHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { NavRailComponent } from './nav-rail.component';
 
 describe('NavRailComponent', () => {
@@ -26,6 +27,7 @@ describe('NavRailComponent', () => {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
             harness: NavRailHarness,
+            providers: [provideRouter([])],
             beforeCreateComponent: beforeCreateComponent,
         });
 
