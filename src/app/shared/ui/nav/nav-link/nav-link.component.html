@@ -1,0 +1,7 @@
+<a [routerLink]="route()">
+    <ng-content select="[dmaLeadingIcon]" />
+
+    @if (!iconOnly()) {
+        <ng-content />
+    }
+</a>

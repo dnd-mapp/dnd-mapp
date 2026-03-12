@@ -1,0 +1,37 @@
+@use "../../../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: block;
+    border-radius: tv.$radius-lg;
+
+    a {
+        display: flex;
+        gap: tv.$spacing * 4;
+        align-items: center;
+        padding: tv.$spacing * 2 tv.$spacing * 3;
+    }
+
+    &.icon-only a {
+        justify-content: center;
+        padding: tv.$spacing * 2;
+    }
+
+    &.active {
+        color: tv.$on-primary;
+        background-color: tv.$primary;
+
+        a {
+            cursor: default;
+        }
+    }
+
+    &:not(.active) {
+        &:hover {
+            background-image: tv.$primary-subtle-hover;
+        }
+
+        &:active {
+            background-image: tv.$primary-subtle-active;
+        }
+    }
+}
