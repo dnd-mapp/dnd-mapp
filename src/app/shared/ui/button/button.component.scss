@@ -27,13 +27,11 @@
     }
 
     &[dma-button="primary"] {
-        border-color: tv.$primary;
         color: tv.$on-primary;
         background-color: tv.$primary;
 
         &:not(:disabled) {
             &:hover {
-                border-color: tv.$primary-hover;
                 background-color: tv.$primary-hover;
             }
 
