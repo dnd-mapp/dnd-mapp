@@ -36,6 +36,13 @@
                     "defaultConfiguration": "production",
                     "configurations": {
                         "production": {
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "public",
+                                    "ignore": ["**/fonts/*"]
+                                }
+                            ],
                             "budgets": [
                                 {
                                     "type": "initial",
@@ -48,6 +55,7 @@
                                     "maximumError": "8kB"
                                 }
                             ],
+                            "outputHashing": "all",
                             "subresourceIntegrity": true
                         },
                         "development": {
