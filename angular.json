@@ -36,6 +36,13 @@
                     "defaultConfiguration": "production",
                     "configurations": {
                         "production": {
+                            "assets": [
+                                {
+                                    "glob": "**/*",
+                                    "input": "public",
+                                    "ignore": ["**/fonts/*"]
+                                }
+                            ],
                             "budgets": [
                                 {
                                     "type": "initial",
