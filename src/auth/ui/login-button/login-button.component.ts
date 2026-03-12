@@ -1,5 +1,5 @@
 import { TranslateDirective } from '@/common';
-import { ArrowRightToBracketIcon, ButtonComponent, IconDirective } from '@/shared-ui';
+import { ArrowRightToBracketIcon, ButtonComponent, IconDirective, TooltipAnchorDirective } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     templateUrl: './login-button.component.html',
     styleUrl: './login-button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ButtonComponent, TranslateDirective, ArrowRightToBracketIcon, IconDirective],
+    imports: [ButtonComponent, TranslateDirective, ArrowRightToBracketIcon, IconDirective, TooltipAnchorDirective],
 })
 export class LoginButtonComponent {
     public readonly iconOnly = input(false);

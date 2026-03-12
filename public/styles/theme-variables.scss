@@ -5,10 +5,17 @@
 
 @use "./colors" as c;
 
+// Backgrounds
 $background: c.$neutral-100;
 $on-background: c.$neutral-900;
+
+// Surface
 $surface: c.$neutral-50;
 $on-surface: c.$neutral-900;
+$inverse-surface: c.$neutral-800;
+$on-inverse-surface: c.$neutral-50;
+
+// Common
 $border: c.$neutral-300;
 
 // Primary subtle

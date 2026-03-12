@@ -1,5 +1,5 @@
 import { TranslateDirective } from '@/common';
-import { ButtonComponent, IconDirective, UserPlusIcon } from '@/shared-ui';
+import { ButtonComponent, IconDirective, TooltipAnchorDirective, UserPlusIcon } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
@@ -7,7 +7,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     templateUrl: './signup-button.component.html',
     styleUrl: './signup-button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ButtonComponent, TranslateDirective, UserPlusIcon, IconDirective],
+    imports: [ButtonComponent, TranslateDirective, UserPlusIcon, IconDirective, TooltipAnchorDirective],
 })
 export class SignupButtonComponent {
     public readonly iconOnly = input(false);

@@ -1,4 +1,9 @@
 {
     "BTN_LABEL_LOG_IN": "Log in",
-    "BTN_LABEL_SIGN_UP": "Sign up"
+    "BTN_LABEL_SIGN_UP": "Sign up",
+    "LABEL_CAMPAIGNS": "Campaigns",
+    "LABEL_CHARACTERS": "Characters",
+    "LABEL_COMPENDIUM": "Compendium",
+    "LABEL_SIDEBAR_COLLAPSE": "Collapse sidebar",
+    "LABEL_SIDEBAR_EXPAND": "Expand sidebar"
 }

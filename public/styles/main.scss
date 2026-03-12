@@ -1,6 +1,9 @@
-@use "./normalize";
+@use "./animations";
 @use "./fonts";
+@use "./normalize";
 @use "./theme-variables" as tv;
+
+@import "@angular/cdk/overlay-prebuilt.css";
 
 html,
 body {

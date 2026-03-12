@@ -1,4 +1,5 @@
 import { LoginButtonComponent, SignupButtonComponent } from '@/auth-ui';
+import { TranslateDirective } from '@/common';
 import {
     BookOpenIcon,
     DungeonIcon,
@@ -7,6 +8,7 @@ import {
     NavRailActionsDirective,
     NavRailBodyDirective,
     NavRailComponent,
+    TooltipAnchorDirective,
     UsersIcon,
 } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
@@ -29,6 +31,8 @@ import { RouterOutlet } from '@angular/router';
         DungeonIcon,
         BookOpenIcon,
         LeadingIconDirective,
+        TranslateDirective,
+        TooltipAnchorDirective,
     ],
 })
 export class RootComponent {}

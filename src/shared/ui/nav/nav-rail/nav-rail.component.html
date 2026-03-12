@@ -8,5 +8,11 @@
     <div class="actions">
         <ng-content select="[dmaNavRailActions]" />
     </div>
-    <dma-nav-rail-toggle (toggleNavRail)="onToggle($event)" [collapsed]="collapsed()" />
+    <dma-nav-rail-toggle
+        orientation="horizontal-reverse"
+        #tooltip
+        [dmaTooltipAnchor]="tooltipLabel()"
+        [collapsed]="isCollapsed()"
+        (toggleNavRail)="onToggle($event)"
+    />
 </div>
