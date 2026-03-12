@@ -14,17 +14,29 @@ $border: c.$neutral-300;
 // Primary subtle
 $on-primary-subtle: c.$neutral-900;
 $primary-subtle: c.$blue-50;
-$primary-subtle-hover: color-mix(in oklch, $primary-subtle, $on-primary-subtle 8%);
-$primary-subtle-active: color-mix(in oklch, $primary-subtle, $on-primary-subtle 18%);
+$primary-subtle-hover:
+    linear-gradient(oklch(from c.$blue-900 l c h / 8%), oklch(from c.$blue-900 l c h / 8%)),
+    linear-gradient($primary-subtle, $primary-subtle);
+$primary-subtle-active:
+    linear-gradient(oklch(from c.$blue-900 l c h / 18%), oklch(from c.$blue-900 l c h / 18%)),
+    linear-gradient($primary-subtle, $primary-subtle);
 
 // Primary
 $on-primary: c.$neutral-50;
 $primary: c.$blue-900;
-$primary-hover: color-mix(in oklch, $primary, $on-primary 8%);
-$primary-active: color-mix(in oklch, $primary, $on-primary 18%);
+$primary-hover:
+    linear-gradient(oklch(from $on-primary l c h / 8%), oklch(from $on-primary l c h / 8%)),
+    linear-gradient($primary, $primary);
+$primary-active:
+    linear-gradient(oklch(from $on-primary l c h / 18%), oklch(from $on-primary l c h / 18%)),
+    linear-gradient($primary, $primary);
 
 // Secondary
 $on-secondary: c.$neutral-900;
 $secondary: c.$neutral-50;
-$secondary-hover: color-mix(in oklch, $secondary, $on-secondary 8%);
-$secondary-active: color-mix(in oklch, $secondary, $on-secondary 18%);
+$secondary-hover:
+    linear-gradient(oklch(from $on-secondary l c h / 8%), oklch(from $on-secondary l c h / 8%)),
+    linear-gradient($secondary, $secondary);
+$secondary-active:
+    linear-gradient(oklch(from $on-secondary l c h / 18%), oklch(from $on-secondary l c h / 18%)),
+    linear-gradient($secondary, $secondary);

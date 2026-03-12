@@ -27,19 +27,16 @@
     }
 
     &[dma-button="primary"] {
-        border-color: tv.$primary;
         color: tv.$on-primary;
         background-color: tv.$primary;
 
         &:not(:disabled) {
             &:hover {
-                border-color: tv.$primary-hover;
-                background-color: tv.$primary-hover;
+                background-image: tv.$primary-hover;
             }
 
             &:active {
-                border-color: tv.$primary-active;
-                background-color: tv.$primary-active;
+                background-image: tv.$primary-active;
             }
         }
     }
@@ -51,11 +48,11 @@
 
         &:not(:disabled) {
             &:hover {
-                background-color: tv.$secondary-hover;
+                background-image: tv.$secondary-hover;
             }
 
             &:active {
-                background-color: tv.$secondary-active;
+                background-image: tv.$secondary-active;
             }
         }
     }

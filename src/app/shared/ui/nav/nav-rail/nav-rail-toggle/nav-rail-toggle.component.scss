@@ -10,10 +10,10 @@
 
     &:hover {
         cursor: pointer;
-        background-color: tv.$primary-subtle-hover;
+        background-image: tv.$primary-subtle-hover;
     }
 
     &:active {
-        background-color: tv.$primary-subtle-active;
+        background-image: tv.$primary-subtle-active;
     }
 }
