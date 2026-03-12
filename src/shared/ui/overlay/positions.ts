@@ -9,7 +9,7 @@ export const Positions = {
 
 export type Position = (typeof Positions)[keyof typeof Positions];
 
-export function positionAttribute(value: Position | '') {
+export function positionAttribute(value: Position) {
     return Object.values(Positions).find((position) => position === value);
 }
 
@@ -22,6 +22,7 @@ export const Orientations = {
 
 export type Orientation = (typeof Orientations)[keyof typeof Orientations];
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 export function orientationAttribute(value: Orientation | '') {
     return Object.values(Orientations).find((orientation) => value === orientation) ?? Orientations.VERTICAL;
 }
