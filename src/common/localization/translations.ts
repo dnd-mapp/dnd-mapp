@@ -4,6 +4,8 @@ export interface Translations {
     LABEL_CAMPAIGNS: string;
     LABEL_CHARACTERS: string;
     LABEL_COMPENDIUM: string;
+    LABEL_SIDEBAR_COLLAPSE: string;
+    LABEL_SIDEBAR_EXPAND: string;
 }
 
 export type TranslationKey = keyof Translations;
