@@ -1,20 +1,25 @@
-<main>
-    <dma-nav-rail #navRail>
-        <ng-container dmaNavRailBody>
-            <dma-nav-link route="/characters" [iconOnly]="navRail.isCollapsed()">
-                <dma-icon dma-users-icon dmaLeadingIcon />Characters
-            </dma-nav-link>
-            <dma-nav-link route="/campaigns" [iconOnly]="navRail.isCollapsed()">
-                <dma-icon dma-dungeon-icon dmaLeadingIcon />Campaigns
-            </dma-nav-link>
-            <dma-nav-link route="/compendium" [iconOnly]="navRail.isCollapsed()">
-                <dma-icon dma-book-open-icon dmaLeadingIcon />Compendium
-            </dma-nav-link>
-        </ng-container>
-        <ng-container dmaNavRailActions>
-            <dma-login-button [iconOnly]="navRail.isCollapsed()" />
-            <dma-signup-button [iconOnly]="navRail.isCollapsed()" />
-        </ng-container>
-    </dma-nav-rail>
-    <router-outlet></router-outlet>
-</main>
+<ng-container *dmaTranslate="let t">
+    <main>
+        <dma-nav-rail #navRail>
+            <ng-container dmaNavRailBody>
+                <dma-nav-link route="/characters" [iconOnly]="navRail.isCollapsed()">
+                    <dma-icon dma-users-icon dmaLeadingIcon />
+                    {{ t('LABEL_CHARACTERS') }}
+                </dma-nav-link>
+                <dma-nav-link route="/campaigns" [iconOnly]="navRail.isCollapsed()">
+                    <dma-icon dma-dungeon-icon dmaLeadingIcon />
+                    {{ t('LABEL_CAMPAIGNS') }}
+                </dma-nav-link>
+                <dma-nav-link route="/compendium" [iconOnly]="navRail.isCollapsed()">
+                    <dma-icon dma-book-open-icon dmaLeadingIcon />
+                    {{ t('LABEL_COMPENDIUM') }}
+                </dma-nav-link>
+            </ng-container>
+            <ng-container dmaNavRailActions>
+                <dma-login-button [iconOnly]="navRail.isCollapsed()" />
+                <dma-signup-button [iconOnly]="navRail.isCollapsed()" />
+            </ng-container>
+        </dma-nav-rail>
+        <router-outlet></router-outlet>
+    </main>
+</ng-container>
