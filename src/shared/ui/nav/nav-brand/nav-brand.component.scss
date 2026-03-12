@@ -1,0 +1,30 @@
+@use "../../../../../public/styles/theme-variables" as tv;
+
+:host {
+    a {
+        @include tv.text-xl;
+
+        display: flex;
+        gap: tv.$spacing * 3;
+        align-items: center;
+
+        height: tv.$spacing * 8;
+
+        font-weight: tv.$font-weight-medium;
+        text-wrap: nowrap;
+    }
+}
+
+.expand {
+    animation: expand ease-in-out 100ms;
+}
+
+@keyframes expand {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
