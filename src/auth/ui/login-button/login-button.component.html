@@ -1,5 +1,13 @@
 <ng-container *dmaTranslate="let t">
-    <button type="button" dma-button="secondary" [iconButton]="iconOnly()" (click)="onLogin()">
+    <button
+        type="button"
+        dma-button="secondary"
+        orientation="horizontal-reverse"
+        [dmaTooltipAnchor]="t('BTN_LABEL_LOG_IN')"
+        [tooltipDisabled]="!iconOnly()"
+        [iconButton]="iconOnly()"
+        (click)="onLogin()"
+    >
         <dma-icon dma-arrow-right-to-bracket-icon dmaIcon />
         {{ t('BTN_LABEL_LOG_IN') }}
     </button>

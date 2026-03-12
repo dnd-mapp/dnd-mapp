@@ -2,15 +2,33 @@
     <main>
         <dma-nav-rail #navRail>
             <ng-container dmaNavRailBody>
-                <dma-nav-link route="/characters" [iconOnly]="navRail.isCollapsed()">
+                <dma-nav-link
+                    route="/characters"
+                    orientation="horizontal-reverse"
+                    [iconOnly]="navRail.isCollapsed()"
+                    [dmaTooltipAnchor]="t('LABEL_CHARACTERS')"
+                    [tooltipDisabled]="!navRail.isCollapsed()"
+                >
                     <dma-icon dma-users-icon dmaLeadingIcon />
                     {{ t('LABEL_CHARACTERS') }}
                 </dma-nav-link>
-                <dma-nav-link route="/campaigns" [iconOnly]="navRail.isCollapsed()">
+                <dma-nav-link
+                    route="/campaigns"
+                    orientation="horizontal-reverse"
+                    [iconOnly]="navRail.isCollapsed()"
+                    [dmaTooltipAnchor]="t('LABEL_CAMPAIGNS')"
+                    [tooltipDisabled]="!navRail.isCollapsed()"
+                >
                     <dma-icon dma-dungeon-icon dmaLeadingIcon />
                     {{ t('LABEL_CAMPAIGNS') }}
                 </dma-nav-link>
-                <dma-nav-link route="/compendium" [iconOnly]="navRail.isCollapsed()">
+                <dma-nav-link
+                    route="/compendium"
+                    orientation="horizontal-reverse"
+                    [iconOnly]="navRail.isCollapsed()"
+                    [dmaTooltipAnchor]="t('LABEL_COMPENDIUM')"
+                    [tooltipDisabled]="!navRail.isCollapsed()"
+                >
                     <dma-icon dma-book-open-icon dmaLeadingIcon />
                     {{ t('LABEL_COMPENDIUM') }}
                 </dma-nav-link>
