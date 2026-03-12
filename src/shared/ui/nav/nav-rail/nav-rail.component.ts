@@ -1,6 +1,7 @@
 import { StorageKeys } from '@/common';
 import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { StorageService } from '../../storage/storage.service';
+import { NavBrandComponent } from '../nav-brand/nav-brand.component';
 import { NavRailToggleComponent } from './nav-rail-toggle/nav-rail-toggle.component';
 
 @Component({
@@ -11,7 +12,7 @@ import { NavRailToggleComponent } from './nav-rail-toggle/nav-rail-toggle.compon
     host: {
         '[class.collapsed]': 'collapsed()',
     },
-    imports: [NavRailToggleComponent],
+    imports: [NavRailToggleComponent, NavBrandComponent],
 })
 export class NavRailComponent implements OnInit {
     private readonly storageService = inject(StorageService);

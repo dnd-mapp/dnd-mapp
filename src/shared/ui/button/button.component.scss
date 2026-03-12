@@ -7,13 +7,14 @@
     font-weight: tv.$font-weight-medium;
 
     .button-content {
-        overflow-y: hidden;
         display: flex;
         gap: tv.$spacing * 3;
         align-items: center;
         justify-content: center;
 
         height: 1.5rem;
+
+        text-wrap: nowrap;
     }
 
     &.icon-only {
