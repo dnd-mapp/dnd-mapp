@@ -31,3 +31,8 @@ jobs:
                   docker-username: ${{ secrets.DOCKER_USERNAME }}
                   docker-password: ${{ secrets.DOCKER_PASSWORD }}
                   tags: dev
+
+            - name: Update dev environment
+              shell: bash
+              run: |
+                  curl -i -H "Authorization: Bearer ${{ secrets.WATCHTOWER_API_TOKEN }}" https://watchtower.dndmapp.nl.eu.org/v1/update?image=dndmapp/dnd-mapp:dev
