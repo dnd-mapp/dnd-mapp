@@ -8,11 +8,5 @@
     main {
         display: flex;
         flex: 1 1 auto;
-
-        @media screen and (width <= tv.$container-5xl) {
-            dma-nav-rail {
-                display: none;
-            }
-        }
     }
 }

@@ -50,4 +50,8 @@ $nav-rail-on-background: tv.$on-primary-subtle;
     &.collapsed {
         width: $nav-rail-min-width;
     }
+
+    @media screen and (width <= tv.$container-5xl) {
+        display: none;
+    }
 }
