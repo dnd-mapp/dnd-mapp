@@ -1,0 +1,10 @@
+@use "../../../../public/styles/theme-variables" as tv;
+
+:host {
+    @include tv.text-sm;
+
+    padding: tv.$spacing tv.$spacing * 3;
+    border-radius: tv.$radius-sm;
+    color: tv.$on-inverse-surface;
+    background-color: tv.$inverse-surface;
+}
