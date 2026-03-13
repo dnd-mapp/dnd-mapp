@@ -1,0 +1,16 @@
+@use "../../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: flex;
+
+    padding: tv.$spacing * 4;
+
+    color: tv.$on-primary;
+
+    background-color: tv.$primary;
+    box-shadow: tv.$shadow-md;
+
+    @media screen and (width > tv.$container-5xl) {
+        display: none;
+    }
+}
