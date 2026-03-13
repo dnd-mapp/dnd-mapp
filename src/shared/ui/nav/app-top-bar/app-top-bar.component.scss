@@ -12,7 +12,23 @@
     background-color: tv.$primary;
     box-shadow: tv.$shadow-md;
 
+    transition:
+        display 250ms allow-discrete 100ms,
+        opacity 250ms ease-out 100ms,
+        transform 250ms ease-out 100ms;
+
+    @starting-style {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
     @media screen and (width > tv.$container-5xl) {
+        transform: translateY(-100%);
         display: none;
+        opacity: 0;
+        transition:
+            display 100ms allow-discrete,
+            opacity 100ms ease-out,
+            transform 100ms ease-out;
     }
 }

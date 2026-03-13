@@ -1,5 +1,5 @@
 .fade-in {
-    animation: fade-in 150ms ease-out;
+    animation: 150ms fade-in ease-out;
 }
 
 @keyframes fade-in {
@@ -13,7 +13,7 @@
 }
 
 .fade-out {
-    animation: fade-out 100ms ease-in;
+    animation: 100ms fade-out ease-in;
 }
 
 @keyframes fade-out {
@@ -23,5 +23,33 @@
 
     to {
         opacity: 0;
+    }
+}
+
+.swipe-in-left {
+    animation: 300ms swipe-in-left cubic-bezier(0, 0, 0.2, 1);
+}
+
+@keyframes swipe-in-left {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+.swipe-out-left {
+    animation: 200ms swipe-out-left cubic-bezier(0.4, 0, 1, 1);
+}
+
+@keyframes swipe-out-left {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-100%);
     }
 }

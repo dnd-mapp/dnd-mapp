@@ -11,7 +11,10 @@ export class SidePanelService {
     private componentRef: ComponentRef<SidePanelComponent> | undefined;
 
     public open<T>(component: Type<T>) {
-        if (this.overlayRef) return;
+        if (this.overlayRef) {
+            this.attach(component);
+            return;
+        }
         const scrollingStrategy = this.overlay.scrollStrategies.block();
 
         const positionStrategy = this.overlay.position().global().start('0').top('0').bottom('0');
@@ -23,15 +26,18 @@ export class SidePanelService {
             hasBackdrop: true,
         });
 
-        this.componentRef = this.overlayRef.attach(new ComponentPortal(SidePanelComponent));
-
-        this.componentRef.setInput('sidePanelBody', component);
+        this.attach(component);
     }
 
     public close() {
-        if (!this.overlayRef) return;
-        this.overlayRef.dispose();
+        if (!this.componentRef) return;
+        this.componentRef.destroy();
+        this.componentRef = undefined;
+    }
 
-        this.overlayRef = undefined;
+    private attach<T>(component: Type<T>) {
+        if (!this.overlayRef || this.componentRef) return;
+        this.componentRef = this.overlayRef.attach(new ComponentPortal(SidePanelComponent));
+        this.componentRef.setInput('sidePanelBody', component);
     }
 }

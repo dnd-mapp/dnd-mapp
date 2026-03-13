@@ -12,6 +12,10 @@ import { SidePanelService } from './side-panel.service';
     templateUrl: './side-panel.component.html',
     styleUrl: './side-panel.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        'animate.enter': 'swipe-in-left',
+        'animate.leave': 'swipe-out-left',
+    },
     imports: [SidePanelFooterComponent, SidePanelHeaderComponent, CdkPortalOutlet],
 })
 export class SidePanelComponent<T = unknown> {
