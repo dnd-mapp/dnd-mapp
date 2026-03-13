@@ -1,6 +1,7 @@
 import { LoginButtonComponent, SignupButtonComponent } from '@/auth-ui';
 import { TranslateDirective } from '@/common';
 import {
+    AppTopBarComponent,
     BookOpenIcon,
     DungeonIcon,
     LeadingIconDirective,
@@ -33,6 +34,7 @@ import { RouterOutlet } from '@angular/router';
         LeadingIconDirective,
         TranslateDirective,
         TooltipAnchorDirective,
+        AppTopBarComponent,
     ],
 })
 export class RootComponent {}

@@ -12,5 +12,5 @@ import { RouterLink } from '@angular/router';
     imports: [RouterLink],
 })
 export class NavBrandComponent {
-    public readonly imageOnly = input.required<boolean>();
+    public readonly imageOnly = input<boolean>(false);
 }
