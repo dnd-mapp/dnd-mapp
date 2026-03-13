@@ -1,3 +1,5 @@
+import { TranslateDirective } from '@/common';
+import { TooltipAnchorDirective } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonComponent } from '../../button/button.component';
 import { IconDirective, XmarkIcon } from '../../icons';
@@ -8,7 +10,7 @@ import { SidePanelService } from '../side-panel.service';
     templateUrl: './close-side-panel-button.component.html',
     styleUrl: './close-side-panel-button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ButtonComponent, XmarkIcon, IconDirective],
+    imports: [ButtonComponent, XmarkIcon, IconDirective, TranslateDirective, TooltipAnchorDirective],
 })
 export class CloseSidePanelButtonComponent {
     private readonly sidePanelService = inject(SidePanelService);

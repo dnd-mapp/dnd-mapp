@@ -1,7 +1,9 @@
+import { TranslateDirective } from '@/common';
 import { ChangeDetectionStrategy, Component, inject, Type } from '@angular/core';
 import { ButtonComponent } from '../../button/button.component';
 import { BarsIcon, IconDirective } from '../../icons';
 import { SidePanelService } from '../../side-panel';
+import { TooltipAnchorDirective } from '../../tooltip';
 import { NAV_PANEL } from '../provide-nav-panel';
 
 @Component({
@@ -9,7 +11,7 @@ import { NAV_PANEL } from '../provide-nav-panel';
     templateUrl: './nav-panel-toggle.component.html',
     styleUrl: './nav-panel-toggle.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [BarsIcon, ButtonComponent, IconDirective],
+    imports: [BarsIcon, ButtonComponent, IconDirective, TooltipAnchorDirective, TranslateDirective],
 })
 export class NavPanelToggleComponent<T = unknown> {
     private readonly sidePanelService = inject(SidePanelService);

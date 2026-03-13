@@ -1,5 +1,7 @@
 {
     "BTN_LABEL_LOG_IN": "Log in",
+    "BTN_LABEL_SIDE_PANEL_CLOSE": "Close navigation panel",
+    "BTN_LABEL_SIDE_PANEL_OPEN": "Open navigation panel",
     "BTN_LABEL_SIGN_UP": "Sign up",
     "LABEL_CAMPAIGNS": "Campaigns",
     "LABEL_CHARACTERS": "Characters",

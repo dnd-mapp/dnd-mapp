@@ -1,3 +1,12 @@
-<button type="button" dma-button="primary" iconButton (click)="onToggleNavPanel()">
-    <dma-icon dma-bars-icon dmaIcon />
-</button>
+<ng-container *dmaTranslate="let t">
+    <button
+        type="button"
+        dma-button="primary"
+        iconButton
+        orientation="horizontal"
+        [dmaTooltipAnchor]="t('BTN_LABEL_SIDE_PANEL_OPEN')"
+        (click)="onToggleNavPanel()"
+    >
+        <dma-icon dma-bars-icon dmaIcon />
+    </button>
+</ng-container>
