@@ -27,6 +27,21 @@
         }
     }
 
+    &[dma-button="base"] {
+        color: tv.$on-surface;
+        background-color: tv.$surface;
+
+        &:not(:disabled) {
+            &:hover {
+                background-image: tv.$surface-hover;
+            }
+
+            &:active {
+                background-image: tv.$surface-active;
+            }
+        }
+    }
+
     &[dma-button="primary"] {
         color: tv.$on-primary;
         background-color: tv.$primary;

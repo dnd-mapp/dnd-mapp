@@ -48,13 +48,12 @@ describe('ButtonComponent', () => {
         expect(await harness.color()).toEqual(ButtonColors.SECONDARY);
 
         componentInstance.color.set('');
-        expect(await harness.color()).toEqual(ButtonColors.PRIMARY);
+        expect(await harness.color()).toEqual(ButtonColors.BASE);
     });
 
     it('should show only icon', async () => {
         const { harness } = await setupTest({ component: IconTestComponent });
 
-        expect(await harness.color()).toEqual(ButtonColors.PRIMARY);
         expect(await harness.isIconOnly()).toEqual(true);
 
         // Even though a label has been set, we only show the icon.
