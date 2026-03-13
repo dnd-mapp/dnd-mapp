@@ -1,4 +1,3 @@
-import { LoginButtonComponent, SignupButtonComponent } from '@/auth-ui';
 import { TranslateDirective } from '@/common';
 import {
     AppTopBarComponent,
@@ -6,11 +5,13 @@ import {
     DungeonIcon,
     LeadingIconDirective,
     NavLinkComponent,
+    LoginButtonComponent,
     NavRailActionsDirective,
     NavRailBodyDirective,
     NavRailComponent,
     TooltipAnchorDirective,
     UsersIcon,
+    SignupButtonComponent,
 } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';

@@ -1,3 +1,4 @@
+export * from './auth';
 export * from './button/button.component';
 export * from './icons';
 export * from './nav';

@@ -1,6 +1,8 @@
 import { TranslateDirective } from '@/common';
-import { ArrowRightToBracketIcon, ButtonComponent, IconDirective, TooltipAnchorDirective } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ButtonComponent } from '../../button/button.component';
+import { ArrowRightToBracketIcon, IconDirective } from '../../icons';
+import { TooltipAnchorDirective } from '../../tooltip';
 
 @Component({
     selector: 'dma-login-button',

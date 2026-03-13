@@ -1,3 +1,4 @@
+export * from './auth';
 export * from './button.harness';
 export * from './icons/solid';
 export * from './nav';
