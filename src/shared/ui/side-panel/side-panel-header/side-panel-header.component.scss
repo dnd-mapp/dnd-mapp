@@ -1,0 +1,11 @@
+@use "../../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: flex;
+    gap: tv.$spacing * 4;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: tv.$spacing * 2 tv.$spacing * 4;
+    border-bottom: 1px solid tv.$border;
+}

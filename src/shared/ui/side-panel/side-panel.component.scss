@@ -1,0 +1,22 @@
+@use "../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: flex;
+    flex-direction: column;
+
+    width: tv.$container-xs;
+    height: 100dvh;
+
+    color: tv.$on-surface;
+
+    background-color: tv.$surface;
+
+    dma-side-panel-header,
+    dma-side-panel-footer {
+        flex: 0 0 auto;
+    }
+
+    .body {
+        flex: 1 1 auto;
+    }
+}
