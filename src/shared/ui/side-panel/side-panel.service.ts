@@ -36,7 +36,7 @@ export class SidePanelService {
     }
 
     private attach<T>(component: Type<T>) {
-        if (!this.overlayRef) return;
+        if (!this.overlayRef || this.componentRef) return;
         this.componentRef = this.overlayRef.attach(new ComponentPortal(SidePanelComponent));
         this.componentRef.setInput('sidePanelBody', component);
     }
