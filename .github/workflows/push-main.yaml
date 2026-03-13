@@ -35,4 +35,4 @@ jobs:
             - name: Update dev environment
               shell: bash
               run: |
-                  curl -i -H "Authorization: Bearer ${{ secrets.WATCHTOWER_API_TOKEN }}" https://watchtower.dndmapp.nl.eu.org/v1/update?image=dndmapp/dnd-mapp:dev
+                  curl -i -H "Authorization: Bearer ${{ secrets.DEPLOY_TOKEN_DEV }}" ${{ secrets.DEPLOY_END_POINT_DEV }}?image=dndmapp/dnd-mapp:dev
