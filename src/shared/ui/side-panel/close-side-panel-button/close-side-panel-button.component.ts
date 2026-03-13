@@ -1,0 +1,19 @@
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ButtonComponent } from '../../button/button.component';
+import { IconDirective, XmarkIcon } from '../../icons';
+import { SidePanelService } from '../side-panel.service';
+
+@Component({
+    selector: 'dma-close-side-panel-button',
+    templateUrl: './close-side-panel-button.component.html',
+    styleUrl: './close-side-panel-button.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, XmarkIcon, IconDirective],
+})
+export class CloseSidePanelButtonComponent {
+    private readonly sidePanelService = inject(SidePanelService);
+
+    protected onCloseSidePanel() {
+        this.sidePanelService.close();
+    }
+}
