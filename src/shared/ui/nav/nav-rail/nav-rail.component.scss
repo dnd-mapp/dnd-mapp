@@ -19,7 +19,10 @@ $nav-rail-on-background: tv.$on-primary-subtle;
 
     background-color: $nav-rail-background;
 
-    transition: width 100ms ease-in-out;
+    transition:
+        width 250ms ease-out,
+        opacity 250ms ease-out 100ms,
+        transform 250ms ease-out 100ms;
 
     .header {
         padding: tv.$spacing * 3 tv.$spacing * 4;
@@ -44,9 +47,26 @@ $nav-rail-on-background: tv.$on-primary-subtle;
 
     &.collapsed {
         width: $nav-rail-min-width;
+        transition:
+            width 250ms ease-out,
+            opacity 250ms ease-out 100ms,
+            transform 250ms ease-out 100ms;
+    }
+
+    @starting-style {
+        transform: translateX(0);
+        opacity: 1;
     }
 
     @media screen and (width <= tv.$container-5xl) {
-        display: none;
+        transform: translateX(-100%);
+        opacity: 0;
+
+        &,
+        &.collapsed {
+            transition:
+                opacity 100ms ease-in,
+                transform 100ms ease-in;
+        }
     }
 }
