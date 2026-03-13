@@ -1,4 +1,4 @@
-import { AppTopBarHarness, setupTestEnvironment } from '@/test';
+import { AppTopBarHarness, loadTestingTranslations, provideHttpTesting, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideNavPanel } from '../provide-nav-panel';
@@ -20,7 +20,10 @@ describe('AppTopBarComponent', () => {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
             harness: AppTopBarHarness,
-            providers: [provideRouter([]), provideNavPanel(NoopComponent)],
+            providers: [provideRouter([]), provideHttpTesting(), provideNavPanel(NoopComponent)],
+            beforeCreateComponent: async () => {
+                await loadTestingTranslations();
+            },
         });
 
         return {
