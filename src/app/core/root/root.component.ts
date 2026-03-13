@@ -4,6 +4,7 @@ import {
     NavRailActionsDirective,
     NavRailBodyDirective,
     NavRailComponent,
+    provideNavPanel,
     SignupButtonComponent,
 } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
@@ -25,5 +26,6 @@ import { NavComponent } from '../nav/nav.component';
         NavComponent,
         AppTopBarComponent,
     ],
+    providers: [provideNavPanel(NavComponent)],
 })
 export class RootComponent {}

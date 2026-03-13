@@ -1,9 +1,15 @@
 import { AppTopBarHarness, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { provideNavPanel } from '../provide-nav-panel';
 import { AppTopBarComponent } from './app-top-bar.component';
 
 describe('AppTopBarComponent', () => {
+    @Component({
+        template: `<p>noop works!</p>`,
+    })
+    class NoopComponent {}
+
     @Component({
         template: `<dma-app-top-bar />`,
         imports: [AppTopBarComponent],
@@ -14,7 +20,7 @@ describe('AppTopBarComponent', () => {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
             harness: AppTopBarHarness,
-            providers: [provideRouter([])],
+            providers: [provideRouter([]), provideNavPanel(NoopComponent)],
         });
 
         return {

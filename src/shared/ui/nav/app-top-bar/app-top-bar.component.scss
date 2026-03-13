@@ -2,8 +2,10 @@
 
 :host {
     display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-    padding: tv.$spacing * 4;
+    padding: tv.$spacing * 2 tv.$spacing * 4;
 
     color: tv.$on-primary;
 
