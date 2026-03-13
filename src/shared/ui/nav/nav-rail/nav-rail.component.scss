@@ -26,12 +26,7 @@ $nav-rail-on-background: tv.$on-primary-subtle;
     }
 
     .body {
-        display: flex;
         flex: 1 1 auto;
-        flex-direction: column;
-        gap: tv.$spacing * 3;
-
-        padding: tv.$spacing * 4;
         border-top: 1px solid tv.$border;
     }
 

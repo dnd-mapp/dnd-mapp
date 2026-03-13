@@ -1,20 +1,14 @@
-import { TranslateDirective } from '@/common';
 import {
     AppTopBarComponent,
-    BookOpenIcon,
-    DungeonIcon,
-    LeadingIconDirective,
-    NavLinkComponent,
     LoginButtonComponent,
     NavRailActionsDirective,
     NavRailBodyDirective,
     NavRailComponent,
-    TooltipAnchorDirective,
-    UsersIcon,
     SignupButtonComponent,
 } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { NavComponent } from '../nav/nav.component';
 
 @Component({
     selector: 'dma-root',
@@ -28,13 +22,7 @@ import { RouterOutlet } from '@angular/router';
         LoginButtonComponent,
         SignupButtonComponent,
         NavRailBodyDirective,
-        NavLinkComponent,
-        UsersIcon,
-        DungeonIcon,
-        BookOpenIcon,
-        LeadingIconDirective,
-        TranslateDirective,
-        TooltipAnchorDirective,
+        NavComponent,
         AppTopBarComponent,
     ],
 })

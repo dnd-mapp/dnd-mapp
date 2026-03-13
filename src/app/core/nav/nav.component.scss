@@ -1,0 +1,8 @@
+@use "../../../../public/styles/theme-variables" as tv;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: tv.$spacing * 3;
+    padding: tv.$spacing * 4;
+}
