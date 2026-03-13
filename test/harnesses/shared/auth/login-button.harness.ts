@@ -1,5 +1,5 @@
 import { ComponentHarness } from '@angular/cdk/testing';
-import { ButtonHarness } from '../shared';
+import { ButtonHarness } from '../button.harness';
 
 export class LoginButtonHarness extends ComponentHarness {
     public static readonly hostSelector = 'dma-login-button';

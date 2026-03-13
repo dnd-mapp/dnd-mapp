@@ -1,6 +1,8 @@
 import { TranslateDirective } from '@/common';
-import { ButtonComponent, IconDirective, TooltipAnchorDirective, UserPlusIcon } from '@/shared-ui';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ButtonComponent } from '../../button/button.component';
+import { IconDirective, UserPlusIcon } from '../../icons';
+import { TooltipAnchorDirective } from '../../tooltip';
 
 @Component({
     selector: 'dma-signup-button',

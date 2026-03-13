@@ -10,10 +10,16 @@ $background: c.$neutral-100;
 $on-background: c.$neutral-900;
 
 // Surface
-$surface: c.$neutral-50;
-$on-surface: c.$neutral-900;
-$inverse-surface: c.$neutral-800;
 $on-inverse-surface: c.$neutral-50;
+$inverse-surface: c.$neutral-800;
+$on-surface: c.$neutral-900;
+$surface: c.$neutral-50;
+$surface-hover:
+    linear-gradient(oklch(from $on-surface l c h / 8%), oklch(from $on-surface l c h / 8%)),
+    linear-gradient($surface, $surface);
+$surface-active:
+    linear-gradient(oklch(from $on-surface l c h / 18%), oklch(from $on-surface l c h / 18%)),
+    linear-gradient($surface, $surface);
 
 // Common
 $border: c.$neutral-300;

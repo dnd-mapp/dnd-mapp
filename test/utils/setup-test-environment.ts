@@ -31,11 +31,13 @@ export async function setupTestEnvironment<C, H extends ComponentHarness>(
     }
     let fixture: ComponentFixture<C> | undefined;
     let harnessLoader: HarnessLoader | undefined;
+    let documentRootLoader: HarnessLoader | undefined;
     let harness: H | undefined;
 
     if (params.testComponent) {
         fixture = TestBed.createComponent(params.testComponent);
         harnessLoader = TestbedHarnessEnvironment.loader(fixture);
+        documentRootLoader = TestbedHarnessEnvironment.documentRootLoader(fixture);
     }
     if (params.harness) {
         if (!harnessLoader) throw new Error('HarnessLoader is missing');
@@ -43,9 +45,14 @@ export async function setupTestEnvironment<C, H extends ComponentHarness>(
     }
     return {
         ...(fixture
-            ? { fixture: fixture, componentInstance: fixture.componentInstance, componentRef: fixture.componentRef }
+            ? {
+                  fixture: fixture,
+                  componentInstance: fixture.componentInstance,
+                  componentRef: fixture.componentRef,
+                  harnessLoader: harnessLoader,
+                  documentRootLoader: documentRootLoader,
+              }
             : {}),
-        ...(harnessLoader ? { harnessLoader: harnessLoader } : {}),
         ...(harness ? { harness: harness } : {}),
     };
 }
