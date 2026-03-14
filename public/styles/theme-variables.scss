@@ -25,14 +25,14 @@ $surface-active:
 $border: c.$neutral-300;
 
 // Primary subtle
-$on-primary-subtle: c.$neutral-900;
-$primary-subtle: c.$blue-50;
-$primary-subtle-hover:
+$on-subtle-primary: c.$neutral-900;
+$subtle-primary: c.$blue-50;
+$subtle-primary-hover:
     linear-gradient(oklch(from c.$blue-900 l c h / 8%), oklch(from c.$blue-900 l c h / 8%)),
-    linear-gradient($primary-subtle, $primary-subtle);
-$primary-subtle-active:
+    linear-gradient($subtle-primary, $subtle-primary);
+$subtle-primary-active:
     linear-gradient(oklch(from c.$blue-900 l c h / 18%), oklch(from c.$blue-900 l c h / 18%)),
-    linear-gradient($primary-subtle, $primary-subtle);
+    linear-gradient($subtle-primary, $subtle-primary);
 
 // Primary
 $on-primary: c.$neutral-50;

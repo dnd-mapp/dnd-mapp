@@ -26,11 +26,11 @@
 
     &:not(.active) {
         &:hover {
-            background-image: tv.$primary-subtle-hover;
+            background-image: tv.$subtle-primary-hover;
         }
 
         &:active {
-            background-image: tv.$primary-subtle-active;
+            background-image: tv.$subtle-primary-active;
         }
     }
 }

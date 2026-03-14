@@ -2,8 +2,8 @@
 
 $nav-rail-min-width: tv.$spacing * 18;
 $nav-rail-max-width: tv.$spacing * 72;
-$nav-rail-background: tv.$primary-subtle;
-$nav-rail-on-background: tv.$on-primary-subtle;
+$nav-rail-background: tv.$subtle-primary;
+$nav-rail-on-background: tv.$on-subtle-primary;
 
 :host {
     will-change: width;
