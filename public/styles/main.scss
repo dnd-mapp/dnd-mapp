@@ -21,13 +21,13 @@ body {
 }
 
 h1 {
-    @include tv.text-7xl;
+    @include tv.text-6xl;
 
     font-weight: tv.$font-weight-medium;
 }
 
 h2 {
-    @include tv.text-2xl;
+    @include tv.text-xl;
 
     font-weight: tv.$font-weight-normal;
 }
