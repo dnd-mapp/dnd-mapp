@@ -36,6 +36,8 @@ $subtle-primary-active:
 
 // Primary
 $on-primary: c.$neutral-50;
+$on-primary-subtle: c.$neutral-100;
+$on-primary-subtle2: c.$neutral-200;
 $primary: c.$blue-900;
 $primary-hover:
     linear-gradient(oklch(from $on-primary l c h / 8%), oklch(from $on-primary l c h / 8%)),

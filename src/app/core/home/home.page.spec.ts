@@ -1,5 +1,6 @@
-import { HomeHarness, setupTestEnvironment } from '@/test';
+import { HomeHarness, loadTestingTranslations, provideHttpTesting, setupTestEnvironment } from '@/test';
 import { Component } from '@angular/core';
+import { provideRouter } from '@angular/router';
 import { HomePage } from './home.page';
 
 describe('HomePage', () => {
@@ -13,6 +14,10 @@ describe('HomePage', () => {
         const { harness } = await setupTestEnvironment({
             testComponent: TestComponent,
             harness: HomeHarness,
+            providers: [provideRouter([]), provideHttpTesting()],
+            beforeCreateComponent: async () => {
+                await loadTestingTranslations();
+            },
         });
 
         return {
