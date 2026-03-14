@@ -52,7 +52,7 @@
             }
 
             p {
-                @include tv.text-xl;
+                @include tv.text-lg;
 
                 max-width: 36em;
                 margin-bottom: tv.$spacing * 8;
