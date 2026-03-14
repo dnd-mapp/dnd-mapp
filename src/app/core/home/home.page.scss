@@ -5,47 +5,67 @@
     flex: 1 1 auto;
 
     header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-
+        position: relative;
+        display: grid;
         width: 100%;
         height: 36rem;
-        padding: tv.$spacing * 4;
 
-        color: tv.$on-primary;
+        img,
+        .content {
+            grid-column: 1;
+            grid-row: 1;
+        }
 
-        background-image:
-            linear-gradient(oklch(from tv.$primary l c h / 70%), oklch(from tv.$primary l c h / 70%)),
-            url("../../../../public/images/d20-banner.jpg");
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: cover;
+        img {
+            object-fit: cover;
+        }
 
-        .first-row,
-        .last-row {
+        .content {
+            position: relative;
+
             display: flex;
-            gap: tv.$spacing * 8;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+
+            padding: tv.$spacing * 4;
+
+            color: tv.$on-primary;
+
+            background-color: oklch(from tv.$primary l c h / 70%);
+
+            .first-row,
+            .last-row {
+                display: flex;
+                gap: tv.$spacing * 8;
+                align-items: center;
+                text-wrap: nowrap;
+            }
+
+            .first-row {
+                margin-bottom: tv.$spacing * 3;
+            }
+
+            h2 {
+                margin-bottom: tv.$spacing * 8;
+                color: tv.$on-primary-subtle;
+            }
+
+            p {
+                @include tv.text-xl;
+
+                max-width: 36em;
+                margin-bottom: tv.$spacing * 8;
+                color: tv.$on-primary-subtle2;
+                text-align: center;
+            }
         }
 
-        .first-row {
-            margin-bottom: tv.$spacing * 3;
-        }
-
-        h2 {
-            margin-bottom: tv.$spacing * 8;
-            color: tv.$on-primary-subtle;
-        }
-
-        p {
-            @include tv.text-xl;
-
-            max-width: 36em;
-            margin-bottom: tv.$spacing * 8;
-            color: tv.$on-primary-subtle2;
-            text-align: center;
-        }
+        // background-image:
+        //     linear-gradient(oklch(from tv.$primary l c h / 70%), oklch(from tv.$primary l c h / 70%)),
+        //     url("../../../../public/images/d20-banner.jpg");
+        // background-repeat: no-repeat;
+        // background-position: center;
+        // background-size: cover;
     }
 }
