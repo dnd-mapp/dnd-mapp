@@ -1,19 +1,22 @@
 <ng-container *dmaTranslate="let t">
     <article>
         <header>
-            <div class="first-row">
-                <img src="images/favicon-512.png" width="80" height="80" alt="Logo.png" />
-                <h1>D&D Mapp</h1>
-            </div>
-            <h2>{{ t('HOME_HERO_SUBTITLE') }}</h2>
-            <p>{{ t('HOME_HERO_DESCRIPTION') }}</p>
-            <div class="last-row">
-                <button type="button" size="lg" dma-button="primary" (click)="onGoToSignup()">
-                    {{ t('HOME_BTN_LABEL_GET_STARTED') }}
-                </button>
-                <button type="button" size="lg" dma-button="secondary" (click)="onGoToCompendium()">
-                    {{ t('HOME_BTN_LABEL_NAV_COMPENDIUM') }}
-                </button>
+            <img ngSrc="images/d20-banner.jpg" priority fill alt="Hero banner.jpg" />
+            <div class="content">
+                <div class="first-row">
+                    <img ngSrc="images/favicon-512.png" property width="80" height="80" alt="Logo.png" />
+                    <h1>D&D Mapp</h1>
+                </div>
+                <h2>{{ t('HOME_HERO_SUBTITLE') }}</h2>
+                <p>{{ t('HOME_HERO_DESCRIPTION') }}</p>
+                <div class="last-row">
+                    <button type="button" size="lg" dma-button="primary" (click)="onGoToSignup()">
+                        {{ t('HOME_BTN_LABEL_GET_STARTED') }}
+                    </button>
+                    <button type="button" size="lg" dma-button="secondary" (click)="onGoToCompendium()">
+                        {{ t('HOME_BTN_LABEL_NAV_COMPENDIUM') }}
+                    </button>
+                </div>
             </div>
         </header>
     </article>
