@@ -8,5 +8,9 @@
     main {
         display: flex;
         flex: 1 1 auto;
+
+        dma-nav-rail {
+            flex: 0 0 auto;
+        }
     }
 }

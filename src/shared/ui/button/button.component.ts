@@ -1,5 +1,6 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { buttonColorAttribute, DEFAULT_BUTTON_COLOR } from './button-colors';
+import { ButtonSize, DEFAULT_BUTTON_SIZE } from './button-sizes';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,11 +11,14 @@ import { buttonColorAttribute, DEFAULT_BUTTON_COLOR } from './button-colors';
     host: {
         '[class.icon-only]': 'iconButton()',
         '[attr.dma-button]': 'color()',
+        '[attr.size]': 'size()',
     },
     imports: [],
 })
 export class ButtonComponent {
     public readonly color = input(DEFAULT_BUTTON_COLOR, { alias: 'dma-button', transform: buttonColorAttribute });
+
+    public readonly size = input<ButtonSize>(DEFAULT_BUTTON_SIZE);
 
     public readonly iconButton = input(false, { transform: booleanAttribute });
 }

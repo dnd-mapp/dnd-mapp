@@ -19,3 +19,15 @@ body {
 
     background-color: tv.$background;
 }
+
+h1 {
+    @include tv.text-7xl;
+
+    font-weight: tv.$font-weight-medium;
+}
+
+h2 {
+    @include tv.text-2xl;
+
+    font-weight: tv.$font-weight-normal;
+}
