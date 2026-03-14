@@ -18,4 +18,8 @@ export class ButtonHarness extends ComponentHarness {
     public async color() {
         return await (await this.host()).getAttribute('dma-button');
     }
+
+    public async size() {
+        return await (await this.host()).getAttribute('size');
+    }
 }
