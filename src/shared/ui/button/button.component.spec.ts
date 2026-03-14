@@ -2,15 +2,18 @@ import { ButtonHarness, setupTestEnvironment } from '@/test';
 import { Component, signal, Type } from '@angular/core';
 import { IconDirective, UserPlusIcon } from '../icons';
 import { ButtonColor, ButtonColors } from './button-colors';
+import { ButtonSize, ButtonSizes } from './button-sizes';
 import { ButtonComponent } from './button.component';
 
 describe('ButtonComponent', () => {
     @Component({
-        template: `<button type="button" [dma-button]="color()">My label</button>`,
+        template: `<button type="button" [dma-button]="color()" [size]="size()">My label</button>`,
         imports: [ButtonComponent],
     })
     class TestComponent {
         public readonly color = signal<ButtonColor | ''>(ButtonColors.PRIMARY);
+
+        public readonly size = signal<ButtonSize>(ButtonSizes.MEDIUM);
     }
 
     @Component({
@@ -49,6 +52,15 @@ describe('ButtonComponent', () => {
 
         componentInstance.color.set('');
         expect(await harness.color()).toEqual(ButtonColors.BASE);
+    });
+
+    it('should set button size', async () => {
+        const { harness, componentInstance } = await setupTest({ component: TestComponent });
+
+        expect(await harness.size()).toEqual(ButtonSizes.MEDIUM);
+
+        componentInstance.size.set(ButtonSizes.LARGE);
+        expect(await harness.size()).toEqual(ButtonSizes.LARGE);
     });
 
     it('should show only icon', async () => {

@@ -27,6 +27,10 @@
         }
     }
 
+    &[size="lg"] {
+        padding: tv.$spacing * 2.5 tv.$spacing * 8;
+    }
+
     &[dma-button="base"] {
         color: tv.$on-surface;
         background-color: tv.$surface;
