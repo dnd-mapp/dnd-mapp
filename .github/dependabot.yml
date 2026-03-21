@@ -1,57 +1,57 @@
 version: 2
 updates:
-    - package-ecosystem: "docker"
-      directory: ".docker/"
+    - package-ecosystem: 'docker'
+      directory: '.docker/'
       schedule:
-          interval: "weekly"
-    - package-ecosystem: "npm"
-      versioning-strategy: "lockfile-only"
-      directory: "/"
+          interval: 'weekly'
+    - package-ecosystem: 'npm'
+      versioning-strategy: 'lockfile-only'
+      directory: '/'
       schedule:
-          interval: "daily"
+          interval: 'daily'
       # Setting this to 0 disables regular version updates but allows security updates to inherit the settings below.
       open-pull-requests-limit: 0
       labels:
-          - "dependencies"
+          - 'dependencies'
       groups:
           angular:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "@angular*"
+                  - '@angular*'
           eslint:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "@eslint/*"
-                    - "eslint*"
+                  - '@eslint/*'
+                  - 'eslint*'
           markdownlint:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "markdownlint*"
+                  - 'markdownlint*'
           prettier:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "prettier*"
+                  - 'prettier*'
           nestjs:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "@fastify/*"
-                    - "@nestjs/*"
+                  - '@fastify/*'
+                  - '@nestjs/*'
           prisma:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "@prisma/*"
-                    - "prisma"
+                  - '@prisma/*'
+                  - 'prisma'
           stylelint:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "stylelint*"
+                  - 'stylelint*'
           vitest:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                    - "@vitest/*"
-                    - "vite"
-                    - "vitest"
+                  - '@vitest/*'
+                  - 'vite'
+                  - 'vitest'
           remaining-security-updates:
-              applies-to: "security-updates"
+              applies-to: 'security-updates'
               patterns:
-                  - "*"
+                  - '*'
