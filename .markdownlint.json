@@ -1,7 +1,10 @@
 {
     "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/v0.40.0/schema/markdownlint-config-schema.json",
     "MD013": false,
+    "MD024": false,
+    "MD029": false,
     "MD033": {
         "allowed_elements": ["kbd"]
-    }
+    },
+    "MD041": false
 }
