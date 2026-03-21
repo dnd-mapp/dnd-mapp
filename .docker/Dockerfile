@@ -1,4 +1,4 @@
-FROM --platform=$BUILDPLATFORM node:24.14 AS builder
+FROM --platform=$BUILDPLATFORM node:25.8 AS builder
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
