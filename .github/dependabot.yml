@@ -1,0 +1,57 @@
+version: 2
+updates:
+    - package-ecosystem: "docker"
+      directory: ".docker/"
+      schedule:
+          interval: "weekly"
+    - package-ecosystem: "npm"
+      versioning-strategy: "lockfile-only"
+      directory: "/"
+      schedule:
+          interval: "daily"
+      # Setting this to 0 disables regular version updates but allows security updates to inherit the settings below.
+      open-pull-requests-limit: 0
+      labels:
+          - "dependencies"
+      groups:
+          angular:
+              applies-to: "security-updates"
+              patterns:
+                    - "@angular*"
+          eslint:
+              applies-to: "security-updates"
+              patterns:
+                    - "@eslint/*"
+                    - "eslint*"
+          markdownlint:
+              applies-to: "security-updates"
+              patterns:
+                    - "markdownlint*"
+          prettier:
+              applies-to: "security-updates"
+              patterns:
+                    - "prettier*"
+          nestjs:
+              applies-to: "security-updates"
+              patterns:
+                    - "@fastify/*"
+                    - "@nestjs/*"
+          prisma:
+              applies-to: "security-updates"
+              patterns:
+                    - "@prisma/*"
+                    - "prisma"
+          stylelint:
+              applies-to: "security-updates"
+              patterns:
+                    - "stylelint*"
+          vitest:
+              applies-to: "security-updates"
+              patterns:
+                    - "@vitest/*"
+                    - "vite"
+                    - "vitest"
+          remaining-security-updates:
+              applies-to: "security-updates"
+              patterns:
+                  - "*"
