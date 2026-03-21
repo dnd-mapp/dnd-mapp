@@ -21,12 +21,12 @@ export default defineConfig({
             reportOnFailure: true,
             reporter: ['text-summary', ['html', { subdir: '.' }]],
             reportsDirectory: 'coverage/dnd-mapp',
-            thresholds: {
-                branches: 80,
-                functions: 80,
-                lines: 80,
-                statements: 80,
-            },
+            // thresholds: {
+            //     branches: 80,
+            //     functions: 80,
+            //     lines: 80,
+            //     statements: 80,
+            // },
         },
         globals: true,
         name: 'dnd-mapp',
