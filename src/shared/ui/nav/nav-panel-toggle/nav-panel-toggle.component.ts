@@ -9,7 +9,6 @@ import { NAV_PANEL } from '../provide-nav-panel';
 @Component({
     selector: 'dma-nav-panel-toggle',
     templateUrl: './nav-panel-toggle.component.html',
-    styleUrl: './nav-panel-toggle.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [BarsIcon, ButtonComponent, IconDirective, TooltipAnchorDirective, TranslateDirective],
 })

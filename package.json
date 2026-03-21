@@ -19,9 +19,9 @@
     "test:development": "pnpm exec ng test -c development",
     "format:check": "pnpm exec prettier -l .",
     "format:write": "pnpm exec prettier -w .",
-    "lint": "pnpm lint:eslint",
+    "lint": "pnpm lint:eslint && pnpm lint:stylelint && pnpm lint:markdownlint",
     "lint:eslint": "pnpm exec ng lint",
-    "lint:stylelint": "pnpm exec stylelint \"src/**/*.scss\"",
+    "lint:stylelint": "pnpm exec stylelint \"**/*.scss\"",
     "lint:markdownlint": "pnpm exec markdownlint \"**/*.md\""
   },
   "packageManager": "pnpm@10.31.0",
@@ -48,9 +48,9 @@
     "@angular/compiler-cli": "~21.2",
     "@eslint/js": "~10.0",
     "@types/node": "~24.12",
-    "@vitest/browser-playwright": "~4.0",
-    "@vitest/coverage-v8": "~4.0",
-    "@vitest/ui": "~4.0",
+    "@vitest/browser-playwright": "~4.1",
+    "@vitest/coverage-v8": "~4.1",
+    "@vitest/ui": "~4.1",
     "angular-eslint": "~21.3",
     "eslint": "~10.0",
     "eslint-config-prettier": "~10.1",
@@ -60,14 +60,13 @@
     "playwright": "~1.58",
     "prettier": "~3.8",
     "prettier-plugin-organize-imports": "~4.3",
-    "stylelint": "~17.4",
+    "stylelint": "~17.5",
     "stylelint-config-clean-order": "~8.0",
     "stylelint-config-standard-scss": "~17.0",
-    "stylelint-order": "~8.0",
+    "stylelint-order": "~8.1",
     "typescript": "~5.9",
     "typescript-eslint": "~8.57",
-    "vite": "~7.3",
-    "vite-tsconfig-paths": "~6.1",
-    "vitest": "~4.0"
+    "vite": "~8.0",
+    "vitest": "~4.1"
   }
 }

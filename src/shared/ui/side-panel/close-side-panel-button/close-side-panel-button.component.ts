@@ -8,7 +8,6 @@ import { SidePanelService } from '../side-panel.service';
 @Component({
     selector: 'dma-close-side-panel-button',
     templateUrl: './close-side-panel-button.component.html',
-    styleUrl: './close-side-panel-button.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ButtonComponent, XmarkIcon, IconDirective, TranslateDirective, TooltipAnchorDirective],
 })

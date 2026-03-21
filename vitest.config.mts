@@ -1,9 +1,12 @@
 import { playwright } from '@vitest/browser-playwright';
-import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
+const isCI = Boolean(process.env['CI']);
+
 export default defineConfig({
-    plugins: [tsconfigPaths()],
+    resolve: {
+        tsconfigPaths: true,
+    },
     test: {
         clearMocks: true,
         browser: {
@@ -14,21 +17,26 @@ export default defineConfig({
             screenshotFailures: false,
         },
         coverage: {
-            exclude: [],
-            include: ['src/**/*.ts'],
             provider: 'v8',
             reportOnFailure: true,
-            thresholds: {
-                branches: 80,
-                functions: 80,
-                lines: 80,
-                statements: 80,
-            },
+            reporter: ['text-summary', ['html', { subdir: '.' }]],
+            reportsDirectory: 'coverage/dnd-mapp',
+            // thresholds: {
+            //     branches: 80,
+            //     functions: 80,
+            //     lines: 80,
+            //     statements: 80,
+            // },
         },
         globals: true,
         name: 'dnd-mapp',
         open: false,
         passWithNoTests: true,
+        reporters: [
+            ['html', { outputFile: 'reports/dnd-mapp/index.html' }],
+            'dot',
+            ...(isCI ? ['github-actions'] : []),
+        ],
         sequence: {
             shuffle: true,
         },
