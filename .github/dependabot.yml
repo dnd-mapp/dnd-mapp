@@ -3,7 +3,11 @@ updates:
     - package-ecosystem: 'docker'
       directory: '.docker/'
       schedule:
-          interval: 'weekly'
+          interval: 'daily'
+    - package-ecosystem: 'github-actions'
+      directory: '/'
+      schedule:
+          interval: 'daily'
     - package-ecosystem: 'npm'
       versioning-strategy: 'lockfile-only'
       directory: '/'
