@@ -60,7 +60,7 @@
     "playwright": "~1.58",
     "prettier": "~3.8",
     "prettier-plugin-organize-imports": "~4.3",
-    "stylelint": "~17.5",
+    "stylelint": "~17.6",
     "stylelint-config-clean-order": "~8.0",
     "stylelint-config-standard-scss": "~17.0",
     "stylelint-order": "~8.1",
