@@ -17,7 +17,7 @@ COPY . .
 RUN pnpm build
 
 
-FROM nginx:1.29-alpine3.23
+FROM nginx:1.29.8-alpine3.23
 
 COPY --from=builder /app/dist/dnd-mapp/browser /usr/share/nginx/html
 
