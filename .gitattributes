@@ -37,7 +37,6 @@ Dockerfile          text eol=lf
 .prettier*          text eol=lf
 .stylelint*         text eol=lf
 .markdownlint*      text eol=lf
-.tool-versions      text eol=lf
 *.run.xml           text eol=lf linguist-generated
 
 # pnpm lockfile (Mark as linguist-generated to hide in diffs by default)

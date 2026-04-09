@@ -1,15 +1,15 @@
+packages:
+    - '!dist/**/*'
 blockExoticSubdeps: true
-engineStrict: true
 ignoreDepScripts: true
+managePackageManagerVersions: false
 minimumReleaseAge: 2880
 minimumReleaseAgeExclude:
   - '@dnd-mapp/*'
-nodeVersion: 24.14.0
 packageManagerStrictVersion: true
 savePrefix: '~'
 strictDepBuilds: true
 strictPeerDependencies: true
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 10080
-useNodeVersion: 24.14.0
 verifyDepsBeforeRun: prompt
