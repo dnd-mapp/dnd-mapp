@@ -33,7 +33,7 @@ jobs:
               uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
             - name: Set up tools
-              uses: ./.github/actions/setup-tools
+              uses: dnd-mapp/.github/.github/actions/setup-tools@bfe2c97e0f3d0292ab1b7519dee66fd6e69a46a5
               with:
                   install-dependencies: false
 
