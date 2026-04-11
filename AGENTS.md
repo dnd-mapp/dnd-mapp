@@ -1,0 +1,1 @@
+../ai-standards/AGENTS.md
