@@ -22,16 +22,9 @@ The central hub for the **D&D Mapp** ecosystem. This repository contains the pri
 
 ### Prerequisites
 
-We use [mise-en-place (mise)](https://mise.jdx.dev/) to manage tool versions defined in `.tool-versions`.
+We use [mise-en-place (mise)](https://mise.jdx.dev/) to manage tool versions. See the [Mise Configuration Guide](https://github.com/dnd-mapp/.github/blob/main/docs/mise-configuration.md) for global setup instructions.
 
-1. **Install Mise** (if not already installed).
-2. **Install [mkcert](https://github.com/FiloSottile/mkcert):**
-
-    - **macOS:** `brew install mkcert`
-    - **Linux:** `sudo apt install mkcert`
-    - **Windows:** `choco install mkcert` or `scoop install mkcert`
-
-3. **Install required tools:**
+1. **Install required tools:**
 
    ```bash
    mise install
@@ -39,50 +32,19 @@ We use [mise-en-place (mise)](https://mise.jdx.dev/) to manage tool versions def
 
 ### 🔐 Local SSL & Domain Setup
 
-To support the secure `https://localhost.www.dndmapp.dev:4200` environment, you must configure your local machine to trust a self-signed certificate and map the domain.
+To support the secure `https://localhost.www.dndmapp.dev:4200` environment, you must configure your local machine to resolve the custom hostname and trust a locally generated certificate.
 
-#### 1. Generate Certificates
-
-Run the following commands in the project root to generate the certificates required by `angular.json`:
-
-```bash
-# Initialize mkcert on your machine (one-time setup)
-mkcert -install
-
-# Generate certificates for the local domain
-pnpm gen:ssl-certs
-```
-
-#### 2. Update Hosts File
-
-Add `127.0.0.1 localhost.www.dndmapp.dev` to your system's hosts file to map the custom domain to your local machine.
-
-##### **macOS / Linux**
-
-Run the following command:
-
-```bash
-echo "127.0.0.1 localhost.www.dndmapp.dev" | sudo tee -a /etc/hosts
-```
-
-##### **Windows**
-
-1. Open **Notepad** as an Administrator.
-2. Open `C:\Windows\System32\drivers\etc\hosts`.
-3. Add the following line to the bottom:
+1. Follow the [Local DNS Setup](https://github.com/dnd-mapp/.github/blob/main/docs/local-dns-setup.md) guide and add the following entry for this service:
 
    ```text
    127.0.0.1 localhost.www.dndmapp.dev
    ```
 
-4. Save the file.
+2. Follow the [Self-Signed Certificates](https://github.com/dnd-mapp/.github/blob/main/docs/self-signed-certificates.md) guide to install `mkcert` and set up the local CA, then generate the certificates for this service:
 
-#### 3. Trusting the CA (Verification)
-
-The `mkcert -install` command usually handles the OS trust store automatically.
-
-- **Linux:** If using Firefox, you may need to manually import the root CA found at `mkcert -CAROOT` into the browser's Certificate Manager.
-- **Windows/Mac:** Restart your browser after running the install command to ensure the new CA is recognized.
+   ```bash
+   pnpm gen:ssl-certs
+   ```
 
 ### Development Server
 
