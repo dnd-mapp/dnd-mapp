@@ -26,12 +26,12 @@
   },
   "packageManager": "pnpm@10.33.0",
   "engines": {
-    "node": "~24.14"
+    "node": "~24.15"
   },
   "devEngines": {
     "runtime": {
       "name": "node",
-      "version": "~24.14",
+      "version": "~24.15",
       "onFail": "error"
     },
     "packageManager": [
