@@ -159,6 +159,8 @@ The containerized application listens on port `4200` as configured in `default.c
 
 We follow a strict type-safe and reactive pattern. This project enforces `strictPeerDependencies` and `strictDepBuilds`. Please refer to the [Organization Contributing Guide](https://github.com/dnd-mapp/.github/blob/main/CONTRIBUTING.md) before submitting a Pull Request.
 
+For details on how releases are triggered, versioned, and published, see the [Release Pipeline](https://github.com/dnd-mapp/.github/blob/main/docs/release-pipeline.md) guide.
+
 ---
 
 **D&D Mapp Team** • *"Roll for initiative!"*
