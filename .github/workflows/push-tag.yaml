@@ -24,8 +24,9 @@ jobs:
               run: node .github/scripts/generate-tags.mjs
 
             - name: Create Docker image
-              uses: ./.github/actions/docker-build
+              uses: dnd-mapp/.github/.github/actions/docker-build@56033bd95d364655b13fbb1746297b8ef818e876
               with:
                   docker-username: ${{ secrets.DOCKER_USERNAME }}
                   docker-password: ${{ secrets.DOCKER_PASSWORD }}
                   tags: ${{ steps.tags.outputs.tags }}
+                  scope: 'dndmapp/dnd-mapp@push'
