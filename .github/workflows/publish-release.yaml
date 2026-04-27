@@ -8,7 +8,7 @@ permissions:
     contents: write
 jobs:
     publish-release:
-        uses: dnd-mapp/.github/.github/workflows/publish-release.yaml@e447e89f2347766291393f81dc00cbc0877850f5
+        uses: dnd-mapp/.github/.github/workflows/publish-release.yaml@ea5195108759ac7d5b831d9274ec9c574571fede
         secrets:
             app-id: ${{ secrets.AUTH_APP_ID }}
             app-private-key: ${{ secrets.AUTH_APP_PRIVATE_KEY }}
