@@ -27,7 +27,7 @@ permissions:
     contents: write
 jobs:
     release:
-        uses: dnd-mapp/.github/.github/workflows/release.yaml@ea5195108759ac7d5b831d9274ec9c574571fede
+        uses: dnd-mapp/.github/.github/workflows/release.yaml@c78632d4e2a58932d57a301542d1ecd5ae9c8258
         with:
             version: ${{ inputs.version }}
             prerelease-id: ${{ inputs.prerelease-id }}
