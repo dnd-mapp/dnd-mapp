@@ -26,7 +26,7 @@ jobs:
               uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
             - name: Create Docker image
-              uses: dnd-mapp/.github/.github/actions/docker-build@c78632d4e2a58932d57a301542d1ecd5ae9c8258
+              uses: dnd-mapp/.github/.github/actions/docker-build@fb7d2cb1e259f65c841cac6dd9a84896068e9f7a
               with:
                   docker-username: ${{ secrets.DOCKER_USERNAME }}
                   docker-password: ${{ secrets.DOCKER_PASSWORD }}
