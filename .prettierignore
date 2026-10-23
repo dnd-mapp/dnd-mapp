@@ -1,0 +1,16 @@
+# Ignore every file, but keep descending into folders.
+*
+!*/
+
+# Format only these file types.
+!*.html
+!*.json
+!*.[jt]s
+!*.[cm][jt]s
+!*.css
+!*.scss
+!*.yaml
+!*.yml
+
+# Prettier also skips everything .gitignore lists, so list only the tracked files it must leave alone.
+pnpm-lock.yaml
