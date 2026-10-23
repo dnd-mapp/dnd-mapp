@@ -1,0 +1,24 @@
+# Store text with LF and check it out with LF on every OS, whatever core.autocrlf says.
+*           text=auto eol=lf
+
+# Windows batch files only run reliably with CRLF.
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+
+# Images
+*.gif       binary
+*.ico       binary
+*.jpeg      binary
+*.jpg       binary
+*.png       binary
+*.webp      binary
+
+# Fonts
+*.otf       binary
+*.ttf       binary
+*.woff      binary
+*.woff2     binary
+
+# Documents and archives
+*.pdf       binary
+*.zip       binary

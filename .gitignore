@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+out-tsc/
+tmp/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Editor
+.idea/*
+!.idea/markdown.xml
+.vscode/*
+!.vscode/extensions.json
+*.iml
+
+# macOS
+.DS_Store
+._*
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Linux
+*~
+.directory
+
+# Logs and test output
+*.log
+logs/
+coverage/
