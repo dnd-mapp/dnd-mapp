@@ -1,0 +1,19 @@
+{
+    "editor.detectIndentation": false,
+    "editor.insertSpaces": true,
+    "editor.rulers": [
+        120
+    ],
+    "editor.tabSize": 4,
+    "files.encoding": "utf8",
+    "files.eol": "\n",
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
+    "npm.packageManager": "pnpm",
+    "[bat]": {
+        "files.eol": "\r\n"
+    },
+    "[markdown]": {
+        "editor.rulers": []
+    }
+}

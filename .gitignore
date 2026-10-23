@@ -16,6 +16,9 @@ tmp/
 !.idea/markdown.xml
 .vscode/*
 !.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 *.iml
 
 # macOS
