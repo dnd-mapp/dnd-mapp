@@ -21,3 +21,8 @@ savePrefix: "~"
 packages:
   - apps/*
   - packages/*
+
+# Catalogs
+catalogs:
+  prettier:
+    prettier: ~3.9.10

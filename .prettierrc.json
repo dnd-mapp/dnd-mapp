@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json.schemastore.org/prettierrc",
+    "overrides": [
+        {
+            "files": ["*.yaml", "*.yml"],
+            "options": {
+                "singleQuote": false
+            }
+        }
+    ],
+    "quoteProps": "consistent",
+    "singleQuote": true
+}

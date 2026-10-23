@@ -162,6 +162,27 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+catalogs:
+  prettier:
+    prettier:
+      specifier: ~3.9.10
+      version: 3.9.10
+
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      prettier:
+        specifier: catalog:prettier
+        version: 3.9.10
+
+packages:
+
+  prettier@3.9.10:
+    resolution: {integrity: sha512-skGHTH1Yb9QvaTC4hWnRTzEYtCpApF0UMBPz+t/0ZPzP8ihefo/btKd+QA7pUE0fEwA1SbS/NmhyEcstdXOIdA==}
+    engines: {node: '>=14'}
+    hasBin: true
+
+snapshots:
+
+  prettier@3.9.10: {}
