@@ -1,0 +1,4 @@
+self-hosted-runner:
+    # GitHub-hosted labels that actionlint 1.7.12 does not know yet. Remove each once actionlint lists it.
+    labels:
+        - ubuntu-26.04
