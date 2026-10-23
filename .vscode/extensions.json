@@ -1,6 +1,3 @@
 {
-    "recommendations": [
-        "editorconfig.editorconfig",
-        "hverlin.mise-vscode"
-    ]
+    "recommendations": ["editorconfig.editorconfig", "hverlin.mise-vscode"]
 }
