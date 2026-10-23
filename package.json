@@ -1,7 +1,14 @@
 {
   "name": "dnd-mapp",
+  "description": "The monorepo for D&D Mapp: all packages and applications of the project.",
   "private": true,
   "license": "MIT",
+  "homepage": "https://github.com/dnd-mapp/dnd-mapp#readme",
+  "bugs": "https://github.com/dnd-mapp/dnd-mapp/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git"
+  },
   "devEngines": {
     "runtime": {
       "name": "node",
