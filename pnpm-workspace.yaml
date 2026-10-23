@@ -1,0 +1,4 @@
+# Workspaces
+packages:
+  - apps/*
+  - packages/*

@@ -1,0 +1,17 @@
+{
+  "name": "dnd-mapp",
+  "private": true,
+  "license": "MIT",
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.0",
+      "onFail": "error"
+    },
+    "packageManager": {
+      "name": "pnpm",
+      "version": "12.14.0",
+      "onFail": "error"
+    }
+  }
+}
