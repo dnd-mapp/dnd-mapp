@@ -3,11 +3,11 @@
 !*/
 
 # Format only these file types.
-!*.css
 !*.html
 !*.json
 !*.[jt]s
 !*.[cm][jt]s
+!*.css
 !*.scss
 !*.yaml
 !*.yml
