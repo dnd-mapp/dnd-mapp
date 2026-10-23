@@ -1,8 +1,3 @@
-# Workspaces
-packages:
-  - apps/*
-  - packages/*
-
 # Dependency Resolution
 minimumReleaseAge: 4320 # 3 days
 trustPolicy: no-downgrade
@@ -21,3 +16,8 @@ sideEffectsCache: false
 # Other Settings
 catalogMode: strict
 savePrefix: "~"
+
+# Workspaces
+packages:
+  - apps/*
+  - packages/*
