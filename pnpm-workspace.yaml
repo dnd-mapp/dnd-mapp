@@ -2,3 +2,22 @@
 packages:
   - apps/*
   - packages/*
+
+# Dependency Resolution
+minimumReleaseAge: 4320 # 3 days
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 10080 # 7 days
+
+# Peer dependencies
+strictPeerDependencies: true
+
+# CLI Settings
+engineStrict: true
+
+# Build Settings
+allowBuilds: {}
+sideEffectsCache: false
+
+# Other Settings
+catalogMode: strict
+savePrefix: "~"
