@@ -13,23 +13,25 @@ body:
 
     - type: textarea
       id: why
+      validations:
+          required: true
       attributes:
           label: Why
           description: The problem this Epic solves and why it matters. Every sub-issue points back to it. Link related Discussions, Research issues, and ADRs here.
-      validations:
-          required: true
 
     - type: textarea
       id: done-when
+      validations:
+          required: true
       attributes:
           label: Done when
           description: Checkable outcomes that are true once the Epic is finished. The owner checks each one before closing the Epic. Add a measurable signal when one exists.
           value: "- [ ] "
-      validations:
-          required: true
 
     - type: textarea
       id: scope
+      validations:
+          required: true
       attributes:
           label: Scope
           description: What the Epic covers, and what it leaves out so it can't grow into a theme.
@@ -41,16 +43,14 @@ body:
               **Out of scope**
 
               -
-      validations:
-          required: true
 
     - type: textarea
       id: urgency
+      validations:
+          required: true
       attributes:
           label: Urgency
           description: Why now, what waiting costs, and any outside date the work must meet.
-      validations:
-          required: true
 
     - type: textarea
       id: open-questions
