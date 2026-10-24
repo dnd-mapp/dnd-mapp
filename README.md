@@ -38,6 +38,19 @@ Lint the commit messages of your branch with [commitlint](https://commitlint.js.
 pnpm exec commitlint --from origin/main
 ```
 
+## Git hooks
+
+`pnpm install` installs git hooks with [lefthook](https://lefthook.dev), so formatting, Markdown, and commit message problems surface before CI runs. [`lefthook.yaml`](lefthook.yaml) defines them:
+
+- `pre-commit` formats the staged files with Prettier and fixes the staged Markdown files with markdownlint, then adds the fixes to the commit. The commit stops when markdownlint finds a problem it cannot fix.
+- `commit-msg` lints the commit message with commitlint.
+
+Set `LEFTHOOK=0` to skip the hooks for one command:
+
+```bash
+LEFTHOOK=0 git commit
+```
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
