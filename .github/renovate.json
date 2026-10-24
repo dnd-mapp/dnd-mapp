@@ -4,6 +4,7 @@
     "timezone": "Europe/Amsterdam",
     "rangeStrategy": "bump",
     "commitMessageTopic": "{{depName}}",
+    "labels": ["dependencies"],
     "automergeStrategy": "merge-commit",
     "lockFileMaintenance": {
         "schedule": ["* 0-5 * * 1"],
@@ -14,6 +15,21 @@
         "minimumReleaseAgeBehaviour": "timestamp-optional"
     },
     "packageRules": [
+        {
+            "description": "Label the updates of npm packages, Node.js, and pnpm.",
+            "matchManagers": ["npm"],
+            "addLabels": ["javascript"]
+        },
+        {
+            "description": "Label the updates of actions, runners, and Docker images in workflows.",
+            "matchManagers": ["github-actions"],
+            "addLabels": ["github_actions"]
+        },
+        {
+            "description": "Label the updates of Docker images.",
+            "matchDatasources": ["docker"],
+            "addLabels": ["docker"]
+        },
         {
             "description": "Use the ci commit type for actions, runners, and Docker images in workflows.",
             "matchManagers": ["github-actions"],
