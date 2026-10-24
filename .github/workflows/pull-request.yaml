@@ -1,18 +1,15 @@
 # yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
 
-name: CI
+name: Pull request
 
 on:
     pull_request:
-    push:
-        branches:
-            - main
 
 permissions: {}
 
 concurrency:
-    group: ${{ github.workflow }}-${{ github.ref }}
-    cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
 
 jobs:
     format:
@@ -28,9 +25,7 @@ jobs:
                   persist-credentials: false
 
             - name: Set up pnpm and install dependencies
-              uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
-              with:
-                  require-lockfile: true
+              uses: ./.github/actions/setup
 
             - name: Check formatting
               run: pnpm format-check
@@ -49,9 +44,7 @@ jobs:
                   persist-credentials: false
 
             - name: Set up pnpm and install dependencies
-              uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
-              with:
-                  require-lockfile: true
+              uses: ./.github/actions/setup
 
             - name: Annotate findings on the pull request
               run: echo "::add-matcher::.github/markdownlint-matcher.json"
