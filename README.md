@@ -62,6 +62,10 @@ Renovate merges these updates without review once the checks pass, since it may 
 
 Every other update waits for a review: majors, Node.js and pnpm in `devEngines`, and dependencies outside the development tools. A new major of Node.js or pnpm first waits for approval on the Dependency Dashboard. Add each new catalog of development tools to the auto-merge rule in the config; the updates of any other catalog wait for review.
 
+## Issues
+
+Closing an issue, as completed or as not planned, removes its assignees, and [`.github/workflows/issue-closed.yaml`](.github/workflows/issue-closed.yaml) does the work. A reopened issue stays unassigned until someone picks it up again.
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
