@@ -20,6 +20,12 @@ Check the formatting without changing files:
 pnpm format-check
 ```
 
+Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/actionlint), the same check CI runs. Install [ShellCheck](https://github.com/koalaman/shellcheck) next to it, since actionlint lints the `run:` scripts only when it finds ShellCheck on `PATH`:
+
+```bash
+actionlint
+```
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
