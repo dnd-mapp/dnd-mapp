@@ -32,6 +32,12 @@ Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/act
 actionlint
 ```
 
+Lint the commit messages of your branch with [commitlint](https://commitlint.js.org), the same check CI runs on every pull request. Commit messages and pull request titles follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/), and [`.commitlintrc.json`](.commitlintrc.json) holds the rules:
+
+```bash
+pnpm exec commitlint --from origin/main
+```
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
