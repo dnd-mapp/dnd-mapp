@@ -1,0 +1,5 @@
+# yaml-language-server: $schema=../node_modules/markdownlint-cli2/schema/markdownlint-cli2-config-schema.json
+
+config:
+    # Let files start without a top-level heading, since one renders oversized in every pull request body that the template fills.
+    MD041: false
