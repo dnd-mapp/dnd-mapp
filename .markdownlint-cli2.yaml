@@ -1,0 +1,48 @@
+# yaml-language-server: $schema=./node_modules/markdownlint-cli2/schema/markdownlint-cli2-config-schema.json
+
+# Lint every Markdown file in the repository, except the ones .gitignore lists.
+globs:
+    - "**/*.md"
+gitignore: true
+
+config:
+    default: true
+
+    # Write each paragraph as one line and leave wrapping to the renderer.
+    MD013: false
+
+    # Pin the styles that markdownlint otherwise only keeps consistent within each file.
+    MD003:
+        style: atx
+    MD004:
+        style: dash
+    MD029:
+        style: ordered
+    MD035:
+        style: "---"
+    MD046:
+        style: fenced
+    MD048:
+        style: backtick
+    MD049:
+        style: asterisk
+    MD050:
+        style: asterisk
+    MD055:
+        style: leading_and_trailing
+    MD060:
+        style: aligned
+
+    # Allow the same heading under different parents, such as each version of a changelog.
+    MD024:
+        siblings_only: true
+
+    MD044:
+        names:
+            - D&D Mapp
+            - GitHub
+            - JavaScript
+            - TypeScript
+            - Node.js
+            - pnpm
+        code_blocks: false

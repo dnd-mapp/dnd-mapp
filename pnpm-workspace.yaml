@@ -26,5 +26,7 @@ packages:
 
 # Catalogs
 catalogs:
+  markdownlint:
+    markdownlint-cli2: ~0.24.0
   prettier:
     prettier: ~3.9.10
