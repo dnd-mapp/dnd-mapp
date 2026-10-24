@@ -1,0 +1,75 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-issue-forms.json
+
+name: Bug
+description: Report behavior that is broken or differs from what is documented or intended.
+type: Bug
+body:
+    - type: markdown
+      attributes:
+          value: >
+              Report something in D&D Mapp that is broken, or that differs from what is documented or intended. This
+              includes D&D Mapp handling a rule of the game differently from the rulebook.
+
+
+              Never report a security vulnerability in a public issue. Report it privately through
+              [a security advisory](https://github.com/dnd-mapp/dnd-mapp/security/advisories/new) instead.
+
+    - type: textarea
+      id: description
+      validations:
+          required: true
+      attributes:
+          label: Description
+          description: What is broken?
+
+    - type: textarea
+      id: steps
+      validations:
+          required: true
+      attributes:
+          label: Steps to reproduce
+          description: The steps that make the bug happen, starting from a fresh page load.
+          value: "1. "
+
+    - type: textarea
+      id: expected
+      validations:
+          required: true
+      attributes:
+          label: Expected behavior
+          description: What you expected to happen. For a rule of the game, cite the rulebook page or SRD section.
+
+    - type: textarea
+      id: actual
+      validations:
+          required: true
+      attributes:
+          label: Actual behavior
+          description: What happened instead.
+
+    - type: textarea
+      id: environment
+      attributes:
+          label: Environment
+          description: The browser, operating system, and device you used.
+
+    - type: textarea
+      id: logs
+      attributes:
+          label: Logs
+          description: Error messages or console output. This field is formatted as code, so no backticks are needed.
+          render: shell
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Additional context
+          description: Screenshots, recordings, links, or anything else that helps explain the bug.
+
+    - type: checkboxes
+      id: preflight
+      attributes:
+          label: Before you post
+          options:
+              - label: I searched the existing issues for this bug.
+                required: true

@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-issue-forms.json
+
+name: Epic
+description: "Maintainers only: track a goal too large for one pull request through sub-issues."
+type: Epic
+body:
+    - type: markdown
+      attributes:
+          value: >
+              For maintainers. To propose an idea, start a discussion in
+              [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas) instead.
+
+
+              Use an epic for a goal too large for one pull request, possibly across repositories. Attach its parts as
+              sub-issues once it is filed: an epic is ready once it is broken into sub-issues.
+
+    - type: textarea
+      id: outcome
+      validations:
+          required: true
+      attributes:
+          label: Outcome
+          description: What is true once the epic is done.
+
+    - type: textarea
+      id: why
+      validations:
+          required: true
+      attributes:
+          label: Why
+          description: The problem the epic solves, or what it makes possible.
+
+    - type: textarea
+      id: in-scope
+      validations:
+          required: true
+      attributes:
+          label: In scope
+          description: The work the epic covers.
+
+    - type: textarea
+      id: out-of-scope
+      attributes:
+          label: Out of scope
+          description: What the epic leaves out on purpose.
+
+    - type: textarea
+      id: done-when
+      validations:
+          required: true
+      attributes:
+          label: Done when
+          description: How to tell the outcome is reached.
+          value: "- [ ] "
+
+    - type: textarea
+      id: risks
+      attributes:
+          label: Risks and dependencies
+          description: What could block or derail the epic, and what it waits on.
