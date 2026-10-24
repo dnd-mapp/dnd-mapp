@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=./node_modules/lefthook/schema.json
+
+# Format and lint the staged files, and add the fixes to the commit.
+pre-commit:
+    parallel: true
+    jobs:
+        # Prettier skips the files that .prettierignore leaves out, so pass it every staged file.
+        - name: format
+          run: pnpm exec prettier -w {staged_files}
+          stage_fixed: true
+
+        # --no-globs keeps the globs of .markdownlint-cli2.yaml from adding every other Markdown file.
+        - name: lint-md
+          run: pnpm exec markdownlint-cli2 --no-globs --fix {staged_files}
+          glob: "*.md"
+          stage_fixed: true
+
+# Lint the commit message with commitlint.
+commit-msg:
+    jobs:
+        - name: commitlint
+          run: pnpm exec commitlint --edit {1}
