@@ -1,3 +1,8 @@
 {
-    "recommendations": ["editorconfig.editorconfig", "esbenp.prettier-vscode", "hverlin.mise-vscode"]
+    "recommendations": [
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "hverlin.mise-vscode",
+        "redhat.vscode-yaml"
+    ]
 }
