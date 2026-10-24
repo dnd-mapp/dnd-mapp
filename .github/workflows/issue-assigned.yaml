@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Issue assigned
+
+on:
+    issues:
+        types:
+            - assigned
+
+permissions: {}
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.issue.number }}
+    cancel-in-progress: false
+
+jobs:
+    start-date:
+        name: Start date
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            issues: write
+        steps:
+            - name: Set the start date when it is empty
+              run: |
+                  if gh api "repos/$GH_REPO/issues/$NUMBER/issue-field-values?per_page=100" --jq ".[] | select(.issue_field_id == $FIELD_ID)" | grep -q .; then
+                      echo "The issue already has a start date."
+                      exit 0
+                  fi
+                  gh api "repos/$GH_REPO/issues/$NUMBER/issue-field-values" --silent -F "issue_field_values[][field_id]=$FIELD_ID" -F "issue_field_values[][value]=$(date -u +%F)"
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  NUMBER: ${{ github.event.issue.number }}
+                  # The org issue field Start date.
+                  FIELD_ID: 48928818
