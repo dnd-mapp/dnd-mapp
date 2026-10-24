@@ -66,6 +66,8 @@ Every other update waits for a review: majors, Node.js and pnpm in `devEngines`,
 
 Closing an issue, as completed or as not planned, removes its assignees, and [`.github/workflows/issue-closed.yaml`](.github/workflows/issue-closed.yaml) does the work. A reopened issue stays unassigned until someone picks it up again.
 
+Assigning an issue for the first time sets its Start date, the day the work started, and [`.github/workflows/issue-assigned.yaml`](.github/workflows/issue-assigned.yaml) does the work. Later assignments keep the first date, so the cycle time of a reopened issue counts from its first start.
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
