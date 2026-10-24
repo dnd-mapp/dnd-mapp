@@ -14,6 +14,9 @@
         "files.eol": "\r\n"
     },
     "[markdown]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.markdownlint": "explicit"
+        },
         "editor.rulers": []
     }
 }
