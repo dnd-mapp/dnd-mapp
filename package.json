@@ -10,9 +10,9 @@
     "url": "git+https://github.com/dnd-mapp/dnd-mapp.git"
   },
   "scripts": {
+    "lint-md": "markdownlint-cli2",
     "format": "prettier -w .",
-    "format-check": "prettier -c .",
-    "lint-md": "markdownlint-cli2"
+    "format-check": "prettier -c ."
   },
   "devEngines": {
     "runtime": {
