@@ -27,6 +27,8 @@
     }
   },
   "devDependencies": {
+    "@commitlint/cli": "catalog:commitlint",
+    "@commitlint/config-conventional": "catalog:commitlint",
     "markdownlint-cli2": "catalog:markdownlint",
     "prettier": "catalog:prettier"
   }

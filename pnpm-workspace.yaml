@@ -26,6 +26,9 @@ packages:
 
 # Catalogs
 catalogs:
+  commitlint:
+    "@commitlint/cli": ~21.2.4
+    "@commitlint/config-conventional": ~21.2.4
   markdownlint:
     markdownlint-cli2: ~0.24.0
   prettier:
