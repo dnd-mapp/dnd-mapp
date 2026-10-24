@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Issue closed
+
+on:
+    issues:
+        types:
+            - closed
+
+permissions: {}
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.issue.number }}
+    cancel-in-progress: false
+
+jobs:
+    unassign:
+        name: Unassign
+        if: github.event.issue.assignees[0] != null
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            issues: write
+        steps:
+            - name: Remove the assignees
+              run: gh issue edit "$NUMBER" --remove-assignee "$ASSIGNEES"
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  NUMBER: ${{ github.event.issue.number }}
+                  ASSIGNEES: ${{ join(github.event.issue.assignees.*.login, ',') }}
