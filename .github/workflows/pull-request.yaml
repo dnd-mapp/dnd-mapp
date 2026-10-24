@@ -74,3 +74,48 @@ jobs:
               uses: docker://rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
               with:
                   args: -color
+
+    commit-messages:
+        name: Commit messages
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Lint the commit messages
+              run: pnpm exec commitlint --from "$BASE_SHA" --to "$HEAD_SHA" --verbose
+              shell: bash
+              env:
+                  BASE_SHA: ${{ github.event.pull_request.base.sha }}
+                  HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+
+    pull-request-title:
+        # Keep this job in sync with pull-request-edited.yaml, which reruns it when the title is edited.
+        name: Pull request title
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Lint the pull request title
+              run: printf '%s\n' "$TITLE" | pnpm exec commitlint --verbose
+              shell: bash
+              env:
+                  TITLE: ${{ github.event.pull_request.title }}

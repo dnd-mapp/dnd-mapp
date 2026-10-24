@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Pull request edited
+
+on:
+    pull_request:
+        types:
+            - edited
+
+permissions: {}
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
+jobs:
+    pull-request-title:
+        # Keep this job in sync with pull-request.yaml, which runs it on every push to the pull request.
+        name: Pull request title
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Lint the pull request title
+              run: printf '%s\n' "$TITLE" | pnpm exec commitlint --verbose
+              shell: bash
+              env:
+                  TITLE: ${{ github.event.pull_request.title }}
