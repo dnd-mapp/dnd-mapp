@@ -1,0 +1,45 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-issue-forms.json
+
+name: Task
+description: "Maintainers only: track internal work that users don't notice."
+type: Task
+body:
+    - type: markdown
+      attributes:
+          value: >
+              For maintainers. To propose an idea, start a discussion in
+              [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas) instead.
+
+
+              Use a task for internal work that users don't notice: refactors, tooling, CI, dependencies, and docs.
+
+    - type: textarea
+      id: what
+      validations:
+          required: true
+      attributes:
+          label: What
+          description: The work to do.
+
+    - type: textarea
+      id: why
+      validations:
+          required: true
+      attributes:
+          label: Why
+          description: The problem the work solves, or what it makes possible.
+
+    - type: textarea
+      id: done-when
+      validations:
+          required: true
+      attributes:
+          label: Done when
+          description: The conditions the work must meet before it counts as done.
+          value: "- [ ] "
+
+    - type: textarea
+      id: notes
+      attributes:
+          label: Notes
+          description: Approach, pointers to code, or anything else that helps.

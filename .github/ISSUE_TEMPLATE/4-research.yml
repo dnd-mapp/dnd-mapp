@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-issue-forms.json
+
+name: Research
+description: "Maintainers only: track a time-boxed investigation that ends in a decision or recommendation."
+type: Research
+body:
+    - type: markdown
+      attributes:
+          value: >
+              For maintainers. To propose an idea, start a discussion in
+              [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas) instead.
+
+
+              Use research for a time-boxed investigation that ends in a decision or recommendation, not in shipped
+              code. Set the Time box field during triage.
+
+    - type: textarea
+      id: question
+      validations:
+          required: true
+      attributes:
+          label: Question
+          description: The one question the research must answer.
+
+    - type: textarea
+      id: background
+      validations:
+          required: true
+      attributes:
+          label: Background
+          description: Why the question matters now, and which work waits on the answer.
+
+    - type: textarea
+      id: options
+      attributes:
+          label: Options to evaluate
+          description: The solutions, tools, or approaches to compare.
+
+    - type: textarea
+      id: criteria
+      attributes:
+          label: Evaluation criteria
+          description: What the options are weighed on.
+
+    - type: dropdown
+      id: deliverable
+      validations:
+          required: true
+      attributes:
+          label: Deliverable
+          description: The form the outcome takes.
+          options:
+              - Recommendation in a comment
+              - ADR
+              - Proof of concept
+
+    - type: textarea
+      id: done-when
+      validations:
+          required: true
+      attributes:
+          label: Done when
+          description: The conditions the research must meet before it counts as done.
+          value: |
+              - [ ] The question is answered.
+              - [ ] The recommendation is recorded.
+              - [ ] The follow-up issues are filed.

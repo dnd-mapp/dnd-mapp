@@ -1,0 +1,71 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-issue-forms.json
+
+name: Feature
+description: "Maintainers only: track new or changed behavior that users can see or use."
+type: Feature
+body:
+    - type: markdown
+      attributes:
+          value: >
+              For maintainers. To propose an idea, start a discussion in
+              [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas) instead.
+
+
+              Use a feature for new or changed behavior that users can see or use.
+
+    - type: textarea
+      id: problem
+      validations:
+          required: true
+      attributes:
+          label: Problem
+          description: What users want to do that D&D Mapp makes hard or impossible today.
+
+    - type: textarea
+      id: solution
+      validations:
+          required: true
+      attributes:
+          label: Solution
+          description: How D&D Mapp will solve the problem.
+
+    - type: textarea
+      id: acceptance-criteria
+      validations:
+          required: true
+      attributes:
+          label: Acceptance criteria
+          description: The conditions the feature must meet before it counts as done.
+          value: "- [ ] "
+
+    - type: textarea
+      id: out-of-scope
+      attributes:
+          label: Out of scope
+          description: What this feature leaves out on purpose.
+
+    - type: dropdown
+      id: audience
+      attributes:
+          label: Who is this for?
+          description: Pick everyone who benefits.
+          multiple: true
+          options:
+              - Dungeon Master
+              - Player
+              - Admin (manages users, servers, and data from the dashboards)
+              - Contributor or developer
+
+    - type: textarea
+      id: designs
+      attributes:
+          label: Designs
+          description: Mockups, screenshots, or Figma links.
+
+    - type: textarea
+      id: notes
+      attributes:
+          label: Notes
+          description: >
+              Anything else that helps. When the feature comes from an Ideas discussion, end with a
+              `Refs: <discussion URL>` line.
