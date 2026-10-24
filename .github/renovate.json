@@ -1,0 +1,53 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": ["config:best-practices"],
+    "timezone": "Europe/Amsterdam",
+    "rangeStrategy": "bump",
+    "commitMessageTopic": "{{depName}}",
+    "automergeStrategy": "merge-commit",
+    "lockFileMaintenance": {
+        "schedule": ["* 0-5 * * 1"],
+        "automerge": true
+    },
+    "vulnerabilityAlerts": {
+        "minimumReleaseAge": "3 days",
+        "minimumReleaseAgeBehaviour": "timestamp-optional"
+    },
+    "packageRules": [
+        {
+            "description": "Use the ci commit type for actions, runners, and Docker images in workflows.",
+            "matchManagers": ["github-actions"],
+            "semanticCommitType": "ci"
+        },
+        {
+            "description": "Group the non-major updates of actions, runners, and Docker images in workflows.",
+            "matchManagers": ["github-actions"],
+            "matchUpdateTypes": ["minor", "patch", "digest", "pinDigest"],
+            "groupName": "GitHub Actions"
+        },
+        {
+            "description": "Merge the non-major updates of actions, runners, and Docker images in workflows without review.",
+            "matchManagers": ["github-actions"],
+            "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
+            "automerge": true
+        },
+        {
+            "description": "Merge the non-major updates of development tools without review. List each catalog of development tools here, so the updates of every other catalog wait for review.",
+            "matchDepTypes": [
+                "devDependencies",
+                "pnpm.catalog.commitlint",
+                "pnpm.catalog.lefthook",
+                "pnpm.catalog.markdownlint",
+                "pnpm.catalog.prettier"
+            ],
+            "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
+            "automerge": true
+        },
+        {
+            "description": "Wait for approval on the Dependency Dashboard before proposing a new major of Node.js or pnpm.",
+            "matchDepTypes": ["devEngines.runtime", "devEngines.packageManager"],
+            "matchUpdateTypes": ["major"],
+            "dependencyDashboardApproval": true
+        }
+    ]
+}

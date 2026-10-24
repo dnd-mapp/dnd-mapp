@@ -51,6 +51,17 @@ Set `LEFTHOOK=0` to skip the hooks for one command:
 LEFTHOOK=0 git commit
 ```
 
+## Dependency updates
+
+[Renovate](https://docs.renovatebot.com) opens a pull request as soon as an update is out, and [`.github/renovate.json`](.github/renovate.json) holds its config. npm packages first wait 3 days after their release, the same age pnpm requires before it installs them. The Dependency Dashboard issue lists every pending update.
+
+Renovate merges these updates without review once the checks pass, since it may bypass the code owner review of the `Reviews` ruleset:
+
+- Minor, patch, and digest updates of the development tools, the actions, the runners, and the Docker images in workflows.
+- Lock file maintenance, which refreshes the transitive dependencies early on Monday mornings.
+
+Every other update waits for a review: majors, Node.js and pnpm in `devEngines`, and dependencies outside the development tools. A new major of Node.js or pnpm first waits for approval on the Dependency Dashboard. Add each new catalog of development tools to the auto-merge rule in the config; the updates of any other catalog wait for review.
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
