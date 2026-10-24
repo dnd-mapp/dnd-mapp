@@ -16,18 +16,38 @@ concurrency:
 jobs:
     start-date:
         name: Start date
+        # Assigning an Epic names its owner, so an Epic dates from its first sub-issue instead.
+        if: github.event.issue.type.name != 'Epic'
         runs-on: ubuntu-26.04
         timeout-minutes: 5
         permissions:
             issues: write
         steps:
-            - name: Set the start date when it is empty
+            - name: Set the start date of the issue and its parent Epic when empty
               run: |
-                  if gh api "repos/$GH_REPO/issues/$NUMBER/issue-field-values?per_page=100" --jq ".[] | select(.issue_field_id == $FIELD_ID)" | grep -q .; then
-                      echo "The issue already has a start date."
-                      exit 0
+                  set_start_date() {
+                      if gh api "repos/$1/issues/$2/issue-field-values?per_page=100" --jq ".[] | select(.issue_field_id == $FIELD_ID)" | grep -q .; then
+                          echo "$1#$2 already has a start date."
+                          return
+                      fi
+                      gh api "repos/$1/issues/$2/issue-field-values" --silent -F "issue_field_values[][field_id]=$FIELD_ID" -F "issue_field_values[][value]=$(date -u +%F)"
+                      echo "Set the start date of $1#$2."
+                  }
+
+                  set_start_date "$GH_REPO" "$NUMBER"
+
+                  if ! parent=$(gh api "repos/$GH_REPO/issues/$NUMBER/parent" --jq '"\(.repository_url | split("/")[-2:] | join("/")) \(.number) \(.type.name // "")"' 2> error.txt); then
+                      if grep -q "HTTP 404" error.txt; then
+                          echo "The issue has no parent."
+                          exit 0
+                      fi
+                      cat error.txt >&2
+                      exit 1
                   fi
-                  gh api "repos/$GH_REPO/issues/$NUMBER/issue-field-values" --silent -F "issue_field_values[][field_id]=$FIELD_ID" -F "issue_field_values[][value]=$(date -u +%F)"
+                  read -r parent_repo parent_number parent_type <<< "$parent"
+                  if [[ "$parent_type" == "Epic" ]]; then
+                      set_start_date "$parent_repo" "$parent_number"
+                  fi
               shell: bash
               env:
                   GH_TOKEN: ${{ github.token }}
