@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-discussion.json
+
+body:
+    - type: markdown
+      attributes:
+          value: >
+              Ask anything about using, running, or contributing to D&D Mapp, including how its engine handles a rule of
+              the game. Rulings at your own table that have no tie to D&D Mapp belong in a D&D community instead.
+
+
+              When D&D Mapp handles a rule differently from the rulebook, or something else is broken, open an issue
+              instead.
+
+
+              Once a reply solves your question, mark it as the answer so others can find it.
+
+    - type: textarea
+      id: question
+      validations:
+          required: true
+      attributes:
+          label: Question
+          description: What do you want to know?
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Context
+          description: What you are trying to do, what you have tried, and where you got stuck.
+
+    - type: checkboxes
+      id: preflight
+      attributes:
+          label: Before you post
+          options:
+              - label: I searched the existing discussions and issues for this question.
+                required: true
