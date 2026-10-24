@@ -1,0 +1,12 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Set up
+description: Set up pnpm and install the dependencies from the lockfile.
+
+runs:
+    using: composite
+    steps:
+        - name: Set up pnpm and install dependencies
+          uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
+          with:
+              require-lockfile: true

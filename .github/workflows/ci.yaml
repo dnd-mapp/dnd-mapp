@@ -28,9 +28,7 @@ jobs:
                   persist-credentials: false
 
             - name: Set up pnpm and install dependencies
-              uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
-              with:
-                  require-lockfile: true
+              uses: ./.github/actions/setup
 
             - name: Check formatting
               run: pnpm format-check
@@ -49,9 +47,7 @@ jobs:
                   persist-credentials: false
 
             - name: Set up pnpm and install dependencies
-              uses: pnpm/setup@a0881977cd8ea73b1ed212236c99ca10dcc80cf4 # v3.1.1
-              with:
-                  require-lockfile: true
+              uses: ./.github/actions/setup
 
             - name: Annotate findings on the pull request
               run: echo "::add-matcher::.github/markdownlint-matcher.json"
