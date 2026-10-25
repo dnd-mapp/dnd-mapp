@@ -10,6 +10,10 @@ runs:
           run: echo "::add-matcher::.github/markdownlint-matcher.json"
           shell: bash
 
+        - name: Annotate ESLint findings on the pull request
+          run: echo "::add-matcher::.github/eslint-matcher.json"
+          shell: bash
+
         - name: Install Chromium for the unit tests
           run: pnpm exec playwright install --with-deps chromium
           shell: bash

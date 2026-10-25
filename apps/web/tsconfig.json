@@ -1,5 +1,9 @@
 {
-    "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.spec.json" }],
+    "references": [
+        { "path": "./tsconfig.app.json" },
+        { "path": "./tsconfig.spec.json" },
+        { "path": "./tsconfig.node.json" }
+    ],
     "files": [],
     "compilerOptions": {
         "allowUnreachableCode": false,

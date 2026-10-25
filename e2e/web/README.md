@@ -6,11 +6,12 @@ The end-to-end tests of the [web client](../../apps/web/README.md): [Playwright]
 
 Run each task from the repository root.
 
-| Task        | Command                | Runs in CI | Cached |
-|:------------|:-----------------------|:----------:|:------:|
-| `e2e`       | `playwright test --ui` |     no     |   no   |
-| `e2e-ci`    | `playwright test`      |     no     |  yes   |
-| `typecheck` | `tsc`                  |    yes     |  yes   |
+| Task        | Command                     | Runs in CI | Cached |
+|:------------|:----------------------------|:----------:|:------:|
+| `e2e`       | `playwright test --ui`      |     no     |   no   |
+| `e2e-ci`    | `playwright test`           |     no     |  yes   |
+| `typecheck` | `tsc`                       |    yes     |  yes   |
+| `lint`      | `eslint . --max-warnings 0` |    yes     |  yes   |
 
 Open the Playwright UI to run and debug the tests. The tests use the dev server at <http://localhost:4200> when it is already up, and start one otherwise:
 
@@ -30,6 +31,12 @@ Check the types of the tests and the Playwright config, which Playwright itself 
 
 ```bash
 pnpm moon run web-e2e:typecheck
+```
+
+Lint the tests and the config files with [ESLint](https://eslint.org), [`typescript-eslint`](https://typescript-eslint.io), and the rules of [`eslint-plugin-playwright`](https://github.com/mskelton/eslint-plugin-playwright). The task fails on any finding, warnings included, and [`eslint.config.ts`](eslint.config.ts) holds the rules:
+
+```bash
+pnpm moon run web-e2e:lint
 ```
 
 The tests run in the Chromium build of the Playwright version in the `playwright` catalog. Install it once, from this folder:

@@ -39,3 +39,9 @@ tasks:
             - "vitest.config.ts"
         outputs:
             - "coverage/**/*"
+
+    lint:
+        command: "eslint . --max-warnings 0"
+        inputs:
+            - "@group(sources)"
+            - "*.config.ts"

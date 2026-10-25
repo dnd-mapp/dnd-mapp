@@ -52,6 +52,7 @@
             "matchDepTypes": [
                 "devDependencies",
                 "pnpm.catalog.commitlint",
+                "pnpm.catalog.eslint",
                 "pnpm.catalog.lefthook",
                 "pnpm.catalog.markdownlint",
                 "pnpm.catalog.moon",
