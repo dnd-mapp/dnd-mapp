@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: CI
+description: Check the formatting, lint the Markdown files, and lint the workflows.
+
+runs:
+    using: composite
+    steps:
+        - name: Check formatting
+          run: pnpm format-check
+          shell: bash
+
+        - name: Annotate Markdown findings on the pull request
+          run: echo "::add-matcher::.github/markdownlint-matcher.json"
+          shell: bash
+
+        - name: Lint the Markdown files
+          run: pnpm lint-md
+          shell: bash
+
+        - name: Annotate workflow findings on the pull request
+          run: echo "::add-matcher::.github/actionlint-matcher.json"
+          shell: bash
+
+        - name: Lint the workflows
+          uses: docker://rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+          with:
+              args: -color
