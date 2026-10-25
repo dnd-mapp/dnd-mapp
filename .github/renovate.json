@@ -55,6 +55,7 @@
                 "pnpm.catalog.lefthook",
                 "pnpm.catalog.markdownlint",
                 "pnpm.catalog.moon",
+                "pnpm.catalog.node",
                 "pnpm.catalog.playwright",
                 "pnpm.catalog.prettier",
                 "pnpm.catalog.vitest"
