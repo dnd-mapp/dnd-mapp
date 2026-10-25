@@ -63,6 +63,24 @@
             "type": "shell",
             "command": "pnpm moon run web:test-ci",
             "problemMatcher": []
+        },
+        {
+            "label": "web-e2e:e2e",
+            "type": "shell",
+            "command": "pnpm moon run web-e2e:e2e",
+            "problemMatcher": []
+        },
+        {
+            "label": "web-e2e:e2e-ci",
+            "type": "shell",
+            "command": "pnpm moon run web-e2e:e2e-ci",
+            "problemMatcher": []
+        },
+        {
+            "label": "web-e2e:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run web-e2e:typecheck",
+            "problemMatcher": "$tsc"
         }
     ]
 }
