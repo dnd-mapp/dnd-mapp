@@ -1,0 +1,38 @@
+{
+    "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.spec.json" }],
+    "files": [],
+    "compilerOptions": {
+        "allowUnreachableCode": false,
+        "allowUnusedLabels": false,
+        "exactOptionalPropertyTypes": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "lib": ["ES2025", "DOM"],
+        "module": "preserve",
+        "noFallthroughCasesInSwitch": true,
+        "noErrorTruncation": true,
+        "noImplicitOverride": true,
+        "noImplicitReturns": true,
+        "noPropertyAccessFromIndexSignature": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "paths": {
+            "@/core": ["./src/core/index.ts"],
+            "@/core/testing": ["./src/core/testing/index.ts"]
+        },
+        "skipLibCheck": true,
+        "strict": true,
+        "target": "es2025",
+        "verbatimModuleSyntax": true
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "extendedDiagnostics": {
+            "defaultCategory": "error"
+        },
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictStandalone": true
+    }
+}

@@ -8,6 +8,8 @@ tasks:
         command: "prettier -w ."
         inputs:
             - "**/*"
+            # The glob also matches the package symlinks in each project's node_modules, which moon cannot hash.
+            - "!**/node_modules/**"
             - ".prettierrc.json"
             - ".prettierignore"
         options:
@@ -19,6 +21,8 @@ tasks:
         command: "prettier -c ."
         inputs:
             - "**/*"
+            # The glob also matches the package symlinks in each project's node_modules, which moon cannot hash.
+            - "!**/node_modules/**"
             - ".prettierrc.json"
             - ".prettierignore"
 

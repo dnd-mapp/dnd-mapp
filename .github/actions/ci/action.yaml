@@ -10,8 +10,16 @@ runs:
           run: echo "::add-matcher::.github/markdownlint-matcher.json"
           shell: bash
 
+        - name: Install Chromium for the unit tests
+          run: pnpm exec playwright install --with-deps chromium
+          shell: bash
+          working-directory: apps/web
+
+        # moon prefixes each output line with the task target, which hides workflow commands such as the test annotations
+        # from the runner, so sed strips the prefix from those lines. The minimal summary skips the replay of failed task
+        # output, which would annotate each finding a second time.
         - name: Run the affected moon tasks
-          run: pnpm moon ci
+          run: pnpm moon ci --summary minimal | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
           shell: bash
 
         - name: Annotate workflow findings on the pull request

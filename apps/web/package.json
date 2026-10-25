@@ -1,0 +1,27 @@
+{
+  "name": "@dnd-mapp/web",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@angular/cdk": "catalog:angular",
+    "@angular/common": "catalog:angular",
+    "@angular/compiler": "catalog:angular",
+    "@angular/core": "catalog:angular",
+    "@angular/platform-browser": "catalog:angular",
+    "@angular/router": "catalog:angular",
+    "rxjs": "catalog:angular",
+    "tslib": "catalog:angular"
+  },
+  "devDependencies": {
+    "@angular/build": "catalog:angular",
+    "@angular/cli": "catalog:angular",
+    "@angular/compiler-cli": "catalog:angular",
+    "@vitest/browser-playwright": "catalog:vitest",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "@vitest/ui": "catalog:vitest",
+    "playwright": "catalog:playwright",
+    "sass": "catalog:angular",
+    "typescript": "catalog:angular",
+    "vitest": "catalog:vitest"
+  }
+}

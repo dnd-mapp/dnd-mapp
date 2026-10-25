@@ -1,11 +1,13 @@
 {
     "recommendations": [
+        "angular.ng-template",
         "davidanson.vscode-markdownlint",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
         "hverlin.mise-vscode",
         "joshbolduc.commitlint",
         "moonrepo.moon-console",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "vitest.explorer"
     ]
 }

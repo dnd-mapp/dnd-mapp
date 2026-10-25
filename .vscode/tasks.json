@@ -18,6 +18,51 @@
             "type": "shell",
             "command": "pnpm moon run root:lint-md",
             "problemMatcher": []
+        },
+        {
+            "label": "web:start",
+            "type": "shell",
+            "command": "pnpm moon run web:start",
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "Changes detected"
+                    },
+                    "endsPattern": {
+                        "regexp": "bundle generation (complete|failed)"
+                    }
+                }
+            }
+        },
+        {
+            "label": "web:build",
+            "type": "shell",
+            "command": "pnpm moon run web:build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "web:test",
+            "type": "shell",
+            "command": "pnpm moon run web:test",
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "web:test-ci",
+            "type": "shell",
+            "command": "pnpm moon run web:test-ci",
+            "problemMatcher": []
         }
     ]
 }
