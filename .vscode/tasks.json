@@ -65,6 +65,12 @@
             "problemMatcher": []
         },
         {
+            "label": "web:lint",
+            "type": "shell",
+            "command": "pnpm moon run web:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
             "label": "web-e2e:e2e",
             "type": "shell",
             "command": "pnpm moon run web-e2e:e2e",
@@ -81,6 +87,12 @@
             "type": "shell",
             "command": "pnpm moon run web-e2e:typecheck",
             "problemMatcher": "$tsc"
+        },
+        {
+            "label": "web-e2e:lint",
+            "type": "shell",
+            "command": "pnpm moon run web-e2e:lint",
+            "problemMatcher": "$eslint-stylish"
         }
     ]
 }
