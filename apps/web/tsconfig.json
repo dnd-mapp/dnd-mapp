@@ -28,7 +28,11 @@
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
+        "extendedDiagnostics": {
+            "defaultCategory": "error"
+        },
         "strictInjectionParameters": true,
-        "strictInputAccessModifiers": true
+        "strictInputAccessModifiers": true,
+        "strictStandalone": true
     }
 }
