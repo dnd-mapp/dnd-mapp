@@ -1,0 +1,36 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "web-e2e"
+layer: "automation"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+        - "playwright.config.ts"
+        - "package.json"
+        - "tsconfig.json"
+
+tasks:
+    e2e:
+        command: "playwright test --ui"
+        preset: "server"
+        inputs:
+            - "@group(sources)"
+
+    e2e-ci:
+        command: "playwright test"
+        env:
+            CI: "true"
+        inputs:
+            - "@group(sources)"
+        outputs:
+            - "playwright-report/**/*"
+            - "test-results/**/*"
+        options:
+            # CI runs the end-to-end tests once it can start the app from a Docker image.
+            runInCI: false
+
+    typecheck:
+        command: "tsc"
+        inputs:
+            - "@group(sources)"

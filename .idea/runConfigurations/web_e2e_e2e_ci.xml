@@ -1,0 +1,13 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="web-e2e:e2e-ci" type="js.build_tools.npm" folderName="web-e2e">
+    <package-json value="$PROJECT_DIR$/package.json" />
+    <command value="run" />
+    <scripts>
+      <script value="moon" />
+    </scripts>
+    <arguments value="run web-e2e:e2e-ci" />
+    <node-interpreter value="project" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

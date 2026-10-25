@@ -1,0 +1,11 @@
+{
+  "name": "@dnd-mapp/web-e2e",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@dnd-mapp/web": "workspace:*",
+    "@playwright/test": "catalog:playwright",
+    "@types/node": "catalog:node",
+    "typescript": "catalog:angular"
+  }
+}
