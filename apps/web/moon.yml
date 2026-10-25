@@ -1,0 +1,44 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "web"
+layer: "application"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+        - "public/**/*"
+        - "angular.json"
+        - "tsconfig*.json"
+        - "package.json"
+
+tasks:
+    start:
+        command: "ng serve"
+        inputs:
+            - "@group(sources)"
+        # The dev server runs until it is stopped, so moon neither caches it nor runs it in CI.
+        preset: "server"
+
+    build:
+        command: "ng build"
+        inputs:
+            - "@group(sources)"
+        outputs:
+            - "dist/**/*"
+
+    test:
+        command: "ng test"
+        inputs:
+            - "@group(sources)"
+            - "vitest.config.ts"
+        # The tests watch for changes until they are stopped, so moon neither caches them nor runs them in CI. test-ci
+        # runs them once.
+        preset: "server"
+
+    test-ci:
+        command: "ng test -c ci"
+        inputs:
+            - "@group(sources)"
+            - "vitest.config.ts"
+        outputs:
+            - "coverage/**/*"

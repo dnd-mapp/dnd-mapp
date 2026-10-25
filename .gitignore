@@ -6,6 +6,9 @@ dist/
 out-tsc/
 tmp/
 
+# Angular
+.angular/
+
 # moon
 .moon/cache/
 .moon/docker/

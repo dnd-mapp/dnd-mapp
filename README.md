@@ -4,7 +4,7 @@ The monorepo for D&D Mapp: it holds all packages and applications of the project
 
 ## Status
 
-Early development: the repository holds no code yet.
+Early development: the repository holds the scaffold of the web client in [`apps/web`](apps/web/README.md), and no features yet.
 
 ## Development
 
@@ -39,6 +39,10 @@ Run every task that CI runs for the changes on your branch, which covers the two
 ```bash
 pnpm moon ci --base origin/main
 ```
+
+Each project's README lists its tasks:
+
+- [`apps/web`](apps/web/README.md): the Angular web client.
 
 Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/actionlint), the same check CI runs. Install [ShellCheck](https://github.com/koalaman/shellcheck) next to it, since actionlint lints the `run:` scripts only when it finds ShellCheck on `PATH`:
 

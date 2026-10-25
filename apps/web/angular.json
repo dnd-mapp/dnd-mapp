@@ -1,0 +1,121 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "cli": {
+        "analytics": false,
+        "packageManager": "pnpm"
+    },
+    "schematics": {
+        "@schematics/angular:component": {
+            "style": "scss",
+            "type": "component"
+        },
+        "@schematics/angular:directive": {
+            "type": "directive"
+        },
+        "@schematics/angular:service": {
+            "type": "service"
+        },
+        "@schematics/angular:guard": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:interceptor": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:module": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:pipe": {
+            "typeSeparator": "."
+        },
+        "@schematics/angular:resolver": {
+            "typeSeparator": "."
+        }
+    },
+    "projects": {
+        "web": {
+            "projectType": "application",
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "dma",
+            "architect": {
+                "build": {
+                    "builder": "@angular/build:application",
+                    "options": {
+                        "assets": [
+                            {
+                                "glob": "**/*",
+                                "input": "public"
+                            }
+                        ],
+                        "browser": "src/main.ts",
+                        "inlineStyleLanguage": "scss",
+                        "styles": ["src/styles.scss"],
+                        "tsConfig": "tsconfig.app.json"
+                    },
+                    "defaultConfiguration": "production",
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "500kB",
+                                    "maximumError": "1MB"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "4kB",
+                                    "maximumError": "8kB"
+                                }
+                            ],
+                            "outputHashing": "all",
+                            "subresourceIntegrity": true
+                        },
+                        "development": {
+                            "extractLicenses": false,
+                            "namedChunks": true,
+                            "optimization": false,
+                            "sourceMap": true
+                        }
+                    }
+                },
+                "serve": {
+                    "builder": "@angular/build:dev-server",
+                    "options": {
+                        "buildTarget": "web:build:development",
+                        "host": "localhost",
+                        "port": 4200
+                    }
+                },
+                "test": {
+                    "builder": "@angular/build:unit-test",
+                    "options": {
+                        "browsers": ["chromiumHeadless"],
+                        "coverage": true,
+                        "coverageExclude": ["**/index.ts", "**/config/**/*.ts", "**/testing/**/*.ts"],
+                        "coverageReporters": ["text-summary", "html"],
+                        "coverageThresholds": {
+                            "branches": 80,
+                            "functions": 80,
+                            "lines": 80,
+                            "statements": 80
+                        },
+                        "include": ["**/*.spec.ts"],
+                        "isolate": true,
+                        "reporters": ["dot"],
+                        "runnerConfig": "vitest.config.ts",
+                        "ui": true,
+                        "watch": true
+                    },
+                    "configurations": {
+                        "ci": {
+                            "reporters": ["dot", "github-actions"],
+                            "ui": false,
+                            "watch": false
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
