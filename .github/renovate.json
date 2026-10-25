@@ -55,10 +55,17 @@
                 "pnpm.catalog.lefthook",
                 "pnpm.catalog.markdownlint",
                 "pnpm.catalog.moon",
-                "pnpm.catalog.prettier"
+                "pnpm.catalog.playwright",
+                "pnpm.catalog.prettier",
+                "pnpm.catalog.vitest"
             ],
             "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
             "automerge": true
+        },
+        {
+            "description": "Group the updates of the Angular catalog, which wait for review, so the framework packages move together.",
+            "matchDepTypes": ["pnpm.catalog.angular"],
+            "groupName": "Angular"
         },
         {
             "description": "Wait for approval on the Dependency Dashboard before proposing a new major of Node.js or pnpm.",
