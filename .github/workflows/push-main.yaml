@@ -14,8 +14,8 @@ concurrency:
     cancel-in-progress: false
 
 jobs:
-    format:
-        name: Format
+    ci:
+        name: CI
         runs-on: ubuntu-26.04
         timeout-minutes: 5
         permissions:
@@ -29,50 +29,5 @@ jobs:
             - name: Set up pnpm and install dependencies
               uses: ./.github/actions/setup
 
-            - name: Check formatting
-              run: pnpm format-check
-              shell: bash
-
-    markdownlint:
-        name: Markdownlint
-        runs-on: ubuntu-26.04
-        timeout-minutes: 5
-        permissions:
-            contents: read
-        steps:
-            - name: Check out the repository
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  persist-credentials: false
-
-            - name: Set up pnpm and install dependencies
-              uses: ./.github/actions/setup
-
-            - name: Annotate findings on the pull request
-              run: echo "::add-matcher::.github/markdownlint-matcher.json"
-              shell: bash
-
-            - name: Lint the Markdown files
-              run: pnpm lint-md
-              shell: bash
-
-    actionlint:
-        name: Actionlint
-        runs-on: ubuntu-26.04
-        timeout-minutes: 5
-        permissions:
-            contents: read
-        steps:
-            - name: Check out the repository
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-              with:
-                  persist-credentials: false
-
-            - name: Annotate findings on the pull request
-              run: echo "::add-matcher::.github/actionlint-matcher.json"
-              shell: bash
-
-            - name: Lint the workflows
-              uses: docker://rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
-              with:
-                  args: -color
+            - name: Run the checks
+              uses: ./.github/actions/ci
