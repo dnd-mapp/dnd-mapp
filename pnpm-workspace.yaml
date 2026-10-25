@@ -56,6 +56,7 @@ catalogs:
   moon:
     "@moonrepo/cli": ~2.6.2
   playwright:
+    "@playwright/test": ~1.64.1
     playwright: ~1.64.1
   prettier:
     prettier: ~3.9.10

@@ -46,3 +46,5 @@ desktop.ini
 *.log
 logs/
 coverage/
+playwright-report/
+test-results/
