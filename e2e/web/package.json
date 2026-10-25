@@ -4,8 +4,12 @@
   "type": "module",
   "devDependencies": {
     "@dnd-mapp/web": "workspace:*",
+    "@eslint/js": "catalog:eslint",
     "@playwright/test": "catalog:playwright",
     "@types/node": "catalog:node",
-    "typescript": "catalog:angular"
+    "eslint": "catalog:eslint",
+    "eslint-plugin-playwright": "catalog:eslint",
+    "typescript": "catalog:angular",
+    "typescript-eslint": "catalog:eslint"
   }
 }

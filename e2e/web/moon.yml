@@ -34,3 +34,10 @@ tasks:
         command: "tsc"
         inputs:
             - "@group(sources)"
+            - "eslint.config.ts"
+
+    lint:
+        command: "eslint . --max-warnings 0"
+        inputs:
+            - "@group(sources)"
+            - "eslint.config.ts"
