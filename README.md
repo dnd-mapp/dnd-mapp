@@ -8,22 +8,36 @@ Early development: the repository holds no code yet.
 
 ## Development
 
+[moon](https://moonrepo.dev) runs the tasks of every project in the repository. It finds the projects in `apps/`, `packages/`, and `e2e/`, plus the `root` project for the checks that cover the whole repository. [`.moon/workspace.yml`](.moon/workspace.yml) configures the workspace, and each project's `moon.yml` defines its tasks. moon uses the Node.js and pnpm versions that `devEngines` in [`package.json`](package.json) pins. On Windows, install [PowerShell 7](https://learn.microsoft.com/powershell/scripting/install/install-powershell-on-windows), which moon runs the tasks in; without it, moon falls back to Windows PowerShell 5.1, which adds CLIXML progress records to the task output.
+
+Generate the JSON schemas that the moon config files reference, so your editor can validate and complete them. moon writes them to `.moon/cache/schemas/` on its first run, and this command refreshes them:
+
+```bash
+pnpm moon sync
+```
+
 Format the repository with Prettier:
 
 ```bash
-pnpm format
+pnpm moon run root:format
 ```
 
 Check the formatting without changing files:
 
 ```bash
-pnpm format-check
+pnpm moon run root:format-check
 ```
 
-Lint the Markdown files with [markdownlint](https://github.com/DavidAnson/markdownlint-cli2), the same check CI runs. [`.markdownlint-cli2.yaml`](.markdownlint-cli2.yaml) holds the rules:
+Lint the Markdown files with [markdownlint](https://github.com/DavidAnson/markdownlint-cli2). [`.markdownlint-cli2.yaml`](.markdownlint-cli2.yaml) holds the rules:
 
 ```bash
-pnpm lint-md
+pnpm moon run root:lint-md
+```
+
+Run every task that CI runs for the changes on your branch, which covers the two checks above:
+
+```bash
+pnpm moon ci --base origin/main
 ```
 
 Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/actionlint), the same check CI runs. Install [ShellCheck](https://github.com/koalaman/shellcheck) next to it, since actionlint lints the `run:` scripts only when it finds ShellCheck on `PATH`:
