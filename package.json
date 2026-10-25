@@ -10,9 +10,7 @@
     "url": "git+https://github.com/dnd-mapp/dnd-mapp.git"
   },
   "scripts": {
-    "lint-md": "markdownlint-cli2",
-    "format": "prettier -w .",
-    "format-check": "prettier -c ."
+    "moon": "moon"
   },
   "devEngines": {
     "runtime": {
@@ -29,6 +27,7 @@
   "devDependencies": {
     "@commitlint/cli": "catalog:commitlint",
     "@commitlint/config-conventional": "catalog:commitlint",
+    "@moonrepo/cli": "catalog:moon",
     "lefthook": "catalog:lefthook",
     "markdownlint-cli2": "catalog:markdownlint",
     "prettier": "catalog:prettier"

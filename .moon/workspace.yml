@@ -1,0 +1,15 @@
+$schema: "./cache/schemas/workspace.json"
+
+projects:
+    globs:
+        - "apps/*"
+        - "packages/*"
+        - "e2e/*"
+    sources:
+        root: "."
+
+telemetry: false
+
+vcs:
+    # moon falls back to this branch when it cannot read the base of a comparison from the CI environment.
+    defaultBranch: "main"

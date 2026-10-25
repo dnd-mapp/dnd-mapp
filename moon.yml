@@ -1,0 +1,30 @@
+$schema: "./.moon/cache/schemas/project.json"
+
+id: "root"
+layer: "automation"
+
+tasks:
+    format:
+        command: "prettier -w ."
+        inputs:
+            - "**/*"
+            - ".prettierrc.json"
+            - ".prettierignore"
+        options:
+            cache: false
+            # The task rewrites files, so CI runs format-check instead.
+            runInCI: false
+
+    format-check:
+        command: "prettier -c ."
+        inputs:
+            - "**/*"
+            - ".prettierrc.json"
+            - ".prettierignore"
+
+    lint-md:
+        command: "markdownlint-cli2"
+        inputs:
+            - "**/*.md"
+            - ".markdownlint-cli2.yaml"
+            - ".github/.markdownlint-cli2.yaml"

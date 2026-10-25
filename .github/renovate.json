@@ -54,6 +54,7 @@
                 "pnpm.catalog.commitlint",
                 "pnpm.catalog.lefthook",
                 "pnpm.catalog.markdownlint",
+                "pnpm.catalog.moon",
                 "pnpm.catalog.prettier"
             ],
             "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],

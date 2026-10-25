@@ -6,6 +6,10 @@ dist/
 out-tsc/
 tmp/
 
+# moon
+.moon/cache/
+.moon/docker/
+
 # Environment
 .env
 .env.*
@@ -15,6 +19,7 @@ tmp/
 .idea/*
 !.idea/markdown.xml
 !.idea/prettier.xml
+!.idea/runConfigurations/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/launch.json
