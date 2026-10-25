@@ -1,21 +1,17 @@
 # yaml-language-server: $schema=https://www.schemastore.org/github-action.json
 
 name: CI
-description: Check the formatting, lint the Markdown files, and lint the workflows.
+description: Run the moon tasks affected by the changes, and lint the workflows.
 
 runs:
     using: composite
     steps:
-        - name: Check formatting
-          run: pnpm format-check
-          shell: bash
-
         - name: Annotate Markdown findings on the pull request
           run: echo "::add-matcher::.github/markdownlint-matcher.json"
           shell: bash
 
-        - name: Lint the Markdown files
-          run: pnpm lint-md
+        - name: Run the affected moon tasks
+          run: pnpm moon ci
           shell: bash
 
         - name: Annotate workflow findings on the pull request

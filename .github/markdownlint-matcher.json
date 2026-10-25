@@ -4,7 +4,7 @@
             "owner": "markdownlint",
             "pattern": [
                 {
-                    "regexp": "^(.+?):(\\d+)(?::(\\d+))? (error|warning) ([^/\\s]+)\\S* (.+)$",
+                    "regexp": "^(?:\\s*\\S+ \\| )?(.+?):(\\d+)(?::(\\d+))? (error|warning) ([^/\\s]+)\\S* (.+)$",
                     "file": 1,
                     "line": 2,
                     "column": 3,
