@@ -24,6 +24,7 @@ savePrefix: "~"
 packages:
   - apps/*
   - packages/*
+  - e2e/*
 
 # Catalogs
 catalogs:
