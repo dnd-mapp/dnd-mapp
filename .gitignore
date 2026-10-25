@@ -6,6 +6,10 @@ dist/
 out-tsc/
 tmp/
 
+# moon
+.moon/cache/
+.moon/docker/
+
 # Environment
 .env
 .env.*

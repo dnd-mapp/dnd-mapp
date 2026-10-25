@@ -1,0 +1,13 @@
+$schema: "./cache/schemas/toolchains.json"
+
+# The toolchains set no version, so moon runs the Node.js and pnpm binaries that mise resolves from devEngines in package.json.
+javascript:
+    packageManager: "pnpm"
+
+    # package.json stays the source of truth for dependencies, so moon writes nothing back into it.
+    syncPackageManagerField: false
+    syncProjectWorkspaceDependencies: false
+
+node: {}
+
+pnpm: {}

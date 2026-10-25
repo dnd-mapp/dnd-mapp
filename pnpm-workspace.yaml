@@ -34,5 +34,7 @@ catalogs:
     lefthook: ~2.2.2
   markdownlint:
     markdownlint-cli2: ~0.24.0
+  moon:
+    "@moonrepo/cli": ~2.6.2
   prettier:
     prettier: ~3.9.10
