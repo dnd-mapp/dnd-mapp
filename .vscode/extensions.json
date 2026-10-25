@@ -5,6 +5,7 @@
         "esbenp.prettier-vscode",
         "hverlin.mise-vscode",
         "joshbolduc.commitlint",
+        "moonrepo.moon-console",
         "redhat.vscode-yaml"
     ]
 }
