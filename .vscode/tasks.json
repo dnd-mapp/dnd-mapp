@@ -1,4 +1,23 @@
 {
     "version": "2.0.0",
-    "tasks": []
+    "tasks": [
+        {
+            "label": "root:format",
+            "type": "shell",
+            "command": "pnpm moon run root:format",
+            "problemMatcher": []
+        },
+        {
+            "label": "root:format-check",
+            "type": "shell",
+            "command": "pnpm moon run root:format-check",
+            "problemMatcher": []
+        },
+        {
+            "label": "root:lint-md",
+            "type": "shell",
+            "command": "pnpm moon run root:lint-md",
+            "problemMatcher": []
+        }
+    ]
 }
