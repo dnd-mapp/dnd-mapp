@@ -4,6 +4,8 @@
   "type": "module",
   "devDependencies": {
     "@dnd-mapp/web": "workspace:*",
-    "@playwright/test": "catalog:playwright"
+    "@playwright/test": "catalog:playwright",
+    "@types/node": "catalog:node",
+    "typescript": "catalog:angular"
   }
 }

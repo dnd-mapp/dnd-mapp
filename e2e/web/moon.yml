@@ -8,6 +8,7 @@ fileGroups:
         - "src/**/*"
         - "playwright.config.ts"
         - "package.json"
+        - "tsconfig.json"
 
 tasks:
     e2e:
@@ -28,3 +29,8 @@ tasks:
         options:
             # CI runs the end-to-end tests once it can start the app from a Docker image.
             runInCI: false
+
+    typecheck:
+        command: "tsc"
+        inputs:
+            - "@group(sources)"
