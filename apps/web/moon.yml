@@ -14,10 +14,9 @@ fileGroups:
 tasks:
     start:
         command: "ng serve"
+        preset: "server"
         inputs:
             - "@group(sources)"
-        # The dev server runs until it is stopped, so moon neither caches it nor runs it in CI.
-        preset: "server"
 
     build:
         command: "ng build"
@@ -28,12 +27,10 @@ tasks:
 
     test:
         command: "ng test"
+        preset: "server"
         inputs:
             - "@group(sources)"
             - "vitest.config.ts"
-        # The tests watch for changes until they are stopped, so moon neither caches them nor runs them in CI. test-ci
-        # runs them once.
-        preset: "server"
 
     test-ci:
         command: "ng test -c ci"
