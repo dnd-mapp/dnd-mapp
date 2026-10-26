@@ -20,6 +20,12 @@
             "problemMatcher": []
         },
         {
+            "label": "root:ssl-certs",
+            "type": "shell",
+            "command": "pnpm moon run root:ssl-certs",
+            "problemMatcher": []
+        },
+        {
             "label": "web:start",
             "type": "shell",
             "command": "pnpm moon run web:start",
