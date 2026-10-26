@@ -6,7 +6,7 @@
             "type": "chrome",
             "request": "launch",
             "preLaunchTask": "web:start",
-            "url": "http://localhost:4200",
+            "url": "https://localhost.www.dndmapp.dev:4200",
             "webRoot": "${workspaceFolder}/apps/web"
         }
     ]

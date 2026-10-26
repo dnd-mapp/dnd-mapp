@@ -9,7 +9,7 @@ export default defineConfig({
     retries: isCI ? 2 : 0,
     reporter: [['dot'], ...(isCI ? [['github'] as const] : []), ['html', { open: 'never' }]],
     use: {
-        baseURL: 'http://localhost:4200',
+        baseURL: 'https://localhost.www.dndmapp.dev:4200',
         trace: isCI ? 'on-first-retry' : 'off',
     },
     projects: [
@@ -22,7 +22,9 @@ export default defineConfig({
     //  when CI is set, so web-e2e:e2e-ci cannot start the app until then.
     webServer: {
         command: 'pnpm moon run web:start',
-        url: 'http://localhost:4200',
+        url: 'https://localhost.www.dndmapp.dev:4200',
+        // The readiness check runs in Node.js, which does not trust the mkcert CA.
+        ignoreHTTPSErrors: true,
         reuseExistingServer: !isCI,
     },
 });

@@ -32,3 +32,16 @@ tasks:
             - "**/*.md"
             - ".markdownlint-cli2.yaml"
             - ".github/.markdownlint-cli2.yaml"
+
+    ssl-certs:
+        # mkcert creates no missing folders, so .ssl/.gitkeep keeps the folder in the repository. The script lists each host,
+        # since a wildcard matches one label only, and adding a host changes the script, which invalidates the cache.
+        script: mkcert -cert-file .ssl/cert.pem -key-file .ssl/key.pem localhost.www.dndmapp.dev localhost 127.0.0.1
+        # The certificate depends on no files, only on the hosts in the script.
+        inputs: []
+        outputs:
+            - ".ssl/cert.pem"
+            - ".ssl/key.pem"
+        options:
+            # CI serves the apps behind Caddy instead of the dev servers.
+            runInCI: false
