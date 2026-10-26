@@ -13,7 +13,7 @@ Run each task from the repository root.
 | `typecheck` | `tsc`                       |    yes     |  yes   |
 | `lint`      | `eslint . --max-warnings 0` |    yes     |  yes   |
 
-Open the Playwright UI to run and debug the tests. The tests use the dev server at <http://localhost:4200> when it is already up, and start one otherwise:
+Open the Playwright UI to run and debug the tests. The tests use the dev server at <https://localhost.www.dndmapp.dev:4200> when it is already up, and start one otherwise. They need the hosts entry of the [one-time HTTPS setup](../../README.md#development):
 
 ```bash
 pnpm moon run web-e2e:e2e

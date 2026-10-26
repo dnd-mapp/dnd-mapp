@@ -14,7 +14,7 @@ Run each task from the repository root.
 | `test-ci` | `ng test -c ci`             |    yes     |  yes   |
 | `lint`    | `eslint . --max-warnings 0` |    yes     |  yes   |
 
-Serve the app at <http://localhost:4200>, and rebuild it when a file changes:
+Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
 
 ```bash
 pnpm moon run web:start
