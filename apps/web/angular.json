@@ -82,9 +82,13 @@
                 "serve": {
                     "builder": "@angular/build:dev-server",
                     "options": {
+                        "allowedHosts": ["localhost.www.dndmapp.dev"],
                         "buildTarget": "web:build:development",
-                        "host": "localhost",
-                        "port": 4200
+                        "host": "127.0.0.1",
+                        "port": 4200,
+                        "ssl": true,
+                        "sslCert": "../../.ssl/cert.pem",
+                        "sslKey": "../../.ssl/key.pem"
                     }
                 },
                 "test": {

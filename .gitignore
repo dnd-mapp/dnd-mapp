@@ -13,6 +13,10 @@ tmp/
 .moon/cache/
 .moon/docker/
 
+# Certificates of the dev servers
+.ssl/*
+!.ssl/.gitkeep
+
 # Environment
 .env
 .env.*
