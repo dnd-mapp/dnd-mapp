@@ -1,6 +1,3 @@
-# yaml-language-server: $schema=https://www.schemastore.org/pnpm-workspace.json
-
-# Dependency Resolution
 minimumReleaseAge: 4320 # 3 days
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 10080 # 7 days
@@ -60,7 +57,7 @@ catalogs:
   markdownlint:
     markdownlint-cli2: ~0.24.0
   moon:
-    "@moonrepo/cli": ~2.6.2
+    "@moonrepo/cli": ~2.6.4
   node:
     "@types/node": ~24.19.2
   playwright:
