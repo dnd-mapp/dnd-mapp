@@ -73,9 +73,11 @@ jobs:
         permissions:
             contents: read
         steps:
+            # moon run compares against the base branch in CI, which a shallow clone lacks.
             - name: Check out the repository
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
               with:
+                  fetch-depth: 0
                   persist-credentials: false
 
             - name: Set up pnpm and install dependencies
