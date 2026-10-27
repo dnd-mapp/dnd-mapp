@@ -1,6 +1,14 @@
 {
   "name": "@dnd-mapp/web",
+  "version": "0.0.0",
+  "description": "The web client of D&D Mapp.",
   "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "apps/web"
+  },
   "type": "module",
   "dependencies": {
     "@angular/cdk": "catalog:angular",

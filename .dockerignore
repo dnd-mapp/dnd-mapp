@@ -1,0 +1,5 @@
+# The targets in .docker/bake.hcl build from the root of the repository, so send only the files that their Dockerfiles
+# copy. Each Dockerfile reaches the daemon whether or not this file lists it.
+*
+!.docker/web/nginx.conf
+!apps/web/dist/web/browser/
