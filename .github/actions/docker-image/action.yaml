@@ -1,0 +1,60 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Docker image
+description: Build a target of .docker/bake.hcl and push its image to Docker Hub, tagged by docker/metadata-action.
+
+inputs:
+    image:
+        description: The Docker Hub repository of the image, such as `dndmapp/web`.
+        required: true
+    target:
+        description: The bake target that builds the image. It must inherit the docker-metadata-action target.
+        required: true
+    dockerhub-username:
+        description: The Docker Hub account that pushes the image.
+        required: true
+    dockerhub-token:
+        description: An access token of that account with write access to the repository.
+        required: true
+
+runs:
+    using: composite
+    steps:
+        # Dockerfiles that run commands need emulation to build an arm64 image on an amd64 runner.
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
+          with:
+              platforms: arm64
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+        - name: Log in to Docker Hub
+          uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
+          with:
+              username: ${{ inputs.dockerhub-username }}
+              password: ${{ inputs.dockerhub-token }}
+
+        # Pull requests push pr-<number>, which the Pull request closed workflow deletes. main pushes sha-<short> and
+        # edge, the tag of the latest commit of main. The version and latest tags wait for the release pipeline.
+        - name: Compute the tags and labels of the image
+          id: meta
+          uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+          with:
+              images: ${{ inputs.image }}
+              tags: |
+                  type=ref,event=pr
+                  type=sha,enable=${{ github.event_name == 'push' }}
+                  type=edge,branch=main
+
+        - name: Build and push the image
+          uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
+          with:
+              # Build from the checkout, which holds the files the job put there, rather than from the Git context.
+              source: .
+              files: |
+                  .docker/bake.hcl
+                  cwd://${{ steps.meta.outputs.bake-file-tags }}
+                  cwd://${{ steps.meta.outputs.bake-file-labels }}
+              targets: ${{ inputs.target }}
+              push: true
