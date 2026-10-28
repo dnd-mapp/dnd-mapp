@@ -18,6 +18,7 @@
   "dependencies": {
     "@eslint/js": "catalog:eslint",
     "angular-eslint": "catalog:eslint",
+    "eslint-config-prettier": "catalog:eslint",
     "eslint-import-resolver-typescript": "catalog:eslint",
     "eslint-plugin-boundaries": "catalog:eslint",
     "eslint-plugin-playwright": "catalog:eslint",
