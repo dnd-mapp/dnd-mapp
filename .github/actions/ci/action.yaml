@@ -29,6 +29,16 @@ runs:
                   | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
           shell: bash
 
+        # The report lists each task that moon ran or skipped, also when one of them failed. It comments on the pull
+        # request and updates that comment on later pushes. A push to main would comment on the pull request it merged,
+        # so it writes only the job summary.
+        - name: Report the moon tasks that ran
+          if: success() || failure()
+          uses: moonrepo/run-report-action@bbe7e99bf2aca819ec660ec01fc59d84bdd492d6 # v1.10.0
+          with:
+              access-token: ${{ github.token }}
+              skip-comment: ${{ github.event_name != 'pull_request' }}
+
         - name: Annotate workflow findings on the pull request
           run: echo "::add-matcher::.github/actionlint-matcher.json"
           shell: bash
