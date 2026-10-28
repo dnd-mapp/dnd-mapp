@@ -9,6 +9,9 @@ fileGroups:
         - "playwright.config.ts"
         - "package.json"
         - "tsconfig.json"
+        # A change in a project that this one depends on affects none of its tasks, so the group lists the TypeScript presets
+        # that its tsconfig files extend.
+        - "/packages/config-typescript/*.json"
 
 tasks:
     e2e:
