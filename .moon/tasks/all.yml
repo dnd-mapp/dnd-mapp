@@ -6,6 +6,7 @@ fileGroups:
     configs:
         - "package.json"
         - "tsconfig*.json"
-        # moon tracks the files of each project for its own tasks only, so the group lists the TypeScript presets that the
-        # tsconfig files extend.
+        # moon tracks the files of each project for its own tasks only, so the group lists the TypeScript presets and the
+        # shared path aliases that the tsconfig files extend.
         - "/packages/config-typescript/*.json"
+        - "/tsconfig.base.json"

@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "@dnd-mapp/core-web": ["./packages/core/web/src/index.ts"]
+        }
+    }
+}
