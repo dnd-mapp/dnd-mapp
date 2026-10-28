@@ -10,6 +10,12 @@ project:
     maintainers:
         - "@NoNamer777"
 
+workspace:
+    inheritedTasks:
+        # The root project runs the checks that cover the whole repository, so it inherits none of the shared tasks in
+        # .moon/tasks/.
+        include: []
+
 tasks:
     format:
         command: "prettier -w ."
