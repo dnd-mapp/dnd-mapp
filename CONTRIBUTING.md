@@ -4,15 +4,15 @@ Thanks for helping build D&D Mapp. This guide covers where a contribution starts
 
 ## Where to start
 
-| Contribution          | Where it starts                                                                                                        |
-|:----------------------|:-----------------------------------------------------------------------------------------------------------------------|
-| An idea               | A discussion in [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas). Solid ideas become issues. |
-| A question            | A discussion in [Q&A](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/q-a).                                |
-| A bug                 | The [Bug form](https://github.com/dnd-mapp/dnd-mapp/issues/new?template=1-bug.yml).                                    |
-| A security issue      | A private [security advisory](https://github.com/dnd-mapp/dnd-mapp/security/advisories/new), never a public issue.     |
-| A code or docs change | An issue that a maintainer has triaged.                                                                                |
+| Contribution          | Where it starts                                                                                                                                  |
+|:----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
+| An idea               | A discussion in [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas). Solid ideas become issues.                           |
+| A question            | A discussion in [Q&A](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/q-a).                                                          |
+| A bug                 | The [Bug form](https://github.com/dnd-mapp/dnd-mapp/issues/new?template=1-bug.yml).                                                              |
+| A security issue      | A private [security advisory](https://github.com/dnd-mapp/dnd-mapp/security/advisories/new), never a public issue.                               |
+| A code or docs change | An issue that a maintainer has triaged. For now, only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains. |
 
-A maintainer triages an issue by setting its status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10). Comment on the issue you want to work on before you start, so a maintainer can assign it to you and no one else picks it up. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
+A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
 
 ## Setting up
 
@@ -106,7 +106,7 @@ Open the pull request against `main`, and keep it to one concern: an unrelated f
 A pull request merges once all of these hold:
 
 - The required checks pass: `CI`, `Pull request title`, `Web build`, and `Web image`. The web jobs skip when the change does not affect the web app, which counts as passing.
-- A member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers), the code owners in [`CODEOWNERS`](.github/CODEOWNERS), approves it.
+- A member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers), the code owners in [`CODEOWNERS`](.github/CODEOWNERS), approves it. [`GOVERNANCE.md`](GOVERNANCE.md#roles) explains who belongs to the team.
 - Someone other than you approves your last push. A new push dismisses earlier approvals, so the reviewer sees the final state.
 
 Reviewers leave comments in threads; answer each one with the commit that addresses it, or with the reason you disagree. Since the merge commit keeps every commit of the branch, clean up the history before you ask for review, and squash fixups into the commit they fix.

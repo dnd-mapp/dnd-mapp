@@ -84,6 +84,8 @@ Every other update waits for a review: majors, Node.js and pnpm in `devEngines`,
 
 [`CONTRIBUTING.md`](CONTRIBUTING.md) explains where a contribution starts, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
 
+[`GOVERNANCE.md`](GOVERNANCE.md) describes how the project is run: its roles, how decisions are made, and how disagreements are resolved.
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).
