@@ -11,14 +11,21 @@
   },
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    "./angular": "./src/angular.ts",
+    "./playwright": "./src/playwright.ts",
+    "./typescript": "./src/typescript.ts"
   },
   "dependencies": {
+    "@eslint/js": "catalog:eslint",
+    "angular-eslint": "catalog:eslint",
     "eslint-import-resolver-typescript": "catalog:eslint",
-    "eslint-plugin-boundaries": "catalog:eslint"
+    "eslint-plugin-boundaries": "catalog:eslint",
+    "eslint-plugin-playwright": "catalog:eslint",
+    "typescript-eslint": "catalog:eslint"
   },
   "peerDependencies": {
-    "eslint": "catalog:eslint"
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:angular"
   },
   "devDependencies": {
     "@dnd-mapp/config-typescript": "workspace:*",

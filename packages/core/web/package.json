@@ -30,18 +30,15 @@
     "@angular/compiler": "catalog:angular",
     "@angular/compiler-cli": "catalog:angular",
     "@dnd-mapp/config-typescript": "workspace:*",
-    "@eslint/js": "catalog:eslint",
     "@types/node": "catalog:node",
     "@vitest/browser-playwright": "catalog:vitest",
     "@vitest/coverage-v8": "catalog:vitest",
     "@vitest/ui": "catalog:vitest",
-    "angular-eslint": "catalog:eslint",
     "eslint": "catalog:eslint",
     "ng-packagr": "catalog:angular",
     "playwright": "catalog:playwright",
     "sass": "catalog:angular",
     "typescript": "catalog:angular",
-    "typescript-eslint": "catalog:eslint",
     "vitest": "catalog:vitest"
   }
 }
