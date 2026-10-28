@@ -1,0 +1,12 @@
+{
+  "name": "@dnd-mapp/config-typescript",
+  "version": "0.0.0",
+  "description": "The TypeScript config presets that the projects of D&D Mapp extend.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/config-typescript"
+  }
+}
