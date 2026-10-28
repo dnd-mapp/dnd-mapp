@@ -30,6 +30,7 @@
     "@moonrepo/cli": "catalog:moon",
     "lefthook": "catalog:lefthook",
     "markdownlint-cli2": "catalog:markdownlint",
+    "playwright": "catalog:playwright",
     "prettier": "catalog:prettier"
   }
 }

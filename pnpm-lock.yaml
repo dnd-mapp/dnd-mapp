@@ -286,6 +286,9 @@ importers:
       markdownlint-cli2:
         specifier: catalog:markdownlint
         version: 0.24.0(supports-color@8.1.1)
+      playwright:
+        specifier: catalog:playwright
+        version: 1.64.1
       prettier:
         specifier: catalog:prettier
         version: 3.9.10

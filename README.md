@@ -16,6 +16,12 @@ Generate the JSON schemas that the moon config files reference, so your editor c
 pnpm moon sync
 ```
 
+The unit tests and the end-to-end tests run in the Chromium build of the Playwright version in the `playwright` catalog. Playwright keeps its browsers in one cache per user, which every project shares, so install Chromium once and again after each Playwright update:
+
+```bash
+pnpm exec playwright install chromium
+```
+
 Format the repository with Prettier:
 
 ```bash

@@ -39,8 +39,4 @@ Lint the tests and the config files with [ESLint](https://eslint.org), [`typescr
 pnpm moon run web-e2e:lint
 ```
 
-The tests run in the Chromium build of the Playwright version in the `playwright` catalog. Install it once, from this folder:
-
-```bash
-pnpm exec playwright install chromium
-```
+The tests run in the Chromium build of the Playwright version in the `playwright` catalog, which the [Development](../../README.md#development) section of the root README installs.

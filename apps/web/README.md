@@ -75,8 +75,4 @@ Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`types
 pnpm moon run web:lint
 ```
 
-The tests run in Chromium through [Playwright](https://playwright.dev). Install the browser once, from this folder:
-
-```bash
-pnpm exec playwright install chromium
-```
+The tests run in Chromium through [Playwright](https://playwright.dev), which the [Development](../../README.md#development) section of the root README installs.
