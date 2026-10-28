@@ -60,3 +60,5 @@ body:
           options:
               - label: I searched the existing discussions and issues for this idea.
                 required: true
+              - label: I agree to follow this project's [code of conduct](https://github.com/dnd-mapp/dnd-mapp/blob/main/CODE_OF_CONDUCT.md).
+                required: true

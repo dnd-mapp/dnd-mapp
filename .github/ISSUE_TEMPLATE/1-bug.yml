@@ -73,3 +73,5 @@ body:
           options:
               - label: I searched the existing issues for this bug.
                 required: true
+              - label: I agree to follow this project's [code of conduct](https://github.com/dnd-mapp/dnd-mapp/blob/main/CODE_OF_CONDUCT.md).
+                required: true
