@@ -3,6 +3,13 @@ $schema: "../../.moon/cache/schemas/project.json"
 id: "web"
 layer: "application"
 
+project:
+    title: "Web client"
+    description: "The Angular web client of D&D Mapp."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
 fileGroups:
     sources:
         - "src/**/*"

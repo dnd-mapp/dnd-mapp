@@ -3,6 +3,13 @@ $schema: "../../.moon/cache/schemas/project.json"
 id: "web-e2e"
 layer: "automation"
 
+project:
+    title: "Web end-to-end tests"
+    description: "The Playwright tests that run against the web client in Chromium."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
 fileGroups:
     sources:
         - "src/**/*"
