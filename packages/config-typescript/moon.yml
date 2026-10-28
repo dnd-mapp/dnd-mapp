@@ -2,3 +2,10 @@ $schema: "../../.moon/cache/schemas/project.json"
 
 id: "config-typescript"
 layer: "configuration"
+
+project:
+    title: "TypeScript config"
+    description: "The TypeScript config presets that the projects extend."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"

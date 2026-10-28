@@ -3,6 +3,13 @@ $schema: "./.moon/cache/schemas/project.json"
 id: "root"
 layer: "automation"
 
+project:
+    title: "Repository"
+    description: "The checks that cover the whole repository, such as formatting and Markdown linting, and the local TLS certificate of the dev servers."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
 tasks:
     format:
         command: "prettier -w ."
