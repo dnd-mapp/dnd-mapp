@@ -24,6 +24,7 @@
     "@angular/build": "catalog:angular",
     "@angular/cli": "catalog:angular",
     "@angular/compiler-cli": "catalog:angular",
+    "@dnd-mapp/config-typescript": "workspace:*",
     "@eslint/js": "catalog:eslint",
     "@types/node": "catalog:node",
     "@vitest/browser-playwright": "catalog:vitest",

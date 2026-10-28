@@ -10,6 +10,9 @@ fileGroups:
         - "angular.json"
         - "tsconfig*.json"
         - "package.json"
+        # A change in a project that this one depends on affects none of its tasks, so the group lists the TypeScript presets
+        # that its tsconfig files extend.
+        - "/packages/config-typescript/*.json"
 
 tasks:
     start:
