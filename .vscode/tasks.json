@@ -61,9 +61,15 @@
             "problemMatcher": []
         },
         {
-            "label": "web:test",
+            "label": "web:lint",
             "type": "shell",
-            "command": "pnpm moon run web:test",
+            "command": "pnpm moon run web:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "core-web:test",
+            "type": "shell",
+            "command": "pnpm moon run core-web:test",
             "group": {
                 "kind": "test",
                 "isDefault": true
@@ -71,15 +77,15 @@
             "problemMatcher": []
         },
         {
-            "label": "web:test-ci",
+            "label": "core-web:test-ci",
             "type": "shell",
-            "command": "pnpm moon run web:test-ci",
+            "command": "pnpm moon run core-web:test-ci",
             "problemMatcher": []
         },
         {
-            "label": "web:lint",
+            "label": "core-web:lint",
             "type": "shell",
-            "command": "pnpm moon run web:lint",
+            "command": "pnpm moon run core-web:lint",
             "problemMatcher": "$eslint-stylish"
         },
         {
