@@ -1,0 +1,24 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "config-eslint"
+layer: "configuration"
+tags:
+    - "tooling"
+
+project:
+    title: "ESLint config"
+    description: "The shared ESLint config that enforces the dependency rules between the projects."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+
+tasks:
+    typecheck:
+        command: "tsc"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"

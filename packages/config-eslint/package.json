@@ -1,0 +1,29 @@
+{
+  "name": "@dnd-mapp/config-eslint",
+  "version": "0.0.0",
+  "description": "The shared ESLint config of the projects of D&D Mapp.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/config-eslint"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "eslint-import-resolver-typescript": "catalog:eslint",
+    "eslint-plugin-boundaries": "catalog:eslint"
+  },
+  "peerDependencies": {
+    "eslint": "catalog:eslint"
+  },
+  "devDependencies": {
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@types/node": "catalog:node",
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:angular"
+  }
+}

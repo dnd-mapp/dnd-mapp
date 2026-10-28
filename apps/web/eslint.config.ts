@@ -1,3 +1,4 @@
+import { moduleBoundaries } from '@dnd-mapp/config-eslint';
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import angular from 'angular-eslint';
@@ -36,4 +37,5 @@ export default defineConfig(
         files: ['**/*.html'],
         extends: [angular.configs.templateRecommended, angular.configs.templateAccessibility],
     },
+    moduleBoundaries(import.meta.dirname),
 );

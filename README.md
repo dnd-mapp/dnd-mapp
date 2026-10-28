@@ -67,6 +67,7 @@ Each project's README lists its tasks:
 - [`e2e/web`](e2e/web/README.md): the end-to-end tests of the web client.
 - [`packages/core/web`](packages/core/web/README.md): the core of the web client, which the domain modules build on.
 - [`packages/config-typescript`](packages/config-typescript/README.md): the TypeScript config presets that the projects extend.
+- [`packages/config-eslint`](packages/config-eslint/README.md): the shared ESLint config that enforces the dependency rules between the projects.
 
 ## Dependency updates
 
