@@ -2,7 +2,8 @@ $schema: "./.moon/cache/schemas/project.json"
 
 id: "root"
 layer: "automation"
-tags: ["tooling"]
+tags:
+    - "tooling"
 
 project:
     title: "Repository"

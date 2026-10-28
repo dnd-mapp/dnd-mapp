@@ -2,7 +2,8 @@ $schema: "../../.moon/cache/schemas/project.json"
 
 id: "web-e2e"
 layer: "automation"
-tags: ["web"]
+tags:
+    - "web"
 
 project:
     title: "Web end-to-end tests"
