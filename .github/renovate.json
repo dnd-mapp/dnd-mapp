@@ -48,6 +48,23 @@
             "automerge": true
         },
         {
+            "description": "Use the build commit type for the base images in Dockerfiles.",
+            "matchManagers": ["dockerfile"],
+            "semanticCommitType": "build"
+        },
+        {
+            "description": "Merge the patch and digest updates of base images without review. CI builds the image, which checks its nginx configuration.",
+            "matchManagers": ["dockerfile"],
+            "matchUpdateTypes": ["patch", "digest", "pinDigest"],
+            "automerge": true
+        },
+        {
+            "description": "Keep the nginx base image on the stable line, whose minor versions are even.",
+            "matchDatasources": ["docker"],
+            "matchPackageNames": ["nginx"],
+            "allowedVersions": "/^\\d+\\.\\d*[02468]\\./"
+        },
+        {
             "description": "Merge the non-major updates of development tools without review. List each catalog of development tools here, so the updates of every other catalog wait for review.",
             "matchDepTypes": [
                 "devDependencies",
