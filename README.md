@@ -86,6 +86,8 @@ Every other update waits for a review: majors, Node.js and pnpm in `devEngines`,
 
 [`GOVERNANCE.md`](GOVERNANCE.md) describes how the project is run: its roles, how decisions are made, and how disagreements are resolved.
 
+[`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md) sets the standard of behavior in the spaces of the project, and explains how to report a breach and how it is enforced.
+
 ## License
 
 D&D Mapp is released under the [MIT License](LICENSE).

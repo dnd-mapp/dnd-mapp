@@ -13,7 +13,7 @@ The lead maintainer is a maintainer with the final say on every decision. On top
 - Sets the direction and the roadmap of the project.
 - Administers the dnd-mapp GitHub organization and the settings of its repository, such as rulesets, secrets, and teams.
 - Handles security advisories.
-- Enforces the code of conduct.
+- Enforces the [code of conduct](CODE_OF_CONDUCT.md).
 
 ### Maintainers
 
@@ -86,7 +86,7 @@ No successor exists today, so the project stops if the lead maintainer can no lo
 
 Disagreements about the project are discussed on the issue, pull request, or discussion where they come up. When the maintainers cannot agree, the lead maintainer decides and writes the reasoning in that thread.
 
-A complaint about someone's behavior follows the code of conduct, not this process.
+A complaint about someone's behavior follows the [code of conduct](CODE_OF_CONDUCT.md), not this process.
 
 ## Funding
 
