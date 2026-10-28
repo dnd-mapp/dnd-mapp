@@ -165,13 +165,13 @@ settings:
 catalogs:
   angular:
     '@angular/build':
-      specifier: ~22.2.3
+      specifier: ~22.2.4
       version: 22.2.4
     '@angular/cdk':
       specifier: ~22.2.4
       version: 22.2.4
     '@angular/cli':
-      specifier: ~22.2.3
+      specifier: ~22.2.4
       version: 22.2.4
     '@angular/common':
       specifier: ~22.2.3
