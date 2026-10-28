@@ -53,6 +53,7 @@ catalogs:
     "@eslint/js": ~10.0.1
     angular-eslint: ~22.6.0
     eslint: ~10.13.0
+    eslint-config-prettier: ~10.1.8
     eslint-import-resolver-typescript: ~4.4.5
     eslint-plugin-boundaries: ~7.3.0
     eslint-plugin-playwright: ~2.12.1

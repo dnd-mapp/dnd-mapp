@@ -223,6 +223,9 @@ catalogs:
     eslint:
       specifier: ~10.13.0
       version: 10.13.0
+    eslint-config-prettier:
+      specifier: ~10.1.8
+      version: 10.1.8
     eslint-import-resolver-typescript:
       specifier: ~4.4.5
       version: 4.4.5
@@ -347,15 +350,9 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../packages/config-typescript
-      '@eslint/js':
-        specifier: catalog:eslint
-        version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
       '@types/node':
         specifier: catalog:node
         version: 24.19.2
-      angular-eslint:
-        specifier: catalog:eslint
-        version: 22.6.0(chokidar@5.0.0)(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript-eslint@8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
       eslint:
         specifier: catalog:eslint
         version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -365,9 +362,6 @@ importers:
       typescript:
         specifier: catalog:angular
         version: 6.0.3
-      typescript-eslint:
-        specifier: catalog:eslint
-        version: 8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
 
   e2e/web:
     devDependencies:
@@ -380,9 +374,6 @@ importers:
       '@dnd-mapp/web':
         specifier: workspace:*
         version: link:../../apps/web
-      '@eslint/js':
-        specifier: catalog:eslint
-        version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
       '@playwright/test':
         specifier: catalog:playwright
         version: 1.64.1
@@ -392,24 +383,33 @@ importers:
       eslint:
         specifier: catalog:eslint
         version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
-      eslint-plugin-playwright:
-        specifier: catalog:eslint
-        version: 2.12.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
       typescript:
         specifier: catalog:angular
         version: 6.0.3
-      typescript-eslint:
-        specifier: catalog:eslint
-        version: 8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
 
   packages/config-eslint:
     dependencies:
+      '@eslint/js':
+        specifier: catalog:eslint
+        version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
+      angular-eslint:
+        specifier: catalog:eslint
+        version: 22.6.0(chokidar@5.0.0)(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript-eslint@8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
+      eslint-config-prettier:
+        specifier: catalog:eslint
+        version: 10.1.8(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
       eslint-import-resolver-typescript:
         specifier: catalog:eslint
         version: 4.4.5(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-boundaries:
         specifier: catalog:eslint
         version: 7.3.0(@typescript-eslint/parser@8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint-import-resolver-typescript@4.4.5(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
+      eslint-plugin-playwright:
+        specifier: catalog:eslint
+        version: 2.12.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
+      typescript-eslint:
+        specifier: catalog:eslint
+        version: 8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
     devDependencies:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
@@ -468,9 +468,6 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
-      '@eslint/js':
-        specifier: catalog:eslint
-        version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
       '@types/node':
         specifier: catalog:node
         version: 24.19.2
@@ -483,9 +480,6 @@ importers:
       '@vitest/ui':
         specifier: catalog:vitest
         version: 5.0.5(vitest@5.0.5)
-      angular-eslint:
-        specifier: catalog:eslint
-        version: 22.6.0(chokidar@5.0.0)(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript-eslint@8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
       eslint:
         specifier: catalog:eslint
         version: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -501,9 +495,6 @@ importers:
       typescript:
         specifier: catalog:angular
         version: 6.0.3
-      typescript-eslint:
-        specifier: catalog:eslint
-        version: 8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
       vitest:
         specifier: catalog:vitest
         version: 5.0.5(@types/node@24.19.2)(@vitest/browser-playwright@5.0.5)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(vite@8.3.0(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.104.1)(sass@1.106.1))
@@ -2585,6 +2576,12 @@ packages:
   escape-string-regexp@4.0.0:
     resolution: {integrity: sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==}
     engines: {node: '>=10'}
+
+  eslint-config-prettier@10.1.8:
+    resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
+    hasBin: true
+    peerDependencies:
+      eslint: '>=7.0.0'
 
   eslint-import-context@0.1.9:
     resolution: {integrity: sha512-K9Hb+yRaGAGUbwjhFNHvSmmkZs9+zbuoe3kFQ4V1wYjrepUFYM2dZAfNtjbbj3qsPfUfsA68Bx/ICWQMi+C8Eg==}
@@ -6003,6 +6000,10 @@ snapshots:
   escalade@3.2.0: {}
 
   escape-string-regexp@4.0.0: {}
+
+  eslint-config-prettier@10.1.8(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1)):
+    dependencies:
+      eslint: 10.13.0(jiti@2.7.0)(supports-color@8.1.1)
 
   eslint-import-context@0.1.9(unrs-resolver@1.12.2):
     dependencies:

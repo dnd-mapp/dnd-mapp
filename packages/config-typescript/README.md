@@ -2,11 +2,11 @@
 
 The TypeScript config presets that the projects of D&D Mapp extend, so each `tsconfig.json` sets only the options specific to its project. The package has no tasks.
 
-| Preset                         | Extends                  | For                                                                                           |
-|:-------------------------------|:-------------------------|:----------------------------------------------------------------------------------------------|
-| [`base.json`](base.json)       |                          | The strict compiler options and the `es2025` target and lib.                                  |
-| [`angular.json`](angular.json) | [`base.json`](base.json) | Angular apps: adds the DOM lib, decorators, and the strict options of the Angular compiler.   |
-| [`node.json`](node.json)       | [`base.json`](base.json) | Code that runs in Node.js, such as config files and Playwright tests: adds the Node.js types. |
+| Preset                         | Extends                  | For                                                                                                                                                                   |
+|:-------------------------------|:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`base.json`](base.json)       |                          | The strict compiler options and the `es2025` target and lib.                                                                                                          |
+| [`angular.json`](angular.json) | [`base.json`](base.json) | Angular apps: adds the DOM lib, decorators, and the strict options of the Angular compiler.                                                                           |
+| [`node.json`](node.json)       | [`base.json`](base.json) | Code that runs in Node.js, such as config files and Playwright tests: adds the Node.js types and allows the `.ts` extension in relative imports, as Node.js requires. |
 
 Add the package to the `devDependencies` of a project:
 
