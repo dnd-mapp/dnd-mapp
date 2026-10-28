@@ -7,7 +7,7 @@ tags:
 
 project:
     title: "ESLint config"
-    description: "The shared ESLint config that enforces the dependency rules between the projects."
+    description: "The shared ESLint presets of the projects, which also enforce the dependency rules between them."
     owner: "@dnd-mapp/reviewers"
     maintainers:
         - "@NoNamer777"
