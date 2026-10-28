@@ -16,15 +16,27 @@ workspace:
         # .moon/tasks/.
         include: []
 
+fileGroups:
+    # Every file in the repository, since the root project checks them all.
+    sources:
+        - "**/*"
+        # The glob also matches the package symlinks in each project's node_modules, which moon cannot hash.
+        - "!**/node_modules/**"
+
+    prettier-configs:
+        - ".prettierrc.json"
+        - ".prettierignore"
+
+    markdownlint-configs:
+        - ".markdownlint-cli2.yaml"
+        - ".github/.markdownlint-cli2.yaml"
+
 tasks:
     format:
         command: "prettier -w ."
         inputs:
-            - "**/*"
-            # The glob also matches the package symlinks in each project's node_modules, which moon cannot hash.
-            - "!**/node_modules/**"
-            - ".prettierrc.json"
-            - ".prettierignore"
+            - "@group(sources)"
+            - "@group(prettier-configs)"
         options:
             cache: false
             # The task rewrites files, so CI runs format-check instead.
@@ -33,18 +45,14 @@ tasks:
     format-check:
         command: "prettier -c ."
         inputs:
-            - "**/*"
-            # The glob also matches the package symlinks in each project's node_modules, which moon cannot hash.
-            - "!**/node_modules/**"
-            - ".prettierrc.json"
-            - ".prettierignore"
+            - "@group(sources)"
+            - "@group(prettier-configs)"
 
     lint-md:
         command: "markdownlint-cli2"
         inputs:
             - "**/*.md"
-            - ".markdownlint-cli2.yaml"
-            - ".github/.markdownlint-cli2.yaml"
+            - "@group(markdownlint-configs)"
 
     ssl-certs:
         # mkcert creates no missing folders, so .ssl/.gitkeep keeps the folder in the repository. The script lists each host,

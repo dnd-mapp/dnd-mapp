@@ -15,11 +15,9 @@ fileGroups:
         - "src/**/*"
         - "public/**/*"
         - "angular.json"
-        - "tsconfig*.json"
-        - "package.json"
-        # A change in a project that this one depends on affects none of its tasks, so the group lists the TypeScript presets
-        # that its tsconfig files extend.
-        - "/packages/config-typescript/*.json"
+
+    tests:
+        - "vitest.config.ts"
 
 tasks:
     start:
@@ -29,11 +27,13 @@ tasks:
             - "root:ssl-certs"
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
 
     build:
         command: "ng build"
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
         outputs:
             - "dist/**/*"
 
@@ -43,6 +43,7 @@ tasks:
             - "~:build"
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
             - "/.dockerignore"
             - "/.docker/bake.hcl"
             - "/.docker/web/**/*"
@@ -57,12 +58,14 @@ tasks:
         preset: "server"
         inputs:
             - "@group(sources)"
-            - "vitest.config.ts"
+            - "@group(configs)"
+            - "@group(tests)"
 
     test-ci:
         command: "ng test -c ci"
         inputs:
             - "@group(sources)"
-            - "vitest.config.ts"
+            - "@group(configs)"
+            - "@group(tests)"
         outputs:
             - "coverage/**/*"

@@ -8,8 +8,10 @@ inheritedBy:
 tasks:
     lint:
         command: "eslint . --max-warnings 0"
-        # Each project that inherits the task defines the sources file group. The glob covers the configs of the tools
-        # that ESLint lints, such as Vitest and Playwright, next to the ESLint config itself.
+        # Each project that inherits the task defines the sources file group, and .moon/tasks/all.yml defines configs.
+        # The glob covers the configs of the tools that ESLint lints, such as Vitest and Playwright, next to the ESLint
+        # config itself.
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
             - "*.config.ts"

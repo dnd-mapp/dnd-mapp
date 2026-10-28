@@ -26,8 +26,9 @@ Extend a preset from the project's `tsconfig.json`, and keep only the options of
 }
 ```
 
-A change in this package affects no task of the projects that extend it, because moon tracks the files of each project for its own tasks only. Add the presets to the inputs of the project's tasks in its `moon.yml`, as [`apps/web/moon.yml`](../../apps/web/moon.yml) does in its `sources` file group:
+A change in this package affects no task of the projects that extend it, because moon tracks the files of each project for its own tasks only. The `configs` file group in [`.moon/tasks/all.yml`](../../.moon/tasks/all.yml) lists the presets, so add the group to the inputs of the project's tasks in its `moon.yml`, as [`apps/web/moon.yml`](../../apps/web/moon.yml) does:
 
 ```yaml
-- "/packages/config-typescript/*.json"
+inputs:
+    - "@group(configs)"
 ```
