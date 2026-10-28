@@ -3,6 +3,7 @@
   "private": true,
   "type": "module",
   "devDependencies": {
+    "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
     "@dnd-mapp/web": "workspace:*",
     "@eslint/js": "catalog:eslint",

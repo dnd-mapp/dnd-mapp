@@ -1,3 +1,4 @@
+import { moduleBoundaries } from '@dnd-mapp/config-eslint';
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import playwright from 'eslint-plugin-playwright';
@@ -21,4 +22,5 @@ export default defineConfig(
         files: ['src/**/*.ts'],
         extends: [playwright.configs['flat/recommended']],
     },
+    moduleBoundaries(import.meta.dirname),
 );

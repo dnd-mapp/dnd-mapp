@@ -15,6 +15,7 @@ allowBuilds:
   lefthook: true
   lmdb: false
   msgpackr-extract: false
+  unrs-resolver: false
 sideEffectsCache: false
 
 # Other Settings
@@ -52,6 +53,8 @@ catalogs:
     "@eslint/js": ~10.0.1
     angular-eslint: ~22.6.0
     eslint: ~10.13.0
+    eslint-import-resolver-typescript: ~4.4.5
+    eslint-plugin-boundaries: ~7.3.0
     eslint-plugin-playwright: ~2.12.1
     typescript-eslint: ~8.72.0
   lefthook:

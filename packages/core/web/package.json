@@ -24,6 +24,7 @@
     "tslib": "catalog:angular"
   },
   "devDependencies": {
+    "@dnd-mapp/config-eslint": "workspace:*",
     "@angular/build": "catalog:angular",
     "@angular/cli": "catalog:angular",
     "@angular/compiler": "catalog:angular",
