@@ -3,7 +3,8 @@ $schema: "./cache/schemas/workspace.json"
 projects:
     globs:
         - "apps/*"
-        - "packages/*"
+        - "packages/*/moon.yml"
+        - "packages/*/*/moon.yml"
         - "e2e/*"
     sources:
         root: "."
