@@ -1,0 +1,4 @@
+{
+    "extends": "@dnd-mapp/config-typescript/node.json",
+    "include": ["*.config.ts"]
+}

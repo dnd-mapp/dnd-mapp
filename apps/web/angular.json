@@ -90,33 +90,6 @@
                         "sslCert": "../../.ssl/cert.pem",
                         "sslKey": "../../.ssl/key.pem"
                     }
-                },
-                "test": {
-                    "builder": "@angular/build:unit-test",
-                    "options": {
-                        "coverage": true,
-                        "coverageExclude": ["**/index.ts", "**/config/**/*.ts", "**/testing/**/*.ts"],
-                        "coverageReporters": ["text-summary", "html"],
-                        "coverageThresholds": {
-                            "branches": 80,
-                            "functions": 80,
-                            "lines": 80,
-                            "statements": 80
-                        },
-                        "include": ["**/*.spec.ts"],
-                        "isolate": true,
-                        "reporters": ["dot"],
-                        "runnerConfig": "vitest.config.ts",
-                        "ui": true,
-                        "watch": true
-                    },
-                    "configurations": {
-                        "ci": {
-                            "reporters": ["dot", "github-actions"],
-                            "ui": false,
-                            "watch": false
-                        }
-                    }
                 }
             }
         }

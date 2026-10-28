@@ -16,9 +16,6 @@ fileGroups:
         - "public/**/*"
         - "angular.json"
 
-    tests:
-        - "vitest.config.ts"
-
 tasks:
     start:
         command: "ng serve"
@@ -52,20 +49,3 @@ tasks:
             cache: false
             # The paths in the bake file resolve from the root of the repository.
             runFromWorkspaceRoot: true
-
-    test:
-        command: "ng test"
-        preset: "server"
-        inputs:
-            - "@group(sources)"
-            - "@group(configs)"
-            - "@group(tests)"
-
-    test-ci:
-        command: "ng test -c ci"
-        inputs:
-            - "@group(sources)"
-            - "@group(configs)"
-            - "@group(tests)"
-        outputs:
-            - "coverage/**/*"
