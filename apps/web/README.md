@@ -1,19 +1,17 @@
 # Web
 
-The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders in the browser only. [`angular.json`](angular.json) configures the Angular CLI, and [`moon.yml`](moon.yml) defines the tasks below.
+The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders in the browser only. The app bootstraps the root component and app config of [`@dnd-mapp/core-web`](../../packages/core/web/README.md), and holds only what makes it deployable: `main.ts`, `index.html`, the global styles, and the public assets. [`angular.json`](angular.json) configures the Angular CLI, and [`moon.yml`](moon.yml) defines the tasks below.
 
 ## Tasks
 
 Run each task from the repository root.
 
-| Task      | Command                                          | Runs in CI | Cached |
-|:----------|:-------------------------------------------------|:----------:|:------:|
-| `start`   | `ng serve`                                       |     no     |   no   |
-| `build`   | `ng build`                                       |    yes     |  yes   |
-| `image`   | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
-| `test`    | `ng test`                                        |     no     |   no   |
-| `test-ci` | `ng test -c ci`                                  |    yes     |  yes   |
-| `lint`    | `eslint . --max-warnings 0`                      |    yes     |  yes   |
+| Task    | Command                                          | Runs in CI | Cached |
+|:--------|:-------------------------------------------------|:----------:|:------:|
+| `start` | `ng serve`                                       |     no     |   no   |
+| `build` | `ng build`                                       |    yes     |  yes   |
+| `image` | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
+| `lint`  | `eslint . --max-warnings 0`                      |    yes     |  yes   |
 
 Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
 
@@ -55,28 +53,8 @@ The CI job leaves `web:image` out of its checks. Separate jobs build the `web-gh
 
 The `<version>` and `latest` tags wait for the release pipeline.
 
-Run the unit tests with [Vitest](https://vitest.dev) in headless Chromium, rerun them when a file changes, and open the Vitest UI:
-
-```bash
-pnpm moon run web:test
-```
-
-Run the unit tests once, as CI does. On GitHub Actions, the `github-actions` reporter annotates the pull request with each failing test:
-
-```bash
-pnpm moon run web:test-ci
-```
-
-Both test tasks collect coverage into `coverage/web/` and fail when statements, branches, functions, or lines drop below 80%.
-
 Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`typescript-eslint`](https://typescript-eslint.io), and [`angular-eslint`](https://github.com/angular-eslint/angular-eslint). The task fails on any finding, warnings included, and [`eslint.config.ts`](eslint.config.ts) holds the rules:
 
 ```bash
 pnpm moon run web:lint
-```
-
-The tests run in Chromium through [Playwright](https://playwright.dev). Install the browser once, from this folder:
-
-```bash
-pnpm exec playwright install chromium
 ```

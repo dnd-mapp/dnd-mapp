@@ -14,10 +14,11 @@ runs:
           run: echo "::add-matcher::.github/eslint-matcher.json"
           shell: bash
 
+        # Playwright installs the browser into a cache that every project on the playwright catalog shares, so the root
+        # installs it once for the unit tests of all of them.
         - name: Install Chromium for the unit tests
           run: pnpm exec playwright install --no-shell chromium
           shell: bash
-          working-directory: apps/web
 
         # moon prefixes each output line with the task target, which hides workflow commands such as the test annotations
         # from the runner, so sed strips the prefix from those lines. The minimal summary skips the replay of failed task

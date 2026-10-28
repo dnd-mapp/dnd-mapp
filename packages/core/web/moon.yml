@@ -1,0 +1,40 @@
+$schema: "../../../.moon/cache/schemas/project.json"
+
+# moon names a project after its folder, which apps/web already takes, so the id follows the package name instead.
+id: "core-web"
+layer: "library"
+
+project:
+    title: "Web core"
+    description: "The core of the web client: the root component, the app config, and the routes that the domain modules lazy-load from."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+        - "testing/**/*"
+        - "angular.json"
+        - "ng-package.json"
+
+    tests:
+        - "vitest.config.ts"
+
+tasks:
+    test:
+        command: "ng test"
+        preset: "server"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+
+    test-ci:
+        command: "ng test -c ci"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+        outputs:
+            - "coverage/**/*"

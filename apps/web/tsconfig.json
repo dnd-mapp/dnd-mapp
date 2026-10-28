@@ -1,15 +1,5 @@
 {
-    "extends": "@dnd-mapp/config-typescript/angular.json",
-    "references": [
-        { "path": "./tsconfig.app.json" },
-        { "path": "./tsconfig.spec.json" },
-        { "path": "./tsconfig.node.json" }
-    ],
-    "files": [],
-    "compilerOptions": {
-        "paths": {
-            "@/core": ["./src/core/index.ts"],
-            "@/core/testing": ["./src/core/testing/index.ts"]
-        }
-    }
+    "extends": ["@dnd-mapp/config-typescript/angular.json", "../../tsconfig.base.json"],
+    "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }],
+    "files": []
 }

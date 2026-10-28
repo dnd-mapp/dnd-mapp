@@ -14,7 +14,7 @@ Add the package to the `devDependencies` of a project:
 "@dnd-mapp/config-typescript": "workspace:*"
 ```
 
-Extend a preset from the project's `tsconfig.json`, and keep only the options of the project itself, such as `include`, `paths`, and `noEmit`:
+Extend a preset from the project's `tsconfig.json`, and keep only the options of the project itself, such as `include` and `noEmit`:
 
 ```json
 {

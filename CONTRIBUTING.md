@@ -55,6 +55,18 @@ Sign every commit. The `main` branch rejects unsigned commits, and the pull requ
 
 Give every new project a `project` block in its `moon.yml`, with a title, a description, the owner, and the maintainers, as the existing projects do. `pnpm moon project <id>` and the moon VS Code extension show it, so contributors can see what a project is for and who to ask without opening its code.
 
+Put each module of an app in `packages/<domain>/<slot>`, and name it `@dnd-mapp/<domain>-<slot>`, with a moon `id` that repeats the name without the scope. The slot is the platform the module runs on, such as `web`, or `domain` for the plain TypeScript that every platform of the domain shares, such as models, validation, and rules. The `core` domain holds the shell of each app that its domain modules build on, as [`packages/core/web`](packages/core/web/README.md) does for the web client. Set the `id` in `moon.yml` explicitly, since moon names a project after its folder and every app module of a platform shares the folder name of its slot. Packages for the whole workspace, such as tooling and configs, stay flat in `packages/<name>`.
+
+Point the `exports` of a module's `package.json` at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The Angular compiler skips the files that TypeScript resolves through `node_modules`, so map each module to its sources with a `paths` entry in [`tsconfig.base.json`](tsconfig.base.json) at the root of the repository. The file holds nothing but `paths`, so a project of any platform lists it in `extends` next to its preset, as [`apps/web/tsconfig.json`](apps/web/tsconfig.json) does. Keep `paths` out of the `tsconfig.json` of a project, since it would replace the shared map rather than add to it. moon hashes the inputs of a project's own tasks only, so add each module to the inputs of the app tasks that build it, as a project input with the module's `sources` group:
+
+```yaml
+inputs:
+    - project: "core-web"
+      group: "sources"
+```
+
+A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`. A `domain` package may depend on other `domain` packages only. Domain modules never depend on the platform packages of another domain: they meet through the router of `core`, which lazy-loads them, or through `domain` packages.
+
 Extend a preset of [`@dnd-mapp/config-typescript`](packages/config-typescript/README.md) from the `tsconfig.json` of a new TypeScript project, and add `@group(configs)` to the inputs of its tasks, as the package README explains. Without that group, a change to a preset reruns none of the project's tasks.
 
 Name the inputs of a task through file groups rather than listing globs, so tasks that read the same files share one list and a new file reaches all of them. [`.moon/tasks/all.yml`](.moon/tasks/all.yml) defines the groups that every project inherits, such as `configs`, and a project defines its own groups, such as `sources`, under `fileGroups` in its `moon.yml`. A project group replaces an inherited group with the same name, and the globs of every group resolve from the root of the project that uses it.

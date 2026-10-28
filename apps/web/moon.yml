@@ -16,9 +16,6 @@ fileGroups:
         - "public/**/*"
         - "angular.json"
 
-    tests:
-        - "vitest.config.ts"
-
 tasks:
     start:
         command: "ng serve"
@@ -28,12 +25,16 @@ tasks:
         inputs:
             - "@group(sources)"
             - "@group(configs)"
+            - project: "core-web"
+              group: "sources"
 
     build:
         command: "ng build"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
+            - project: "core-web"
+              group: "sources"
         outputs:
             - "dist/**/*"
 
@@ -44,6 +45,8 @@ tasks:
         inputs:
             - "@group(sources)"
             - "@group(configs)"
+            - project: "core-web"
+              group: "sources"
             - "/.dockerignore"
             - "/.docker/bake.hcl"
             - "/.docker/web/**/*"
@@ -52,20 +55,3 @@ tasks:
             cache: false
             # The paths in the bake file resolve from the root of the repository.
             runFromWorkspaceRoot: true
-
-    test:
-        command: "ng test"
-        preset: "server"
-        inputs:
-            - "@group(sources)"
-            - "@group(configs)"
-            - "@group(tests)"
-
-    test-ci:
-        command: "ng test -c ci"
-        inputs:
-            - "@group(sources)"
-            - "@group(configs)"
-            - "@group(tests)"
-        outputs:
-            - "coverage/**/*"

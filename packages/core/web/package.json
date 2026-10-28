@@ -1,0 +1,46 @@
+{
+  "name": "@dnd-mapp/core-web",
+  "version": "0.0.0",
+  "description": "The core of the D&D Mapp web client: the root component, the app config, and the routes.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/core/web"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./testing/index.ts"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "catalog:angular",
+    "@angular/common": "catalog:angular",
+    "@angular/core": "catalog:angular",
+    "@angular/platform-browser": "catalog:angular",
+    "@angular/router": "catalog:angular",
+    "rxjs": "catalog:angular",
+    "tslib": "catalog:angular"
+  },
+  "devDependencies": {
+    "@angular/build": "catalog:angular",
+    "@angular/cli": "catalog:angular",
+    "@angular/compiler": "catalog:angular",
+    "@angular/compiler-cli": "catalog:angular",
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@eslint/js": "catalog:eslint",
+    "@types/node": "catalog:node",
+    "@vitest/browser-playwright": "catalog:vitest",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "@vitest/ui": "catalog:vitest",
+    "angular-eslint": "catalog:eslint",
+    "eslint": "catalog:eslint",
+    "ng-packagr": "catalog:angular",
+    "playwright": "catalog:playwright",
+    "sass": "catalog:angular",
+    "typescript": "catalog:angular",
+    "typescript-eslint": "catalog:eslint",
+    "vitest": "catalog:vitest"
+  }
+}
