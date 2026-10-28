@@ -40,6 +40,7 @@ Write each commit message as a [Conventional Commit](https://www.conventionalcom
 - Pick the type from `build`, `chore`, `ci`, `docs`, `feat`, `fix`, `perf`, `refactor`, `revert`, `style`, and `test`.
 - Keep the header at or under 72 characters, and wrap the body at 72 columns. Footer lines may run longer.
 - Start the subject in lowercase, as in `fix: keep the grid aligned on zoom`.
+- Mark a breaking change with `!` after the type, as in `feat!: drop the v1 map format`, and say what breaks and how to migrate in a `BREAKING CHANGE:` footer.
 - End the message with `Closes #<number>` when the commit resolves an issue, or `Refs: #<number>` when it only relates to one.
 
 The `commit-msg` hook lints each message as you commit, and CI lints every commit of the pull request again. Lint the commit messages of your branch with [commitlint](https://commitlint.js.org) yourself:
@@ -53,6 +54,8 @@ Sign every commit. The `main` branch rejects unsigned commits, and the pull requ
 ## Projects, tasks, and dependencies
 
 Give every new project a `project` block in its `moon.yml`, with a title, a description, the owner, and the maintainers, as the existing projects do. `pnpm moon project <id>` and the moon VS Code extension show it, so contributors can see what a project is for and who to ask without opening its code.
+
+Extend a preset of [`@dnd-mapp/config-typescript`](packages/config-typescript/README.md) from the `tsconfig.json` of a new TypeScript project, and add the presets to the inputs of its tasks, as the package README explains. Without those inputs, a change to a preset reruns none of the project's tasks.
 
 Define a task that more than one project runs once, in a file in `.moon/tasks/`, rather than in each project's `moon.yml`. The `inheritedBy` conditions of each file pick the projects that inherit its tasks: [`.moon/tasks/eslint.yml`](.moon/tasks/eslint.yml) gives the `lint` task to every project with an `eslint.config.ts`. A project that inherits a task defines the file groups it reads, such as `sources`, and overrides or extends the task by defining one with the same id in its own `moon.yml`. To opt out, list the tasks under `workspace.inheritedTasks.exclude` in the project's `moon.yml`; the `root` project sets `include: []` to inherit none. `pnpm moon project <id>` lists every task of a project, inherited ones included.
 
