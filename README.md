@@ -4,7 +4,7 @@ The monorepo for D&D Mapp: it holds all packages and applications of the project
 
 ## Status
 
-Early development: the repository holds the scaffold of the web client in [`apps/web`](apps/web/README.md), and no features yet.
+Early development: the repository holds the scaffold of the web client in [`apps/web`](apps/web/README.md) and its core in [`packages/core/web`](packages/core/web/README.md), and no features yet.
 
 ## Development
 
@@ -65,6 +65,7 @@ Each project's README lists its tasks:
 
 - [`apps/web`](apps/web/README.md): the Angular web client.
 - [`e2e/web`](e2e/web/README.md): the end-to-end tests of the web client.
+- [`packages/core/web`](packages/core/web/README.md): the core of the web client, which the domain modules build on.
 - [`packages/config-typescript`](packages/config-typescript/README.md): the TypeScript config presets that the projects extend.
 
 ## Dependency updates
