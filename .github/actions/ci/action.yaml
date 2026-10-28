@@ -15,7 +15,7 @@ runs:
           shell: bash
 
         - name: Install Chromium for the unit tests
-          run: pnpm exec playwright install --with-deps chromium
+          run: pnpm exec playwright install --no-shell chromium
           shell: bash
           working-directory: apps/web
 

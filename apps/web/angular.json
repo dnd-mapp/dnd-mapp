@@ -94,7 +94,6 @@
                 "test": {
                     "builder": "@angular/build:unit-test",
                     "options": {
-                        "browsers": ["chromiumHeadless"],
                         "coverage": true,
                         "coverageExclude": ["**/index.ts", "**/config/**/*.ts", "**/testing/**/*.ts"],
                         "coverageReporters": ["text-summary", "html"],
