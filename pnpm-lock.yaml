@@ -326,6 +326,9 @@ importers:
       '@angular/compiler-cli':
         specifier: catalog:angular
         version: 22.2.3(@angular/compiler@22.2.3)(typescript@6.0.3)
+      '@dnd-mapp/config-typescript':
+        specifier: workspace:*
+        version: link:../../packages/config-typescript
       '@eslint/js':
         specifier: catalog:eslint
         version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))
@@ -365,6 +368,9 @@ importers:
 
   e2e/web:
     devDependencies:
+      '@dnd-mapp/config-typescript':
+        specifier: workspace:*
+        version: link:../../packages/config-typescript
       '@dnd-mapp/web':
         specifier: workspace:*
         version: link:../../apps/web
@@ -389,6 +395,8 @@ importers:
       typescript-eslint:
         specifier: catalog:eslint
         version: 8.72.0(eslint@10.13.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
+
+  packages/config-typescript: {}
 
 packages:
 

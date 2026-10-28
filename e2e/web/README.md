@@ -27,7 +27,7 @@ pnpm moon run web-e2e:e2e-ci
 
 `e2e-ci` cannot start the app yet: it sets `CI`, and moon skips `web:start` when `CI` is set. Once [#51](https://github.com/dnd-mapp/dnd-mapp/issues/51) containerizes the app, `e2e-ci` will start a container of the app image instead, and CI will run it.
 
-Check the types of the tests and the Playwright config, which Playwright itself runs without checking. [`tsconfig.json`](tsconfig.json) holds the compiler options:
+Check the types of the tests and the Playwright config, which Playwright itself runs without checking. [`tsconfig.json`](tsconfig.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
 
 ```bash
 pnpm moon run web-e2e:typecheck

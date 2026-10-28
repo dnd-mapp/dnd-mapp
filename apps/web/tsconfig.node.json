@@ -1,8 +1,4 @@
 {
-    "extends": "./tsconfig.json",
-    "include": ["*.config.ts"],
-    "compilerOptions": {
-        "lib": ["ES2025"],
-        "types": ["node"]
-    }
+    "extends": "@dnd-mapp/config-typescript/node.json",
+    "include": ["*.config.ts"]
 }

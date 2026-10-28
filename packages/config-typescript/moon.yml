@@ -1,0 +1,4 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "config-typescript"
+layer: "configuration"
