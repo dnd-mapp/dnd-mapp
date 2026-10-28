@@ -25,12 +25,16 @@ tasks:
         inputs:
             - "@group(sources)"
             - "@group(configs)"
+            - project: "core-web"
+              group: "sources"
 
     build:
         command: "ng build"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
+            - project: "core-web"
+              group: "sources"
         outputs:
             - "dist/**/*"
 
@@ -41,6 +45,8 @@ tasks:
         inputs:
             - "@group(sources)"
             - "@group(configs)"
+            - project: "core-web"
+              group: "sources"
             - "/.dockerignore"
             - "/.docker/bake.hcl"
             - "/.docker/web/**/*"
