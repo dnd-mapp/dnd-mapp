@@ -14,11 +14,6 @@ fileGroups:
     sources:
         - "src/**/*"
         - "playwright.config.ts"
-        - "package.json"
-        - "tsconfig.json"
-        # A change in a project that this one depends on affects none of its tasks, so the group lists the TypeScript presets
-        # that its tsconfig files extend.
-        - "/packages/config-typescript/*.json"
 
 tasks:
     e2e:
@@ -26,6 +21,7 @@ tasks:
         preset: "server"
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
 
     e2e-ci:
         command: "playwright test"
@@ -33,6 +29,7 @@ tasks:
             CI: "true"
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
         outputs:
             - "playwright-report/**/*"
             - "test-results/**/*"
@@ -44,4 +41,5 @@ tasks:
         command: "tsc"
         inputs:
             - "@group(sources)"
+            - "@group(configs)"
             - "eslint.config.ts"

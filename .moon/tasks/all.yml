@@ -1,0 +1,11 @@
+$schema: "../cache/schemas/tasks.json"
+
+# The file has no inheritedBy conditions, so every project inherits its file groups. The globs resolve from the root of
+# each project.
+fileGroups:
+    configs:
+        - "package.json"
+        - "tsconfig*.json"
+        # moon tracks the files of each project for its own tasks only, so the group lists the TypeScript presets that the
+        # tsconfig files extend.
+        - "/packages/config-typescript/*.json"
