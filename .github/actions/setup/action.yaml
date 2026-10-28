@@ -6,7 +6,12 @@ description: Set up pnpm and install the dependencies from the lockfile.
 runs:
     using: composite
     steps:
+        # The pnpm store holds the Node.js runtime and is restored before the runtimes install, so the cache spares each
+        # job that download. Only the Push main workflow saves the cache, since every pull request can read the cache of
+        # main.
         - name: Set up pnpm and install dependencies
           uses: pnpm/setup@fa36a5ef7dcdefc3a7cb25655c122e00cf6e636e # v3.1.2
           with:
+              cache: true
               require-lockfile: true
+              save-cache: ${{ github.event_name == 'push' }}
