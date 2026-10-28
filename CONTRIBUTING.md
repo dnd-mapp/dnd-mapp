@@ -1,6 +1,6 @@
 # Contributing to D&D Mapp
 
-Thanks for helping build D&D Mapp. This guide covers where a contribution starts, the conventions the checks enforce, and how a pull request gets reviewed and merged.
+Thanks for helping build D&D Mapp. This guide covers where a contribution starts, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
 
 ## Where to start
 
@@ -16,7 +16,18 @@ A maintainer triages an issue by setting its status to Ready on the [D&D Mapp pr
 
 ## Setting up
 
-The [Development](README.md#development) section of the README sets up the repository and lists the checks CI runs. `pnpm install` also installs the [git hooks](README.md#git-hooks), which format your files and lint your commit messages before CI does.
+The [Development](README.md#development) section of the README sets up the repository and runs its tasks.
+
+`pnpm install` also installs git hooks with [lefthook](https://lefthook.dev), so formatting, Markdown, and commit message problems surface before CI runs. [`lefthook.yaml`](lefthook.yaml) defines them:
+
+- `pre-commit` formats the staged files with Prettier and fixes the staged Markdown files with markdownlint, then adds the fixes to the commit. The commit stops when markdownlint finds a problem it cannot fix.
+- `commit-msg` lints the commit message with commitlint.
+
+Set `LEFTHOOK=0` to skip the hooks for one command:
+
+```bash
+LEFTHOOK=0 git commit
+```
 
 ## Branches
 
@@ -31,9 +42,35 @@ Write each commit message as a [Conventional Commit](https://www.conventionalcom
 - Start the subject in lowercase, as in `fix: keep the grid aligned on zoom`.
 - End the message with `Closes #<number>` when the commit resolves an issue, or `Refs: #<number>` when it only relates to one.
 
-The `commit-msg` hook lints each message as you commit, and CI lints every commit of the pull request again.
+The `commit-msg` hook lints each message as you commit, and CI lints every commit of the pull request again. Lint the commit messages of your branch with [commitlint](https://commitlint.js.org) yourself:
+
+```bash
+pnpm exec commitlint --from origin/main
+```
 
 Sign every commit. The `main` branch rejects unsigned commits, and the pull request merges with a merge commit that keeps your commits as they are, so a single unsigned commit blocks the merge. GitHub explains how to [sign commits](https://docs.github.com/authentication/managing-commit-signature-verification/signing-commits) with a GPG or SSH key, and how to [add the key to your account](https://docs.github.com/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account) so GitHub marks the commits as verified.
+
+## Projects, tasks, and dependencies
+
+Give every new project a `project` block in its `moon.yml`, with a title, a description, the owner, and the maintainers, as the existing projects do. `pnpm moon project <id>` and the moon VS Code extension show it, so contributors can see what a project is for and who to ask without opening its code.
+
+Define a task that more than one project runs once, in a file in `.moon/tasks/`, rather than in each project's `moon.yml`. The `inheritedBy` conditions of each file pick the projects that inherit its tasks: [`.moon/tasks/eslint.yml`](.moon/tasks/eslint.yml) gives the `lint` task to every project with an `eslint.config.ts`. A project that inherits a task defines the file groups it reads, such as `sources`, and overrides or extends the task by defining one with the same id in its own `moon.yml`. To opt out, list the tasks under `workspace.inheritedTasks.exclude` in the project's `moon.yml`; the `root` project sets `include: []` to inherit none. `pnpm moon project <id>` lists every task of a project, inherited ones included.
+
+Add each new catalog of development tools to the auto-merge rule in [`.github/renovate.json`](.github/renovate.json); the updates of any other catalog wait for review. The [Dependency updates](README.md#dependency-updates) section of the README explains which updates Renovate merges on its own.
+
+## Checking your changes
+
+Run the checks that the CI job runs for the changes on your branch:
+
+```bash
+pnpm moon ci :format-check :lint :lint-md :test-ci :typecheck --base origin/main
+```
+
+Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/actionlint), the same check CI runs. Install [ShellCheck](https://github.com/koalaman/shellcheck) next to it, since actionlint lints the `run:` scripts only when it finds ShellCheck on `PATH`:
+
+```bash
+actionlint
+```
 
 ## Pull requests
 
