@@ -3,6 +3,7 @@ $schema: "../../../.moon/cache/schemas/project.json"
 # moon names a project after its folder, which apps/web already takes, so the id follows the package name instead.
 id: "core-web"
 layer: "library"
+tags: ["web"]
 
 project:
     title: "Web core"

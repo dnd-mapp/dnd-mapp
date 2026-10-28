@@ -9,6 +9,16 @@ projects:
     sources:
         root: "."
 
+constraints:
+    # Each project carries the tag of the platform it runs on, or tooling for the packages of the whole workspace. A
+    # project may depend on projects with its own tag or with one of the tags listed for it, and never on a project
+    # without a tag.
+    tagRelationships:
+        web: ["domain", "tooling"]
+        server: ["domain", "tooling"]
+        domain: ["tooling"]
+        tooling: []
+
 telemetry: false
 
 vcs:

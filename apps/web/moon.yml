@@ -2,6 +2,7 @@ $schema: "../../.moon/cache/schemas/project.json"
 
 id: "web"
 layer: "application"
+tags: ["web"]
 
 project:
     title: "Web client"
