@@ -65,7 +65,11 @@ inputs:
       group: "sources"
 ```
 
-A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`. A `domain` package may depend on other `domain` packages only. Domain modules never depend on the platform packages of another domain: they meet through the router of `core`, which lazy-loads them, or through `domain` packages.
+An app depends on the `core` of its platform only. A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`. A `domain` package may depend on other `domain` packages only. Domain modules never depend on the platform packages of another domain: they meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages.
+
+Two checks enforce these rules. Tag each project in its `moon.yml` with the platform it runs on, such as `web` or `server`, with `domain` for a `domain` package, or with `tooling` for the root project and the packages of the whole workspace. Under `constraints.tagRelationships`, [`.moon/workspace.yml`](.moon/workspace.yml) lets a platform project depend on projects of its own platform, `domain`, and `tooling`, and a `domain` package on `domain` and `tooling` projects. moon fails to build its project graph on any other dependency, including one on a project without a tag, so every `moon` command reports it. Add a tag to `tagRelationships` along with the first project of a new platform.
+
+moon reads dependencies from `package.json` only, while the path aliases let a project import any module. Add [`@dnd-mapp/config-eslint`](packages/config-eslint/README.md) to the `eslint.config.ts` of each new project, as its README explains. Its rule fails the `lint` task on an import that breaks the rules above, and on an import of a project that the project's `package.json` does not declare.
 
 Extend a preset of [`@dnd-mapp/config-typescript`](packages/config-typescript/README.md) from the `tsconfig.json` of a new TypeScript project, and add `@group(configs)` to the inputs of its tasks, as the package README explains. Without that group, a change to a preset reruns none of the project's tasks.
 
