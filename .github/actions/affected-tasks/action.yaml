@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Affected tasks
+description: List the moon tasks that the changes between two commits affect.
+
+inputs:
+    base:
+        description: The commit to compare against.
+        required: true
+    head:
+        description: The commit with the changes.
+        required: true
+
+outputs:
+    tasks:
+        description: The targets of the affected tasks as a JSON array, such as `["web:build","web:image"]`.
+        value: ${{ steps.affected.outputs.tasks }}
+
+runs:
+    using: composite
+    steps:
+        - name: List the affected tasks
+          id: affected
+          run: |
+              changed="$(pnpm --silent moon query changed-files --base "$BASE" --head "$HEAD")"
+              tasks="$(pnpm --silent moon query affected <<< "$changed" | jq -c '.tasks | keys')"
+
+              echo "Affected tasks: $tasks"
+              echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
+          shell: bash
+          env:
+              BASE: ${{ inputs.base }}
+              HEAD: ${{ inputs.head }}

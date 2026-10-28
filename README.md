@@ -34,10 +34,10 @@ Lint the Markdown files with [markdownlint](https://github.com/DavidAnson/markdo
 pnpm moon run root:lint-md
 ```
 
-Run every task that CI runs for the changes on your branch, which covers the two checks above:
+Run the checks that the CI job runs for the changes on your branch, which include the two above:
 
 ```bash
-pnpm moon ci --base origin/main
+pnpm moon ci :format-check :lint :lint-md :test-ci :typecheck --base origin/main
 ```
 
 The web client's dev server serves the app over HTTPS at `https://localhost.www.dndmapp.dev:4200`, so `Secure` cookies, `SameSite`, and CORS work across sibling hosts as they do in production. The certificate also covers `https://localhost:4200` and `https://127.0.0.1:4200`, but those are separate sites, so cookies shared with sibling hosts work only on the `www` host. Set this up once per machine:

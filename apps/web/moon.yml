@@ -27,6 +27,21 @@ tasks:
         outputs:
             - "dist/**/*"
 
+    image:
+        command: "docker buildx bake --file .docker/bake.hcl web"
+        deps:
+            - "~:build"
+        inputs:
+            - "@group(sources)"
+            - "/.dockerignore"
+            - "/.docker/bake.hcl"
+            - "/.docker/web/**/*"
+        options:
+            # The image lands in the Docker daemon rather than in files that moon can restore from its cache.
+            cache: false
+            # The paths in the bake file resolve from the root of the repository.
+            runFromWorkspaceRoot: true
+
     test:
         command: "ng test"
         preset: "server"

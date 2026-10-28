@@ -55,6 +55,12 @@
             "problemMatcher": []
         },
         {
+            "label": "web:image",
+            "type": "shell",
+            "command": "pnpm moon run web:image",
+            "problemMatcher": []
+        },
+        {
             "label": "web:test",
             "type": "shell",
             "command": "pnpm moon run web:test",
