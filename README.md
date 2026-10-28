@@ -65,6 +65,7 @@ Each project's README lists its tasks:
 
 - [`apps/web`](apps/web/README.md): the Angular web client.
 - [`e2e/web`](e2e/web/README.md): the end-to-end tests of the web client.
+- [`packages/config-typescript`](packages/config-typescript/README.md): the TypeScript config presets that the projects extend.
 
 Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/actionlint), the same check CI runs. Install [ShellCheck](https://github.com/koalaman/shellcheck) next to it, since actionlint lints the `run:` scripts only when it finds ShellCheck on `PATH`:
 
