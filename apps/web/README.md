@@ -9,7 +9,7 @@ Run each task from the repository root.
 | Task         | Command                                          | Runs in CI | Cached |
 |:-------------|:-------------------------------------------------|:----------:|:------:|
 | `start`      | `ng serve`                                       |     no     |   no   |
-| `build`      | `ng build`                                       |    yes     |  yes   |
+| `build`      | `ng build`                                       |     no     |  yes   |
 | `build-info` | `node scripts/build-info.ts`                     |     no     |   no   |
 | `image`      | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
 | `lint`       | `eslint . --max-warnings 0`                      |    yes     |  yes   |
@@ -66,7 +66,7 @@ The image builds on the official `nginx` image but runs nginx as the unprivilege
 docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges dndmapp/web:local
 ```
 
-The CI job leaves `web:image` out of its checks. Separate jobs build the `web-gha` target with [`docker/bake-action`](https://github.com/docker/bake-action) instead, whenever moon finds that a change affects the task. That target builds the image for `linux/amd64` and `linux/arm64`, attaches an SBOM and a provenance attestation to each, caches its layers in the GitHub Actions cache, and takes its tags and its version, revision, and creation labels from [`docker/metadata-action`](https://github.com/docker/metadata-action). CI pushes it to [Docker Hub](https://hub.docker.com/r/dndmapp/web):
+The CI job leaves `web:build` and `web:image` out of its checks. A separate job builds the `web-gha` target with [`docker/bake-action`](https://github.com/docker/bake-action) instead, whenever moon finds that a change affects `web:image`. That target builds the app once on the platform of the runner, then the image for `linux/amd64` and `linux/arm64`. It attaches an SBOM and a provenance attestation to each image, caches its layers in the GitHub Actions cache, and takes its tags and its version, revision, and creation labels from [`docker/metadata-action`](https://github.com/docker/metadata-action). `build-info.json` reports the head commit of the pull request or push, and the version of the image. CI pushes it to [Docker Hub](https://hub.docker.com/r/dndmapp/web):
 
 | Event                 | Tags                   |
 |:----------------------|:-----------------------|
