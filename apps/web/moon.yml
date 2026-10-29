@@ -54,15 +54,20 @@ tasks:
             cache: false
 
     image:
+        # The image builds the app from source, so the task needs no build of its own. Set BASE_HREF to serve the app
+        # under another base path, such as /pr-42/.
         command: "docker buildx bake --file .docker/bake.hcl web"
-        deps:
-            - "~:build"
+        env:
+            COMMIT_SHA: "$vcsRevision"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - project: "core-web"
               group: "sources"
             - "/.dockerignore"
+            - "/package.json"
+            - "/pnpm-lock.yaml"
+            - "/pnpm-workspace.yaml"
             - "/.docker/bake.hcl"
             - "/.docker/web/**/*"
         options:

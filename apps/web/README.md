@@ -32,16 +32,32 @@ pnpm moon run web:build
 pnpm moon run web:build-info
 ```
 
-Build the app and package it in a Docker image that serves it with [nginx](https://nginx.org), which needs a running Docker daemon:
+Build the app from source and package it in a Docker image that serves it with [nginx](https://nginx.org), which needs a running Docker daemon but no build of the app:
 
 ```bash
 pnpm moon run web:image
 ```
 
-The task builds the `web` target of [`.docker/bake.hcl`](../../.docker/bake.hcl) with [Docker Bake](https://docs.docker.com/build/bake/), which runs [`.docker/web/Dockerfile`](../../.docker/web/Dockerfile) on the output of `web:build` for the platform of your machine. It tags the image `dndmapp/web:local`; set `TAGS` to a comma-separated list of other tags, of which the first becomes the version label. The target labels the image with the [OCI annotations](https://github.com/opencontainers/image-spec/blob/main/annotations.md) for its title, description, license, and source. [`.docker/web/nginx.conf`](../../.docker/web/nginx.conf) serves the app on port 4200 and answers every path without a file extension with `index.html`, so the router handles it. Run a container of the image at <http://localhost:4200>:
+The task builds the `web` target of [`.docker/bake.hcl`](../../.docker/bake.hcl) with [Docker Bake](https://docs.docker.com/build/bake/), which runs [`.docker/web/Dockerfile`](../../.docker/web/Dockerfile) for the platform of your machine. The first stage of the Dockerfile runs on the platform of the builder. It installs pnpm with its [install script](https://pnpm.io/installation), installs the dependencies with the pnpm store in a cache mount, builds the app with `moon run web:build`, and stamps `build-info.json` with `scripts/build-info.ts`. The final stage copies the bundle into the nginx image. The task tags the image `dndmapp/web:local`; set `TAGS` to a comma-separated list of other tags, of which the first becomes the version label. The target labels the image with the [OCI annotations](https://github.com/opencontainers/image-spec/blob/main/annotations.md) for its title, description, license, and source.
+
+Bake passes these variables from the environment to the Dockerfile as build arguments:
+
+| Variable     | Purpose                                                        | Default                 |
+|:-------------|:---------------------------------------------------------------|:------------------------|
+| `BASE_HREF`  | The base path that the app is served under, such as `/pr-42/`. | `/`                     |
+| `COMMIT_SHA` | The commit that `build-info.json` reports.                     | The commit of `HEAD`    |
+| `VERSION`    | The version that `build-info.json` reports.                    | The first tag in `TAGS` |
+
+[`.docker/web/nginx.conf`](../../.docker/web/nginx.conf) serves the app on port 4200 under its base path, and answers every path under it without a file extension with `index.html`, so the router handles it. It serves `<base path>build-info.json` with `Cache-Control: no-store`. Run a container of the image at <http://localhost:4200>:
 
 ```bash
 docker run --rm -p 4200:4200 dndmapp/web:local
+```
+
+Build the image under another base path, and open the app at <http://localhost:4200/pr-42/> once the container runs:
+
+```bash
+BASE_HREF=/pr-42/ pnpm moon run web:image
 ```
 
 The image builds on the official `nginx` image but runs nginx as the unprivileged `nginx` user (UID 101) and starts it without the entrypoint scripts of the base image. It needs no added capabilities, writes to `/tmp` only, and runs under any other UID too. Harden a container by dropping every capability and making the root file system read-only, with a tmpfs at `/tmp`:

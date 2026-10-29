@@ -16,6 +16,26 @@ variable "TAGS" {
     }
 }
 
+variable "BASE_HREF" {
+    description = "The base path that the web app is served under, such as /pr-42/. It starts and ends with a slash."
+    default     = "/"
+
+    validation {
+        condition     = can(regex("^/([A-Za-z0-9._~-]+/)*$", BASE_HREF))
+        error_message = "Start and end BASE_HREF with a slash, as in /pr-42/, and use only letters, digits, and ._~- in it."
+    }
+}
+
+variable "COMMIT_SHA" {
+    description = "The commit that the image is built from, which build-info.json reports."
+    default     = ""
+}
+
+variable "VERSION" {
+    description = "The version that build-info.json reports. It defaults to the first tag in TAGS."
+    default     = ""
+}
+
 # Builds the web image for the platform of the builder and loads it into the local image store, which works with every
 # image store that Docker offers.
 target "web" {
@@ -24,6 +44,12 @@ target "web" {
 
     tags   = image_tags("dndmapp/web")
     output = ["type=docker"]
+
+    args = {
+        BASE_HREF  = BASE_HREF
+        COMMIT_SHA = COMMIT_SHA
+        VERSION    = VERSION != "" ? VERSION : image_version()
+    }
 
     labels = merge(web_labels(), {
         "org.opencontainers.image.version" = image_version()
