@@ -105,7 +105,7 @@ Open the pull request against `main`, and keep it to one concern: an unrelated f
 
 A pull request merges once all of these hold:
 
-- The required checks pass: `CI`, `Pull request title`, `Web build`, and `Web image`. The web jobs skip when the change does not affect the web app, which counts as passing.
+- The required checks pass: `CI`, `Pull request title`, and `Web image`. The `Web image` job skips when the change does not affect the web app, which counts as passing.
 - A member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers), the code owners in [`CODEOWNERS`](.github/CODEOWNERS), approves it. [`GOVERNANCE.md`](GOVERNANCE.md#roles) explains who belongs to the team.
 - Someone other than you approves your last push. A new push dismisses earlier approvals, so the reviewer sees the final state.
 

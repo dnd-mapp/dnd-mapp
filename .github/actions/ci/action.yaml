@@ -23,7 +23,7 @@ runs:
         # moon prefixes each output line with the task target, which hides workflow commands such as the test annotations
         # from the runner, so sed strips the prefix from those lines. The minimal summary skips the replay of failed task
         # output, which would annotate each finding a second time. The targets name the checks, so web:build and
-        # web:image, which the web-build and web-image jobs run, stay out of this job.
+        # web:image stay out of this job. The web-image job builds the app inside the image instead.
         - name: Run the affected moon tasks
           run: |
               pnpm moon ci :format-check :lint :lint-md :test-ci :typecheck --summary minimal \

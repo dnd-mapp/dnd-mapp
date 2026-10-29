@@ -17,6 +17,7 @@ fileGroups:
         - "src/**/*"
         - "public/**/*"
         - "angular.json"
+        - "scripts/**/*"
 
 tasks:
     start:
@@ -40,16 +41,33 @@ tasks:
         outputs:
             - "dist/**/*"
 
-    image:
-        command: "docker buildx bake --file .docker/bake.hcl web"
+    build-info:
+        # Stamps the commit and version into build-info.json in the output of build. The image runs the script itself.
+        command: "node scripts/build-info.ts"
         deps:
             - "~:build"
+        env:
+            COMMIT_SHA: "$vcsRevision"
+            VERSION: "local"
+        options:
+            # The commit changes without any input changing, so moon must not restore an earlier stamp.
+            cache: false
+
+    image:
+        # The image builds the app from source, so the task needs no build of its own. Set BASE_HREF to serve the app
+        # under another base path, such as /pr-42/.
+        command: "docker buildx bake --file .docker/bake.hcl web"
+        env:
+            COMMIT_SHA: "$vcsRevision"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - project: "core-web"
               group: "sources"
             - "/.dockerignore"
+            - "/package.json"
+            - "/pnpm-lock.yaml"
+            - "/pnpm-workspace.yaml"
             - "/.docker/bake.hcl"
             - "/.docker/web/**/*"
         options:

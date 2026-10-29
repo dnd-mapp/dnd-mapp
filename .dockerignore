@@ -2,4 +2,27 @@
 # copy. Each Dockerfile reaches the daemon whether or not this file lists it.
 *
 !.docker/web/nginx.conf
-!apps/web/dist/web/browser/
+
+# The web image builds the app from source, so it needs the sources of the apps and packages. It keeps the manifest of
+# every workspace project, so the workspace matches the lockfile.
+!package.json
+!pnpm-lock.yaml
+!pnpm-workspace.yaml
+!tsconfig.base.json
+!moon.yml
+!.moon/*.yml
+!.moon/tasks/
+!apps/
+!packages/
+!e2e/*/package.json
+!e2e/*/moon.yml
+
+# Leave out what the build or a local checkout produces, as .gitignore does.
+**/node_modules/
+**/dist/
+**/out-tsc/
+**/tmp/
+**/.angular/
+**/coverage/
+**/.env
+**/.env.*

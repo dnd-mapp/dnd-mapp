@@ -16,11 +16,16 @@ inputs:
     dockerhub-token:
         description: An access token of that account with write access to the repository.
         required: true
+    base-href:
+        description: The base path that the app in the image is served under, such as `/pr-42/`.
+        required: false
+        default: /
 
 runs:
     using: composite
     steps:
-        # Dockerfiles that run commands need emulation to build an arm64 image on an amd64 runner.
+        # Dockerfiles that run commands in their final stage need emulation to build an arm64 image on an amd64 runner.
+        # Stages on $BUILDPLATFORM, such as the one that builds the web app, run natively.
         - name: Set up QEMU
           uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1 # v4.4.0
           with:
@@ -50,7 +55,7 @@ runs:
         - name: Build and push the image
           uses: docker/bake-action@59cb1203cd42bcefd40a1b6d73b589e48c86040e # v7.5.0
           with:
-              # Build from the checkout, which holds the files the job put there, rather than from the Git context.
+              # Build from the checkout rather than from the Git context, so the build sees the same files as the job.
               source: .
               files: |
                   .docker/bake.hcl
@@ -58,3 +63,9 @@ runs:
                   cwd://${{ steps.meta.outputs.bake-file-labels }}
               targets: ${{ inputs.target }}
               push: true
+          # Bake reads its variables from the environment and passes them to the Dockerfile as build arguments. A pull
+          # request reports its head commit rather than the merge commit that the workflow checks out.
+          env:
+              BASE_HREF: ${{ inputs.base-href }}
+              COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+              VERSION: ${{ steps.meta.outputs.version }}
