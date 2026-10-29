@@ -59,6 +59,11 @@
             "automerge": true
         },
         {
+            "description": "Update the Node.js base image of the web build together with devEngines.runtime, since pnpm refuses to run on any other version.",
+            "matchPackageNames": ["node"],
+            "groupName": "Node.js"
+        },
+        {
             "description": "Keep the nginx base image on the stable line, whose minor versions are even.",
             "matchDatasources": ["docker"],
             "matchPackageNames": ["nginx"],
