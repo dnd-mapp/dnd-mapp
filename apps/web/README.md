@@ -6,12 +6,13 @@ The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders i
 
 Run each task from the repository root.
 
-| Task    | Command                                          | Runs in CI | Cached |
-|:--------|:-------------------------------------------------|:----------:|:------:|
-| `start` | `ng serve`                                       |     no     |   no   |
-| `build` | `ng build`                                       |    yes     |  yes   |
-| `image` | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
-| `lint`  | `eslint . --max-warnings 0`                      |    yes     |  yes   |
+| Task         | Command                                          | Runs in CI | Cached |
+|:-------------|:-------------------------------------------------|:----------:|:------:|
+| `start`      | `ng serve`                                       |     no     |   no   |
+| `build`      | `ng build`                                       |    yes     |  yes   |
+| `build-info` | `node scripts/build-info.ts`                     |     no     |   no   |
+| `image`      | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
+| `lint`       | `eslint . --max-warnings 0`                      |    yes     |  yes   |
 
 Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
 
@@ -23,6 +24,12 @@ Build the app for production into `dist/web/`:
 
 ```bash
 pnpm moon run web:build
+```
+
+`build-info.json` reports the commit and version of a build, so a deploy can check which build an environment runs. [`public/build-info.json`](public/build-info.json) holds placeholder values, which the dev server serves as they are: the commit `dev`, and the version in [`package.json`](package.json) with a `-dev` suffix. Build the app and stamp the commit of `HEAD` and the version `local` into the copy in `dist/web/`, with [`scripts/build-info.ts`](scripts/build-info.ts):
+
+```bash
+pnpm moon run web:build-info
 ```
 
 Build the app and package it in a Docker image that serves it with [nginx](https://nginx.org), which needs a running Docker daemon:

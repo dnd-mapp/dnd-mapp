@@ -17,6 +17,7 @@ fileGroups:
         - "src/**/*"
         - "public/**/*"
         - "angular.json"
+        - "scripts/**/*"
 
 tasks:
     start:
@@ -39,6 +40,18 @@ tasks:
               group: "sources"
         outputs:
             - "dist/**/*"
+
+    build-info:
+        # Stamps the commit and version into build-info.json in the output of build. The image runs the script itself.
+        command: "node scripts/build-info.ts"
+        deps:
+            - "~:build"
+        env:
+            COMMIT_SHA: "$vcsRevision"
+            VERSION: "local"
+        options:
+            # The commit changes without any input changing, so moon must not restore an earlier stamp.
+            cache: false
 
     image:
         command: "docker buildx bake --file .docker/bake.hcl web"
