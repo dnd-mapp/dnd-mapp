@@ -65,7 +65,7 @@ catalogs:
   moon:
     "@moonrepo/cli": ~2.6.4
   node:
-    "@types/node": ~24.19.2
+    "@types/node": ~26.6.6
   playwright:
     "@playwright/test": ~1.64.1
     playwright: ~1.64.1
