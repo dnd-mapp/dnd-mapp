@@ -59,8 +59,8 @@
             "automerge": true
         },
         {
-            "description": "Update the Node.js base image of the web build together with devEngines.runtime, since pnpm refuses to run on any other version.",
-            "matchPackageNames": ["node"],
+            "description": "Update the Node.js base image of the web build together with devEngines.runtime, since pnpm refuses to run on any other version, and the Node.js types with both, so they describe the runtime the code runs on.",
+            "matchPackageNames": ["node", "@types/node"],
             "groupName": "Node.js"
         },
         {
