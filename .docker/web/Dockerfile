@@ -4,7 +4,7 @@
 # The bundle is the same on every platform, so build it once on the platform of the builder rather than under emulation.
 # pnpm refuses to run on any Node.js version other than devEngines.runtime in package.json, so keep this tag on it. The
 # full image, unlike the slim one, holds the wget and openssl that the pnpm install script needs.
-FROM --platform=$BUILDPLATFORM node:26.13.0-trixie@sha256:6d2c7d5d074bf72f81ddc252b4fbb5d625bc028eeda49cb4b8c2ff8eda1ee617 AS build
+FROM --platform=$BUILDPLATFORM node:26.13.0-trixie@sha256:19f8f8e74820809004eed8f88824ccfa76e89ae79cf0f6a7a38fddf3c470a5b7 AS build
 
 # Fail a RUN on an error anywhere in a pipeline, such as a failed download piped into a shell.
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
