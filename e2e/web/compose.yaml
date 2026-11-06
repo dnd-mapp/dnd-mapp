@@ -8,7 +8,7 @@ services:
     # local tag, which web:image builds and no registry holds: global-setup.ts sets WEB_PULL_POLICY to never for it. The
     # healthcheck of the image tells Caddy when nginx is up.
     web:
-        image: ${WEB_IMAGE:-dndmapp/web:edge}
+        image: ${WEB_IMAGE:-dndmapp/web:edge@sha256:73c87f0af5aa71a79455c7f7a364a8aaec42d31d25a07147a64012e16d00e2f7}
         pull_policy: ${WEB_PULL_POLICY:-always}
 
     # Caddy serves the web app over HTTPS at https://localhost:4200, the port of the dev server, where the browser of
