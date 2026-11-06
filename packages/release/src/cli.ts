@@ -1,5 +1,6 @@
 import { parseArgs } from 'node:util';
 import { lint } from './commands/lint.ts';
+import { notes } from './commands/notes.ts';
 import { verify } from './commands/verify.ts';
 import { ReleaseError } from './errors.ts';
 
@@ -15,6 +16,7 @@ export interface Dependencies {
 
 const usage = `Usage:
   release verify <project> [<version>]
+  release notes <project> <version> <file>
   release lint <project>
 `;
 
@@ -28,6 +30,11 @@ export async function run(argv: string[], deps: Dependencies): Promise<number> {
             case 'verify': {
                 const [project, version] = expectArgs(args, 1, 2);
                 await verify({ project, version }, deps);
+                break;
+            }
+            case 'notes': {
+                const [project, version, file] = expectArgs(args, 3, 3);
+                await notes({ project, version, file }, deps);
                 break;
             }
             case 'lint': {
@@ -62,10 +69,12 @@ function parseArguments(argv: string[]) {
 }
 
 /** Checks the number of positional arguments of a command. */
-function expectArgs(args: string[], min: 1, max: number): [string, string?] {
+function expectArgs<Min extends number>(args: string[], min: Min, max: number): Arguments<Min> {
     if (args.length < min || args.length > max) {
         const expected = min === max ? String(min) : `${String(min)} to ${String(max)}`;
         throw new UsageError(`expected ${expected} arguments, got ${String(args.length)}`);
     }
-    return args as [string, string?];
+    return args as Arguments<Min>;
 }
+
+type Arguments<Min extends number> = Min extends 1 ? [string, string?] : [string, string, string];
