@@ -48,7 +48,7 @@ Bake passes these variables from the environment to the Dockerfile as build argu
 | `COMMIT_SHA` | The commit that `build-info.json` reports.                     | The commit of `HEAD`    |
 | `VERSION`    | The version that `build-info.json` reports.                    | The first tag in `TAGS` |
 
-[`.docker/web/nginx.conf`](../../.docker/web/nginx.conf) serves the app on port 4200 under its base path, and answers every path under it without a file extension with `index.html`, so the router handles it. It serves `<base path>build-info.json` with `Cache-Control: no-store`. Run a container of the image at <http://localhost:4200>:
+[`.docker/web/nginx.conf`](../../.docker/web/nginx.conf) serves the app on port 4200 under its base path, and answers every path under it without a file extension with `index.html`, so the router handles it. It serves `<base path>build-info.json` with `Cache-Control: no-store`, and answers `/healthz` with an empty `200` under every base path, without logging the request. The `HEALTHCHECK` of the image requests `/healthz`, so `docker ps` shows whether the container is `healthy`. Kubernetes ignores `HEALTHCHECK`, so point the probes of a deployment there at `/healthz`. Run a container of the image at <http://localhost:4200>:
 
 ```bash
 docker run --rm -p 4200:4200 dndmapp/web:local
