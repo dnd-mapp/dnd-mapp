@@ -36,6 +36,7 @@ The community does not allow the following behaviors. Committing, threatening, o
 2. **Failing to credit sources.** Not properly crediting the sources of content you contribute.
 3. **Promotional materials.** Sharing marketing or other commercial content outside the norms of the community.
 4. **Irresponsible communication.** Presenting content that includes, links to, or describes any other restricted behavior without due care.
+5. **Unchecked contributions.** Repeatedly posting work you have not checked yourself, such as AI output, after maintainers closed earlier posts of yours for that reason. [Using AI tools](CONTRIBUTING.md#using-ai-tools) describes the checks.
 
 ## Reporting a violation
 
