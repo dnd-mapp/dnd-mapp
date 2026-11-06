@@ -1,6 +1,6 @@
 # Contributing to D&D Mapp
 
-Thanks for helping build D&D Mapp. This guide covers where a contribution starts, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
+Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how to use AI tools, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
 
 ## Where to start
 
@@ -13,6 +13,26 @@ Thanks for helping build D&D Mapp. This guide covers where a contribution starts
 | A code or docs change | An issue that a maintainer has triaged. For now, only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains. |
 
 A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
+
+## Using AI tools
+
+AI tools are welcome on the terms that [`GOVERNANCE.md`](GOVERNANCE.md#roles) sets for everyone in every role, maintainers included. This section spells out what those terms ask of each kind of contribution.
+
+Before you post, check that your contribution meets the bar for its kind:
+
+| Contribution              | Before you post                                                                                                                                                  |
+|:--------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| A discussion              | It says what you mean, in your own words, without padding.                                                                                                       |
+| A bug report              | You reproduced the bug on the version you name, and the steps, environment, and logs are ones you observed.                                                      |
+| A security advisory       | You confirmed the weakness in D&D Mapp's code, not only in the output of a scanner or an AI tool.                                                                |
+| A pull request            | You can explain every line it changes and why, you ran the checks under [Checking your changes](#checking-your-changes), and its description matches the change. |
+| A review comment or reply | You read the code it is about, and checked any finding an AI tool suggested.                                                                                     |
+
+An agent posts nothing on your behalf until you have read and approved it. The project's own bots fall under [Automation](GOVERNANCE.md#automation) instead.
+
+You do not need to say that you used AI tools, but answer honestly when a maintainer asks.
+
+A maintainer closes a contribution that falls short of this bar. Clearly unchecked work closes right away. When it is unclear, the maintainer asks questions once, and closes the contribution if the answers fall short or 14 days pass without one. Using an AI tool is never by itself a reason to close a contribution. A closed contribution can come back once it meets the bar, but posting unchecked work again after a close violates the [code of conduct](CODE_OF_CONDUCT.md#other-restrictions).
 
 ## Setting up
 
