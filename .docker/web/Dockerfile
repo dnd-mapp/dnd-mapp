@@ -81,6 +81,12 @@ RUN nginx -t
 
 EXPOSE 4200
 
+# Mark the container unhealthy once nginx stops answering. The probe runs as the user of the container, with the BusyBox
+# wget of the base image, and requests the /healthz location of nginx.conf. During the start period, Docker probes every
+# second, so the container turns healthy right after nginx starts.
+HEALTHCHECK --interval=10s --timeout=3s --start-period=10s --start-interval=1s --retries=3 \
+    CMD ["wget", "-q", "--spider", "http://127.0.0.1:4200/healthz"]
+
 # Start nginx directly, since the entrypoint scripts of the base image rewrite files under /etc/nginx, which only root can
 # write.
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
