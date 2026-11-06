@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
 import { type Changelog, parseChangelog } from './changelog.ts';
 import type { Dependencies } from './cli.ts';
@@ -48,6 +48,10 @@ export async function readChangelog(project: Project): Promise<Changelog> {
     }
 }
 
+export async function writeChangelog(project: Project, changelog: Changelog): Promise<void> {
+    await writeFile(project.changelogPath, changelog.lines.join(changelog.eol));
+}
+
 /** The text of a `package.json`, and the version it holds. */
 export interface Manifest {
     text: string;
@@ -70,6 +74,11 @@ export async function readManifest(project: Project): Promise<Manifest> {
         throw new ReleaseError(`${project.manifestName} has no version`);
     }
     return { text, version };
+}
+
+/** Sets the version of a `package.json` in place, so its indentation and line endings stay as they are. */
+export async function writeManifestVersion(project: Project, manifest: Manifest, version: string): Promise<void> {
+    await writeFile(project.manifestPath, manifest.text.replace(/("version"\s*:\s*")[^"]*(")/, `$1${version}$2`));
 }
 
 function isMissingFile(error: unknown): boolean {

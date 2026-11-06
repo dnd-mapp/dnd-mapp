@@ -3,6 +3,7 @@ import { createFixture } from './testing/fixture.ts';
 
 describe('release', () => {
     it.each([
+        ['bump', ['bump', 'web', 'auto']],
         ['verify', ['verify', 'web']],
         ['verify with a version', ['verify', 'web', '0.1.0']],
         ['notes', ['notes', 'web', '0.1.0', 'notes.md']],
@@ -33,6 +34,18 @@ describe('release', () => {
         expect(result.code).toBe(1);
         expect(result.stderr).toContain('unknown command publish');
         expect(result.stderr).toContain('Usage:');
+    });
+
+    it.each([
+        ['--json', ['lint', 'web', '--json']],
+        ['--timezone', ['verify', 'web', '--timezone', 'UTC']],
+    ])('fails on %s for a command other than bump', async (option, argv) => {
+        const fixture = await createFixture();
+
+        const result = await fixture.run(...argv);
+
+        expect(result.code).toBe(1);
+        expect(result.stderr).toContain(`${option} applies to bump only`);
     });
 
     it('fails on a missing argument', async () => {
