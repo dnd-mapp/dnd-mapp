@@ -1,0 +1,46 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "release"
+layer: "tool"
+tags:
+    - "tooling"
+
+project:
+    title: "Release CLI"
+    description: "The CLI that the release workflows run to bump, verify, and lint the changelog and manifest of a project."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+
+    tests:
+        - "vitest.config.ts"
+
+tasks:
+    test:
+        command: "vitest"
+        preset: "server"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+
+    test-ci:
+        command: "vitest run --reporter dot --reporter github-actions"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+        outputs:
+            - "coverage/**/*"
+
+    typecheck:
+        command: "tsc"
+        # tsconfig.json includes the configs of ESLint and Vitest next to the sources.
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "*.config.ts"

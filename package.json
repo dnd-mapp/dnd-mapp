@@ -27,6 +27,7 @@
   "devDependencies": {
     "@commitlint/cli": "catalog:commitlint",
     "@commitlint/config-conventional": "catalog:commitlint",
+    "@dnd-mapp/release": "workspace:*",
     "@moonrepo/cli": "catalog:moon",
     "lefthook": "catalog:lefthook",
     "markdownlint-cli2": "catalog:markdownlint",
