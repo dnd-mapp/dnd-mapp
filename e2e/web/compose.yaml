@@ -3,10 +3,13 @@
 name: dnd-mapp-web-e2e
 
 services:
-    # The web image to test. Locally, web-e2e:e2e-ci depends on web:image, which builds dndmapp/web:local. CI sets
-    # WEB_IMAGE to the image it pushed for the commit. The healthcheck of the image tells Caddy when nginx is up.
+    # The web image to test: the image of the latest commit of main, unless WEB_IMAGE names another, such as the image
+    # that CI pushed for the commit. The stack always pulls it, so it never tests a stale copy, except an image with the
+    # local tag, which web:image builds and no registry holds: global-setup.ts sets WEB_PULL_POLICY to never for it. The
+    # healthcheck of the image tells Caddy when nginx is up.
     web:
-        image: ${WEB_IMAGE:-dndmapp/web:local}
+        image: ${WEB_IMAGE:-dndmapp/web:edge}
+        pull_policy: ${WEB_PULL_POLICY:-always}
 
     # Caddy serves the web app over HTTPS at the URL of the dev server. The network alias resolves that host to Caddy
     # inside the network, so the tests need no hosts entry.

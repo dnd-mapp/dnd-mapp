@@ -9,7 +9,6 @@ Run each task from the repository root.
 | Task        | Command                     | Runs in CI | Cached |
 |:------------|:----------------------------|:----------:|:------:|
 | `e2e`       | `playwright test --ui`      |     no     |   no   |
-| `web-image` | none, runs `web:image`      |     no     |   no   |
 | `e2e-ci`    | `playwright test`           |    yes     |   no   |
 | `typecheck` | `tsc`                       |    yes     |  yes   |
 | `lint`      | `eslint . --max-warnings 0` |    yes     |  yes   |
@@ -26,13 +25,20 @@ Run the tests once with the CI settings, against the [web image](../../apps/web/
 pnpm moon run web-e2e:e2e-ci
 ```
 
-`e2e-ci` depends on `web-image`, which builds `dndmapp/web:local` with `web:image`. [`global-setup.ts`](global-setup.ts) then starts the stack of [`compose.yaml`](compose.yaml) and stops it once the tests finish:
+[`global-setup.ts`](global-setup.ts) starts the stack of [`compose.yaml`](compose.yaml) and stops it once the tests finish:
 
-- `web` runs the web image, or the image that `WEB_IMAGE` names.
+- `web` runs `dndmapp/web:edge`, the image of the latest commit of `main`, or the image that `WEB_IMAGE` names. The stack pulls it on every run, except an image with the `local` tag, which no registry holds.
 - `caddy` serves the app at `https://localhost.www.dndmapp.dev:4200`, the URL of the dev server, with a certificate of its internal CA. [`Caddyfile`](Caddyfile) configures it.
 - `playwright` runs a Playwright server in the [Playwright image](https://playwright.dev/docs/docker) of the version in the lockfile. The tests connect to it, so the browser runs inside the network of the stack, where a network alias resolves the host of the app to Caddy.
 
-CI skips `web-image`, sets `WEB_IMAGE` to the image that it pushed for the commit, and uploads the HTML report when a test fails. A commit that pushes no web image tests `dndmapp/web:edge`, the image of the latest commit of `main`.
+To test your local changes to the web app, build `dndmapp/web:local` and point the stack at it:
+
+```bash
+pnpm moon run web:image
+WEB_IMAGE=dndmapp/web:local pnpm moon run web-e2e:e2e-ci
+```
+
+CI sets `WEB_IMAGE` to the image that it pushed for the commit, and uploads the HTML report when a test fails. A commit that pushes no web image tests `dndmapp/web:edge`.
 
 Check the types of the tests and the Playwright config, which Playwright itself runs without checking. [`tsconfig.json`](tsconfig.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
 

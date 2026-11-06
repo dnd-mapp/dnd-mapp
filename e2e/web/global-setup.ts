@@ -10,7 +10,9 @@ const composeArgs = ['compose', '--file', join(import.meta.dirname, 'compose.yam
  * stops the stack again.
  */
 export default function globalSetup(): () => void {
-    const env = { ...process.env, ...playwrightCore() };
+    // No registry holds an image with the local tag, which web:image builds, so the stack must not pull it.
+    const WEB_PULL_POLICY = process.env['WEB_IMAGE']?.endsWith(':local') ? 'never' : 'always';
+    const env = { ...process.env, ...playwrightCore(), WEB_PULL_POLICY };
     const run = (...args: string[]) => execFileSync('docker', [...composeArgs, ...args], { env, stdio: 'inherit' });
     const read = (...args: string[]) => execFileSync('docker', [...composeArgs, ...args], { env, encoding: 'utf8' });
     const down = () => run('down', '--volumes');

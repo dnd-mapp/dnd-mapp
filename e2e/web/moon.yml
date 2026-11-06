@@ -28,19 +28,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
 
-    web-image:
-        # Builds the web image for the local runs of e2e-ci. CI skips this task, since the stack pulls the image that the
-        # web-image job pushed for the commit, and so skips web:image, which the affected checks of CI still list.
-        deps:
-            - "web:image"
-        options:
-            runInCI: "skip"
-
     e2e-ci:
         # Runs the tests against the web image behind Caddy, in the stack of compose.yaml.
         command: "playwright test"
-        deps:
-            - "~:web-image"
         env:
             CI: "true"
         inputs:
