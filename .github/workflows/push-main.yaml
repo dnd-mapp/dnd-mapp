@@ -118,9 +118,7 @@ jobs:
             # CI, and the stack pulls WEB_IMAGE instead. moon prefixes each output line with the task target, which hides
             # the test annotations from the runner, so sed strips the prefix from those lines.
             - name: Run the end-to-end tests
-              run: |
-                  pnpm moon run web-e2e:e2e-ci --summary minimal \
-                      | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
+              run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
               shell: bash
               env:
                   WEB_IMAGE: ${{ needs.web-image.outputs.image || 'dndmapp/web:edge' }}
@@ -131,7 +129,7 @@ jobs:
               with:
                   name: playwright-report
                   path: e2e/web/playwright-report/
-                  retention-days: 14
+                  retention-days: 7
 
     deploy-development:
         name: Deploy development
