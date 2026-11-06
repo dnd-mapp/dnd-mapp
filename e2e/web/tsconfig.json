@@ -1,6 +1,6 @@
 {
     "extends": "@dnd-mapp/config-typescript/node.json",
-    "include": ["src/**/*.ts", "eslint.config.ts", "playwright.config.ts"],
+    "include": ["src/**/*.ts", "eslint.config.ts", "playwright.config.ts", "global-setup.ts"],
     "compilerOptions": {
         "noEmit": true
     }

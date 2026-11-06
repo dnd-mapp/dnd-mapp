@@ -16,6 +16,9 @@ fileGroups:
     sources:
         - "src/**/*"
         - "playwright.config.ts"
+        - "global-setup.ts"
+        - "compose.yaml"
+        - "Caddyfile"
 
 tasks:
     e2e:
@@ -25,19 +28,27 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
 
+    web-image:
+        # Builds the web image for the local runs of e2e-ci. CI skips this task, since the stack pulls the image that the
+        # web-image job pushed for the commit, and so skips web:image, which the affected checks of CI still list.
+        deps:
+            - "web:image"
+        options:
+            runInCI: "skip"
+
     e2e-ci:
+        # Runs the tests against the web image behind Caddy, in the stack of compose.yaml.
         command: "playwright test"
+        deps:
+            - "~:web-image"
         env:
             CI: "true"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
-        outputs:
-            - "playwright-report/**/*"
-            - "test-results/**/*"
         options:
-            # CI runs the end-to-end tests once it can start the app from a Docker image.
-            runInCI: false
+            # The result depends on the web image, which moon cannot hash.
+            cache: false
 
     typecheck:
         command: "tsc"

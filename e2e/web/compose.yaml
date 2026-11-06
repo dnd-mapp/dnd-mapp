@@ -1,0 +1,70 @@
+# The stack that web-e2e:e2e-ci runs the end-to-end tests against. global-setup.ts starts it before the tests, sets the
+# variables below, and stops it again after the tests.
+name: dnd-mapp-web-e2e
+
+services:
+    # The web image to test. Locally, web-e2e:e2e-ci depends on web:image, which builds dndmapp/web:local. CI sets
+    # WEB_IMAGE to the image it pushed for the commit. The healthcheck of the image tells Caddy when nginx is up.
+    web:
+        image: ${WEB_IMAGE:-dndmapp/web:local}
+
+    # Caddy serves the web app over HTTPS at the URL of the dev server. The network alias resolves that host to Caddy
+    # inside the network, so the tests need no hosts entry.
+    caddy:
+        image: caddy:2.11.9-alpine@sha256:0bbb055bda6793c999bde78b1b5ce3e89f829fb031af2cf50056ea1246559fee
+        depends_on:
+            web:
+                condition: service_healthy
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+        networks:
+            default:
+                aliases:
+                    - localhost.www.dndmapp.dev
+        # Probe the web app through Caddy, over TLS with the internal CA of Caddy, which it creates on its first start.
+        healthcheck:
+            test:
+                - CMD
+                - curl
+                - --fail
+                - --silent
+                - --cacert
+                - /data/caddy/pki/authorities/local/root.crt
+                - --resolve
+                - localhost.www.dndmapp.dev:4200:127.0.0.1
+                - https://localhost.www.dndmapp.dev:4200/healthz
+            interval: 10s
+            timeout: 3s
+            start_period: 10s
+            start_interval: 1s
+            retries: 3
+
+    # The browser of the tests runs here, inside the network, behind a Playwright server that the test runner on the
+    # host connects to. The image and the mounted playwright-core package both come from the version in the lockfile,
+    # which global-setup.ts reads, so the server matches the test runner and the image holds the browsers it expects.
+    playwright:
+        image: mcr.microsoft.com/playwright:v${PLAYWRIGHT_VERSION:?Run the tests with web-e2e:e2e-ci}-noble
+        # Playwright recommends an init process, which reaps the browser processes, and the IPC namespace of the host,
+        # since Chromium runs out of shared memory without it.
+        init: true
+        ipc: host
+        user: pwuser
+        working_dir: /home/pwuser
+        volumes:
+            - ${PLAYWRIGHT_CORE_DIR:?Run the tests with web-e2e:e2e-ci}:/opt/playwright-core:ro
+        command: ["node", "/opt/playwright-core/cli.js", "run-server", "--host", "0.0.0.0", "--port", "3000"]
+        # Docker picks a free port on the host, so the stack never clashes with another server. global-setup.ts reads
+        # it back.
+        ports:
+            - "127.0.0.1::3000"
+        healthcheck:
+            test:
+                - CMD
+                - node
+                - --eval
+                - require('node:net').connect(3000, '127.0.0.1').on('connect', () => process.exit(0)).on('error', () => process.exit(1))
+            interval: 10s
+            timeout: 3s
+            start_period: 10s
+            start_interval: 1s
+            retries: 3
