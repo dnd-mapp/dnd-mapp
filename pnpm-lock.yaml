@@ -233,8 +233,8 @@ catalogs:
       specifier: ~7.4.1
       version: 7.4.1
     eslint-plugin-playwright:
-      specifier: ~2.12.1
-      version: 2.12.1
+      specifier: ~2.12.2
+      version: 2.12.2
     typescript-eslint:
       specifier: ~8.72.1
       version: 8.72.1
@@ -406,7 +406,7 @@ importers:
         version: 7.4.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint-import-resolver-typescript@4.4.5(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-playwright:
         specifier: catalog:eslint
-        version: 2.12.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))
+        version: 2.12.2(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))
       typescript-eslint:
         specifier: catalog:eslint
         version: 8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
@@ -2680,8 +2680,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  eslint-plugin-playwright@2.12.1:
-    resolution: {integrity: sha512-JhavNuYBIq7SE/Zg9Esf9RGHkXoDbzrEKS383cowzMyvZ4JMbmdNCN6CoW+RU1Cjzwcoea1tou0je58uXmT/9A==}
+  eslint-plugin-playwright@2.12.2:
+    resolution: {integrity: sha512-sYRCyAEACD3URVoFTfldZcvZNdlJ1r5414gilOTsDCu26PY7l4dUl/3o9ohIEltZgaDS1VXD1mG5xU1KlIGJSw==}
     engines: {node: '>=16.9.0'}
     peerDependencies:
       eslint: '>=8.40.0'
@@ -6166,7 +6166,7 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
-  eslint-plugin-playwright@2.12.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1)):
+  eslint-plugin-playwright@2.12.2(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1)):
     dependencies:
       eslint: 10.14.0(jiti@2.7.0)(supports-color@8.1.1)
       globals: 17.13.0
