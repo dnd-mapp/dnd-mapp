@@ -9,6 +9,8 @@ export interface FixtureOptions {
     project?: string;
     /** The content of `CHANGELOG.md`, or `undefined` to leave the file out. */
     changelog?: string | undefined;
+    /** The version in `package.json`. */
+    version?: string;
 }
 
 export interface RunResult {
@@ -36,7 +38,7 @@ export async function createFixture(options: FixtureOptions = {}): Promise<Fixtu
     const root = join(cwd, 'apps', project);
     await mkdir(root, { recursive: true });
 
-    const manifest = { name: project, version: '0.0.0' };
+    const manifest = { name: project, version: options.version ?? '0.0.0' };
     await writeFile(join(root, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
     if (options.changelog !== undefined) {

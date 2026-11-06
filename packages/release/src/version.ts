@@ -3,6 +3,10 @@ export type Version = string;
 
 const versionPattern = /^(\d+)\.(\d+)\.(\d+)$/;
 
+export function isVersion(text: string): boolean {
+    return versionPattern.test(text);
+}
+
 function parts(version: Version): [number, number, number] {
     const match = versionPattern.exec(version);
     if (!match) {

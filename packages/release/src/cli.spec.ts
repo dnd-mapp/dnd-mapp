@@ -2,7 +2,11 @@ import { describe, expect, it } from 'vitest';
 import { createFixture } from './testing/fixture.ts';
 
 describe('release', () => {
-    it.each([['lint', ['lint', 'web']]])('fails %s for a project without a CHANGELOG.md', async (_, argv) => {
+    it.each([
+        ['verify', ['verify', 'web']],
+        ['verify with a version', ['verify', 'web', '0.1.0']],
+        ['lint', ['lint', 'web']],
+    ])('fails %s for a project without a CHANGELOG.md', async (_, argv) => {
         const fixture = await createFixture();
 
         const result = await fixture.run(...argv);
