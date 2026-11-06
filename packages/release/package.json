@@ -1,0 +1,28 @@
+{
+  "name": "@dnd-mapp/release",
+  "version": "0.0.0",
+  "description": "The release CLI of D&D Mapp, which bumps, verifies, and lints the changelogs and manifests of the projects.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/release"
+  },
+  "type": "module",
+  "bin": {
+    "release": "./src/main.ts"
+  },
+  "dependencies": {
+    "@moonrepo/cli": "catalog:moon"
+  },
+  "devDependencies": {
+    "@dnd-mapp/config-eslint": "workspace:*",
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@types/node": "catalog:node",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:angular",
+    "vitest": "catalog:vitest"
+  }
+}

@@ -1,0 +1,7 @@
+{
+    "extends": "@dnd-mapp/config-typescript/node.json",
+    "include": ["src/**/*.ts", "*.config.ts"],
+    "compilerOptions": {
+        "noEmit": true
+    }
+}
