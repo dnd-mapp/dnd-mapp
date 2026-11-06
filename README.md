@@ -80,6 +80,8 @@ Renovate merges these updates without review once the checks pass, since it may 
 
 Every other update waits for a review: majors, Node.js and pnpm in `devEngines`, and dependencies outside the development tools. A new major of Node.js or pnpm first waits for approval on the Dependency Dashboard.
 
+Renovate leaves the images the project publishes, `dndmapp/*`, alone, since their tags move with every push to `main`.
+
 ## Contributing
 
 [`CONTRIBUTING.md`](CONTRIBUTING.md) explains where a contribution starts, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
