@@ -1,0 +1,67 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Watchtower update
+description: Ask Watchtower to pull the latest image of one container and restart it, and fail when the update fails.
+
+inputs:
+    url:
+        description: The base URL of the Watchtower HTTP API, without the `/v1/update` path.
+        required: true
+    token:
+        description: The API token of Watchtower.
+        required: true
+    container:
+        description: The name of the container to update.
+        required: true
+
+runs:
+    using: composite
+    steps:
+        # A call without a container updates every container in the scope of Watchtower, so an empty name fails the step.
+        # Watchtower answers once the update finishes, or after the timeout of 5 minutes, so curl waits a little longer.
+        # Right after the job joins the tailnet, the hostname of Watchtower may not resolve or answer yet, so curl retries
+        # every error of the first 30 seconds. A repeated call is safe, since Watchtower only checks for a newer image
+        # again.
+        - name: Update the container
+          run: |
+              if [[ -z $CONTAINER ]]; then
+                  echo "::error::Name the container to update."
+                  exit 1
+              fi
+
+              # curl writes the body to a file, which it empties before each retry, so the file holds the last answer.
+              response="$(mktemp)"
+
+              curl --fail-with-body --silent --show-error --request POST \
+                  --retry 5 --retry-all-errors --retry-delay 3 --retry-max-time 30 \
+                  --max-time 330 \
+                  --output "$response" \
+                  --oauth2-bearer "$TOKEN" \
+                  --url-query "container=$CONTAINER" \
+                  --url-query timeout=5m \
+                  "$URL/v1/update" || {
+                  status=$?
+                  cat "$response"
+                  exit "$status"
+              }
+              jq . "$response"
+
+              # Watchtower answers 200 also when it skips or fails to update the container, and counts each outcome in
+              # the summary. It skips a container that it does not monitor or whose image it fails to check.
+              if jq -e '.summary.scan_failed == true' "$response" > /dev/null; then
+                  echo "::error::The update of $CONTAINER ended in an error. The logs of Watchtower say which."
+                  exit 1
+              fi
+              if jq -e '.summary.scanned + .summary.skipped == 0' "$response" > /dev/null; then
+                  echo "::error::Watchtower found no container named $CONTAINER."
+                  exit 1
+              fi
+              if jq -e '.summary.failed > 0 or .summary.skipped > 0' "$response" > /dev/null; then
+                  echo "::error::Watchtower skipped or failed to update $CONTAINER. Its summary above counts which."
+                  exit 1
+              fi
+          shell: bash
+          env:
+              CONTAINER: ${{ inputs.container }}
+              TOKEN: ${{ inputs.token }}
+              URL: ${{ inputs.url }}

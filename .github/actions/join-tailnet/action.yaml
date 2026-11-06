@@ -1,0 +1,23 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Join the tailnet
+description: Join the tailnet as tag:ci for the rest of the job, and leave it when the job ends.
+
+inputs:
+    oauth-client-id:
+        description: The ID of a Tailscale OAuth client with the auth_keys scope that may tag nodes with tag:ci.
+        required: true
+    oauth-secret:
+        description: The secret of that OAuth client.
+        required: true
+
+runs:
+    using: composite
+    steps:
+        # tag:ci reaches only the Watchtower API on port 443, so the job reaches every other host through its public URL.
+        - name: Join the tailnet
+          uses: tailscale/github-action@064b10558093f38325e838ddea35486bdc6b1d5c # v4.4.0
+          with:
+              oauth-client-id: ${{ inputs.oauth-client-id }}
+              oauth-secret: ${{ inputs.oauth-secret }}
+              tags: tag:ci

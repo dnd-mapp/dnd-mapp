@@ -82,3 +82,50 @@ jobs:
                   target: web-gha
                   dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
                   dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN_WRITE }}
+
+    deploy-development:
+        name: Deploy development
+        # Development runs the edge tag, which the web-image job moves. A commit that skips that job leaves development
+        # as it is.
+        needs:
+            - web-image
+        runs-on: ubuntu-26.04
+        timeout-minutes: 10
+        permissions:
+            contents: read
+        environment:
+            name: development
+            url: https://dev.dndmapp.nl.eu.org/
+        # A new deploy never cancels one that runs, so no update stops halfway. A newer deploy may replace one that waits,
+        # which is safe since edge moves to the newest image anyway: an older deploy would pull that image too.
+        concurrency:
+            group: deploy-development
+            cancel-in-progress: false
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Join the tailnet
+              uses: ./.github/actions/join-tailnet
+              with:
+                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+
+            # WATCHTOWER_URL is a secret rather than a variable, so the logs mask the tailnet hostname.
+            - name: Update the development container
+              uses: ./.github/actions/watchtower-update
+              with:
+                  url: ${{ secrets.WATCHTOWER_URL }}
+                  token: ${{ secrets.WATCHTOWER_API_TOKEN }}
+                  container: dndmapp-dev
+
+            # Watchtower answers once it has restarted the container, so the wait covers only the start of the new one.
+            # tag:ci reaches only the Watchtower API, so the job reads build-info.json through the public URL.
+            - name: Wait for development to run the commit
+              uses: ./.github/actions/wait-for-commit
+              with:
+                  url: https://dev.dndmapp.nl.eu.org/build-info.json
+                  commit: ${{ github.sha }}
+                  timeout: "60"
