@@ -15,6 +15,7 @@
     "@angular/common": "catalog:angular",
     "@angular/compiler": "catalog:angular",
     "@angular/core": "catalog:angular",
+    "@angular/forms": "catalog:angular",
     "@angular/platform-browser": "catalog:angular",
     "@angular/router": "catalog:angular",
     "@dnd-mapp/core-web": "workspace:*",
