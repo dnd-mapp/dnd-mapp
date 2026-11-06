@@ -1,7 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
 const isCI = Boolean(process.env['CI']);
-const baseURL = 'https://localhost.www.dndmapp.dev:4200';
+// The dev server and the stack both serve the app at this URL, which needs no hosts entry.
+const baseURL = 'https://localhost:4200';
 
 export default defineConfig({
     testDir: './src',
@@ -23,8 +24,8 @@ export default defineConfig({
             use: { ...devices['Desktop Chrome'], channel: 'chromium' },
         },
     ],
-    // With CI set, the tests run against the web image behind Caddy, in the stack that global-setup.ts starts. Without
-    // it, they run against the dev server.
+    // With CI set, the tests run against the web image behind Caddy, in the stack that global-setup.ts starts, or
+    // against a dev server that is already up. Without it, they run against the dev server.
     ...(isCI
         ? { globalSetup: './global-setup.ts' }
         : {

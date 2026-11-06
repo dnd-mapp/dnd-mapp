@@ -121,9 +121,12 @@ jobs:
             - name: Set up pnpm and install dependencies
               uses: ./.github/actions/setup
 
-            # The browser runs in the Playwright image of the stack, so the runner installs none, and the stack pulls
-            # WEB_IMAGE. moon prefixes each output line with the task target, which hides the test annotations from the
-            # runner, so sed strips the prefix from those lines.
+            - name: Install Chromium for the end-to-end tests
+              run: pnpm exec playwright install --no-shell chromium
+              shell: bash
+
+            # The stack pulls WEB_IMAGE. moon prefixes each output line with the task target, which hides the test
+            # annotations from the runner, so sed strips the prefix from those lines.
             - name: Run the end-to-end tests
               run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
               shell: bash

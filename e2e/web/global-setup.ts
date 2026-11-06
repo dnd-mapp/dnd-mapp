@@ -1,20 +1,25 @@
 import { execFileSync } from 'node:child_process';
-import { readFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import { dirname, join } from 'node:path';
+import { connect } from 'node:net';
+import { join } from 'node:path';
 
 const composeArgs = ['compose', '--file', join(import.meta.dirname, 'compose.yaml')];
 
+/** The port of the app, which the dev server and Caddy in the stack both listen on. */
+const port = 4200;
+
 /**
- * Starts the stack of compose.yaml, points the tests at the Playwright server inside it, and returns the teardown that
- * stops the stack again.
+ * Starts the stack of compose.yaml and returns the teardown that stops it again. When a server already listens on the
+ * port of the app, such as the dev server, the tests run against that server and the stack stays down.
  */
-export default function globalSetup(): () => void {
+export default async function globalSetup(): Promise<(() => void) | undefined> {
+    if (await listening(port)) {
+        return undefined;
+    }
+
     // No registry holds an image with the local tag, which web:image builds, so the stack must not pull it.
     const WEB_PULL_POLICY = process.env['WEB_IMAGE']?.endsWith(':local') ? 'never' : 'always';
-    const env = { ...process.env, ...playwrightCore(), WEB_PULL_POLICY };
+    const env = { ...process.env, WEB_PULL_POLICY };
     const run = (...args: string[]) => execFileSync('docker', [...composeArgs, ...args], { env, stdio: 'inherit' });
-    const read = (...args: string[]) => execFileSync('docker', [...composeArgs, ...args], { env, encoding: 'utf8' });
     const down = () => run('down', '--volumes');
 
     try {
@@ -26,21 +31,19 @@ export default function globalSetup(): () => void {
         throw error;
     }
 
-    // The test fixtures connect to this endpoint rather than launch a browser on the host. The variable reaches the
-    // workers, which Playwright starts after the global setup.
-    process.env['PW_TEST_CONNECT_WS_ENDPOINT'] = `ws://${read('port', 'playwright', '3000').trim()}/`;
-
     return down;
 }
 
-/** Locates the playwright-core package of the test runner, which the Playwright server of the stack mounts. */
-function playwrightCore(): { PLAYWRIGHT_CORE_DIR: string; PLAYWRIGHT_VERSION: string } {
-    const resolve = (from: string, name: string) => createRequire(from).resolve(`${name}/package.json`);
-    const manifest = resolve(
-        resolve(resolve(import.meta.filename, '@playwright/test'), 'playwright'),
-        'playwright-core',
-    );
-    const { version } = JSON.parse(readFileSync(manifest, 'utf8')) as { version: string };
-
-    return { PLAYWRIGHT_CORE_DIR: dirname(manifest), PLAYWRIGHT_VERSION: version };
+/** Tells whether a server accepts connections on the given port of the loopback address. */
+function listening(port: number): Promise<boolean> {
+    return new Promise((resolve) => {
+        const socket = connect(port, '127.0.0.1')
+            .once('connect', () => {
+                socket.end();
+                resolve(true);
+            })
+            .once('error', () => {
+                resolve(false);
+            });
+    });
 }
