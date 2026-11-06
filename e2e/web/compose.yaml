@@ -1,0 +1,39 @@
+# The stack that web-e2e:e2e-ci runs the end-to-end tests against. global-setup.ts starts it before the tests, sets the
+# variables below, and stops it again after the tests.
+name: dnd-mapp-web-e2e
+
+services:
+    # The web image to test: the image of the latest commit of main, unless WEB_IMAGE names another, such as the image
+    # that CI pushed for the commit. The stack always pulls it, so it never tests a stale copy, except an image with the
+    # local tag, which web:image builds and no registry holds: global-setup.ts sets WEB_PULL_POLICY to never for it. The
+    # healthcheck of the image tells Caddy when nginx is up.
+    web:
+        image: ${WEB_IMAGE:-dndmapp/web:edge}
+        pull_policy: ${WEB_PULL_POLICY:-always}
+
+    # Caddy serves the web app over HTTPS at https://localhost:4200, the port of the dev server, where the browser of
+    # the tests reaches it on the host.
+    caddy:
+        image: caddy:2.11.9-alpine@sha256:0bbb055bda6793c999bde78b1b5ce3e89f829fb031af2cf50056ea1246559fee
+        depends_on:
+            web:
+                condition: service_healthy
+        volumes:
+            - ./Caddyfile:/etc/caddy/Caddyfile:ro
+        ports:
+            - "127.0.0.1:4200:4200"
+        # Probe the web app through Caddy, over TLS with the internal CA of Caddy, which it creates on its first start.
+        healthcheck:
+            test:
+                - CMD
+                - curl
+                - --fail
+                - --silent
+                - --cacert
+                - /data/caddy/pki/authorities/local/root.crt
+                - https://localhost:4200/healthz
+            interval: 10s
+            timeout: 3s
+            start_period: 10s
+            start_interval: 1s
+            retries: 3

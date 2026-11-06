@@ -17,5 +17,9 @@ max_line_length = off
 [{package.json,pnpm-*.yaml}]
 indent_size = 2
 
+# caddy fmt indents with tabs, and Caddy warns about a Caddyfile that it would format.
+[Caddyfile]
+indent_style = tab
+
 [*.{bat,cmd}]
 end_of_line = crlf

@@ -1,0 +1,14 @@
+{
+	# Only the browser of the tests reaches Caddy, on the loopback address of the host, so it needs no admin API, no
+	# trusted CA, and no redirect from HTTP.
+	admin off
+	skip_install_trust
+	auto_https disable_redirects
+}
+
+# Serve the web app at the URL of the tests, with a certificate of the internal CA of Caddy. The browser of the tests
+# ignores HTTPS errors, so it accepts the certificate without trusting the CA.
+localhost:4200 {
+	tls internal
+	reverse_proxy web:4200
+}

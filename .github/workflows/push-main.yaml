@@ -69,6 +69,8 @@ jobs:
         timeout-minutes: 10
         permissions:
             contents: read
+        outputs:
+            image: dndmapp/web@${{ steps.image.outputs.digest }}
         steps:
             - name: Check out the repository
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -76,12 +78,61 @@ jobs:
                   persist-credentials: false
 
             - name: Build and push the web image
+              id: image
               uses: ./.github/actions/docker-image
               with:
                   image: dndmapp/web
                   target: web-gha
                   dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
                   dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN_WRITE }}
+
+    e2e:
+        name: End-to-end tests
+        # Test the image that the web-image job pushed for this commit. A commit that skips that job leaves the web app
+        # as the latest web image of main has it, so the tests run against edge, for a change to the tests themselves.
+        needs:
+            - changes
+            - web-image
+        if: >-
+            !cancelled()
+            && needs.changes.result == 'success'
+            && (needs.web-image.result == 'success' || needs.web-image.result == 'skipped')
+            && (contains(fromJSON(needs.changes.outputs.tasks), 'web:image')
+            || contains(fromJSON(needs.changes.outputs.tasks), 'web-e2e:e2e-ci'))
+        runs-on: ubuntu-26.04
+        timeout-minutes: 10
+        permissions:
+            contents: read
+        steps:
+            # In CI, moon diffs against the base branch before it runs a task, which needs the history of both.
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Install Chromium for the end-to-end tests
+              run: pnpm exec playwright install --no-shell chromium
+              shell: bash
+
+            # The stack pulls WEB_IMAGE. moon prefixes each output line with the task target, which hides the test
+            # annotations from the runner, so sed strips the prefix from those lines.
+            - name: Run the end-to-end tests
+              run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
+              shell: bash
+              env:
+                  WEB_IMAGE: ${{ needs.web-image.outputs.image || 'dndmapp/web:edge' }}
+
+            - name: Upload the Playwright report
+              if: failure()
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                  name: playwright-report
+                  path: e2e/web/playwright-report/
+                  retention-days: 7
 
     deploy-development:
         name: Deploy development

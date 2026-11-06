@@ -16,6 +16,9 @@ fileGroups:
     sources:
         - "src/**/*"
         - "playwright.config.ts"
+        - "global-setup.ts"
+        - "compose.yaml"
+        - "Caddyfile"
 
 tasks:
     e2e:
@@ -26,18 +29,16 @@ tasks:
             - "@group(configs)"
 
     e2e-ci:
+        # Runs the tests against the web image behind Caddy, in the stack of compose.yaml.
         command: "playwright test"
         env:
             CI: "true"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
-        outputs:
-            - "playwright-report/**/*"
-            - "test-results/**/*"
         options:
-            # CI runs the end-to-end tests once it can start the app from a Docker image.
-            runInCI: false
+            # The result depends on the web image, which moon cannot hash.
+            cache: false
 
     typecheck:
         command: "tsc"
