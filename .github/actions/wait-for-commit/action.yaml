@@ -1,0 +1,50 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Wait for commit
+description: Wait until a build-info.json reports a commit, and fail when it does not before the timeout.
+
+inputs:
+    url:
+        description: The URL of the build-info.json to read.
+        required: true
+    commit:
+        description: The full SHA of the commit to wait for.
+        required: true
+    timeout:
+        description: The number of seconds to wait for the commit.
+        required: false
+        default: "300"
+    interval:
+        description: The number of seconds between two reads of build-info.json.
+        required: false
+        default: "10"
+
+runs:
+    using: composite
+    steps:
+        # The app is unreachable for a moment while its container restarts, so a failed read counts as reporting no
+        # commit rather than failing the step.
+        - name: Wait for the commit in build-info.json
+          run: |
+              deadline=$((SECONDS + TIMEOUT))
+
+              while true; do
+                  reported="$(curl --fail --silent --show-error --max-time 10 "$URL" | jq -r '.commit' || true)"
+
+                  if [[ $reported == "$COMMIT" ]]; then
+                      echo "$URL reports $COMMIT."
+                      exit 0
+                  fi
+                  if ((SECONDS >= deadline)); then
+                      echo "::error::$URL still reports ${reported:-no commit} after $TIMEOUT seconds, not $COMMIT."
+                      exit 1
+                  fi
+                  echo "$URL reports ${reported:-no commit}. Reading it again in $INTERVAL seconds."
+                  sleep "$INTERVAL"
+              done
+          shell: bash
+          env:
+              COMMIT: ${{ inputs.commit }}
+              INTERVAL: ${{ inputs.interval }}
+              TIMEOUT: ${{ inputs.timeout }}
+              URL: ${{ inputs.url }}
