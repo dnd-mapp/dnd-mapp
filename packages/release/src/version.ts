@@ -29,3 +29,22 @@ export function compareVersions(a: Version, b: Version): number {
     }
     return 0;
 }
+
+export type Level = 'major' | 'minor' | 'patch';
+
+export function incrementVersion(version: Version, level: Level): Version {
+    const [major, minor, patch] = parts(version);
+
+    switch (level) {
+        case 'major':
+            return [major + 1, 0, 0].join('.');
+        case 'minor':
+            return [major, minor + 1, 0].join('.');
+        case 'patch':
+            return [major, minor, patch + 1].join('.');
+    }
+}
+
+export function majorOf(version: Version): number {
+    return parts(version)[0];
+}
