@@ -24,7 +24,11 @@ inputs:
 outputs:
     digest:
         description: The digest of the pushed image, such as `sha256:0123...`, which pins the image of this run.
-        value: ${{ fromJSON(steps.bake.outputs.metadata)[inputs.target]['containerimage.digest'] }}
+        # The runner evaluates the outputs again after the post steps, with no outputs of the main steps, and fromJSON fails
+        # on the empty metadata there. The guard skips fromJSON when the metadata is empty.
+        value: >-
+            ${{ steps.bake.outputs.metadata
+            && fromJSON(steps.bake.outputs.metadata)[inputs.target]['containerimage.digest'] }}
 
 runs:
     using: composite
