@@ -233,8 +233,8 @@ catalogs:
       specifier: ~4.4.5
       version: 4.4.5
     eslint-plugin-boundaries:
-      specifier: ~7.4.1
-      version: 7.4.1
+      specifier: ~7.4.2
+      version: 7.4.2
     eslint-plugin-playwright:
       specifier: ~2.12.2
       version: 2.12.2
@@ -409,7 +409,7 @@ importers:
         version: 4.4.5(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-boundaries:
         specifier: catalog:eslint
-        version: 7.4.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint-import-resolver-typescript@4.4.5(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
+        version: 7.4.2(@typescript-eslint/parser@8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint-import-resolver-typescript@4.4.5(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)
       eslint-plugin-playwright:
         specifier: catalog:eslint
         version: 2.12.2(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))
@@ -789,16 +789,16 @@ packages:
   '@blazediff/core@1.10.0':
     resolution: {integrity: sha512-AOQff0zgR7cGsZL+4E7hVkmujoPUpm0J9xzWGWZj5wCjd3gmxESXAPfKyuzs93VdpQNFhHlBhfOjrcZ+XTERtQ==}
 
-  '@boundaries/config@1.0.0':
-    resolution: {integrity: sha512-DzXyKWBe3z8ea7SSMVGy7EOFYelcOgL1UBXpwiEyFrsY+oG8qxpADGdw1Q6R5BdD6S+3kXjtcndbAMFwlcC5WA==}
+  '@boundaries/config@1.0.1':
+    resolution: {integrity: sha512-E4mNbeBF2yQOEaKgo8uoFJN63zfEro01biHLS18CWvQbtIesi9l8lLgvak8ReTfAZZZMIsLW5RspMbSCTeuapQ==}
     engines: {node: '>=18.18'}
 
-  '@boundaries/elements@3.3.1':
-    resolution: {integrity: sha512-q0qVarcxxJv+J/ieJMjFie1N72kfOXQoHbKQentPDRSZkW9HwntOr6fj7u+g9q+IzSk3RXL+yp4CFRGDfPzDQg==}
+  '@boundaries/elements@3.3.2':
+    resolution: {integrity: sha512-5XMqT2B67g9NgatMy1fZwjc06O9edH3JCeOfiFJKkRgNZUI7BhrqBBNmSDkqXdrYk0JA8Lrkv1fmock7GaQHwg==}
     engines: {node: '>=18.18'}
 
-  '@boundaries/policies@1.0.0':
-    resolution: {integrity: sha512-F3ydzYxBX5bBwyZjUjH1c40FRY9Uw3by8pnJBKVdCHwBlJRY0He2msLLssezWaTcLEdlIcdz4iDx03I7rpXPcw==}
+  '@boundaries/policies@1.0.1':
+    resolution: {integrity: sha512-YTrpD9h/GEiCpVLWiFjvdclf2rZMz5UIjH2BC7V5+6GFYIOrITkW/yj+lAVnMjAhW7RTSARC2YBOpBcySMnJ7g==}
     engines: {node: '>=18.18'}
 
   '@bufbuild/protobuf@2.16.0':
@@ -2750,8 +2750,8 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
 
-  eslint-plugin-boundaries@7.4.1:
-    resolution: {integrity: sha512-skEsajABUNrZSKy30MNiVJVh52dym1vZ08Xb8MI/B2DanocVS+ajpkuGLXln+wJft8k+03YVm5Uycp7hxc7xVQ==}
+  eslint-plugin-boundaries@7.4.2:
+    resolution: {integrity: sha512-gf0Z+FfkccqyVAmwjWdqWfpvy9y4hrUiXcF4DrC5S6fSjUhpyO/ncnvVbxyeNy0DlxNKaEnrld2+hrNwSSgXMw==}
     engines: {node: '>=18.18'}
     peerDependencies:
       eslint: '>=6.0.0'
@@ -4741,21 +4741,21 @@ snapshots:
 
   '@blazediff/core@1.10.0': {}
 
-  '@boundaries/config@1.0.0':
+  '@boundaries/config@1.0.1':
     dependencies:
-      '@boundaries/elements': 3.3.1
+      '@boundaries/elements': 3.3.2
       ajv: 6.15.0
 
-  '@boundaries/elements@3.3.1':
+  '@boundaries/elements@3.3.2':
     dependencies:
       handlebars: 4.7.10
       is-core-module: 2.17.0
       picomatch: 4.0.7
 
-  '@boundaries/policies@1.0.0':
+  '@boundaries/policies@1.0.1':
     dependencies:
-      '@boundaries/config': 1.0.0
-      '@boundaries/elements': 3.3.1
+      '@boundaries/config': 1.0.1
+      '@boundaries/elements': 3.3.2
       handlebars: 4.7.10
 
   '@bufbuild/protobuf@2.16.0': {}
@@ -6361,11 +6361,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-plugin-boundaries@7.4.1(@typescript-eslint/parser@8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint-import-resolver-typescript@4.4.5(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
+  eslint-plugin-boundaries@7.4.2(@typescript-eslint/parser@8.72.1(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint-import-resolver-typescript@4.4.5(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1))(eslint@10.14.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1):
     dependencies:
-      '@boundaries/config': 1.0.0
-      '@boundaries/elements': 3.3.1
-      '@boundaries/policies': 1.0.0
+      '@boundaries/config': 1.0.1
+      '@boundaries/elements': 3.3.2
+      '@boundaries/policies': 1.0.1
       chalk: 4.1.2
       eslint: 10.14.0(jiti@2.7.0)(supports-color@8.1.1)
       eslint-import-resolver-node: 0.3.9(supports-color@8.1.1)
