@@ -5,6 +5,7 @@ describe('release', () => {
     it.each([
         ['verify', ['verify', 'web']],
         ['verify with a version', ['verify', 'web', '0.1.0']],
+        ['notes', ['notes', 'web', '0.1.0', 'notes.md']],
         ['lint', ['lint', 'web']],
     ])('fails %s for a project without a CHANGELOG.md', async (_, argv) => {
         const fixture = await createFixture();
