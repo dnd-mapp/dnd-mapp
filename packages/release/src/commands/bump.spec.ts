@@ -225,6 +225,16 @@ All notable changes to the web app are documented in this file.
                 'apps/web/package.json holds 1.0.0, but apps/web/CHANGELOG.md has no release, which starts from 0.0.0',
             ],
             [
+                'when the new version is not above the highest tag',
+                { changelog: releasedChangelog, version: '0.2.0', tags: ['web@v0.2.0', 'web@v0.10.0', 'web@v0.9.0'] },
+                'v0.2.1 is not above the highest tag web@v0.10.0',
+            ],
+            [
+                'when the new version equals the highest tag',
+                { changelog: releasedChangelog, version: '0.2.0', tags: ['web@v0.2.1'] },
+                'v0.2.1 is not above the highest tag web@v0.2.1',
+            ],
+            [
                 'when the changelog fails release lint',
                 { changelog: releasedChangelog.replace('### Fixed', '### Improved'), version: '0.2.0' },
                 'apps/web/CHANGELOG.md breaks Keep a Changelog; run release lint web for the problems',
@@ -243,6 +253,15 @@ All notable changes to the web app are documented in this file.
             expect(result.stderr).toContain(message);
             expect(await fixture.read('apps/web/CHANGELOG.md')).toBe(options.changelog);
             expect(JSON.parse(await fixture.read('apps/web/package.json'))).toMatchObject({ version: options.version });
+        });
+
+        it('passes a tag of the newest release', async () => {
+            const { code } = await bump(
+                { changelog: releasedChangelog, version: '0.2.0', tags: ['web@v0.2.0'] },
+                'auto',
+            );
+
+            expect(code).toBe(0);
         });
     });
 

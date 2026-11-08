@@ -11,6 +11,8 @@ export interface Dependencies {
     cwd: string;
     /** Resolves a moon id to the absolute folder of its project. */
     resolveProject(id: string): Promise<string>;
+    /** Lists the `<project>@v*` tags of a project. */
+    listTags(project: string): Promise<string[]>;
     /** The clock that dates a release. */
     clock: {
         /** The current time. */
