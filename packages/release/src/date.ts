@@ -3,6 +3,7 @@ import { ReleaseError } from './errors.ts';
 /** Formats the day of `now` in an IANA time zone as YYYY-MM-DD. */
 export function dayIn(now: Date, timeZone: string): string {
     const unknown = new ReleaseError(`unknown time zone ${timeZone}, expected an IANA zone such as Europe/Amsterdam`);
+
     // Intl also accepts offsets such as +05:00, which are no IANA zones.
     if (/^[+-]/.test(timeZone)) {
         throw unknown;
