@@ -292,6 +292,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: catalog:commitlint
         version: 21.2.4
+      '@dnd-mapp/release':
+        specifier: workspace:*
+        version: link:packages/release
       '@moonrepo/cli':
         specifier: catalog:moon
         version: 2.6.5
@@ -498,6 +501,34 @@ importers:
       sass:
         specifier: catalog:angular
         version: 1.108.0
+      typescript:
+        specifier: catalog:angular
+        version: 6.0.3
+      vitest:
+        specifier: catalog:vitest
+        version: 5.1.0(@types/node@26.6.6)(@vitest/browser-playwright@5.1.0)(@vitest/coverage-v8@5.1.0)(@vitest/ui@5.1.0)(vite@8.3.5(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.108.0)(sass@1.108.0))
+
+  packages/release:
+    dependencies:
+      '@moonrepo/cli':
+        specifier: catalog:moon
+        version: 2.6.5
+    devDependencies:
+      '@dnd-mapp/config-eslint':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@dnd-mapp/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+      '@types/node':
+        specifier: catalog:node
+        version: 26.6.6
+      '@vitest/coverage-v8':
+        specifier: catalog:vitest
+        version: 5.1.0(@vitest/browser@5.1.0)(vitest@5.1.0)
+      eslint:
+        specifier: catalog:eslint
+        version: 10.14.0(jiti@2.7.0)(supports-color@8.1.1)
       typescript:
         specifier: catalog:angular
         version: 6.0.3
