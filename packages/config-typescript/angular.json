@@ -1,9 +1,11 @@
 {
     "extends": "./base.json",
     "compilerOptions": {
+        "allowImportingTsExtensions": true,
         "experimentalDecorators": true,
         "importHelpers": true,
-        "lib": ["ES2025", "DOM"]
+        "lib": ["ES2025", "DOM"],
+        "rewriteRelativeImportExtensions": true
     },
     "angularCompilerOptions": {
         "enableI18nLegacyMessageIdFormat": false,
