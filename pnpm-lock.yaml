@@ -534,6 +534,9 @@ importers:
 
   packages/release:
     dependencies:
+      '@dnd-mapp/common':
+        specifier: workspace:*
+        version: link:../common
       '@moonrepo/cli':
         specifier: catalog:moon
         version: 2.6.5

@@ -14,6 +14,7 @@
     "release": "./src/main.ts"
   },
   "dependencies": {
+    "@dnd-mapp/common": "workspace:*",
     "@moonrepo/cli": "catalog:moon"
   },
   "devDependencies": {
