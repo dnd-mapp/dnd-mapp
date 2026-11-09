@@ -8,7 +8,7 @@ tags:
 
 project:
     title: "Test helpers"
-    description: "Helpers for the tests of any project, such as an in-memory mock of node:fs for Vitest."
+    description: "Helpers for the tests of any project, such as in-memory mocks of node:fs and git for Vitest."
     owner: "@dnd-mapp/reviewers"
     maintainers:
         - "@NoNamer777"

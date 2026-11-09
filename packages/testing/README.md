@@ -43,6 +43,27 @@ The mock supports these functions, both in `node:fs` with the `Sync` suffix and 
 
 Each function fails with the error that Node.js throws on Linux, with the same `code`, `syscall`, `path`, and message, such as `ENOENT` for a missing file. A test therefore fails the same way on every OS. Two errors differ from the ones Node.js throws on Windows: a path below a file fails with `ENOTDIR` rather than `ENOENT`, and `unlink` on a folder fails with `EISDIR` rather than `EPERM`.
 
+## Git
+
+`@dnd-mapp/testing/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
+
+```ts
+import { expect, it, vi } from 'vitest';
+import { listGitTags } from './git.ts';
+
+const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing/git'));
+
+it('lists the version tags of a project', async () => {
+    mockGit({ tags: ['web@v1.0.0', 'api@v1.0.0'] });
+
+    expect(await listGitTags('web', '/repo')).toEqual(['web@v1.0.0']);
+});
+```
+
+Each call to `mockGit` replaces the state, which stays in place for the next test of the file until the next call. The mock has one repository, so it ignores the options of `execFile`, such as `cwd`. It answers both through a callback and through `promisify`, which resolves to `{ stdout, stderr }` as for the real `execFile`.
+
+The mock runs `git tag --list`, with any number of patterns, and prints the matching tags sorted by name, one per line, as git does. A pattern takes `*` for any text, `/` included, and `?` for one character. The mock fails for any other command, any other program, and any other syntax of a pattern, such as `[0-9]`, rather than answer differently from git. Add a command to [`src/git/repository.ts`](src/git/repository.ts) when a test needs it. The tests of the mock compare its output with that of the real git, in a temporary repository.
+
 ## Tasks
 
 Run each task from the repository root.
