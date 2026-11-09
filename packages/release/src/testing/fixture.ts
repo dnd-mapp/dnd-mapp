@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path';
 import { mockFileSystem } from '@dnd-mapp/testing/file-system';
 import { run } from '../cli.ts';
 
+/** The files, tags, and clock of a fixture. Each option has a default, so a test sets only those it depends on. */
 export interface FixtureOptions {
     /** The moon id of the project. */
     project?: string;
@@ -20,17 +21,23 @@ export interface FixtureOptions {
     timeZone?: string;
 }
 
+/** What a run of the CLI returned and printed. */
 export interface RunResult {
+    /** The exit code. */
     code: number;
+    /** Everything the CLI wrote to standard output. */
     stdout: string;
+    /** Everything the CLI wrote to standard error. */
     stderr: string;
 }
 
+/** A project in the mocked file system, and the CLI to run against it. */
 export interface Fixture {
     /** The folder of the project. */
     root: string;
     /** The working directory of the CLI. */
     cwd: string;
+    /** Runs the CLI with the given arguments after the executable. */
     run(...argv: string[]): Promise<RunResult>;
     /** Reads a file of the project. */
     read(file: string): Promise<string>;

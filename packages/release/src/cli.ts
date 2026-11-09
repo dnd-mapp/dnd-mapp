@@ -20,7 +20,9 @@ export interface Dependencies {
         /** The IANA time zone of the machine. */
         timeZone(): string;
     };
+    /** Writes text to standard output, which holds the result of a command. */
     stdout(text: string): void;
+    /** Writes text to standard error, which holds errors and problems. */
     stderr(text: string): void;
 }
 

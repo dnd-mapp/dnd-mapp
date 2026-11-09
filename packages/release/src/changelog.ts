@@ -7,13 +7,17 @@ export const knownCategories = ['Added', 'Changed', 'Deprecated', 'Removed', 'Fi
 export interface Entry {
     /** The index of its line. */
     line: number;
+    /** The text of the item, without its list marker. */
     text: string;
 }
 
 /** A `### <name>` heading and its entries. Entries above the first category of a section have the name `null`. */
 export interface Category {
+    /** The text of its heading, after `### `, or `null` for the entries above the first category. */
     name: string | null;
+    /** The index of its heading, or of its first entry when it has no heading. */
     line: number;
+    /** Its entries, in the order they appear. */
     entries: Entry[];
 }
 
@@ -29,26 +33,38 @@ interface SectionBase {
     categories: Category[];
 }
 
+/** The `## [Unreleased]` heading, which holds the changes that no release has yet. */
 export interface UnreleasedSection extends SectionBase {
+    /** Tells the unreleased section apart from the other kinds of section. */
     kind: 'unreleased';
 }
 
+/** A `## [<version>] - <date>` heading, which holds the changes of a release. */
 export interface ReleaseSection extends SectionBase {
+    /** Tells a release section apart from the other kinds of section. */
     kind: 'release';
+    /** The version in its heading. */
     version: Version;
+    /** The date in its heading, as written, which the linter checks for a valid `YYYY-MM-DD` date. */
     date: string;
 }
 
 /** A `##` heading that is neither `Unreleased` nor a version. */
 export interface MalformedSection extends SectionBase {
+    /** Tells a malformed section apart from the other kinds of section. */
     kind: 'malformed';
 }
 
+/** A `##` heading of a changelog, told apart by its `kind`. */
 export type Section = UnreleasedSection | ReleaseSection | MalformedSection;
 
+/** A `[<label>]: <url>` link reference definition, which turns the headings with that label into links. */
 export interface LinkDefinition {
+    /** The label between the brackets, in its original case. */
     label: string;
+    /** The URL after the colon, or an empty string when the line has none. */
     url: string;
+    /** The index of its line. */
     line: number;
 }
 
@@ -61,7 +77,9 @@ export interface Changelog {
     lines: string[];
     /** The line ending of the file, `\n` or `\r\n`. */
     eol: string;
+    /** Its `##` sections, in the order they appear. */
     sections: Section[];
+    /** Its link reference definitions, in the order they appear. */
     links: LinkDefinition[];
 }
 
@@ -135,8 +153,11 @@ export function tagOf(project: string, version: Version): string {
     return `${project}@v${version}`;
 }
 
+/** A link reference definition that a heading of the changelog needs. */
 export interface ExpectedLink {
+    /** The label of the heading: `unreleased`, or the version of a release. */
     label: string;
+    /** The URL that compares the section to `HEAD` or to the release below it, or that links to the first tag. */
     url: string;
     /** The index of the heading of the section that the link belongs to. */
     line: number;
@@ -220,9 +241,11 @@ export function releaseNotes(changelog: Changelog, release: ReleaseSection): str
     return start === -1 ? [] : lines.slice(start, end + 1);
 }
 
+/** A way in which a changelog breaks Keep a Changelog. */
 export interface Problem {
     /** The line number, counted from 1. */
     line: number;
+    /** What is wrong, which the lint command prints after the file name and line number. */
     message: string;
 }
 
@@ -238,6 +261,7 @@ export function lintChangelog(changelog: Changelog, project: string): Problem[] 
     return problems.sort((a, b) => a.line - b.line);
 }
 
+/** Records a problem of the changelog at the line with the given index, counted from 0. */
 type Report = (index: number, message: string) => void;
 
 function lintUnreleased({ sections }: Changelog, report: Report): void {

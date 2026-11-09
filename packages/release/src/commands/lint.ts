@@ -3,7 +3,9 @@ import type { Dependencies } from '../cli.ts';
 import { ReleaseError } from '../errors.ts';
 import { readChangelog, resolveProject } from '../project.ts';
 
+/** The arguments of `release lint`. */
 export interface LintOptions {
+    /** The moon id of the project whose changelog to lint. */
     project: string;
 }
 
