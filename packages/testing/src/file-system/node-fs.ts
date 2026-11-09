@@ -51,10 +51,10 @@ class Stats {
     public readonly mtime: Date;
     public readonly ctime: Date;
     public readonly birthtime: Date;
-    private readonly kind: Status['kind'];
+    readonly #kind: Status['kind'];
 
     constructor({ kind, size, modified }: Status) {
-        this.kind = kind;
+        this.#kind = kind;
         this.mode = kind === 'file' ? 0o100644 : 0o40755;
         this.size = size;
         this.blocks = Math.ceil(size / 512);
@@ -63,11 +63,11 @@ class Stats {
     }
 
     public isFile(): boolean {
-        return this.kind === 'file';
+        return this.#kind === 'file';
     }
 
     public isDirectory(): boolean {
-        return this.kind === 'directory';
+        return this.#kind === 'directory';
     }
 
     public isBlockDevice(): boolean {
@@ -95,20 +95,20 @@ class Stats {
 class Dirent {
     public readonly name: string;
     public readonly parentPath: string;
-    private readonly kind: Listing['kind'];
+    readonly #kind: Listing['kind'];
 
     constructor({ name, parentPath, kind }: Listing) {
         this.name = name;
         this.parentPath = parentPath;
-        this.kind = kind;
+        this.#kind = kind;
     }
 
     public isFile(): boolean {
-        return this.kind === 'file';
+        return this.#kind === 'file';
     }
 
     public isDirectory(): boolean {
-        return this.kind === 'directory';
+        return this.#kind === 'directory';
     }
 
     public isBlockDevice(): boolean {

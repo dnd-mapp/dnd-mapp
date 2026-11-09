@@ -311,6 +311,14 @@ describe('readdir', () => {
         );
     });
 
+    it('shows only the fields of fs.Dirent on an entry', async () => {
+        mockFileSystem(files);
+
+        const entries = await readdir(at('a'), { withFileTypes: true });
+
+        expect(entries.map((entry) => Object.keys(entry))).toEqual(Array(2).fill(['name', 'parentPath']));
+    });
+
     it('fails with ENOENT for a missing folder, and ENOTDIR for a file', async () => {
         mockFileSystem(files);
 
@@ -335,6 +343,12 @@ describe('stat', () => {
             false,
             false,
         ]);
+    });
+
+    it('shows no field beyond those of fs.Stats', async () => {
+        mockFileSystem({ [at('a.txt')]: 'abc' });
+
+        expect(Object.keys(await stat(at('a.txt')))).not.toContain('kind');
     });
 
     it('reports a folder, and the root of the drive', async () => {
