@@ -47,7 +47,7 @@ pnpm moon run release:test-ci
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%. The tests of the commands run against projects in temporary folders, with fakes for moon, git, and the clock. The tests in [`src/adapters`](src/adapters) run the real moon and git.
 
-Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
+Check the types, and lint the sources with the `typescript` preset and the `tsdoc` config of [`@dnd-mapp/config-eslint`](../config-eslint/README.md), which requires a doc comment on every interface, type alias, and member of either:
 
 ```bash
 pnpm moon run release:typecheck
