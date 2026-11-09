@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
 import { type Changelog, parseChangelog } from './changelog.ts';
 import type { Dependencies } from './cli.ts';
@@ -57,9 +57,14 @@ export async function readChangelog(project: Project): Promise<Changelog> {
     }
 }
 
+/** Writes the lines of a changelog, joined with its own line ending. */
+export async function writeChangelog(project: Project, changelog: Changelog): Promise<void> {
+    await writeFile(project.changelogPath, changelog.lines.join(changelog.eol));
+}
+
 /** The text of a `package.json`, and the version it holds. */
 export interface Manifest {
-    /** The content of the file, which a bump rewrites. */
+    /** The content of the file, which a bump parses to set the version. */
     text: string;
     /** The `version` field. */
     version: string;
@@ -82,6 +87,22 @@ export async function readManifest(project: Project): Promise<Manifest> {
         throw new ReleaseError(`${project.manifestName} has no version`);
     }
     return { text, version };
+}
+
+/**
+ * Sets the top-level version of a `package.json`, and writes it with the indentation, line endings, and final newline
+ * of the file. Prettier formats a `package.json` as `JSON.stringify` does, so only the version line changes.
+ */
+export async function writeManifestVersion(project: Project, manifest: Manifest, version: string): Promise<void> {
+    const data = JSON.parse(manifest.text) as Record<string, unknown>;
+    data['version'] = version;
+
+    const indent = /^([ \t]+)"/m.exec(manifest.text)?.[1] ?? '  ';
+    const eol = manifest.text.includes('\r\n') ? '\r\n' : '\n';
+    const end = /\r?\n$/.test(manifest.text) ? eol : '';
+
+    // JSON.stringify escapes the line breaks inside strings, so every \n it returns separates two lines.
+    await writeFile(project.manifestPath, `${JSON.stringify(data, null, indent).replaceAll('\n', eol)}${end}`);
 }
 
 function isMissingFile(error: unknown): boolean {

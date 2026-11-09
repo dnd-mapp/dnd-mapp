@@ -29,3 +29,25 @@ export function compareVersions(a: Version, b: Version): number {
     }
     return 0;
 }
+
+/** The part of a version that a bump increments. */
+export type Level = 'major' | 'minor' | 'patch';
+
+/** Increments the part of `version` at `level`, and resets the parts below it to 0. */
+export function incrementVersion(version: Version, level: Level): Version {
+    const [major, minor, patch] = parts(version);
+
+    switch (level) {
+        case 'major':
+            return [major + 1, 0, 0].join('.');
+        case 'minor':
+            return [major, minor + 1, 0].join('.');
+        case 'patch':
+            return [major, minor, patch + 1].join('.');
+    }
+}
+
+/** The major part of `version`. */
+export function majorOf(version: Version): number {
+    return parts(version)[0];
+}

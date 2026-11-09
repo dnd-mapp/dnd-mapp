@@ -52,9 +52,14 @@ export interface LinkDefinition {
     line: number;
 }
 
-/** The lines of a changelog and the structure the parser found in them. */
+/**
+ * The lines of a changelog and the structure the parser found in them. The commands edit `lines` and join them with
+ * `eol`, so every line they leave alone stays as it was.
+ */
 export interface Changelog {
+    /** The lines of the file, without their line endings. */
     lines: string[];
+    /** The line ending of the file, `\n` or `\r\n`. */
     eol: string;
     sections: Section[];
     links: LinkDefinition[];
@@ -163,6 +168,44 @@ export function expectedLinks(changelog: Changelog, project: string): ExpectedLi
         links.push({ label: release.version, url, line: release.line });
     });
     return links;
+}
+
+/**
+ * Moves the entries of `Unreleased` into a release of `version` on `date`, below a new, empty `Unreleased` section, and
+ * rewrites the link reference definitions to match.
+ */
+export function releaseChangelog(changelog: Changelog, project: string, version: Version, date: string): Changelog {
+    const unreleased = unreleasedOf(changelog);
+
+    if (!unreleased) {
+        throw new Error('the changelog has no Unreleased section');
+    }
+    const lines = [...changelog.lines];
+    lines.splice(unreleased.line + 1, 0, '', `## [${version}] - ${date}`);
+
+    return rewriteLinks(parseChangelog(lines.join(changelog.eol)), project);
+}
+
+/**
+ * Replaces the link reference definitions with the ones that the headings need, where the first one stood. Without
+ * any, it appends them to the end of the changelog.
+ */
+function rewriteLinks(changelog: Changelog, project: string): Changelog {
+    const definitions = expectedLinks(changelog, project).map((link) => `[${link.label}]: ${link.url}`);
+    const lines = [...changelog.lines];
+    const [first] = changelog.links;
+
+    for (const link of changelog.links.toReversed()) {
+        lines.splice(link.line, 1);
+    }
+    if (first) {
+        lines.splice(first.line, 0, ...definitions);
+    } else if (definitions.length > 0) {
+        const end = lines.at(-1) === '' ? lines.length - 1 : lines.length;
+        const separator = lines[end - 1]?.trim() === '' ? [] : [''];
+        lines.splice(end, 0, ...separator, ...definitions);
+    }
+    return parseChangelog(lines.join(changelog.eol));
 }
 
 /** The lines of a release without its heading, the blank lines around them, and the link reference definitions. */

@@ -7,6 +7,10 @@ const cwd = process.cwd();
 process.exitCode = await run(process.argv.slice(2), {
     cwd,
     resolveProject: (id) => resolveMoonProject(id, cwd),
+    clock: {
+        now: () => new Date(),
+        timeZone: () => Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
     stdout: (text) => {
         process.stdout.write(text);
     },

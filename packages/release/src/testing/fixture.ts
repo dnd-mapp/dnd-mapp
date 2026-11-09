@@ -9,8 +9,14 @@ export interface FixtureOptions {
     project?: string;
     /** The content of `CHANGELOG.md`, or `undefined` to leave the file out. */
     changelog?: string | undefined;
-    /** The version in `package.json`. */
+    /** The content of `package.json`. Defaults to a manifest that holds `version`. */
+    manifest?: string;
+    /** The version in the default `package.json`. */
     version?: string;
+    /** The current time, as an ISO 8601 string. */
+    now?: string;
+    /** The time zone of the machine. */
+    timeZone?: string;
 }
 
 export interface RunResult {
@@ -29,7 +35,10 @@ export interface Fixture {
     read(file: string): Promise<string>;
 }
 
-/** Sets up a project in a temporary folder, with a fake for moon, and removes the folder after the test. */
+/**
+ * Sets up a project in a temporary folder, with fakes for moon and the clock, and removes the folder after the
+ * test.
+ */
 export async function createFixture(options: FixtureOptions = {}): Promise<Fixture> {
     const project = options.project ?? 'web';
     const cwd = await mkdtemp(join(tmpdir(), 'release-'));
@@ -38,8 +47,9 @@ export async function createFixture(options: FixtureOptions = {}): Promise<Fixtu
     const root = join(cwd, 'apps', project);
     await mkdir(root, { recursive: true });
 
-    const manifest = { name: project, version: options.version ?? '0.0.0' };
-    await writeFile(join(root, 'package.json'), `${JSON.stringify(manifest, null, 2)}\n`);
+    const manifest =
+        options.manifest ?? `${JSON.stringify({ name: project, version: options.version ?? '0.0.0' }, null, 2)}\n`;
+    await writeFile(join(root, 'package.json'), manifest);
 
     if (options.changelog !== undefined) {
         await writeFile(join(root, 'CHANGELOG.md'), options.changelog);
@@ -58,6 +68,10 @@ export async function createFixture(options: FixtureOptions = {}): Promise<Fixtu
                         return Promise.reject(new Error(`moon has no project with the id ${id}`));
                     }
                     return Promise.resolve(root);
+                },
+                clock: {
+                    now: () => new Date(options.now ?? '2026-11-06T12:00:00Z'),
+                    timeZone: () => options.timeZone ?? 'UTC',
                 },
                 stdout: (text) => (stdout += text),
                 stderr: (text) => (stderr += text),

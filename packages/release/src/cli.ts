@@ -1,4 +1,5 @@
 import { parseArgs } from 'node:util';
+import { bump } from './commands/bump.ts';
 import { lint } from './commands/lint.ts';
 import { notes } from './commands/notes.ts';
 import { verify } from './commands/verify.ts';
@@ -10,11 +11,20 @@ export interface Dependencies {
     cwd: string;
     /** Resolves a moon id to the absolute folder of its project. */
     resolveProject(id: string): Promise<string>;
+    /** The clock that dates a release. */
+    clock: {
+        /** The current time. */
+        now(): Date;
+        /** The IANA time zone of the machine. */
+        timeZone(): string;
+    };
     stdout(text: string): void;
     stderr(text: string): void;
 }
 
+/** The commands and their arguments, which a usage error prints. */
 const usage = `Usage:
+  release bump <project> <auto|major|minor|patch> [--timezone <zone>] [--json]
   release verify <project> [<version>]
   release notes <project> <version> <file>
   release lint <project>
@@ -23,10 +33,23 @@ const usage = `Usage:
 /** Runs the CLI with the arguments after the executable, and resolves to the exit code. */
 export async function run(argv: string[], deps: Dependencies): Promise<number> {
     try {
-        const { positionals } = parseArguments(argv);
+        const { positionals, values } = parseArguments(argv);
         const [command, ...args] = positionals;
 
+        if (command !== 'bump') {
+            const option = values.json ? '--json' : values.timezone !== undefined ? '--timezone' : undefined;
+
+            if (option) {
+                throw new UsageError(`${option} applies to bump only`);
+            }
+        }
+
         switch (command) {
+            case 'bump': {
+                const [project, level] = expectArgs(args, 2, 2);
+                await bump({ project, level, json: values.json, timeZone: values.timezone }, deps);
+                break;
+            }
             case 'verify': {
                 const [project, version] = expectArgs(args, 1, 2);
                 await verify({ project, version }, deps);
@@ -60,9 +83,17 @@ export async function run(argv: string[], deps: Dependencies): Promise<number> {
 
 class UsageError extends Error {}
 
+/** Parses the positional arguments and the options of `bump`, and turns a parse failure into a usage error. */
 function parseArguments(argv: string[]) {
     try {
-        return parseArgs({ args: argv, allowPositionals: true });
+        return parseArgs({
+            args: argv,
+            allowPositionals: true,
+            options: {
+                json: { type: 'boolean', default: false },
+                timezone: { type: 'string' },
+            },
+        });
     } catch (error) {
         throw new UsageError(error instanceof Error ? error.message : String(error));
     }
@@ -77,5 +108,9 @@ function expectArgs<Min extends number>(args: string[], min: Min, max: number): 
     return args as Arguments<Min>;
 }
 
-/** The arguments that `expectArgs` returns for a minimum of `Min`: one required and one optional for 1, three required otherwise. */
-type Arguments<Min extends number> = Min extends 1 ? [string, string?] : [string, string, string];
+/** The arguments that `expectArgs` returns for a minimum of `Min`: one required and one optional for 1, two required for 2, three required otherwise. */
+type Arguments<Min extends number> = Min extends 1
+    ? [string, string?]
+    : Min extends 2
+      ? [string, string]
+      : [string, string, string];
