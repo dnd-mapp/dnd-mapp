@@ -1,0 +1,28 @@
+{
+  "name": "@dnd-mapp/testing",
+  "version": "0.0.0",
+  "description": "Test helpers for the projects of D&D Mapp, such as an in-memory mock of the file system for Vitest.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/testing"
+  },
+  "type": "module",
+  "exports": {
+    "./file-system": "./src/file-system/index.ts"
+  },
+  "peerDependencies": {
+    "vitest": "catalog:vitest"
+  },
+  "devDependencies": {
+    "@dnd-mapp/config-eslint": "workspace:*",
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@types/node": "catalog:node",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:angular",
+    "vitest": "catalog:vitest"
+  }
+}

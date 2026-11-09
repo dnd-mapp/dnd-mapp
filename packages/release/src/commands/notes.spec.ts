@@ -1,10 +1,12 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog } from '../testing/changelogs.ts';
 import { createFixture } from '../testing/fixture.ts';
 
+await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+
 describe('release notes', () => {
     it('writes the section of a version to a file, without its heading', async () => {
-        const fixture = await createFixture({ changelog: releasedChangelog });
+        const fixture = createFixture({ changelog: releasedChangelog });
 
         const result = await fixture.run('notes', 'web', '0.2.0', 'notes.md');
 
@@ -13,7 +15,7 @@ describe('release notes', () => {
     });
 
     it('leaves out the link reference definitions below the oldest release', async () => {
-        const fixture = await createFixture({ changelog: releasedChangelog });
+        const fixture = createFixture({ changelog: releasedChangelog });
 
         await fixture.run('notes', 'web', '0.1.0', 'notes.md');
 
@@ -21,7 +23,7 @@ describe('release notes', () => {
     });
 
     it('keeps the line endings of the changelog', async () => {
-        const fixture = await createFixture({ changelog: releasedChangelog.replaceAll('\n', '\r\n') });
+        const fixture = createFixture({ changelog: releasedChangelog.replaceAll('\n', '\r\n') });
 
         await fixture.run('notes', 'web', '0.2.0', 'notes.md');
 
@@ -29,7 +31,7 @@ describe('release notes', () => {
     });
 
     it('fails for a version that the changelog does not hold', async () => {
-        const fixture = await createFixture({ changelog: releasedChangelog });
+        const fixture = createFixture({ changelog: releasedChangelog });
 
         const result = await fixture.run('notes', 'web', '0.3.0', 'notes.md');
 
