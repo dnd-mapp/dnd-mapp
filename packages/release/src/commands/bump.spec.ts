@@ -307,4 +307,11 @@ All notable changes to the web app are documented in this file.
         expect(changelog.replaceAll('\r\n', '')).not.toContain('\n');
         expect(await fixture.read('apps/web/package.json')).toBe(manifest.replace('0.2.0', '0.2.1'));
     });
+
+    it('sets the top-level version of package.json, not a nested one before it', async () => {
+        const manifest = '{\n  "name": "web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0"\n}\n';
+        const { fixture } = await bump({ changelog: releasedChangelog, manifest, version: '0.2.0' }, 'auto');
+
+        expect(await fixture.read('apps/web/package.json')).toBe(manifest.replace('0.2.0', '0.2.1'));
+    });
 });
