@@ -22,9 +22,13 @@ export async function resolveProject(id: string, deps: Pick<Dependencies, 'cwd' 
         throw new ReleaseError(error instanceof Error ? error.message : String(error));
     }
     const changelogPath = join(root, 'CHANGELOG.md');
-    const nameOf = (path: string) => relative(deps.cwd, path).split(sep).join('/');
 
-    return { id, root, changelogPath, changelogName: nameOf(changelogPath) };
+    return { id, root, changelogPath, changelogName: displayPath(deps.cwd, changelogPath) };
+}
+
+/** The path relative to `cwd`, with forward slashes, for messages. */
+function displayPath(cwd: string, path: string): string {
+    return relative(cwd, path).split(sep).join('/');
 }
 
 export async function readChangelog(project: Project): Promise<Changelog> {
