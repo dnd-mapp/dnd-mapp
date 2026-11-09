@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@dnd-mapp/common": "workspace:*",
-    "@moonrepo/cli": "catalog:moon"
+    "yaml": "catalog:yaml"
   },
   "devDependencies": {
     "@dnd-mapp/config-eslint": "workspace:*",

@@ -147,10 +147,16 @@ export function entriesOf(section: Section): Entry[] {
     return section.categories.flatMap((category) => category.entries);
 }
 
-const repository = 'https://github.com/dnd-mapp/dnd-mapp';
+/** Where the compare links of a changelog point: the repository, and the tags of the project in it. */
+export interface LinkTarget {
+    /** The web URL of the repository, such as `https://github.com/dnd-mapp/dnd-mapp`. */
+    repository: string;
+    /** The text before the version in a tag of the project, such as `web@v`, or `v`. */
+    tagPrefix: string;
+}
 
-export function tagOf(project: string, version: Version): string {
-    return `${project}@v${version}`;
+export function tagOf(target: Pick<LinkTarget, 'tagPrefix'>, version: Version): string {
+    return `${target.tagPrefix}${version}`;
 }
 
 /** A link reference definition that a heading of the changelog needs. */
@@ -167,7 +173,8 @@ export interface ExpectedLink {
  * The link reference definitions that the headings of a changelog need: one that compares the newest release to
  * `HEAD`, and one per release that compares it to the release below it, or links to the tag of the first release.
  */
-export function expectedLinks(changelog: Changelog, project: string): ExpectedLink[] {
+export function expectedLinks(changelog: Changelog, target: LinkTarget): ExpectedLink[] {
+    const { repository } = target;
     const releases = releasesOf(changelog);
     const [newest] = releases;
 
@@ -177,15 +184,15 @@ export function expectedLinks(changelog: Changelog, project: string): ExpectedLi
     const links: ExpectedLink[] = [
         {
             label: 'unreleased',
-            url: `${repository}/compare/${tagOf(project, newest.version)}...HEAD`,
+            url: `${repository}/compare/${tagOf(target, newest.version)}...HEAD`,
             line: unreleasedOf(changelog)?.line ?? newest.line,
         },
     ];
     releases.forEach((release, index) => {
         const previous = releases[index + 1];
         const url = previous
-            ? `${repository}/compare/${tagOf(project, previous.version)}...${tagOf(project, release.version)}`
-            : `${repository}/releases/tag/${tagOf(project, release.version)}`;
+            ? `${repository}/compare/${tagOf(target, previous.version)}...${tagOf(target, release.version)}`
+            : `${repository}/releases/tag/${tagOf(target, release.version)}`;
         links.push({ label: release.version, url, line: release.line });
     });
     return links;
@@ -195,7 +202,7 @@ export function expectedLinks(changelog: Changelog, project: string): ExpectedLi
  * Moves the entries of `Unreleased` into a release of `version` on `date`, below a new, empty `Unreleased` section, and
  * rewrites the link reference definitions to match.
  */
-export function releaseChangelog(changelog: Changelog, project: string, version: Version, date: string): Changelog {
+export function releaseChangelog(changelog: Changelog, target: LinkTarget, version: Version, date: string): Changelog {
     const unreleased = unreleasedOf(changelog);
 
     if (!unreleased) {
@@ -204,15 +211,15 @@ export function releaseChangelog(changelog: Changelog, project: string, version:
     const lines = [...changelog.lines];
     lines.splice(unreleased.line + 1, 0, '', `## [${version}] - ${date}`);
 
-    return rewriteLinks(parseChangelog(lines.join(changelog.eol)), project);
+    return rewriteLinks(parseChangelog(lines.join(changelog.eol)), target);
 }
 
 /**
  * Replaces the link reference definitions with the ones that the headings need, where the first one stood. Without
  * any, it appends them to the end of the changelog.
  */
-function rewriteLinks(changelog: Changelog, project: string): Changelog {
-    const definitions = expectedLinks(changelog, project).map((link) => `[${link.label}]: ${link.url}`);
+function rewriteLinks(changelog: Changelog, target: LinkTarget): Changelog {
+    const definitions = expectedLinks(changelog, target).map((link) => `[${link.label}]: ${link.url}`);
     const lines = [...changelog.lines];
     const [first] = changelog.links;
 
@@ -250,13 +257,13 @@ export interface Problem {
 }
 
 /** Checks a changelog against Keep a Changelog, and returns its problems in the order of their lines. */
-export function lintChangelog(changelog: Changelog, project: string): Problem[] {
+export function lintChangelog(changelog: Changelog, target: LinkTarget): Problem[] {
     const problems: Problem[] = [];
     const report = (index: number, message: string) => problems.push({ line: index + 1, message });
 
     lintUnreleased(changelog, report);
     lintSections(changelog, report);
-    lintLinks(changelog, project, report);
+    lintLinks(changelog, target, report);
 
     return problems.sort((a, b) => a.line - b.line);
 }
@@ -331,8 +338,8 @@ function isValidDate(date: string): boolean {
     return parsed.getUTCFullYear() === year && parsed.getUTCMonth() === month - 1 && parsed.getUTCDate() === day;
 }
 
-function lintLinks(changelog: Changelog, project: string, report: Report): void {
-    const expected = new Map(expectedLinks(changelog, project).map((link) => [link.label.toLowerCase(), link]));
+function lintLinks(changelog: Changelog, target: LinkTarget, report: Report): void {
+    const expected = new Map(expectedLinks(changelog, target).map((link) => [link.label.toLowerCase(), link]));
     const defined = new Set<string>();
 
     for (const link of changelog.links) {

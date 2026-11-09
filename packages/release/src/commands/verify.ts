@@ -1,13 +1,13 @@
 import { entriesOf, releasesOf, unreleasedOf } from '../changelog.ts';
 import type { Dependencies } from '../cli.ts';
 import { ReleaseError } from '../errors.ts';
-import { readChangelog, readManifest, resolveProject } from '../project.ts';
+import { type Project, readChangelog, readManifest } from '../project.ts';
 import { isVersion } from '../version.ts';
 
 /** The arguments of `release verify`. */
 export interface VerifyOptions {
-    /** The moon id of the project. */
-    project: string;
+    /** The project to verify. */
+    project: Project;
     /** The version that `package.json` and the newest release must hold, or `undefined` to check `Unreleased`. */
     version: string | undefined;
 }
@@ -17,12 +17,11 @@ export interface VerifyOptions {
  * newest release in the changelog both hold it, and ignores `Unreleased`, which a bump has just emptied.
  */
 export async function verify(options: VerifyOptions, deps: Dependencies): Promise<void> {
-    const { version } = options;
+    const { project, version } = options;
 
     if (version !== undefined && !isVersion(version)) {
         throw new ReleaseError(`invalid version ${version}, expected <major>.<minor>.<patch>`);
     }
-    const project = await resolveProject(options.project, deps);
     const changelog = await readChangelog(project);
 
     if (version === undefined) {
@@ -51,5 +50,5 @@ export async function verify(options: VerifyOptions, deps: Dependencies): Promis
     if (newest !== version) {
         throw new ReleaseError(`the newest release in ${project.changelogName} is ${newest}, not ${version}`);
     }
-    deps.stdout(`${project.manifestName} and ${project.changelogName} hold ${project.id} v${version}\n`);
+    deps.stdout(`${project.manifestName} and ${project.changelogName} hold ${project.name} v${version}\n`);
 }

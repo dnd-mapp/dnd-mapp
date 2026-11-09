@@ -80,3 +80,5 @@ catalogs:
     "@vitest/coverage-v8": ~5.1.0
     "@vitest/ui": ~5.1.0
     vitest: ~5.1.0
+  yaml:
+    yaml: ~2.9.1
