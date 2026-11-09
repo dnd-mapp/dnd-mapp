@@ -17,12 +17,15 @@ export interface Category {
     entries: Entry[];
 }
 
+/** A `##` heading and the lines below it, up to the next `##` heading or the end of the file. */
 interface SectionBase {
     /** The index of its heading. */
     line: number;
+    /** The heading line, without trailing whitespace. */
     heading: string;
     /** The index of the line after its last line. */
     end: number;
+    /** Its categories, in the order they appear. */
     categories: Category[];
 }
 

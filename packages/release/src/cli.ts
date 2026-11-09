@@ -77,4 +77,5 @@ function expectArgs<Min extends number>(args: string[], min: Min, max: number): 
     return args as Arguments<Min>;
 }
 
+/** The arguments that `expectArgs` returns for a minimum of `Min`: one required and one optional for 1, three required otherwise. */
 type Arguments<Min extends number> = Min extends 1 ? [string, string?] : [string, string, string];

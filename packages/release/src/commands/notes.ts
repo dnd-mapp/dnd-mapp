@@ -5,9 +5,13 @@ import type { Dependencies } from '../cli.ts';
 import { ReleaseError } from '../errors.ts';
 import { readChangelog, resolveProject } from '../project.ts';
 
+/** The arguments of `release notes`. */
 export interface NotesOptions {
+    /** The moon id of the project. */
     project: string;
+    /** The version of the release whose notes to write. */
     version: string;
+    /** The path of the file to write the notes to, resolved against the working directory. */
     file: string;
 }
 
