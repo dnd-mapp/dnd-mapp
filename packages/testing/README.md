@@ -1,0 +1,79 @@
+# Test helpers
+
+Helpers for the tests of any project of D&D Mapp. [`moon.yml`](moon.yml) defines the tasks below.
+
+## Using the package
+
+Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer:
+
+```json
+"@dnd-mapp/testing": "workspace:*"
+```
+
+The `exports` of [`package.json`](package.json) point at the TypeScript sources, as for [`@dnd-mapp/common`](../common/README.md#using-the-package). moon hashes the inputs of a project's own tasks only, so add the package to the inputs of each task that runs or checks the tests:
+
+```yaml
+inputs:
+    - project: "testing"
+      group: "sources"
+```
+
+## File system
+
+`@dnd-mapp/testing/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
+
+```ts
+import { expect, it, vi } from 'vitest';
+import { readManifest } from './manifest.ts';
+
+const { mockFileSystem } = await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+
+it('reads the version', async () => {
+    mockFileSystem({ '/repo/package.json': '{ "version": "1.0.0" }' });
+
+    expect(await readManifest('/repo')).toEqual({ version: '1.0.0' });
+});
+```
+
+Loading the module registers the mocks. `vi.hoisted` loads it before the test file imports anything, so the code under test gets the mocks too. A static import of the module registers them only for the modules that the test file imports after it.
+
+Each call to `mockFileSystem` replaces all files, and creates the folders that hold them. The files stay in place for the next test of the file until the next call, so call it in each test or in `beforeEach`. A path resolves against the working directory with `node:path`, as `node:fs` resolves it, so `/repo/package.json` is `D:\repo\package.json` on Windows when the working directory is on drive `D:`. Names are case-sensitive on every OS.
+
+The mock supports these functions, both in `node:fs` with the `Sync` suffix and in `node:fs/promises` without it: `readFile`, `writeFile`, `appendFile`, `mkdir`, `readdir`, `stat`, `lstat`, `access`, `rm`, and `unlink`. `node:fs` also has `existsSync` and `promises`. A call to any other function fails with an error from Vitest, rather than reaching the disk. Add the function to [`src/file-system/node-fs.ts`](src/file-system/node-fs.ts) when a test needs it.
+
+Each function fails with the error that Node.js throws on Linux, with the same `code`, `syscall`, `path`, and message, such as `ENOENT` for a missing file. A test therefore fails the same way on every OS. Two errors differ from the ones Node.js throws on Windows: a path below a file fails with `ENOTDIR` rather than `ENOENT`, and `unlink` on a folder fails with `EISDIR` rather than `EPERM`.
+
+## Tasks
+
+Run each task from the repository root.
+
+| Task        | Command                                               | Runs in CI | Cached |
+|:------------|:------------------------------------------------------|:----------:|:------:|
+| `test`      | `vitest`                                              |     no     |   no   |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions` |    yes     |  yes   |
+| `typecheck` | `tsc`                                                 |    yes     |  yes   |
+| `lint`      | `eslint . --max-warnings 0`                           |    yes     |  yes   |
+
+Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
+
+```bash
+pnpm moon run testing:test
+```
+
+Run the unit tests once, as CI does:
+
+```bash
+pnpm moon run testing:test-ci
+```
+
+Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
+
+Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
+
+```bash
+pnpm moon run testing:typecheck
+```
+
+```bash
+pnpm moon run testing:lint
+```
