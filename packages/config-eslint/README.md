@@ -56,6 +56,18 @@ The rule sorts the projects by their folder, and allows each kind of project the
 
 Run ESLint with the `ESLINT_PLUGIN_BOUNDARIES_DEBUG=1` environment variable to print how the rule sorts each file and import.
 
+## Doc comments
+
+The `tsdoc` config, which no preset applies, requires a doc comment on every interface and type alias of the project, and on each of their properties and methods, through the `require-jsdoc` rule of [`eslint-plugin-jsdoc`](https://github.com/gajus/eslint-plugin-jsdoc). The members of an inline type, such as the type of a cast, need none. Add the config after the preset:
+
+```ts
+import { tsdoc } from '@dnd-mapp/config-eslint/tsdoc';
+import { typescript } from '@dnd-mapp/config-eslint/typescript';
+import { defineConfig } from 'eslint/config';
+
+export default defineConfig(typescript(import.meta.dirname), tsdoc());
+```
+
 Check the types of the config, which ESLint loads without checking:
 
 ```bash
