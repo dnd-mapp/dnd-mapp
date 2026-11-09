@@ -1,7 +1,7 @@
 {
   "name": "@dnd-mapp/testing",
   "version": "0.0.0",
-  "description": "Test helpers for the projects of D&D Mapp, such as an in-memory mock of the file system for Vitest.",
+  "description": "Test helpers for the projects of D&D Mapp, such as in-memory mocks of the file system and git for Vitest.",
   "private": true,
   "license": "MIT",
   "repository": {
@@ -11,7 +11,8 @@
   },
   "type": "module",
   "exports": {
-    "./file-system": "./src/file-system/index.ts"
+    "./file-system": "./src/file-system/index.ts",
+    "./git": "./src/git/index.ts"
   },
   "peerDependencies": {
     "vitest": "catalog:vitest"
