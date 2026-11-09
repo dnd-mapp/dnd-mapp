@@ -42,7 +42,11 @@ tasks:
 
     typecheck:
         command: "tsc"
+        # moon tracks the files of each project for its own tasks only, so the inputs also list the shared ESLint config
+        # that eslint.config.ts imports.
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "eslint.config.ts"
+            - project: "config-eslint"
+              group: "sources"
