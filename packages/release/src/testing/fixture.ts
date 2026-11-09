@@ -1,7 +1,6 @@
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { onTestFinished } from 'vitest';
+import { readFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
+import { mockFileSystem } from '@dnd-mapp/testing/file-system';
 import { run } from '../cli.ts';
 
 export interface FixtureOptions {
@@ -37,25 +36,24 @@ export interface Fixture {
     read(file: string): Promise<string>;
 }
 
+/** The working directory of the CLI, at the root of the drive. */
+const cwd = resolve('/repo');
+
 /**
- * Sets up a project in a temporary folder, with fakes for moon, git, and the clock, and removes the folder after the
- * test.
+ * Sets up a project in the mocked file system, with fakes for moon, git, and the clock. Load the mock in the test file
+ * first, with `await vi.hoisted(() => import('@dnd-mapp/testing/file-system'))`. Without it, the modules that import
+ * `node:fs` before the mock loads keep the real one, so the test reads from `/repo` on the real disk and fails.
  */
-export async function createFixture(options: FixtureOptions = {}): Promise<Fixture> {
+export function createFixture(options: FixtureOptions = {}): Fixture {
     const project = options.project ?? 'web';
-    const cwd = await mkdtemp(join(tmpdir(), 'release-'));
-    onTestFinished(() => rm(cwd, { recursive: true, force: true }));
-
     const root = join(cwd, 'apps', project);
-    await mkdir(root, { recursive: true });
-
     const manifest =
         options.manifest ?? `${JSON.stringify({ name: project, version: options.version ?? '0.0.0' }, null, 2)}\n`;
-    await writeFile(join(root, 'package.json'), manifest);
 
-    if (options.changelog !== undefined) {
-        await writeFile(join(root, 'CHANGELOG.md'), options.changelog);
-    }
+    mockFileSystem({
+        [join(root, 'package.json')]: manifest,
+        ...(options.changelog !== undefined && { [join(root, 'CHANGELOG.md')]: options.changelog }),
+    });
     return {
         root,
         cwd,

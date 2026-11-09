@@ -1,9 +1,11 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
 import { createFixture } from '../testing/fixture.ts';
 
+await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+
 async function lint(changelog: string) {
-    const fixture = await createFixture({ changelog });
+    const fixture = createFixture({ changelog });
     return fixture.run('lint', 'web');
 }
 

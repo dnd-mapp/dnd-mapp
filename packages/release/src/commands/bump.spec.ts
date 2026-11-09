@@ -1,8 +1,10 @@
 import { rm } from 'node:fs/promises';
 import { join } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
 import { createFixture, type FixtureOptions } from '../testing/fixture.ts';
+
+await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
 
 /** A changelog whose newest release is `version`, with the given body in `Unreleased`. */
 function changelogWith(unreleased: string, version = '1.4.2'): string {
@@ -23,7 +25,7 @@ ${unreleased}
 }
 
 async function bump(options: FixtureOptions, ...argv: string[]) {
-    const fixture = await createFixture(options);
+    const fixture = createFixture(options);
     const result = await fixture.run('bump', 'web', ...argv);
     return { ...result, fixture };
 }
@@ -245,7 +247,7 @@ All notable changes to the web app are documented in this file.
                 'unknown time zone Mars/Olympus',
             ],
         ])('%s', async (_, options, message) => {
-            const fixture = await createFixture(options);
+            const fixture = createFixture(options);
 
             const result = await fixture.run('bump', 'web', 'auto');
 
@@ -305,7 +307,7 @@ All notable changes to the web app are documented in this file.
     });
 
     it('fails for a project without a package.json', async () => {
-        const fixture = await createFixture({ changelog: releasedChangelog });
+        const fixture = createFixture({ changelog: releasedChangelog });
         await rm(join(fixture.root, 'package.json'));
 
         const result = await fixture.run('bump', 'web', 'auto');

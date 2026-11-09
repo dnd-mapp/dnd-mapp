@@ -1,5 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { createFixture } from './testing/fixture.ts';
+
+await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
 
 describe('release', () => {
     it.each([
@@ -9,7 +11,7 @@ describe('release', () => {
         ['notes', ['notes', 'web', '0.1.0', 'notes.md']],
         ['lint', ['lint', 'web']],
     ])('fails %s for a project without a CHANGELOG.md', async (_, argv) => {
-        const fixture = await createFixture();
+        const fixture = createFixture();
 
         const result = await fixture.run(...argv);
 
@@ -18,7 +20,7 @@ describe('release', () => {
     });
 
     it('fails for a project that moon does not know', async () => {
-        const fixture = await createFixture();
+        const fixture = createFixture();
 
         const result = await fixture.run('lint', 'api');
 
@@ -27,7 +29,7 @@ describe('release', () => {
     });
 
     it('fails on an unknown command and prints the usage', async () => {
-        const fixture = await createFixture();
+        const fixture = createFixture();
 
         const result = await fixture.run('publish', 'web');
 
@@ -40,7 +42,7 @@ describe('release', () => {
         ['--json', ['lint', 'web', '--json']],
         ['--timezone', ['verify', 'web', '--timezone', 'UTC']],
     ])('fails on %s for a command other than bump', async (option, argv) => {
-        const fixture = await createFixture();
+        const fixture = createFixture();
 
         const result = await fixture.run(...argv);
 
@@ -49,7 +51,7 @@ describe('release', () => {
     });
 
     it('fails on a missing argument', async () => {
-        const fixture = await createFixture();
+        const fixture = createFixture();
 
         const result = await fixture.run('lint');
 

@@ -1,6 +1,8 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog } from '../testing/changelogs.ts';
 import { createFixture } from '../testing/fixture.ts';
+
+await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
 
 /** The released changelog right after a bump to 0.2.1, with an empty `Unreleased` section. */
 const bumpedChangelog = releasedChangelog.replace(
@@ -11,7 +13,7 @@ const bumpedChangelog = releasedChangelog.replace(
 describe('release verify', () => {
     describe('without a version', () => {
         it('passes when Unreleased has entries', async () => {
-            const fixture = await createFixture({ changelog: releasedChangelog });
+            const fixture = createFixture({ changelog: releasedChangelog });
 
             const result = await fixture.run('verify', 'web');
 
@@ -29,7 +31,7 @@ describe('release verify', () => {
                 releasedChangelog.replace('## [Unreleased]\n\n### Fixed\n\n- Keep the grid aligned on zoom.\n\n', ''),
             ],
         ])('fails when Unreleased %s', async (_, changelog) => {
-            const fixture = await createFixture({ changelog });
+            const fixture = createFixture({ changelog });
 
             const result = await fixture.run('verify', 'web');
 
@@ -40,7 +42,7 @@ describe('release verify', () => {
 
     describe('with a version', () => {
         it('passes when package.json and the newest release hold the version, and ignores Unreleased', async () => {
-            const fixture = await createFixture({ changelog: bumpedChangelog, version: '0.2.1' });
+            const fixture = createFixture({ changelog: bumpedChangelog, version: '0.2.1' });
 
             const result = await fixture.run('verify', 'web', '0.2.1');
 
@@ -61,7 +63,7 @@ describe('release verify', () => {
             ],
             ['the version is malformed', '0.2.1', 'v0.2.1', 'invalid version v0.2.1, expected <major>.<minor>.<patch>'],
         ])('fails when %s', async (_, manifestVersion, version, message) => {
-            const fixture = await createFixture({ changelog: bumpedChangelog, version: manifestVersion });
+            const fixture = createFixture({ changelog: bumpedChangelog, version: manifestVersion });
 
             const result = await fixture.run('verify', 'web', version);
 
@@ -70,7 +72,7 @@ describe('release verify', () => {
         });
 
         it('fails before the first release', async () => {
-            const fixture = await createFixture({ changelog: '# Changelog\n\n## [Unreleased]\n', version: '0.1.0' });
+            const fixture = createFixture({ changelog: '# Changelog\n\n## [Unreleased]\n', version: '0.1.0' });
 
             const result = await fixture.run('verify', 'web', '0.1.0');
 
