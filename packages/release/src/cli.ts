@@ -1,5 +1,6 @@
 import { parseArgs } from 'node:util';
 import { lint } from './commands/lint.ts';
+import { verify } from './commands/verify.ts';
 import { ReleaseError } from './errors.ts';
 
 /** The boundaries of the CLI, which tests replace. */
@@ -13,6 +14,7 @@ export interface Dependencies {
 }
 
 const usage = `Usage:
+  release verify <project> [<version>]
   release lint <project>
 `;
 
@@ -23,6 +25,11 @@ export async function run(argv: string[], deps: Dependencies): Promise<number> {
         const [command, ...args] = positionals;
 
         switch (command) {
+            case 'verify': {
+                const [project, version] = expectArgs(args, 1, 2);
+                await verify({ project, version }, deps);
+                break;
+            }
             case 'lint': {
                 const [project] = expectArgs(args, 1, 1);
                 await lint({ project }, deps);

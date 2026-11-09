@@ -1,6 +1,6 @@
 # Release CLI
 
-The `release` CLI lints the `CHANGELOG.md` of a project in [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format. The release workflows run it and name the project by its moon id. Node.js runs it from source through type stripping, and [`moon.yml`](moon.yml) defines the tasks below.
+The `release` CLI verifies and lints the `CHANGELOG.md` of a project in [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format, and the version in its `package.json`. The release workflows run it and name the project by its moon id. Node.js runs it from source through type stripping, and [`moon.yml`](moon.yml) defines the tasks below.
 
 ## Commands
 
@@ -10,9 +10,11 @@ The root `package.json` depends on the package, so run the CLI from the reposito
 pnpm exec release <command>
 ```
 
-| Command          | Does                                                                                        |
-|:-----------------|:--------------------------------------------------------------------------------------------|
-| `lint <project>` | Prints each place where the changelog breaks Keep a Changelog, and fails when it finds any. |
+| Command                      | Does                                                                                        |
+|:-----------------------------|:--------------------------------------------------------------------------------------------|
+| `verify <project>`           | Fails when `Unreleased` has no entries.                                                     |
+| `verify <project> <version>` | Fails unless `package.json` and the newest release in the changelog hold `version`.         |
+| `lint <project>`             | Prints each place where the changelog breaks Keep a Changelog, and fails when it finds any. |
 
 Issue [#91](https://github.com/dnd-mapp/dnd-mapp/issues/91) holds the full rules of each command. On top of those, `lint` accepts a release heading that ends in `[YANKED]`, and fails on a category without entries.
 
