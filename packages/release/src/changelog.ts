@@ -57,7 +57,9 @@ export interface LinkDefinition {
  * `eol`, so every line they leave alone stays as it was.
  */
 export interface Changelog {
+    /** The lines of the file, without their line endings. */
     lines: string[];
+    /** The line ending of the file, `\n` or `\r\n`. */
     eol: string;
     sections: Section[];
     links: LinkDefinition[];

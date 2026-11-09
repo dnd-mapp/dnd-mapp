@@ -6,10 +6,15 @@ import { chooseLevel, isRequestedLevel, requestedLevels } from '../level.ts';
 import { readChangelog, readManifest, resolveProject, writeChangelog, writeManifestVersion } from '../project.ts';
 import { incrementVersion } from '../version.ts';
 
+/** The arguments of `release bump`. */
 export interface BumpOptions {
+    /** The moon id of the project. */
     project: string;
+    /** The level as given, which `bump` checks against `auto`, `major`, `minor`, and `patch`. */
     level: string;
+    /** Whether to print the result as JSON, for the workflows. */
     json: boolean;
+    /** The IANA time zone of the release date, or `undefined` for the zone of the machine. */
     timeZone: string | undefined;
 }
 

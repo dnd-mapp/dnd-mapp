@@ -11,7 +11,9 @@ export interface Dependencies {
     cwd: string;
     /** Resolves a moon id to the absolute folder of its project. */
     resolveProject(id: string): Promise<string>;
+    /** The clock that dates a release. */
     clock: {
+        /** The current time. */
         now(): Date;
         /** The IANA time zone of the machine. */
         timeZone(): string;
@@ -20,6 +22,7 @@ export interface Dependencies {
     stderr(text: string): void;
 }
 
+/** The commands and their arguments, which a usage error prints. */
 const usage = `Usage:
   release bump <project> <auto|major|minor|patch> [--timezone <zone>] [--json]
   release verify <project> [<version>]
@@ -80,6 +83,7 @@ export async function run(argv: string[], deps: Dependencies): Promise<number> {
 
 class UsageError extends Error {}
 
+/** Parses the positional arguments and the options of `bump`, and turns a parse failure into a usage error. */
 function parseArguments(argv: string[]) {
     try {
         return parseArgs({

@@ -57,6 +57,7 @@ export async function readChangelog(project: Project): Promise<Changelog> {
     }
 }
 
+/** Writes the lines of a changelog, joined with its own line ending. */
 export async function writeChangelog(project: Project, changelog: Changelog): Promise<void> {
     await writeFile(project.changelogPath, changelog.lines.join(changelog.eol));
 }
