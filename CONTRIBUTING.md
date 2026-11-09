@@ -1,6 +1,6 @@
 # Contributing to D&D Mapp
 
-Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how to use AI tools, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
+Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, how to use AI tools, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
 
 ## Where to start
 
@@ -13,6 +13,14 @@ Thanks for helping build D&D Mapp. This guide covers where a contribution starts
 | A code or docs change | An issue that a maintainer has triaged. For now, only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains. |
 
 A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
+
+## Project board
+
+The [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) has two boards: one for epics, and one for the work items that epics break into, such as tasks, features, research, and bugs. Triage and Backlog have no limit. Each status from Ready onward has a WIP limit, and only an expedited bug may move into a full status:
+
+- **Expedited bugs.** A bug that cannot wait for a free slot, such as one that breaks the deployed app, may go over the WIP limit of each status it moves through. A maintainer decides when a bug qualifies, and only one issue is expedited at a time. It goes ahead of all other work, and its pull request gets reviewed first.
+- **Epic status.** An epic moves to In progress when its first sub-issue does, and to Done when its last sub-issue does. Epics skip In review, since review happens on the pull requests of their sub-issues.
+- **Blocked epics.** When the epic in progress gets blocked, the next Ready epic moves to In progress, and the blocked epic goes back to Ready until its blocker clears.
 
 ## Using AI tools
 
