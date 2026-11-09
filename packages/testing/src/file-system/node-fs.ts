@@ -33,28 +33,28 @@ function toContent(data: string | NodeJS.ArrayBufferView, encoding: Encoding): s
 
 /** The status of a file or folder, with the fields and methods of `fs.Stats`. */
 class Stats {
-    readonly dev = 0;
-    readonly ino = 0;
-    readonly mode: number;
-    readonly nlink = 1;
-    readonly uid = 0;
-    readonly gid = 0;
-    readonly rdev = 0;
-    readonly size: number;
-    readonly blksize = 4096;
-    readonly blocks: number;
-    readonly atimeMs: number;
-    readonly mtimeMs: number;
-    readonly ctimeMs: number;
-    readonly birthtimeMs: number;
-    readonly atime: Date;
-    readonly mtime: Date;
-    readonly ctime: Date;
-    readonly birthtime: Date;
-    readonly #kind: Status['kind'];
+    public readonly dev = 0;
+    public readonly ino = 0;
+    public readonly mode: number;
+    public readonly nlink = 1;
+    public readonly uid = 0;
+    public readonly gid = 0;
+    public readonly rdev = 0;
+    public readonly size: number;
+    public readonly blksize = 4096;
+    public readonly blocks: number;
+    public readonly atimeMs: number;
+    public readonly mtimeMs: number;
+    public readonly ctimeMs: number;
+    public readonly birthtimeMs: number;
+    public readonly atime: Date;
+    public readonly mtime: Date;
+    public readonly ctime: Date;
+    public readonly birthtime: Date;
+    private readonly kind: Status['kind'];
 
     constructor({ kind, size, modified }: Status) {
-        this.#kind = kind;
+        this.kind = kind;
         this.mode = kind === 'file' ? 0o100644 : 0o40755;
         this.size = size;
         this.blocks = Math.ceil(size / 512);
@@ -62,72 +62,72 @@ class Stats {
         this.atime = this.mtime = this.ctime = this.birthtime = modified;
     }
 
-    isFile(): boolean {
-        return this.#kind === 'file';
+    public isFile(): boolean {
+        return this.kind === 'file';
     }
 
-    isDirectory(): boolean {
-        return this.#kind === 'directory';
+    public isDirectory(): boolean {
+        return this.kind === 'directory';
     }
 
-    isBlockDevice(): boolean {
+    public isBlockDevice(): boolean {
         return false;
     }
 
-    isCharacterDevice(): boolean {
+    public isCharacterDevice(): boolean {
         return false;
     }
 
-    isSymbolicLink(): boolean {
+    public isSymbolicLink(): boolean {
         return false;
     }
 
-    isFIFO(): boolean {
+    public isFIFO(): boolean {
         return false;
     }
 
-    isSocket(): boolean {
+    public isSocket(): boolean {
         return false;
     }
 }
 
 /** An entry of a folder, with the fields and methods of `fs.Dirent`. */
 class Dirent {
-    readonly name: string;
-    readonly parentPath: string;
-    readonly #kind: Listing['kind'];
+    public readonly name: string;
+    public readonly parentPath: string;
+    private readonly kind: Listing['kind'];
 
     constructor({ name, parentPath, kind }: Listing) {
         this.name = name;
         this.parentPath = parentPath;
-        this.#kind = kind;
+        this.kind = kind;
     }
 
-    isFile(): boolean {
-        return this.#kind === 'file';
+    public isFile(): boolean {
+        return this.kind === 'file';
     }
 
-    isDirectory(): boolean {
-        return this.#kind === 'directory';
+    public isDirectory(): boolean {
+        return this.kind === 'directory';
     }
 
-    isBlockDevice(): boolean {
+    public isBlockDevice(): boolean {
         return false;
     }
 
-    isCharacterDevice(): boolean {
+    public isCharacterDevice(): boolean {
         return false;
     }
 
-    isSymbolicLink(): boolean {
+    public isSymbolicLink(): boolean {
         return false;
     }
 
-    isFIFO(): boolean {
+    public isFIFO(): boolean {
         return false;
     }
 
-    isSocket(): boolean {
+    public isSocket(): boolean {
         return false;
     }
 }
