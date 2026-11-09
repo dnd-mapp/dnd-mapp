@@ -1,5 +1,6 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
+import { tryCatch } from '@dnd-mapp/common';
 import { type Changelog, parseChangelog } from './changelog.ts';
 import type { Dependencies } from './cli.ts';
 import { ReleaseError } from './errors.ts';
@@ -21,13 +22,14 @@ export interface Project {
 }
 
 export async function resolveProject(id: string, deps: Pick<Dependencies, 'cwd' | 'resolveProject'>): Promise<Project> {
-    let root: string;
+    const resolved = await tryCatch(deps.resolveProject(id));
 
-    try {
-        root = await deps.resolveProject(id);
-    } catch (error) {
+    if (!resolved.ok) {
+        const { error } = resolved;
+
         throw new ReleaseError(error instanceof Error ? error.message : String(error));
     }
+    const root = resolved.value;
     const changelogPath = join(root, 'CHANGELOG.md');
     const manifestPath = join(root, 'package.json');
 
@@ -71,16 +73,15 @@ export interface Manifest {
 }
 
 export async function readManifest(project: Project): Promise<Manifest> {
-    let text: string;
+    const read = await tryCatch(readFile(project.manifestPath, 'utf8'));
 
-    try {
-        text = await readFile(project.manifestPath, 'utf8');
-    } catch (error) {
-        if (isMissingFile(error)) {
+    if (!read.ok) {
+        if (isMissingFile(read.error)) {
             throw new ReleaseError(`${project.id} has no package.json at ${project.manifestName}`);
         }
-        throw error;
+        throw read.error;
     }
+    const text = read.value;
     const { version } = JSON.parse(text) as { version?: unknown };
 
     if (typeof version !== 'string') {

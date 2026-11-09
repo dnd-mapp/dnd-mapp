@@ -85,7 +85,7 @@ inputs:
       group: "sources"
 ```
 
-An app depends on the `core` of its platform only. A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`. A `domain` package may depend on other `domain` packages only. Domain modules never depend on the platform packages of another domain: they meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages.
+An app depends on the `core` of its platform only. A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`. A `domain` package may depend on other `domain` packages only. Domain modules never depend on the platform packages of another domain: they meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages. Any project may also depend on the packages for the whole workspace, such as the helpers of [`@dnd-mapp/common`](packages/common/README.md).
 
 Two checks enforce these rules. Tag each project in its `moon.yml` with the platform it runs on, such as `web` or `server`, with `domain` for a `domain` package, or with `tooling` for the root project and the packages of the whole workspace. Under `constraints.tagRelationships`, [`.moon/workspace.yml`](.moon/workspace.yml) lets a platform project depend on projects of its own platform, `domain`, and `tooling`, and a `domain` package on `domain` and `tooling` projects. moon fails to build its project graph on any other dependency, including one on a project without a tag, so every `moon` command reports it. Add a tag to `tagRelationships` along with the first project of a new platform.
 

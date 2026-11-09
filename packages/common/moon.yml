@@ -1,0 +1,47 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "common"
+layer: "library"
+# Every project may depend on a tooling project, so the tag lets any platform import the helpers.
+tags:
+    - "tooling"
+
+project:
+    title: "Common helpers"
+    description: "General helpers that any project can use, such as tryCatch, which know nothing about a domain or a platform."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+
+    tests:
+        - "vitest.config.ts"
+
+tasks:
+    test:
+        command: "vitest"
+        preset: "server"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+
+    test-ci:
+        command: "vitest run --reporter dot --reporter github-actions"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+        outputs:
+            - "coverage/**/*"
+
+    typecheck:
+        command: "tsc"
+        # tsconfig.json includes the configs of ESLint and Vitest next to the sources.
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "*.config.ts"

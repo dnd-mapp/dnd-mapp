@@ -68,6 +68,7 @@ Each project's README lists its tasks:
 - [`packages/core/web`](packages/core/web/README.md): the core of the web client, which the domain modules build on.
 - [`packages/config-typescript`](packages/config-typescript/README.md): the TypeScript config presets that the projects extend.
 - [`packages/config-eslint`](packages/config-eslint/README.md): the shared ESLint presets of the projects, which also enforce the dependency rules between them.
+- [`packages/common`](packages/common/README.md): the general helpers that any project can use, such as `tryCatch`.
 - [`packages/release`](packages/release/README.md): the CLI that the release workflows run on the changelog and manifest of a project.
 
 ## Dependency updates
