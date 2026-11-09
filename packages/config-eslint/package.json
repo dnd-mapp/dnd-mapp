@@ -13,6 +13,7 @@
   "exports": {
     "./angular": "./src/angular.ts",
     "./playwright": "./src/playwright.ts",
+    "./tsdoc": "./src/tsdoc.ts",
     "./typescript": "./src/typescript.ts"
   },
   "dependencies": {
@@ -21,6 +22,7 @@
     "eslint-config-prettier": "catalog:eslint",
     "eslint-import-resolver-typescript": "catalog:eslint",
     "eslint-plugin-boundaries": "catalog:eslint",
+    "eslint-plugin-jsdoc": "catalog:eslint",
     "eslint-plugin-playwright": "catalog:eslint",
     "typescript-eslint": "catalog:eslint"
   },
