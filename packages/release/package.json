@@ -14,8 +14,7 @@
     "release": "./src/main.ts"
   },
   "dependencies": {
-    "@dnd-mapp/common": "workspace:*",
-    "yaml": "catalog:yaml"
+    "@dnd-mapp/common": "workspace:*"
   },
   "devDependencies": {
     "@dnd-mapp/config-eslint": "workspace:*",

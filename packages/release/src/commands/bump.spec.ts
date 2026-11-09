@@ -24,7 +24,7 @@ ${unreleased}
 
 async function bump(options: FixtureOptions, ...argv: string[]) {
     const fixture = createFixture(options);
-    const result = await fixture.run('bump', 'web', ...argv);
+    const result = await fixture.run('bump', ...argv);
     return { ...result, fixture };
 }
 
@@ -103,7 +103,7 @@ All notable changes to the web app are documented in this file.
     it('leaves a changelog that release lint passes', async () => {
         const { fixture } = await bump({ changelog: releasedChangelog, version: '0.2.0' }, 'auto');
 
-        expect((await fixture.run('lint', 'web')).code).toBe(0);
+        expect((await fixture.run('lint')).code).toBe(0);
     });
 
     it('prints the new version and how it chose the level', async () => {
@@ -241,7 +241,7 @@ All notable changes to the web app are documented in this file.
             [
                 'when the changelog fails release lint',
                 { changelog: releasedChangelog.replace('### Fixed', '### Improved'), version: '0.2.0' },
-                'apps/web/CHANGELOG.md breaks Keep a Changelog; run release lint web for the problems',
+                'apps/web/CHANGELOG.md breaks Keep a Changelog; run release lint for the problems',
             ],
             [
                 'on an unknown time zone',
@@ -251,7 +251,7 @@ All notable changes to the web app are documented in this file.
         ])('%s', async (_, options, message) => {
             const fixture = createFixture(options);
 
-            const result = await fixture.run('bump', 'web', 'auto');
+            const result = await fixture.run('bump', 'auto');
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain(message);
@@ -343,7 +343,7 @@ All notable changes to the web app are documented in this file.
         const changelog = releasedChangelog.replaceAll('web@v', 'v');
 
         it('releases the package at the root, with v<version> tags in the compare links', async () => {
-            const fixture = createFixture({ layout: 'single', changelog, version: '0.2.0', tags: ['v0.2.0'] });
+            const fixture = createFixture({ atRoot: true, changelog, version: '0.2.0', tags: ['v0.2.0'] });
 
             const result = await fixture.run('bump', 'auto');
 
@@ -359,7 +359,7 @@ All notable changes to the web app are documented in this file.
         });
 
         it('refuses a version that is not above the highest v<version> tag', async () => {
-            const fixture = createFixture({ layout: 'single', changelog, version: '0.2.0', tags: ['v0.3.0'] });
+            const fixture = createFixture({ atRoot: true, changelog, version: '0.2.0', tags: ['v0.3.0'] });
 
             const result = await fixture.run('bump', 'auto');
 
@@ -369,7 +369,7 @@ All notable changes to the web app are documented in this file.
 
         it('names the lint command without a project when the changelog fails lint', async () => {
             const fixture = createFixture({
-                layout: 'single',
+                atRoot: true,
                 changelog: changelog.replace('### Fixed', '### Improved'),
                 version: '0.2.0',
             });

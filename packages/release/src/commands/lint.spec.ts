@@ -6,7 +6,7 @@ await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
 
 async function lint(changelog: string) {
     const fixture = createFixture({ changelog });
-    return fixture.run('lint', 'web');
+    return fixture.run('lint');
 }
 
 describe('release lint', () => {

@@ -2,17 +2,17 @@ import { rm } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog } from './testing/changelogs.ts';
-import { createFixture } from './testing/fixture.ts';
+import { createFixture, repositoryField } from './testing/fixture.ts';
 
 await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
 
 describe('release', () => {
     it.each([
-        ['bump', ['bump', 'web', 'auto']],
-        ['verify', ['verify', 'web']],
-        ['verify with a version', ['verify', 'web', '0.1.0']],
-        ['notes', ['notes', 'web', '0.1.0', 'notes.md']],
-        ['lint', ['lint', 'web']],
+        ['bump', ['bump', 'auto']],
+        ['verify', ['verify']],
+        ['verify with a version', ['verify', '0.1.0']],
+        ['notes', ['notes', '0.1.0', 'notes.md']],
+        ['lint', ['lint']],
     ])('fails %s for a project without a CHANGELOG.md', async (_, argv) => {
         const fixture = createFixture();
 
@@ -25,7 +25,7 @@ describe('release', () => {
     it('fails on an unknown command and prints the usage', async () => {
         const fixture = createFixture();
 
-        const result = await fixture.run('publish', 'web');
+        const result = await fixture.run('publish');
 
         expect(result.code).toBe(1);
         expect(result.stderr).toContain('unknown command publish');
@@ -33,8 +33,8 @@ describe('release', () => {
     });
 
     it.each([
-        ['--json', ['lint', 'web', '--json']],
-        ['--timezone', ['verify', 'web', '--timezone', 'UTC']],
+        ['--json', ['lint', '--json']],
+        ['--timezone', ['verify', '--timezone', 'UTC']],
     ])('fails on %s for a command other than bump', async (option, argv) => {
         const fixture = createFixture();
 
@@ -44,86 +44,90 @@ describe('release', () => {
         expect(result.stderr).toContain(`${option} applies to bump only`);
     });
 
-    describe('in a workspace', () => {
-        it('finds a project by the name of its package without the scope', async () => {
-            const fixture = createFixture({ changelog: releasedChangelog });
-
-            const result = await fixture.run('lint', 'web');
-
-            expect(result).toEqual({ code: 0, stdout: 'apps/web/CHANGELOG.md follows Keep a Changelog\n', stderr: '' });
-        });
-
-        it('fails without a project', async () => {
+    describe('in a package below the root of the repository', () => {
+        it('acts on the package in the working directory', async () => {
             const fixture = createFixture({ changelog: releasedChangelog });
 
             const result = await fixture.run('lint');
 
-            expect(result.code).toBe(1);
-            expect(result.stderr).toContain('expected 1 argument, got 0');
-            expect(result.stderr).toContain('Usage:');
+            expect(result).toEqual({ code: 0, stdout: 'apps/web/CHANGELOG.md follows Keep a Changelog\n', stderr: '' });
         });
 
-        it('fails for a name that no package of the workspace has', async () => {
-            const fixture = createFixture();
-
-            const result = await fixture.run('lint', 'api');
-
-            expect(result.code).toBe(1);
-            expect(result.stderr).toContain('the workspace of pnpm-workspace.yaml has no package named api');
-        });
-
-        it('fails when two packages share the name without the scope', async () => {
-            const fixture = createFixture({
-                changelog: releasedChangelog,
-                files: { 'apps/admin/package.json': '{ "name": "@other/web" }' },
-            });
+        it('fails with a project argument', async () => {
+            const fixture = createFixture({ changelog: releasedChangelog });
 
             const result = await fixture.run('lint', 'web');
 
             expect(result.code).toBe(1);
+            expect(result.stderr).toContain('expected 0 arguments, got 1');
+            expect(result.stderr).toContain('in the working directory');
+        });
+
+        it('fails when package.json has no name, which its tags start with', async () => {
+            const fixture = createFixture({
+                changelog: releasedChangelog,
+                manifest: JSON.stringify({ repository: repositoryField }),
+            });
+
+            const result = await fixture.run('lint');
+
+            expect(result.code).toBe(1);
             expect(result.stderr).toContain(
-                '2 packages share the name web: @other/web in apps/admin, @dnd-mapp/web in apps/web',
+                'apps/web/package.json has no name, which the tags of a package below the root of the repository start with',
             );
         });
     });
 
-    describe('in a repository with one package', () => {
+    describe('in a package at the root of the repository', () => {
         const changelog = releasedChangelog.replaceAll('web@v', 'v');
 
-        it('finds the package at the root, without a project argument', async () => {
-            const fixture = createFixture({ layout: 'single', changelog });
+        it('acts on the package in the working directory', async () => {
+            const fixture = createFixture({ atRoot: true, changelog });
 
             const result = await fixture.run('lint');
 
             expect(result).toEqual({ code: 0, stdout: 'CHANGELOG.md follows Keep a Changelog\n', stderr: '' });
         });
 
-        it('fails with a project argument', async () => {
-            const fixture = createFixture({ layout: 'single', changelog });
+        it('takes the name of the folder when package.json has no name', async () => {
+            const fixture = createFixture({
+                atRoot: true,
+                changelog,
+                manifest: JSON.stringify({ version: '0.2.0', repository: repositoryField }),
+            });
 
-            const result = await fixture.run('lint', 'web');
+            const result = await fixture.run('verify', '0.2.0');
 
-            expect(result.code).toBe(1);
-            expect(result.stderr).toContain('expected 0 arguments, got 1');
-            expect(result.stderr).toContain('leave it out');
+            expect(result).toEqual({ code: 0, stdout: 'package.json and CHANGELOG.md hold repo v0.2.0\n', stderr: '' });
         });
+    });
 
-        it('fails without a package.json', async () => {
-            const fixture = createFixture({ layout: 'single', changelog });
-            await rm(join(fixture.root, 'package.json'));
+    it('fails without a package.json in the working directory', async () => {
+        const fixture = createFixture({ changelog: releasedChangelog });
+        await rm(join(fixture.cwd, 'package.json'));
 
-            const result = await fixture.run('lint');
+        const result = await fixture.run('lint');
 
-            expect(result.code).toBe(1);
-            expect(result.stderr).toContain(`found no workspace and no package.json in ${fixture.cwd}`);
-        });
+        expect(result.code).toBe(1);
+        expect(result.stderr).toContain(
+            `found no package.json in ${fixture.cwd}; run release in the folder of the package`,
+        );
+    });
+
+    it('fails outside a git repository', async () => {
+        const fixture = createFixture({ changelog: releasedChangelog, git: false });
+
+        const result = await fixture.run('lint');
+
+        expect(result.code).toBe(1);
+        expect(result.stderr).toContain(`found no git repository at or above ${fixture.cwd}`);
     });
 
     describe('the repository field', () => {
         it('fails when package.json has none', async () => {
             const fixture = createFixture({ changelog: releasedChangelog, manifest: '{ "name": "@dnd-mapp/web" }' });
 
-            const result = await fixture.run('lint', 'web');
+            const result = await fixture.run('lint');
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain(
@@ -137,7 +141,7 @@ describe('release', () => {
                 manifest: '{ "name": "@dnd-mapp/web", "repository": "gitlab:dnd-mapp/dnd-mapp" }',
             });
 
-            const result = await fixture.run('lint', 'web');
+            const result = await fixture.run('lint');
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain(

@@ -5,11 +5,10 @@ import { notes } from './commands/notes.ts';
 import { verify } from './commands/verify.ts';
 import { ReleaseError } from './errors.ts';
 import { resolveProject } from './project.ts';
-import { findLayout } from './workspace.ts';
 
 /** The boundaries of the CLI, which tests replace. */
 export interface Dependencies {
-    /** The working directory, which holds the repository and which relative paths resolve from. */
+    /** The working directory, which holds the package of the project and which relative paths resolve from. */
     cwd: string;
     /** Lists the tags that start with a prefix, such as `web@v`. */
     listTags(prefix: string): Promise<string[]>;
@@ -28,13 +27,12 @@ export interface Dependencies {
 
 /** The commands and their arguments, which a usage error prints. */
 const usage = `Usage:
-  release bump [<project>] <auto|major|minor|patch> [--timezone <zone>] [--json]
-  release verify [<project>] [<version>]
-  release notes [<project>] <version> <file>
-  release lint [<project>]
+  release bump <auto|major|minor|patch> [--timezone <zone>] [--json]
+  release verify [<version>]
+  release notes <version> <file>
+  release lint
 
-In a workspace, <project> is the name of a package without its scope, such as web
-for @dnd-mapp/web. In a repository with one package, leave it out.
+Each command acts on the package.json and CHANGELOG.md in the working directory.
 `;
 
 const commands = new Set(['bump', 'verify', 'notes', 'lint']);
@@ -55,29 +53,26 @@ export async function run(argv: string[], deps: Dependencies): Promise<number> {
         if (command === undefined || !commands.has(command)) {
             throw new UsageError(command === undefined ? 'missing command' : `unknown command ${command}`);
         }
-        const layout = await findLayout(deps.cwd);
-        // A workspace names the project in the first argument, and a repository with one package leaves it out.
-        const named = layout.kind === 'workspace' ? 1 : 0;
-        const resolve = () => resolveProject(layout, named ? args[0] : undefined, deps.cwd);
+        const resolve = () => resolveProject(deps.cwd);
 
         switch (command) {
             case 'bump': {
-                const [level] = expectArgs(args, named, 1, 1);
+                const [level] = expectArgs(args, 1, 1);
                 await bump({ project: await resolve(), level, json: values.json, timeZone: values.timezone }, deps);
                 break;
             }
             case 'verify': {
-                const [version] = expectArgs(args, named, 0, 1);
+                const [version] = expectArgs(args, 0, 1);
                 await verify({ project: await resolve(), version }, deps);
                 break;
             }
             case 'notes': {
-                const [version, file] = expectArgs(args, named, 2, 2);
+                const [version, file] = expectArgs(args, 2, 2);
                 await notes({ project: await resolve(), version, file }, deps);
                 break;
             }
             default: {
-                expectArgs(args, named, 0, 0);
+                expectArgs(args, 0, 0);
                 await lint({ project: await resolve() }, deps);
             }
         }
@@ -112,20 +107,15 @@ function parseArguments(argv: string[]) {
     }
 }
 
-/**
- * Checks the number of positional arguments of a command, after the `named` arguments that name the project, and
- * returns the arguments after those.
- */
-function expectArgs<Min extends number>(args: string[], named: number, min: Min, max: number): Arguments<Min> {
-    const [low, high] = [min + named, max + named];
-
-    if (args.length < low || args.length > high) {
-        const expected = low === high ? String(low) : `${String(low)} to ${String(high)}`;
+/** Checks the number of positional arguments of a command, and returns them. */
+function expectArgs<Min extends number>(args: string[], min: Min, max: number): Arguments<Min> {
+    if (args.length < min || args.length > max) {
+        const expected = min === max ? String(min) : `${String(min)} to ${String(max)}`;
         throw new UsageError(
-            `expected ${expected} ${high === 1 ? 'argument' : 'arguments'}, got ${String(args.length)}`,
+            `expected ${expected} ${max === 1 ? 'argument' : 'arguments'}, got ${String(args.length)}`,
         );
     }
-    return args.slice(named) as Arguments<Min>;
+    return args as Arguments<Min>;
 }
 
 /** The arguments that `expectArgs` returns for a minimum of `Min`: one optional for 0, one for 1, two otherwise. */

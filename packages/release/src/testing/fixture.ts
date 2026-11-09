@@ -6,10 +6,12 @@ import { run } from '../cli.ts';
 /** The files, tags, and clock of a fixture. Each option has a default, so a test sets only those it depends on. */
 export interface FixtureOptions {
     /**
-     * How the repository holds the project: as the package `@dnd-mapp/<project>` in `apps/<project>` of a pnpm
-     * workspace, or as the only package, at the root.
+     * Whether the project is the package at the root of the repository, rather than the package `@dnd-mapp/<project>`
+     * in `apps/<project>`.
      */
-    layout?: 'workspace' | 'single';
+    atRoot?: boolean;
+    /** Whether the root holds `.git`, which marks it as the root of a git repository. */
+    git?: boolean;
     /** The unscoped name of the package of the project. */
     project?: string;
     /** The content of `CHANGELOG.md`, or `undefined` to leave the file out. */
@@ -40,18 +42,16 @@ export interface RunResult {
 
 /** A project in the mocked file system, and the CLI to run against it. */
 export interface Fixture {
-    /** The folder of the project. */
-    root: string;
-    /** The working directory of the CLI, which holds the repository. */
+    /** The working directory of the CLI: the folder of the project. */
     cwd: string;
     /** Runs the CLI with the given arguments after the executable. */
     run(...argv: string[]): Promise<RunResult>;
-    /** Reads a file of the repository, by its path relative to the working directory. */
+    /** Reads a file of the repository, by its path relative to the root of the repository. */
     read(file: string): Promise<string>;
 }
 
-/** The working directory of the CLI and the root of the repository, at the root of the drive. */
-const cwd = resolve('/repo');
+/** The root of the repository, at the root of the drive. */
+const repositoryRoot = resolve('/repo');
 
 /** The `repository` field of the packages of D&D Mapp. */
 export const repositoryField = { type: 'git', url: 'git+https://github.com/dnd-mapp/dnd-mapp.git' };
@@ -63,30 +63,23 @@ export const repositoryField = { type: 'git', url: 'git+https://github.com/dnd-m
  */
 export function createFixture(options: FixtureOptions = {}): Fixture {
     const project = options.project ?? 'web';
-    const single = options.layout === 'single';
-    const root = single ? cwd : join(cwd, 'apps', project);
-    const name = single ? project : `@dnd-mapp/${project}`;
+    const atRoot = options.atRoot ?? false;
+    const cwd = atRoot ? repositoryRoot : join(repositoryRoot, 'apps', project);
+    const name = atRoot ? project : `@dnd-mapp/${project}`;
     const manifest =
         options.manifest ??
         `${JSON.stringify({ name, version: options.version ?? '0.0.0', repository: repositoryField }, null, 2)}\n`;
-    const workspace = single
-        ? {}
-        : {
-              [join(cwd, 'package.json')]: '{\n  "name": "dnd-mapp",\n  "private": true\n}\n',
-              [join(cwd, 'pnpm-workspace.yaml')]: 'packages:\n  - apps/*\n',
-          };
     const files: Files = Object.fromEntries(
-        Object.entries(options.files ?? {}).map(([path, content]) => [join(cwd, path), content]),
+        Object.entries(options.files ?? {}).map(([path, content]) => [join(repositoryRoot, path), content]),
     );
 
     mockFileSystem({
-        ...workspace,
+        ...((options.git ?? true) && { [join(repositoryRoot, '.git', 'HEAD')]: 'ref: refs/heads/main\n' }),
         ...files,
-        [join(root, 'package.json')]: manifest,
-        ...(options.changelog !== undefined && { [join(root, 'CHANGELOG.md')]: options.changelog }),
+        [join(cwd, 'package.json')]: manifest,
+        ...(options.changelog !== undefined && { [join(cwd, 'CHANGELOG.md')]: options.changelog }),
     });
     return {
-        root,
         cwd,
         async run(...argv) {
             let stdout = '';
@@ -104,6 +97,6 @@ export function createFixture(options: FixtureOptions = {}): Fixture {
             });
             return { code, stdout, stderr };
         },
-        read: (file) => readFile(join(cwd, file), 'utf8'),
+        read: (file) => readFile(join(repositoryRoot, file), 'utf8'),
     };
 }

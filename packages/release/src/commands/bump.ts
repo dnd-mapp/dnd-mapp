@@ -32,8 +32,7 @@ export async function bump(options: BumpOptions, deps: Dependencies): Promise<vo
     const changelog = await readChangelog(project);
 
     if (lintChangelog(changelog, project).length > 0) {
-        const command = ['release lint', project.argument].filter((part) => part !== undefined).join(' ');
-        throw new ReleaseError(`${project.changelogName} breaks Keep a Changelog; run ${command} for the problems`);
+        throw new ReleaseError(`${project.changelogName} breaks Keep a Changelog; run release lint for the problems`);
     }
     // The changelog passed lint, so it has an Unreleased section.
     const unreleased = unreleasedOf(changelog);

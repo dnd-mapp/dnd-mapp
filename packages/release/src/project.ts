@@ -1,71 +1,59 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { basename, join, relative, sep } from 'node:path';
+import { access, readFile, writeFile } from 'node:fs/promises';
+import { basename, dirname, join, relative, resolve, sep } from 'node:path';
 import { tryCatch } from '@dnd-mapp/common';
 import { type Changelog, parseChangelog } from './changelog.ts';
 import { ReleaseError } from './errors.ts';
 import { repositoryUrl } from './repository.ts';
-import { findPackages, isMissingFile, isRecord, type Layout, parseJson, unscopedName } from './workspace.ts';
 
 /** A project to release, with the paths of its manifest and changelog, and where its tags and compare links point. */
 export interface Project {
     /** The name of its package without the scope, which names the project in messages. */
     name: string;
-    /** The argument that names the project to the commands: `name` in a workspace, or `undefined` for the only package. */
-    argument: string | undefined;
     /** The absolute folder of the project. */
     root: string;
     /** The path of `CHANGELOG.md` in the folder of the project. */
     changelogPath: string;
-    /** The path of the changelog relative to the working directory, with forward slashes, for messages. */
+    /** The path of the changelog relative to the root of the repository, with forward slashes, for messages. */
     changelogName: string;
     /** The path of `package.json` in the folder of the project. */
     manifestPath: string;
-    /** The path of the manifest relative to the working directory, with forward slashes, for messages. */
+    /** The path of the manifest relative to the root of the repository, with forward slashes, for messages. */
     manifestName: string;
     /** The web URL of the repository, from the `repository` field of `package.json`, which the compare links start with. */
     repository: string;
-    /** The text before the version in a tag of the project: `<name>@v` in a workspace, or `v`. */
+    /** The text before the version in a tag of the project: `v` at the root of the repository, or `<name>@v` below it. */
     tagPrefix: string;
 }
 
 /**
- * Finds the project that `argument` names in the repository at `cwd`: the package of a workspace with that unscoped
- * name, or the package at the root when the repository has one package and `argument` is `undefined`.
+ * Reads the project in `cwd`: the package whose `package.json` the folder holds. A package at the root of the git
+ * repository tags its releases `v<version>`, and a package below it `<name>@v<version>`, with the name of the package
+ * without its scope.
  */
-export async function resolveProject(layout: Layout, argument: string | undefined, cwd: string): Promise<Project> {
-    let root = cwd;
-
-    if (layout.kind === 'workspace') {
-        if (argument === undefined) {
-            throw new Error('a project in a workspace needs a name');
-        }
-        const matches = (await findPackages(cwd, layout.patterns)).filter((pkg) => unscopedName(pkg.name) === argument);
-        const [match, ...others] = matches;
-
-        if (!match) {
-            throw new ReleaseError(`the workspace of ${layout.source} has no package named ${argument}`);
-        }
-        if (others.length > 0) {
-            const list = matches.map((pkg) => `${pkg.name} in ${displayPath(cwd, pkg.root) || '.'}`).join(', ');
-            throw new ReleaseError(`${String(matches.length)} packages share the name ${argument}: ${list}`);
-        }
-        root = match.root;
-    }
+export async function resolveProject(cwd: string): Promise<Project> {
+    const root = resolve(cwd);
+    const repositoryRoot = await findRepositoryRoot(root);
     const manifestPath = join(root, 'package.json');
-    const manifestName = displayPath(cwd, manifestPath);
+    const manifestName = displayPath(repositoryRoot, manifestPath);
     const text = await tryCatch(readFile(manifestPath, 'utf8'));
 
     if (!text.ok) {
         if (isMissingFile(text.error)) {
-            throw new ReleaseError(`found no workspace and no package.json in ${cwd}`);
+            throw new ReleaseError(`found no package.json in ${root}; run release in the folder of the package`);
         }
         throw text.error;
     }
     const manifest = parseJson(text.value, manifestName);
     const fields = isRecord(manifest) ? manifest : {};
-    const name =
-        argument ??
-        (typeof fields['name'] === 'string' && fields['name'] !== '' ? unscopedName(fields['name']) : basename(root));
+    const packageName = typeof fields['name'] === 'string' && fields['name'] !== '' ? fields['name'] : undefined;
+    const atRoot = relative(repositoryRoot, root) === '';
+
+    if (packageName === undefined && !atRoot) {
+        throw new ReleaseError(
+            `${manifestName} has no name, which the tags of a package below the root of the repository start with`,
+        );
+    }
+    const name = packageName === undefined ? basename(root) : unscopedName(packageName);
     const repository = repositoryUrl(fields['repository']);
 
     if (fields['repository'] === undefined) {
@@ -82,20 +70,61 @@ export async function resolveProject(layout: Layout, argument: string | undefine
 
     return {
         name,
-        argument,
         root,
         changelogPath,
-        changelogName: displayPath(cwd, changelogPath),
+        changelogName: displayPath(repositoryRoot, changelogPath),
         manifestPath,
         manifestName,
         repository,
-        tagPrefix: argument === undefined ? 'v' : `${argument}@v`,
+        tagPrefix: atRoot ? 'v' : `${name}@v`,
     };
 }
 
-/** The path relative to `cwd`, with forward slashes, for messages. */
-function displayPath(cwd: string, path: string): string {
-    return relative(cwd, path).split(sep).join('/');
+/**
+ * The nearest folder at or above `folder` that holds `.git`: a folder in a clone, and a file in a worktree or a
+ * submodule.
+ */
+async function findRepositoryRoot(folder: string): Promise<string> {
+    for (let current = folder; ; current = dirname(current)) {
+        const found = await tryCatch(access(join(current, '.git')));
+
+        if (found.ok) {
+            return current;
+        }
+        if (!isMissingFile(found.error)) {
+            throw found.error;
+        }
+        if (dirname(current) === current) {
+            throw new ReleaseError(`found no git repository at or above ${folder}`);
+        }
+    }
+}
+
+/** The path relative to `from`, with forward slashes, for messages. */
+function displayPath(from: string, path: string): string {
+    return relative(from, path).split(sep).join('/');
+}
+
+/** The name of a package without its scope, such as `web` for `@dnd-mapp/web`. */
+function unscopedName(name: string): string {
+    return name.replace(/^@[^/]+\//, '');
+}
+
+/** Parses the text of a JSON file, and names the file in the error when it fails. */
+function parseJson(text: string, file: string): unknown {
+    try {
+        return JSON.parse(text) as unknown;
+    } catch (error) {
+        throw new ReleaseError(`${file} holds invalid JSON: ${error instanceof Error ? error.message : String(error)}`);
+    }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+    return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+function isMissingFile(error: unknown): boolean {
+    return error instanceof Error && 'code' in error && (error.code === 'ENOENT' || error.code === 'ENOTDIR');
 }
 
 export async function readChangelog(project: Project): Promise<Changelog> {
