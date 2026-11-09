@@ -17,10 +17,15 @@ export interface Category {
     entries: Entry[];
 }
 
+/** A `##` heading and the lines below it, up to the next `##` heading or the end of the file. */
 interface SectionBase {
     /** The index of its heading. */
     line: number;
+    /** The heading line, without trailing whitespace. */
     heading: string;
+    /** The index of the line after its last line. */
+    end: number;
+    /** Its categories, in the order they appear. */
     categories: Category[];
 }
 
@@ -74,7 +79,10 @@ export function parseChangelog(text: string): Changelog {
         if (link) {
             links.push({ label: link[1] ?? '', url: link[2] ?? '', line: index });
         } else if (line.startsWith('## ') || line.trimEnd() === '##') {
-            sections.push(parseHeading(line, index));
+            if (current) {
+                current.end = index;
+            }
+            sections.push(parseHeading(line, index, lines.length));
         } else if (current && line.startsWith('### ')) {
             current.categories.push({ name: line.slice(4).trim(), line: index, entries: [] });
         } else if (current && entry.test(line)) {
@@ -90,8 +98,8 @@ export function parseChangelog(text: string): Changelog {
     return { lines, eol, sections, links };
 }
 
-function parseHeading(heading: string, line: number): Section {
-    const base = { line, heading: heading.trimEnd(), categories: [] };
+function parseHeading(heading: string, line: number, end: number): Section {
+    const base = { line, heading: heading.trimEnd(), end, categories: [] };
 
     if (unreleasedHeading.test(heading)) {
         return { kind: 'unreleased', ...base };
@@ -155,6 +163,18 @@ export function expectedLinks(changelog: Changelog, project: string): ExpectedLi
         links.push({ label: release.version, url, line: release.line });
     });
     return links;
+}
+
+/** The lines of a release without its heading, the blank lines around them, and the link reference definitions. */
+export function releaseNotes(changelog: Changelog, release: ReleaseSection): string[] {
+    const links = new Set(changelog.links.map((link) => link.line));
+    const lines = changelog.lines
+        .slice(release.line + 1, release.end)
+        .filter((_, index) => !links.has(release.line + 1 + index));
+
+    const start = lines.findIndex((line) => line.trim() !== '');
+    const end = lines.findLastIndex((line) => line.trim() !== '');
+    return start === -1 ? [] : lines.slice(start, end + 1);
 }
 
 export interface Problem {
