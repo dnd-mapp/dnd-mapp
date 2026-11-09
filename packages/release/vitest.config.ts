@@ -4,7 +4,7 @@ export default defineConfig({
     test: {
         coverage: {
             enabled: true,
-            // main.ts only connects the CLI to the real moon, clock, and process, which the adapter tests cover.
+            // main.ts only connects the CLI to the real moon, git, clock, and process, which the adapter tests cover.
             exclude: ['src/main.ts', 'src/testing/**'],
             include: ['src/**/*.ts'],
             provider: 'v8',

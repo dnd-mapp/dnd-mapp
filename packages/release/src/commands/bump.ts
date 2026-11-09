@@ -1,10 +1,10 @@
-import { entriesOf, lintChangelog, releaseChangelog, releasesOf, unreleasedOf } from '../changelog.ts';
+import { entriesOf, lintChangelog, releaseChangelog, releasesOf, tagOf, unreleasedOf } from '../changelog.ts';
 import type { Dependencies } from '../cli.ts';
 import { dayIn } from '../date.ts';
 import { ReleaseError } from '../errors.ts';
 import { chooseLevel, isRequestedLevel, requestedLevels } from '../level.ts';
 import { readChangelog, readManifest, resolveProject, writeChangelog, writeManifestVersion } from '../project.ts';
-import { incrementVersion } from '../version.ts';
+import { compareVersions, incrementVersion, isVersion } from '../version.ts';
 
 /** The arguments of `release bump`. */
 export interface BumpOptions {
@@ -57,6 +57,14 @@ export async function bump(options: BumpOptions, deps: Dependencies): Promise<vo
     const choice = chooseLevel(requested, unreleased, current);
     const version = incrementVersion(current, choice.level);
 
+    const highestTag = await highestTagOf(project.id, deps);
+
+    if (highestTag && compareVersions(version, highestTag) <= 0) {
+        throw new ReleaseError(
+            `${project.id} v${version} is not above the highest tag ${tagOf(project.id, highestTag)}`,
+        );
+    }
+
     await writeChangelog(project, releaseChangelog(changelog, project.id, version, date));
     await writeManifestVersion(project, manifest, version);
 
@@ -65,4 +73,14 @@ export async function bump(options: BumpOptions, deps: Dependencies): Promise<vo
             ? `${JSON.stringify({ version, level: choice.level, reason: choice.reason })}\n`
             : `${project.id} v${version}: ${choice.reason}\n`,
     );
+}
+
+async function highestTagOf(project: string, deps: Dependencies): Promise<string | undefined> {
+    const prefix = `${project}@v`;
+    const versions = (await deps.listTags(project))
+        .filter((tag) => tag.startsWith(prefix))
+        .map((tag) => tag.slice(prefix.length))
+        .filter(isVersion);
+
+    return versions.sort(compareVersions).at(-1);
 }
