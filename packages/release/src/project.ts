@@ -6,11 +6,15 @@ import { ReleaseError } from './errors.ts';
 
 /** A project that moon knows, with the paths of its manifest and changelog. */
 export interface Project {
+    /** The moon id of the project. */
     id: string;
+    /** The absolute folder of the project, as moon reports it. */
     root: string;
+    /** The path of `CHANGELOG.md` in the folder of the project. */
     changelogPath: string;
     /** The path of the changelog relative to the working directory, with forward slashes, for messages. */
     changelogName: string;
+    /** The path of `package.json` in the folder of the project. */
     manifestPath: string;
     /** The path of the manifest relative to the working directory, with forward slashes, for messages. */
     manifestName: string;
@@ -55,7 +59,9 @@ export async function readChangelog(project: Project): Promise<Changelog> {
 
 /** The text of a `package.json`, and the version it holds. */
 export interface Manifest {
+    /** The content of the file, which a bump rewrites. */
     text: string;
+    /** The `version` field. */
     version: string;
 }
 

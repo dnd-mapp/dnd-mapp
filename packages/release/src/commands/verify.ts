@@ -4,8 +4,11 @@ import { ReleaseError } from '../errors.ts';
 import { readChangelog, readManifest, resolveProject } from '../project.ts';
 import { isVersion } from '../version.ts';
 
+/** The arguments of `release verify`. */
 export interface VerifyOptions {
+    /** The moon id of the project. */
     project: string;
+    /** The version that `package.json` and the newest release must hold, or `undefined` to check `Unreleased`. */
     version: string | undefined;
 }
 
