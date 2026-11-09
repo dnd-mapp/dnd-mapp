@@ -1,0 +1,25 @@
+{
+  "name": "@dnd-mapp/common",
+  "version": "0.0.0",
+  "description": "General helpers that any project of D&D Mapp can use, which know nothing about a domain or a platform.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/common"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@dnd-mapp/config-eslint": "workspace:*",
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@types/node": "catalog:node",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "eslint": "catalog:eslint",
+    "typescript": "catalog:angular",
+    "vitest": "catalog:vitest"
+  }
+}
