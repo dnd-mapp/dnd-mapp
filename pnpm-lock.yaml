@@ -547,6 +547,9 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
+      '@dnd-mapp/testing':
+        specifier: workspace:*
+        version: link:../testing
       '@types/node':
         specifier: catalog:node
         version: 26.6.6
