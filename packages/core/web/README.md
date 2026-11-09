@@ -15,11 +15,12 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 
 Run each task from the repository root.
 
-| Task      | Command                     | Runs in CI | Cached |
-|:----------|:----------------------------|:----------:|:------:|
-| `test`    | `ng test`                   |     no     |   no   |
-| `test-ci` | `ng test -c ci`             |    yes     |  yes   |
-| `lint`    | `eslint . --max-warnings 0` |    yes     |  yes   |
+| Task        | Command                            | Runs in CI | Cached |
+|:------------|:-----------------------------------|:----------:|:------:|
+| `test`      | `ng test`                          |     no     |   no   |
+| `test-ci`   | `ng test -c ci`                    |    yes     |  yes   |
+| `typecheck` | `tsc --project tsconfig.node.json` |    yes     |  yes   |
+| `lint`      | `eslint . --max-warnings 0`        |    yes     |  yes   |
 
 Run the unit tests with [Vitest](https://vitest.dev) in headless Chromium, rerun them when a file changes, and open the Vitest UI:
 
@@ -34,6 +35,12 @@ pnpm moon run core-web:test-ci
 ```
 
 Both test tasks collect coverage into `coverage/core-web/` and fail when statements, branches, functions, or lines drop below 80%.
+
+Check the types of the config files, which `ng test` leaves out and ESLint and Vitest load without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../config-typescript/README.md):
+
+```bash
+pnpm moon run core-web:typecheck
+```
 
 Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`typescript-eslint`](https://typescript-eslint.io), and [`angular-eslint`](https://github.com/angular-eslint/angular-eslint). The task fails on any finding, warnings included, and [`eslint.config.ts`](eslint.config.ts) holds the rules:
 

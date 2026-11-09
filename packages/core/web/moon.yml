@@ -40,3 +40,14 @@ tasks:
             - "@group(tests)"
         outputs:
             - "coverage/**/*"
+
+    typecheck:
+        # The Angular builders check the sources and the tests of the package only, so the task checks the config files
+        # that tsconfig.node.json includes. moon tracks the files of each project for its own tasks only, so the inputs
+        # also list the shared ESLint config that eslint.config.ts imports.
+        command: "tsc --project tsconfig.node.json"
+        inputs:
+            - "@group(configs)"
+            - "*.config.ts"
+            - project: "config-eslint"
+              group: "sources"

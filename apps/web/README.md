@@ -12,6 +12,7 @@ Run each task from the repository root.
 | `build`      | `ng build`                                       |     no     |  yes   |
 | `build-info` | `node scripts/build-info.ts`                     |     no     |   no   |
 | `image`      | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
+| `typecheck`  | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
 | `lint`       | `eslint . --max-warnings 0`                      |    yes     |  yes   |
 
 Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
@@ -75,6 +76,12 @@ The CI job leaves `web:build` and `web:image` out of its checks. A separate job 
 | Pull request closed   | deletes `pr-<number>`  |
 
 The `<version>` and `latest` tags wait for the release pipeline.
+
+Check the types of the config files and of [`scripts/`](scripts), which `ng build` leaves out and Node.js runs without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
+
+```bash
+pnpm moon run web:typecheck
+```
 
 Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`typescript-eslint`](https://typescript-eslint.io), and [`angular-eslint`](https://github.com/angular-eslint/angular-eslint). The task fails on any finding, warnings included, and [`eslint.config.ts`](eslint.config.ts) holds the rules:
 

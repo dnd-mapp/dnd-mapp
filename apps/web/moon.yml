@@ -75,3 +75,15 @@ tasks:
             cache: false
             # The paths in the bake file resolve from the root of the repository.
             runFromWorkspaceRoot: true
+
+    typecheck:
+        # The Angular builders check the sources of the app only, so the task checks the config files and the scripts
+        # that tsconfig.node.json includes. moon tracks the files of each project for its own tasks only, so the inputs
+        # also list the shared ESLint config that eslint.config.ts imports.
+        command: "tsc --project tsconfig.node.json"
+        inputs:
+            - "@group(configs)"
+            - "*.config.ts"
+            - "scripts/**/*"
+            - project: "config-eslint"
+              group: "sources"
