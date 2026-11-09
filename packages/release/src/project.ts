@@ -15,6 +15,7 @@ export interface Project {
 
 export async function resolveProject(id: string, deps: Pick<Dependencies, 'cwd' | 'resolveProject'>): Promise<Project> {
     let root: string;
+
     try {
         root = await deps.resolveProject(id);
     } catch (error) {

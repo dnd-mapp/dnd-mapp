@@ -79,6 +79,7 @@ export function parseChangelog(text: string): Changelog {
             current.categories.push({ name: line.slice(4).trim(), line: index, entries: [] });
         } else if (current && entry.test(line)) {
             let category = current.categories.at(-1);
+
             if (!category) {
                 category = { name: null, line: index, entries: [] };
                 current.categories.push(category);
@@ -96,6 +97,7 @@ function parseHeading(heading: string, line: number): Section {
         return { kind: 'unreleased', ...base };
     }
     const release = releaseHeading.exec(heading);
+
     if (release) {
         return { kind: 'release', version: release[1] ?? '', date: release[2] ?? '', ...base };
     }
@@ -134,6 +136,7 @@ export interface ExpectedLink {
 export function expectedLinks(changelog: Changelog, project: string): ExpectedLink[] {
     const releases = releasesOf(changelog);
     const [newest] = releases;
+
     if (!newest) {
         return [];
     }
@@ -232,6 +235,7 @@ function lintSections({ sections }: Changelog, report: Report): void {
 
 function isValidDate(date: string): boolean {
     const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+
     if (!match) {
         return false;
     }

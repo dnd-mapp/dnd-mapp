@@ -11,6 +11,7 @@ const moon = fileURLToPath(import.meta.resolve('@moonrepo/cli/moon.js'));
 /** Resolves a moon id to the absolute folder of its project, through `moon project <id> --json`. */
 export async function resolveMoonProject(id: string, cwd: string): Promise<string> {
     let stdout: string;
+
     try {
         ({ stdout } = await execFileAsync(process.execPath, [moon, 'project', id, '--json'], {
             cwd,
