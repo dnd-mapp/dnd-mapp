@@ -6,15 +6,16 @@ The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders i
 
 Run each task from the repository root.
 
-| Task             | Command                                          | Runs in CI | Cached |
-|:-----------------|:-------------------------------------------------|:----------:|:------:|
-| `start`          | `ng serve`                                       |     no     |   no   |
-| `build`          | `ng build`                                       |     no     |  yes   |
-| `build-info`     | `node scripts/build-info.ts`                     |     no     |   no   |
-| `image`          | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
-| `typecheck`      | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
-| `lint`           | `eslint . --max-warnings 0`                      |    yes     |  yes   |
-| `lint-changelog` | `release lint`                                   |    yes     |  yes   |
+| Task                     | Command                                          | Runs in CI | Cached |
+|:-------------------------|:-------------------------------------------------|:----------:|:------:|
+| `start`                  | `ng serve`                                       |     no     |   no   |
+| `build`                  | `ng build`                                       |     no     |  yes   |
+| `build-info`             | `node scripts/build-info.ts`                     |     no     |   no   |
+| `image`                  | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
+| `typecheck`              | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
+| `lint`                   | `eslint . --max-warnings 0`                      |    yes     |  yes   |
+| `lint-changelog`         | `release lint`                                   |    yes     |  yes   |
+| `lint-short-description` | `node scripts/lint-short-description.ts`         |    yes     |  yes   |
 
 Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
 
@@ -77,6 +78,12 @@ The CI job leaves `web:build` and `web:image` out of its checks. A separate job 
 | Pull request closed   | deletes `pr-<number>`  |
 
 The `<version>` and `latest` tags wait for the release pipeline.
+
+[`.docker/web/README.md`](../../.docker/web/README.md) holds the overview of the image on Docker Hub, for people who pull it, and [`.docker/web/short-description.txt`](../../.docker/web/short-description.txt) its short description. A push to `main` that changes either file publishes both with [`peter-evans/dockerhub-description`](https://github.com/peter-evans/dockerhub-description); pull requests never do, since Docker Hub keeps one overview for all tags. Neither file is an input of `web:image`, so editing them builds no image. Docker Hub doesn't resolve relative links, so link from the overview with absolute URLs. Docker Hub keeps at most 100 characters of the short description, and the action truncates a longer one, so check its length with [`scripts/lint-short-description.ts`](scripts/lint-short-description.ts):
+
+```bash
+pnpm moon run web:lint-short-description
+```
 
 Check the types of the config files and of [`scripts/`](scripts), which `ng build` leaves out and Node.js runs without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
 

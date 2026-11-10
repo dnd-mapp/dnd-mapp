@@ -1,0 +1,1 @@
+The web client of D&D Mapp: the Angular app served by unprivileged nginx on port 4200.

@@ -180,3 +180,47 @@ jobs:
                   url: https://dev.dndmapp.nl.eu.org/build-info.json
                   commit: ${{ github.sha }}
                   timeout: "60"
+
+    docker-hub-description:
+        name: Docker Hub description
+        # Docker Hub keeps one overview per repository rather than per tag, so only main publishes it, which keeps an
+        # unmerged overview off Docker Hub. The job reads its files from the commit, so it waits on none of the others.
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            # On a push to the default branch, the filter compares the commit with the one before the push, which it
+            # fetches itself.
+            - name: Check whether the push changes the description
+              id: changes
+              uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d # v4.0.3
+              with:
+                  filters: |
+                      description:
+                          - .docker/web/README.md
+                          - .docker/web/short-description.txt
+
+            # The action reads the overview from a file but takes the short description as a string. The command
+            # substitution drops the final line break, and the lint-short-description task keeps the file to one line.
+            - name: Read the short description
+              id: short-description
+              if: steps.changes.outputs.description == 'true'
+              run: echo "text=$(cat .docker/web/short-description.txt)" >> "$GITHUB_OUTPUT"
+              shell: bash
+
+            # The action sets both fields at once, so a change to either file publishes both.
+            - name: Publish the overview and short description
+              if: steps.changes.outputs.description == 'true'
+              uses: peter-evans/dockerhub-description@1b9a80c056b620d92cedb9d9b5a223409c68ddfa # v5.0.0
+              with:
+                  username: ${{ vars.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN_DELETE }}
+                  repository: dndmapp/web
+                  short-description: ${{ steps.short-description.outputs.text }}
+                  readme-filepath: .docker/web/README.md

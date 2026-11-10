@@ -149,7 +149,7 @@ Add each new catalog of development tools to the auto-merge rule in [`.github/re
 Run the checks that the CI job runs for the changes on your branch:
 
 ```bash
-pnpm moon ci :format-check :lint :lint-changelog :lint-md :test-ci :typecheck --base origin/main
+pnpm moon ci :format-check :lint :lint-changelog :lint-md :lint-short-description :test-ci :typecheck --base origin/main
 ```
 
 Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/actionlint), the same check CI runs. Install [ShellCheck](https://github.com/koalaman/shellcheck) next to it, since actionlint lints the `run:` scripts only when it finds ShellCheck on `PATH`:
