@@ -237,9 +237,10 @@ jobs:
             # passed the tests on staging yet, so this release stops and leaves both deploys to the run of the newer
             # one. A re-run keeps the digest of the first attempt, so it stops too.
             - name: Check that latest is the image of this release
-              uses: ./.github/actions/latest-image
+              uses: ./.github/actions/image-tag
               with:
                   image: ${{ needs.tag.outputs.image }}
+                  tag: latest
                   digest: ${{ needs.image.outputs.digest }}
 
             # Staging and production both follow latest, so the call names the container. WATCHTOWER_URL is a secret
@@ -318,9 +319,10 @@ jobs:
             # A newer release may push latest while the tests run on staging, so the check runs again right before this
             # update.
             - name: Check that latest is the image of this release
-              uses: ./.github/actions/latest-image
+              uses: ./.github/actions/image-tag
               with:
                   image: ${{ needs.tag.outputs.image }}
+                  tag: latest
                   digest: ${{ needs.image.outputs.digest }}
 
             - name: Update the production container

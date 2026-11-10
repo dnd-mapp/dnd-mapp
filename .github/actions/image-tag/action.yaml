@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Image tag
+description: Fail unless a tag of an image on Docker Hub points at a digest, and name the image it points at otherwise.
+
+inputs:
+    image:
+        description: The Docker Hub repository of the image, such as `dndmapp/web`.
+        required: true
+    tag:
+        description: The tag to check, such as `latest`.
+        required: true
+    digest:
+        description: The digest that the tag should point at, such as `sha256:0123...`.
+        required: true
+
+runs:
+    using: composite
+    steps:
+        # An empty digest never matches, so the step would blame another run that may not exist. The repositories are
+        # public, so the read needs no login. One read gives both the digest and the labels, so a push in between cannot
+        # mix up two images.
+        - name: Check the tag
+          run: |
+              if [[ -z $TAG ]]; then
+                  echo "::error::Name the tag of $IMAGE to check."
+                  exit 1
+              fi
+              if [[ -z $DIGEST ]]; then
+                  echo "::error::Name the digest that $IMAGE:$TAG should point at."
+                  exit 1
+              fi
+
+              image="$(docker buildx imagetools inspect "$IMAGE:$TAG" --format '{{json .}}')"
+              digest="$(jq -r '.manifest.digest' <<< "$image")"
+
+              if [[ $digest == "$DIGEST" ]]; then
+                  echo "$IMAGE:$TAG points at $DIGEST."
+                  exit 0
+              fi
+
+              # A multi-platform image holds a config per platform, which all carry the same labels.
+              labels="$(jq -c '
+                  .image
+                  | if has("config") then . else first(.[]) end
+                  | .config.Labels // {}
+              ' <<< "$image")"
+              version="$(jq -r '.["org.opencontainers.image.version"] // empty' <<< "$labels")"
+              revision="$(jq -r '.["org.opencontainers.image.revision"] // empty' <<< "$labels")"
+
+              echo "::error::$IMAGE:$TAG points at $digest of version ${version:-unknown} from commit ${revision:-unknown} now, not at $DIGEST, so another run moved it."
+              exit 1
+          shell: bash
+          env:
+              DIGEST: ${{ inputs.digest }}
+              IMAGE: ${{ inputs.image }}
+              TAG: ${{ inputs.tag }}
