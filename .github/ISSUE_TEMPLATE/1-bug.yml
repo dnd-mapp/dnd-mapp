@@ -22,6 +22,45 @@ body:
           label: Description
           description: What is broken?
 
+    - type: dropdown
+      id: version
+      validations:
+          required: true
+      attributes:
+          label: Version
+          description: >
+              The release the bug happens in. The site you use reports it in `build-info.json`, as
+              <https://www.dndmapp.nl.eu.org/build-info.json> does.
+          options:
+              - 0.1.0
+              - Unreleased (the development site, an edge or pr-<number> image, or a build from source)
+
+    - type: dropdown
+      id: environment
+      validations:
+          required: true
+      attributes:
+          label: Environment
+          description: Where the bug happens.
+          options:
+              - Production (www.dndmapp.nl.eu.org)
+              - Staging (staging.dndmapp.nl.eu.org)
+              - Development (dev.dndmapp.nl.eu.org)
+              - My own deployment of the dndmapp/web image
+              - A local build from source
+
+    - type: dropdown
+      id: area
+      validations:
+          required: true
+      attributes:
+          label: Area
+          description: The part of D&D Mapp the bug is in.
+          options:
+              - Web app
+              - Docker image
+              - Not sure
+
     - type: textarea
       id: steps
       validations:
@@ -48,9 +87,9 @@ body:
           description: What happened instead.
 
     - type: textarea
-      id: environment
+      id: browser
       attributes:
-          label: Environment
+          label: Browser and device
           description: The browser, operating system, and device you used.
 
     - type: textarea
