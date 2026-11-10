@@ -79,6 +79,10 @@ Follow the run with `gh run watch`.
 
 Staging and production both run the `latest` image, so the release reaches staging first, and production only once the end-to-end tests pass there. The deploy jobs run in the `staging` and `production` GitHub environments, and each environment deploys one release at a time. No one approves the promotion, since the signed tag already approves the release.
 
+## Update the Bug form
+
+Once the release is published, add its version at the top of the Version options of the [Bug form](../.github/ISSUE_TEMPLATE/1-bug.yml) in a pull request to `main`, so reporters can pick it. Keep the options of earlier releases, since bugs still get reported against them. In the same way, add an Environment option for each new place the app runs, such as a new deployment, and an Area option for each new part that ships, such as a new app or domain module.
+
 ## Recovering
 
 ### From a failed bump
