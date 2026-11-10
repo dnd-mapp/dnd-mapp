@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Latest image
+description: Fail unless the latest tag of an image on Docker Hub points at a digest, and name the version it points at.
+
+inputs:
+    image:
+        description: The Docker Hub repository of the image, such as `dndmapp/web`.
+        required: true
+    digest:
+        description: The digest that latest should point at, such as `sha256:0123...`.
+        required: true
+
+runs:
+    using: composite
+    steps:
+        # An empty digest never matches, so the step would blame a newer release that may not exist. The repositories
+        # are public, so the read needs no login. One read gives both the digest and the version label, so a push in
+        # between cannot mix up two images.
+        - name: Check the latest tag
+          run: |
+              if [[ -z $DIGEST ]]; then
+                  echo "::error::Name the digest that $IMAGE:latest should point at."
+                  exit 1
+              fi
+
+              latest="$(docker buildx imagetools inspect "$IMAGE:latest" --format '{{json .}}')"
+              digest="$(jq -r '.manifest.digest' <<< "$latest")"
+
+              if [[ $digest == "$DIGEST" ]]; then
+                  echo "$IMAGE:latest points at $DIGEST."
+                  exit 0
+              fi
+
+              # A multi-platform image holds a config per platform, which all carry the same labels.
+              version="$(jq -r '
+                  .image
+                  | if has("config") then . else first(.[]) end
+                  | .config.Labels["org.opencontainers.image.version"] // empty
+              ' <<< "$latest")"
+
+              echo "::error::$IMAGE:latest points at $digest of version ${version:-unknown} now, not at $DIGEST, so a newer release superseded this one."
+              exit 1
+          shell: bash
+          env:
+              DIGEST: ${{ inputs.digest }}
+              IMAGE: ${{ inputs.image }}
