@@ -16,7 +16,6 @@ Read the guide that matches the change before you make it:
 ## Working in the repository
 
 - Run every task through moon, as `pnpm moon run <project>:<task>`, since the `package.json` files hold no scripts. Each project's README lists its tasks.
-- Add a dependency to the named catalog of its tool family in `pnpm-workspace.yaml`, such as `angular` or `eslint`, and reference it as `catalog:<name>`. With `catalogMode: strict`, pnpm accepts only versions from a catalog.
 - Pad every Markdown table by hand, alignment row included. Prettier formats no Markdown, and markdownlint requires aligned tables.
 - Add a changelog entry for each change that users of an app notice, as [Changelog](CONTRIBUTING.md#changelog) describes.
 
