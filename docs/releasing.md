@@ -6,7 +6,7 @@ The examples release `web` at `0.1.0`.
 
 ## Before you start
 
-- You need the maintain or admin role on the repository, since the `Release tag creation` ruleset lets only those roles create `*@v*` tags.
+- You need the maintain or admin role on the repository. The `Restrict who can open a release pull request` Actions policy lets only those roles dispatch the bump, and the `Release tag creation` ruleset lets only those roles create `*@v*` tags.
 - Your SSH signing key must be in [`.github/allowed_signers`](../.github/allowed_signers) on `main`, as [Adding a signer](#adding-a-signer) describes.
 - git must sign tags with that key: set `gpg.format` to `ssh` and `user.signingkey` to the key.
 
@@ -80,6 +80,8 @@ Follow the run with `gh run watch`.
 ### From a failed bump
 
 A failed bump publishes nothing. Fix the cause in a pull request to `main`, then dispatch again. The workflow fails when a changelog breaks Keep a Changelog, when `Unreleased` has no entries, or when the new version isn't above the highest tag of the project.
+
+A dispatch by someone without the maintain or admin role ends in a startup failure before any job runs, since the Actions policy blocks it. The policy names the workflow by its path, so renaming [`release-pull-request.yaml`](../.github/workflows/release-pull-request.yaml) takes it out of the policy until a repository admin updates the path under **Settings** > **Actions** > **Policies**.
 
 ### From a wrong release pull request
 
