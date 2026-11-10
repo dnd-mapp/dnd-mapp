@@ -4,13 +4,7 @@ Thanks for helping build D&D Mapp. This guide covers where a contribution starts
 
 ## Where to start
 
-| Contribution          | Where it starts                                                                                                                                  |
-|:----------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|
-| An idea               | A discussion in [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas). Solid ideas become issues.                           |
-| A question            | A discussion in [Q&A](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/q-a).                                                          |
-| A bug                 | The [Bug form](https://github.com/dnd-mapp/dnd-mapp/issues/new?template=1-bug.yml).                                                              |
-| A security issue      | A private [security advisory](https://github.com/dnd-mapp/dnd-mapp/security/advisories/new), never a public issue.                               |
-| A code or docs change | An issue that a maintainer has triaged. For now, only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains. |
+[`SUPPORT.md`](SUPPORT.md) lists where questions, ideas, bug reports, and other requests go. A code or docs change starts from an issue that a maintainer has triaged, and for now only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains.
 
 A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
 
