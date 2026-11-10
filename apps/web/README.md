@@ -69,17 +69,9 @@ The image builds on the official `nginx` image but runs nginx as the unprivilege
 docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges dndmapp/web:local
 ```
 
-The CI job leaves `web:build` and `web:image` out of its checks. A separate job builds the `web-gha` target with [`docker/bake-action`](https://github.com/docker/bake-action) instead, whenever moon finds that a change affects `web:image`. That target builds the app once on the platform of the runner, then the image for `linux/amd64` and `linux/arm64`. It attaches an SBOM and a provenance attestation to each image, caches its layers in the GitHub Actions cache, and takes its tags and its version, revision, and creation labels from [`docker/metadata-action`](https://github.com/docker/metadata-action). `build-info.json` reports the head commit of the pull request or push, and the version of the image. CI pushes it to [Docker Hub](https://hub.docker.com/r/dndmapp/web):
+CI builds the image for `linux/amd64` and `linux/arm64` and pushes it to [Docker Hub](https://hub.docker.com/r/dndmapp/web), as [The web image](../../docs/ci.md#the-web-image) describes, with the tags it lists.
 
-| Event                 | Tags                   |
-|:----------------------|:-----------------------|
-| Pull request          | `pr-<number>`          |
-| Push to `main`        | `sha-<short>`, `edge`  |
-| Pull request closed   | deletes `pr-<number>`  |
-
-The `<version>` and `latest` tags wait for the release pipeline.
-
-[`.docker/web/README.md`](../../.docker/web/README.md) holds the overview of the image on Docker Hub, for people who pull it, and [`.docker/web/short-description.txt`](../../.docker/web/short-description.txt) its short description. A push to `main` that changes either file publishes both with [`peter-evans/dockerhub-description`](https://github.com/peter-evans/dockerhub-description); pull requests never do, since Docker Hub keeps one overview for all tags. Neither file is an input of `web:image`, so editing them builds no image. Docker Hub doesn't resolve relative links, so link from the overview with absolute URLs. Docker Hub keeps at most 100 characters of the short description, and the action truncates a longer one, so check its length with [`scripts/lint-short-description.ts`](scripts/lint-short-description.ts):
+[`.docker/web/README.md`](../../.docker/web/README.md) holds the overview of the image on Docker Hub, for people who pull it, and [`.docker/web/short-description.txt`](../../.docker/web/short-description.txt) its short description. A push to `main` that changes either file publishes both, as [CI](../../docs/ci.md#the-web-image) describes. Neither file is an input of `web:image`, so editing them builds no image. Docker Hub doesn't resolve relative links, so link from the overview with absolute URLs. Docker Hub keeps at most 100 characters of the short description, and the publishing step truncates a longer one, so check its length with [`scripts/lint-short-description.ts`](scripts/lint-short-description.ts):
 
 ```bash
 pnpm moon run web:lint-short-description
