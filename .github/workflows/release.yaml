@@ -1,0 +1,196 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Release
+
+# A maintainer approves a merged release commit by pushing a signed <project>@v<version> tag on it, such as web@v1.2.0.
+# Nobody can update or delete a tag, so a run that fails is finished by re-running its failed jobs.
+on:
+    push:
+        tags:
+            - "*@v*"
+
+permissions: {}
+
+jobs:
+    tag:
+        name: Verify the tag
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        outputs:
+            project: ${{ steps.tag.outputs.project }}
+            version: ${{ steps.tag.outputs.version }}
+            image: ${{ steps.tag.outputs.image }}
+            target: ${{ steps.tag.outputs.target }}
+        steps:
+            # The full history holds main for the ancestry check. It also fetches the tags as they are, while a shallow
+            # checkout would fetch only the tagged commit and lose the tag object with its signature.
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            # GitHub doesn't verify tag signatures for workflows, so git verifies the tag against the allowed signers on
+            # main. Removing a key from that list then also stops it from releasing an older commit.
+            - name: Verify the tag
+              id: tag
+              run: |
+                  project="${TAG%@v*}"
+                  version="${TAG##*@v}"
+
+                  if [[ ! "$version" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+                      echo "::error::$TAG doesn't end in a version such as @v1.2.0."
+                      exit 1
+                  fi
+
+                  case "$project" in
+                      web)
+                          image=dndmapp/web
+                          target=web-gha
+                          ;;
+                      *)
+                          echo "::error::$TAG names $project, which has no release image."
+                          exit 1
+                          ;;
+                  esac
+
+                  if [ "$(git cat-file -t "refs/tags/$TAG")" != tag ]; then
+                      echo "::error::$TAG is a lightweight tag. Release from an annotated tag signed with git tag --sign."
+                      exit 1
+                  fi
+
+                  git show origin/main:.github/allowed_signers > "$RUNNER_TEMP/allowed_signers"
+
+                  if ! git -c gpg.ssh.allowedSignersFile="$RUNNER_TEMP/allowed_signers" tag --verify "$TAG"; then
+                      echo "::error::$TAG has no signature of a key in .github/allowed_signers on main."
+                      exit 1
+                  fi
+
+                  if ! git merge-base --is-ancestor "refs/tags/$TAG^{commit}" origin/main; then
+                      echo "::error::$TAG points at a commit that main doesn't reach."
+                      exit 1
+                  fi
+
+                  {
+                      echo "project=$project"
+                      echo "version=$version"
+                      echo "image=$image"
+                      echo "target=$target"
+                  } >> "$GITHUB_OUTPUT"
+              shell: bash
+              env:
+                  TAG: ${{ github.ref_name }}
+
+    release-notes:
+        name: Verify the release
+        needs:
+            - tag
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        steps:
+            - name: Check out the tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Find the folder of the project
+              id: project
+              run: echo "folder=$(pnpm exec moon project "$PROJECT" --json | jq -r .source)" >> "$GITHUB_OUTPUT"
+              shell: bash
+              env:
+                  PROJECT: ${{ needs.tag.outputs.project }}
+
+            - name: Verify the version of the manifest and the changelog
+              run: pnpm exec release verify "$VERSION"
+              shell: bash
+              working-directory: ${{ steps.project.outputs.folder }}
+              env:
+                  VERSION: ${{ needs.tag.outputs.version }}
+
+            - name: Extract the release notes
+              run: pnpm exec release notes "$VERSION" "$RUNNER_TEMP/release-notes.md"
+              shell: bash
+              working-directory: ${{ steps.project.outputs.folder }}
+              env:
+                  VERSION: ${{ needs.tag.outputs.version }}
+
+            - name: Upload the release notes
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                  name: release-notes
+                  path: ${{ runner.temp }}/release-notes.md
+                  if-no-files-found: error
+
+    image:
+        name: Release image
+        needs:
+            - tag
+            - release-notes
+        runs-on: ubuntu-26.04
+        timeout-minutes: 10
+        permissions:
+            contents: read
+        steps:
+            - name: Check out the tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            # The image is built again at the tag rather than tagged from sha-<short>, since Push main skips the image
+            # of a commit that doesn't affect it, so that tag may not exist.
+            - name: Build and push the release image
+              uses: ./.github/actions/docker-image
+              with:
+                  image: ${{ needs.tag.outputs.image }}
+                  target: ${{ needs.tag.outputs.target }}
+                  version: ${{ needs.tag.outputs.version }}
+                  dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
+                  dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN_WRITE }}
+
+    github-release:
+        name: GitHub Release
+        needs:
+            - tag
+            - release-notes
+            - image
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: write
+            discussions: write
+        steps:
+            - name: Download the release notes
+              uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+              with:
+                  name: release-notes
+                  path: ${{ runner.temp }}
+
+            # A re-run leaves a Release that an earlier attempt created as it is. The repository releases several
+            # projects, so no Release is marked as the latest of them all.
+            - name: Create the GitHub Release
+              run: |
+                  if gh release view "$TAG" --json tagName > /dev/null 2>&1; then
+                      echo "::notice::The Release of $TAG already exists."
+                      exit 0
+                  fi
+
+                  gh release create "$TAG" \
+                      --verify-tag \
+                      --title "Release $PROJECT v$VERSION" \
+                      --notes-file "$RUNNER_TEMP/release-notes.md" \
+                      --latest=false \
+                      --discussion-category Announcements
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  TAG: ${{ github.ref_name }}
+                  PROJECT: ${{ needs.tag.outputs.project }}
+                  VERSION: ${{ needs.tag.outputs.version }}
