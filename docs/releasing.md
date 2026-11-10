@@ -66,14 +66,14 @@ git push origin web@v0.1.0
 
 The `Release` workflow runs six jobs, each after the one before it passes, so a failure publishes nothing that comes after it:
 
-| Job                  | Checks or does                                                                                                                                                                                                             |
-|:---------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `Verify the tag`     | Fails unless the tag ends in a version such as `@v1.2.0`, names a project with a release image, is annotated, has a signature of a key in `.github/allowed_signers` on `main`, and points at a commit that `main` reaches. |
-| `Verify the release` | Fails unless the `package.json` and the newest release in the changelog at the tag both hold the version, then extracts the release notes with `release notes`.                                                            |
-| `Release image`      | Builds the image at the tag, and pushes it as `<version>`, `<major>.<minor>`, `<major>`, and `latest`. A version below `1.0.0` gets no `<major>` tag.                                                                      |
-| `GitHub Release`     | Creates the Release `Release <project> v<version>` with the release notes, not marked as the latest, with a discussion in Announcements.                                                                                   |
-| `Deploy staging`     | Has Watchtower update `dndmapp-staging`, waits until <https://staging.dndmapp.nl.eu.org/build-info.json> reports the tagged commit, then runs the end-to-end tests against staging. Runs for `web` only.                   |
-| `Deploy production`  | Has Watchtower update `dndmapp-prod`, and waits until <https://www.dndmapp.nl.eu.org/build-info.json> reports the tagged commit.                                                                                           |
+| Job                  | Checks or does                                                                                                                                                                                                                                                                       |
+|:---------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `Verify the tag`     | Fails unless the tag ends in a version such as `@v1.2.0`, names a project with a release image, is annotated, has a signature of a key in `.github/allowed_signers` on `main`, and points at a commit that `main` reaches.                                                           |
+| `Verify the release` | Fails unless the `package.json` and the newest release in the changelog at the tag both hold the version, then extracts the release notes with `release notes`.                                                                                                                      |
+| `Release image`      | Builds the image at the tag, and pushes it as `<version>`, `<major>.<minor>`, `<major>`, and `latest`. A version below `1.0.0` gets no `<major>` tag.                                                                                                                                |
+| `GitHub Release`     | Creates the Release `Release <project> v<version>` with the release notes, not marked as the latest, with a discussion in Announcements.                                                                                                                                             |
+| `Deploy staging`     | Fails when `latest` no longer points at the image of the release. Otherwise has Watchtower update `dndmapp-staging`, waits until <https://staging.dndmapp.nl.eu.org/build-info.json> reports the tagged commit, then runs the end-to-end tests against staging. Runs for `web` only. |
+| `Deploy production`  | Fails when `latest` no longer points at the image of the release, checked again after the tests. Otherwise has Watchtower update `dndmapp-prod`, and waits until <https://www.dndmapp.nl.eu.org/build-info.json> reports the tagged commit.                                          |
 
 Follow the run with `gh run watch`.
 
@@ -117,6 +117,10 @@ The `GitHub Release` job runs before the deploys, so a release whose tests fail 
 
 - When the test failed by chance, such as on a network error, re-run the failed jobs, which deploys staging again, runs the tests, and promotes the release once they pass.
 - When the release itself is broken, supersede it with a fixed release, as [From a wrong release](#from-a-wrong-release) describes. Its run deploys staging and production in turn.
+
+### From a superseded release
+
+When a newer release pushes `latest` before an older one reaches production, the next deploy job of the older release fails before Watchtower updates its container, and the error names the version that `latest` points at. Re-running the failed jobs fails the same way. The run of the newer release deploys staging and production, so the older release needs no recovery.
 
 ### From a tag that can't pass
 

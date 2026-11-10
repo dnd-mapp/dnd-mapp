@@ -137,6 +137,9 @@ jobs:
         timeout-minutes: 10
         permissions:
             contents: read
+        # The deploy jobs compare latest with this digest, to catch a newer release that has moved latest meanwhile.
+        outputs:
+            digest: ${{ steps.image.outputs.digest }}
         steps:
             - name: Check out the tag
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -146,6 +149,7 @@ jobs:
             # The image is built again at the tag rather than tagged from sha-<short>, since Push main skips the image
             # of a commit that doesn't affect it, so that tag may not exist.
             - name: Build and push the release image
+              id: image
               uses: ./.github/actions/docker-image
               with:
                   image: ${{ needs.tag.outputs.image }}
@@ -201,6 +205,7 @@ jobs:
         # in the same job, so its concurrency group keeps another release off staging until they finish.
         needs:
             - tag
+            - image
             - github-release
         if: needs.tag.outputs.project == 'web'
         runs-on: ubuntu-26.04
@@ -227,6 +232,15 @@ jobs:
               with:
                   oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
                   oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+
+            # Watchtower pulls whatever latest points at, which a newer release may have pushed since. That image hasn't
+            # passed the tests on staging yet, so this release stops and leaves both deploys to the run of the newer
+            # one. A re-run keeps the digest of the first attempt, so it stops too.
+            - name: Check that latest is the image of this release
+              uses: ./.github/actions/latest-image
+              with:
+                  image: ${{ needs.tag.outputs.image }}
+                  digest: ${{ needs.image.outputs.digest }}
 
             # Staging and production both follow latest, so the call names the container. WATCHTOWER_URL is a secret
             # rather than a variable, so the logs mask the tailnet hostname.
@@ -276,6 +290,8 @@ jobs:
         # Production pulls latest only when this job asks it to, so a release that fails on staging leaves production
         # on the previous release.
         needs:
+            - tag
+            - image
             - staging
         runs-on: ubuntu-26.04
         timeout-minutes: 10
@@ -298,6 +314,14 @@ jobs:
               with:
                   oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
                   oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+
+            # A newer release may push latest while the tests run on staging, so the check runs again right before this
+            # update.
+            - name: Check that latest is the image of this release
+              uses: ./.github/actions/latest-image
+              with:
+                  image: ${{ needs.tag.outputs.image }}
+                  digest: ${{ needs.image.outputs.digest }}
 
             - name: Update the production container
               uses: ./.github/actions/watchtower-update
