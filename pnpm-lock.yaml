@@ -362,6 +362,9 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../packages/config-typescript
+      '@dnd-mapp/release':
+        specifier: workspace:*
+        version: link:../../packages/release
       '@types/node':
         specifier: catalog:node
         version: 26.6.6

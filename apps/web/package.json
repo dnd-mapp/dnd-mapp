@@ -28,6 +28,7 @@
     "@angular/cli": "catalog:angular",
     "@angular/compiler-cli": "catalog:angular",
     "@dnd-mapp/config-typescript": "workspace:*",
+    "@dnd-mapp/release": "workspace:*",
     "@types/node": "catalog:node",
     "eslint": "catalog:eslint",
     "sass": "catalog:angular",
