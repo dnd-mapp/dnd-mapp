@@ -136,10 +136,12 @@ jobs:
 
     deploy-development:
         name: Deploy development
-        # Development runs the edge tag, which the web-image job moves. A commit that skips that job leaves development
-        # as it is.
+        # Development runs the edge tag, which the web-image job moves. The deploy waits for the end-to-end tests of that
+        # image, so a commit that fails them leaves development on its previous image, even though edge moves: Watchtower
+        # pulls edge only when this job asks it to. A commit that skips the web-image job leaves development as it is.
         needs:
             - web-image
+            - e2e
         runs-on: ubuntu-26.04
         timeout-minutes: 10
         permissions:
