@@ -22,16 +22,14 @@ body:
           label: Question
           description: What do you want to know?
 
-    - type: dropdown
+    - type: input
       id: version
       attributes:
           label: Version
           description: >
-              The release your question is about, if any. The site you use reports it in `build-info.json`, as
-              <https://www.dndmapp.nl.eu.org/build-info.json> does.
-          options:
-              - 0.1.0
-              - Unreleased (the development site, an edge or pr-<number> image, or a build from source)
+              The `version` that `build-info.json` reports on the site your question is about, if any, as
+              <https://www.dndmapp.nl.eu.org/build-info.json> does for production.
+          placeholder: 0.1.0, edge, or pr-42
 
     - type: dropdown
       id: environment
