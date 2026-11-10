@@ -1,4 +1,3 @@
-import { describe, expect, expectTypeOf, it } from 'vitest';
 import { type Result, tryCatch, tryCatchSync } from './try-catch.ts';
 
 describe('tryCatch', () => {

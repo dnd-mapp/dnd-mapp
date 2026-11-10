@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest';
 import { repositoryUrl } from './repository.ts';
 
 describe('repositoryUrl', () => {

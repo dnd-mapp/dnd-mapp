@@ -39,8 +39,8 @@ tasks:
             - "coverage/**/*"
 
     typecheck:
-        command: "tsc"
-        # tsconfig.json includes the configs of ESLint and Vitest next to the sources.
+        script: "tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json"
+        # tsconfig.node.json includes the configs of ESLint and Vitest, so the inputs list them next to the sources.
         inputs:
             - "@group(sources)"
             - "@group(configs)"

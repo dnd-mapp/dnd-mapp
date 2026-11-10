@@ -10,7 +10,6 @@ import fsDefault, {
 import { access, lstat, mkdir, readdir, readFile, rm, stat, unlink, writeFile } from 'node:fs/promises';
 import { join, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { describe, expect, it, vi } from 'vitest';
 
 const { mockFileSystem } = await vi.hoisted(() => import('./index.ts'));
 

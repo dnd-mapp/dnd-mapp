@@ -3,7 +3,6 @@ import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { promisify } from 'node:util';
-import { describe, expect, it, onTestFinished, vi } from 'vitest';
 
 const { mockGit } = await vi.hoisted(() => import('./index.ts'));
 
