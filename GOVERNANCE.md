@@ -26,7 +26,7 @@ Maintainers run the day-to-day work of the project. A maintainer:
 
 ### Contributors
 
-Anyone who takes part in the project is a contributor. A contributor starts a discussion in Ideas or Q&A, reports a bug, or reports a security issue, as [`CONTRIBUTING.md`](CONTRIBUTING.md#where-to-start) describes.
+Anyone who takes part in the project is a contributor. A contributor starts a discussion in Ideas or Q&A, reports a bug, or reports a security issue, as [`SUPPORT.md`](SUPPORT.md) describes.
 
 The repository lets only its collaborators open pull requests, so maintainers make all code and docs changes for now. The lead maintainer may reconsider this in the future.
 
