@@ -16,14 +16,7 @@ Early development: the repository holds the scaffold of the web client in [`apps
 
 ## Documentation
 
-The guides in [`docs/`](docs) cover the workspace as a whole:
-
-| Guide                                            | Covers                                                                                   |
-|:-------------------------------------------------|:-----------------------------------------------------------------------------------------|
-| [Development](docs/development.md)               | The tools, the first run, the tasks of the whole repository, the git hooks, and editors. |
-| [Architecture](docs/architecture.md)             | The kinds of projects, the dependency rules between them, and how to add a project.      |
-| [Dependency updates](docs/dependency-updates.md) | Which updates Renovate merges on its own, and which wait for review.                     |
-| [Releasing](docs/releasing.md)                   | How a maintainer releases a project, and how to recover when a step fails.               |
+The [guides in `docs/`](docs/README.md) cover the workspace as a whole, from setting up a machine to releasing a project.
 
 ## Projects
 
