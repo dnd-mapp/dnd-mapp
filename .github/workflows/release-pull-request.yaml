@@ -1,0 +1,146 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Release pull request
+
+on:
+    workflow_dispatch:
+        inputs:
+            project:
+                description: The moon project to release.
+                type: choice
+                required: true
+                options:
+                    - web
+            level:
+                description: The level to bump the version by. auto picks it from the entries in Unreleased.
+                type: choice
+                required: true
+                default: auto
+                options:
+                    - auto
+                    - major
+                    - minor
+                    - patch
+            timezone:
+                description: The IANA time zone of the release date.
+                type: string
+                required: true
+                default: Europe/Amsterdam
+
+permissions: {}
+
+# A second dispatch for the same project waits for the first, so the two never rebuild the branch at the same time.
+concurrency:
+    group: ${{ github.workflow }}-${{ inputs.project }}
+    cancel-in-progress: false
+
+jobs:
+    release-pull-request:
+        name: Release pull request
+        runs-on: ubuntu-26.04
+        timeout-minutes: 10
+        # The app token writes the branch and the pull request, so GITHUB_TOKEN only reads.
+        permissions:
+            contents: read
+        env:
+            PROJECT: ${{ inputs.project }}
+            BRANCH: chore/release-${{ inputs.project }}
+        steps:
+            # release bump refuses a version that isn't above the highest tag of the project, so it needs the tags.
+            - name: Check out main with its tags
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  ref: main
+                  fetch-tags: true
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Lint every changelog
+              run: pnpm moon run :lint-changelog --summary minimal
+              shell: bash
+
+            - name: Find the folder of the project
+              id: project
+              run: echo "folder=$(pnpm exec moon project "$PROJECT" --json | jq -r .source)" >> "$GITHUB_OUTPUT"
+              shell: bash
+
+            - name: Verify that Unreleased has entries
+              run: pnpm exec release verify
+              shell: bash
+              working-directory: ${{ steps.project.outputs.folder }}
+
+            - name: Bump the version and the changelog
+              id: bump
+              run: |
+                  result="$(pnpm exec release bump "$LEVEL" --timezone "$TIMEZONE" --json)"
+                  version="$(jq -r .version <<< "$result")"
+                  {
+                      echo "title=chore: release $PROJECT v$version"
+                      echo "reason=$(jq -r .reason <<< "$result")"
+                  } >> "$GITHUB_OUTPUT"
+              shell: bash
+              working-directory: ${{ steps.project.outputs.folder }}
+              env:
+                  LEVEL: ${{ inputs.level }}
+                  TIMEZONE: ${{ inputs.timezone }}
+
+            # Pull requests opened with GITHUB_TOKEN don't trigger the pull_request workflows, so the checks would never
+            # run. The app has write access to Contents and Pull requests.
+            - name: Create a token of the dnd-mapp app
+              id: app-token
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+              with:
+                  client-id: ${{ vars.GH_APP_CLIENT_ID }}
+                  private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+                  permission-contents: write
+                  permission-pull-requests: write
+
+            # The rulesets reject unsigned commits, and a commit made with git on the runner is unsigned. GitHub signs a
+            # commit that an app creates through the API, so the step builds the commit there from the tree of main and
+            # the two files that release bump changed. It then points the branch at the commit, which replaces the
+            # commit of an earlier dispatch.
+            - name: Commit the release to the release branch
+              run: |
+                  base="$(git rev-parse HEAD)"
+                  tree_request="$(jq -n --arg base_tree "$(git rev-parse 'HEAD^{tree}')" '{base_tree: $base_tree, tree: []}')"
+
+                  for path in "$FOLDER/CHANGELOG.md" "$FOLDER/package.json"; do
+                      tree_request="$(jq --arg path "$path" --rawfile content "$path" \
+                          '.tree += [{path: $path, mode: "100644", type: "blob", content: $content}]' <<< "$tree_request")"
+                  done
+                  tree="$(gh api "repos/$GH_REPO/git/trees" --input - --jq .sha <<< "$tree_request")"
+
+                  commit="$(jq -n --arg message "$TITLE" --arg tree "$tree" --arg parent "$base" \
+                      '{message: $message, tree: $tree, parents: [$parent]}' \
+                      | gh api "repos/$GH_REPO/git/commits" --input - --jq .sha)"
+
+                  if gh api "repos/$GH_REPO/git/ref/heads/$BRANCH" --silent 2> /dev/null; then
+                      gh api --method PATCH "repos/$GH_REPO/git/refs/heads/$BRANCH" -f sha="$commit" -F force=true --silent
+                  else
+                      gh api "repos/$GH_REPO/git/refs" -f ref="refs/heads/$BRANCH" -f sha="$commit" --silent
+                  fi
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  GH_REPO: ${{ github.repository }}
+                  FOLDER: ${{ steps.project.outputs.folder }}
+                  TITLE: ${{ steps.bump.outputs.title }}
+
+            # Auto-merge stays off, since merging the pull request is how a maintainer confirms the version.
+            - name: Open or update the release pull request
+              run: |
+                  number="$(gh pr list --head "$BRANCH" --base main --state open --json number --jq '.[0].number // empty')"
+
+                  if [ -n "$number" ]; then
+                      gh pr edit "$number" --title "$TITLE" --body "$REASON"
+                  else
+                      gh pr create --head "$BRANCH" --base main --title "$TITLE" --body "$REASON"
+                  fi
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  GH_REPO: ${{ github.repository }}
+                  TITLE: ${{ steps.bump.outputs.title }}
+                  REASON: ${{ steps.bump.outputs.reason }}
