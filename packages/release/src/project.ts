@@ -1,6 +1,6 @@
 import { access, readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, join, relative, resolve, sep } from 'node:path';
-import { tryCatch } from '@dnd-mapp/common';
+import { tryCatch, tryCatchSync } from '@dnd-mapp/common';
 import { type Changelog, parseChangelog } from './changelog.ts';
 import { ReleaseError } from './errors.ts';
 import { repositoryUrl } from './repository.ts';
@@ -112,11 +112,14 @@ function unscopedName(name: string): string {
 
 /** Parses the text of a JSON file, and names the file in the error when it fails. */
 function parseJson(text: string, file: string): unknown {
-    try {
-        return JSON.parse(text) as unknown;
-    } catch (error) {
+    const parsed = tryCatchSync(() => JSON.parse(text) as unknown);
+
+    if (!parsed.ok) {
+        const { error } = parsed;
+
         throw new ReleaseError(`${file} holds invalid JSON: ${error instanceof Error ? error.message : String(error)}`);
     }
+    return parsed.value;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
