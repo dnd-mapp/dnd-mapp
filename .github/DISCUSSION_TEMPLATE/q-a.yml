@@ -22,6 +22,39 @@ body:
           label: Question
           description: What do you want to know?
 
+    - type: dropdown
+      id: version
+      attributes:
+          label: Version
+          description: >
+              The release your question is about, if any. The site you use reports it in `build-info.json`, as
+              <https://www.dndmapp.nl.eu.org/build-info.json> does.
+          options:
+              - 0.1.0
+              - Unreleased (the development site, an edge or pr-<number> image, or a build from source)
+
+    - type: dropdown
+      id: environment
+      attributes:
+          label: Environment
+          description: Where you run D&D Mapp, if your question depends on it.
+          options:
+              - Production (www.dndmapp.nl.eu.org)
+              - Staging (staging.dndmapp.nl.eu.org)
+              - Development (dev.dndmapp.nl.eu.org)
+              - My own deployment of the dndmapp/web image
+              - A local build from source
+
+    - type: dropdown
+      id: area
+      attributes:
+          label: Area
+          description: The part of D&D Mapp your question is about, if any.
+          options:
+              - Web app
+              - Docker image
+              - Not sure
+
     - type: textarea
       id: context
       attributes:
