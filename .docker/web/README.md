@@ -30,6 +30,24 @@ The container serves the app on port 4200, under the path `/`. It runs nginx as 
 docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges dndmapp/web
 ```
 
+To run it with Docker Compose, hardened the same way, save this as `compose.yaml` and run `docker compose up -d`:
+
+```yaml
+services:
+    web:
+        image: dndmapp/web
+        ports:
+            - "4200:4200"
+        read_only: true
+        tmpfs:
+            - /tmp
+        cap_drop:
+            - ALL
+        security_opt:
+            - no-new-privileges:true
+        restart: unless-stopped
+```
+
 ## Health check
 
 The container answers `/healthz` with an empty `200`, and leaves the request out of its access log. The `HEALTHCHECK` of the image probes that path, so `docker ps` shows whether the container is `healthy`. Kubernetes ignores `HEALTHCHECK`, so point the probes of a deployment at `/healthz` on port 4200.
