@@ -79,6 +79,14 @@ tasks:
             # The paths in the bake file resolve from the root of the repository.
             runFromWorkspaceRoot: true
 
+    lint-short-description:
+        # The Push main workflow publishes the short description of the image to Docker Hub, which keeps at most 100
+        # characters. The script resolves the file from its own location.
+        command: "node scripts/lint-short-description.ts"
+        inputs:
+            - "scripts/lint-short-description.ts"
+            - "/.docker/web/short-description.txt"
+
     typecheck:
         # The Angular builders check the sources of the app only, so the task checks the config files and the scripts
         # that tsconfig.node.json includes. moon tracks the files of each project for its own tasks only, so the inputs

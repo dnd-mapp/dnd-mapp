@@ -6,15 +6,16 @@ The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders i
 
 Run each task from the repository root.
 
-| Task             | Command                                          | Runs in CI | Cached |
-|:-----------------|:-------------------------------------------------|:----------:|:------:|
-| `start`          | `ng serve`                                       |     no     |   no   |
-| `build`          | `ng build`                                       |     no     |  yes   |
-| `build-info`     | `node scripts/build-info.ts`                     |     no     |   no   |
-| `image`          | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
-| `typecheck`      | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
-| `lint`           | `eslint . --max-warnings 0`                      |    yes     |  yes   |
-| `lint-changelog` | `release lint`                                   |    yes     |  yes   |
+| Task                     | Command                                          | Runs in CI | Cached |
+|:-------------------------|:-------------------------------------------------|:----------:|:------:|
+| `start`                  | `ng serve`                                       |     no     |   no   |
+| `build`                  | `ng build`                                       |     no     |  yes   |
+| `build-info`             | `node scripts/build-info.ts`                     |     no     |   no   |
+| `image`                  | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
+| `typecheck`              | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
+| `lint`                   | `eslint . --max-warnings 0`                      |    yes     |  yes   |
+| `lint-changelog`         | `release lint`                                   |    yes     |  yes   |
+| `lint-short-description` | `node scripts/lint-short-description.ts`         |    yes     |  yes   |
 
 Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
 
