@@ -81,7 +81,7 @@ Staging and production both run the `latest` image, so the release reaches stagi
 
 ## Update the forms
 
-Once the release is published, add its version at the top of the Version options of the [Bug form](../.github/ISSUE_TEMPLATE/1-bug.yml) in a pull request to `main`, so reporters can pick it. Keep the options of earlier releases, since bugs still get reported against them. In the same way, add an Environment option for each new place the app runs, such as a new deployment, and an Area option for each new part that ships, such as a new app or domain module. Make the same changes to the [Q&A form](../.github/DISCUSSION_TEMPLATE/q-a.yml) in that pull request, so its options keep matching those of the Bug form.
+The forms ask for the version as text, so a release that only ships a new version needs no change to them. When a release adds a place the app runs, such as a new deployment, add an Environment option for it to the [Bug form](../.github/ISSUE_TEMPLATE/1-bug.yml) in a pull request to `main`. In the same way, add an Area option for each new part that ships, such as a new app or domain module. Make the same changes to the [Q&A form](../.github/DISCUSSION_TEMPLATE/q-a.yml) in that pull request, so its options keep matching those of the Bug form.
 
 ## Recovering
 
