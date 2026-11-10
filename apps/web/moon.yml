@@ -70,6 +70,9 @@ tasks:
             - "/pnpm-workspace.yaml"
             - "/.docker/bake.hcl"
             - "/.docker/web/**/*"
+            # Docker Hub shows these files on the page of the image, which holds none of them.
+            - "!/.docker/web/README.md"
+            - "!/.docker/web/short-description.txt"
         options:
             # The image lands in the Docker daemon rather than in files that moon can restore from its cache.
             cache: false
