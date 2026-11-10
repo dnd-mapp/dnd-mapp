@@ -29,7 +29,8 @@ tasks:
             - "@group(configs)"
 
     e2e-ci:
-        # Runs the tests against the web image behind Caddy, in the stack of compose.yaml.
+        # Runs the tests against the web image behind Caddy, in the stack of compose.yaml, or against the deployed
+        # environment that BASE_URL names.
         command: "playwright test"
         env:
             CI: "true"

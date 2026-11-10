@@ -194,3 +194,121 @@ jobs:
                   TAG: ${{ github.ref_name }}
                   PROJECT: ${{ needs.tag.outputs.project }}
                   VERSION: ${{ needs.tag.outputs.version }}
+
+    staging:
+        name: Deploy staging
+        # Staging runs the image that the release is about to put in production, with production's setup. The tests run
+        # in the same job, so its concurrency group keeps another release off staging until they finish.
+        needs:
+            - tag
+            - github-release
+        if: needs.tag.outputs.project == 'web'
+        runs-on: ubuntu-26.04
+        timeout-minutes: 20
+        permissions:
+            contents: read
+        environment:
+            name: staging
+            url: https://staging.dndmapp.nl.eu.org/
+        # A new deploy never cancels one that runs, so no update or test run stops halfway.
+        concurrency:
+            group: deploy-staging
+            cancel-in-progress: false
+        steps:
+            # In CI, moon diffs against the base branch before it runs a task, which needs the history of both.
+            - name: Check out the tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Join the tailnet
+              uses: ./.github/actions/join-tailnet
+              with:
+                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+
+            # Staging and production both follow latest, so the call names the container. WATCHTOWER_URL is a secret
+            # rather than a variable, so the logs mask the tailnet hostname.
+            - name: Update the staging container
+              uses: ./.github/actions/watchtower-update
+              with:
+                  url: ${{ secrets.WATCHTOWER_URL }}
+                  token: ${{ secrets.WATCHTOWER_API_TOKEN }}
+                  container: dndmapp-staging
+
+            # Watchtower answers once it has restarted the container, so the wait covers only the start of the new one.
+            - name: Wait for staging to run the commit
+              uses: ./.github/actions/wait-for-commit
+              with:
+                  url: https://staging.dndmapp.nl.eu.org/build-info.json
+                  commit: ${{ github.sha }}
+                  timeout: "60"
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Install Chromium for the end-to-end tests
+              run: pnpm exec playwright install --no-shell chromium
+              shell: bash
+
+            # BASE_URL points the tests at staging, so they start no stack of their own. moon prefixes each output line
+            # with the task target, which hides the test annotations from the runner, so sed strips the prefix from
+            # those lines.
+            - name: Run the end-to-end tests against staging
+              run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
+              shell: bash
+              env:
+                  BASE_URL: https://staging.dndmapp.nl.eu.org/
+
+            # A re-run of the failed jobs uploads to the same run, which holds one artifact per name, so the name
+            # carries the attempt.
+            - name: Upload the Playwright report
+              if: failure()
+              uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+              with:
+                  name: playwright-report-${{ github.run_attempt }}
+                  path: e2e/web/playwright-report/
+                  retention-days: 7
+
+    production:
+        name: Deploy production
+        # Production pulls latest only when this job asks it to, so a release that fails on staging leaves production
+        # on the previous release.
+        needs:
+            - staging
+        runs-on: ubuntu-26.04
+        timeout-minutes: 10
+        permissions:
+            contents: read
+        environment:
+            name: production
+            url: https://www.dndmapp.nl.eu.org/
+        concurrency:
+            group: deploy-production
+            cancel-in-progress: false
+        steps:
+            - name: Check out the tag
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Join the tailnet
+              uses: ./.github/actions/join-tailnet
+              with:
+                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+
+            - name: Update the production container
+              uses: ./.github/actions/watchtower-update
+              with:
+                  url: ${{ secrets.WATCHTOWER_URL }}
+                  token: ${{ secrets.WATCHTOWER_API_TOKEN }}
+                  container: dndmapp-prod
+
+            - name: Wait for production to run the commit
+              uses: ./.github/actions/wait-for-commit
+              with:
+                  url: https://www.dndmapp.nl.eu.org/build-info.json
+                  commit: ${{ github.sha }}
+                  timeout: "60"

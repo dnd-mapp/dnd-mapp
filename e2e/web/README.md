@@ -39,6 +39,12 @@ WEB_IMAGE=dndmapp/web:local pnpm moon run web-e2e:e2e-ci
 
 CI installs Chromium, sets `WEB_IMAGE` to the image that it pushed for the commit, and uploads the HTML report when a test fails. A commit that pushes no web image tests `dndmapp/web:edge`.
 
+To test a deployed environment instead, set `BASE_URL` to its URL. The tests then start no stack and use no dev server, and the browser checks the certificate of the environment. A release runs them against staging this way before it reaches production, as [Releasing](../../docs/releasing.md#what-the-release-workflow-checks) describes:
+
+```bash
+BASE_URL=https://staging.dndmapp.nl.eu.org/ pnpm moon run web-e2e:e2e-ci
+```
+
 Check the types of the tests and the Playwright config, which Playwright itself runs without checking. [`tsconfig.json`](tsconfig.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
 
 ```bash
