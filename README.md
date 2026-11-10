@@ -1,5 +1,9 @@
 # D&D Mapp
 
+[![Push main](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml/badge.svg?branch=main)](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml?query=branch%3Amain)
+[![Docker image version](https://img.shields.io/docker/v/dndmapp/web?sort=semver&label=dndmapp%2Fweb)](https://hub.docker.com/r/dndmapp/web)
+[![License: MIT](https://img.shields.io/github/license/dnd-mapp/dnd-mapp)](LICENSE)
+
 The monorepo for D&D Mapp: it holds all packages and applications of the project.
 
 ## Status
