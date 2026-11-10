@@ -11,8 +11,9 @@ body:
               includes D&D Mapp handling a rule of the game differently from the rulebook.
 
 
-              Never report a security vulnerability in a public issue. Report it privately through
-              [a security advisory](https://github.com/dnd-mapp/dnd-mapp/security/advisories/new) instead.
+              Never report a security vulnerability in a public issue. Report it privately, as the
+              [security policy](https://github.com/dnd-mapp/dnd-mapp/blob/main/SECURITY.md#reporting-a-vulnerability)
+              describes.
 
     - type: textarea
       id: description
