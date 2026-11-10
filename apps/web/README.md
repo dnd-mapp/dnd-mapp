@@ -6,14 +6,15 @@ The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders i
 
 Run each task from the repository root.
 
-| Task         | Command                                          | Runs in CI | Cached |
-|:-------------|:-------------------------------------------------|:----------:|:------:|
-| `start`      | `ng serve`                                       |     no     |   no   |
-| `build`      | `ng build`                                       |     no     |  yes   |
-| `build-info` | `node scripts/build-info.ts`                     |     no     |   no   |
-| `image`      | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
-| `typecheck`  | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
-| `lint`       | `eslint . --max-warnings 0`                      |    yes     |  yes   |
+| Task             | Command                                          | Runs in CI | Cached |
+|:-----------------|:-------------------------------------------------|:----------:|:------:|
+| `start`          | `ng serve`                                       |     no     |   no   |
+| `build`          | `ng build`                                       |     no     |  yes   |
+| `build-info`     | `node scripts/build-info.ts`                     |     no     |   no   |
+| `image`          | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
+| `typecheck`      | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
+| `lint`           | `eslint . --max-warnings 0`                      |    yes     |  yes   |
+| `lint-changelog` | `release lint`                                   |    yes     |  yes   |
 
 Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
 
@@ -87,4 +88,10 @@ Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`types
 
 ```bash
 pnpm moon run web:lint
+```
+
+Lint [`CHANGELOG.md`](CHANGELOG.md) against [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) with the [release CLI](../../packages/release/README.md). [`.moon/tasks/changelog.yml`](../../.moon/tasks/changelog.yml) gives the task to every project with a changelog, and CI reruns it when the changelog or the CLI changes:
+
+```bash
+pnpm moon run web:lint-changelog
 ```

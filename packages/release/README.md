@@ -27,6 +27,8 @@ A package at the root of the git repository tags its releases `v<version>`. A pa
 
 Issue [#91](https://github.com/dnd-mapp/dnd-mapp/issues/91) holds the full rules of each command. On top of those, `lint` accepts a release heading that ends in `[YANKED]`, and fails on a category without entries.
 
+Each project with a `CHANGELOG.md` inherits the `lint-changelog` task of [`.moon/tasks/changelog.yml`](../../.moon/tasks/changelog.yml), which runs `release lint` in CI whenever the changelog or the CLI changes. moon accepts task inputs from direct dependencies only, so such a project lists `@dnd-mapp/release` in its `devDependencies`, as [`apps/web/package.json`](../../apps/web/package.json) does.
+
 ## Tasks
 
 Run each task from the repository root.
