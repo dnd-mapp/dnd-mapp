@@ -252,6 +252,9 @@ catalogs:
     markdownlint-cli2:
       specifier: ~0.24.0
       version: 0.24.0
+    markdownlint-rule-relative-links:
+      specifier: ~5.1.4
+      version: 5.1.4
   moon:
     '@moonrepo/cli':
       specifier: ~2.6.5
@@ -307,6 +310,9 @@ importers:
       markdownlint-cli2:
         specifier: catalog:markdownlint
         version: 0.24.0(supports-color@8.1.1)
+      markdownlint-rule-relative-links:
+        specifier: catalog:markdownlint
+        version: 5.1.4
       playwright:
         specifier: catalog:playwright
         version: 1.65.0
@@ -3470,6 +3476,10 @@ packages:
     engines: {node: '>=22'}
     hasBin: true
 
+  markdownlint-rule-relative-links@5.1.4:
+    resolution: {integrity: sha512-SqkGdLJj7Uxpl2ZTeOd0XAg+6Q5VQKrykjuUMR6whRkUKeUpEHrETQMSg3Hrp5s7YMTV23yJ6zhb51Zp4XzVdg==}
+    engines: {node: '>=22.0.0'}
+
   markdownlint@0.42.0:
     resolution: {integrity: sha512-kzsCV/rPWRFn3jUhcB919YF4Qgeh0g9tcogoXFadGSo6Zxj6662YOqWXv0jDn8nv5KCCxDfMKJZv6N4HkNkvTg==}
     engines: {node: '>=22'}
@@ -3566,6 +3576,11 @@ packages:
   mime@1.6.0:
     resolution: {integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==}
     engines: {node: '>=4'}
+    hasBin: true
+
+  mime@4.1.1:
+    resolution: {integrity: sha512-YAApRsTpM2+gnUFHhRNGfkX8NK0V5xj1nyQLufGlwEI+eX4xRsTcel2IXDuMEGSGjBvzykNW4VuoEACgwYe7BQ==}
+    engines: {node: '>=16'}
     hasBin: true
 
   mimic-function@5.0.1:
@@ -7213,6 +7228,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  markdownlint-rule-relative-links@5.1.4:
+    dependencies:
+      markdown-it: 15.0.3
+      mime: 4.1.1
+
   markdownlint@0.42.0(supports-color@8.1.1):
     dependencies:
       micromark: 4.0.3(supports-color@8.1.1)
@@ -7417,6 +7437,8 @@ snapshots:
 
   mime@1.6.0:
     optional: true
+
+  mime@4.1.1: {}
 
   mimic-function@5.0.1: {}
 
