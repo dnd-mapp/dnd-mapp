@@ -1,0 +1,195 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: Roll back
+
+# Watchtower pulls only the tag that a container follows, so a rollback moves that tag to an earlier image: edge for
+# development, or latest for staging and production, which share it. A revert or a patch release stays the fix; the
+# rollback takes a broken build out of the environments while that fix is underway.
+on:
+    workflow_dispatch:
+        inputs:
+            target:
+                description: The environments to roll back. development follows edge, and release means staging and production, which follow latest.
+                type: choice
+                required: true
+                options:
+                    - development
+                    - release
+            tag:
+                description: The image tag to roll back to, sha-<short> for development, or a version such as 1.2.0 for release.
+                type: string
+                required: true
+
+permissions: {}
+
+# A second rollback of the same environments waits for the first, so the two never move the tag at the same time.
+concurrency:
+    group: ${{ github.workflow }}-${{ inputs.target }}
+    cancel-in-progress: false
+
+jobs:
+    tag:
+        name: Move the tag
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            contents: read
+        outputs:
+            image: ${{ steps.image.outputs.image }}
+            followed: ${{ steps.image.outputs.followed }}
+            digest: ${{ steps.image.outputs.digest }}
+            revision: ${{ steps.image.outputs.revision }}
+            environments: ${{ steps.image.outputs.environments }}
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            # Development rolls back to an image that main built, and a release to the image of an earlier release, so
+            # neither takes the image of a pull request. One read gives both the digest and the labels, so a push in
+            # between cannot mix up two images. The repository is public, so the read needs no login.
+            - name: Find the image to roll back to
+              id: image
+              run: |
+                  image=dndmapp/web
+
+                  case "$TARGET" in
+                      development)
+                          pattern='^sha-[0-9a-f]{7}$'
+                          example=sha-0123abc
+                          followed=edge
+                          environments='[{"name":"development","container":"dndmapp-dev","url":"https://dev.dndmapp.nl.eu.org/"}]'
+                          ;;
+                      release)
+                          pattern='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+                          example=1.2.0
+                          followed=latest
+                          environments='[{"name":"staging","container":"dndmapp-staging","url":"https://staging.dndmapp.nl.eu.org/"},{"name":"production","container":"dndmapp-prod","url":"https://www.dndmapp.nl.eu.org/"}]'
+                          ;;
+                      *)
+                          echo "::error::$TARGET names no environments to roll back. Pick development or release."
+                          exit 1
+                          ;;
+                  esac
+
+                  if [[ ! $TAG =~ $pattern ]]; then
+                      echo "::error::Roll $TARGET back to a tag such as $example, not to $TAG."
+                      exit 1
+                  fi
+
+                  if ! source="$(docker buildx imagetools inspect "$image:$TAG" --format '{{json .}}')"; then
+                      echo "::error::Docker Hub has no $image:$TAG, or didn't answer. Check that the tag exists."
+                      exit 1
+                  fi
+
+                  # A multi-platform image holds a config per platform, which all carry the same labels.
+                  digest="$(jq -r '.manifest.digest' <<< "$source")"
+                  revision="$(jq -r '
+                      .image
+                      | if has("config") then . else first(.[]) end
+                      | .config.Labels["org.opencontainers.image.revision"] // empty
+                  ' <<< "$source")"
+
+                  if [[ -z $revision ]]; then
+                      echo "::error::$image:$TAG has no org.opencontainers.image.revision label, so no deploy could tell when it runs."
+                      exit 1
+                  fi
+
+                  echo "$image:$TAG is $digest, built from $revision."
+                  {
+                      echo "image=$image"
+                      echo "followed=$followed"
+                      echo "digest=$digest"
+                      echo "revision=$revision"
+                      echo "environments=$environments"
+                  } >> "$GITHUB_OUTPUT"
+              shell: bash
+              env:
+                  TAG: ${{ inputs.tag }}
+                  TARGET: ${{ inputs.target }}
+
+            - name: Log in to Docker Hub
+              uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+              with:
+                  username: ${{ vars.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN_WRITE }}
+
+            # The source is the digest rather than the tag, so the image cannot change between the read and the move.
+            # With one source and no changes, imagetools copies the index as it is, attestations included, so the tag
+            # gets the same digest, which the next step checks.
+            - name: Point the tag at the image
+              run: docker buildx imagetools create --tag "$IMAGE:$TAG" "$IMAGE@$DIGEST"
+              shell: bash
+              env:
+                  DIGEST: ${{ steps.image.outputs.digest }}
+                  IMAGE: ${{ steps.image.outputs.image }}
+                  TAG: ${{ steps.image.outputs.followed }}
+
+            - name: Check that the tag points at the image
+              uses: ./.github/actions/image-tag
+              with:
+                  image: ${{ steps.image.outputs.image }}
+                  tag: ${{ steps.image.outputs.followed }}
+                  digest: ${{ steps.image.outputs.digest }}
+
+    deploy:
+        name: Roll back ${{ matrix.name }}
+        # Staging and production share latest, so they roll back together, each in a job of its own. A failure in one
+        # leaves the other to finish.
+        needs:
+            - tag
+        runs-on: ubuntu-26.04
+        timeout-minutes: 10
+        permissions:
+            contents: read
+        strategy:
+            fail-fast: false
+            matrix:
+                include: ${{ fromJSON(needs.tag.outputs.environments) }}
+        environment:
+            name: ${{ matrix.name }}
+            url: ${{ matrix.url }}
+        # The deploys of Push main and Release share these groups, so a rollback waits for a deploy that runs, and a
+        # deploy for a rollback.
+        concurrency:
+            group: deploy-${{ matrix.name }}
+            cancel-in-progress: false
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            - name: Join the tailnet
+              uses: ./.github/actions/join-tailnet
+              with:
+                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+
+            # Push main moves edge and a release moves latest, either of which may happen while this job waits for its
+            # turn. Watchtower would then pull that image instead, so the rollback stops and leaves the environment to
+            # the newer run.
+            - name: Check that the tag still points at the image
+              uses: ./.github/actions/image-tag
+              with:
+                  image: ${{ needs.tag.outputs.image }}
+                  tag: ${{ needs.tag.outputs.followed }}
+                  digest: ${{ needs.tag.outputs.digest }}
+
+            # WATCHTOWER_URL is a secret rather than a variable, so the logs mask the tailnet hostname.
+            - name: Update the container
+              uses: ./.github/actions/watchtower-update
+              with:
+                  url: ${{ secrets.WATCHTOWER_URL }}
+                  token: ${{ secrets.WATCHTOWER_API_TOKEN }}
+                  container: ${{ matrix.container }}
+
+            # Watchtower answers once it has restarted the container, so the wait covers only the start of the new one.
+            # tag:ci reaches only the Watchtower API, so the job reads build-info.json through the public URL.
+            - name: Wait for the environment to run the commit
+              uses: ./.github/actions/wait-for-commit
+              with:
+                  url: ${{ matrix.url }}build-info.json
+                  commit: ${{ needs.tag.outputs.revision }}
+                  timeout: "60"

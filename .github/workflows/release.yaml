@@ -235,11 +235,13 @@ jobs:
 
             # Watchtower pulls whatever latest points at, which a newer release may have pushed since. That image hasn't
             # passed the tests on staging yet, so this release stops and leaves both deploys to the run of the newer
-            # one. A re-run keeps the digest of the first attempt, so it stops too.
+            # one. A rollback moves latest too, and the release stops then as well, since it was rolled back. A re-run
+            # keeps the digest of the first attempt, so it stops too.
             - name: Check that latest is the image of this release
-              uses: ./.github/actions/latest-image
+              uses: ./.github/actions/image-tag
               with:
                   image: ${{ needs.tag.outputs.image }}
+                  tag: latest
                   digest: ${{ needs.image.outputs.digest }}
 
             # Staging and production both follow latest, so the call names the container. WATCHTOWER_URL is a secret
@@ -315,12 +317,13 @@ jobs:
                   oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
                   oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
 
-            # A newer release may push latest while the tests run on staging, so the check runs again right before this
-            # update.
+            # A newer release or a rollback may move latest while the tests run on staging, so the check runs again right
+            # before this update.
             - name: Check that latest is the image of this release
-              uses: ./.github/actions/latest-image
+              uses: ./.github/actions/image-tag
               with:
                   image: ${{ needs.tag.outputs.image }}
+                  tag: latest
                   digest: ${{ needs.image.outputs.digest }}
 
             - name: Update the production container

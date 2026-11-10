@@ -120,7 +120,7 @@ The `GitHub Release` job runs before the deploys, so a release whose tests fail 
 
 ### From a superseded release
 
-When a newer release pushes `latest` before an older one reaches production, the next deploy job of the older release fails before Watchtower updates its container, and the error names the version that `latest` points at. Re-running the failed jobs fails the same way. The run of the newer release deploys staging and production, so the older release needs no recovery.
+When a newer release or a [rollback](#from-a-broken-deploy) moves `latest` before a release reaches production, the next deploy job of that release fails before Watchtower updates its container, and the error names the version that `latest` points at. Re-running the failed jobs fails the same way. The run that moved `latest` deploys staging and production, so the release needs no recovery.
 
 ### From a tag that can't pass
 
@@ -135,6 +135,31 @@ A published release stays: its tag, its image tags, and its Release. Supersede i
 1. Fix the problem in a pull request to `main`, with a changelog entry for the fix.
 2. In the same or another pull request, mark the wrong release as pulled by adding `[YANKED]` after its date, as in `## [0.1.0] - 2026-11-10 [YANKED]`.
 3. Release the next version from the steps above.
+
+To take the wrong release out of staging and production while you work on the fix, roll them back as [From a broken deploy](#from-a-broken-deploy) describes.
+
+### From a broken deploy
+
+Watchtower pulls only the tag that a container follows, so the `Roll back` workflow takes a broken build out of an environment by moving that tag to an earlier image. It doesn't replace the fix: revert or fix the change in a pull request to `main` for development, or ship the next release for staging and production, as [From a wrong release](#from-a-wrong-release) describes. Run the workflow from the Actions tab, or with `gh`:
+
+```bash
+gh workflow run roll-back.yaml --field target=release --field tag=0.1.0
+```
+
+| Input    | Takes                                                                                                                                       |
+|:---------|:--------------------------------------------------------------------------------------------------------------------------------------------|
+| `target` | `development`, which moves `edge`, or `release`, which moves `latest` and rolls back staging and production together, since both follow it. |
+| `tag`    | The image to roll back to: a `sha-<short>` tag of a commit of `main` for `development`, or a release version such as `0.1.0` for `release`. |
+
+The workflow fails before it moves a tag when `tag` doesn't fit `target` or doesn't exist on Docker Hub. Otherwise it points the tag at the image, has Watchtower update each container, and waits until the `build-info.json` of each environment reports the commit in the `org.opencontainers.image.revision` label of the image. The `Restrict who can roll back an environment` Actions policy lets only the maintain and admin roles dispatch it, and names the workflow by its path, as the bump's policy does.
+
+Keep in mind:
+
+- **Development stays rolled back only until the next merge that rebuilds the image**, since that moves `edge` again.
+- **`sha-<short>` exists only for commits that changed the web app.** The tag takes the first seven characters of the commit, as `git rev-parse --short=7 <commit>` prints them. Check that it exists with `docker buildx imagetools inspect dndmapp/web:sha-<short>`.
+- **Moving `latest` also changes what anyone who pulls `dndmapp/web` gets.** The `<major>.<minor>` and `<major>` tags stay on the broken release until the next release moves them.
+- **A rollback waits for a deploy that runs in the same environment.** A release that hasn't reached production yet stops at its next check of `latest`, as [From a superseded release](#from-a-superseded-release) describes.
+- **A rollback stops when a newer run moves the tag while it waits**, with an error that names the image the tag points at. The newer run deploys that image, so dispatch the rollback again when it is broken too.
 
 ## Adding a releasable project
 

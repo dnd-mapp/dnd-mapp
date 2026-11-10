@@ -6,7 +6,7 @@ The web client of [D&D Mapp](https://github.com/dnd-mapp/dnd-mapp). The app rend
 
 | Tag               | Image                                                                                 |
 |:------------------|:--------------------------------------------------------------------------------------|
-| `latest`          | The newest release.                                                                   |
+| `latest`          | The newest release, or an earlier one while a broken release is rolled back.          |
 | `<version>`       | A release, such as `0.1.0`.                                                           |
 | `<major>.<minor>` | The newest release of a minor version, such as `0.1`.                                 |
 | `<major>`         | The newest release of a major version, such as `1`. Releases add it from `1.0.0` on.  |
