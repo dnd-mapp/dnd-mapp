@@ -1,6 +1,6 @@
 {
   "name": "@dnd-mapp/web",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "The web client of D&D Mapp.",
   "private": true,
   "license": "MIT",
