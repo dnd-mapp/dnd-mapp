@@ -79,6 +79,12 @@ The CI job leaves `web:build` and `web:image` out of its checks. A separate job 
 
 The `<version>` and `latest` tags wait for the release pipeline.
 
+[`.docker/web/README.md`](../../.docker/web/README.md) holds the overview of the image on Docker Hub, for people who pull it, and [`.docker/web/short-description.txt`](../../.docker/web/short-description.txt) its short description. A push to `main` that changes either file publishes both with [`peter-evans/dockerhub-description`](https://github.com/peter-evans/dockerhub-description); pull requests never do, since Docker Hub keeps one overview for all tags. Neither file is an input of `web:image`, so editing them builds no image. Docker Hub doesn't resolve relative links, so link from the overview with absolute URLs. Docker Hub keeps at most 100 characters of the short description, and the action truncates a longer one, so check its length with [`scripts/lint-short-description.ts`](scripts/lint-short-description.ts):
+
+```bash
+pnpm moon run web:lint-short-description
+```
+
 Check the types of the config files and of [`scripts/`](scripts), which `ng build` leaves out and Node.js runs without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
 
 ```bash
