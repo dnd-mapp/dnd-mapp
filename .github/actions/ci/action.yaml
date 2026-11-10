@@ -26,7 +26,7 @@ runs:
         # web:image stay out of this job. The web-image job builds the app inside the image instead.
         - name: Run the affected moon tasks
           run: |
-              pnpm moon ci :format-check :lint :lint-md :test-ci :typecheck --summary minimal \
+              pnpm moon ci :format-check :lint :lint-changelog :lint-md :test-ci :typecheck --summary minimal \
                   | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
           shell: bash
 

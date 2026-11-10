@@ -1,0 +1,19 @@
+$schema: "../cache/schemas/tasks.json"
+
+# Every project with a changelog is releasable, so it inherits the task that lints that changelog.
+inheritedBy:
+    files:
+        - "CHANGELOG.md"
+
+tasks:
+    lint-changelog:
+        # ESLint's inherited task already takes the name lint. The CLI reads the repository field of package.json for the
+        # compare links. moon tracks the files of each project for its own tasks only, so the inputs also list the
+        # sources of the CLI, which rerun the task when its rules change. moon accepts inputs from direct dependencies
+        # only, so each project that inherits the task lists @dnd-mapp/release in its devDependencies.
+        command: "release lint"
+        inputs:
+            - "CHANGELOG.md"
+            - "package.json"
+            - project: "release"
+              group: "sources"
