@@ -1,6 +1,6 @@
 # Contributing to D&D Mapp
 
-Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, how to use AI tools, the conventions for branches, commits, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
+Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, how to use AI tools, the conventions for branches, commits, changelog entries, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
 
 ## Where to start
 
@@ -78,6 +78,43 @@ pnpm exec commitlint --from origin/main
 ```
 
 Sign every commit. The `main` branch rejects unsigned commits, and the pull request merges with a merge commit that keeps your commits as they are, so a single unsigned commit blocks the merge. GitHub explains how to [sign commits](https://docs.github.com/authentication/managing-commit-signature-verification/signing-commits) with a GPG or SSH key, and how to [add the key to your account](https://docs.github.com/authentication/managing-commit-signature-verification/adding-a-gpg-key-to-your-github-account) so GitHub marks the commits as verified.
+
+## Changelog
+
+Each releasable project keeps a `CHANGELOG.md` in [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format next to its `package.json`, as [`apps/web`](apps/web/CHANGELOG.md) does. Its entries decide the next version and become the notes of the GitHub Release, so add them under `## [Unreleased]` in the pull request that makes the change. [`docs/releasing.md`](docs/releasing.md) covers how a maintainer turns them into a release.
+
+### Which changes get an entry
+
+Add an entry for each change that users of the project notice: something they can now do, something that behaves differently, a bug they could hit, or a change to how they deploy it, such as a build argument of its image. A change to a module goes in the changelog of each app that builds it, since the app is what users get. Refactors, tests, CI, tooling, contributor docs, and dependency updates that change nothing users see get no entry.
+
+Write each entry as one list item that says what changed for users, not how the code changed. CI lints every changelog with `release lint`; run the same check yourself with `pnpm moon run :lint-changelog`.
+
+### Categories
+
+File each entry under the category that fits it. When a maintainer releases with the default level `auto`, the categories in `Unreleased` pick the version bump, and the highest bump wins:
+
+| Category         | For                                       | `auto` bumps |
+|:-----------------|:------------------------------------------|:------------:|
+| `### Added`      | New features.                             |    minor     |
+| `### Changed`    | Changes to existing behavior.             |    minor     |
+| `### Deprecated` | Features that a later release removes.    |    minor     |
+| `### Removed`    | Features that this release removes.       |    major     |
+| `### Fixed`      | Bug fixes.                                |    patch     |
+| `### Security`   | Fixes of vulnerabilities.                 |    patch     |
+
+Add a category heading together with its first entry, since the lint fails on a category without entries.
+
+### Breaking changes
+
+Start an entry with `**Breaking:**` when the change breaks something users rely on, whatever its category, and say how to migrate:
+
+```markdown
+### Changed
+
+- **Breaking:** The image serves the app on port 8080 instead of 4200. Map port 8080 in your deployment.
+```
+
+`auto` bumps the major version for a `**Breaking:**` entry, as it does for a `### Removed` one. Below `1.0.0`, it bumps the minor version instead, since major version 0 is for initial development. The `!` and `BREAKING CHANGE:` footer of a [commit](#commits) don't reach the version; only the changelog entry does.
 
 ## Projects, tasks, and dependencies
 
