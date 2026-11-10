@@ -1,8 +1,6 @@
-import { rm } from 'node:fs/promises';
-import { join } from 'node:path';
 import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
-import { createFixture, type FixtureOptions } from '../testing/fixture.ts';
+import { createFixture, type FixtureOptions, repositoryField } from '../testing/fixture.ts';
 
 await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
 
@@ -26,7 +24,7 @@ ${unreleased}
 
 async function bump(options: FixtureOptions, ...argv: string[]) {
     const fixture = createFixture(options);
-    const result = await fixture.run('bump', 'web', ...argv);
+    const result = await fixture.run('bump', ...argv);
     return { ...result, fixture };
 }
 
@@ -50,7 +48,11 @@ All notable changes to the web app are documented in this file.
 [unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...HEAD
 [0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
 `);
-        expect(await fixture.read('apps/web/package.json')).toBe('{\n  "name": "web",\n  "version": "0.1.0"\n}\n');
+        expect(JSON.parse(await fixture.read('apps/web/package.json'))).toEqual({
+            name: '@dnd-mapp/web',
+            version: '0.1.0',
+            repository: repositoryField,
+        });
     });
 
     it('releases the next version and updates the compare links', async () => {
@@ -101,7 +103,7 @@ All notable changes to the web app are documented in this file.
     it('leaves a changelog that release lint passes', async () => {
         const { fixture } = await bump({ changelog: releasedChangelog, version: '0.2.0' }, 'auto');
 
-        expect((await fixture.run('lint', 'web')).code).toBe(0);
+        expect((await fixture.run('lint')).code).toBe(0);
     });
 
     it('prints the new version and how it chose the level', async () => {
@@ -239,7 +241,7 @@ All notable changes to the web app are documented in this file.
             [
                 'when the changelog fails release lint',
                 { changelog: releasedChangelog.replace('### Fixed', '### Improved'), version: '0.2.0' },
-                'apps/web/CHANGELOG.md breaks Keep a Changelog; run release lint web for the problems',
+                'apps/web/CHANGELOG.md breaks Keep a Changelog; run release lint for the problems',
             ],
             [
                 'on an unknown time zone',
@@ -249,7 +251,7 @@ All notable changes to the web app are documented in this file.
         ])('%s', async (_, options, message) => {
             const fixture = createFixture(options);
 
-            const result = await fixture.run('bump', 'web', 'auto');
+            const result = await fixture.run('bump', 'auto');
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain(message);
@@ -306,18 +308,9 @@ All notable changes to the web app are documented in this file.
         });
     });
 
-    it('fails for a project without a package.json', async () => {
-        const fixture = createFixture({ changelog: releasedChangelog });
-        await rm(join(fixture.root, 'package.json'));
-
-        const result = await fixture.run('bump', 'web', 'auto');
-
-        expect(result.code).toBe(1);
-        expect(result.stderr).toContain('web has no package.json at apps/web/package.json');
-    });
-
     it('keeps the line endings of the changelog and the indentation of package.json', async () => {
-        const manifest = '{\r\n    "name": "web",\r\n    "version": "0.2.0",\r\n    "private": true\r\n}\r\n';
+        const manifest =
+            '{\r\n    "name": "@dnd-mapp/web",\r\n    "version": "0.2.0",\r\n    "repository": "github:dnd-mapp/dnd-mapp"\r\n}\r\n';
         const { fixture } = await bump(
             { changelog: releasedChangelog.replaceAll('\n', '\r\n'), manifest, version: '0.2.0' },
             'auto',
@@ -330,9 +323,60 @@ All notable changes to the web app are documented in this file.
     });
 
     it('sets the top-level version of package.json, not a nested one before it', async () => {
-        const manifest = '{\n  "name": "web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0"\n}\n';
+        const manifest =
+            '{\n  "name": "@dnd-mapp/web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0",\n  "repository": "dnd-mapp/dnd-mapp"\n}\n';
         const { fixture } = await bump({ changelog: releasedChangelog, manifest, version: '0.2.0' }, 'auto');
 
         expect(await fixture.read('apps/web/package.json')).toBe(manifest.replace('0.2.0', '0.2.1'));
+    });
+
+    it('links to the repository in the repository field of package.json', async () => {
+        const manifest = `${JSON.stringify({ name: '@dnd-mapp/web', version: '0.0.0', repository: 'git@git.example.com:team/maps.git' })}\n`;
+        const { fixture } = await bump({ changelog: unreleasedChangelog, manifest }, 'auto');
+
+        expect(await fixture.read('apps/web/CHANGELOG.md')).toContain(
+            '[unreleased]: https://git.example.com/team/maps/compare/web@v0.1.0...HEAD\n[0.1.0]: https://git.example.com/team/maps/releases/tag/web@v0.1.0\n',
+        );
+    });
+
+    describe('in a repository with one package', () => {
+        const changelog = releasedChangelog.replaceAll('web@v', 'v');
+
+        it('releases the package at the root, with v<version> tags in the compare links', async () => {
+            const fixture = createFixture({ atRoot: true, changelog, version: '0.2.0', tags: ['v0.2.0'] });
+
+            const result = await fixture.run('bump', 'auto');
+
+            expect(result).toEqual({
+                code: 0,
+                stdout: 'web v0.2.1: `patch`, computed by `auto` from `### Fixed`\n',
+                stderr: '',
+            });
+            expect(await fixture.read('CHANGELOG.md')).toContain(
+                '[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/v0.2.1...HEAD\n[0.2.1]: https://github.com/dnd-mapp/dnd-mapp/compare/v0.2.0...v0.2.1\n',
+            );
+            expect(JSON.parse(await fixture.read('package.json'))).toMatchObject({ version: '0.2.1' });
+        });
+
+        it('refuses a version that is not above the highest v<version> tag', async () => {
+            const fixture = createFixture({ atRoot: true, changelog, version: '0.2.0', tags: ['v0.3.0'] });
+
+            const result = await fixture.run('bump', 'auto');
+
+            expect(result.code).toBe(1);
+            expect(result.stderr).toContain('web v0.2.1 is not above the highest tag v0.3.0');
+        });
+
+        it('names the lint command without a project when the changelog fails lint', async () => {
+            const fixture = createFixture({
+                atRoot: true,
+                changelog: changelog.replace('### Fixed', '### Improved'),
+                version: '0.2.0',
+            });
+
+            const result = await fixture.run('bump', 'auto');
+
+            expect(result.stderr).toContain('CHANGELOG.md breaks Keep a Changelog; run release lint for the problems');
+        });
     });
 });

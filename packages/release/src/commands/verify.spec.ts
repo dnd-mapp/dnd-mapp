@@ -15,7 +15,7 @@ describe('release verify', () => {
         it('passes when Unreleased has entries', async () => {
             const fixture = createFixture({ changelog: releasedChangelog });
 
-            const result = await fixture.run('verify', 'web');
+            const result = await fixture.run('verify');
 
             expect(result).toEqual({
                 code: 0,
@@ -33,7 +33,7 @@ describe('release verify', () => {
         ])('fails when Unreleased %s', async (_, changelog) => {
             const fixture = createFixture({ changelog });
 
-            const result = await fixture.run('verify', 'web');
+            const result = await fixture.run('verify');
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain('the Unreleased section of apps/web/CHANGELOG.md has no entries');
@@ -44,7 +44,7 @@ describe('release verify', () => {
         it('passes when package.json and the newest release hold the version, and ignores Unreleased', async () => {
             const fixture = createFixture({ changelog: bumpedChangelog, version: '0.2.1' });
 
-            const result = await fixture.run('verify', 'web', '0.2.1');
+            const result = await fixture.run('verify', '0.2.1');
 
             expect(result).toEqual({
                 code: 0,
@@ -65,7 +65,7 @@ describe('release verify', () => {
         ])('fails when %s', async (_, manifestVersion, version, message) => {
             const fixture = createFixture({ changelog: bumpedChangelog, version: manifestVersion });
 
-            const result = await fixture.run('verify', 'web', version);
+            const result = await fixture.run('verify', version);
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain(message);
@@ -74,7 +74,7 @@ describe('release verify', () => {
         it('fails before the first release', async () => {
             const fixture = createFixture({ changelog: '# Changelog\n\n## [Unreleased]\n', version: '0.1.0' });
 
-            const result = await fixture.run('verify', 'web', '0.1.0');
+            const result = await fixture.run('verify', '0.1.0');
 
             expect(result.code).toBe(1);
             expect(result.stderr).toContain('apps/web/CHANGELOG.md has no release, not 0.1.0');

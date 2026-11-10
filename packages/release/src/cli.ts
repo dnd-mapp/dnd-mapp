@@ -4,15 +4,14 @@ import { lint } from './commands/lint.ts';
 import { notes } from './commands/notes.ts';
 import { verify } from './commands/verify.ts';
 import { ReleaseError } from './errors.ts';
+import { resolveProject } from './project.ts';
 
 /** The boundaries of the CLI, which tests replace. */
 export interface Dependencies {
-    /** The working directory, which relative paths resolve from. */
+    /** The working directory, which holds the package of the project and which relative paths resolve from. */
     cwd: string;
-    /** Resolves a moon id to the absolute folder of its project. */
-    resolveProject(id: string): Promise<string>;
-    /** Lists the `<project>@v*` tags of a project. */
-    listTags(project: string): Promise<string[]>;
+    /** Lists the tags that start with a prefix, such as `web@v`. */
+    listTags(prefix: string): Promise<string[]>;
     /** The clock that dates a release. */
     clock: {
         /** The current time. */
@@ -28,11 +27,15 @@ export interface Dependencies {
 
 /** The commands and their arguments, which a usage error prints. */
 const usage = `Usage:
-  release bump <project> <auto|major|minor|patch> [--timezone <zone>] [--json]
-  release verify <project> [<version>]
-  release notes <project> <version> <file>
-  release lint <project>
+  release bump <auto|major|minor|patch> [--timezone <zone>] [--json]
+  release verify [<version>]
+  release notes <version> <file>
+  release lint
+
+Each command acts on the package.json and CHANGELOG.md in the working directory.
 `;
+
+const commands = new Set(['bump', 'verify', 'notes', 'lint']);
 
 /** Runs the CLI with the arguments after the executable, and resolves to the exit code. */
 export async function run(argv: string[], deps: Dependencies): Promise<number> {
@@ -47,30 +50,31 @@ export async function run(argv: string[], deps: Dependencies): Promise<number> {
                 throw new UsageError(`${option} applies to bump only`);
             }
         }
+        if (command === undefined || !commands.has(command)) {
+            throw new UsageError(command === undefined ? 'missing command' : `unknown command ${command}`);
+        }
+        const resolve = () => resolveProject(deps.cwd);
 
         switch (command) {
             case 'bump': {
-                const [project, level] = expectArgs(args, 2, 2);
-                await bump({ project, level, json: values.json, timeZone: values.timezone }, deps);
+                const [level] = expectArgs(args, 1, 1);
+                await bump({ project: await resolve(), level, json: values.json, timeZone: values.timezone }, deps);
                 break;
             }
             case 'verify': {
-                const [project, version] = expectArgs(args, 1, 2);
-                await verify({ project, version }, deps);
+                const [version] = expectArgs(args, 0, 1);
+                await verify({ project: await resolve(), version }, deps);
                 break;
             }
             case 'notes': {
-                const [project, version, file] = expectArgs(args, 3, 3);
-                await notes({ project, version, file }, deps);
+                const [version, file] = expectArgs(args, 2, 2);
+                await notes({ project: await resolve(), version, file }, deps);
                 break;
             }
-            case 'lint': {
-                const [project] = expectArgs(args, 1, 1);
-                await lint({ project }, deps);
-                break;
+            default: {
+                expectArgs(args, 0, 0);
+                await lint({ project: await resolve() }, deps);
             }
-            default:
-                throw new UsageError(command === undefined ? 'missing command' : `unknown command ${command}`);
         }
         return 0;
     } catch (error) {
@@ -103,18 +107,16 @@ function parseArguments(argv: string[]) {
     }
 }
 
-/** Checks the number of positional arguments of a command. */
+/** Checks the number of positional arguments of a command, and returns them. */
 function expectArgs<Min extends number>(args: string[], min: Min, max: number): Arguments<Min> {
     if (args.length < min || args.length > max) {
         const expected = min === max ? String(min) : `${String(min)} to ${String(max)}`;
-        throw new UsageError(`expected ${expected} arguments, got ${String(args.length)}`);
+        throw new UsageError(
+            `expected ${expected} ${max === 1 ? 'argument' : 'arguments'}, got ${String(args.length)}`,
+        );
     }
     return args as Arguments<Min>;
 }
 
-/** The arguments that `expectArgs` returns for a minimum of `Min`: one required and one optional for 1, two required for 2, three required otherwise. */
-type Arguments<Min extends number> = Min extends 1
-    ? [string, string?]
-    : Min extends 2
-      ? [string, string]
-      : [string, string, string];
+/** The arguments that `expectArgs` returns for a minimum of `Min`: one optional for 0, one for 1, two otherwise. */
+type Arguments<Min extends number> = Min extends 0 ? [string?] : Min extends 1 ? [string] : [string, string];

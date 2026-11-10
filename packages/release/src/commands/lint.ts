@@ -1,18 +1,18 @@
 import { lintChangelog } from '../changelog.ts';
 import type { Dependencies } from '../cli.ts';
 import { ReleaseError } from '../errors.ts';
-import { readChangelog, resolveProject } from '../project.ts';
+import { type Project, readChangelog } from '../project.ts';
 
 /** The arguments of `release lint`. */
 export interface LintOptions {
-    /** The moon id of the project whose changelog to lint. */
-    project: string;
+    /** The project whose changelog to lint. */
+    project: Project;
 }
 
 /** Prints each problem of the changelog of a project, and fails when it has any. */
 export async function lint(options: LintOptions, deps: Dependencies): Promise<void> {
-    const project = await resolveProject(options.project, deps);
-    const problems = lintChangelog(await readChangelog(project), project.id);
+    const { project } = options;
+    const problems = lintChangelog(await readChangelog(project), project);
 
     if (problems.length > 0) {
         for (const problem of problems) {

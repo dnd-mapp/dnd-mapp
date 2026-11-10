@@ -543,9 +543,6 @@ importers:
       '@dnd-mapp/common':
         specifier: workspace:*
         version: link:../common
-      '@moonrepo/cli':
-        specifier: catalog:moon
-        version: 2.6.5
     devDependencies:
       '@dnd-mapp/config-eslint':
         specifier: workspace:*

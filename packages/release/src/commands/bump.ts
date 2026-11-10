@@ -3,13 +3,13 @@ import type { Dependencies } from '../cli.ts';
 import { dayIn } from '../date.ts';
 import { ReleaseError } from '../errors.ts';
 import { chooseLevel, isRequestedLevel, requestedLevels } from '../level.ts';
-import { readChangelog, readManifest, resolveProject, writeChangelog, writeManifestVersion } from '../project.ts';
+import { type Project, readChangelog, readManifest, writeChangelog, writeManifestVersion } from '../project.ts';
 import { compareVersions, incrementVersion, isVersion } from '../version.ts';
 
 /** The arguments of `release bump`. */
 export interface BumpOptions {
-    /** The moon id of the project. */
-    project: string;
+    /** The project to release. */
+    project: Project;
     /** The level as given, which `bump` checks against `auto`, `major`, `minor`, and `patch`. */
     level: string;
     /** Whether to print the result as JSON, for the workflows. */
@@ -28,13 +28,11 @@ export async function bump(options: BumpOptions, deps: Dependencies): Promise<vo
     }
     const date = dayIn(deps.clock.now(), options.timeZone ?? deps.clock.timeZone());
 
-    const project = await resolveProject(options.project, deps);
+    const { project } = options;
     const changelog = await readChangelog(project);
 
-    if (lintChangelog(changelog, project.id).length > 0) {
-        throw new ReleaseError(
-            `${project.changelogName} breaks Keep a Changelog; run release lint ${project.id} for the problems`,
-        );
+    if (lintChangelog(changelog, project).length > 0) {
+        throw new ReleaseError(`${project.changelogName} breaks Keep a Changelog; run release lint for the problems`);
     }
     // The changelog passed lint, so it has an Unreleased section.
     const unreleased = unreleasedOf(changelog);
@@ -57,27 +55,27 @@ export async function bump(options: BumpOptions, deps: Dependencies): Promise<vo
     const choice = chooseLevel(requested, unreleased, current);
     const version = incrementVersion(current, choice.level);
 
-    const highestTag = await highestTagOf(project.id, deps);
+    const highestTag = await highestTagOf(project, deps);
 
     if (highestTag && compareVersions(version, highestTag) <= 0) {
         throw new ReleaseError(
-            `${project.id} v${version} is not above the highest tag ${tagOf(project.id, highestTag)}`,
+            `${project.name} v${version} is not above the highest tag ${tagOf(project, highestTag)}`,
         );
     }
 
-    await writeChangelog(project, releaseChangelog(changelog, project.id, version, date));
+    await writeChangelog(project, releaseChangelog(changelog, project, version, date));
     await writeManifestVersion(project, manifest, version);
 
     deps.stdout(
         options.json
             ? `${JSON.stringify({ version, level: choice.level, reason: choice.reason })}\n`
-            : `${project.id} v${version}: ${choice.reason}\n`,
+            : `${project.name} v${version}: ${choice.reason}\n`,
     );
 }
 
-async function highestTagOf(project: string, deps: Dependencies): Promise<string | undefined> {
-    const prefix = `${project}@v`;
-    const versions = (await deps.listTags(project))
+async function highestTagOf(project: Project, deps: Dependencies): Promise<string | undefined> {
+    const prefix = project.tagPrefix;
+    const versions = (await deps.listTags(prefix))
         .filter((tag) => tag.startsWith(prefix))
         .map((tag) => tag.slice(prefix.length))
         .filter(isVersion);

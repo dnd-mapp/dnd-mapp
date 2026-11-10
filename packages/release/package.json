@@ -14,8 +14,7 @@
     "release": "./src/main.ts"
   },
   "dependencies": {
-    "@dnd-mapp/common": "workspace:*",
-    "@moonrepo/cli": "catalog:moon"
+    "@dnd-mapp/common": "workspace:*"
   },
   "devDependencies": {
     "@dnd-mapp/config-eslint": "workspace:*",
