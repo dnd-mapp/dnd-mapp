@@ -37,7 +37,7 @@ pnpm moon run web:image
 WEB_IMAGE=dndmapp/web:local pnpm moon run web-e2e:e2e-ci
 ```
 
-CI installs Chromium, sets `WEB_IMAGE` to the image that it pushed for the commit, and uploads the HTML report when a test fails. A commit that pushes no web image tests `dndmapp/web:edge`.
+CI sets `WEB_IMAGE` to the image that it pushed for the commit, and tests `dndmapp/web:edge` when it pushed none, as [CI](../../docs/ci.md#pull-requests-and-main) describes.
 
 To test a deployed environment instead, set `BASE_URL` to its URL. The tests then start no stack and use no dev server, and the browser checks the certificate of the environment. A release runs them against staging this way before it reaches production, as [Releasing](../../docs/releasing.md#what-the-release-workflow-checks) describes:
 
