@@ -1,4 +1,3 @@
-import { describe, expect, it, vi } from 'vitest';
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
 import { createFixture, type FixtureOptions, repositoryField } from '../testing/fixture.ts';
 

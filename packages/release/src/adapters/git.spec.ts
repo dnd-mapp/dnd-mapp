@@ -1,4 +1,3 @@
-import { describe, expect, it, vi } from 'vitest';
 import { listGitTags } from './git.ts';
 
 const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing/git'));

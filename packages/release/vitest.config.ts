@@ -17,6 +17,7 @@ export default defineConfig({
                 statements: 80,
             },
         },
+        globals: true,
         include: ['src/**/*.spec.ts'],
         reporters: ['dot'],
         sequence: {
