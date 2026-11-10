@@ -4,11 +4,35 @@
 [![Docker image version](https://img.shields.io/docker/v/dndmapp/web?sort=semver&label=dndmapp%2Fweb)](https://hub.docker.com/r/dndmapp/web)
 [![License: MIT](https://img.shields.io/github/license/dnd-mapp/dnd-mapp)](LICENSE)
 
-The monorepo for D&D Mapp: it holds all packages and applications of the project.
+D&D Mapp is an open-source web app for dungeon masters and players of Dungeons & Dragons 5th edition. It covers the 2014 rules from the System Reference Document 5.1, and users add their own homebrew content on top.
 
-## Status
+> [!IMPORTANT]
+> D&D Mapp is in early development, and none of the features below exist yet.
 
-Early development: the repository holds the scaffold of the web client in [`apps/web`](apps/web/README.md) and its core in [`packages/core/web`](packages/core/web/README.md), and no features yet.
+## Features
+
+Every tool is open to all users, except those marked for dungeon masters (DMs).
+
+### Rules and dice
+
+- Browse a compendium of spells, monsters, items, classes, and the rest of the rules, homebrew included.
+- Roll virtual dice.
+
+### Characters
+
+- Build and keep character sheets.
+- Keep spell books for any character, whether or not D&D Mapp manages it, and attach a spell book to its character once the character moves into D&D Mapp.
+
+### Worlds and campaigns
+
+- Build worlds, write their lore, and create maps of each world and its locations.
+- Manage campaigns and their sessions, and keep notes of each session.
+- Share worlds, lore, maps, and notes with your party, or make any of them public.
+
+### Play
+
+- Explore dungeons and other locations from your maps on a virtual tabletop (VTT), and play out combat on a rules engine built on the 5e mechanics. DMs run the session, and players join it.
+- Build encounters and write stats for custom monsters (DMs).
 
 ## Getting started
 
@@ -20,7 +44,7 @@ The [guides in `docs/`](docs/README.md) cover the workspace as a whole, from set
 
 ## Projects
 
-Each project's README says what the project is for and lists its tasks:
+This repository is the monorepo of D&D Mapp, holding all its packages and applications. Each project's README says what the project is for and lists its tasks:
 
 - [`apps/web`](apps/web/README.md): the Angular web client.
 - [`e2e/web`](e2e/web/README.md): the end-to-end tests of the web client.
