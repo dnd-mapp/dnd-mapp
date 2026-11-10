@@ -20,6 +20,10 @@ inputs:
         description: The base path that the app in the image is served under, such as `/pr-42/`.
         required: false
         default: /
+    version:
+        description: The release version of the image, such as `1.2.3`, which adds its version tags and latest.
+        required: false
+        default: ""
 
 outputs:
     digest:
@@ -50,7 +54,9 @@ runs:
               password: ${{ inputs.dockerhub-token }}
 
         # Pull requests push pr-<number>, which the Pull request closed workflow deletes. main pushes sha-<short> and
-        # edge, the tag of the latest commit of main. The version and latest tags wait for the release pipeline.
+        # edge, the tag of the latest commit of main. A release pushes <version>, <major>.<minor>, and <major>, which
+        # the major version 0 leaves out since its minor versions may break. The action adds latest to the semver tags
+        # by itself.
         - name: Compute the tags and labels of the image
           id: meta
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
@@ -58,8 +64,11 @@ runs:
               images: ${{ inputs.image }}
               tags: |
                   type=ref,event=pr
-                  type=sha,enable=${{ github.event_name == 'push' }}
+                  type=sha,enable=${{ github.event_name == 'push' && github.ref_type == 'branch' }}
                   type=edge,branch=main
+                  type=semver,pattern={{version}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+                  type=semver,pattern={{major}}.{{minor}},value=${{ inputs.version }},enable=${{ inputs.version != '' }}
+                  type=semver,pattern={{major}},value=${{ inputs.version }},enable=${{ inputs.version != '' && !startsWith(inputs.version, '0.') }}
 
         - name: Build and push the image
           id: bake
