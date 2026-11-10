@@ -1,6 +1,6 @@
 # ESLint config
 
-The shared ESLint config of the projects of D&D Mapp. Its presets hold the rules that the projects share, leave formatting to Prettier, and enforce the dependency rules between the projects on the imports of each project. The [Projects, tasks, and dependencies](../../CONTRIBUTING.md#projects-tasks-and-dependencies) section of `CONTRIBUTING.md` describes those rules.
+The shared ESLint config of the projects of D&D Mapp. Its presets hold the rules that the projects share, leave formatting to Prettier, and enforce the dependency rules between the projects on the imports of each project. [Architecture](../../docs/architecture.md#dependency-rules) describes those rules.
 
 | Task        | Command | Runs in CI | Cached |
 |:------------|:--------|:----------:|:------:|
@@ -47,12 +47,7 @@ Last, every preset adds the `boundaries/dependencies` rule of [`eslint-plugin-bo
 - An import that the dependency rules forbid, such as a module that imports the web module of another domain.
 - An import of a project that the project's `package.json` does not declare, or an import of another project through a relative path. The path aliases resolve every module for every project, but moon builds its project graph from `package.json`, so it would miss such a dependency.
 
-The rule sorts the projects by their folder, and allows each kind of project these imports:
-
-- `apps/<platform>`: the core of its platform.
-- `packages/<domain>/<slot>`: the core of its platform, the domain package of its own domain, and the domain package of core. A domain package imports other domain packages only, and the core of a platform lazy-loads the modules of that platform with `import()`.
-- `packages/<name>`: none. Any project may import these packages for the whole workspace, as an ESLint config imports this one.
-- `e2e/<platform>`: none.
+The rule tells the kind of each project from its folder, as the [Projects](../../docs/architecture.md#projects) table lists them, and then applies the dependency rules.
 
 Run ESLint with the `ESLINT_PLUGIN_BOUNDARIES_DEBUG=1` environment variable to print how the rule sorts each file and import.
 

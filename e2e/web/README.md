@@ -13,7 +13,7 @@ Run each task from the repository root.
 | `typecheck` | `tsc`                       |    yes     |  yes   |
 | `lint`      | `eslint . --max-warnings 0` |    yes     |  yes   |
 
-Open the Playwright UI to run and debug the tests. The tests use the dev server at <https://localhost:4200> when it is already up, and start one otherwise, which needs the [one-time HTTPS setup](../../README.md#development):
+Open the Playwright UI to run and debug the tests. The tests reach the dev server at <https://localhost:4200> when it is already up, and start one otherwise, which needs the [one-time HTTPS setup](../../docs/development.md#https-for-the-dev-server). That is the same server as <https://localhost.www.dndmapp.dev:4200>, under a host that the tests need no hosts file entry for:
 
 ```bash
 pnpm moon run web-e2e:e2e
@@ -57,4 +57,4 @@ Lint the tests and the config files with [ESLint](https://eslint.org), [`typescr
 pnpm moon run web-e2e:lint
 ```
 
-The tests run in the full Chromium build of the Playwright version in the `playwright` catalog, in the new headless mode. Both tasks use the build that the [Development](../../README.md#development) section of the root README installs.
+The tests run in the full Chromium build of the Playwright version in the `playwright` catalog, in the new headless mode. Both tasks use the build that [Development](../../docs/development.md#browsers) installs.

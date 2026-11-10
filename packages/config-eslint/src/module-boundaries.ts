@@ -40,7 +40,7 @@ function undeclaredPackages(projectRoot: string): string {
 }
 
 /**
- * Enforces the dependency rules between the projects of the workspace, which `CONTRIBUTING.md` describes, on the
+ * Enforces the dependency rules between the projects of the workspace, which `docs/architecture.md` describes, on the
  * imports of a project. Pass the folder of the project's ESLint config, which holds its `package.json`.
  */
 export function moduleBoundaries(projectRoot: string): Config {
@@ -71,7 +71,7 @@ export function moduleBoundaries(projectRoot: string): Config {
                 {
                     default: 'disallow',
                     message:
-                        'The dependency rules in CONTRIBUTING.md forbid this project to import {{ dependency.source }}.',
+                        'The dependency rules in docs/architecture.md forbid this project to import {{ dependency.source }}.',
                     policies: [
                         // An app builds on the core of its platform.
                         {

@@ -54,7 +54,7 @@ pnpm moon run release:test-ci
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%. The tests of the commands run against projects in the file system mock of [`@dnd-mapp/testing`](../testing/README.md), with fakes for git and the clock. The tests in [`src/adapters`](src/adapters) run the git mock of the same package.
 
-The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig ([`tsconfig.lib.json`](tsconfig.lib.json), [`tsconfig.spec.json`](tsconfig.spec.json), and [`tsconfig.node.json`](tsconfig.node.json)), so only the tests see the Vitest globals that [`vitest.config.ts`](vitest.config.ts) turns on.
+The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes.
 
 Check the types, and lint the sources with the `typescript` preset and the `tsdoc` config of [`@dnd-mapp/config-eslint`](../config-eslint/README.md), which requires a doc comment on every interface, type alias, and member of either:
 

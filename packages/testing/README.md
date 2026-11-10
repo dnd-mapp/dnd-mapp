@@ -4,19 +4,7 @@ Helpers for the tests of any project of D&D Mapp. [`moon.yml`](moon.yml) defines
 
 ## Using the package
 
-Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer:
-
-```json
-"@dnd-mapp/testing": "workspace:*"
-```
-
-The `exports` of [`package.json`](package.json) point at the TypeScript sources, as for [`@dnd-mapp/common`](../common/README.md#using-the-package). moon hashes the inputs of a project's own tasks only, so add the package to the inputs of each task that runs or checks the tests:
-
-```yaml
-inputs:
-    - project: "testing"
-      group: "sources"
-```
+Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer. Add the `sources` group of the `testing` project to the inputs of each task that runs or checks the tests, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes.
 
 ## File system
 
@@ -89,7 +77,7 @@ pnpm moon run testing:test-ci
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
 
-The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig ([`tsconfig.lib.json`](tsconfig.lib.json), [`tsconfig.spec.json`](tsconfig.spec.json), and [`tsconfig.node.json`](tsconfig.node.json)), so only the tests see the Vitest globals that [`vitest.config.ts`](vitest.config.ts) turns on.
+The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes.
 
 Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
 

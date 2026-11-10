@@ -4,7 +4,7 @@ Small, general helpers that any project of D&D Mapp can use. [`moon.yml`](moon.y
 
 ## What belongs here
 
-A helper belongs here when it knows nothing about D&D Mapp, a domain, or a platform: no models or rules of a domain, and no Angular, DOM, or Node.js APIs. Code that the platforms of a domain share goes in the `domain` package of that domain, `packages/<domain>/domain`, as [`CONTRIBUTING.md`](../../CONTRIBUTING.md#projects-tasks-and-dependencies) describes.
+A helper belongs here when it knows nothing about D&D Mapp, a domain, or a platform: no models or rules of a domain, and no Angular, DOM, or Node.js APIs. Code that the platforms of a domain share goes in the `domain` package of that domain, `packages/<domain>/domain`, as [Architecture](../../docs/architecture.md#projects) describes.
 
 ## Helpers
 
@@ -28,19 +28,7 @@ const text = read.value;
 
 ## Using the package
 
-Add the package to the `dependencies` of a project:
-
-```json
-"@dnd-mapp/common": "workspace:*"
-```
-
-The `exports` of [`package.json`](package.json) point at the TypeScript sources, so each project compiles the helpers in its own build, and Node.js runs them through type stripping. [`tsconfig.base.json`](../../tsconfig.base.json) maps the package name to [`src/index.ts`](src/index.ts) for the Angular compiler. moon hashes the inputs of a project's own tasks only, so add the package to the inputs of each task that compiles it:
-
-```yaml
-inputs:
-    - project: "common"
-      group: "sources"
-```
+Add the package to the `dependencies` of a project, and the `sources` group of the `common` project to the inputs of each task that compiles it, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes. Each project compiles the helpers from their TypeScript sources in its own build.
 
 The sources import each other with the `.ts` extension, as Node.js requires, so the `node` and `angular` presets of [`@dnd-mapp/config-typescript`](../config-typescript/README.md) both allow it.
 
@@ -69,7 +57,7 @@ pnpm moon run common:test-ci
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
 
-The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig ([`tsconfig.lib.json`](tsconfig.lib.json), [`tsconfig.spec.json`](tsconfig.spec.json), and [`tsconfig.node.json`](tsconfig.node.json)), so only the tests see the Vitest globals that [`vitest.config.ts`](vitest.config.ts) turns on.
+The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes.
 
 Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
 
