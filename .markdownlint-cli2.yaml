@@ -5,6 +5,10 @@ globs:
     - "**/*.md"
 gitignore: true
 
+# Check that each relative link points at a file that exists, and at a heading of that file when it has a fragment.
+customRules:
+    - markdownlint-rule-relative-links
+
 config:
     default: true
 
@@ -36,6 +40,10 @@ config:
     # Allow the same heading under different parents, such as each version of a changelog.
     MD024:
         siblings_only: true
+
+    # Resolve a link that starts with / from the root of the repository, as GitHub does.
+    relative-links:
+        root_path: "."
 
     MD044:
         names:
