@@ -34,7 +34,7 @@ The repository lets only its collaborators open pull requests, so maintainers ma
 
 `dnd-mapp-bot` is an account that the lead maintainer runs. GitHub does not let authors approve their own pull requests, so the lead maintainer reviews their own pull requests with this account, which is why it belongs to @dnd-mapp/reviewers. It is not a maintainer, and the lead maintainer is accountable for every pull request it approves.
 
-Renovate merges some dependency updates without a review, as the [Dependency updates](README.md#dependency-updates) section of the README explains.
+Renovate merges some dependency updates without a review, as [Dependency updates](docs/dependency-updates.md) explains.
 
 ## People
 

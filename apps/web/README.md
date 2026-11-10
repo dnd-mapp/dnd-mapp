@@ -17,7 +17,7 @@ Run each task from the repository root.
 | `lint-changelog`         | `release lint`                                   |    yes     |  yes   |
 | `lint-short-description` | `node scripts/lint-short-description.ts`         |    yes     |  yes   |
 
-Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../README.md#development) first:
+Serve the app at <https://localhost.www.dndmapp.dev:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../docs/development.md#https-for-the-dev-server) first:
 
 ```bash
 pnpm moon run web:start

@@ -1,6 +1,6 @@
 # Contributing to D&D Mapp
 
-Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, how to use AI tools, the conventions for branches, commits, changelog entries, projects, and tasks, how to check your changes, and how a pull request gets reviewed and merged.
+Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, and how to use AI tools. It then sets the conventions for branches, commits, and changelog entries, and explains how to check your changes and how a pull request gets reviewed and merged.
 
 ## Where to start
 
@@ -38,18 +38,7 @@ A maintainer closes a contribution that falls short of this bar. Clearly uncheck
 
 ## Setting up
 
-The [Development](README.md#development) section of the README sets up the repository and runs its tasks.
-
-`pnpm install` also installs git hooks with [lefthook](https://lefthook.dev), so formatting, Markdown, and commit message problems surface before CI runs. [`lefthook.yaml`](lefthook.yaml) defines them:
-
-- `pre-commit` formats the staged files with Prettier and fixes the staged Markdown files with markdownlint, then adds the fixes to the commit. The commit stops when markdownlint finds a problem it cannot fix.
-- `commit-msg` lints the commit message with commitlint.
-
-Set `LEFTHOOK=0` to skip the hooks for one command:
-
-```bash
-LEFTHOOK=0 git commit
-```
+[Development](docs/development.md) sets up your machine and the repository. `pnpm install` also installs the [git hooks](docs/development.md#git-hooks), which catch formatting, Markdown, and commit message problems before CI runs.
 
 ## Branches
 
@@ -110,33 +99,9 @@ Start an entry with `**Breaking:**` when the change breaks something users rely 
 
 `auto` bumps the major version for a `**Breaking:**` entry, as it does for a `### Removed` one. Below `1.0.0`, it bumps the minor version instead, since major version 0 is for initial development. The `!` and `BREAKING CHANGE:` footer of a [commit](#commits) don't reach the version; only the changelog entry does.
 
-## Projects, tasks, and dependencies
+## Projects
 
-Give every new project a `project` block in its `moon.yml`, with a title, a description, the owner, and the maintainers, as the existing projects do. `pnpm moon project <id>` and the moon VS Code extension show it, so contributors can see what a project is for and who to ask without opening its code.
-
-Put each module of an app in `packages/<domain>/<slot>`, and name it `@dnd-mapp/<domain>-<slot>`, with a moon `id` that repeats the name without the scope. The slot is the platform the module runs on, such as `web`, or `domain` for the plain TypeScript that every platform of the domain shares, such as models, validation, and rules. The `core` domain holds the shell of each app that its domain modules build on, as [`packages/core/web`](packages/core/web/README.md) does for the web client. Set the `id` in `moon.yml` explicitly, since moon names a project after its folder and every app module of a platform shares the folder name of its slot. Packages for the whole workspace, such as tooling and configs, stay flat in `packages/<name>`.
-
-Point the `exports` of a module's `package.json` at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The Angular compiler skips the files that TypeScript resolves through `node_modules`, so map each module to its sources with a `paths` entry in [`tsconfig.base.json`](tsconfig.base.json) at the root of the repository. The file holds nothing but `paths`, so a project of any platform lists it in `extends` next to its preset, as [`apps/web/tsconfig.json`](apps/web/tsconfig.json) does. Keep `paths` out of the `tsconfig.json` of a project, since it would replace the shared map rather than add to it. moon hashes the inputs of a project's own tasks only, so add each module to the inputs of the app tasks that build it, as a project input with the module's `sources` group:
-
-```yaml
-inputs:
-    - project: "core-web"
-      group: "sources"
-```
-
-An app depends on the `core` of its platform only. A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`. A `domain` package may depend on other `domain` packages only. Domain modules never depend on the platform packages of another domain: they meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages. Any project may also depend on the packages for the whole workspace, such as the helpers of [`@dnd-mapp/common`](packages/common/README.md).
-
-Two checks enforce these rules. Tag each project in its `moon.yml` with the platform it runs on, such as `web` or `server`, with `domain` for a `domain` package, or with `tooling` for the root project and the packages of the whole workspace. Under `constraints.tagRelationships`, [`.moon/workspace.yml`](.moon/workspace.yml) lets a platform project depend on projects of its own platform, `domain`, and `tooling`, and a `domain` package on `domain` and `tooling` projects. moon fails to build its project graph on any other dependency, including one on a project without a tag, so every `moon` command reports it. Add a tag to `tagRelationships` along with the first project of a new platform.
-
-moon reads dependencies from `package.json` only, while the path aliases let a project import any module. Extend a preset of [`@dnd-mapp/config-eslint`](packages/config-eslint/README.md) from the `eslint.config.ts` of each new project, as its README explains: `angular` for an Angular app or module, `playwright` for end-to-end tests, and `typescript` for any other TypeScript project. Every preset applies a rule that fails the `lint` task on an import that breaks the rules above, and on an import of a project that the project's `package.json` does not declare.
-
-Extend a preset of [`@dnd-mapp/config-typescript`](packages/config-typescript/README.md) from the `tsconfig.json` of a new TypeScript project, and add `@group(configs)` to the inputs of its tasks, as the package README explains. Without that group, a change to a preset reruns none of the project's tasks.
-
-Name the inputs of a task through file groups rather than listing globs, so tasks that read the same files share one list and a new file reaches all of them. [`.moon/tasks/all.yml`](.moon/tasks/all.yml) defines the groups that every project inherits, such as `configs`, and a project defines its own groups, such as `sources`, under `fileGroups` in its `moon.yml`. A project group replaces an inherited group with the same name, and the globs of every group resolve from the root of the project that uses it.
-
-Define a task that more than one project runs once, in a file in `.moon/tasks/`, rather than in each project's `moon.yml`. The `inheritedBy` conditions of each file pick the projects that inherit its tasks: [`.moon/tasks/eslint.yml`](.moon/tasks/eslint.yml) gives the `lint` task to every project with an `eslint.config.ts`. A project that inherits a task defines the file groups it reads, such as `sources`, and overrides or extends the task by defining one with the same id in its own `moon.yml`. To opt out, list the tasks under `workspace.inheritedTasks.exclude` in the project's `moon.yml`; the `root` project sets `include: []` to inherit none. `pnpm moon project <id>` lists every task of a project, inherited ones included.
-
-Add each new catalog of development tools to the auto-merge rule in [`.github/renovate.json`](.github/renovate.json); the updates of any other catalog wait for review. The [Dependency updates](README.md#dependency-updates) section of the README explains which updates Renovate merges on its own.
+[Architecture](docs/architecture.md) describes the kinds of projects, the dependency rules between them, and how moon defines their tasks. Follow its [checklist](docs/architecture.md#adding-a-project) when you add a project.
 
 ## Checking your changes
 
