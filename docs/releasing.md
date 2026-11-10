@@ -64,7 +64,7 @@ git push origin web@v0.1.0
 
 ## What the release workflow checks
 
-The `Release` workflow runs four jobs, each after the one before it passes, so a failure publishes nothing that comes after it:
+The `Release` workflow runs six jobs, each after the one before it passes, so a failure publishes nothing that comes after it:
 
 | Job                  | Checks or does                                                                                                                                                                                                             |
 |:---------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -72,8 +72,12 @@ The `Release` workflow runs four jobs, each after the one before it passes, so a
 | `Verify the release` | Fails unless the `package.json` and the newest release in the changelog at the tag both hold the version, then extracts the release notes with `release notes`.                                                            |
 | `Release image`      | Builds the image at the tag, and pushes it as `<version>`, `<major>.<minor>`, `<major>`, and `latest`. A version below `1.0.0` gets no `<major>` tag.                                                                      |
 | `GitHub Release`     | Creates the Release `Release <project> v<version>` with the release notes, not marked as the latest, with a discussion in Announcements.                                                                                   |
+| `Deploy staging`     | Has Watchtower update `dndmapp-staging`, waits until <https://staging.dndmapp.nl.eu.org/build-info.json> reports the tagged commit, then runs the end-to-end tests against staging. Runs for `web` only.                   |
+| `Deploy production`  | Has Watchtower update `dndmapp-prod`, and waits until <https://www.dndmapp.nl.eu.org/build-info.json> reports the tagged commit.                                                                                           |
 
 Follow the run with `gh run watch`.
+
+Staging and production both run the `latest` image, so the release reaches staging first, and production only once the end-to-end tests pass there. The deploy jobs run in the `staging` and `production` GitHub environments, and each environment deploys one release at a time. No one approves the promotion, since the signed tag already approves the release.
 
 ## Recovering
 
@@ -102,6 +106,13 @@ gh run rerun <run-id> --failed
 ```
 
 A re-run fixes failures outside the tag, such as a Docker Hub outage, or a signing key that reached `.github/allowed_signers` on `main` after the tag was pushed.
+
+### From failed end-to-end tests on staging
+
+The `GitHub Release` job runs before the deploys, so a release whose tests fail on staging is published, but production stays on the previous release. The `playwright-report-<attempt>` artifact of the run shows which test failed.
+
+- When the test failed by chance, such as on a network error, re-run the failed jobs, which deploys staging again, runs the tests, and promotes the release once they pass.
+- When the release itself is broken, supersede it with a fixed release, as [From a wrong release](#from-a-wrong-release) describes. Its run deploys staging and production in turn.
 
 ### From a tag that can't pass
 
