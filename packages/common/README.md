@@ -48,12 +48,12 @@ The sources import each other with the `.ts` extension, as Node.js requires, so 
 
 Run each task from the repository root.
 
-| Task        | Command                                               | Runs in CI | Cached |
-|:------------|:------------------------------------------------------|:----------:|:------:|
-| `test`      | `vitest`                                              |     no     |   no   |
-| `test-ci`   | `vitest run --reporter dot --reporter github-actions` |    yes     |  yes   |
-| `typecheck` | `tsc`                                                 |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`                           |    yes     |  yes   |
+| Task        | Command                                                                                                   | Runs in CI | Cached |
+|:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
+| `test`      | `vitest`                                                                                                  |     no     |   no   |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
+| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
+| `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
 
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 
@@ -68,6 +68,8 @@ pnpm moon run common:test-ci
 ```
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
+
+The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig ([`tsconfig.lib.json`](tsconfig.lib.json), [`tsconfig.spec.json`](tsconfig.spec.json), and [`tsconfig.node.json`](tsconfig.node.json)), so only the tests see the Vitest globals that [`vitest.config.ts`](vitest.config.ts) turns on.
 
 Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
 
