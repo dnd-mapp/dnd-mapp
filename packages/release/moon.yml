@@ -48,6 +48,8 @@ tasks:
     typecheck:
         script: "tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json"
         # tsconfig.node.json includes the configs of ESLint and Vitest, so the inputs list them next to the sources.
+        # moon tracks the files of each project for its own tasks only, so the inputs also list the shared ESLint
+        # config that eslint.config.ts imports.
         inputs:
             - "@group(sources)"
             - "@group(configs)"
@@ -55,6 +57,8 @@ tasks:
             - project: "common"
               group: "sources"
             - project: "testing"
+              group: "sources"
+            - project: "config-eslint"
               group: "sources"
 
     lint:
