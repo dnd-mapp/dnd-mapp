@@ -1,0 +1,9 @@
+{
+    "extends": "@dnd-mapp/config-typescript/angular.json",
+    "references": [
+        { "path": "./tsconfig.lib.json" },
+        { "path": "./tsconfig.spec.json" },
+        { "path": "./tsconfig.node.json" }
+    ],
+    "files": []
+}

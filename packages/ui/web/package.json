@@ -1,0 +1,41 @@
+{
+  "name": "@dnd-mapp/ui-web",
+  "version": "0.0.0",
+  "description": "The UI components that every app and module of the D&D Mapp web client builds its pages from.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/ui/web"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "peerDependencies": {
+    "@angular/common": "catalog:angular",
+    "@angular/core": "catalog:angular",
+    "@angular/platform-browser": "catalog:angular",
+    "rxjs": "catalog:angular",
+    "tslib": "catalog:angular"
+  },
+  "devDependencies": {
+    "@angular/build": "catalog:angular",
+    "@angular/cli": "catalog:angular",
+    "@angular/compiler": "catalog:angular",
+    "@angular/compiler-cli": "catalog:angular",
+    "@dnd-mapp/config-eslint": "workspace:*",
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@types/node": "catalog:node",
+    "@vitest/browser-playwright": "catalog:vitest",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "@vitest/ui": "catalog:vitest",
+    "eslint": "catalog:eslint",
+    "ng-packagr": "catalog:angular",
+    "playwright": "catalog:playwright",
+    "sass": "catalog:angular",
+    "typescript": "catalog:angular",
+    "vitest": "catalog:vitest"
+  }
+}

@@ -1,0 +1,37 @@
+$schema: "../../../.moon/cache/schemas/project.json"
+
+# moon names a project after its folder, which apps/web already takes, so the id follows the package name instead.
+id: "ui-web"
+layer: "library"
+tags:
+    - "web"
+
+project:
+    title: "Web UI"
+    description: "The UI components of the web client, which every app and module of the web platform may import."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+        - "angular.json"
+        - "ng-package.json"
+
+    tests:
+        - "vitest.config.ts"
+
+# The unit-test builder fails when no spec file matches, so the test and test-ci tasks of core-web come with the first
+# component and its spec. angular.json, vitest.config.ts, and tsconfig.spec.json already set the tests up.
+tasks:
+    typecheck:
+        # The Angular builders check the sources and the tests of the package only, so the task checks the config files
+        # that tsconfig.node.json includes. moon tracks the files of each project for its own tasks only, so the inputs
+        # also list the shared ESLint config that eslint.config.ts imports.
+        command: "tsc --project tsconfig.node.json"
+        inputs:
+            - "@group(configs)"
+            - "*.config.ts"
+            - project: "config-eslint"
+              group: "sources"
