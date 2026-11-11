@@ -1,0 +1,14 @@
+$schema: "../../.moon/cache/schemas/project.json"
+
+id: "design-tokens"
+layer: "library"
+# Every project may depend on a tooling project, so the tag lets the projects of any platform read the tokens.
+tags:
+    - "tooling"
+
+project:
+    title: "Design tokens"
+    description: "The design tokens of the Penpot design system, and the CSS custom properties generated from them."
+    owner: "@dnd-mapp/reviewers"
+    maintainers:
+        - "@NoNamer777"

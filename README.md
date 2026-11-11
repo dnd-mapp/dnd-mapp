@@ -49,6 +49,7 @@ This repository is the monorepo of D&D Mapp, holding all its packages and applic
 - [`apps/web`](apps/web/README.md): the Angular web client.
 - [`e2e/web`](e2e/web/README.md): the end-to-end tests of the web client.
 - [`packages/core/web`](packages/core/web/README.md): the core of the web client, which the domain modules build on.
+- [`packages/design-tokens`](packages/design-tokens/README.md): the design tokens of the Penpot design system, which any project can read.
 - [`packages/config-typescript`](packages/config-typescript/README.md): the TypeScript config presets that the projects extend.
 - [`packages/config-eslint`](packages/config-eslint/README.md): the shared ESLint presets of the projects, which also enforce the dependency rules between them.
 - [`packages/common`](packages/common/README.md): the general helpers that any project can use, such as `tryCatch`.

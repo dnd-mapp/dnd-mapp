@@ -1,0 +1,13 @@
+{
+  "name": "@dnd-mapp/design-tokens",
+  "version": "0.0.0",
+  "description": "The design tokens of D&D Mapp: the Penpot export and the CSS custom properties generated from it.",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "directory": "packages/design-tokens"
+  },
+  "type": "module"
+}
