@@ -63,6 +63,7 @@ Every decision is recorded where it is made:
 - [Discussions](https://github.com/dnd-mapp/dnd-mapp/discussions) hold ideas and questions, and whether an idea becomes work.
 - Issues and the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) hold the accepted work and its status.
 - Pull requests hold how the work is built, and the review that accepted it.
+- [Architecture decision records](docs/adr/README.md) hold why the workspace is built the way it is, for each choice that is hard to reverse.
 
 ## Changing roles
 

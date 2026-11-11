@@ -11,3 +11,4 @@ These guides cover the workspace as a whole. Each project's README covers the pr
 | [CI](ci.md)                                 | The workflows, the jobs of a pull request and of `main`, and the tags of the web image.  |
 | [Deployments](deployments.md)               | The environments, how a deploy works, and how to roll an environment back.               |
 | [Releasing](releasing.md)                   | How a maintainer releases a project, and how to recover when a step fails.               |
+| [Decisions](adr/README.md)                  | Why the workspace is built the way it is, one record per decision, and how to add one.   |
