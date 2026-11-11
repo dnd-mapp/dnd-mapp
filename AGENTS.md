@@ -8,6 +8,7 @@ Read the guide that matches the change before you make it:
 
 - **Setup, tasks, or git hooks:** [Development](docs/development.md).
 - **A new project, or an import from another project:** [Architecture](docs/architecture.md), whose dependency rules moon and ESLint enforce.
+- **A UI component, a page, or a design token:** [Design](docs/design.md).
 - **A dependency, added or updated:** [Dependency updates](docs/dependency-updates.md).
 - **A workflow or composite action in `.github/`:** [CI](docs/ci.md).
 - **An environment or a rollback:** [Deployments](docs/deployments.md).

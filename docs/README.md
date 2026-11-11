@@ -6,6 +6,7 @@ These guides cover the workspace as a whole. Each project's README covers the pr
 |:--------------------------------------------|:-----------------------------------------------------------------------------------------|
 | [Development](development.md)               | The tools, the first run, the tasks of the whole repository, the git hooks, and editors. |
 | [Architecture](architecture.md)             | The kinds of projects, the dependency rules between them, and how to add a project.      |
+| [Design](design.md)                         | Where the designs live, who can open them, and how a design becomes code.                |
 | [Dependency updates](dependency-updates.md) | How to add a dependency, and which updates Renovate merges without review.               |
 | [CI](ci.md)                                 | The workflows, the jobs of a pull request and of `main`, and the tags of the web image.  |
 | [Deployments](deployments.md)               | The environments, how a deploy works, and how to roll an environment back.               |
