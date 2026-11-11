@@ -26,7 +26,7 @@ docker run --rm -p 4200:4200 dndmapp/web:pr-<number>
 
 ## How a deploy works
 
-Watchtower updates the containers, but only when a workflow asks it to, so moving a tag alone changes no environment. A deploy job:
+Watchtower updates the containers, but only when a workflow asks it to, so moving a tag alone changes no environment. [ADR 0005](adr/0005-deploys-on-a-workflow-request.md) records why. A deploy job:
 
 1. Joins the tailnet as `tag:ci`, which reaches only the Watchtower API.
 2. Asks Watchtower to pull the tag that the container follows and restart the container.

@@ -21,7 +21,13 @@ Every dependency from npm takes its version from a named catalog in [`pnpm-works
 "@angular/core": "catalog:angular"
 ```
 
-With `catalogMode: strict`, pnpm accepts only versions from a catalog. Give a dependency that fits none of the catalogs a new catalog, and tell Renovate about it when it holds development tools, as [Adding a catalog](#adding-a-catalog) describes.
+`pnpm add <package> --save-catalog-name <name>` writes both. `catalogMode: strict` holds pnpm to the catalogs in part only:
+
+- `pnpm add` and `pnpm update` fail on a range outside the one the catalog sets.
+- Without `--save-catalog-name`, `pnpm add` writes the package to the default catalog, even when a named catalog lists it.
+- `pnpm install` checks nothing, so a range typed into a `package.json` by hand installs, and only review catches it.
+
+[ADR 0002](adr/0002-named-pnpm-catalogs.md) records why the catalogs follow the tool families. Give a dependency that fits none of the catalogs a new catalog, and tell Renovate about it when it holds development tools, as [Adding a catalog](#adding-a-catalog) describes.
 
 ## Adding a catalog
 

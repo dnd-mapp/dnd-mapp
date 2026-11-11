@@ -29,14 +29,14 @@ Give every project a `project` block in its `moon.yml`, with a title, a descript
 - A package for the whole workspace, and the end-to-end tests of an app, depend on other packages for the whole workspace only.
 - Any project may also depend on the packages for the whole workspace, such as the helpers of [`@dnd-mapp/common`](../packages/common/README.md).
 
-Two checks enforce these rules:
+Two checks enforce these rules, and [ADR 0003](adr/0003-moon-tasks-and-dependency-rules.md) records why each layer exists and what it catches:
 
 - **moon.** Tag each project in its `moon.yml` with the platform it runs on, such as `web` or `server`, with `domain` for a `domain` package, or with `tooling` for the root project and the packages of the whole workspace. Under `constraints.tagRelationships`, [`.moon/workspace.yml`](../.moon/workspace.yml) lets a platform project depend on projects of its own platform, `domain`, and `tooling`, and a `domain` package on `domain` and `tooling` projects. moon fails to build its project graph on any other dependency, including one on a project without a tag, so every `moon` command reports it. Add a tag to `tagRelationships` along with the first project of a new platform.
 - **ESLint.** moon reads dependencies from `package.json` only, while the path aliases let a project import any module. Every preset of [`@dnd-mapp/config-eslint`](../packages/config-eslint/README.md) applies a rule that fails the `lint` task on an import that breaks the rules above, and on an import of a project that the project's `package.json` does not declare. Its README explains how the rule sorts each file.
 
 ## Modules compile from source
 
-The `exports` of a module's `package.json` point at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The TypeScript packages for the whole workspace, such as `@dnd-mapp/common`, do the same, and Node.js runs them through type stripping.
+The `exports` of a module's `package.json` point at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The TypeScript packages for the whole workspace, such as `@dnd-mapp/common`, do the same, and Node.js runs them through type stripping. [ADR 0004](adr/0004-modules-compile-from-source.md) records why, and what it costs.
 
 The Angular compiler skips the files that TypeScript resolves through `node_modules`, so [`tsconfig.base.json`](../tsconfig.base.json) at the root of the repository maps each module to its sources with a `paths` entry. The file holds nothing but `paths`, so a project of any platform lists it in `extends` next to its preset, as [`apps/web/tsconfig.json`](../apps/web/tsconfig.json) does. Keep `paths` out of the `tsconfig.json` of a project, since it would replace the shared map rather than add to it.
 
