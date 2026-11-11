@@ -44,7 +44,7 @@ After those rules, every preset applies [`eslint-config-prettier`](https://githu
 
 Last, every preset adds the `boundaries/dependencies` rule of [`eslint-plugin-boundaries`](https://www.jsboundaries.dev) to every TypeScript file of the project. The rule resolves each import, static or dynamic, through the path aliases in [`tsconfig.base.json`](../../tsconfig.base.json), finds the project it lands in, and fails on two kinds of import:
 
-- An import that the dependency rules forbid, such as a module that imports the web module of another domain.
+- An import that the dependency rules forbid, such as a module that imports the web module of another domain, or a `ui` module that imports any other module. Every app and module may import the `ui` module of its platform, while that module imports only packages for the whole workspace.
 - An import of a project that the project's `package.json` does not declare, or an import of another project through a relative path. The path aliases resolve every module for every project, but moon builds its project graph from `package.json`, so it would miss such a dependency.
 
 The rule tells the kind of each project from its folder, as the [Projects](../../docs/architecture.md#projects) table lists them, and then applies the dependency rules.

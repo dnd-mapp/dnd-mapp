@@ -13,7 +13,7 @@ Every project has a folder that tells its kind:
 | `packages/<name>`          | A package for the whole workspace, such as tooling, configs, or helpers. | [`packages/common`](../packages/common/README.md)     |
 | `e2e/<platform>`           | The end-to-end tests of an app.                                          | [`e2e/web`](../e2e/web/README.md)                     |
 
-The slot of a module is the platform it runs on, such as `web`, or `domain` for the plain TypeScript that every platform of the domain shares, such as models, validation, and rules. The `core` domain holds the shell of each app that its domain modules build on, as `packages/core/web` does for the web client.
+The slot of a module is the platform it runs on, such as `web`, or `domain` for the plain TypeScript that every platform of the domain shares, such as models, validation, and rules. The `core` domain holds the shell of each app that its domain modules build on, as `packages/core/web` does for the web client. The `ui` domain holds the presentational components of each platform, as `packages/ui/web` does for the web client.
 
 Give a module a moon `id` that repeats its name without the scope, such as `core-web`. Set the `id` in `moon.yml` explicitly, since moon names a project after its folder and every app module of a platform shares the folder name of its slot.
 
@@ -21,8 +21,9 @@ Give every project a `project` block in its `moon.yml`, with a title, a descript
 
 ## Dependency rules
 
-- An app depends on the `core` of its platform only.
-- A module may depend on the `core` of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`.
+- An app depends on the `core` and the `ui` module of its platform only.
+- A module may depend on the `core` and the `ui` module of its platform, on the `domain` package of its own domain, and on the `domain` package of `core`.
+- The `ui` module of a platform, such as `ui-web`, depends on packages for the whole workspace only. That keeps the UI components below `core` and the domain modules, so none of them forms a cycle with it, as [ADR 0001](adr/0001-ui-and-token-packages.md) records.
 - A `domain` package may depend on other `domain` packages only.
 - Domain modules never depend on the platform packages of another domain. They meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages.
 - A package for the whole workspace, and the end-to-end tests of an app, depend on other packages for the whole workspace only.

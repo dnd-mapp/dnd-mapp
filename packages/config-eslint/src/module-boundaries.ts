@@ -73,20 +73,23 @@ export function moduleBoundaries(projectRoot: string): Config {
                     message:
                         'The dependency rules in docs/architecture.md forbid this project to import {{ dependency.source }}.',
                     policies: [
-                        // An app builds on the core of its platform.
+                        // An app builds on the core of its platform, and on the UI components of its platform.
                         {
                             from: { element: { type: 'app' } },
                             allow: {
                                 to: {
                                     element: {
                                         type: 'module',
-                                        captured: { domain: 'core', slot: '{{ from.element.captured.platform }}' },
+                                        captured: {
+                                            domain: '{core,ui}',
+                                            slot: '{{ from.element.captured.platform }}',
+                                        },
                                     },
                                 },
                             },
                         },
-                        // A module builds on the core of its platform, on the domain package of its own domain, and
-                        // on the domain package of core.
+                        // A module builds on the core and the UI components of its platform, on the domain package of
+                        // its own domain, and on the domain package of core.
                         {
                             from: { element: { type: 'module', captured: { slot: '!domain' } } },
                             allow: {
@@ -94,7 +97,10 @@ export function moduleBoundaries(projectRoot: string): Config {
                                     {
                                         element: {
                                             type: 'module',
-                                            captured: { domain: 'core', slot: '{{ from.element.captured.slot }}' },
+                                            captured: {
+                                                domain: '{core,ui}',
+                                                slot: '{{ from.element.captured.slot }}',
+                                            },
                                         },
                                     },
                                     {
@@ -106,6 +112,12 @@ export function moduleBoundaries(projectRoot: string): Config {
                                     { element: { type: 'module', captured: { domain: 'core', slot: 'domain' } } },
                                 ],
                             },
+                        },
+                        // The UI components import the packages for the whole workspace only, which keeps them below
+                        // core and the domain modules.
+                        {
+                            from: { element: { type: 'module', captured: { domain: 'ui' } } },
+                            disallow: { to: { element: { type: 'module' } } },
                         },
                         // The router of core lazy-loads the domain modules of its platform.
                         {
