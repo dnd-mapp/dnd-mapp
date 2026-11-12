@@ -22,8 +22,8 @@ Run each task from the repository root.
 
 | Task              | Command                                                                              | Runs in CI | Cached |
 |:------------------|:-------------------------------------------------------------------------------------|:----------:|:------:|
-| `storybook`       | `storybook dev --port 6006`                                                          |     no     |   no   |
-| `build-storybook` | `storybook build --output-dir dist/storybook`                                        |    yes     |  yes   |
+| `storybook`       | `ng run ui-web:storybook`                                                            |     no     |   no   |
+| `build-storybook` | `ng run ui-web:build-storybook`                                                      |    yes     |  yes   |
 | `typecheck`       | `tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit` |    yes     |  yes   |
 | `lint`            | `eslint . --max-warnings 0`                                                          |    yes     |  yes   |
 
@@ -55,8 +55,9 @@ pnpm moon run ui-web:lint
 
 ## Storybook
 
-[Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories document the components; the Vitest specs test them. [ADR 0007](../../../docs/adr/0007-storybook-on-vite.md) records why it runs on the Vite framework of Storybook, which is in preview.
+[Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories document the components; the Vitest specs test them. [ADR 0007](../../../docs/adr/0007-storybook-on-vite.md) records why it runs on the Vite framework of Storybook, which is in preview, and [ADR 0009](../../../docs/adr/0009-storybook-through-angular-cli.md) why moon starts it through the Angular CLI.
 
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
 - Set up the providers that every story needs in [`.storybook/preview.ts`](.storybook/preview.ts), with the `applicationConfig` decorator. Storybook runs the stories zoneless, as the app does.
+- Check each story in both color schemes and both viewports. The `styles` of the Storybook targets in [`angular.json`](angular.json) load [`tokens.css`](../../design-tokens/README.md) into the preview. The theme toolbar switches Dark and Light by setting `data-theme` on `<html>`, and the viewport control switches Mobile and Desktop, as [Themes](../../../docs/design.md#themes) describes.

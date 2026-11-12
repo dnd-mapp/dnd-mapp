@@ -9,6 +9,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Added
 
 - A description and a preview image for links to the app, and the D&D Mapp logo as its favicon and home screen icon.
+- A light theme, which the page shows when the device prefers a light color scheme.
+- Smaller headings and spacing on phones and other narrow windows.
 
 ### Changed
 

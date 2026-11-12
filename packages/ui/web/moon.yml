@@ -29,19 +29,25 @@ fileGroups:
 # component and its spec. angular.json, vitest.config.ts, and tsconfig.spec.json already set the tests up.
 tasks:
     storybook:
-        command: "storybook dev --port 6006"
+        command: "ng run ui-web:storybook"
         preset: "server"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
+            # angular.json loads the tokens into the preview, so a story shows the theme it picks.
+            - project: "design-tokens"
+              group: "css"
 
     build-storybook:
-        command: "storybook build --output-dir dist/storybook"
+        command: "ng run ui-web:build-storybook"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
+            # angular.json loads the tokens into the preview, so a story shows the theme it picks.
+            - project: "design-tokens"
+              group: "css"
         outputs:
             - "dist/storybook/**/*"
 

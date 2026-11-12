@@ -16,6 +16,8 @@ const propertyNames: Readonly<Record<string, string>> = {
  *   expand `typography.h1` into `typography.h1.fontSizes`. The properties get their DTCG names instead.
  * - Penpot exports each font family as a list. Style Dictionary resolves a reference to a list while it expands a
  *   typography token, which would write the font name in place of `var()`. A list of one font becomes that font.
+ * - Penpot may export a hex color in uppercase. sd-transforms lowercases a color token, but not the color of a shadow,
+ *   which Prettier would then rewrite. The color of each shadow becomes lowercase.
  * @param tree - The token tree to change in place.
  */
 export function normalizeTokens(tree: TokenGroup): void {
@@ -24,6 +26,8 @@ export function normalizeTokens(tree: TokenGroup): void {
             normalizeTokens(node);
         } else if (node.$type === 'fontFamilies') {
             node.$value = unwrap(node.$value);
+        } else if (node.$type === 'shadow') {
+            node.$value = Array.isArray(node.$value) ? node.$value.map(lowercaseColor) : lowercaseColor(node.$value);
         } else if (node.$type === 'typography' && typeof node.$value === 'object' && node.$value !== null) {
             node.$value = Object.fromEntries(
                 Object.entries(node.$value).map(([property, value]) => [
@@ -37,4 +41,11 @@ export function normalizeTokens(tree: TokenGroup): void {
 
 function unwrap(value: unknown) {
     return Array.isArray(value) && value.length === 1 ? (value[0] as unknown) : value;
+}
+
+function lowercaseColor(shadow: unknown) {
+    if (typeof shadow !== 'object' || shadow === null || !('color' in shadow) || typeof shadow.color !== 'string') {
+        return shadow;
+    }
+    return shadow.color.startsWith('#') ? { ...shadow, color: shadow.color.toLowerCase() } : shadow;
 }

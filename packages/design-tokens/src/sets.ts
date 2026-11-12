@@ -52,14 +52,18 @@ export function mergeSets(sets: TokenSets, names: readonly string[]): TokenGroup
     const merged: TokenGroup = {};
 
     for (const name of names) {
-        const set = sets.get(name);
-
-        if (set === undefined) {
-            throw new Error(`The token export has no set ${name}.`);
-        }
-        mergeGroup(merged, set, [], name);
+        mergeGroup(merged, getSet(sets, name), [], name);
     }
     return merged;
+}
+
+function getSet(sets: TokenSets, name: string) {
+    const set = sets.get(name);
+
+    if (set === undefined) {
+        throw new Error(`The token export has no set ${name}.`);
+    }
+    return set;
 }
 
 function mergeGroup(target: TokenGroup, source: TokenGroup, path: readonly string[], setName: string) {
@@ -75,6 +79,34 @@ function mergeGroup(target: TokenGroup, source: TokenGroup, path: readonly strin
             throw new Error(`Set ${setName} holds ${nodePath.join('.')}, which an earlier set already holds.`);
         }
     }
+}
+
+/**
+ * Picks the sets that resolve the tokens of some sets, which may reference the tokens of others. A set that overrides
+ * another one, such as `color/light` over `color/dark`, holds the same tokens, so it takes that set's place, while the
+ * sets it shares no token with stay.
+ * @param sets - The sets of the export.
+ * @param base - The names of the sets that apply unless another set overrides them.
+ * @param top - The names of the sets to resolve.
+ * @returns The names of the sets to merge, in the order of `base` with the sets of `top` that it lacks at the end.
+ */
+export function overlaySets(sets: TokenSets, base: readonly string[], top: readonly string[]): string[] {
+    const kept = base.filter(
+        (name) => top.includes(name) || !top.some((other) => sharesToken(getSet(sets, name), getSet(sets, other))),
+    );
+
+    return [...kept, ...top.filter((name) => !kept.includes(name))];
+}
+
+function sharesToken(first: TokenGroup, second: TokenGroup): boolean {
+    return Object.entries(first).some(([key, node]) => {
+        const other = second[key];
+
+        if (other === undefined) {
+            return false;
+        }
+        return isToken(node) || isToken(other) || sharesToken(node, other);
+    });
 }
 
 /** Where a token of the merged tree comes from. */

@@ -17,17 +17,18 @@ fileGroups:
     sources:
         - "src/**/*"
 
-    # The generated CSS that the apps load, so their tasks can list it as an input.
+    # The generated CSS and Sass partial that the apps load, so their tasks can list them as inputs.
     css:
         - "css/**/*"
+        - "scss/**/*"
 
     tests:
         - "vitest.config.ts"
 
 tasks:
     build:
-        # Writes css/tokens.css from tokens.json. Both files are committed, so the app, Storybook, and the image read the
-        # CSS without running the task, as ADR 0006 records.
+        # Writes css/tokens.css from tokens.json, and scss/breakpoints.scss from src/breakpoints.ts. The outputs are
+        # committed, so the app, Storybook, and the image read them without running the task, as ADR 0006 records.
         command: "node src/main.ts"
         inputs:
             - "@group(sources)"
@@ -38,16 +39,18 @@ tasks:
               group: "sources"
         outputs:
             - "css/tokens.css"
+            - "scss/breakpoints.scss"
 
     check:
-        # Fails when the committed css/tokens.css differs from what build generates from tokens.json, so a pull request
-        # can't change a token without its CSS, or the CSS by hand.
+        # Fails when the committed css/tokens.css or scss/breakpoints.scss differs from what build generates, so a pull
+        # request can't change a token or the breakpoint without the generated files, or those files by hand.
         command: "node src/main.ts --check"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "tokens.json"
             - "css/tokens.css"
+            - "scss/breakpoints.scss"
             - "!src/**/*.spec.ts"
             - project: "common"
               group: "sources"

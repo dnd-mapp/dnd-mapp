@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/angular-vite';
 
 export default {
+    addons: ['@storybook/addon-themes'],
     core: {
         disableTelemetry: true,
         disableWhatsNewNotifications: true,

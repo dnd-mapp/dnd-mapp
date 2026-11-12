@@ -49,6 +49,31 @@ CI fails a pull request whose `tokens.css` doesn't match what the build generate
 
 Components use the semantic tokens only, such as `--color-background-page`, never a primitive, such as `--color-neutral-19`. A primitive names a value of the palette or a scale, while a semantic token names its use, so a theme can change the value without touching the component. When a component needs a value that no semantic token holds, add the token in Penpot first. Review enforces the rule.
 
+## Themes
+
+The Design system file groups its themes in two: Color scheme holds Dark and Light, and Viewport holds Mobile and Desktop. `tokens.css` switches both groups with selectors, so a component reads the same variables in every theme. [ADR 0008](adr/0008-theme-mapping.md) records why.
+
+| Theme   | Selector                                                                                                    | Sets `color-scheme` |
+|:--------|:------------------------------------------------------------------------------------------------------------|:-------------------:|
+| Dark    | `:root`                                                                                                     |        `dark`       |
+| Light   | `:root:not([data-theme='dark'])` in `@media (prefers-color-scheme: light)`, and `:root[data-theme='light']` |       `light`       |
+| Mobile  | `:root`                                                                                                     |          no         |
+| Desktop | `:root` in `@media (min-width: 64em)`                                                                       |          no         |
+
+The color scheme follows the device until the reader picks one. The `data-theme` attribute on `<html>` overrides it: `dark` picks Dark, `light` picks Light, and no attribute, or any other value, follows the device. Each color block sets `color-scheme`, so the scrollbars and form controls that the browser draws match the theme. In [Storybook](../packages/ui/web/README.md#storybook), the theme toolbar sets `data-theme`, and the viewport control switches Mobile and Desktop.
+
+No custom property can appear in a media query, so a component style that needs the breakpoint imports it from the Sass partial:
+
+```scss
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
+@media (min-width: breakpoints.$breakpoint-desktop) {
+    // The Desktop layout.
+}
+```
+
+The breakpoint is `64em` rather than `1024px`, since an `em` in a media query follows the reader's font size setting. A reader who enlarges the text keeps the Mobile layout up to a wider window, as the `rem` sizes grow with it. [`src/breakpoints.ts`](../packages/design-tokens/src/breakpoints.ts) holds the value, and the build writes it to both the media query and the partial.
+
 ## With an agent
 
 The Penpot MCP server lets an agent read and export the shapes of a file, but only of the file that a team member has open with the Penpot MCP plugin. Without that, give the agent the view links above.

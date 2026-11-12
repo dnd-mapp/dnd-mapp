@@ -335,6 +335,7 @@
 
 /* color/dark */
 :root {
+    color-scheme: dark;
     --color-background-page: var(--color-neutral-19);
     --color-background-surface: var(--color-neutral-23);
     --color-background-raised: var(--color-neutral-27);
@@ -360,24 +361,100 @@
     --shadow-raised: 0px 1px 3px 0px #00000047;
 }
 
-/* viewport/desktop */
+/* viewport/mobile */
 :root {
     /** Top and bottom padding of a section */
-    --space-section-block: var(--space-96);
+    --space-section-block: var(--space-56);
     /** Side margin of the page */
-    --space-page-inline: 7.5rem;
+    --space-page-inline: var(--space-20);
     /** Gap between a section intro and its content */
-    --space-section-gap: var(--space-40);
-    /** Code: clamp() between the mobile and desktop value */
-    --font-size-h1: 3.375rem;
-    /** Code: clamp() between the mobile and desktop value */
-    --font-size-h2: 2.5rem;
-    /** Code: clamp() between the mobile and desktop value */
-    --font-size-h3: 1.75rem;
-    /** Code: clamp() between the mobile and desktop value */
-    --font-size-closing: 2.75rem;
-    /** Code: clamp() between the mobile and desktop value */
-    --font-size-lead: var(--font-size-20);
-    /** Code: clamp() between the mobile and desktop value */
-    --font-size-intro: var(--font-size-18);
+    --space-section-gap: var(--space-28);
+    --font-size-h1: 2.125rem;
+    --font-size-h2: 1.75rem;
+    --font-size-h3: 1.5rem;
+    --font-size-closing: 1.875rem;
+    --font-size-lead: 1.0625rem;
+    --font-size-intro: 1.0625rem;
+}
+
+/* color/light */
+@media (prefers-color-scheme: light) {
+    :root:not([data-theme='dark']) {
+        color-scheme: light;
+        --color-background-page: var(--color-neutral-99);
+        --color-background-surface: var(--color-neutral-97);
+        --color-background-raised: var(--color-neutral-99);
+        --color-background-sunken: var(--color-neutral-94);
+        --color-background-footer: var(--color-neutral-94);
+        /** Fill behind secondary and quiet buttons, nav links, tabs, and FAQ rows on hover */
+        --color-background-hover: var(--color-neutral-91);
+        --color-background-hover-raised: var(--color-background-hover);
+        --color-foreground-default: var(--color-neutral-19);
+        --color-foreground-muted: var(--color-neutral-41);
+        --color-foreground-on-accent: var(--color-neutral-99);
+        --color-foreground-on-secondary: var(--color-neutral-99);
+        --color-accent-default: var(--color-red-52);
+        --color-accent-text: var(--color-red-52);
+        /** Primary button fill on hover */
+        --color-accent-hover: var(--color-red-41);
+        --color-secondary-default: var(--color-green-41);
+        --color-border-divider: var(--color-neutral-91);
+        --color-border-control: var(--color-neutral-52);
+        --color-border-strong: var(--color-foreground-default);
+        --color-focus-ring: var(--color-blue-52);
+        --opacity-glow: 0.07;
+        --shadow-raised: 0px 1px 3px 0px #0f172a12;
+    }
+}
+
+/* color/light */
+:root[data-theme='light'] {
+    color-scheme: light;
+    --color-background-page: var(--color-neutral-99);
+    --color-background-surface: var(--color-neutral-97);
+    --color-background-raised: var(--color-neutral-99);
+    --color-background-sunken: var(--color-neutral-94);
+    --color-background-footer: var(--color-neutral-94);
+    /** Fill behind secondary and quiet buttons, nav links, tabs, and FAQ rows on hover */
+    --color-background-hover: var(--color-neutral-91);
+    --color-background-hover-raised: var(--color-background-hover);
+    --color-foreground-default: var(--color-neutral-19);
+    --color-foreground-muted: var(--color-neutral-41);
+    --color-foreground-on-accent: var(--color-neutral-99);
+    --color-foreground-on-secondary: var(--color-neutral-99);
+    --color-accent-default: var(--color-red-52);
+    --color-accent-text: var(--color-red-52);
+    /** Primary button fill on hover */
+    --color-accent-hover: var(--color-red-41);
+    --color-secondary-default: var(--color-green-41);
+    --color-border-divider: var(--color-neutral-91);
+    --color-border-control: var(--color-neutral-52);
+    --color-border-strong: var(--color-foreground-default);
+    --color-focus-ring: var(--color-blue-52);
+    --opacity-glow: 0.07;
+    --shadow-raised: 0px 1px 3px 0px #0f172a12;
+}
+
+/* viewport/desktop */
+@media (min-width: 64em) {
+    :root {
+        /** Top and bottom padding of a section */
+        --space-section-block: var(--space-96);
+        /** Side margin of the page */
+        --space-page-inline: 7.5rem;
+        /** Gap between a section intro and its content */
+        --space-section-gap: var(--space-40);
+        /** Code: clamp() between the mobile and desktop value */
+        --font-size-h1: 3.375rem;
+        /** Code: clamp() between the mobile and desktop value */
+        --font-size-h2: 2.5rem;
+        /** Code: clamp() between the mobile and desktop value */
+        --font-size-h3: 1.75rem;
+        /** Code: clamp() between the mobile and desktop value */
+        --font-size-closing: 2.75rem;
+        /** Code: clamp() between the mobile and desktop value */
+        --font-size-lead: var(--font-size-20);
+        /** Code: clamp() between the mobile and desktop value */
+        --font-size-intro: var(--font-size-18);
+    }
 }

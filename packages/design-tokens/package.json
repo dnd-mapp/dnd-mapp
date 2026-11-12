@@ -11,6 +11,7 @@
   },
   "type": "module",
   "exports": {
+    "./breakpoints.scss": "./scss/breakpoints.scss",
     "./tokens.css": "./css/tokens.css"
   },
   "devDependencies": {
