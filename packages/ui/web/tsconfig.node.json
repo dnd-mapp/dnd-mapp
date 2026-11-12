@@ -1,6 +1,6 @@
 {
     "extends": "@dnd-mapp/config-typescript/node.json",
-    "include": ["*.config.ts"],
+    "include": ["*.config.ts", ".storybook/main.ts"],
     "compilerOptions": {
         "noEmit": true
     }
