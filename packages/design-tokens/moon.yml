@@ -33,6 +33,17 @@ tasks:
         outputs:
             - "css/tokens.css"
 
+    check:
+        # Fails when the committed css/tokens.css differs from what build generates from tokens.json, so a pull request
+        # can't change a token without its CSS, or the CSS by hand.
+        command: "node src/main.ts --check"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "tokens.json"
+            - "css/tokens.css"
+            - "!src/**/*.spec.ts"
+
     test:
         command: "vitest"
         preset: "server"
