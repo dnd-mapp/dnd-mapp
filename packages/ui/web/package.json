@@ -21,12 +21,16 @@
     "tslib": "catalog:angular"
   },
   "devDependencies": {
+    "@analogjs/vite-plugin-angular": "catalog:storybook",
+    "@angular-devkit/architect": "catalog:angular",
+    "@angular-devkit/core": "catalog:angular",
     "@angular/build": "catalog:angular",
     "@angular/cli": "catalog:angular",
     "@angular/compiler": "catalog:angular",
     "@angular/compiler-cli": "catalog:angular",
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
+    "@storybook/angular-vite": "catalog:storybook",
     "@types/node": "catalog:node",
     "@vitest/browser-playwright": "catalog:vitest",
     "@vitest/coverage-v8": "catalog:vitest",
@@ -35,7 +39,9 @@
     "ng-packagr": "catalog:angular",
     "playwright": "catalog:playwright",
     "sass": "catalog:angular",
+    "storybook": "catalog:storybook",
     "typescript": "catalog:angular",
+    "vite": "catalog:storybook",
     "vitest": "catalog:vitest"
   }
 }

@@ -22,16 +22,39 @@ fileGroups:
     tests:
         - "vitest.config.ts"
 
+    storybook:
+        - ".storybook/**/*"
+
 # The unit-test builder fails when no spec file matches, so the test and test-ci tasks of core-web come with the first
 # component and its spec. angular.json, vitest.config.ts, and tsconfig.spec.json already set the tests up.
 tasks:
-    typecheck:
-        # The Angular builders check the sources and the tests of the package only, so the task checks the config files
-        # that tsconfig.node.json includes. moon tracks the files of each project for its own tasks only, so the inputs
-        # also list the shared ESLint config that eslint.config.ts imports.
-        command: "tsc --project tsconfig.node.json"
+    storybook:
+        command: "storybook dev --port 6006"
+        preset: "server"
         inputs:
+            - "@group(sources)"
             - "@group(configs)"
+            - "@group(storybook)"
+
+    build-storybook:
+        command: "storybook build --output-dir dist/storybook"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(storybook)"
+        outputs:
+            - "dist/storybook/**/*"
+
+    typecheck:
+        # The Angular builders check the sources and the tests of the package only, and Storybook compiles the stories
+        # without checking them, so the task checks the config files that tsconfig.node.json includes, and the stories
+        # and their templates that tsconfig.storybook.json includes. moon tracks the files of each project for its own
+        # tasks only, so the inputs also list the shared ESLint config that eslint.config.ts imports.
+        script: "tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(storybook)"
             - "*.config.ts"
             - project: "config-eslint"
               group: "sources"

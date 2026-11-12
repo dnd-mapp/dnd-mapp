@@ -20,14 +20,28 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 
 Run each task from the repository root.
 
-| Task        | Command                            | Runs in CI | Cached |
-|:------------|:-----------------------------------|:----------:|:------:|
-| `typecheck` | `tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`        |    yes     |  yes   |
+| Task              | Command                                                                              | Runs in CI | Cached |
+|:------------------|:-------------------------------------------------------------------------------------|:----------:|:------:|
+| `storybook`       | `storybook dev --port 6006`                                                          |     no     |   no   |
+| `build-storybook` | `storybook build --output-dir dist/storybook`                                        |    yes     |  yes   |
+| `typecheck`       | `tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit` |    yes     |  yes   |
+| `lint`            | `eslint . --max-warnings 0`                                                          |    yes     |  yes   |
 
 The package has no `test` or `test-ci` task yet, since the unit-test builder fails when no spec file matches. The first component adds both, as [`core-web`](../../core/web/README.md#tasks) runs them: [Vitest](https://vitest.dev) in headless Chromium, with coverage that fails below 80%. [`angular.json`](angular.json), [`vitest.config.ts`](vitest.config.ts), and [`tsconfig.spec.json`](tsconfig.spec.json) already set the tests up.
 
-Check the types of the config files, which `ng test` leaves out and ESLint and Vitest load without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../config-typescript/README.md):
+Serve [Storybook](#storybook) at <http://localhost:6006>, which reloads on each change:
+
+```bash
+pnpm moon run ui-web:storybook
+```
+
+Build the static Storybook into `dist/storybook/`. The build fails on a story that does not compile, such as one with a broken import, so CI runs it:
+
+```bash
+pnpm moon run ui-web:build-storybook
+```
+
+Check the types of what no build checks: the config files, which `ng test` leaves out and ESLint, Vitest, and Storybook load without checking, and the components, stories, and their templates, which Storybook compiles without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../config-typescript/README.md), and `ngc` checks the templates of [`tsconfig.storybook.json`](tsconfig.storybook.json) as the app build does:
 
 ```bash
 pnpm moon run ui-web:typecheck
@@ -38,3 +52,11 @@ Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`types
 ```bash
 pnpm moon run ui-web:lint
 ```
+
+## Storybook
+
+[Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories document the components; the Vitest specs test them.
+
+- Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
+- Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
+- Set up the providers that every story needs in [`.storybook/preview.ts`](.storybook/preview.ts), with the `applicationConfig` decorator. Storybook runs the stories zoneless, as the app does.
