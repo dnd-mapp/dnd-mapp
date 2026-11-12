@@ -46,6 +46,21 @@
                         "tsConfig": "tsconfig.lib.json"
                     }
                 },
+                "build-storybook": {
+                    "builder": "@storybook/angular-vite:build-storybook",
+                    "options": {
+                        "outputDir": "dist/storybook",
+                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
+                    }
+                },
+                "storybook": {
+                    "builder": "@storybook/angular-vite:start-storybook",
+                    "options": {
+                        "open": false,
+                        "port": 6006,
+                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
+                    }
+                },
                 "test": {
                     "builder": "@angular/build:unit-test",
                     "options": {
@@ -72,20 +87,6 @@
                             "ui": false,
                             "watch": false
                         }
-                    }
-                },
-                "storybook": {
-                    "builder": "@storybook/angular-vite:start-storybook",
-                    "options": {
-                        "port": 6006,
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
-                    }
-                },
-                "build-storybook": {
-                    "builder": "@storybook/angular-vite:build-storybook",
-                    "options": {
-                        "outputDir": "dist/storybook",
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
                     }
                 }
             }
