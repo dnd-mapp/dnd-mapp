@@ -13,6 +13,7 @@ Each architecture decision record (ADR) in this folder says why the workspace is
 | [0005](0005-deploys-on-a-workflow-request.md)   | Watchtower updates a container only when a workflow asks it to               | Accepted |
 | [0006](0006-design-token-pipeline.md)           | A moon task generates committed CSS custom properties from the Penpot tokens | Accepted |
 | [0007](0007-storybook-on-vite.md)               | Storybook runs on its own Vite framework for Angular                         | Accepted |
+| [0008](0008-theme-mapping.md)                   | Media queries and a saved `data-theme` switch the Penpot themes              | Accepted |
 
 ## When to write one
 
