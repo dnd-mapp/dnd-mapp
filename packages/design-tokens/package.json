@@ -14,6 +14,7 @@
     "./tokens.css": "./css/tokens.css"
   },
   "devDependencies": {
+    "@dnd-mapp/common": "workspace:*",
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
     "@tokens-studio/sd-transforms": "catalog:style-dictionary",
