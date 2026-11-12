@@ -23,6 +23,7 @@ Run each task from the repository root.
 | Task        | Command                                                                                                   | Runs in CI | Cached |
 |:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
 | `build`     | `node src/main.ts`                                                                                        |     no     |  yes   |
+| `check`     | `node src/main.ts --check`                                                                                |    yes     |  yes   |
 | `test`      | `vitest`                                                                                                  |     no     |   no   |
 | `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
 | `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
@@ -32,6 +33,12 @@ Generate `css/tokens.css` from `tokens.json` with [Style Dictionary](https://sty
 
 ```bash
 pnpm moon run design-tokens:build
+```
+
+Check that the committed `css/tokens.css` matches what `build` generates from `tokens.json`, as CI does. The task writes nothing, and names the first line that differs:
+
+```bash
+pnpm moon run design-tokens:check
 ```
 
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:

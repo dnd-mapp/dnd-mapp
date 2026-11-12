@@ -45,6 +45,8 @@ The Design system file holds the design tokens, and [`@dnd-mapp/design-tokens`](
 4. Generate `tokens.css` from it with `pnpm moon run design-tokens:build`.
 5. Commit both files in one pull request.
 
+CI fails a pull request whose `tokens.css` doesn't match what the build generates from its `tokens.json`, so a skipped build, or an edit to the CSS by hand, can't reach `main`.
+
 Components use the semantic tokens only, such as `--color-background-page`, never a primitive, such as `--color-neutral-19`. A primitive names a value of the palette or a scale, while a semantic token names its use, so a theme can change the value without touching the component. When a component needs a value that no semantic token holds, add the token in Penpot first. Review enforces the rule.
 
 ## With an agent
