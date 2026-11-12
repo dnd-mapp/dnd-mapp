@@ -4,7 +4,7 @@ The design tokens of D&D Mapp, which the [design system](../../docs/design.md) i
 
 `tokens.json` is the single-file token export of the Design system file, committed as Penpot writes it. Change a token in Penpot and export it again, as [Design tokens](../../docs/design.md#design-tokens) describes, rather than editing the file.
 
-`css/tokens.css` holds the CSS custom properties that the `build` task generates from `tokens.json`, and the package exports it as `@dnd-mapp/design-tokens/tokens.css`. [ADR 0006](../../docs/adr/0006-design-token-pipeline.md) records how the pipeline works and why, and [ADR 0008](../../docs/adr/0008-theme-mapping.md) how the themes switch.
+`css/tokens.css` holds the CSS custom properties that the `build` task generates from `tokens.json`, and the package exports it as `@dnd-mapp/design-tokens/tokens.css`. The task also writes the desktop breakpoint from [`src/breakpoints.ts`](src/breakpoints.ts) to `scss/breakpoints.scss`, which the package exports as `@dnd-mapp/design-tokens/breakpoints.scss`. [ADR 0006](../../docs/adr/0006-design-token-pipeline.md) records how the pipeline works and why, and [ADR 0008](../../docs/adr/0008-theme-mapping.md) how the themes switch.
 
 ## The CSS
 
@@ -29,13 +29,13 @@ Run each task from the repository root.
 | `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
 | `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
 
-Generate `css/tokens.css` from `tokens.json` with [Style Dictionary](https://styledictionary.com) and [`@tokens-studio/sd-transforms`](https://github.com/tokens-studio/sd-transforms), which read the export of Penpot. Run it after each export, and commit both files:
+Generate `css/tokens.css` from `tokens.json` with [Style Dictionary](https://styledictionary.com) and [`@tokens-studio/sd-transforms`](https://github.com/tokens-studio/sd-transforms), which read the export of Penpot, and `scss/breakpoints.scss` from `src/breakpoints.ts`. Run it after each export, or a change to the breakpoint, and commit the files it writes:
 
 ```bash
 pnpm moon run design-tokens:build
 ```
 
-Check that the committed `css/tokens.css` matches what `build` generates from `tokens.json`, as CI does. The task writes nothing, and names the first line that differs:
+Check that the committed `css/tokens.css` and `scss/breakpoints.scss` match what `build` generates, as CI does. The task writes nothing, and names the first line that differs:
 
 ```bash
 pnpm moon run design-tokens:check
