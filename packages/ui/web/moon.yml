@@ -25,8 +25,6 @@ fileGroups:
     storybook:
         - ".storybook/**/*"
 
-# The unit-test builder fails when no spec file matches, so the test and test-ci tasks of core-web come with the first
-# component and its spec. angular.json, vitest.config.ts, and tsconfig.spec.json already set the tests up.
 tasks:
     storybook:
         command: "ng run ui-web:storybook"
@@ -50,6 +48,23 @@ tasks:
               group: "css"
         outputs:
             - "dist/storybook/**/*"
+
+    test:
+        command: "ng test"
+        preset: "server"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+
+    test-ci:
+        command: "ng test -c ci"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+        outputs:
+            - "coverage/**/*"
 
     typecheck:
         # The Angular builders check the sources and the tests of the package only, and Storybook compiles the stories

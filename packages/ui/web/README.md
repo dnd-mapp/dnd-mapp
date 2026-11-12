@@ -28,12 +28,26 @@ Run each task from the repository root.
 
 | Task              | Command                                                                              | Runs in CI | Cached |
 |:------------------|:-------------------------------------------------------------------------------------|:----------:|:------:|
+| `test`            | `ng test`                                                                            |     no     |   no   |
+| `test-ci`         | `ng test -c ci`                                                                      |    yes     |  yes   |
 | `storybook`       | `ng run ui-web:storybook`                                                            |     no     |   no   |
 | `build-storybook` | `ng run ui-web:build-storybook`                                                      |    yes     |  yes   |
 | `typecheck`       | `tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit` |    yes     |  yes   |
 | `lint`            | `eslint . --max-warnings 0`                                                          |    yes     |  yes   |
 
-The package has no `test` or `test-ci` task yet, since the unit-test builder fails when no spec file matches. The first component adds both, as [`core-web`](../../core/web/README.md#tasks) runs them: [Vitest](https://vitest.dev) in headless Chromium, with coverage that fails below 80%. [`angular.json`](angular.json), [`vitest.config.ts`](vitest.config.ts), and [`tsconfig.spec.json`](tsconfig.spec.json) already set the tests up.
+Run the unit tests with [Vitest](https://vitest.dev) in headless Chromium, rerun them when a file changes, and open the Vitest UI:
+
+```bash
+pnpm moon run ui-web:test
+```
+
+Run the unit tests once, as CI does. On GitHub Actions, the `github-actions` reporter annotates the pull request with each failing test:
+
+```bash
+pnpm moon run ui-web:test-ci
+```
+
+Both test tasks collect coverage into `coverage/ui-web/` and fail when statements, branches, functions, or lines drop below 80%. The tests run in Chromium through [Playwright](https://playwright.dev), which [Development](../../../docs/development.md#browsers) installs.
 
 Serve [Storybook](#storybook) at <http://localhost:6006>, which reloads on each change:
 
