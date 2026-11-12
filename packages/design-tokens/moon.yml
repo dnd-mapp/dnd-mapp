@@ -17,6 +17,10 @@ fileGroups:
     sources:
         - "src/**/*"
 
+    # The generated CSS that the apps load, so their tasks can list it as an input.
+    css:
+        - "css/**/*"
+
     tests:
         - "vitest.config.ts"
 
