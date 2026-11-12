@@ -72,22 +72,12 @@ const exported = {
     '$metadata': { activeThemes: [], activeSets: [] },
 };
 
-/** A rule of the generated CSS. */
-interface Rule {
-    /** The sets that the comment above the rule names, such as `color/dark`. */
-    sets: string;
-    /** The selectors of the rule, outermost first. */
-    selectors: string[];
-    /** The declarations of the rule, without their indentation. */
-    declarations: string[];
-}
-
 /**
  * Splits the generated CSS into its rules.
  * @param css - The generated CSS.
  * @returns The rules, in the order of the file.
  */
-function parseRules(css: string): Rule[] {
+function parseRules(css: string) {
     return css
         .split('\n\n')
         .slice(1)
@@ -96,8 +86,11 @@ function parseRules(css: string): Rule[] {
             const trimmed = lines.map((line) => line.trim());
 
             return {
+                // The sets that the comment above the rule names, such as `color/dark`.
                 sets: comment.replace(/^\/\* | \*\/$/g, ''),
+                // The selectors of the rule, outermost first.
                 selectors: trimmed.filter((line) => line.endsWith(' {')).map((line) => line.slice(0, -2)),
+                // The declarations of the rule, without their indentation.
                 declarations: trimmed.filter((line) => line !== '}' && !line.endsWith(' {')),
             };
         });
