@@ -1,4 +1,3 @@
-import '@dnd-mapp/design-tokens/tokens.css';
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
 import type { Preview } from '@storybook/angular-vite';
 
