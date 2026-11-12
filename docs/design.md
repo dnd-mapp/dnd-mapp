@@ -6,12 +6,12 @@ This guide says where the designs of D&D Mapp live, who can open them, and how a
 
 The designs live in [Penpot](https://penpot.app), in the D&D Mapp project of the D&D Mapp team. Each file has a view link that opens without a Penpot account:
 
-| File                       | Pages                   | Holds                                                                | View link             |
-|:---------------------------|:------------------------|:---------------------------------------------------------------------|:----------------------|
-| Design system              | Foundations, Components | The design tokens, and the components with the build status of each. | [Open][design-system] |
-| Desktop                    | Landing page            | The wireframes of the landing page at desktop widths.                | [Open][desktop]       |
-| Mobile                     | Landing page            | The wireframes of the landing page at mobile widths.                 | [Open][mobile]        |
-| Landing page · exploration | Mood board, Wireframe   | The mood board and the first wireframe of the landing page.          | [Open][exploration]   |
+| File                       | Pages                          | Holds                                                                                                                            | View link             |
+|:---------------------------|:-------------------------------|:---------------------------------------------------------------------------------------------------------------------------------|:----------------------|
+| Design system              | Foundations, Components, Brand | The design tokens, the components with the build status of each, and the logo with the favicons and Open Graph image of the app. | [Open][design-system] |
+| Desktop                    | Landing page                   | The wireframes of the landing page at desktop widths.                                                                            | [Open][desktop]       |
+| Mobile                     | Landing page                   | The wireframes of the landing page at mobile widths.                                                                             | [Open][mobile]        |
+| Landing page · exploration | Mood board, Wireframe          | The mood board and the first wireframe of the landing page.                                                                      | [Open][exploration]   |
 
 The design system is a shared library: Desktop and Mobile use its components, so a change to a component reaches every page that uses it.
 
