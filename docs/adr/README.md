@@ -4,9 +4,13 @@ Each architecture decision record (ADR) in this folder says why the workspace is
 
 ## Decisions
 
-| ADR                                   | Decision                                                       | Status   |
-|:--------------------------------------|:---------------------------------------------------------------|:---------|
-| [0001](0001-ui-and-token-packages.md) | Separate packages hold the UI components and the design tokens | Accepted |
+| ADR                                             | Decision                                                       | Status   |
+|:------------------------------------------------|:---------------------------------------------------------------|:---------|
+| [0001](0001-ui-and-token-packages.md)           | Separate packages hold the UI components and the design tokens | Accepted |
+| [0002](0002-named-pnpm-catalogs.md)             | Named pnpm catalogs, one per tool family, hold every version   | Accepted |
+| [0003](0003-moon-tasks-and-dependency-rules.md) | moon runs every task and checks the dependency rules           | Accepted |
+| [0004](0004-modules-compile-from-source.md)     | Apps compile the modules they import from source               | Accepted |
+| [0005](0005-deploys-on-a-workflow-request.md)   | Watchtower updates a container only when a workflow asks it to | Accepted |
 
 ## When to write one
 
