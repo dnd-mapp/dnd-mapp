@@ -9,5 +9,16 @@
     "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
     "directory": "packages/design-tokens"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "@dnd-mapp/config-eslint": "workspace:*",
+    "@dnd-mapp/config-typescript": "workspace:*",
+    "@tokens-studio/sd-transforms": "catalog:style-dictionary",
+    "@types/node": "catalog:node",
+    "@vitest/coverage-v8": "catalog:vitest",
+    "eslint": "catalog:eslint",
+    "style-dictionary": "catalog:style-dictionary",
+    "typescript": "catalog:angular",
+    "vitest": "catalog:vitest"
+  }
 }

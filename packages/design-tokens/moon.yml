@@ -12,3 +12,40 @@ project:
     owner: "@dnd-mapp/reviewers"
     maintainers:
         - "@NoNamer777"
+
+fileGroups:
+    sources:
+        - "src/**/*"
+
+    tests:
+        - "vitest.config.ts"
+
+tasks:
+    test:
+        command: "vitest"
+        preset: "server"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+
+    test-ci:
+        command: "vitest run --reporter dot --reporter github-actions"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "@group(tests)"
+        outputs:
+            - "coverage/**/*"
+
+    typecheck:
+        script: "tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json"
+        # tsconfig.node.json includes the configs of ESLint and Vitest, so the inputs list them next to the sources.
+        # moon tracks the files of each project for its own tasks only, so the inputs also list the shared ESLint
+        # config that eslint.config.ts imports.
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "*.config.ts"
+            - project: "config-eslint"
+              group: "sources"
