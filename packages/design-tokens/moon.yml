@@ -30,6 +30,8 @@ tasks:
             - "@group(configs)"
             - "tokens.json"
             - "!src/**/*.spec.ts"
+            - project: "common"
+              group: "sources"
         outputs:
             - "css/tokens.css"
 
@@ -43,6 +45,8 @@ tasks:
             - "tokens.json"
             - "css/tokens.css"
             - "!src/**/*.spec.ts"
+            - project: "common"
+              group: "sources"
 
     test:
         command: "vitest"
@@ -70,5 +74,13 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "*.config.ts"
+            - project: "common"
+              group: "sources"
             - project: "config-eslint"
+              group: "sources"
+
+    lint:
+        # Extends the inherited task, since the type-aware rules read the types of the helpers.
+        inputs:
+            - project: "common"
               group: "sources"

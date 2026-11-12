@@ -575,6 +575,9 @@ importers:
 
   packages/design-tokens:
     devDependencies:
+      '@dnd-mapp/common':
+        specifier: workspace:*
+        version: link:../common
       '@dnd-mapp/config-eslint':
         specifier: workspace:*
         version: link:../config-eslint

@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { tryCatch } from '@dnd-mapp/common';
 import { buildCss } from './build.ts';
 import { checkCss } from './check.ts';
 
@@ -10,7 +11,12 @@ const css = await buildCss(exported);
 
 if (process.argv.includes('--check')) {
     // design-tokens:check compares the committed file with the build, and writes nothing.
-    const error = checkCss(css, await readFile(file, 'utf8').catch(() => undefined));
+    const committed = await tryCatch(readFile(file, 'utf8'));
+
+    if (!committed.ok && (committed.error as NodeJS.ErrnoException).code !== 'ENOENT') {
+        throw committed.error;
+    }
+    const error = checkCss(css, committed.ok ? committed.value : undefined);
 
     if (error !== undefined) {
         console.error(error);
