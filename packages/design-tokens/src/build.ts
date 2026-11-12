@@ -53,7 +53,7 @@ const pxToRem = {
  * @param token - The token to read.
  * @returns The Tokens Studio type, or `undefined` when the preprocessor kept the type.
  */
-function originalType(token: TransformedToken): unknown {
+function originalType(token: TransformedToken) {
     const extensions = token['$extensions'] as Record<string, { originalType?: unknown } | undefined> | undefined;
 
     return extensions?.['studio.tokens']?.originalType;
@@ -103,7 +103,7 @@ function formatCss(
     sets: TokenSets,
     names: readonly string[],
     rules: readonly Block[],
-): string {
+) {
     // The comment goes above its declaration, since one after a long value would push the line past the width that
     // Prettier allows.
     const formatToken = createPropertyFormatter({
@@ -137,7 +137,7 @@ function formatCss(
     return `${header}\n\n${css.join('\n')}`;
 }
 
-function withoutDescription(token: TransformedToken): TransformedToken {
+function withoutDescription(token: TransformedToken) {
     const copy = { ...token };
 
     delete copy.$description;

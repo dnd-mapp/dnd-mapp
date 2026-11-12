@@ -62,7 +62,7 @@ export function mergeSets(sets: TokenSets, names: readonly string[]): TokenGroup
     return merged;
 }
 
-function mergeGroup(target: TokenGroup, source: TokenGroup, path: readonly string[], setName: string): void {
+function mergeGroup(target: TokenGroup, source: TokenGroup, path: readonly string[], setName: string) {
     for (const [key, node] of Object.entries(source)) {
         const existing = target[key];
         const nodePath = [...path, key];

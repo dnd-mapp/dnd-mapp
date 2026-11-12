@@ -35,6 +35,6 @@ export function normalizeTokens(tree: TokenGroup): void {
     }
 }
 
-function unwrap(value: unknown): unknown {
+function unwrap(value: unknown) {
     return Array.isArray(value) && value.length === 1 ? (value[0] as unknown) : value;
 }
