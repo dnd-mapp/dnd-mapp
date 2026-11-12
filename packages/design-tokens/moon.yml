@@ -21,6 +21,18 @@ fileGroups:
         - "vitest.config.ts"
 
 tasks:
+    build:
+        # Writes css/tokens.css from tokens.json. Both files are committed, so the app, Storybook, and the image read the
+        # CSS without running the task, as ADR 0006 records.
+        command: "node src/main.ts"
+        inputs:
+            - "@group(sources)"
+            - "@group(configs)"
+            - "tokens.json"
+            - "!src/**/*.spec.ts"
+        outputs:
+            - "css/tokens.css"
+
     test:
         command: "vitest"
         preset: "server"

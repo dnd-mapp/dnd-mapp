@@ -10,6 +10,9 @@
     "directory": "packages/design-tokens"
   },
   "type": "module",
+  "exports": {
+    "./tokens.css": "./css/tokens.css"
+  },
   "devDependencies": {
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
