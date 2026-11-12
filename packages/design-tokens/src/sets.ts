@@ -52,14 +52,18 @@ export function mergeSets(sets: TokenSets, names: readonly string[]): TokenGroup
     const merged: TokenGroup = {};
 
     for (const name of names) {
-        const set = sets.get(name);
-
-        if (set === undefined) {
-            throw new Error(`The token export has no set ${name}.`);
-        }
-        mergeGroup(merged, set, [], name);
+        mergeGroup(merged, getSet(sets, name), [], name);
     }
     return merged;
+}
+
+function getSet(sets: TokenSets, name: string) {
+    const set = sets.get(name);
+
+    if (set === undefined) {
+        throw new Error(`The token export has no set ${name}.`);
+    }
+    return set;
 }
 
 function mergeGroup(target: TokenGroup, source: TokenGroup, path: readonly string[], setName: string) {
@@ -87,16 +91,8 @@ function mergeGroup(target: TokenGroup, source: TokenGroup, path: readonly strin
  * @returns The names of the sets to merge, in the order of `base` with the sets of `top` that it lacks at the end.
  */
 export function overlaySets(sets: TokenSets, base: readonly string[], top: readonly string[]): string[] {
-    const groupOf = (name: string) => {
-        const set = sets.get(name);
-
-        if (set === undefined) {
-            throw new Error(`The token export has no set ${name}.`);
-        }
-        return set;
-    };
     const kept = base.filter(
-        (name) => top.includes(name) || !top.some((other) => sharesToken(groupOf(name), groupOf(other))),
+        (name) => top.includes(name) || !top.some((other) => sharesToken(getSet(sets, name), getSet(sets, other))),
     );
 
     return [...kept, ...top.filter((name) => !kept.includes(name))];
