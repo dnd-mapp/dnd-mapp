@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Added
+
+- A description and a preview image for links to the app, and the D&D Mapp logo as its favicon and home screen icon.
+
 ## [0.1.0] - 2026-11-10
 
 ### Added
