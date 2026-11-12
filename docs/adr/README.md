@@ -12,6 +12,7 @@ Each architecture decision record (ADR) in this folder says why the workspace is
 | [0004](0004-modules-compile-from-source.md)     | Apps compile the modules they import from source                             | Accepted |
 | [0005](0005-deploys-on-a-workflow-request.md)   | Watchtower updates a container only when a workflow asks it to               | Accepted |
 | [0006](0006-design-token-pipeline.md)           | A moon task generates committed CSS custom properties from the Penpot tokens | Accepted |
+| [0007](0007-storybook-on-vite.md)               | Storybook runs on its own Vite framework for Angular                         | Accepted |
 
 ## When to write one
 
