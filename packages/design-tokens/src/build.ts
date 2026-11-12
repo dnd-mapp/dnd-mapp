@@ -87,16 +87,16 @@ export async function buildCss(
 ): Promise<string> {
     const sets = splitSets(exported);
     const defaults = rules.filter(isDefault).flatMap((rule) => rule.sets);
-    const css: string[] = [];
 
     await register(StyleDictionary);
 
     // Each rule resolves its tokens against the default sets, with its own sets in place of those they override.
-    for (const rule of rules) {
-        const declarations = await declare(sets, overlaySets(sets, defaults, rule.sets), rule.sets);
+    const css = await Promise.all(
+        rules.map(async (rule) =>
+            formatRule(rule, await declare(sets, overlaySets(sets, defaults, rule.sets), rule.sets)),
+        ),
+    );
 
-        css.push(formatRule(rule, declarations));
-    }
     return `${header}\n\n${css.join('\n')}`;
 }
 
