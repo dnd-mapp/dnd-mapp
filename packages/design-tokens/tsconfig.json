@@ -1,0 +1,12 @@
+{
+    "extends": "@dnd-mapp/config-typescript/node.json",
+    "references": [
+        { "path": "./tsconfig.lib.json" },
+        { "path": "./tsconfig.spec.json" },
+        { "path": "./tsconfig.node.json" }
+    ],
+    "files": [],
+    "compilerOptions": {
+        "noEmit": true
+    }
+}

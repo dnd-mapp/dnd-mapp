@@ -83,6 +83,9 @@ catalogs:
     "@storybook/angular-vite": ~10.6.6
     storybook: ~10.6.6
     vite: ~8.3.7
+  style-dictionary:
+    "@tokens-studio/sd-transforms": ~2.0.3
+    style-dictionary: ~5.8.0
   vitest:
     "@vitest/browser-playwright": ~5.1.0
     "@vitest/coverage-v8": ~5.1.0

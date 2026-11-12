@@ -87,6 +87,7 @@
                 "pnpm.catalog.playwright",
                 "pnpm.catalog.prettier",
                 "pnpm.catalog.storybook",
+                "pnpm.catalog.style-dictionary",
                 "pnpm.catalog.vitest"
             ],
             "matchUpdateTypes": ["minor", "patch", "digest", "pin", "pinDigest"],
