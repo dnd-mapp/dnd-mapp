@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 - A description and a preview image for links to the app, and the D&D Mapp logo as its favicon and home screen icon.
 
+### Changed
+
+- The page uses the colors of the D&D Mapp design system: a dark blue-gray background instead of a neutral gray one, and a matching off-white text color.
+
 ## [0.1.0] - 2026-11-10
 
 ### Added

@@ -372,6 +372,9 @@ importers:
       '@dnd-mapp/core-web':
         specifier: workspace:*
         version: link:../../packages/core/web
+      '@dnd-mapp/design-tokens':
+        specifier: workspace:*
+        version: link:../../packages/design-tokens
       rxjs:
         specifier: catalog:angular
         version: 7.8.2

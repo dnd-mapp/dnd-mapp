@@ -30,6 +30,8 @@ tasks:
             - "@group(configs)"
             - project: "core-web"
               group: "sources"
+            - project: "design-tokens"
+              group: "css"
 
     build:
         command: "ng build"
@@ -38,6 +40,8 @@ tasks:
             - "@group(configs)"
             - project: "core-web"
               group: "sources"
+            - project: "design-tokens"
+              group: "css"
         outputs:
             - "dist/**/*"
 
@@ -64,6 +68,8 @@ tasks:
             - "@group(configs)"
             - project: "core-web"
               group: "sources"
+            - project: "design-tokens"
+              group: "css"
             - "/.dockerignore"
             - "/package.json"
             - "/pnpm-lock.yaml"

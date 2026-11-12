@@ -50,7 +50,7 @@
                         ],
                         "browser": "src/main.ts",
                         "inlineStyleLanguage": "scss",
-                        "styles": ["src/styles.scss"],
+                        "styles": ["@dnd-mapp/design-tokens/tokens.css", "src/styles.scss"],
                         "tsConfig": "tsconfig.app.json"
                     },
                     "defaultConfiguration": "production",

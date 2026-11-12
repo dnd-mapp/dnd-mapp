@@ -19,6 +19,7 @@
     "@angular/platform-browser": "catalog:angular",
     "@angular/router": "catalog:angular",
     "@dnd-mapp/core-web": "workspace:*",
+    "@dnd-mapp/design-tokens": "workspace:*",
     "rxjs": "catalog:angular",
     "tslib": "catalog:angular"
   },
