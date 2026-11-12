@@ -60,3 +60,4 @@ pnpm moon run ui-web:lint
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
 - Set up the providers that every story needs in [`.storybook/preview.ts`](.storybook/preview.ts), with the `applicationConfig` decorator. Storybook runs the stories zoneless, as the app does.
+- Check each story in both color schemes and both viewports. The preview loads [`tokens.css`](../../design-tokens/README.md), the theme toolbar switches Dark and Light by setting `data-theme` on `<html>`, and the viewport control switches Mobile and Desktop, as [Themes](../../../docs/design.md#themes) describes.

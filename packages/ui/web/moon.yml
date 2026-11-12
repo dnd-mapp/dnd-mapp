@@ -35,6 +35,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
+            # The preview loads the tokens, so a story shows the theme it picks.
+            - project: "design-tokens"
+              group: "css"
 
     build-storybook:
         command: "storybook build --output-dir dist/storybook"
@@ -42,6 +45,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
+            # The preview loads the tokens, so a story shows the theme it picks.
+            - project: "design-tokens"
+              group: "css"
         outputs:
             - "dist/storybook/**/*"
 
