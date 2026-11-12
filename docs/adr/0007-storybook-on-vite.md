@@ -1,6 +1,6 @@
 # 0007. Storybook runs on its own Vite framework for Angular
 
-- **Status:** Accepted
+- **Status:** Partly superseded by [0009](0009-storybook-through-angular-cli.md), which has moon start Storybook through the Angular CLI
 - **Date:** 2026-11-12
 - **Built in:** [#244](https://github.com/dnd-mapp/dnd-mapp/pull/244)
 
