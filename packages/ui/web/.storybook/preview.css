@@ -1,0 +1,5 @@
+/* Paints the canvas as styles.scss of the web app paints the page, so a story shows on the background of its theme. */
+body {
+    background: var(--color-background-page);
+    color: var(--color-foreground-default);
+}

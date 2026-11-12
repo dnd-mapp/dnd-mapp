@@ -78,14 +78,14 @@
                     "builder": "@storybook/angular-vite:start-storybook",
                     "options": {
                         "port": 6006,
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css"]
+                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
                     }
                 },
                 "build-storybook": {
                     "builder": "@storybook/angular-vite:build-storybook",
                     "options": {
                         "outputDir": "dist/storybook",
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css"]
+                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
                     }
                 }
             }
