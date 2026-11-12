@@ -14,3 +14,5 @@
 
 # Prettier also skips everything .gitignore lists, so list only the tracked files it must leave alone.
 pnpm-lock.yaml
+# The token export stays as Penpot writes it, so the next export shows only the tokens that changed.
+packages/design-tokens/tokens.json

@@ -35,6 +35,14 @@ The Component inventory board, on the Components page of the design system, list
 
 Build a component once it is Designed, and give it the name it has in Penpot, so either side finds the other: the Nav link component becomes `dma-nav-link`. After its pull request merges, a team member sets the component to In code.
 
+## Design tokens
+
+The Design system file holds the design tokens, and [`@dnd-mapp/design-tokens`](../packages/design-tokens/README.md) keeps them in `tokens.json`, the single-file export of that file. [ADR 0006](adr/0006-design-token-pipeline.md) records how they reach the code. A token changes in Penpot first, as [Source of truth](#source-of-truth) asks, so never edit `tokens.json` by hand. After you change a token, export the tokens again:
+
+1. Open the Design system file, and switch the sidebar to the Tokens tab.
+2. Choose **Tools** at the bottom of the tab, then **Export**, and pick **Single file**.
+3. Save the export over `packages/design-tokens/tokens.json`, and commit it as it is.
+
 ## With an agent
 
 The Penpot MCP server lets an agent read and export the shapes of a file, but only of the file that a team member has open with the Penpot MCP plugin. Without that, give the agent the view links above.
