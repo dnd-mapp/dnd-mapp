@@ -63,7 +63,7 @@ catalogs:
     eslint-plugin-boundaries: ~7.4.2
     eslint-plugin-jsdoc: ~65.4.5
     eslint-plugin-playwright: ~2.12.2
-    typescript-eslint: ~8.72.1
+    typescript-eslint: ~8.72.2
   lefthook:
     lefthook: ~2.2.2
   markdownlint:
