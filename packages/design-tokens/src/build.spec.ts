@@ -72,16 +72,46 @@ const exported = {
     '$metadata': { activeThemes: [], activeSets: [] },
 };
 
+/** A rule of the generated CSS. */
+interface Rule {
+    /** The sets that the comment above the rule names, such as `color/dark`. */
+    sets: string;
+    /** The selectors of the rule, outermost first. */
+    selectors: string[];
+    /** The declarations of the rule, without their indentation. */
+    declarations: string[];
+}
+
 /**
- * Reads the declarations of the rule that a comment names, such as `color/dark`.
+ * Splits the generated CSS into its rules.
+ * @param css - The generated CSS.
+ * @returns The rules, in the order of the file.
+ */
+function parseRules(css: string): Rule[] {
+    return css
+        .split('\n\n')
+        .slice(1)
+        .map((chunk) => {
+            const [comment = '', ...lines] = chunk.trimEnd().split('\n');
+            const trimmed = lines.map((line) => line.trim());
+
+            return {
+                sets: comment.replace(/^\/\* | \*\/$/g, ''),
+                selectors: trimmed.filter((line) => line.endsWith(' {')).map((line) => line.slice(0, -2)),
+                declarations: trimmed.filter((line) => line !== '}' && !line.endsWith(' {')),
+            };
+        });
+}
+
+/**
+ * Reads the declarations of a rule.
  * @param css - The generated CSS.
  * @param sets - The comment above the rule, which lists its sets.
- * @returns The lines between the braces of the rule.
+ * @param index - Which of the rules that declare these sets to read.
+ * @returns The declarations of the rule.
  */
-function rule(css: string, sets: string) {
-    const match = new RegExp(String.raw`/\* ${sets} \*/\n:root \{\n([^}]*)\n\}`).exec(css);
-
-    return match?.[1]?.split('\n').map((line) => line.trim()) ?? [];
+function rule(css: string, sets: string, index = 0) {
+    return parseRules(css).filter((parsed) => parsed.sets === sets)[index]?.declarations ?? [];
 }
 
 describe('buildCss', () => {
@@ -104,16 +134,17 @@ describe('buildCss', () => {
     });
 
     describe('sets', () => {
-        it('puts primitives and base on :root, then color/dark, then viewport/desktop', async () => {
+        it('writes the rules in the order that lets each override the ones before it', async () => {
             const css = await setupTest();
 
-            expect([...css.matchAll(/\/\* (.+) \*\/\n(.+) \{/g)].map(([, sets, selector]) => [sets, selector])).toEqual(
-                [
-                    ['primitives, base', ':root'],
-                    ['color/dark', ':root'],
-                    ['viewport/desktop', ':root'],
-                ],
-            );
+            expect(parseRules(css).map(({ sets, selectors }) => [sets, selectors])).toEqual([
+                ['primitives, base', [':root']],
+                ['color/dark', [':root']],
+                ['viewport/mobile', [':root']],
+                ['color/light', ['@media (prefers-color-scheme: light)', ":root:not([data-theme='dark'])"]],
+                ['color/light', [":root[data-theme='light']"]],
+                ['viewport/desktop', ['@media (min-width: 64em)', ':root']],
+            ]);
         });
 
         it('declares each token in the rule of its set', async () => {
@@ -121,21 +152,53 @@ describe('buildCss', () => {
 
             expect(rule(css, 'primitives, base')).toContain('--space-16: 1rem;');
             expect(rule(css, 'color/dark')).toContain('--color-background-page: var(--color-neutral-19);');
+            expect(rule(css, 'viewport/mobile')).toContain('--font-size-h1: 2.125rem;');
+            expect(rule(css, 'color/light')).toContain('--color-background-page: var(--color-neutral-94);');
             expect(rule(css, 'viewport/desktop')).toContain('--font-size-h1: 3.375rem;');
         });
 
-        it('takes the tokens of color/dark, not those of color/light', async () => {
+        it('declares the same tokens in both rules of color/light', async () => {
             const css = await setupTest();
 
-            expect(css).not.toContain('var(--color-neutral-94)');
-            expect(css).not.toContain('#0f172a12');
+            expect(rule(css, 'color/light', 1)).toEqual(rule(css, 'color/light', 0));
         });
 
-        it('takes the tokens of viewport/desktop, not those of viewport/mobile', async () => {
+        it('keeps the tokens of each set out of the rules of the others', async () => {
             const css = await setupTest();
 
-            expect(css).not.toContain('2.125rem');
+            expect(rule(css, 'color/dark').join('\n')).not.toContain('var(--color-neutral-94)');
+            expect(rule(css, 'color/light').join('\n')).not.toContain('var(--color-neutral-19)');
+            expect(rule(css, 'viewport/desktop').join('\n')).not.toContain('2.125rem');
         });
+
+        it('nests the rule of viewport/desktop in its media query', async () => {
+            const css = await setupTest();
+
+            expect(css).toContain(
+                '@media (min-width: 64em) {\n    :root {\n        --font-size-h1: 3.375rem;\n    }\n}\n',
+            );
+        });
+    });
+
+    describe('color scheme', () => {
+        it.each([
+            ['color/dark', 0, 'dark'],
+            ['color/light', 0, 'light'],
+            ['color/light', 1, 'light'],
+        ])('sets color-scheme first in rule %s #%i', async (sets, index, scheme) => {
+            const css = await setupTest();
+
+            expect(rule(css, sets, index)[0]).toBe(`color-scheme: ${scheme};`);
+        });
+
+        it.each(['primitives, base', 'viewport/mobile', 'viewport/desktop'])(
+            'sets no color-scheme in rule %s',
+            async (sets) => {
+                const css = await setupTest();
+
+                expect(rule(css, sets).join('\n')).not.toContain('color-scheme');
+            },
+        );
     });
 
     describe('names', () => {
@@ -223,5 +286,11 @@ describe('buildCss', () => {
         const css = await setupTest();
 
         expect(rule(css, 'color/dark')).toContain('--shadow-raised: 0px 1px 3px 0px #00000047;');
+    });
+
+    it('writes the hex color of a shadow in lowercase', async () => {
+        const css = await setupTest();
+
+        expect(rule(css, 'color/light')).toContain('--shadow-raised: 0px 1px 3px 0px #0f172a12;');
     });
 });

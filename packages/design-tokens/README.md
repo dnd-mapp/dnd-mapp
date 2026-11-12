@@ -10,7 +10,8 @@ The design tokens of D&D Mapp, which the [design system](../../docs/design.md) i
 
 Each token becomes a variable named after its path in kebab case, with no prefix and no set name: `color.accent.default` becomes `--color-accent-default`. A token that references another one keeps the reference as `var()`, so the CSS shows which primitive each semantic token takes its value from.
 
-- **Sets.** The sets of Penpot's active themes, `primitives`, `base`, `color/dark`, and `viewport/desktop`, go on `:root`, each set in a rule of its own. The build merges only these sets, so `color/light` and `viewport/mobile` overwrite none of their tokens. ADR 0008 adds Light and Mobile.
+- **Sets.** `primitives`, `base`, `color/dark`, and `viewport/mobile` go on `:root`, each set in a rule of its own. `color/light` follows twice, once for a device that prefers light and once for `data-theme="light"`, and `viewport/desktop` last, inside the desktop media query. [Themes](../../docs/design.md#themes) lists the selectors. Each rule resolves its references against the sets on `:root`, with its own set in place of the one it overrides, so `color/light` never overwrites a token of `color/dark` in the build.
+- **Color scheme.** The rules of `color/dark` and `color/light` each set `color-scheme` to their scheme.
 - **Sizes** are in `rem` at 16 px to 1 rem, letter spacing included. Border widths stay in `px`.
 - **Typography tokens** become one variable per property, such as `--typography-h1-font-size: var(--font-size-h1)`.
 - **Shadows** become one `box-shadow` value each, such as `--shadow-raised`.

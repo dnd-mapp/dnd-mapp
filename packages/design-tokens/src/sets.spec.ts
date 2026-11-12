@@ -1,4 +1,4 @@
-import { findSource, mergeSets, splitSets } from './sets.ts';
+import { findSource, mergeSets, overlaySets, splitSets } from './sets.ts';
 
 const exported = {
     'primitives': {
@@ -69,6 +69,27 @@ describe('mergeSets', () => {
 
     it('fails on a set that the export does not hold', () => {
         expect(() => mergeSets(splitSets(exported), ['color/dim'])).toThrow('The token export has no set color/dim.');
+    });
+});
+
+describe('overlaySets', () => {
+    const sets = splitSets(exported);
+    const base = ['primitives', 'base', 'color/dark'];
+
+    it('puts a set in place of the sets it shares a token with', () => {
+        expect(overlaySets(sets, base, ['color/light'])).toEqual(['primitives', 'base', 'color/light']);
+    });
+
+    it('keeps the sets when the overlay is one of them', () => {
+        expect(overlaySets(sets, base, ['color/dark'])).toEqual(base);
+    });
+
+    it('keeps a set whose groups the overlay shares, but none of its tokens', () => {
+        expect(overlaySets(sets, ['primitives'], ['color/dark'])).toEqual(['primitives', 'color/dark']);
+    });
+
+    it('fails on a set that the export does not hold', () => {
+        expect(() => overlaySets(sets, base, ['color/dim'])).toThrow('The token export has no set color/dim.');
     });
 });
 
