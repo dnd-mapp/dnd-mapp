@@ -271,8 +271,9 @@ jobs:
             # BASE_URL points the tests at staging, so they start no stack of their own. moon prefixes each output line
             # with the task target, which hides the test annotations from the runner, so sed strips the prefix from
             # those lines.
+            # sed -u passes on each line as it reads it, so the log shows the output while the tests run.
             - name: Run the end-to-end tests against staging
-              run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -E 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
+              run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -uE 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
               shell: bash
               env:
                   BASE_URL: https://staging.dndmapp.nl.eu.org/
