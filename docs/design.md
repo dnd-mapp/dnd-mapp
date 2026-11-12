@@ -37,11 +37,15 @@ Build a component once it is Designed, and give it the name it has in Penpot, so
 
 ## Design tokens
 
-The Design system file holds the design tokens, and [`@dnd-mapp/design-tokens`](../packages/design-tokens/README.md) keeps them in `tokens.json`, the single-file export of that file. [ADR 0006](adr/0006-design-token-pipeline.md) records how they reach the code. A token changes in Penpot first, as [Source of truth](#source-of-truth) asks, so never edit `tokens.json` by hand. After you change a token, export the tokens again:
+The Design system file holds the design tokens, and [`@dnd-mapp/design-tokens`](../packages/design-tokens/README.md) keeps them in `tokens.json`, the single-file export of that file, and in `tokens.css`, the CSS custom properties generated from it. [ADR 0006](adr/0006-design-token-pipeline.md) records how they reach the code. A token changes in Penpot first, as [Source of truth](#source-of-truth) asks, so never edit either file by hand. After you change a token, export the tokens again:
 
 1. Open the Design system file, and switch the sidebar to the Tokens tab.
 2. Choose **Tools** at the bottom of the tab, then **Export**, and pick **Single file**.
-3. Save the export over `packages/design-tokens/tokens.json`, and commit it as it is.
+3. Save the export over `packages/design-tokens/tokens.json`, as it is.
+4. Generate `tokens.css` from it with `pnpm moon run design-tokens:build`.
+5. Commit both files in one pull request.
+
+Components use the semantic tokens only, such as `--color-background-page`, never a primitive, such as `--color-neutral-19`. A primitive names a value of the palette or a scale, while a semantic token names its use, so a theme can change the value without touching the component. When a component needs a value that no semantic token holds, add the token in Penpot first. Review enforces the rule.
 
 ## With an agent
 
