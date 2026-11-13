@@ -3,7 +3,8 @@ import StyleDictionary from 'style-dictionary';
 import type { FormatFnArguments, TransformedToken } from 'style-dictionary/types';
 import { createPropertyFormatter } from 'style-dictionary/utils';
 import { desktopBreakpoint } from './breakpoints.ts';
-import { findSource, mergeSets, overlaySets, splitSets, type TokenSets } from './sets.ts';
+import { fontStack } from './fonts.ts';
+import { findSource, isToken, mergeSets, overlaySets, splitSets, type TokenGroup, type TokenSets } from './sets.ts';
 import { normalizeTokens } from './normalize.ts';
 
 /** A rule of the generated CSS, which declares the tokens of some sets of the export. */
@@ -65,6 +66,17 @@ const pxToRem = {
 } as const;
 
 /**
+ * Writes each `fontFamilies` token as the font stack of its family, as ADR 0010 records. Penpot renders the first family
+ * of a token only, so the stack comes from `src/fonts.ts`. A typography token that references the family keeps its
+ * `var()`, since the transform skips a token whose value is a reference.
+ */
+const fontStackTransform = {
+    type: 'value',
+    filter: (token: TransformedToken) => token.$type === 'fontFamily',
+    transform: (token: TransformedToken) => fontStack(String((token.original as { $value: unknown }).$value)),
+} as const;
+
+/**
  * Reads the type that Penpot gave a token, which the `tokens-studio` preprocessor replaces with its DTCG type.
  * @param token - The token to read.
  * @returns The Tokens Studio type, or `undefined` when the preprocessor kept the type.
@@ -88,6 +100,10 @@ export async function buildCss(
     const sets = splitSets(exported);
     const defaults = rules.filter(isDefault).flatMap((rule) => rule.sets);
 
+    for (const set of sets.values()) {
+        checkFontFamilies(set);
+    }
+
     await register(StyleDictionary);
 
     // Each rule resolves its tokens against the default sets, with its own sets in place of those they override.
@@ -98,6 +114,25 @@ export async function buildCss(
     );
 
     return `${header}\n\n${css.join('\n')}`;
+}
+
+/**
+ * Fails on a `fontFamilies` token whose family the font config lacks. Style Dictionary would catch the error of the
+ * transform that writes the stack, and report only that a transform failed.
+ * @param tree - The token tree to check.
+ */
+function checkFontFamilies(tree: TokenGroup) {
+    for (const node of Object.values(tree)) {
+        if (!isToken(node)) {
+            checkFontFamilies(node);
+        } else if (node.$type === 'fontFamilies') {
+            for (const family of [node.$value].flat()) {
+                if (!String(family).startsWith('{')) {
+                    fontStack(String(family));
+                }
+            }
+        }
+    }
 }
 
 function isDefault(rule: Block) {
@@ -122,13 +157,13 @@ async function declare(sets: TokenSets, names: readonly string[], declared: read
         expand: { include: ['typography'], typesMap: expandTypesMap },
         log: { verbosity: 'silent', warnings: 'error' },
         hooks: {
-            transforms: { 'dnd-mapp/size/pxToRem': pxToRem },
+            transforms: { 'dnd-mapp/size/pxToRem': pxToRem, 'dnd-mapp/font/stack': fontStackTransform },
             formats: { 'dnd-mapp/declarations': (args) => formatDeclarations(args, sets, names, declared) },
         },
         platforms: {
             css: {
                 transformGroup: 'tokens-studio',
-                transforms: ['name/kebab', 'dnd-mapp/size/pxToRem'],
+                transforms: ['name/kebab', 'dnd-mapp/size/pxToRem', 'dnd-mapp/font/stack'],
                 files: [{ destination: 'tokens.css', format: 'dnd-mapp/declarations' }],
             },
         },

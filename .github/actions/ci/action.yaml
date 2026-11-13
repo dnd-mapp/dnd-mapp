@@ -25,7 +25,7 @@ runs:
         # output, which would annotate each finding a second time. The targets name the checks, so web:build and
         # web:image stay out of this job. The web-image job builds the app inside the image instead. build-storybook
         # counts as a check, since it fails on a story that does not compile. design-tokens:build stays out too, while
-        # design-tokens:check fails when the committed tokens.css differs from what the build generates.
+        # design-tokens:check fails when the committed tokens.css or fonts.css differs from what the build generates.
         - name: Run the affected moon tasks
           run: |
               pnpm moon ci :build-storybook :check :format-check :lint :lint-changelog :lint-md :lint-short-description \

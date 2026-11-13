@@ -266,12 +266,20 @@ describe('buildCss', () => {
             expect(css.match(/Page title, one per page/g)).toHaveLength(1);
         });
 
-        it('quotes a font family whose name holds a space', async () => {
-            const css = await setupTest((tokens) => {
-                tokens.base.font.family.heading.$value = ['Source Sans 3'];
-            });
+        it('writes a font family as the stack of its family in the font config', async () => {
+            const css = await setupTest();
 
-            expect(css).toContain("--font-family-heading: 'Source Sans 3';");
+            expect(rule(css, 'primitives, base')).toContain(
+                "--font-family-heading: 'Manrope', 'Manrope Fallback', sans-serif;",
+            );
+        });
+
+        it('fails on a font family that the font config lacks', async () => {
+            await expect(
+                setupTest((tokens) => {
+                    tokens.base.font.family.heading.$value = ['Comic Sans MS'];
+                }),
+            ).rejects.toThrow('No font in src/fonts.ts has the family Comic Sans MS.');
         });
     });
 

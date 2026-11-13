@@ -1,7 +1,7 @@
 {
   "name": "@dnd-mapp/design-tokens",
   "version": "0.0.0",
-  "description": "The design tokens of D&D Mapp: the Penpot export and the CSS custom properties generated from it.",
+  "description": "The design tokens of D&D Mapp: the Penpot export, the CSS custom properties generated from it, and the fonts.",
   "private": true,
   "license": "MIT",
   "repository": {
@@ -12,9 +12,17 @@
   "type": "module",
   "exports": {
     "./breakpoints.scss": "./scss/breakpoints.scss",
+    "./fonts.css": "./css/fonts.css",
     "./tokens.css": "./css/tokens.css"
   },
+  "dependencies": {
+    "@fontsource-variable/jetbrains-mono": "catalog:fontsource",
+    "@fontsource-variable/manrope": "catalog:fontsource",
+    "@fontsource-variable/source-sans-3": "catalog:fontsource"
+  },
   "devDependencies": {
+    "@capsizecss/metrics": "catalog:capsize",
+    "@capsizecss/unpack": "catalog:capsize",
     "@dnd-mapp/common": "workspace:*",
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
@@ -22,6 +30,7 @@
     "@types/node": "catalog:node",
     "@vitest/coverage-v8": "catalog:vitest",
     "eslint": "catalog:eslint",
+    "prettier": "catalog:prettier",
     "style-dictionary": "catalog:style-dictionary",
     "typescript": "catalog:angular",
     "vitest": "catalog:vitest"
