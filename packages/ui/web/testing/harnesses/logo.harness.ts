@@ -13,9 +13,7 @@ export class LogoHarness extends ComponentHarness {
 
     /** The text of the wordmark, or null when the logo shows the mark alone. */
     public async getWordmarkText(): Promise<string | null> {
-        const wordmark = await this.wordmarkLocator();
-
-        return wordmark ? await wordmark.text() : null;
+        return (await (await this.wordmarkLocator())?.text()) ?? null;
     }
 
     /** Whether the mark is hidden from assistive technology, so the logo announces its name only once. */
