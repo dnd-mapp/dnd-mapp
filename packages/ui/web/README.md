@@ -14,12 +14,24 @@ A component belongs here when it is presentational: it takes its content through
 
 [lo]: src/components/logo/logo.component.ts
 
+## Theme
+
+`ThemeService` owns the color scheme that the reader picks, the one piece of state in this package that [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) allows. [ADR 0008](../../../docs/adr/0008-theme-mapping.md) records how the choice maps to the themes of `tokens.css`. Inject the service where the reader picks a theme, such as the Theme picker:
+
+- `theme` is a signal of the choice: `Theme.System`, `Theme.Dark`, or `Theme.Light`.
+- `setTheme(theme)` applies a choice. Dark and Light save it under `dma-theme` in `localStorage` and set `data-theme` on `<html>`. System removes both, so the page follows `prefers-color-scheme` again.
+- A missing or unknown saved value counts as System. When the browser blocks `localStorage`, a choice still applies until the page reloads.
+- The service listens for the `storage` event, so a choice made in one tab applies in every open tab.
+- It touches `localStorage` and the `storage` event in the browser only. During prerendering, it reports System and changes nothing.
+
+The service reads the saved choice when it starts, but leaves `data-theme` alone until the reader picks a theme. An inline boot script in the `<head>` of [`apps/web/src/index.html`](../../../apps/web/src/index.html) sets it from `dma-theme` before the stylesheets load, so a reader who picked Light sees no flash of Dark while the app boots. The script can't import from this package, so it repeats the key and the values, and [`boot-script.spec.ts`](src/theme/boot-script.spec.ts) runs it against the service to keep the two in step. The test tasks list `index.html` as an input for that reason. Once the app gets a Content Security Policy, the script needs a hash in `script-src`.
+
 ## Entry points
 
-| Import                     | Source                                 | Exports                                                                                                           |
-|:---------------------------|:---------------------------------------|:------------------------------------------------------------------------------------------------------------------|
-| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr` |
-| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `setupTestEnvironment`                                                                             |
+| Import                     | Source                                 | Exports                                                                                                                                                                                                           |
+|:---------------------------|:---------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `THEME_STORAGE_KEY`, `parseTheme` |
+| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `setupTestEnvironment`                                                                                                                                                                             |
 
 The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the apps and modules that use it, and stays out of the production sources. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
 
