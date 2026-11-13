@@ -34,6 +34,8 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
+            - project: "common"
+              group: "sources"
             # angular.json loads the tokens into the preview, so a story shows the theme it picks.
             - project: "design-tokens"
               group: "css"
@@ -44,6 +46,8 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
+            - project: "common"
+              group: "sources"
             # angular.json loads the tokens into the preview, so a story shows the theme it picks.
             - project: "design-tokens"
               group: "css"
@@ -57,6 +61,8 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            - project: "common"
+              group: "sources"
             # boot-script.spec.ts reads the boot script of the web app to check it against ThemeService.
             - "/apps/web/src/index.html"
 
@@ -66,6 +72,8 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            - project: "common"
+              group: "sources"
             # boot-script.spec.ts reads the boot script of the web app to check it against ThemeService.
             - "/apps/web/src/index.html"
         outputs:
@@ -75,12 +83,21 @@ tasks:
         # The Angular builders check the sources and the tests of the package only, and Storybook compiles the stories
         # without checking them, so the task checks the config files that tsconfig.node.json includes, and the stories
         # and their templates that tsconfig.storybook.json includes. moon tracks the files of each project for its own
-        # tasks only, so the inputs also list the shared ESLint config that eslint.config.ts imports.
+        # tasks only, so the inputs also list the helpers of @dnd-mapp/common and the shared ESLint config that
+        # eslint.config.ts imports.
         script: "tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(storybook)"
             - "*.config.ts"
+            - project: "common"
+              group: "sources"
             - project: "config-eslint"
+              group: "sources"
+
+    lint:
+        # Extends the inherited task, since the type-aware rules read the types of the helpers.
+        inputs:
+            - project: "common"
               group: "sources"

@@ -684,6 +684,9 @@ importers:
       '@angular/platform-browser':
         specifier: catalog:angular
         version: 22.2.5(@angular/animations@22.2.5(@angular/core@22.2.5(@angular/compiler@22.2.5)(rxjs@7.8.2)))(@angular/common@22.2.5(@angular/core@22.2.5(@angular/compiler@22.2.5)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.2.5(@angular/compiler@22.2.5)(rxjs@7.8.2))
+      '@dnd-mapp/common':
+        specifier: workspace:*
+        version: link:../../common
       rxjs:
         specifier: catalog:angular
         version: 7.8.2
