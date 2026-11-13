@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { DEFAULT_LOGO_KIND, DEFAULT_LOGO_SIZE, LogoKind, LogoSize, logoKindAttr, logoSizeAttr } from './logo.types';
+import { DEFAULT_LOGO_KIND, DEFAULT_LOGO_SIZE, logoKindAttr, logoSizeAttr } from './logo.types';
 
 /**
  * The D&D Mapp logo. It names itself "D&D Mapp" to assistive technology in every variant, so a link around it takes
@@ -12,13 +12,10 @@ import { DEFAULT_LOGO_KIND, DEFAULT_LOGO_SIZE, LogoKind, LogoSize, logoKindAttr,
     host: {
         'role': 'img',
         'aria-label': 'D&D Mapp',
-        '[class.small]': 'size() === LogoSize.Small',
+        '[class.small]': "size() === 'small'",
     },
 })
 export class LogoComponent {
     public readonly kind = input(DEFAULT_LOGO_KIND, { transform: logoKindAttr });
     public readonly size = input(DEFAULT_LOGO_SIZE, { transform: logoSizeAttr });
-
-    protected readonly LogoKind = LogoKind;
-    protected readonly LogoSize = LogoSize;
 }

@@ -33,10 +33,6 @@ const meta = {
             },
         },
     },
-    parameters: {
-        // Lists the inputs only, and leaves out the constants that the template reads through members of the component.
-        controls: { include: ['kind', 'size'] },
-    },
 } satisfies Meta<LogoComponent>;
 
 export default meta;
