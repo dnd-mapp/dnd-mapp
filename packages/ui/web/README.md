@@ -31,19 +31,21 @@ The service reads the saved choice when it starts, but leaves `data-theme` alone
 | Import                     | Source                                 | Exports                                                                                                                                                                                                           |
 |:---------------------------|:---------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `THEME_STORAGE_KEY`, `parseTheme` |
-| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `setupTestEnvironment`                                                                                                                                                                             |
+| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                                                                                             |
 
 The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the apps and modules that use it, and stays out of the production sources. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
 
 ## Testing
 
-Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). `setupTestEnvironment` creates the host and returns its fixture, a harness loader, and the harness of the component:
+Set up each test with `setupTestEnvironment`, which configures the testing module with the `providers` and `imports` that the test passes.
+
+Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). Given a `host` and a `harness`, `setupTestEnvironment` also creates the host and returns its fixture, a harness loader, and the harness of the component:
 
 ```ts
-const { fixture, harness, harnessLoader } = await setupTestEnvironment(TestComponent, LogoHarness);
+const { fixture, harness, harnessLoader } = await setupTestEnvironment({ host: TestComponent, harness: LogoHarness });
 ```
 
-Configure any providers the test needs with `TestBed.configureTestingModule` before the call.
+A test without a component, such as the test of a service, passes the providers alone and injects what it tests with `TestBed.inject`.
 
 ## Tasks
 

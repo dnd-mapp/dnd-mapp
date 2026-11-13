@@ -1,2 +1,7 @@
 export { LogoHarness } from './harnesses/logo.harness';
-export { setupTestEnvironment, type TestEnvironment } from './test-environment';
+export {
+    type ComponentTestEnvironmentOptions,
+    setupTestEnvironment,
+    type TestEnvironment,
+    type TestEnvironmentOptions,
+} from './test-environment';

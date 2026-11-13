@@ -2,14 +2,13 @@ import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ThemeService } from './theme.service';
 import { Theme, THEME_ATTRIBUTE, THEME_STORAGE_KEY } from './theme.types';
+import { setupTestEnvironment } from '../../testing';
 
 describe('ThemeService', () => {
     const root = document.documentElement;
 
     function setupTest(platformId = 'browser') {
-        TestBed.configureTestingModule({
-            providers: [{ provide: PLATFORM_ID, useValue: platformId }],
-        });
+        setupTestEnvironment({ providers: [{ provide: PLATFORM_ID, useValue: platformId }] });
         return TestBed.inject(ThemeService);
     }
 
