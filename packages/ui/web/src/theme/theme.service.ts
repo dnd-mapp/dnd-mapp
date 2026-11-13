@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
-import { StorageService } from '../storage';
-import { DEFAULT_THEME, parseTheme, Theme, THEME_ATTRIBUTE, THEME_STORAGE_KEY } from './theme.types';
+import { StorageKey, StorageService } from '../storage';
+import { DEFAULT_THEME, parseTheme, Theme, THEME_ATTRIBUTE } from './theme.types';
 
 /**
  * Owns the color scheme that the reader picks. It saves a choice of Dark or Light through `StorageService` and sets it
@@ -29,8 +29,8 @@ export class ThemeService {
         if (!this.isBrowser) {
             return;
         }
-        this._theme.set(parseTheme(this.storage.get(THEME_STORAGE_KEY)));
-        this.storage.watch(THEME_STORAGE_KEY, this.onChange);
+        this._theme.set(parseTheme(this.storage.get(StorageKey.Theme)));
+        this.storage.watch(StorageKey.Theme, this.onChange);
     }
 
     /**
@@ -45,9 +45,9 @@ export class ThemeService {
         const valid = parseTheme(theme);
 
         if (valid === Theme.System) {
-            this.storage.remove(THEME_STORAGE_KEY);
+            this.storage.remove(StorageKey.Theme);
         } else {
-            this.storage.set(THEME_STORAGE_KEY, valid);
+            this.storage.set(StorageKey.Theme, valid);
         }
         this.apply(valid);
     }

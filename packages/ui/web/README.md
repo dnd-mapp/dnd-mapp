@@ -30,6 +30,8 @@ The service reads the saved choice when it starts, but leaves `data-theme` alone
 
 `StorageService` reads and writes the storage of the reader's browser for the settings that live there, such as the theme. It keeps no state of its own. The `BROWSER_STORAGE` token picks the storage: `localStorage` by default, and `null` during prerendering or when the browser blocks storage for the site.
 
+Each method takes a key of `StorageKey`, so a misspelled key fails to compile and no two features share one. Add a key to [`storage.types.ts`](src/storage/storage.types.ts) before you save under it.
+
 - `get(key)` returns the saved value, or `null` when there is none or the storage can't be read.
 - `set(key, value)` and `remove(key)` return whether they worked, since the browser can block storage or run out of room. None of the methods throws.
 - `watch(key, listener)` calls `listener` with the new value each time another tab changes `key`, and `null` when that tab removes it or clears the storage. It stops when the app is destroyed, or when you call the function it returns.
@@ -38,10 +40,10 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 
 ## Entry points
 
-| Import                     | Source                                 | Exports                                                                                                                                                                                                                                                                   |
-|:---------------------------|:---------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `THEME_STORAGE_KEY`, `parseTheme`, `StorageService`, `StorageListener`, `BROWSER_STORAGE` |
-| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `InMemoryStorage`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                                                                                                                                  |
+| Import                     | Source                                 | Exports                                                                                                                                                                                                                                                            |
+|:---------------------------|:---------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`, `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE` |
+| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `InMemoryStorage`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                                                                                                                           |
 
 The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the apps and modules that use it, and stays out of the production sources. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
 

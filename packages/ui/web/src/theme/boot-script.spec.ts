@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { commands } from 'vitest/browser';
 import { ThemeService } from './theme.service';
-import { Theme, THEME_ATTRIBUTE, THEME_STORAGE_KEY } from './theme.types';
+import { Theme, THEME_ATTRIBUTE } from './theme.types';
+import { StorageKey } from '../storage';
 
 /**
  * The boot script in the `index.html` of the web app can't import from this package, so it repeats the key and the
@@ -23,13 +24,13 @@ describe('The boot script of the web app', () => {
     });
 
     beforeEach(() => {
-        localStorage.removeItem(THEME_STORAGE_KEY);
+        localStorage.removeItem(StorageKey.Theme);
         root.removeAttribute(THEME_ATTRIBUTE);
     });
 
     afterEach(() => {
         vi.restoreAllMocks();
-        localStorage.removeItem(THEME_STORAGE_KEY);
+        localStorage.removeItem(StorageKey.Theme);
         root.removeAttribute(THEME_ATTRIBUTE);
     });
 
@@ -44,7 +45,7 @@ describe('The boot script of the web app', () => {
     });
 
     it('should set no data-theme for a value ThemeService does not know', () => {
-        localStorage.setItem(THEME_STORAGE_KEY, 'sepia');
+        localStorage.setItem(StorageKey.Theme, 'sepia');
 
         bootScript();
 

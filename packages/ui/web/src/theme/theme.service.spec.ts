@@ -1,9 +1,9 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ThemeService } from './theme.service';
-import { Theme, THEME_ATTRIBUTE, THEME_STORAGE_KEY } from './theme.types';
+import { Theme, THEME_ATTRIBUTE } from './theme.types';
 import { InMemoryStorage, setupTestEnvironment } from '../../testing';
-import { BROWSER_STORAGE } from '../storage';
+import { BROWSER_STORAGE, StorageKey } from '../storage';
 
 describe('ThemeService', () => {
     const root = document.documentElement;
@@ -36,7 +36,7 @@ describe('ThemeService', () => {
 
     afterEach(() => {
         vi.restoreAllMocks();
-        localStorage.removeItem(THEME_STORAGE_KEY);
+        localStorage.removeItem(StorageKey.Theme);
         root.removeAttribute(THEME_ATTRIBUTE);
     });
 
@@ -47,7 +47,7 @@ describe('ThemeService', () => {
     });
 
     it.each<Theme>([Theme.Dark, Theme.Light])('should report a saved %s', (theme) => {
-        storage.setItem(THEME_STORAGE_KEY, theme);
+        storage.setItem(StorageKey.Theme, theme);
 
         const service = setupTest();
 
@@ -55,7 +55,7 @@ describe('ThemeService', () => {
     });
 
     it.each(['system', 'sepia', ''])('should report system for the saved value "%s"', (value) => {
-        storage.setItem(THEME_STORAGE_KEY, value);
+        storage.setItem(StorageKey.Theme, value);
 
         const service = setupTest();
 
@@ -63,7 +63,7 @@ describe('ThemeService', () => {
     });
 
     it('should leave data-theme to the boot script at start', () => {
-        storage.setItem(THEME_STORAGE_KEY, Theme.Light);
+        storage.setItem(StorageKey.Theme, Theme.Light);
         root.setAttribute(THEME_ATTRIBUTE, Theme.Dark);
 
         setupTest();
@@ -77,19 +77,19 @@ describe('ThemeService', () => {
         service.setTheme(theme);
 
         expect(service.theme()).toBe(theme);
-        expect(storage.getItem(THEME_STORAGE_KEY)).toBe(theme);
+        expect(storage.getItem(StorageKey.Theme)).toBe(theme);
         expect(root.getAttribute(THEME_ATTRIBUTE)).toBe(theme);
     });
 
     it('should remove the saved choice and data-theme for system', () => {
-        storage.setItem(THEME_STORAGE_KEY, Theme.Dark);
+        storage.setItem(StorageKey.Theme, Theme.Dark);
         root.setAttribute(THEME_ATTRIBUTE, Theme.Dark);
         const service = setupTest();
 
         service.setTheme(Theme.System);
 
         expect(service.theme()).toBe(Theme.System);
-        expect(storage.getItem(THEME_STORAGE_KEY)).toBeNull();
+        expect(storage.getItem(StorageKey.Theme)).toBeNull();
         expect(root.hasAttribute(THEME_ATTRIBUTE)).toBe(false);
     });
 
@@ -100,13 +100,13 @@ describe('ThemeService', () => {
         service.setTheme('sepia' as Theme);
 
         expect(service.theme()).toBe(Theme.System);
-        expect(storage.getItem(THEME_STORAGE_KEY)).toBeNull();
+        expect(storage.getItem(StorageKey.Theme)).toBeNull();
         expect(root.hasAttribute(THEME_ATTRIBUTE)).toBe(false);
     });
 
     describe('when the storage throws', () => {
         it('should report system', () => {
-            storage.setItem(THEME_STORAGE_KEY, Theme.Light);
+            storage.setItem(StorageKey.Theme, Theme.Light);
             blockStorage();
 
             const service = setupTest();
@@ -129,7 +129,7 @@ describe('ThemeService', () => {
     describe('when another tab changes the choice', () => {
         function changeInOtherTab(newValue: string | null) {
             window.dispatchEvent(
-                new StorageEvent('storage', { key: THEME_STORAGE_KEY, newValue, storageArea: localStorage }),
+                new StorageEvent('storage', { key: StorageKey.Theme, newValue, storageArea: localStorage }),
             );
         }
 
@@ -168,7 +168,7 @@ describe('ThemeService', () => {
 
     describe('during prerendering', () => {
         it('should report system whatever is saved', () => {
-            storage.setItem(THEME_STORAGE_KEY, Theme.Light);
+            storage.setItem(StorageKey.Theme, Theme.Light);
 
             const service = setupTest('server');
 
@@ -181,7 +181,7 @@ describe('ThemeService', () => {
             service.setTheme(Theme.Dark);
 
             expect(service.theme()).toBe(Theme.System);
-            expect(storage.getItem(THEME_STORAGE_KEY)).toBeNull();
+            expect(storage.getItem(StorageKey.Theme)).toBeNull();
             expect(root.hasAttribute(THEME_ATTRIBUTE)).toBe(false);
         });
     });

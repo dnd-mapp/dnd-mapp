@@ -12,12 +12,6 @@ export type Theme = (typeof Theme)[keyof typeof Theme];
 
 export const DEFAULT_THEME: Theme = Theme.System;
 
-/**
- * The `localStorage` key that holds a choice of Dark or Light. The boot script in the `index.html` of the web app reads
- * the same key, which `boot-script.spec.ts` checks.
- */
-export const THEME_STORAGE_KEY = 'dma-theme';
-
 /** The attribute on `<html>` that `tokens.css` reads to pick Dark or Light over the color scheme of the device. */
 export const THEME_ATTRIBUTE = 'data-theme';
 
