@@ -166,6 +166,8 @@
     --size-target-min: 2.75rem;
     --size-measure: 45rem;
     --size-card-min: 17.5rem;
+    /** Icon beside a standalone link */
+    --size-icon-sm: 1.25rem;
     --text-case-none: none;
     --text-case-upper: uppercase;
     --typography-body-font-family: var(--font-family-body);
