@@ -1,36 +1,8 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, inject, InjectionToken, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-    IconArrowDownComponent,
-    IconArrowRightComponent,
-    IconCheckComponent,
-    IconCloseComponent,
-    IconExternalComponent,
-    IconGithubComponent,
-    IconMenuComponent,
-    IconMinusComponent,
-    IconMonitorComponent,
-    IconMoonComponent,
-    IconPlusComponent,
-    IconSunComponent,
-} from '.';
+import { ICONS } from './icons';
 import { IconHarness, setupTestEnvironment } from '../../../testing';
-
-const ICONS: [string, Type<unknown>][] = [
-    ['menu', IconMenuComponent],
-    ['close', IconCloseComponent],
-    ['arrow-right', IconArrowRightComponent],
-    ['arrow-down', IconArrowDownComponent],
-    ['plus', IconPlusComponent],
-    ['minus', IconMinusComponent],
-    ['external', IconExternalComponent],
-    ['sun', IconSunComponent],
-    ['moon', IconMoonComponent],
-    ['monitor', IconMonitorComponent],
-    ['check', IconCheckComponent],
-    ['github', IconGithubComponent],
-];
 
 /** A color that no theme uses, so the icon can only take it from its parent. */
 const PARENT_COLOR = 'rgb(18, 52, 86)';
@@ -59,7 +31,7 @@ describe('Icon components', () => {
         return { harness };
     }
 
-    describe.each(ICONS)('dma-icon-%s', (glyph, icon) => {
+    describe.each(Object.entries(ICONS))('dma-icon-%s', (glyph, icon) => {
         it('should draw its glyph', async () => {
             const { harness } = await setupTest(icon);
 

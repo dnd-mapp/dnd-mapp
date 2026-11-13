@@ -1,6 +1,9 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 
-/** The glyphs of the Icon component, each of which has a component of its own named `dma-icon-<glyph>`. */
+/**
+ * The glyphs of the Icon component, each of which has a component of its own named `dma-icon-<glyph>`. The spec of the
+ * Icon components finds every glyph through this harness, so it fails when this list misses one.
+ */
 const GLYPHS = [
     'menu',
     'close',
