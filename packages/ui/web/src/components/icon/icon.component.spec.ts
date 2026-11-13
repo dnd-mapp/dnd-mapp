@@ -1,7 +1,7 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, inject, InjectionToken, type Type } from '@angular/core';
 import { ICONS } from './icons';
-import { IconHarness, setupTestEnvironment } from '../../../testing';
+import { IconHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 /** A color that no theme uses, so the icon can only take it from its parent. */
 const PARENT_COLOR = 'rgb(18, 52, 86)';

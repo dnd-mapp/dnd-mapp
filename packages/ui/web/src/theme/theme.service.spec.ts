@@ -1,7 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ThemeService } from './theme.service';
 import { Theme, THEME_ATTRIBUTE } from './theme.types';
-import { InMemoryStorage, provideBrowserStorage, providePlatformId, setupTestEnvironment } from '../../testing';
+import {
+    InMemoryStorage,
+    provideBrowserStorage,
+    providePlatformId,
+    setupTestEnvironment,
+} from '@dnd-mapp/ui-web/testing';
 import { StorageKey } from '../storage';
 
 interface SetupOptions {
