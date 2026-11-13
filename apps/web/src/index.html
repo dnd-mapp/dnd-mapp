@@ -4,6 +4,23 @@
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+        <!--
+            Applies the theme that the reader saved before the stylesheets load, so a reader who picked Light sees no
+            flash of Dark while the app boots. ThemeService in @dnd-mapp/ui-web owns the key and the values, and
+            boot-script.spec.ts there keeps this script in step with it.
+        -->
+        <script>
+            try {
+                const theme = localStorage.getItem('dma-theme');
+
+                if (theme === 'dark' || theme === 'light') {
+                    document.documentElement.setAttribute('data-theme', theme);
+                }
+            } catch {
+                // The browser blocks localStorage, so the page follows the color scheme of the device.
+            }
+        </script>
+
         <base href="/" />
 
         <title>D&D Mapp</title>

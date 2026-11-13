@@ -22,7 +22,7 @@ describe('LogoComponent', () => {
     }
 
     async function setupTest<Host>(hostComponent: Type<Host>) {
-        const { fixture, harness } = await setupTestEnvironment(hostComponent, LogoHarness);
+        const { fixture, harness } = await setupTestEnvironment({ host: hostComponent, harness: LogoHarness });
 
         return { harness, host: fixture.componentInstance };
     }

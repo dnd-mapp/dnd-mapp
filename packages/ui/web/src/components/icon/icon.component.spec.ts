@@ -1,6 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, inject, InjectionToken, type Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { ICONS } from './icons';
 import { IconHarness, setupTestEnvironment } from '../../../testing';
 
@@ -25,8 +24,11 @@ describe('Icon components', () => {
     }
 
     async function setupTest(icon: Type<unknown>) {
-        TestBed.configureTestingModule({ providers: [{ provide: ICON, useValue: icon }] });
-        const { harness } = await setupTestEnvironment(TestComponent, IconHarness);
+        const { harness } = await setupTestEnvironment({
+            host: TestComponent,
+            harness: IconHarness,
+            providers: [{ provide: ICON, useValue: icon }],
+        });
 
         return { harness };
     }
