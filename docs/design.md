@@ -74,6 +74,38 @@ No custom property can appear in a media query, so a component style that needs 
 
 The breakpoint is `64em` rather than `1024px`, since an `em` in a media query follows the reader's font size setting. A reader who enlarges the text keeps the Mobile layout up to a wider window, as the `rem` sizes grow with it. [`src/breakpoints.ts`](../packages/design-tokens/src/breakpoints.ts) holds the value, and the build writes it to both the media query and the partial.
 
+## Fonts
+
+The app loads the three families of the `font.family` tokens: Manrope for headings, Source Sans 3 for body text, and JetBrains Mono for game notation. [ADR 0010](adr/0010-font-loading.md) records how and why.
+
+### Why the fonts are self-hosted
+
+The web image serves the font files itself, so no reader's browser contacts a third party for them. A CDN would send each reader's IP address elsewhere, and browsers no longer share its cache between sites, so it would load no faster. The files come from the [Fontsource](https://fontsource.org) packages that `@dnd-mapp/design-tokens` lists under `dependencies`, so dependency updates reach them. Each family loads one variable WOFF2 file per subset and style, which covers every weight, and a browser downloads a subset only for a page that uses its characters.
+
+### The font config
+
+[`src/fonts.ts`](../packages/design-tokens/src/fonts.ts) lists each family with its Fontsource package, its styles, the local font of its fallback, and its generic family. From it, `design-tokens:build` writes:
+
+- `css/fonts.css`, with an `@font-face` rule for each subset and style, and a fallback face for each family. The package exports it as `@dnd-mapp/design-tokens/fonts.css`, and the web app and Storybook load it next to `tokens.css`.
+- A full stack for each `fontFamilies` token in `tokens.css`, such as `--font-family-body: 'Source Sans 3', 'Source Sans 3 Fallback', sans-serif`. Penpot renders only the first family of a token, so the stack comes from the config rather than from Penpot.
+
+### Adding a family or a weight
+
+A variable file covers every weight of its family, so a new weight needs only its `font.weight` token in Penpot, as long as the family offers it. The page of each family on [Fontsource](https://fontsource.org) lists its weight range. To add a family:
+
+1. Add its `font.family` token in Penpot, and export the tokens, as [Design tokens](#design-tokens) describes.
+2. Add the `@fontsource-variable` package of the family to the `fontsource` catalog and to the `dependencies` of `@dnd-mapp/design-tokens`, as [Adding a dependency](dependency-updates.md#adding-a-dependency) describes.
+3. Add the family to `src/fonts.ts`, named as its token names it.
+4. Run `pnpm moon run design-tokens:build`, and commit `fonts.css` and `tokens.css` with the export.
+
+The build fails on a `fontFamilies` token whose family the config lacks. An update of a Fontsource package can change `fonts.css` too, so its pull request needs the build as well; `design-tokens:check` fails CI until it has it.
+
+### How the fallbacks work
+
+Every face uses `font-display: swap`, so text shows at once in a fallback and switches to the family once its file loads. So that the switch moves little text, each family gets a fallback face on a local font, such as `Source Sans 3 Fallback` on Arial. The build reads the metrics of the family from its Latin WOFF2 file with [`@capsizecss/unpack`](https://github.com/seek-oss/capsize/tree/master/packages/unpack), and those of Arial and Courier New from `@capsizecss/metrics`. It sets `size-adjust` so the average character widths match, and `ascent-override`, `descent-override`, and `line-gap-override` so each line keeps the height of the family. The metrics come from the default instance of each variable file, so the fallback matches some weights more closely than others.
+
+A device without the local font, such as most Linux and Android devices, skips the fallback face and shows the generic family until the family loads.
+
 ## With an agent
 
 The Penpot MCP server lets an agent read and export the shapes of a file, but only of the file that a team member has open with the Penpot MCP plugin. Without that, give the agent the view links above.
