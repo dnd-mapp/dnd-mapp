@@ -14,6 +14,9 @@
     ".": "./src/index.ts",
     "./testing": "./testing/index.ts"
   },
+  "dependencies": {
+    "@dnd-mapp/common": "workspace:*"
+  },
   "peerDependencies": {
     "@angular/cdk": "catalog:angular",
     "@angular/common": "catalog:angular",

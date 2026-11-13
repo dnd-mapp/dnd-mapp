@@ -14,24 +14,61 @@ A component belongs here when it is presentational: it takes its content through
 
 [lo]: src/components/logo/logo.component.ts
 
+## Theme
+
+`ThemeService` owns the color scheme that the reader picks, the one piece of state in this package that [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) allows. [ADR 0008](../../../docs/adr/0008-theme-mapping.md) records how the choice maps to the themes of `tokens.css`. Inject the service where the reader picks a theme, such as the Theme picker:
+
+- `theme` is a signal of the choice: `Theme.System`, `Theme.Dark`, or `Theme.Light`.
+- `setTheme(theme)` applies a choice. Dark and Light save it under `dma-theme` through [`StorageService`](#storage) and set `data-theme` on `<html>`. System removes both, so the page follows `prefers-color-scheme` again.
+- A missing or unknown saved value counts as System. When the choice can't be saved, it still applies until the page reloads.
+- The service watches `dma-theme`, so a choice made in one tab applies in every open tab.
+- During prerendering, it reports System and changes nothing.
+
+The service reads the saved choice when it starts, but leaves `data-theme` alone until the reader picks a theme. An inline boot script in the `<head>` of [`apps/web/src/index.html`](../../../apps/web/src/index.html) sets it from `dma-theme` before the stylesheets load, so a reader who picked Light sees no flash of Dark while the app boots. The script can't import from this package, so it repeats the key, the values, and the default storage of `BROWSER_STORAGE`, and [`boot-script.spec.ts`](src/theme/boot-script.spec.ts) runs it against the service to keep the two in step. The test tasks list `index.html` as an input for that reason. Once the app gets a Content Security Policy, the script needs a hash in `script-src`.
+
+## Storage
+
+`StorageService` reads and writes the storage of the reader's browser for the settings that live there, such as the theme. It keeps no state of its own. The `BROWSER_STORAGE` token picks the storage: `localStorage` by default, and `null` during prerendering or when the browser blocks storage for the site.
+
+Each method takes a key of `StorageKey`, so a misspelled key fails to compile and no two features share one. Add a key to [`storage.types.ts`](src/storage/storage.types.ts) before you save under it.
+
+- `get(key)` returns the saved value, or `null` when there is none or the storage can't be read.
+- `set(key, value)` and `remove(key)` return whether they worked, since the browser can block storage or run out of room. None of the methods throws.
+- `watch(key, listener)` calls `listener` with the new value each time another tab changes `key`, and `null` when that tab removes it or clears the storage. It stops when the app is destroyed, or when you call the function it returns.
+
+The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md), so the inputs of the tasks below list the sources of that package.
+
 ## Entry points
 
-| Import                     | Source                                 | Exports                                                                                                           |
-|:---------------------------|:---------------------------------------|:------------------------------------------------------------------------------------------------------------------|
-| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr` |
-| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `setupTestEnvironment`                                                                             |
+| Import                     | Source                                 | Exports                                                                                                                                                                                                                                                            |
+|:---------------------------|:---------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`, `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE` |
+| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `InMemoryStorage`, `provideBrowserStorage`, `providePlatformId`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                                                                             |
 
 The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the apps and modules that use it, and stays out of the production sources. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
 
 ## Testing
 
-Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). `setupTestEnvironment` creates the host and returns its fixture, a harness loader, and the harness of the component:
+Set up each test with `setupTestEnvironment`, which configures the testing module with the `providers` and `imports` that the test passes.
+
+Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). Given a `host` and a `harness`, `setupTestEnvironment` also creates the host and returns its fixture, a harness loader, and the harness of the component. It configures the `providers` and `imports` before it creates the host, so a component test can pass them too:
 
 ```ts
-const { fixture, harness, harnessLoader } = await setupTestEnvironment(TestComponent, LogoHarness);
+const { fixture, harness, harnessLoader } = await setupTestEnvironment({
+    host: TestComponent,
+    harness: LogoHarness,
+    providers: [provideBrowserStorage(new InMemoryStorage())],
+});
 ```
 
-Configure any providers the test needs with `TestBed.configureTestingModule` before the call.
+A test without a component, such as the test of a service, passes the providers alone and injects what it tests:
+
+```ts
+setupTestEnvironment({ providers: [provideBrowserStorage(new InMemoryStorage())] });
+const service = TestBed.inject(ThemeService);
+```
+
+Provide an `InMemoryStorage` through `provideBrowserStorage`, so a test leaves the storage of the browser and the other tests alone. Set its `blocked` to make it throw, as a browser does when it blocks storage for the site. `providePlatformId('server')` runs a test as prerendering does. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
 
 ## Tasks
 
