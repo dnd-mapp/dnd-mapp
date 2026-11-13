@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BROWSER_STORAGE } from './storage.token';
-import { providePlatformId, setupTestEnvironment } from '../../testing';
+import { providePlatformId, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 describe('BROWSER_STORAGE', () => {
     afterEach(() => {

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { StorageService } from './storage.service';
 import { StorageKey } from './storage.types';
-import { InMemoryStorage, provideBrowserStorage, setupTestEnvironment } from '../../testing';
+import { InMemoryStorage, provideBrowserStorage, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 describe('StorageService', () => {
     const key = StorageKey.Theme;

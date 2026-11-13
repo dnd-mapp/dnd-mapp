@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { LogoComponent } from './logo.component';
 import { LogoKind, LogoSize } from './logo.types';
-import { LogoHarness, setupTestEnvironment } from '../../../testing';
+import { LogoHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 describe('LogoComponent', () => {
     @Component({

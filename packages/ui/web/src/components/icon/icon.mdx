@@ -1,0 +1,45 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as IconStories from './icon.stories';
+
+<Meta of={IconStories} />
+
+# Icon
+
+The glyphs of the Icon component of the design system in Penpot. Each glyph is a component of its own, named `dma-icon-<glyph>`.
+
+<Canvas of={IconStories.AllGlyphs} />
+
+## Placing an icon
+
+Place the component of the glyph you need. A component that holds an icon, such as a button, takes it through content projection, so any `dma-icon-*` fits and nothing looks an icon up by name:
+
+```html
+<a href="https://github.com/dnd-mapp/dnd-mapp">
+    <dma-icon-github />
+    GitHub
+</a>
+```
+
+## Size
+
+Every icon draws in a 24 px box, and grows with the reader's font size. It displays as a block, so it adds no line height of its own when it sits in a line of text.
+
+## Colors
+
+Every icon draws in the color of its parent, so it follows the text color of the control that holds it in both color schemes, on hover, and when the control is disabled. The GitHub glyph fills its shape; the others stroke it.
+
+<Canvas of={IconStories.InheritedColor} />
+
+## Accessibility
+
+Every icon hides itself from assistive technology, so screen readers skip it. The control that holds the icon carries the accessible name: give a control that shows an icon alone an `aria-label`:
+
+```html
+<button type="button" aria-label="Open the menu">
+    <dma-icon-menu />
+</button>
+```
+
+## Testing
+
+`IconHarness` from `@dnd-mapp/ui-web/testing` reads any icon in a test: its glyph, whether it is hidden from assistive technology, the color it draws with, and its size.

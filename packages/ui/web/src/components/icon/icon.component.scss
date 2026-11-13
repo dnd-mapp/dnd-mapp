@@ -1,0 +1,13 @@
+// Every glyph draws on a 24 px box, as the Icon component in Penpot does. The box grows with the reader's font size.
+:host {
+    display: block;
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}

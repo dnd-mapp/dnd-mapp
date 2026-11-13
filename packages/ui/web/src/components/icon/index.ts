@@ -1,0 +1,12 @@
+export { IconArrowDownComponent } from './icon-arrow-down.component';
+export { IconArrowRightComponent } from './icon-arrow-right.component';
+export { IconCheckComponent } from './icon-check.component';
+export { IconCloseComponent } from './icon-close.component';
+export { IconExternalComponent } from './icon-external.component';
+export { IconGithubComponent } from './icon-github.component';
+export { IconMenuComponent } from './icon-menu.component';
+export { IconMinusComponent } from './icon-minus.component';
+export { IconMonitorComponent } from './icon-monitor.component';
+export { IconMoonComponent } from './icon-moon.component';
+export { IconPlusComponent } from './icon-plus.component';
+export { IconSunComponent } from './icon-sun.component';
