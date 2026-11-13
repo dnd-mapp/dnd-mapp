@@ -1,0 +1,68 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as LinkStories from './link.stories';
+
+<Meta of={LinkStories} />
+
+# Link
+
+A link to another page or site, inside text or on its own. It is the Link component of the design system in Penpot, and Card, Link group, Footer, and Text page hold it.
+
+<Canvas of={LinkStories.InlineDefault} />
+
+<Controls of={LinkStories.InlineDefault} />
+
+## Placing a link
+
+Link is an attribute on `<a>`, so the element keeps the semantics and keyboard behavior of a native link. Add `routerLink` for a page of the app, or `href` for another site; Link needs no router:
+
+```html
+<a dma-link routerLink="/rules">Rules</a>
+
+<a dma-link kind="standalone" href="https://github.com/dnd-mapp/dnd-mapp">View on GitHub</a>
+```
+
+## Kind
+
+`kind` picks how the link looks. Each kind draws a default, a hover, and a focus state.
+
+### Inline
+
+`LinkKind.Inline`, the default, sits in a line of body text. It is underlined in every state, so color is not the only cue, and it turns to the default foreground color on hover.
+
+<Canvas of={LinkStories.InText} />
+
+<Canvas of={LinkStories.InlineHover} />
+
+### Standalone
+
+`LinkKind.Standalone` sits on a line of its own, such as at the end of a card. It is bold, ends in an arrow, and gets its underline on hover.
+
+<Canvas of={LinkStories.StandaloneDefault} />
+
+<Canvas of={LinkStories.StandaloneHover} />
+
+### Quiet
+
+`LinkKind.Quiet` sits in a list of links, such as Link group or Footer. It draws as muted body text, and reads as a link on hover.
+
+<Canvas of={LinkStories.QuietDefault} />
+
+<Canvas of={LinkStories.QuietHover} />
+
+## Focus
+
+Every kind draws the focus ring outside itself on keyboard focus, and keeps the colors of its default state.
+
+<Canvas of={LinkStories.InlineFocus} />
+
+<Canvas of={LinkStories.StandaloneFocus} />
+
+<Canvas of={LinkStories.QuietFocus} />
+
+## Accessibility
+
+The projected content names the link to assistive technology. The arrow of a standalone link hides itself, so screen readers announce the label alone. Write a label that says where the link goes, rather than "Read more", since a screen reader may list the links of a page out of context.
+
+## Testing
+
+`LinkHarness` from `@dnd-mapp/ui-web/testing` reads a link in a test: its text, its color, its font weight, whether it is underlined, its focus ring, and its arrow.
