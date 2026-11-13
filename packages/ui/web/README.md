@@ -90,6 +90,7 @@ pnpm moon run ui-web:lint
 
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
+- Describe each input that takes one value of a constant object, such as `LogoKind`, with `radioArgType` from [`.storybook/arg-types.ts`](.storybook/arg-types.ts). It gives the input a radio control and a table row with its description, its values, and its default, which Storybook cannot read from the component without Compodoc.
 - Write the docs page of each component as `<name>.mdx` next to its stories, with `<Meta of={...} />` pointing at them, so Storybook shows it as the Docs entry of the component. Import the doc blocks, such as `Canvas` and `Controls`, from `@storybook/addon-docs/blocks`.
 - Set up the providers that every story needs in [`.storybook/preview.ts`](.storybook/preview.ts), with the `applicationConfig` decorator. Storybook runs the stories zoneless, as the app does.
 - Check each story in both color schemes and both viewports. The `styles` of the Storybook targets in [`angular.json`](angular.json) load [`tokens.css`](../../design-tokens/README.md) into the preview, and [`.storybook/preview.css`](.storybook/preview.css) paints the canvas in the page background of the theme, as the web app does. The theme toolbar switches Dark and Light by setting `data-theme` on `<html>`, and the viewport control switches Mobile and Desktop, as [Themes](../../../docs/design.md#themes) describes.

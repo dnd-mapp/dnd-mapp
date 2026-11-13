@@ -1,37 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { LogoComponent } from './logo.component';
 import { DEFAULT_LOGO_KIND, DEFAULT_LOGO_SIZE, LogoKind, LogoSize } from './logo.types';
-
-/** Prints the values of a constant object as a union of string literals, as the table shows the type of an input. */
-function unionOf(values: Record<string, string>): string {
-    return Object.values(values)
-        .map((value) => `'${value}'`)
-        .join(' | ');
-}
+import { radioArgType } from '../../../.storybook/arg-types';
 
 const meta = {
     title: 'Logo',
     component: LogoComponent,
-    // Storybook reads no descriptions from the component without Compodoc, so the table takes them from here.
     argTypes: {
-        kind: {
+        kind: radioArgType({
+            values: LogoKind,
+            typeName: 'LogoKind',
+            defaultValue: DEFAULT_LOGO_KIND,
             description: 'What the logo shows: the mark with the wordmark, or the mark alone where space is short.',
-            control: 'inline-radio',
-            options: Object.values(LogoKind),
-            table: {
-                type: { summary: 'LogoKind', detail: unionOf(LogoKind) },
-                defaultValue: { summary: `'${DEFAULT_LOGO_KIND}'` },
-            },
-        },
-        size: {
+        }),
+        size: radioArgType({
+            values: LogoSize,
+            typeName: 'LogoSize',
+            defaultValue: DEFAULT_LOGO_SIZE,
             description: 'How large the logo draws: large for headers, small for menus and footers.',
-            control: 'inline-radio',
-            options: Object.values(LogoSize),
-            table: {
-                type: { summary: 'LogoSize', detail: unionOf(LogoSize) },
-                defaultValue: { summary: `'${DEFAULT_LOGO_SIZE}'` },
-            },
-        },
+        }),
     },
 } satisfies Meta<LogoComponent>;
 
