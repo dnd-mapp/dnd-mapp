@@ -80,10 +80,10 @@ catalogs:
     prettier: ~3.9.10
   storybook:
     "@analogjs/vite-plugin-angular": ~2.9.6
-    "@storybook/addon-docs": ~10.6.6
-    "@storybook/addon-themes": ~10.6.6
-    "@storybook/angular-vite": ~10.6.6
-    storybook: ~10.6.6
+    "@storybook/addon-docs": ~10.6.7
+    "@storybook/addon-themes": ~10.6.7
+    "@storybook/angular-vite": ~10.6.7
+    storybook: ~10.6.7
     vite: ~8.3.7
   style-dictionary:
     "@tokens-studio/sd-transforms": ~2.0.3
