@@ -88,6 +88,8 @@ pnpm moon run ui-web:lint
 
 [Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories and the docs pages document the components; the Vitest specs test them. [ADR 0007](../../../docs/adr/0007-storybook-on-vite.md) records why it runs on the Vite framework of Storybook, which is in preview, and [ADR 0009](../../../docs/adr/0009-storybook-through-angular-cli.md) why moon starts it through the Angular CLI.
 
+The Storybook of `main` is online at <https://dnd-mapp.github.io/dnd-mapp/>. Each pull request that changes it publishes a preview under `pr/<number>/` and links it as a deployment, as [CI](../../../docs/ci.md#storybook) describes.
+
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
 - Describe each input that takes one value of a constant object, such as `LogoKind`, with `radioArgType` from [`.storybook/arg-types.ts`](.storybook/arg-types.ts). It gives the input a radio control and a table row with its description, its values, and its default, which Storybook cannot read from the component without Compodoc.
