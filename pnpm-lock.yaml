@@ -313,6 +313,9 @@ catalogs:
     storybook:
       specifier: ~10.6.7
       version: 10.6.7
+    storybook-addon-pseudo-states:
+      specifier: ~10.6.7
+      version: 10.6.7
     vite:
       specifier: ~8.3.7
       version: 8.3.7
@@ -796,6 +799,9 @@ importers:
       storybook:
         specifier: catalog:storybook
         version: 10.6.7(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1)
+      storybook-addon-pseudo-states:
+        specifier: catalog:storybook
+        version: 10.6.7(storybook@10.6.7(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))
       typescript:
         specifier: catalog:angular
         version: 6.0.3
@@ -5610,6 +5616,11 @@ packages:
   stdin-discarder@0.3.2:
     resolution: {integrity: sha512-eCPu1qRxPVkl5605OTWF8Wz40b4Mf45NY5LQmVPQ599knfs5QhASUm9GbJ5BDMDOXgrnh0wyEdvzmL//YMlw0A==}
     engines: {node: '>=18'}
+
+  storybook-addon-pseudo-states@10.6.7:
+    resolution: {integrity: sha512-rVTqodZ7bDT1krCbujJQVhYyQFZHbC8Gd6fEyTPJHLqeebB+zgEJ5x4R4yCObBlTSDupTRoKcSVm4nooN3ruNg==}
+    peerDependencies:
+      storybook: ^10.6.7
 
   storybook@10.6.7:
     resolution: {integrity: sha512-/1h87XqC+8tZ5PQ/GVWOg78tCQuEAshYWwok5niBcnHEKzZy6Ls06uuT5/rhQ3iUB0y8iexEVHmUe3jaaxNguw==}
@@ -10583,6 +10594,10 @@ snapshots:
   std-env@4.3.0: {}
 
   stdin-discarder@0.3.2: {}
+
+  storybook-addon-pseudo-states@10.6.7(storybook@10.6.7(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1)):
+    dependencies:
+      storybook: 10.6.7(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1)
 
   storybook@10.6.7(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1):
     dependencies:

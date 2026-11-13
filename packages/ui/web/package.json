@@ -48,6 +48,7 @@
     "playwright": "catalog:playwright",
     "sass": "catalog:angular",
     "storybook": "catalog:storybook",
+    "storybook-addon-pseudo-states": "catalog:storybook",
     "typescript": "catalog:angular",
     "vite": "catalog:storybook",
     "vitest": "catalog:vitest"
