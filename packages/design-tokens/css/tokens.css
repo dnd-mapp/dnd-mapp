@@ -134,6 +134,8 @@
     --radius-lg: 0.75rem;
     /** Chips */
     --radius-pill: 62.4375rem;
+    /** Links */
+    --radius-xs: 0.125rem;
     /** Headings, the wordmark, card titles */
     --font-family-heading: 'Manrope', 'Manrope Fallback', sans-serif;
     /** Body text, labels, buttons */
