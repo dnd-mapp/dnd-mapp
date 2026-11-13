@@ -135,6 +135,52 @@ jobs:
                   path: e2e/web/playwright-report/
                   retention-days: 7
 
+    storybook:
+        name: Storybook
+        # Run alongside the checks rather than after them, as the web-image job does. The pull requests publish their
+        # previews under pr/ of the same site, which this deploy keeps when it replaces the root.
+        needs:
+            - changes
+        if: contains(fromJSON(needs.changes.outputs.tasks), 'ui-web:build-storybook')
+        runs-on: ubuntu-26.04
+        timeout-minutes: 15
+        permissions:
+            # The deploy pushes the site to gh-pages.
+            contents: write
+        environment:
+            name: storybook
+            url: https://dnd-mapp.github.io/dnd-mapp/
+        steps:
+            # In CI, moon diffs against the base branch before it runs a task, which needs the history of both.
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Build Storybook
+              run: pnpm moon run ui-web:build-storybook
+              shell: bash
+
+            - name: Publish Storybook to the root of the site
+              uses: ./.github/actions/publish-pages
+              with:
+                  source: packages/ui/web/dist/storybook
+                  commit: ${{ github.sha }}
+                  message: Publish Storybook of main at ${{ github.sha }}
+                  token: ${{ github.token }}
+
+            # Pages deploys gh-pages in a workflow run of its own, so the job waits until the site serves the commit.
+            - name: Wait for the site to serve the commit
+              uses: ./.github/actions/wait-for-commit
+              with:
+                  url: https://dnd-mapp.github.io/dnd-mapp/build-info.json
+                  commit: ${{ github.sha }}
+                  timeout: "600"
+
     deploy-development:
         name: Deploy development
         # Development runs the edge tag, which the web-image job moves. The deploy waits for the end-to-end tests of that

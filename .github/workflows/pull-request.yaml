@@ -142,6 +142,112 @@ jobs:
                   path: e2e/web/playwright-report/
                   retention-days: 7
 
+    storybook-preview:
+        name: Storybook preview
+        # Run alongside the checks rather than after them, as the web-image job does. Pull requests from forks get a
+        # read-only token, so their runs fail to publish a preview.
+        needs:
+            - changes
+        if: contains(fromJSON(needs.changes.outputs.tasks), 'ui-web:build-storybook')
+        runs-on: ubuntu-26.04
+        timeout-minutes: 15
+        permissions:
+            # The deploy pushes the site to gh-pages.
+            contents: write
+            deployments: write
+        env:
+            GH_TOKEN: ${{ github.token }}
+            HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+            NUMBER: ${{ github.event.pull_request.number }}
+            URL: https://dnd-mapp.github.io/dnd-mapp/pr/${{ github.event.pull_request.number }}/
+        steps:
+            # The previews of all pull requests share one environment, which a job-level environment key would empty on
+            # each deploy, so the job creates its deployment through the REST API. A transient deployment that stays
+            # active leaves the previews of the other pull requests active. The payload names the pull request, so later
+            # runs find the deployments of the pull request again. A pull request reports its head commit rather than the
+            # merge commit that the workflow checks out, which links the deployment from the pull request.
+            - name: Create the deployment
+              id: deployment
+              run: |
+                  id="$(jq -n --arg ref "$HEAD_SHA" --argjson number "$NUMBER" '{
+                      ref: $ref,
+                      environment: "storybook-preview",
+                      description: "Storybook of pull request #\($number)",
+                      payload: {pull_request: $number},
+                      transient_environment: true,
+                      production_environment: false,
+                      auto_merge: false,
+                      required_contexts: []
+                  }' | gh api "repos/$GITHUB_REPOSITORY/deployments" --input - --jq .id)"
+
+                  gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" --silent \
+                      -f state=in_progress -f log_url="$LOG_URL" -F auto_inactive=false
+                  echo "id=$id" >> "$GITHUB_OUTPUT"
+              shell: bash
+              env:
+                  LOG_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            # In CI, moon diffs against the base branch before it runs a task, which needs the history of both.
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Set up pnpm and install dependencies
+              uses: ./.github/actions/setup
+
+            - name: Build Storybook
+              run: pnpm moon run ui-web:build-storybook
+              shell: bash
+
+            - name: Publish Storybook to the folder of the pull request
+              uses: ./.github/actions/publish-pages
+              with:
+                  folder: pr/${{ github.event.pull_request.number }}
+                  source: packages/ui/web/dist/storybook
+                  commit: ${{ github.event.pull_request.head.sha }}
+                  message: Publish Storybook of pull request ${{ github.event.pull_request.number }} at ${{ github.event.pull_request.head.sha }}
+                  token: ${{ github.token }}
+
+            # Pages deploys gh-pages in a workflow run of its own, so the job waits until the site serves the commit.
+            - name: Wait for the site to serve the commit
+              uses: ./.github/actions/wait-for-commit
+              with:
+                  url: ${{ env.URL }}build-info.json
+                  commit: ${{ github.event.pull_request.head.sha }}
+                  timeout: "600"
+
+            # The new preview replaces the folder that the earlier deployments of the pull request link to, so they turn
+            # inactive.
+            - name: Mark the deployment as successful
+              run: |
+                  gh api --paginate "repos/$GITHUB_REPOSITORY/deployments?environment=storybook-preview&per_page=100" \
+                      --jq ".[] | select(.payload.pull_request == $NUMBER and .id != $ID) | .id" \
+                      | while read -r earlier; do
+                          gh api "repos/$GITHUB_REPOSITORY/deployments/$earlier/statuses" --silent -f state=inactive
+                      done
+
+                  gh api "repos/$GITHUB_REPOSITORY/deployments/$ID/statuses" --silent \
+                      -f state=success -f environment_url="$URL" -f log_url="$LOG_URL" -F auto_inactive=false
+              shell: bash
+              env:
+                  ID: ${{ steps.deployment.outputs.id }}
+                  LOG_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            # A newer push to the pull request cancels the run and deploys again, so a cancelled deployment turns inactive
+            # rather than failed.
+            - name: Mark the deployment as failed
+              if: (failure() || cancelled()) && steps.deployment.outputs.id
+              run: |
+                  gh api "repos/$GITHUB_REPOSITORY/deployments/$ID/statuses" --silent \
+                      -f state="$STATE" -f log_url="$LOG_URL" -F auto_inactive=false
+              shell: bash
+              env:
+                  ID: ${{ steps.deployment.outputs.id }}
+                  LOG_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+                  STATE: ${{ job.status == 'cancelled' && 'inactive' || 'failure' }}
+
     pull-request-title:
         # Keep this job in sync with pull-request-edited.yaml, which reruns it when the title is edited.
         name: Pull request title

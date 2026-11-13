@@ -1,0 +1,116 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-action.json
+
+name: Publish pages
+description: Replace one folder of the gh-pages branch, and push the site as one orphan commit.
+
+inputs:
+    folder:
+        description: >-
+            The folder of the site to replace, such as `pr/42`. Leave it empty for the root, which keeps the previews in
+            `pr/`.
+        required: false
+        default: ""
+    source:
+        description: The folder whose files to publish there. Leave it empty to remove the folder.
+        required: false
+        default: ""
+    commit:
+        description: The full SHA of the commit that the published files come from, which build-info.json reports.
+        required: false
+        default: ""
+    message:
+        description: The message of the commit on gh-pages.
+        required: true
+    token:
+        description: A token with write access to the contents of the repository.
+        required: true
+
+runs:
+    using: composite
+    steps:
+        # Each run fetches the latest commit of gh-pages, replaces only its own folder, and pushes a commit without
+        # parents, so the branch stays one commit deep. --force-with-lease rejects the push when another run pushed in
+        # between, and the run then starts over from the newer commit. No concurrency group spans the runs, since
+        # GitHub keeps only one pending run per group and would cancel a waiting one.
+        - name: Push the site to gh-pages
+          run: |
+              if [[ -n $FOLDER && ! $FOLDER =~ ^pr/[0-9]+$ ]]; then
+                  echo "::error::Name the root or a pr/<number> folder to replace, not $FOLDER."
+                  exit 1
+              fi
+              if [[ -n $SOURCE && ! -d $SOURCE ]]; then
+                  echo "::error::$SOURCE is no folder to publish."
+                  exit 1
+              fi
+              if [[ -n $SOURCE && -n $COMMIT ]]; then
+                  jq -n --arg commit "$COMMIT" '{commit: $commit}' > "$SOURCE/build-info.json"
+              fi
+              source="${SOURCE:+$(realpath "$SOURCE")}"
+
+              # git sends the token in a header, as actions/checkout does, so it never lands in a remote URL.
+              credentials="$(printf 'x-access-token:%s' "$TOKEN" | base64 -w 0)"
+              echo "::add-mask::$credentials"
+              remote="https://github.com/$GITHUB_REPOSITORY.git"
+              git() {
+                  command git -c "http.https://github.com/.extraheader=AUTHORIZATION: basic $credentials" "$@"
+              }
+
+              for attempt in 1 2 3 4 5; do
+                  site="$(mktemp -d)"
+                  cd "$site" || exit 1
+                  git init --quiet
+                  git config user.name 'github-actions[bot]'
+                  git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+
+                  # An empty lease makes the push fail when another run created the branch in between.
+                  lease=""
+                  if git ls-remote --exit-code --heads "$remote" gh-pages > /dev/null; then
+                      git fetch --quiet --depth 1 "$remote" gh-pages
+                      lease="$(git rev-parse FETCH_HEAD)"
+                      git read-tree --reset -u "$lease"
+                  elif [[ -z $source ]]; then
+                      echo "gh-pages does not exist, so there is nothing to remove."
+                      exit 0
+                  fi
+
+                  if [[ -z $FOLDER ]]; then
+                      find . -mindepth 1 -maxdepth 1 ! -name .git ! -name pr -exec rm -rf {} +
+                  else
+                      rm -rf "$FOLDER"
+                  fi
+                  if [[ -n $source ]]; then
+                      mkdir -p "./$FOLDER"
+                      cp -R "$source/." "./$FOLDER/"
+                  fi
+
+                  # Pages serves the files as they are rather than through Jekyll, which would skip those that start
+                  # with an underscore.
+                  touch .nojekyll
+                  printf 'User-agent: *\nDisallow: /pr/\n' > robots.txt
+
+                  git add --all
+                  tree="$(git write-tree)"
+                  if [[ -n $lease && $tree == "$(git rev-parse "$lease^{tree}")" ]]; then
+                      echo "gh-pages already holds this site."
+                      exit 0
+                  fi
+                  commit="$(git commit-tree "$tree" -m "$MESSAGE")"
+
+                  if git push --quiet --force-with-lease="refs/heads/gh-pages:$lease" "$remote" \
+                      "$commit:refs/heads/gh-pages"; then
+                      echo "Pushed $commit to gh-pages."
+                      exit 0
+                  fi
+                  echo "::warning::Attempt $attempt to push gh-pages failed. Fetching it again."
+                  sleep $((attempt * 5))
+              done
+
+              echo "::error::Each attempt to push gh-pages failed, since other runs kept pushing in between."
+              exit 1
+          shell: bash
+          env:
+              COMMIT: ${{ inputs.commit }}
+              FOLDER: ${{ inputs.folder }}
+              MESSAGE: ${{ inputs.message }}
+              SOURCE: ${{ inputs.source }}
+              TOKEN: ${{ inputs.token }}

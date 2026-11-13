@@ -10,6 +10,43 @@ on:
 permissions: {}
 
 jobs:
+    delete-storybook-preview:
+        name: Delete the Storybook preview
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        permissions:
+            # The job pushes the site without the preview to gh-pages.
+            contents: write
+            deployments: write
+        steps:
+            - name: Check out the repository
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  persist-credentials: false
+
+            # A pull request whose changes never affected ui-web:build-storybook has no folder, and the action then
+            # pushes nothing.
+            - name: Remove the folder of the pull request from the site
+              uses: ./.github/actions/publish-pages
+              with:
+                  folder: pr/${{ github.event.pull_request.number }}
+                  message: Remove the Storybook preview of pull request ${{ github.event.pull_request.number }}
+                  token: ${{ github.token }}
+
+            # The payload of each preview deployment names its pull request, as the Pull request workflow creates it.
+            - name: Mark the deployments of the pull request as inactive
+              run: |
+                  gh api --paginate "repos/$GITHUB_REPOSITORY/deployments?environment=storybook-preview&per_page=100" \
+                      --jq ".[] | select(.payload.pull_request == $NUMBER) | .id" \
+                      | while read -r id; do
+                          gh api "repos/$GITHUB_REPOSITORY/deployments/$id/statuses" --silent -f state=inactive
+                          echo "Marked deployment $id as inactive."
+                      done
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  NUMBER: ${{ github.event.pull_request.number }}
+
     delete-web-image:
         name: Delete the web image
         runs-on: ubuntu-26.04
