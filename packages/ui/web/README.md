@@ -6,13 +6,13 @@ The UI components of the [web client](../../../apps/web/README.md), which every 
 
 A component belongs here when it is presentational: it takes its content through content projection and its state through inputs, and uses no router or app state. The app or domain module that uses it does the wiring. The package imports only packages for the whole workspace, as the [dependency rules](../../../docs/architecture.md#dependency-rules) require, so it stays below `core-web` and the domain modules.
 
-[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/`](src): the component, its template and styles, its spec, and its stories.
+[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, and its stories.
 
 | Component  | Selector   | Variants                                              |
 |:-----------|:-----------|:------------------------------------------------------|
 | [Logo][lo] | `dma-logo` | `kind`: `full` or `mark`. `size`: `large` or `small`. |
 
-[lo]: src/logo/logo.component.ts
+[lo]: src/components/logo/logo.component.ts
 
 ## Entry points
 
