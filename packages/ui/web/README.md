@@ -51,10 +51,14 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 
 Set up each test with `setupTestEnvironment`, which configures the testing module with the `providers` and `imports` that the test passes.
 
-Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). Given a `host` and a `harness`, `setupTestEnvironment` also creates the host and returns its fixture, a harness loader, and the harness of the component:
+Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). Given a `host` and a `harness`, `setupTestEnvironment` also creates the host and returns its fixture, a harness loader, and the harness of the component. It configures the `providers` and `imports` before it creates the host, so a component test can pass them too:
 
 ```ts
-const { fixture, harness, harnessLoader } = await setupTestEnvironment({ host: TestComponent, harness: LogoHarness });
+const { fixture, harness, harnessLoader } = await setupTestEnvironment({
+    host: TestComponent,
+    harness: LogoHarness,
+    providers: [provideBrowserStorage(new InMemoryStorage())],
+});
 ```
 
 A test without a component, such as the test of a service, passes the providers alone and injects what it tests:
