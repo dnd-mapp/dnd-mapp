@@ -37,7 +37,7 @@ export default defineConfig(angular(import.meta.dirname), {
 
 Every preset applies the recommended rules of ESLint and the `strictTypeChecked` and `stylisticTypeChecked` rules of [`typescript-eslint`](https://typescript-eslint.io) to every TypeScript file of the project. The other presets add their own rules:
 
-- `angular`: the recommended rules of [`angular-eslint`](https://github.com/angular-eslint/angular-eslint) for TypeScript files and templates, inline ones included, and its accessibility rules for templates. Selectors take the `dma` prefix, as kebab-case elements for components and camelCase attributes for directives.
+- `angular`: the recommended rules of [`angular-eslint`](https://github.com/angular-eslint/angular-eslint) for TypeScript files and templates, inline ones included, and its accessibility rules for templates. Selectors take the `dma` prefix, as kebab-case elements or attributes for components, such as `dma-logo` and `a[dma-link]`, and camelCase attributes for directives.
 - `playwright`: the recommended rules of [`eslint-plugin-playwright`](https://github.com/mskelton/eslint-plugin-playwright) for the tests in `src`.
 
 After those rules, every preset applies [`eslint-config-prettier`](https://github.com/prettier/eslint-config-prettier), which turns off the rules that conflict with Prettier, so ESLint leaves formatting to Prettier.

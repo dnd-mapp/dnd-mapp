@@ -1,0 +1,57 @@
+// Sets the font and the underline of a typography token, such as `link` for the `--typography-link-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The inline kind: underlined in every state, so color is not the only cue in a line of text.
+:host {
+    border-radius: var(--radius-xs);
+    color: var(--color-accent-text);
+    @include typography(link);
+}
+
+:host(:hover) {
+    color: var(--color-foreground-default);
+}
+
+// Every kind draws the focus ring outside the link, and keeps the colors of its default state.
+:host(:focus-visible) {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}
+
+// The standalone kind: bold, with an arrow after its label, and underlined on hover only.
+:host(.standalone) {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    @include typography(body-strong);
+}
+
+:host(.standalone:hover) {
+    color: var(--color-accent-text);
+    @include typography(link-strong);
+}
+
+// The arrow draws smaller than the 24 px of the Icon component, as in Penpot, and takes the color of the link.
+dma-icon-arrow-right {
+    width: var(--size-icon-sm);
+    height: var(--size-icon-sm);
+}
+
+// The quiet kind: muted body text that reads as a link on hover.
+:host(.quiet) {
+    color: var(--color-foreground-muted);
+    @include typography(body);
+}
+
+:host(.quiet:hover) {
+    color: var(--color-foreground-default);
+    @include typography(link);
+}
