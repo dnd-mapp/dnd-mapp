@@ -135,11 +135,11 @@
     /** Chips */
     --radius-pill: 62.4375rem;
     /** Headings, the wordmark, card titles */
-    --font-family-heading: Manrope;
+    --font-family-heading: 'Manrope', 'Manrope Fallback', sans-serif;
     /** Body text, labels, buttons */
-    --font-family-body: 'Source Sans 3';
+    --font-family-body: 'Source Sans 3', 'Source Sans 3 Fallback', sans-serif;
     /** Dice rolls and other game notation */
-    --font-family-mono: 'JetBrains Mono';
+    --font-family-mono: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     --font-weight-regular: 400;
     --font-weight-medium: 500;
     --font-weight-semibold: 600;

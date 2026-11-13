@@ -78,6 +78,7 @@
         {
             "description": "Merge the non-major updates of development tools without review. List each catalog of development tools here, so the updates of every other catalog wait for review.",
             "matchDepTypes": [
+                "pnpm.catalog.capsize",
                 "pnpm.catalog.commitlint",
                 "pnpm.catalog.eslint",
                 "pnpm.catalog.lefthook",

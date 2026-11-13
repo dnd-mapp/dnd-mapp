@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Changed
 
 - The page uses the colors of the D&D Mapp design system: a dark blue-gray background instead of a neutral gray one, and a matching off-white text color.
+- The page sets its text in Source Sans 3, the body font of the D&D Mapp design system, instead of the browser's default font. The app serves its fonts itself, so loading them contacts no third party.
 
 ## [0.1.0] - 2026-11-10
 

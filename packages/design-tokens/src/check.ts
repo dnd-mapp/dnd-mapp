@@ -1,5 +1,5 @@
 /**
- * Compares a committed file with what the build generates from `tokens.json`.
+ * Compares a committed file with what the build generates.
  * @param file - The path of the file in the package, such as `css/tokens.css`.
  * @param generated - The contents that the build generates.
  * @param committed - The contents of the committed file, or `undefined` when the file is missing.
@@ -18,5 +18,5 @@ export function checkFile(file: string, generated: string, committed: string | u
     const committedLines = committed.split('\n');
     const line = generatedLines.findIndex((text, index) => text !== committedLines[index]);
 
-    return `${file} differs from what design-tokens:build generates from tokens.json, from line ${String(line === -1 ? generatedLines.length + 1 : line + 1)} on. ${fix}`;
+    return `${file} differs from what design-tokens:build generates, from line ${String(line === -1 ? generatedLines.length + 1 : line + 1)} on. ${fix}`;
 }

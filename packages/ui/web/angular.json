@@ -50,7 +50,11 @@
                     "builder": "@storybook/angular-vite:build-storybook",
                     "options": {
                         "outputDir": "dist/storybook",
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
+                        "styles": [
+                            "@dnd-mapp/design-tokens/fonts.css",
+                            "@dnd-mapp/design-tokens/tokens.css",
+                            ".storybook/preview.css"
+                        ]
                     }
                 },
                 "storybook": {
@@ -58,7 +62,11 @@
                     "options": {
                         "open": false,
                         "port": 6006,
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css", ".storybook/preview.css"]
+                        "styles": [
+                            "@dnd-mapp/design-tokens/fonts.css",
+                            "@dnd-mapp/design-tokens/tokens.css",
+                            ".storybook/preview.css"
+                        ]
                     }
                 },
                 "test": {

@@ -4,7 +4,7 @@ The design tokens of D&D Mapp, which the [design system](../../docs/design.md) i
 
 `tokens.json` is the single-file token export of the Design system file, committed as Penpot writes it. Change a token in Penpot and export it again, as [Design tokens](../../docs/design.md#design-tokens) describes, rather than editing the file.
 
-`css/tokens.css` holds the CSS custom properties that the `build` task generates from `tokens.json`, and the package exports it as `@dnd-mapp/design-tokens/tokens.css`. The task also writes the desktop breakpoint from [`src/breakpoints.ts`](src/breakpoints.ts) to `scss/breakpoints.scss`, which the package exports as `@dnd-mapp/design-tokens/breakpoints.scss`. [ADR 0006](../../docs/adr/0006-design-token-pipeline.md) records how the pipeline works and why, [ADR 0008](../../docs/adr/0008-theme-mapping.md) how the themes switch, and [ADR 0010](../../docs/adr/0010-font-loading.md) how the app loads its fonts.
+`css/tokens.css` holds the CSS custom properties that the `build` task generates from `tokens.json`, and the package exports it as `@dnd-mapp/design-tokens/tokens.css`. The task also writes the `@font-face` rules of the fonts to `css/fonts.css`, which the package exports as `@dnd-mapp/design-tokens/fonts.css`, and the desktop breakpoint from [`src/breakpoints.ts`](src/breakpoints.ts) to `scss/breakpoints.scss`, which the package exports as `@dnd-mapp/design-tokens/breakpoints.scss`. [ADR 0006](../../docs/adr/0006-design-token-pipeline.md) records how the pipeline works and why, [ADR 0008](../../docs/adr/0008-theme-mapping.md) how the themes switch, and [ADR 0010](../../docs/adr/0010-font-loading.md) how the app loads its fonts.
 
 ## The CSS
 
@@ -15,7 +15,16 @@ Each token becomes a variable named after its path in kebab case, with no prefix
 - **Sizes** are in `rem` at 16 px to 1 rem, letter spacing included. Border widths stay in `px`.
 - **Typography tokens** become one variable per property, such as `--typography-h1-font-size: var(--font-size-h1)`.
 - **Shadows** become one `box-shadow` value each, such as `--shadow-raised`.
+- **Font families** become the full stack of their family in the [font config](#the-fonts), such as `--font-family-body: 'Source Sans 3', 'Source Sans 3 Fallback', sans-serif`.
 - **Descriptions** from Penpot become a comment above their variable.
+
+## The fonts
+
+`css/fonts.css` loads the families of the `font.family` tokens from the [Fontsource](https://fontsource.org) packages that the package lists under `dependencies`. [`src/fonts.ts`](src/fonts.ts) names each family's package, styles, fallback font, and generic family, and [Fonts](../../docs/design.md#fonts) describes how to add a family or a weight.
+
+- **Faces.** Each subset and style of a family gets an `@font-face` rule, with the subsets, weight ranges, and `unicode-range` values that the `wght.css` and `wght-italic.css` of its package declare. Each rule names the family as its token does, such as `Source Sans 3`, uses `font-display: swap`, and points at the variable WOFF2 file through a relative path into `node_modules`. The Angular build and Storybook emit each file with a hashed name.
+- **Fallbacks.** Each family gets a fallback face on `local('Arial')` or `local('Courier New')`, such as `Source Sans 3 Fallback`, whose `size-adjust`, `ascent-override`, `descent-override`, and `line-gap-override` the build computes from the font files with [Capsize](https://github.com/seek-oss/capsize).
+- **Format.** Prettier formats the file with the config of the repository, so `format-check` passes on what the build writes.
 
 ## Tasks
 
@@ -30,13 +39,13 @@ Run each task from the repository root.
 | `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
 | `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
 
-Generate `css/tokens.css` from `tokens.json` with [Style Dictionary](https://styledictionary.com) and [`@tokens-studio/sd-transforms`](https://github.com/tokens-studio/sd-transforms), which read the export of Penpot, and `scss/breakpoints.scss` from `src/breakpoints.ts`. Run it after each export, or a change to the breakpoint, and commit the files it writes:
+Generate `css/tokens.css` from `tokens.json` with [Style Dictionary](https://styledictionary.com) and [`@tokens-studio/sd-transforms`](https://github.com/tokens-studio/sd-transforms), which read the export of Penpot, `css/fonts.css` from `src/fonts.ts` and the Fontsource packages, and `scss/breakpoints.scss` from `src/breakpoints.ts`. Run it after each export, each change to the fonts or the breakpoint, and each update of a Fontsource package, and commit the files it writes:
 
 ```bash
 pnpm moon run design-tokens:build
 ```
 
-Check that the committed `css/tokens.css` and `scss/breakpoints.scss` match what `build` generates, as CI does. The task writes nothing, and names the first line that differs:
+Check that the committed `css/tokens.css`, `css/fonts.css`, and `scss/breakpoints.scss` match what `build` generates, as CI does. The task writes nothing, and names the first line that differs:
 
 ```bash
 pnpm moon run design-tokens:check

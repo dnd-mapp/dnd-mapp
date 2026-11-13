@@ -9,7 +9,7 @@ describe('checkFile', () => {
 
     it('names the first line that differs', () => {
         expect(checkFile('css/tokens.css', generated, ':root {\n    --space-16: 16px;\n}\n')).toBe(
-            'css/tokens.css differs from what design-tokens:build generates from tokens.json, from line 2 on. ' +
+            'css/tokens.css differs from what design-tokens:build generates, from line 2 on. ' +
                 'Run pnpm moon run design-tokens:build, and commit css/tokens.css.',
         );
     });

@@ -4,11 +4,13 @@ import { tryCatch } from '@dnd-mapp/common';
 import { buildBreakpoints } from './breakpoints.ts';
 import { buildCss } from './build.ts';
 import { checkFile } from './check.ts';
+import { buildFonts } from './font-faces.ts';
 
 const root = join(import.meta.dirname, '..');
 const exported = JSON.parse(await readFile(join(root, 'tokens.json'), 'utf8')) as Record<string, unknown>;
 const outputs: ReadonlyMap<string, string> = new Map([
     ['css/tokens.css', await buildCss(exported)],
+    ['css/fonts.css', await buildFonts(root)],
     ['scss/breakpoints.scss', buildBreakpoints()],
 ]);
 

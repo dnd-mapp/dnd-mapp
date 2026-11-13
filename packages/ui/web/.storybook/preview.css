@@ -1,7 +1,12 @@
-/* Paints the canvas as styles.scss of the web app paints the page, so a story shows on the background of its theme. */
+/* Paints the canvas and sets its text as styles.scss of the web app does for the page, so a story shows on the
+   background of its theme, in the body typography. */
 body {
     background: var(--color-background-page);
     color: var(--color-foreground-default);
+    font-family: var(--typography-body-font-family);
+    font-size: var(--typography-body-font-size);
+    font-weight: var(--typography-body-font-weight);
+    line-height: var(--typography-body-line-height);
 }
 
 /* A docs page draws its stories in white boxes of its own, so those take the page background of the theme too. */

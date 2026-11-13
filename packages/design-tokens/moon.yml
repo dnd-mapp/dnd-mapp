@@ -27,31 +27,39 @@ fileGroups:
 
 tasks:
     build:
-        # Writes css/tokens.css from tokens.json, and scss/breakpoints.scss from src/breakpoints.ts. The outputs are
-        # committed, so the app, Storybook, and the image read them without running the task, as ADR 0006 records.
+        # Writes css/tokens.css from tokens.json, css/fonts.css from src/fonts.ts and the Fontsource packages, and
+        # scss/breakpoints.scss from src/breakpoints.ts. The outputs are committed, so the app, Storybook, and the image
+        # read them without running the task, as ADR 0006 records. Prettier formats fonts.css with the config of the
+        # repository, so the inputs list it.
         command: "node src/main.ts"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "tokens.json"
             - "!src/**/*.spec.ts"
+            - "/.editorconfig"
+            - "/.prettierrc.json"
             - project: "common"
               group: "sources"
         outputs:
+            - "css/fonts.css"
             - "css/tokens.css"
             - "scss/breakpoints.scss"
 
     check:
-        # Fails when the committed css/tokens.css or scss/breakpoints.scss differs from what build generates, so a pull
-        # request can't change a token or the breakpoint without the generated files, or those files by hand.
+        # Fails when a committed file of build differs from what build generates, so a pull request can't change a
+        # token, a font, a Fontsource package, or the breakpoint without the generated files, or those files by hand.
         command: "node src/main.ts --check"
         inputs:
             - "@group(sources)"
             - "@group(configs)"
             - "tokens.json"
+            - "css/fonts.css"
             - "css/tokens.css"
             - "scss/breakpoints.scss"
             - "!src/**/*.spec.ts"
+            - "/.editorconfig"
+            - "/.prettierrc.json"
             - project: "common"
               group: "sources"
 
