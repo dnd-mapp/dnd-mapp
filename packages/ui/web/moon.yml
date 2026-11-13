@@ -57,6 +57,8 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            # boot-script.spec.ts reads the boot script of the web app to check it against ThemeService.
+            - "/apps/web/src/index.html"
 
     test-ci:
         command: "ng test -c ci"
@@ -64,6 +66,8 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            # boot-script.spec.ts reads the boot script of the web app to check it against ThemeService.
+            - "/apps/web/src/index.html"
         outputs:
             - "coverage/**/*"
 
