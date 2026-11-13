@@ -1,0 +1,10 @@
+/* Paints the canvas as styles.scss of the web app paints the page, so a story shows on the background of its theme. */
+body {
+    background: var(--color-background-page);
+    color: var(--color-foreground-default);
+}
+
+/* A docs page draws its stories in white boxes of its own, so those take the page background of the theme too. */
+.sbdocs.sbdocs-preview {
+    background: var(--color-background-page);
+}

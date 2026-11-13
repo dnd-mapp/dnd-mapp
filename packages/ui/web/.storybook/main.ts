@@ -1,7 +1,7 @@
 import type { StorybookConfig } from '@storybook/angular-vite';
 
 export default {
-    addons: ['@storybook/addon-themes'],
+    addons: ['@storybook/addon-docs', '@storybook/addon-themes'],
     core: {
         disableTelemetry: true,
         disableWhatsNewNotifications: true,
@@ -12,5 +12,5 @@ export default {
             tsconfig: 'tsconfig.storybook.json',
         },
     },
-    stories: ['../src/**/*.stories.ts'],
+    stories: ['../src/**/*.mdx', '../src/**/*.stories.ts'],
 } satisfies StorybookConfig;

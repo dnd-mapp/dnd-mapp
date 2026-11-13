@@ -1,0 +1,48 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as LogoStories from './logo.stories';
+
+<Meta of={LogoStories} />
+
+# Logo
+
+The D&D Mapp logo: the mark, the hexagon of the brand, with or without the wordmark. It is the Logo component of the design system in Penpot.
+
+<Canvas of={LogoStories.FullLarge} />
+
+<Controls of={LogoStories.FullLarge} />
+
+## Kind
+
+`kind` picks what the logo shows. Use `LogoKind.Full`, the default, wherever there is room for the name. Use `LogoKind.Mark` where space is short.
+
+<Canvas of={LogoStories.MarkLarge} />
+
+## Size
+
+`size` picks how large the logo draws. Use `LogoSize.Large`, the default, in headers. Use `LogoSize.Small` in menus and footers, where the logo sits next to smaller text.
+
+<Canvas of={LogoStories.FullSmall} />
+
+<Canvas of={LogoStories.MarkSmall} />
+
+## Colors
+
+The mark keeps the brand colors in both color schemes, since it is brand art. The wordmark takes the default foreground color, so it reads on the page background of either theme.
+
+## Accessibility
+
+The logo is an image named "D&D Mapp" in every variant, and it hides the mark from assistive technology, so screen readers announce the name once. A link around the logo takes that name, so the link needs no label of its own.
+
+## Linking home
+
+The logo renders no link. Header, Mobile menu, and Footer wrap it in the link to the home page, since they know where home is:
+
+```html
+<a routerLink="/">
+    <dma-logo />
+</a>
+```
+
+## Testing
+
+`LogoHarness` from `@dnd-mapp/ui-web/testing` reads the logo in a test: its name, the text of its wordmark, and the size of its mark.

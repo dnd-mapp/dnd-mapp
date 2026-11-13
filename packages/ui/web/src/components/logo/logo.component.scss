@@ -1,0 +1,54 @@
+:host {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-12);
+}
+
+:host(.small) {
+    gap: var(--space-8);
+}
+
+// The mark keeps a square box, as in Penpot, and the hexagon centers in it.
+.mark {
+    flex-shrink: 0;
+    width: 2.5rem;
+    height: 2.5rem;
+
+    :host(.small) & {
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+// The mark is brand art, so it takes the brand colors in both color schemes, as the mark in Penpot does.
+.border,
+.silhouette {
+    fill: var(--color-brand-black);
+}
+
+.band,
+.faces {
+    fill: var(--color-brand-red);
+}
+
+.wordmark {
+    color: var(--color-foreground-default);
+    font-family: var(--typography-title-font-family);
+    font-size: var(--typography-title-font-size);
+    font-weight: var(--typography-title-font-weight);
+    letter-spacing: var(--typography-title-letter-spacing);
+    line-height: var(--typography-title-line-height);
+    text-decoration: var(--typography-title-text-decoration);
+    text-transform: var(--typography-title-text-case);
+    white-space: nowrap;
+
+    :host(.small) & {
+        font-family: var(--typography-title-sm-font-family);
+        font-size: var(--typography-title-sm-font-size);
+        font-weight: var(--typography-title-sm-font-weight);
+        letter-spacing: var(--typography-title-sm-letter-spacing);
+        line-height: var(--typography-title-sm-line-height);
+        text-decoration: var(--typography-title-sm-text-decoration);
+        text-transform: var(--typography-title-sm-text-case);
+    }
+}
