@@ -4,71 +4,67 @@ import { Theme, THEME_ATTRIBUTE } from './theme.types';
 import { InMemoryStorage, provideBrowserStorage, providePlatformId, setupTestEnvironment } from '../../testing';
 import { StorageKey } from '../storage';
 
+interface SetupOptions {
+    /** The value saved under the key of the theme before the service starts. */
+    saved?: string;
+    /** The `data-theme` that the boot script set before the service starts. */
+    applied?: Theme;
+    /** Makes the storage throw, as a browser does when it blocks storage for the site. */
+    blocked?: boolean;
+    /** Uses `localStorage`, since a `StorageEvent` accepts only a storage of the browser as its `storageArea`. */
+    local?: boolean;
+    platformId?: 'browser' | 'server';
+}
+
 describe('ThemeService', () => {
-    const root = document.documentElement;
-    let storage: Storage;
+    function setupTest({ saved, applied, blocked = false, local = false, platformId = 'browser' }: SetupOptions = {}) {
+        const root = document.documentElement;
+        const memory = new InMemoryStorage();
+        const storage = local ? localStorage : memory;
 
-    function setupTest(platformId: 'browser' | 'server' = 'browser') {
-        setupTestEnvironment({
-            providers: [providePlatformId(platformId), provideBrowserStorage(storage)],
-        });
-        return TestBed.inject(ThemeService);
-    }
-
-    function blockStorage() {
-        const error = new DOMException('The browser blocks storage for this site.', 'SecurityError');
-
-        for (const method of ['getItem', 'setItem', 'removeItem'] as const) {
-            vi.spyOn(storage, method).mockImplementation(() => {
-                throw error;
-            });
+        if (saved !== undefined) {
+            storage.setItem(StorageKey.Theme, saved);
         }
-    }
+        if (applied !== undefined) {
+            root.setAttribute(THEME_ATTRIBUTE, applied);
+        }
+        memory.blocked = blocked;
+        setupTestEnvironment({ providers: [providePlatformId(platformId), provideBrowserStorage(storage)] });
 
-    beforeEach(() => {
-        storage = new InMemoryStorage();
-        root.removeAttribute(THEME_ATTRIBUTE);
-    });
+        return { service: TestBed.inject(ThemeService), storage, root };
+    }
 
     afterEach(() => {
-        vi.restoreAllMocks();
         localStorage.removeItem(StorageKey.Theme);
-        root.removeAttribute(THEME_ATTRIBUTE);
+        document.documentElement.removeAttribute(THEME_ATTRIBUTE);
     });
 
     it('should report system when nothing is saved', () => {
-        const service = setupTest();
+        const { service } = setupTest();
 
         expect(service.theme()).toBe(Theme.System);
     });
 
     it.each<Theme>([Theme.Dark, Theme.Light])('should report a saved %s', (theme) => {
-        storage.setItem(StorageKey.Theme, theme);
-
-        const service = setupTest();
+        const { service } = setupTest({ saved: theme });
 
         expect(service.theme()).toBe(theme);
     });
 
     it.each(['system', 'sepia', ''])('should report system for the saved value "%s"', (value) => {
-        storage.setItem(StorageKey.Theme, value);
-
-        const service = setupTest();
+        const { service } = setupTest({ saved: value });
 
         expect(service.theme()).toBe(Theme.System);
     });
 
     it('should leave data-theme to the boot script at start', () => {
-        storage.setItem(StorageKey.Theme, Theme.Light);
-        root.setAttribute(THEME_ATTRIBUTE, Theme.Dark);
-
-        setupTest();
+        const { root } = setupTest({ saved: Theme.Light, applied: Theme.Dark });
 
         expect(root.getAttribute(THEME_ATTRIBUTE)).toBe(Theme.Dark);
     });
 
     it.each<Theme>([Theme.Dark, Theme.Light])('should save and apply %s', (theme) => {
-        const service = setupTest();
+        const { service, storage, root } = setupTest();
 
         service.setTheme(theme);
 
@@ -78,9 +74,7 @@ describe('ThemeService', () => {
     });
 
     it('should remove the saved choice and data-theme for system', () => {
-        storage.setItem(StorageKey.Theme, Theme.Dark);
-        root.setAttribute(THEME_ATTRIBUTE, Theme.Dark);
-        const service = setupTest();
+        const { service, storage, root } = setupTest({ saved: Theme.Dark, applied: Theme.Dark });
 
         service.setTheme(Theme.System);
 
@@ -90,7 +84,7 @@ describe('ThemeService', () => {
     });
 
     it('should treat a theme it does not know as system', () => {
-        const service = setupTest();
+        const { service, storage, root } = setupTest();
         service.setTheme(Theme.Dark);
 
         service.setTheme('sepia' as Theme);
@@ -102,17 +96,13 @@ describe('ThemeService', () => {
 
     describe('when the storage throws', () => {
         it('should report system', () => {
-            storage.setItem(StorageKey.Theme, Theme.Light);
-            blockStorage();
-
-            const service = setupTest();
+            const { service } = setupTest({ saved: Theme.Light, blocked: true });
 
             expect(service.theme()).toBe(Theme.System);
         });
 
         it.each<Theme>([Theme.Dark, Theme.Light, Theme.System])('should still apply %s', (theme) => {
-            blockStorage();
-            const service = setupTest();
+            const { service, root } = setupTest({ blocked: true });
 
             service.setTheme(theme);
 
@@ -121,7 +111,6 @@ describe('ThemeService', () => {
         });
     });
 
-    // A StorageEvent accepts only a storage of the browser as its storageArea, so these tests use localStorage.
     describe('when another tab changes the choice', () => {
         function changeInOtherTab(newValue: string | null) {
             window.dispatchEvent(
@@ -129,12 +118,8 @@ describe('ThemeService', () => {
             );
         }
 
-        beforeEach(() => {
-            storage = localStorage;
-        });
-
         it.each<Theme>([Theme.Dark, Theme.Light])('should apply %s', (theme) => {
-            const service = setupTest();
+            const { service, root } = setupTest({ local: true });
 
             changeInOtherTab(theme);
 
@@ -143,7 +128,7 @@ describe('ThemeService', () => {
         });
 
         it('should follow the device again when the other tab removes the choice', () => {
-            const service = setupTest();
+            const { service, root } = setupTest({ local: true });
             service.setTheme(Theme.Dark);
 
             changeInOtherTab(null);
@@ -153,7 +138,7 @@ describe('ThemeService', () => {
         });
 
         it('should ignore the change during prerendering', () => {
-            const service = setupTest('server');
+            const { service, root } = setupTest({ local: true, platformId: 'server' });
 
             changeInOtherTab(Theme.Light);
 
@@ -164,15 +149,13 @@ describe('ThemeService', () => {
 
     describe('during prerendering', () => {
         it('should report system whatever is saved', () => {
-            storage.setItem(StorageKey.Theme, Theme.Light);
-
-            const service = setupTest('server');
+            const { service } = setupTest({ saved: Theme.Light, platformId: 'server' });
 
             expect(service.theme()).toBe(Theme.System);
         });
 
         it('should change nothing when a theme is set', () => {
-            const service = setupTest('server');
+            const { service, storage, root } = setupTest({ platformId: 'server' });
 
             service.setTheme(Theme.Dark);
 
