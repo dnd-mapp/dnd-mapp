@@ -82,7 +82,7 @@ A maintainer sets up Pages once:
 
 1. Let the first deploy create `gh-pages`. It fails while it waits for the site, since Pages does not serve the branch yet.
 2. Have Pages deploy from the root of `gh-pages`, under **Settings** > **Pages**, or with `gh api repos/dnd-mapp/dnd-mapp/pages -f 'source[branch]=gh-pages' -f 'source[path]=/'`.
-3. Add a branch ruleset for `gh-pages` that restricts deletions and updates, with GitHub Actions as a bypass actor. Leave force pushes and signed commits unrestricted, since the deploys force-push unsigned commits.
+3. Add a branch ruleset for `gh-pages` that blocks deletion, and leave every other rule off. The deploys force-push unsigned commits, and GitHub rejects GitHub Actions as a bypass actor, so no deploy could get past a rule that restricts updates.
 4. Rerun the failed deploy.
 
 ## Caches

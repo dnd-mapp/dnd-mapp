@@ -30,7 +30,7 @@ The workflows publish Storybook to GitHub Pages at <https://dnd-mapp.github.io/d
 ## Consequences
 
 - The site is public, previews included. A `robots.txt` at the root of the site disallows `/pr/`, but crawlers read it only at the root of the host, which belongs to a `dnd-mapp.github.io` repository that the org does not have. It takes effect once the org adds that site or a custom domain.
-- The deploys force-push unsigned commits, so the ruleset of `gh-pages` cannot block force pushes or require signatures. It blocks deletion, and restricts updates to GitHub Actions.
+- The deploys force-push unsigned commits, so the ruleset of `gh-pages` cannot block force pushes or require signatures. GitHub rejects GitHub Actions as a bypass actor of a ruleset in this repository, so the ruleset cannot restrict updates either: it only blocks deletion, and anyone with write access can push to `gh-pages`.
 - A deploy succeeds once Pages serves its commit, so each one waits for the `pages build and deployment` run that the push starts.
 - Every deploy fetches the whole site, previews of open pull requests included, which grows with the number of open pull requests that change `ui-web`.
 
