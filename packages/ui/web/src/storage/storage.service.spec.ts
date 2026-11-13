@@ -13,23 +13,12 @@ describe('StorageService', () => {
         return { service: TestBed.inject(StorageService), storage };
     }
 
-    function blockStorage(storage: Storage) {
-        const error = new DOMException('The browser blocks storage for this site.', 'SecurityError');
-
-        for (const method of ['getItem', 'setItem', 'removeItem'] as const) {
-            vi.spyOn(storage, method).mockImplementation(() => {
-                throw error;
-            });
-        }
-    }
-
     /** Fires the event that the browser fires in this tab when another tab of the site changes a storage. */
     function changeInOtherTab(changedKey: string | null, newValue: string | null, storageArea: Storage = localStorage) {
         window.dispatchEvent(new StorageEvent('storage', { key: changedKey, newValue, storageArea }));
     }
 
     afterEach(() => {
-        vi.restoreAllMocks();
         localStorage.removeItem(key);
     });
 
@@ -60,7 +49,7 @@ describe('StorageService', () => {
         it('should read null and report that nothing saved', () => {
             const storage = new InMemoryStorage();
             storage.setItem(key, 'value');
-            blockStorage(storage);
+            storage.blocked = true;
             const { service } = setupTest(storage);
 
             expect(service.get(key)).toBeNull();

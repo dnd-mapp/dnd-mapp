@@ -64,7 +64,7 @@ setupTestEnvironment({ providers: [{ provide: BROWSER_STORAGE, useValue: new InM
 const service = TestBed.inject(ThemeService);
 ```
 
-Provide an `InMemoryStorage` as `BROWSER_STORAGE`, so a test leaves the storage of the browser and the other tests alone. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
+Provide an `InMemoryStorage` as `BROWSER_STORAGE`, so a test leaves the storage of the browser and the other tests alone. Set its `blocked` to make it throw, as a browser does when it blocks storage for the site. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
 
 ## Tasks
 
