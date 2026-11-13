@@ -32,6 +32,7 @@ describe('LogoComponent', () => {
             const { host } = await setupTest(TestComponent);
             host.kind.set(kind);
             host.size.set(size);
+            // Renders the variant before the query, which would otherwise find the logo as the host first rendered it.
             TestBed.tick();
 
             await expect.element(page.getByRole('img', { name: 'D&D Mapp' })).toBeInTheDocument();
