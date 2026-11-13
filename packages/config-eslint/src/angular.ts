@@ -17,9 +17,11 @@ export function angular(projectRoot: string): Config[] {
             plugins: { '@angular-eslint/template': angularEslint.templatePlugin },
             processor: '@angular-eslint/template/extract-inline-html',
             rules: {
+                // A component may also sit on a native element as an attribute, such as a[dma-link], so the element
+                // keeps its own semantics and behavior.
                 '@angular-eslint/component-selector': [
                     'error',
-                    { type: 'element', prefix: 'dma', style: 'kebab-case' },
+                    { type: ['element', 'attribute'], prefix: 'dma', style: 'kebab-case' },
                 ],
                 '@angular-eslint/directive-selector': [
                     'error',
