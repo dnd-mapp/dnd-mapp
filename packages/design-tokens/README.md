@@ -4,7 +4,7 @@ The design tokens of D&D Mapp, which the [design system](../../docs/design.md) i
 
 `tokens.json` is the single-file token export of the Design system file, committed as Penpot writes it. Change a token in Penpot and export it again, as [Design tokens](../../docs/design.md#design-tokens) describes, rather than editing the file.
 
-`css/tokens.css` holds the CSS custom properties that the `build` task generates from `tokens.json`, and the package exports it as `@dnd-mapp/design-tokens/tokens.css`. The task also writes the desktop breakpoint from [`src/breakpoints.ts`](src/breakpoints.ts) to `scss/breakpoints.scss`, which the package exports as `@dnd-mapp/design-tokens/breakpoints.scss`. [ADR 0006](../../docs/adr/0006-design-token-pipeline.md) records how the pipeline works and why, and [ADR 0008](../../docs/adr/0008-theme-mapping.md) how the themes switch.
+`css/tokens.css` holds the CSS custom properties that the `build` task generates from `tokens.json`, and the package exports it as `@dnd-mapp/design-tokens/tokens.css`. The task also writes the desktop breakpoint from [`src/breakpoints.ts`](src/breakpoints.ts) to `scss/breakpoints.scss`, which the package exports as `@dnd-mapp/design-tokens/breakpoints.scss`. [ADR 0006](../../docs/adr/0006-design-token-pipeline.md) records how the pipeline works and why, [ADR 0008](../../docs/adr/0008-theme-mapping.md) how the themes switch, and [ADR 0010](../../docs/adr/0010-font-loading.md) how the app loads its fonts.
 
 ## The CSS
 

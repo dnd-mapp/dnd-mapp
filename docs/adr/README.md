@@ -15,6 +15,7 @@ Each architecture decision record (ADR) in this folder says why the workspace is
 | [0007](0007-storybook-on-vite.md)               | Storybook runs on its own Vite framework for Angular                         | Partly superseded by [0009](0009-storybook-through-angular-cli.md) |
 | [0008](0008-theme-mapping.md)                   | Media queries and a saved `data-theme` switch the Penpot themes              | Accepted                                                           |
 | [0009](0009-storybook-through-angular-cli.md)   | moon starts Storybook through the Angular CLI builders                       | Accepted                                                           |
+| [0010](0010-font-loading.md)                    | The token package hosts the fonts and generates their `@font-face` rules     | Accepted                                                           |
 
 ## When to write one
 
