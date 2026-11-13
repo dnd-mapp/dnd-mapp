@@ -43,7 +43,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Import                     | Source                                 | Exports                                                                                                                                                                                                                                                            |
 |:---------------------------|:---------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`, `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE` |
-| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `InMemoryStorage`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                                                                                                                           |
+| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `LogoHarness`, `InMemoryStorage`, `provideBrowserStorage`, `providePlatformId`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                                                                             |
 
 The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the apps and modules that use it, and stays out of the production sources. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
 
@@ -60,11 +60,11 @@ const { fixture, harness, harnessLoader } = await setupTestEnvironment({ host: T
 A test without a component, such as the test of a service, passes the providers alone and injects what it tests:
 
 ```ts
-setupTestEnvironment({ providers: [{ provide: BROWSER_STORAGE, useValue: new InMemoryStorage() }] });
+setupTestEnvironment({ providers: [provideBrowserStorage(new InMemoryStorage())] });
 const service = TestBed.inject(ThemeService);
 ```
 
-Provide an `InMemoryStorage` as `BROWSER_STORAGE`, so a test leaves the storage of the browser and the other tests alone. Set its `blocked` to make it throw, as a browser does when it blocks storage for the site. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
+Provide an `InMemoryStorage` through `provideBrowserStorage`, so a test leaves the storage of the browser and the other tests alone. Set its `blocked` to make it throw, as a browser does when it blocks storage for the site. `providePlatformId('server')` runs a test as prerendering does. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
 
 ## Tasks
 

@@ -1,20 +1,16 @@
-import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ThemeService } from './theme.service';
 import { Theme, THEME_ATTRIBUTE } from './theme.types';
-import { InMemoryStorage, setupTestEnvironment } from '../../testing';
-import { BROWSER_STORAGE, StorageKey } from '../storage';
+import { InMemoryStorage, provideBrowserStorage, providePlatformId, setupTestEnvironment } from '../../testing';
+import { StorageKey } from '../storage';
 
 describe('ThemeService', () => {
     const root = document.documentElement;
     let storage: Storage;
 
-    function setupTest(platformId = 'browser') {
+    function setupTest(platformId: 'browser' | 'server' = 'browser') {
         setupTestEnvironment({
-            providers: [
-                { provide: PLATFORM_ID, useValue: platformId },
-                { provide: BROWSER_STORAGE, useValue: storage },
-            ],
+            providers: [providePlatformId(platformId), provideBrowserStorage(storage)],
         });
         return TestBed.inject(ThemeService);
     }

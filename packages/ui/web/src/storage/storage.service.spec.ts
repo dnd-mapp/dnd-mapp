@@ -1,14 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { StorageService } from './storage.service';
-import { BROWSER_STORAGE } from './storage.token';
 import { StorageKey } from './storage.types';
-import { InMemoryStorage, setupTestEnvironment } from '../../testing';
+import { InMemoryStorage, provideBrowserStorage, setupTestEnvironment } from '../../testing';
 
 describe('StorageService', () => {
     const key = StorageKey.Theme;
 
     function setupTest(storage: Storage | null = new InMemoryStorage()) {
-        setupTestEnvironment({ providers: [{ provide: BROWSER_STORAGE, useValue: storage }] });
+        setupTestEnvironment({ providers: [provideBrowserStorage(storage)] });
 
         return { service: TestBed.inject(StorageService), storage };
     }

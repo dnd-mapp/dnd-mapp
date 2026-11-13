@@ -1,5 +1,6 @@
 export { LogoHarness } from './harnesses/logo.harness';
 export { InMemoryStorage } from './in-memory-storage';
+export { provideBrowserStorage, providePlatformId } from './providers';
 export {
     type ComponentTestEnvironmentOptions,
     setupTestEnvironment,

@@ -1,7 +1,6 @@
-import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { BROWSER_STORAGE } from './storage.token';
-import { setupTestEnvironment } from '../../testing';
+import { providePlatformId, setupTestEnvironment } from '../../testing';
 
 describe('BROWSER_STORAGE', () => {
     afterEach(() => {
@@ -21,7 +20,7 @@ describe('BROWSER_STORAGE', () => {
     });
 
     it('should provide null during prerendering', () => {
-        setupTestEnvironment({ providers: [{ provide: PLATFORM_ID, useValue: 'server' }] });
+        setupTestEnvironment({ providers: [providePlatformId('server')] });
 
         expect(TestBed.inject(BROWSER_STORAGE)).toBeNull();
     });
