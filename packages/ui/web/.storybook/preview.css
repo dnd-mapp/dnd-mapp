@@ -3,3 +3,8 @@ body {
     background: var(--color-background-page);
     color: var(--color-foreground-default);
 }
+
+/* A docs page draws its stories in white boxes of its own, so those take the page background of the theme too. */
+.sbdocs.sbdocs-preview {
+    background: var(--color-background-page);
+}

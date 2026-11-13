@@ -6,7 +6,7 @@ The UI components of the [web client](../../../apps/web/README.md), which every 
 
 A component belongs here when it is presentational: it takes its content through content projection and its state through inputs, and uses no router or app state. The app or domain module that uses it does the wiring. The package imports only packages for the whole workspace, as the [dependency rules](../../../docs/architecture.md#dependency-rules) require, so it stays below `core-web` and the domain modules.
 
-[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, and its stories.
+[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its types, its spec, its stories, and its docs page.
 
 | Component  | Selector   | Variants                                              |
 |:-----------|:-----------|:------------------------------------------------------|
@@ -86,9 +86,10 @@ pnpm moon run ui-web:lint
 
 ## Storybook
 
-[Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories document the components; the Vitest specs test them. [ADR 0007](../../../docs/adr/0007-storybook-on-vite.md) records why it runs on the Vite framework of Storybook, which is in preview, and [ADR 0009](../../../docs/adr/0009-storybook-through-angular-cli.md) why moon starts it through the Angular CLI.
+[Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories and the docs pages document the components; the Vitest specs test them. [ADR 0007](../../../docs/adr/0007-storybook-on-vite.md) records why it runs on the Vite framework of Storybook, which is in preview, and [ADR 0009](../../../docs/adr/0009-storybook-through-angular-cli.md) why moon starts it through the Angular CLI.
 
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
+- Write the docs page of each component as `<name>.mdx` next to its stories, with `<Meta of={...} />` pointing at them, so Storybook shows it as the Docs entry of the component. Import the doc blocks, such as `Canvas` and `Controls`, from `@storybook/addon-docs/blocks`.
 - Set up the providers that every story needs in [`.storybook/preview.ts`](.storybook/preview.ts), with the `applicationConfig` decorator. Storybook runs the stories zoneless, as the app does.
 - Check each story in both color schemes and both viewports. The `styles` of the Storybook targets in [`angular.json`](angular.json) load [`tokens.css`](../../design-tokens/README.md) into the preview, and [`.storybook/preview.css`](.storybook/preview.css) paints the canvas in the page background of the theme, as the web app does. The theme toolbar switches Dark and Light by setting `data-theme` on `<html>`, and the viewport control switches Mobile and Desktop, as [Themes](../../../docs/design.md#themes) describes.
