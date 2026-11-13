@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, type Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { LogoComponent } from './logo.component';
 import { LogoKind, LogoSize } from './logo.types';
@@ -20,69 +21,68 @@ describe('LogoComponent', () => {
         public readonly size = signal<LogoSize>(LogoSize.Large);
     }
 
-    async function setupTest(inputs: { kind?: LogoKind; size?: LogoSize } = {}) {
-        if (!inputs.kind && !inputs.size) {
-            return await setupTestEnvironment(DefaultTestComponent, LogoHarness);
-        }
-        const environment = await setupTestEnvironment(TestComponent, LogoHarness);
+    async function setupTest<Host>(hostComponent: Type<Host>) {
+        const { fixture, harness } = await setupTestEnvironment(hostComponent, LogoHarness);
 
-        const host = environment.fixture.componentInstance;
-
-        if (inputs.kind) {
-            host.kind.set(inputs.kind);
-        }
-        if (inputs.size) {
-            host.size.set(inputs.size);
-        }
-
-        return environment;
+        return { harness, host: fixture.componentInstance };
     }
 
     describe.each<LogoKind>(Object.values(LogoKind))('of kind %s', (kind) => {
         it.each<LogoSize>(Object.values(LogoSize))('should be named D&D Mapp at size %s', async (size) => {
-            const { fixture } = await setupTest({ kind, size });
-            await fixture.whenStable();
+            const { host } = await setupTest(TestComponent);
+            host.kind.set(kind);
+            host.size.set(size);
+            TestBed.tick();
 
             await expect.element(page.getByRole('img', { name: 'D&D Mapp' })).toBeInTheDocument();
         });
     });
 
     it('should show the wordmark by default', async () => {
-        const { harness } = await setupTest();
+        const { harness } = await setupTest(DefaultTestComponent);
 
         expect(await harness.getWordmarkText()).toBe('D&D Mapp');
     });
 
     it('should show the mark alone', async () => {
-        const { harness } = await setupTest({ kind: LogoKind.Mark });
+        const { harness, host } = await setupTest(TestComponent);
+        host.kind.set(LogoKind.Mark);
 
         expect(await harness.getWordmarkText()).toBeNull();
     });
 
     it('should hide the mark from assistive technology', async () => {
-        const { harness } = await setupTest();
+        const { harness } = await setupTest(DefaultTestComponent);
 
         expect(await harness.isMarkHidden()).toBe(true);
     });
 
-    it.each<[LogoSize | undefined, number]>([
-        [undefined, 40],
+    it('should draw the mark at 40 px by default', async () => {
+        const { harness } = await setupTest(DefaultTestComponent);
+
+        expect(await harness.getMarkSize()).toEqual({ width: 40, height: 40 });
+    });
+
+    it.each<[LogoSize, number]>([
         [LogoSize.Large, 40],
         [LogoSize.Small, 32],
     ])('should draw the mark of size %s at %i px', async (size, pixels) => {
-        const { harness } = await setupTest(size ? { size } : {});
+        const { harness, host } = await setupTest(TestComponent);
+        host.size.set(size);
 
         expect(await harness.getMarkSize()).toEqual({ width: pixels, height: pixels });
     });
 
     it('should show the wordmark for a kind it does not know', async () => {
-        const { harness } = await setupTest({ kind: 'unknown' as LogoKind });
+        const { harness, host } = await setupTest(TestComponent);
+        host.kind.set('unknown' as LogoKind);
 
         expect(await harness.getWordmarkText()).toBe('D&D Mapp');
     });
 
     it('should draw the large mark for a size it does not know', async () => {
-        const { harness } = await setupTest({ size: 'unknown' as LogoSize });
+        const { harness, host } = await setupTest(TestComponent);
+        host.size.set('unknown' as LogoSize);
 
         expect(await harness.getMarkSize()).toEqual({ width: 40, height: 40 });
     });
