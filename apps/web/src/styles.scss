@@ -6,4 +6,8 @@ body {
     height: 100dvh;
     background: var(--color-background-page);
     color: var(--color-foreground-default);
+    font-family: var(--typography-body-font-family);
+    font-size: var(--typography-body-font-size);
+    font-weight: var(--typography-body-font-weight);
+    line-height: var(--typography-body-line-height);
 }
