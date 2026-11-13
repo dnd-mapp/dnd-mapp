@@ -11,9 +11,11 @@
   },
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./testing": "./testing/index.ts"
   },
   "peerDependencies": {
+    "@angular/cdk": "catalog:angular",
     "@angular/common": "catalog:angular",
     "@angular/core": "catalog:angular",
     "@angular/platform-browser": "catalog:angular",

@@ -16,6 +16,7 @@ project:
 fileGroups:
     sources:
         - "src/**/*"
+        - "testing/**/*"
         - "angular.json"
         - "ng-package.json"
 
