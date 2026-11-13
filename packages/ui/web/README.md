@@ -19,12 +19,12 @@ A component belongs here when it is presentational: it takes its content through
 `ThemeService` owns the color scheme that the reader picks, the one piece of state in this package that [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) allows. [ADR 0008](../../../docs/adr/0008-theme-mapping.md) records how the choice maps to the themes of `tokens.css`. Inject the service where the reader picks a theme, such as the Theme picker:
 
 - `theme` is a signal of the choice: `Theme.System`, `Theme.Dark`, or `Theme.Light`.
-- `setTheme(theme)` applies a choice. Dark and Light save it under `dma-theme` in `localStorage` and set `data-theme` on `<html>`. System removes both, so the page follows `prefers-color-scheme` again.
-- A missing or unknown saved value counts as System. When the browser blocks `localStorage`, a choice still applies until the page reloads.
-- The service listens for the `storage` event, so a choice made in one tab applies in every open tab.
-- It touches `localStorage` and the `storage` event in the browser only. During prerendering, it reports System and changes nothing.
+- `setTheme(theme)` applies a choice. Dark and Light save it under `dma-theme` through [`StorageService`](#storage) and set `data-theme` on `<html>`. System removes both, so the page follows `prefers-color-scheme` again.
+- A missing or unknown saved value counts as System. When the choice can't be saved, it still applies until the page reloads.
+- The service watches `dma-theme`, so a choice made in one tab applies in every open tab.
+- During prerendering, it reports System and changes nothing.
 
-The service reads the saved choice when it starts, but leaves `data-theme` alone until the reader picks a theme. An inline boot script in the `<head>` of [`apps/web/src/index.html`](../../../apps/web/src/index.html) sets it from `dma-theme` before the stylesheets load, so a reader who picked Light sees no flash of Dark while the app boots. The script can't import from this package, so it repeats the key and the values, and [`boot-script.spec.ts`](src/theme/boot-script.spec.ts) runs it against the service to keep the two in step. The test tasks list `index.html` as an input for that reason. Once the app gets a Content Security Policy, the script needs a hash in `script-src`.
+The service reads the saved choice when it starts, but leaves `data-theme` alone until the reader picks a theme. An inline boot script in the `<head>` of [`apps/web/src/index.html`](../../../apps/web/src/index.html) sets it from `dma-theme` before the stylesheets load, so a reader who picked Light sees no flash of Dark while the app boots. The script can't import from this package, so it repeats the key, the values, and the default storage of `BROWSER_STORAGE`, and [`boot-script.spec.ts`](src/theme/boot-script.spec.ts) runs it against the service to keep the two in step. The test tasks list `index.html` as an input for that reason. Once the app gets a Content Security Policy, the script needs a hash in `script-src`.
 
 ## Storage
 
