@@ -16,6 +16,12 @@ export {
     type NavLinkLook,
 } from './harnesses/nav-link.harness';
 export {
+    type SectionIntroLook,
+    SectionIntroHarness,
+    type SectionIntroPart,
+    type SectionIntroPartBox,
+} from './harnesses/section-intro.harness';
+export {
     type SkipLinkBox,
     type SkipLinkFocusRing,
     SkipLinkHarness,
