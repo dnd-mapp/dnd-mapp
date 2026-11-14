@@ -7,7 +7,7 @@ import * as FactsListStories from './facts-list.stories';
 
 Pairs of a term and a value, such as the facts at the top of the Accessibility page. It is the Facts list component of the design system in Penpot, and Summary holds it.
 
-<Canvas of={FactsListStories.Mobile} />
+<Canvas of={FactsListStories.Desktop} />
 
 ## Placing a facts list
 
@@ -28,7 +28,19 @@ Facts list is an attribute on `<dl>`. Wrap each pair of a `<dt>` and a `<dd>` in
 
 A value may hold an inline Link. The facts list fills its container, and leaves its own place in the container to the section that holds it.
 
-Each term stacks above its value. Penpot draws no hover or focus state, since a facts list is not interactive.
+## Viewport
+
+The layout follows the desktop breakpoint of `@dnd-mapp/design-tokens`, so the facts list takes no input for it. Penpot draws no hover or focus state, since a facts list is not interactive.
+
+### Desktop
+
+From the breakpoint up, each term sits in a column of its own beside its value, as the facts list at the top of this page shows. A long value wraps within its own column.
+
+### Mobile
+
+Below the breakpoint, each term stacks above its value, since the column of terms would leave the values too little room.
+
+<Canvas of={FactsListStories.Mobile} story={{ inline: false, height: '16rem' }} />
 
 ## Accessibility
 
