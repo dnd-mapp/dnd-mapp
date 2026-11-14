@@ -1,0 +1,34 @@
+// The primary kind. Every kind draws a border, transparent here, so all kinds measure the same, as Penpot's inner
+// strokes do. The padding leaves room for the border inside the 20 px of Penpot.
+:host {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    min-height: var(--size-target-min);
+    margin: 0;
+    padding: 0 calc(var(--space-20) - var(--border-width-default));
+    border: var(--border-width-default) solid transparent;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-default);
+    color: var(--color-foreground-on-accent);
+    cursor: pointer;
+    font-family: var(--typography-button-font-family);
+    font-size: var(--typography-button-font-size);
+    font-weight: var(--typography-button-font-weight);
+    letter-spacing: var(--typography-button-letter-spacing);
+    line-height: var(--typography-button-line-height);
+    text-decoration: var(--typography-button-text-decoration);
+    text-transform: var(--typography-button-text-case);
+}
+
+:host(:hover) {
+    background: var(--color-accent-hover);
+}
+
+// Keyboard focus draws the ring outside the button, and keeps the look of its default state.
+:host(:focus-visible) {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}
