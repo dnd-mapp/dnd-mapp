@@ -1,3 +1,8 @@
+@use '@angular/cdk';
+
+// Hides the legend, each radio input, and the labels of the icons display from sight but not from assistive technology.
+@include cdk.a11y-visually-hidden;
+
 // The picker draws its border inside its 44 px height, as the inner stroke in Penpot does, so its padding gives up the
 // width of the border. Each option fills the height that is left: 36 px.
 :host {
@@ -13,20 +18,6 @@
     border: var(--border-width-default) solid var(--color-border-control);
     border-radius: var(--radius-md);
     background: var(--color-background-sunken);
-}
-
-// Hides an element from sight but not from assistive technology: the legend, each radio input, and the labels of the
-// icon display.
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    padding: 0;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
 }
 
 // The label holds the hidden radio input, so a click anywhere on the option picks it.

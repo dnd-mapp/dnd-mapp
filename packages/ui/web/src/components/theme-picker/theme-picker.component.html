@@ -1,8 +1,8 @@
-<legend class="visually-hidden">Theme</legend>
+<legend class="cdk-visually-hidden">Theme</legend>
 @for (option of options; track option.theme) {
     <label class="option">
         <input
-            class="input visually-hidden"
+            class="input cdk-visually-hidden"
             type="radio"
             [name]="name"
             [value]="option.theme"
@@ -21,7 +21,7 @@
                     <dma-icon-moon />
                 }
             }
-            <span class="label" [class.visually-hidden]="display() === 'icons'">{{ option.label }}</span>
+            <span class="label" [class.cdk-visually-hidden]="display() === 'icons'">{{ option.label }}</span>
         </span>
     </label>
 }

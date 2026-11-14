@@ -79,7 +79,7 @@ export class ThemePickerHarness extends ComponentHarness {
     public async isLabelShown(theme: string): Promise<boolean> {
         const label = await this.locatorFor(`${this.boxSelector(theme)} .label`)();
 
-        return !(await label.hasClass('visually-hidden'));
+        return !(await label.hasClass('cdk-visually-hidden'));
     }
 
     /** The focus ring the option of `theme` draws, whose style is `none` when it draws none. */
