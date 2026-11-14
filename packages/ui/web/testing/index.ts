@@ -8,7 +8,13 @@ export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
 export { IconHarness } from './harnesses/icon.harness';
 export { LinkHarness, type LinkFocusRing } from './harnesses/link.harness';
 export { LogoHarness } from './harnesses/logo.harness';
-export { type NavLinkBox, type NavLinkFocusRing, NavLinkHarness, type NavLinkLook } from './harnesses/nav-link.harness';
+export {
+    type NavLinkBox,
+    type NavLinkFocusRing,
+    NavLinkHarness,
+    type NavLinkIndicator,
+    type NavLinkLook,
+} from './harnesses/nav-link.harness';
 export {
     type ThemeOptionFocusRing,
     ThemeOptionHarness,

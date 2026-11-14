@@ -5,6 +5,7 @@ import { NavLinkKind } from './nav-link.types';
 import { NavLinkHarness, type NavLinkLook, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 // Colors that no theme uses, so the nav link can only take each one from the token the test sets it on.
+const ACCENT_TEXT = 'rgb(200, 30, 40)';
 const BACKGROUND_HOVER = 'rgb(30, 40, 50)';
 const FOREGROUND_DEFAULT = 'rgb(20, 120, 40)';
 const FOREGROUND_MUTED = 'rgb(90, 90, 200)';
@@ -17,6 +18,7 @@ const TRANSPARENT = 'rgba(0, 0, 0, 0)';
  */
 const TOKENS = `
     .tokens {
+        --color-accent-text: ${ACCENT_TEXT};
         --color-background-hover: ${BACKGROUND_HOVER};
         --color-foreground-default: ${FOREGROUND_DEFAULT};
         --color-foreground-muted: ${FOREGROUND_MUTED};
@@ -24,7 +26,9 @@ const TOKENS = `
         --border-width-focus: 2px;
         --focus-offset: 2px;
         --radius-md: 10px;
+        --size-indicator: 2px;
         --size-target-min: 44px;
+        --space-4: 4px;
         --space-12: 12px;
         --typography-nav-font-size: 15px;
         --typography-nav-font-weight: 600;
@@ -34,10 +38,14 @@ const TOKENS = `
     }
 `;
 
-/** How the bar kind looks in each state, as Penpot draws it. Focus keeps the default look. */
-const LOOKS: Record<'default' | 'hover', NavLinkLook> = {
+/**
+ * How the bar kind looks in each state, as Penpot draws it. Focus keeps the look of the state it adds to, and hover
+ * looks the same on the current page.
+ */
+const LOOKS: Record<'default' | 'hover' | 'current', NavLinkLook> = {
     default: { background: TRANSPARENT, color: FOREGROUND_MUTED, fontWeight: '600' },
     hover: { background: BACKGROUND_HOVER, color: FOREGROUND_DEFAULT, fontWeight: '600' },
+    current: { background: TRANSPARENT, color: FOREGROUND_DEFAULT, fontWeight: '600' },
 };
 
 describe('NavLinkComponent', () => {
@@ -57,10 +65,28 @@ describe('NavLinkComponent', () => {
         public readonly kind = 'unknown' as NavLinkKind;
     }
 
+    @Component({
+        template: `<div class="tokens"><a dma-nav-link aria-current="page" href="#features">Features</a></div>`,
+        styles: TOKENS,
+        imports: [NavLinkComponent],
+    })
+    class CurrentTestComponent {}
+
     async function setupTest(host: Type<unknown> = TestComponent) {
         const { harness } = await setupTestEnvironment({ host, harness: NavLinkHarness });
 
         return { harness, link: page.getByRole('link', { name: 'Features', exact: true }) };
+    }
+
+    /** Expects the indicator of the current page: a 2 px line as wide as the label, 4 px under it. */
+    async function expectIndicator(harness: NavLinkHarness) {
+        const label = await harness.getLabelSize();
+        const indicator = await harness.getIndicator();
+
+        expect(indicator).toMatchObject({ color: ACCENT_TEXT, borderRadius: '1px', height: 2 });
+        expect(indicator?.left).toBeCloseTo(0);
+        expect(indicator?.top).toBeCloseTo(label.height + 4);
+        expect(indicator?.width).toBeCloseTo(label.width);
     }
 
     it('should be a link named by its label alone', async () => {
@@ -130,5 +156,57 @@ describe('NavLinkComponent', () => {
 
         expect(await harness.getLook()).toEqual(LOOKS.default);
         expect((await harness.getBox()).paddingLeft).toBe('12px');
+    });
+
+    it('should mark no page and draw no indicator by default', async () => {
+        const { harness } = await setupTest();
+
+        expect(await harness.isCurrent()).toBe(false);
+        expect(await harness.getIndicator()).toBeNull();
+    });
+
+    describe('on the current page', () => {
+        it('should mark the current page to assistive technology', async () => {
+            const { harness, link } = await setupTest(CurrentTestComponent);
+
+            await expect.element(link).toHaveAttribute('aria-current', 'page');
+            expect(await harness.isCurrent()).toBe(true);
+            expect(await harness.getText()).toBe('Features');
+        });
+
+        it('should draw its current look and the indicator under its label', async () => {
+            const { harness } = await setupTest(CurrentTestComponent);
+
+            expect(await harness.getLook()).toEqual(LOOKS.current);
+            await expectIndicator(harness);
+        });
+
+        it('should keep the indicator on hover', async () => {
+            const { harness, link } = await setupTest(CurrentTestComponent);
+
+            await userEvent.hover(link);
+            const look = await harness.getLook();
+            await expectIndicator(harness);
+            await userEvent.unhover(link);
+
+            expect(look).toEqual(LOOKS.hover);
+        });
+
+        it('should keep its current look and the indicator on keyboard focus', async () => {
+            const { harness, link } = await setupTest(CurrentTestComponent);
+
+            await userEvent.tab();
+
+            await expect.element(link).toHaveFocus();
+            expect((await harness.getFocusRing()).style).toBe('solid');
+            expect(await harness.getLook()).toEqual(LOOKS.current);
+            await expectIndicator(harness);
+        });
+
+        it('should keep its height', async () => {
+            const { harness } = await setupTest(CurrentTestComponent);
+
+            expect((await harness.getBox()).height).toBe(44);
+        });
     });
 });
