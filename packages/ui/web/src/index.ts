@@ -2,6 +2,7 @@ export * from './components/button';
 export * from './components/chip';
 export * from './components/icon';
 export * from './components/link';
+export * from './components/link-group';
 export * from './components/logo';
 export * from './components/nav-link';
 export * from './components/section-intro';

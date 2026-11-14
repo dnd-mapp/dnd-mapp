@@ -1,0 +1,40 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'dma-link-group';
+
+// Sets the font of a typography token, such as `caps` for the `--typography-caps-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The group fills the column it is placed in, so whoever holds it sizes the columns. Penpot draws it hugging its
+// content, which looks the same, since the group draws no background and its children keep their own width.
+#{$host} {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-16);
+}
+
+// The heading draws the caps typography at every level, so the level follows the outline of the page, not the look.
+#{$host} > :is(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    color: var(--color-foreground-default);
+    @include typography(caps);
+}
+
+// The gap spaces the links, so neither the list nor its items keep the spacing or markers of their element.
+#{$host} > ul {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
