@@ -1,5 +1,6 @@
 export * from './components/button';
 export * from './components/chip';
+export * from './components/facts-list';
 export * from './components/icon';
 export * from './components/link';
 export * from './components/link-group';

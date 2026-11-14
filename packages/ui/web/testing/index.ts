@@ -5,6 +5,13 @@ export {
     type ButtonLook,
 } from './harnesses/button.harness';
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
+export {
+    type FactsListFact,
+    FactsListHarness,
+    type FactsListLook,
+    type FactsListPart,
+    type FactsListPartBox,
+} from './harnesses/facts-list.harness';
 export { IconHarness } from './harnesses/icon.harness';
 export { type LinkGroupBox, LinkGroupHarness, type LinkGroupHeadingLook } from './harnesses/link-group.harness';
 export { LinkHarness, type LinkFocusRing } from './harnesses/link.harness';

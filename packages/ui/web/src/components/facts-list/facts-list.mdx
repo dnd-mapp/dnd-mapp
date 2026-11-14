@@ -1,0 +1,39 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as FactsListStories from './facts-list.stories';
+
+<Meta of={FactsListStories} />
+
+# Facts list
+
+Pairs of a term and a value, such as the facts at the top of the Accessibility page. It is the Facts list component of the design system in Penpot, and Summary holds it.
+
+<Canvas of={FactsListStories.Mobile} />
+
+## Placing a facts list
+
+Facts list is an attribute on `<dl>`. Wrap each pair of a `<dt>` and a `<dd>` in a `<div>`:
+
+```html
+<dl dma-facts-list>
+    <div>
+        <dt>Standard</dt>
+        <dd>WCAG 2.2, level AA</dd>
+    </div>
+    <div>
+        <dt>Status</dt>
+        <dd>Partially conformant</dd>
+    </div>
+</dl>
+```
+
+A value may hold an inline Link. The facts list fills its container, and leaves its own place in the container to the section that holds it.
+
+Each term stacks above its value. Penpot draws no hover or focus state, since a facts list is not interactive.
+
+## Accessibility
+
+The `<div>` around each pair keeps the list valid HTML, so assistive technology reads each term with its value, and announces the pairs as one list.
+
+## Testing
+
+`FactsListHarness` from `@dnd-mapp/ui-web/testing` reads a facts list in a test: the term and value of each fact, the look and place of each part, and its width.
