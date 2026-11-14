@@ -26,10 +26,6 @@ export default meta;
 
 type Story = StoryObj<LogoComponent>;
 
-// The args spell out the values rather than reading LogoKind and LogoSize: the code snippet of a story follows only
-// constants of this file, so it would print the imported constants into a template that cannot resolve them. The
-// type of the args still catches a value outside the set.
-
 export const FullLarge: Story = {
     args: { kind: 'full', size: 'large' },
 };

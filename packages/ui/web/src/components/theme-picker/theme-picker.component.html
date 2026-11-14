@@ -1,0 +1,10 @@
+<legend class="cdk-visually-hidden">Theme</legend>
+@for (option of options; track option) {
+    <dma-theme-option
+        [theme]="option"
+        [name]="name"
+        [checked]="theme() === option"
+        [display]="display()"
+        (picked)="select($event)"
+    />
+}

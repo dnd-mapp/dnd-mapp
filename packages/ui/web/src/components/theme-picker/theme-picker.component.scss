@@ -1,0 +1,19 @@
+@use '@angular/cdk';
+
+// Hides the legend from sight but not from assistive technology.
+@include cdk.a11y-visually-hidden;
+
+// The picker draws its border inside its 44 px height, as the inner stroke in Penpot does, so its padding gives up the
+// width of the border.
+:host {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-inline-size: 0;
+    margin: 0;
+    padding: calc(var(--space-4) - var(--border-width-default));
+    border: var(--border-width-default) solid var(--color-border-control);
+    border-radius: var(--radius-md);
+    background: var(--color-background-sunken);
+}
