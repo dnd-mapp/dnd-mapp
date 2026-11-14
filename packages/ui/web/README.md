@@ -15,7 +15,7 @@ A component belongs here when it is presentational: it takes its content through
 | Icon         | [`dma-icon-<glyph>`][ic]                    | One component per glyph: `menu`, `close`, `arrow-right`, `arrow-down`, `plus`, `minus`, `external`, `sun`, `moon`, `monitor`, `check`, and `github`. |
 | Link         | [`a[dma-link]`][li]                         | `kind`: `inline`, `standalone`, or `quiet`.                                                                                                          |
 | Logo         | [`dma-logo`][lo]                            | `kind`: `full` or `mark`. `size`: `large` or `small`.                                                                                                |
-| Nav link     | [`a[dma-nav-link]`][nl]                     | `kind`: `bar`.                                                                                                                                       |
+| Nav link     | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
 | Theme picker | [`fieldset[dma-theme-picker]`][tp]          | `display`: `labels` or `icons`.                                                                                                                      |
 
 [bu]: src/components/button/button.component.ts

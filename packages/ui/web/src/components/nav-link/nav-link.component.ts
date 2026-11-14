@@ -9,6 +9,9 @@ import { DEFAULT_NAV_LINK_KIND, navLinkKindAttr } from './nav-link.types';
     selector: 'a[dma-nav-link]',
     templateUrl: './nav-link.component.html',
     styleUrl: './nav-link.component.scss',
+    host: {
+        '[class.row]': "kind() === 'row'",
+    },
 })
 export class NavLinkComponent {
     public readonly kind = input(DEFAULT_NAV_LINK_KIND, { transform: navLinkKindAttr });

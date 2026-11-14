@@ -14,7 +14,8 @@ const meta = {
             values: NavLinkKind,
             typeName: 'NavLinkKind',
             defaultValue: DEFAULT_NAV_LINK_KIND,
-            description: 'How the nav link looks: in the bar of the header, as wide as its label.',
+            description:
+                'How the nav link looks: in the bar of the header, as wide as its label, or as a row of a menu, as wide as its container.',
         }),
         label: {
             description: 'The content the nav link projects, which names it to assistive technology.',
@@ -62,6 +63,24 @@ export const BarCurrentHover: Story = {
 export const BarCurrentFocus: Story = {
     args: { kind: 'bar', label: 'Features', current: true },
     parameters: { pseudo: { focusVisible: true } },
+};
+
+export const RowDefault: Story = {
+    args: { kind: 'row', label: 'Features', current: false },
+};
+
+export const RowHover: Story = {
+    args: { kind: 'row', label: 'Features', current: false },
+    parameters: { pseudo: { hover: true } },
+};
+
+export const RowFocus: Story = {
+    args: { kind: 'row', label: 'Features', current: false },
+    parameters: { pseudo: { focusVisible: true } },
+};
+
+export const RowCurrent: Story = {
+    args: { kind: 'row', label: 'Features', current: true },
 };
 
 /** The nav links of the header, with the first one on the current page. */
