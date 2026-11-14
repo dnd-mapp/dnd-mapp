@@ -1,0 +1,31 @@
+{
+  "components": {
+    "logo": {
+      "id": "logo",
+      "name": "LogoComponent",
+      "path": "./src/components/logo/logo.stories.ts",
+      "stories": {
+        "logo--full-large": {
+          "id": "logo--full-large",
+          "name": "Full Large",
+          "snippet": "import { Component } from '@angular/core';\nimport { LogoComponent } from './logo.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LogoComponent],\n  template: `<dma-logo [kind]=\"'full'\" [size]=\"'large'\" />`,\n})\nexport class DemoComponent {}"
+        },
+        "logo--full-small": {
+          "id": "logo--full-small",
+          "name": "Full Small",
+          "snippet": "import { Component } from '@angular/core';\nimport { LogoComponent } from './logo.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LogoComponent],\n  template: `<dma-logo [kind]=\"'full'\" [size]=\"'small'\" />`,\n})\nexport class DemoComponent {}"
+        },
+        "logo--mark-large": {
+          "id": "logo--mark-large",
+          "name": "Mark Large",
+          "snippet": "import { Component } from '@angular/core';\nimport { LogoComponent } from './logo.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LogoComponent],\n  template: `<dma-logo [kind]=\"'mark'\" [size]=\"'large'\" />`,\n})\nexport class DemoComponent {}"
+        },
+        "logo--mark-small": {
+          "id": "logo--mark-small",
+          "name": "Mark Small",
+          "snippet": "import { Component } from '@angular/core';\nimport { LogoComponent } from './logo.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LogoComponent],\n  template: `<dma-logo [kind]=\"'mark'\" [size]=\"'small'\" />`,\n})\nexport class DemoComponent {}"
+        }
+      }
+    }
+  }
+}

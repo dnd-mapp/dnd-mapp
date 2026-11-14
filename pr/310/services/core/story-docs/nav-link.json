@@ -1,0 +1,67 @@
+{
+  "components": {
+    "nav-link": {
+      "id": "nav-link",
+      "name": "NavLinkComponent",
+      "path": "./src/components/nav-link/nav-link.stories.ts",
+      "stories": {
+        "nav-link--bar-default": {
+          "id": "nav-link--bar-default",
+          "name": "Bar Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'bar';\n  label = 'Features';\n  current = false;\n}"
+        },
+        "nav-link--bar-hover": {
+          "id": "nav-link--bar-hover",
+          "name": "Bar Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'bar';\n  label = 'Features';\n  current = false;\n}"
+        },
+        "nav-link--bar-focus": {
+          "id": "nav-link--bar-focus",
+          "name": "Bar Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'bar';\n  label = 'Features';\n  current = false;\n}"
+        },
+        "nav-link--bar-current": {
+          "id": "nav-link--bar-current",
+          "name": "Bar Current",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'bar';\n  label = 'Features';\n  current = true;\n}"
+        },
+        "nav-link--bar-current-hover": {
+          "id": "nav-link--bar-current-hover",
+          "name": "Bar Current Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'bar';\n  label = 'Features';\n  current = true;\n}"
+        },
+        "nav-link--bar-current-focus": {
+          "id": "nav-link--bar-current-focus",
+          "name": "Bar Current Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'bar';\n  label = 'Features';\n  current = true;\n}"
+        },
+        "nav-link--row-default": {
+          "id": "nav-link--row-default",
+          "name": "Row Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'row';\n  label = 'Features';\n  current = false;\n}"
+        },
+        "nav-link--row-hover": {
+          "id": "nav-link--row-hover",
+          "name": "Row Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'row';\n  label = 'Features';\n  current = false;\n}"
+        },
+        "nav-link--row-focus": {
+          "id": "nav-link--row-focus",
+          "name": "Row Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'row';\n  label = 'Features';\n  current = false;\n}"
+        },
+        "nav-link--row-current": {
+          "id": "nav-link--row-current",
+          "name": "Row Current",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <a\n        dma-nav-link\n        [kind]=\"kind\"\n        [attr.aria-current]=\"current ? 'page' : null\"\n        href=\"#\">\n        {{ label }}\n    </a>`,\n})\nexport class DemoComponent {\n  kind = 'row';\n  label = 'Features';\n  current = true;\n}"
+        },
+        "nav-link--in-header": {
+          "id": "nav-link--in-header",
+          "name": "In Header",
+          "snippet": "import { Component } from '@angular/core';\nimport { NavLinkComponent } from './nav-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [NavLinkComponent],\n  template: `\n    <nav aria-label=\"Main\" style=\"display: flex; gap: var(--space-4)\">\n        <a dma-nav-link aria-current=\"page\" href=\"#\">Features</a>\n        <a dma-nav-link href=\"#\">Roadmap</a>\n        <a dma-nav-link href=\"#\">FAQ</a>\n    </nav>`,\n})\nexport class DemoComponent {}",
+          "description": "The nav links of the header, with the first one on the current page."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "components": {
+    "theme-picker": {
+      "id": "theme-picker",
+      "name": "ThemePickerComponent",
+      "path": "./src/components/theme-picker/theme-picker.stories.ts",
+      "description": "Lets the reader pick System, Light, or Dark, drawn on the `<fieldset>` it is placed on. Each option is a Theme option\naround a native radio input, so the arrow keys move the choice. It reads and saves the choice through `ThemeService`,\nthe one exception to the presentational components of this package that ADR 0001 records, so whoever places it needs\nno wiring.",
+      "jsDocTags": {},
+      "argTypes": {
+        "name": {
+          "name": "name",
+          "description": "The name of the radio inputs, which groups them apart from those of every other picker on the page.",
+          "type": {
+            "name": "string"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "string"
+            },
+            "defaultValue": {}
+          }
+        },
+        "options": {
+          "name": "options",
+          "type": {
+            "name": "other",
+            "value": "empty-enum"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "readonly Theme[]"
+            },
+            "defaultValue": {}
+          }
+        },
+        "theme": {
+          "name": "theme",
+          "type": {
+            "name": "other",
+            "value": "empty-enum"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "Signal<Theme>"
+            },
+            "defaultValue": {}
+          }
+        },
+        "display": {
+          "name": "display",
+          "type": {
+            "name": "enum",
+            "value": [
+              "labels",
+              "icons"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "ThemePickerDisplay"
+            },
+            "defaultValue": {}
+          }
+        },
+        "select": {
+          "name": "select",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "(theme: Theme) => void"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type ThemePickerComponentInputs = {\n  display?: ThemePickerDisplay;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "ThemePickerComponent",
+        "selector": "fieldset[dma-theme-picker]",
+        "standalone": true,
+        "inputs": [
+          "display"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

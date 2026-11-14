@@ -1,0 +1,62 @@
+{
+  "components": {
+    "link": {
+      "id": "link",
+      "name": "LinkComponent",
+      "path": "./src/components/link/link.stories.ts",
+      "stories": {
+        "link--inline-default": {
+          "id": "link--inline-default",
+          "name": "Inline Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'inline';\n  label = 'link text';\n}"
+        },
+        "link--inline-hover": {
+          "id": "link--inline-hover",
+          "name": "Inline Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'inline';\n  label = 'link text';\n}"
+        },
+        "link--inline-focus": {
+          "id": "link--inline-focus",
+          "name": "Inline Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'inline';\n  label = 'link text';\n}"
+        },
+        "link--standalone-default": {
+          "id": "link--standalone-default",
+          "name": "Standalone Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'standalone';\n  label = 'Label';\n}"
+        },
+        "link--standalone-hover": {
+          "id": "link--standalone-hover",
+          "name": "Standalone Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'standalone';\n  label = 'Label';\n}"
+        },
+        "link--standalone-focus": {
+          "id": "link--standalone-focus",
+          "name": "Standalone Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'standalone';\n  label = 'Label';\n}"
+        },
+        "link--quiet-default": {
+          "id": "link--quiet-default",
+          "name": "Quiet Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n  label = 'Link';\n}"
+        },
+        "link--quiet-hover": {
+          "id": "link--quiet-hover",
+          "name": "Quiet Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n  label = 'Link';\n}"
+        },
+        "link--quiet-focus": {
+          "id": "link--quiet-focus",
+          "name": "Quiet Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `<a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n  label = 'Link';\n}"
+        },
+        "link--in-text": {
+          "id": "link--in-text",
+          "name": "In Text",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkComponent } from './link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkComponent],\n  template: `\n    <p class=\"body-text\">\n        Each spell lists its range and duration, as\n        <a dma-link [kind]=\"kind\" href=\"#\">{{ label }}</a>\n        explains.\n    </p>`,\n})\nexport class DemoComponent {\n  kind = 'inline';\n  label = 'the rules glossary';\n}",
+          "description": "An inline link in a paragraph of body text, the place it is made for."
+        }
+      }
+    }
+  }
+}

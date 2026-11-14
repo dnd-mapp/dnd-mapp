@@ -1,0 +1,32 @@
+{
+  "components": {
+    "chip": {
+      "id": "chip",
+      "name": "ChipComponent",
+      "path": "./src/components/chip/chip.stories.ts",
+      "stories": {
+        "chip--neutral": {
+          "id": "chip--neutral",
+          "name": "Neutral",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `<dma-chip [kind]=\"kind\">{{ label }}</dma-chip>`,\n})\nexport class DemoComponent {\n  kind = 'neutral';\n  label = 'Label';\n}"
+        },
+        "chip--status": {
+          "id": "chip--status",
+          "name": "Status",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `<dma-chip [kind]=\"kind\">{{ label }}</dma-chip>`,\n})\nexport class DemoComponent {\n  kind = 'status';\n  label = 'Planned';\n}"
+        },
+        "chip--dm": {
+          "id": "chip--dm",
+          "name": "Dm",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `<dma-chip [kind]=\"kind\">{{ label }}</dma-chip>`,\n})\nexport class DemoComponent {\n  kind = 'dm';\n  label = 'DM';\n}"
+        },
+        "chip--examples": {
+          "id": "chip--examples",
+          "name": "Examples",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `\n    <div style=\"display: flex; flex-wrap: wrap; gap: var(--space-8)\">\n        <dma-chip kind=\"status\">Planned</dma-chip>\n        <dma-chip kind=\"status\">Concept</dma-chip>\n        <dma-chip kind=\"dm\">DM</dma-chip>\n        <dma-chip>Poisoned</dma-chip>\n        <dma-chip>Prone</dma-chip>\n        <dma-chip>Spreadsheets</dma-chip>\n    </div>`,\n})\nexport class DemoComponent {}",
+          "description": "Chips in a row, as Card holds them."
+        }
+      }
+    }
+  }
+}

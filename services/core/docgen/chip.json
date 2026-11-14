@@ -1,0 +1,43 @@
+{
+  "components": {
+    "chip": {
+      "id": "chip",
+      "name": "ChipComponent",
+      "path": "./src/components/chip/chip.stories.ts",
+      "description": "A label for a status, role, tag, or condition. It is not a control, so it takes no focus and emits nothing. Its\nprojected text carries the meaning, so color is never the only cue.",
+      "jsDocTags": {},
+      "argTypes": {
+        "kind": {
+          "name": "kind",
+          "type": {
+            "name": "enum",
+            "value": [
+              "neutral",
+              "status",
+              "dm"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "ChipKind"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type ChipComponentInputs = {\n  kind?: ChipKind;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "ChipComponent",
+        "selector": "dma-chip",
+        "standalone": true,
+        "inputs": [
+          "kind"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

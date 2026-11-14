@@ -1,0 +1,37 @@
+{
+  "components": {
+    "skip-link": {
+      "id": "skip-link",
+      "name": "SkipLinkComponent",
+      "path": "./src/components/skip-link/skip-link.stories.ts",
+      "description": "The first focusable item of a page, drawn on the `<a>` it is placed on. It stays hidden until it gets focus, then\npins to the top left of the viewport. Whoever places it sets `href` to the id of the main content, such as `#main`.",
+      "jsDocTags": {},
+      "argTypes": {
+        "skipToTarget": {
+          "name": "skipToTarget",
+          "description": "Moves focus to the element that `href` names, rather than following the link. The `<base href=\"/\">` of the app\nwould resolve `#main` against the root, which leaves any other page. The target gets `tabindex=\"-1\"` until it\nloses focus when it can't take focus by itself, as `<main>` can't.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "(event: MouseEvent) => void"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "SkipLinkComponent",
+        "selector": "a[dma-skip-link]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

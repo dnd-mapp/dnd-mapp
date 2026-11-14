@@ -1,0 +1,21 @@
+{
+  "components": {
+    "section-intro": {
+      "id": "section-intro",
+      "name": "SectionIntroComponent",
+      "path": "./src/components/section-intro/section-intro.stories.ts",
+      "stories": {
+        "section-intro--start": {
+          "id": "section-intro--start",
+          "name": "Start",
+          "snippet": "import { Component } from '@angular/core';\nimport { SectionIntroComponent } from './section-intro.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SectionIntroComponent],\n  template: `\n    <hgroup dma-section-intro [align]=\"align\">\n        <p>{{ eyebrow }}</p>\n        <h2>{{ heading }}</h2>\n        <p>{{ intro }}</p>\n    </hgroup>`,\n})\nexport class DemoComponent {\n  eyebrow = 'Eyebrow';\n  heading = 'Section heading';\n  intro = 'One or two sentences that say what this section covers and why it matters to the reader.';\n  align = 'start';\n}"
+        },
+        "section-intro--center": {
+          "id": "section-intro--center",
+          "name": "Center",
+          "snippet": "import { Component } from '@angular/core';\nimport { SectionIntroComponent } from './section-intro.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SectionIntroComponent],\n  template: `\n    <hgroup dma-section-intro [align]=\"align\">\n        <p>{{ eyebrow }}</p>\n        <h2>{{ heading }}</h2>\n        <p>{{ intro }}</p>\n    </hgroup>`,\n})\nexport class DemoComponent {\n  eyebrow = 'Eyebrow';\n  heading = 'Section heading';\n  intro = 'One or two sentences that say what this section covers and why it matters to the reader.';\n  align = 'center';\n}"
+        }
+      }
+    }
+  }
+}

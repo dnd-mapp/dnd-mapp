@@ -1,0 +1,43 @@
+{
+  "components": {
+    "button": {
+      "id": "button",
+      "name": "ButtonComponent",
+      "path": "./src/components/button/button.stories.ts",
+      "description": "An action, drawn on the `<button>` or `<a>` it is placed on, so the element keeps its native semantics and keyboard\nbehavior. Whoever places it handles the click, or adds `routerLink` or `href` to an `<a>`, so the button needs no\nrouter.",
+      "jsDocTags": {},
+      "argTypes": {
+        "kind": {
+          "name": "kind",
+          "type": {
+            "name": "enum",
+            "value": [
+              "primary",
+              "secondary",
+              "quiet"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "ButtonKind"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type ButtonComponentInputs = {\n  kind?: ButtonKind;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "ButtonComponent",
+        "selector": "button[dma-button], a[dma-button]",
+        "standalone": true,
+        "inputs": [
+          "kind"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

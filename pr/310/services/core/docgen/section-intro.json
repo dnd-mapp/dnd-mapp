@@ -1,0 +1,42 @@
+{
+  "components": {
+    "section-intro": {
+      "id": "section-intro",
+      "name": "SectionIntroComponent",
+      "path": "./src/components/section-intro/section-intro.stories.ts",
+      "description": "The opening of a content section, drawn on the `<hgroup>` it is placed on: an eyebrow, a heading, and intro text,\nall projected. The `<p>` before the heading is the eyebrow and the `<p>` after it the intro text, so whoever places\nit picks the heading level.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {
+        "align": {
+          "name": "align",
+          "type": {
+            "name": "enum",
+            "value": [
+              "start",
+              "center"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "SectionIntroAlign"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type SectionIntroComponentInputs = {\n  align?: SectionIntroAlign;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "SectionIntroComponent",
+        "selector": "hgroup[dma-section-intro]",
+        "standalone": true,
+        "inputs": [
+          "align"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

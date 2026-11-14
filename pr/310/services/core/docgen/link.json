@@ -1,0 +1,43 @@
+{
+  "components": {
+    "link": {
+      "id": "link",
+      "name": "LinkComponent",
+      "path": "./src/components/link/link.stories.ts",
+      "description": "A link to another page or site, drawn on the `<a>` it is placed on. Whoever places it adds `routerLink` or `href`,\nso the link needs no router.",
+      "jsDocTags": {},
+      "argTypes": {
+        "kind": {
+          "name": "kind",
+          "type": {
+            "name": "enum",
+            "value": [
+              "quiet",
+              "inline",
+              "standalone"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "LinkKind"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type LinkComponentInputs = {\n  kind?: LinkKind;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "LinkComponent",
+        "selector": "a[dma-link]",
+        "standalone": true,
+        "inputs": [
+          "kind"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

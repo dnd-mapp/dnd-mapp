@@ -1,0 +1,29 @@
+{
+  "components": {
+    "skip-link": {
+      "id": "skip-link",
+      "name": "SkipLinkComponent",
+      "path": "./src/components/skip-link/skip-link.stories.ts",
+      "stories": {
+        "skip-link--hidden": {
+          "id": "skip-link--hidden",
+          "name": "Hidden",
+          "snippet": "import { Component } from '@angular/core';\nimport { SkipLinkComponent } from './skip-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SkipLinkComponent],\n  template: `<a dma-skip-link href=\"#main\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  label = 'Skip to main content';\n}",
+          "description": "The skip link before it gets focus: hidden from sight, but still in the accessibility tree."
+        },
+        "skip-link--focus": {
+          "id": "skip-link--focus",
+          "name": "Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { SkipLinkComponent } from './skip-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SkipLinkComponent],\n  template: `<a dma-skip-link href=\"#main\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  label = 'Skip to main content';\n}",
+          "description": "The skip link with focus, the look Penpot draws."
+        },
+        "skip-link--on-page": {
+          "id": "skip-link--on-page",
+          "name": "On Page",
+          "snippet": "import { Component } from '@angular/core';\nimport { SkipLinkComponent } from './skip-link.component';\nimport { NavLinkComponent } from '../nav-link';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SkipLinkComponent, NavLinkComponent],\n  template: `\n    <a dma-skip-link href=\"#story-main\">{{ label }}</a>\n    <header\n        style=\"display: flex; justify-content: flex-end; padding: var(--space-16)\">\n        <nav aria-label=\"Main\" style=\"display: flex; gap: var(--space-4)\">\n            <a dma-nav-link href=\"#\">Compendium</a>\n            <a dma-nav-link href=\"#\">Characters</a>\n            <a dma-nav-link href=\"#\">Campaigns</a>\n        </nav>\n    </header>\n    <main id=\"story-main\" style=\"padding: var(--space-16)\">Main content</main>`,\n})\nexport class DemoComponent {\n  label = 'Skip to main content';\n}",
+          "description": "The skip link as the first focusable item of a page. Press Tab in the story to show it, then Enter to skip."
+        }
+      }
+    }
+  }
+}

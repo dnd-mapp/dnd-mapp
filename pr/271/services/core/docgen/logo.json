@@ -1,0 +1,60 @@
+{
+  "components": {
+    "logo": {
+      "id": "logo",
+      "name": "LogoComponent",
+      "path": "./src/components/logo/logo.stories.ts",
+      "description": "The D&D Mapp logo. It names itself \"D&D Mapp\" to assistive technology in every variant, so a link around it takes\nthat name. The link home stays with whoever places the logo.",
+      "jsDocTags": {},
+      "argTypes": {
+        "kind": {
+          "name": "kind",
+          "type": {
+            "name": "enum",
+            "value": [
+              "full",
+              "mark"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "LogoKind"
+            },
+            "defaultValue": {}
+          }
+        },
+        "size": {
+          "name": "size",
+          "type": {
+            "name": "enum",
+            "value": [
+              "large",
+              "small"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "LogoSize"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type LogoComponentInputs = {\n  kind?: LogoKind;\n  size?: LogoSize;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "LogoComponent",
+        "selector": "dma-logo",
+        "standalone": true,
+        "inputs": [
+          "kind",
+          "size"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

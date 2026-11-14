@@ -1,0 +1,42 @@
+{
+  "components": {
+    "nav-link": {
+      "id": "nav-link",
+      "name": "NavLinkComponent",
+      "path": "./src/components/nav-link/nav-link.stories.ts",
+      "description": "A link to a page of the site in its navigation, drawn on the `<a>` it is placed on. Whoever places it adds\n`routerLink` or `href`, so the nav link needs no router, and `aria-current=\"page\"` on the link to the current page.",
+      "jsDocTags": {},
+      "argTypes": {
+        "kind": {
+          "name": "kind",
+          "type": {
+            "name": "enum",
+            "value": [
+              "bar",
+              "row"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "NavLinkKind"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type NavLinkComponentInputs = {\n  kind?: NavLinkKind;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "NavLinkComponent",
+        "selector": "a[dma-nav-link]",
+        "standalone": true,
+        "inputs": [
+          "kind"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}
