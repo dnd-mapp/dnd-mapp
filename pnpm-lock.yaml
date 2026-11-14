@@ -726,6 +726,9 @@ importers:
       '@dnd-mapp/common':
         specifier: workspace:*
         version: link:../../common
+      '@dnd-mapp/design-tokens':
+        specifier: workspace:*
+        version: link:../../design-tokens
       rxjs:
         specifier: catalog:angular
         version: 7.8.2
@@ -760,9 +763,6 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
-      '@dnd-mapp/design-tokens':
-        specifier: workspace:*
-        version: link:../../design-tokens
       '@storybook/addon-docs':
         specifier: catalog:storybook
         version: 10.6.7(@types/react@19.3.0)(storybook@10.6.7(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))

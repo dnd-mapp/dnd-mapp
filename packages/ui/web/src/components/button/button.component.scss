@@ -1,8 +1,16 @@
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
 // The primary kind. Every kind draws a border, transparent here, so all kinds measure the same, as Penpot's inner
 // strokes do. The padding leaves room for the border inside the 20 px of Penpot.
+//
+// Below the desktop breakpoint, the button fills a block, column, or grid container, as the GitHub button of Mobile
+// menu does. A `<button>` keeps the width of its content even as a block, so the width fills the container, while
+// the flex basis keeps the content width in a flex row, as for the Menu button of Header.
 :host {
     box-sizing: border-box;
-    display: inline-flex;
+    display: flex;
+    flex-basis: content;
+    width: 100%;
     align-items: center;
     justify-content: center;
     gap: var(--space-8);
@@ -21,6 +29,13 @@
     line-height: var(--typography-button-line-height);
     text-decoration: var(--typography-button-text-decoration);
     text-transform: var(--typography-button-text-case);
+}
+
+@media (min-width: breakpoints.$breakpoint-desktop) {
+    :host {
+        display: inline-flex;
+        width: auto;
+    }
 }
 
 :host(:hover) {
