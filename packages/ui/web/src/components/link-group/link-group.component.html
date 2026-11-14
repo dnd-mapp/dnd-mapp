@@ -1,0 +1,5 @@
+<ng-content select="h1, h2, h3, h4, h5, h6" />
+<!-- The list drops its markers, which makes Safari drop its list role, so the role is set explicitly. -->
+<ul role="list">
+    <ng-content select="li" />
+</ul>

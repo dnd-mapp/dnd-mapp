@@ -6,6 +6,7 @@ export {
 } from './harnesses/button.harness';
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
 export { IconHarness } from './harnesses/icon.harness';
+export { type LinkGroupBox, LinkGroupHarness, type LinkGroupHeadingLook } from './harnesses/link-group.harness';
 export { LinkHarness, type LinkFocusRing } from './harnesses/link.harness';
 export { LogoHarness } from './harnesses/logo.harness';
 export {
