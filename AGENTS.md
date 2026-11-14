@@ -12,6 +12,7 @@ Read the guide that matches the change before you make it:
 - **A dependency, added or updated:** [Dependency updates](docs/dependency-updates.md).
 - **A workflow or composite action in `.github/`:** [CI](docs/ci.md).
 - **An environment or a rollback:** [Deployments](docs/deployments.md).
+- **Personal data, a cookie, or an outside service:** [Privacy](docs/privacy.md).
 - **A release:** [Releasing](docs/releasing.md).
 
 ## Working in the repository
