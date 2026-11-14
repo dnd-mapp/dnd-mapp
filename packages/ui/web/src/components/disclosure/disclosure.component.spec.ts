@@ -8,6 +8,9 @@ import { DisclosureHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testin
 const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
 const FOREGROUND_MUTED = 'rgb(170, 180, 190)';
 const BORDER_DIVIDER = 'rgb(40, 50, 60)';
+const BACKGROUND_HOVER = 'rgb(30, 40, 50)';
+const FOCUS_RING = 'rgb(120, 180, 250)';
+const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
 /**
  * Sets the semantic tokens that the disclosure reads to values of the test, rather than loading `tokens.css`, so each
@@ -17,9 +20,13 @@ const BORDER_DIVIDER = 'rgb(40, 50, 60)';
 const TOKENS = `
     .tokens {
         --border-width-default: 1px;
+        --border-width-focus: 2px;
+        --color-background-hover: ${BACKGROUND_HOVER};
         --color-border-divider: ${BORDER_DIVIDER};
+        --color-focus-ring: ${FOCUS_RING};
         --color-foreground-default: ${FOREGROUND_DEFAULT};
         --color-foreground-muted: ${FOREGROUND_MUTED};
+        --focus-offset: 2px;
         --radius-sm: 8px;
         --size-measure: 400px;
         --size-target-min: 44px;
@@ -31,6 +38,12 @@ const TOKENS = `
         width: 600px;
     }
 `;
+
+/** How the summary looks in each state, as Penpot draws it. Focus keeps the look of the state it adds to. */
+const SUMMARY_LOOKS = {
+    default: { background: TRANSPARENT, color: FOREGROUND_DEFAULT, fontWeight: '700' },
+    hover: { background: BACKGROUND_HOVER, color: FOREGROUND_DEFAULT, fontWeight: '700' },
+};
 
 const SUMMARY = 'Can I play offline?';
 const ANSWER = 'Yes, once the app has loaded.';
@@ -122,8 +135,57 @@ describe('DisclosureComponent', () => {
     it('should draw the summary label and the panel text from their tokens', async () => {
         const { harness } = await setupTest(true);
 
-        expect(await harness.getSummaryLook()).toEqual({ color: FOREGROUND_DEFAULT, fontWeight: '700' });
-        expect(await harness.getPanelLook()).toEqual({ color: FOREGROUND_MUTED, fontWeight: '400' });
+        expect(await harness.getSummaryLook()).toEqual(SUMMARY_LOOKS.default);
+        expect(await harness.getPanelLook()).toEqual({
+            background: TRANSPARENT,
+            color: FOREGROUND_MUTED,
+            fontWeight: '400',
+        });
+    });
+
+    describe.each([
+        ['closed', false],
+        ['open', true],
+    ])('while %s', (_, open) => {
+        it('should fill the summary on hover', async () => {
+            const { harness, summary } = await setupTest(open);
+
+            await userEvent.hover(summary);
+            const look = await harness.getSummaryLook();
+            await userEvent.unhover(summary);
+
+            expect(look).toEqual(SUMMARY_LOOKS.hover);
+        });
+
+        it('should draw no focus ring until the summary has focus', async () => {
+            const { harness } = await setupTest(open);
+
+            expect((await harness.getFocusRing()).style).toBe('none');
+        });
+
+        it('should draw the focus ring outside the summary on keyboard focus, and keep its default look', async () => {
+            const { harness } = await setupTest(open);
+
+            await userEvent.tab();
+
+            expect(await harness.getFocusRing()).toEqual({
+                style: 'solid',
+                color: FOCUS_RING,
+                width: '2px',
+                offset: '2px',
+            });
+            expect(await harness.getSummaryLook()).toEqual(SUMMARY_LOOKS.default);
+        });
+    });
+
+    it('should draw no focus ring when a click focuses the summary', async () => {
+        const { harness, summary } = await setupTest();
+
+        await userEvent.click(summary);
+        await userEvent.unhover(summary);
+
+        expect(document.activeElement?.localName).toBe('summary');
+        expect((await harness.getFocusRing()).style).toBe('none');
     });
 
     it('should pad the summary around its icon, as Penpot draws it', async () => {
