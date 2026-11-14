@@ -35,11 +35,31 @@ A `<button>` in a form submits it unless it has `type="button"`, as in any form,
 
 <Canvas of={ButtonStories.OnLink} />
 
+### Secondary
+
+`ButtonKind.Secondary` marks the other calls to action of a view. It draws a strong border and no fill until hover.
+
+<Canvas of={ButtonStories.SecondaryDefault} />
+
+<Canvas of={ButtonStories.SecondaryHover} />
+
+### Quiet
+
+`ButtonKind.Quiet` marks the tools in the header and menu, such as the Menu and GitHub buttons of Header and the Close button of Mobile menu. It draws the lighter border of a control and no fill until hover.
+
+<Canvas of={ButtonStories.QuietDefault} />
+
+<Canvas of={ButtonStories.QuietHover} />
+
 ## Focus
 
 Every kind draws the focus ring outside itself on keyboard focus, and keeps the look of its default state.
 
 <Canvas of={ButtonStories.PrimaryFocus} />
+
+<Canvas of={ButtonStories.SecondaryFocus} />
+
+<Canvas of={ButtonStories.QuietFocus} />
 
 ## Accessibility
 
