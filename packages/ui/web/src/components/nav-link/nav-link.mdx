@@ -22,9 +22,11 @@ Nav link is an attribute on `<a>`, so the element keeps the semantics and keyboa
 </nav>
 ```
 
+<Canvas of={NavLinkStories.InHeader} />
+
 ## States
 
-`kind` picks how the nav link looks. `NavLinkKind.Bar`, the default, sits in the bar of the header: it is as wide as its label, and at least 44 px tall, so it meets the minimum target size. Its label is muted until the pointer is over it.
+`kind` picks how the nav link looks. `NavLinkKind.Bar`, the default, sits in the bar of the header: it is as wide as its label, and at least 44 px tall, so it meets the minimum target size. Its label is muted until the pointer is over it, or until it marks the current page.
 
 ### Hover
 
@@ -38,10 +40,26 @@ The nav link draws the focus ring outside itself on keyboard focus, and keeps th
 
 <Canvas of={NavLinkStories.BarFocus} />
 
+### Current
+
+The nav link to the current page turns its label to the default foreground color, and draws a line in the accent color under its label, as wide as the label. It keeps the line on hover and on focus, so the reader can always tell which page they are on.
+
+Nav link reads the current page from `aria-current="page"` on the link, which also tells assistive technology. With the router, `routerLinkActive` sets it on the link to the active route:
+
+```html
+<a dma-nav-link routerLink="/features" routerLinkActive ariaCurrentWhenActive="page">Features</a>
+```
+
+<Canvas of={NavLinkStories.BarCurrent} />
+
+<Canvas of={NavLinkStories.BarCurrentHover} />
+
+<Canvas of={NavLinkStories.BarCurrentFocus} />
+
 ## Accessibility
 
-The projected content names the nav link to assistive technology. Write a label of a word or two that names the page, since the label is also all a screen reader announces.
+The projected content names the nav link to assistive technology. Write a label of a word or two that names the page, since the label is also all a screen reader announces. Mark the link to the current page with `aria-current="page"` rather than a class, so screen readers announce it as the current page, and color is not the only cue.
 
 ## Testing
 
-`NavLinkHarness` from `@dnd-mapp/ui-web/testing` reads a nav link in a test: its text, its colors and font weight, its height, padding, and corners, and its focus ring.
+`NavLinkHarness` from `@dnd-mapp/ui-web/testing` reads a nav link in a test: its text, its colors and font weight, its height, padding, and corners, its focus ring, whether it marks the current page, and its indicator.
