@@ -6,7 +6,7 @@ Thanks for helping build D&D Mapp. This guide covers where a contribution starts
 
 [`SUPPORT.md`](SUPPORT.md) lists where questions, ideas, bug reports, and other requests go. A code or docs change starts from an issue that a maintainer has triaged, and for now only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains.
 
-A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
+A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Backlog on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and moves it to Ready once Ready has room. The maintainer assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
 
 ## Project board
 
