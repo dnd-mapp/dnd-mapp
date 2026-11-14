@@ -1,4 +1,5 @@
 import { ComponentHarness } from '@angular/cdk/testing';
+import { IconHarness } from './icon.harness';
 
 /** How a button draws its box. */
 export interface ButtonLook {
@@ -15,8 +16,19 @@ export interface ButtonFocusRing {
     offset: string;
 }
 
+/** How far an icon of a button sits from each edge of the button, in pixels. */
+export interface ButtonIconInsets {
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
+}
+
 export class ButtonHarness extends ComponentHarness {
     public static readonly hostSelector = 'button[dma-button], a[dma-button]';
+
+    private readonly iconsLocator = this.locatorForAll(IconHarness);
+    private readonly iconElementsLocator = this.locatorForAll(IconHarness.hostSelector);
 
     /** The text of the button, which names it to assistive technology unless it has an `aria-label`. */
     public async getText(): Promise<string> {
@@ -53,5 +65,28 @@ export class ButtonHarness extends ComponentHarness {
         ]);
 
         return { style, color, width, offset };
+    }
+
+    /** The icons the button projects, in the order they draw. */
+    public async getIcons(): Promise<IconHarness[]> {
+        return await this.iconsLocator();
+    }
+
+    /** How far each icon of the button sits from the edges of the button, in the order they draw. */
+    public async getIconInsets(): Promise<ButtonIconInsets[]> {
+        const [button, icons] = await Promise.all([(await this.host()).getDimensions(), this.iconElementsLocator()]);
+
+        return await Promise.all(
+            icons.map(async (icon) => {
+                const { top, left, width, height } = await icon.getDimensions();
+
+                return {
+                    top: top - button.top,
+                    right: button.left + button.width - (left + width),
+                    bottom: button.top + button.height - (top + height),
+                    left: left - button.left,
+                };
+            }),
+        );
     }
 }
