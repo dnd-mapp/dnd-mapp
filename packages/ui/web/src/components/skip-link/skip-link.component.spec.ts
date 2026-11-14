@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { SkipLinkComponent } from './skip-link.component';
 import { setupTestEnvironment, SkipLinkHarness } from '@dnd-mapp/ui-web/testing';
@@ -31,20 +32,54 @@ describe('SkipLinkComponent', () => {
     @Component({
         template: `
             <div class="tokens">
-                <a dma-skip-link href="#main">Skip to main content</a>
+                <a dma-skip-link [attr.href]="href()">Skip to main content</a>
                 <button type="button">Menu</button>
-                <main id="main"><h1>Main content</h1></main>
+                <main id="main" [attr.tabindex]="mainTabIndex()"><h1>Main content</h1></main>
             </div>
         `,
         styles: TOKENS,
         imports: [SkipLinkComponent],
     })
-    class TestComponent {}
+    class TestComponent {
+        public readonly href = signal('#main');
+        public readonly mainTabIndex = signal<number | null>(null);
+    }
 
-    async function setupTest() {
-        const { harness } = await setupTestEnvironment({ host: TestComponent, harness: SkipLinkHarness });
+    async function setupTest(options: { href?: string; mainTabIndex?: number } = {}) {
+        const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: SkipLinkHarness });
 
-        return { harness, link: page.getByRole('link', { name: 'Skip to main content', exact: true }) };
+        if (options.href) {
+            fixture.componentInstance.href.set(options.href);
+        }
+        if (options.mainTabIndex !== undefined) {
+            fixture.componentInstance.mainTabIndex.set(options.mainTabIndex);
+        }
+        TestBed.tick();
+
+        return {
+            harness,
+            link: page.getByRole('link', { name: 'Skip to main content', exact: true }),
+            main: page.getByRole('main'),
+        };
+    }
+
+    /** Clicks the skip link, and reports whether it kept the browser from following the link. */
+    function clickAndCheckFollowed(link: ReturnType<typeof page.getByRole>): boolean {
+        const element = link.element() as HTMLAnchorElement;
+        let followed = false;
+
+        // Listens on the document, so it runs after the listener of the skip link, and stops the navigation itself.
+        document.addEventListener(
+            'click',
+            (event) => {
+                followed = !event.defaultPrevented;
+                event.preventDefault();
+            },
+            { once: true },
+        );
+        element.click();
+
+        return followed;
     }
 
     it('should be a link named by its label while hidden', async () => {
@@ -120,5 +155,57 @@ describe('SkipLinkComponent', () => {
 
         await expect.element(link).not.toHaveFocus();
         expect(await harness.isShown()).toBe(false);
+    });
+
+    it('should move focus to its target on Enter', async () => {
+        const { main } = await setupTest();
+
+        await userEvent.tab();
+        await userEvent.keyboard('{Enter}');
+
+        await expect.element(main).toHaveFocus();
+    });
+
+    it('should make its target focusable until the target loses focus', async () => {
+        const { main } = await setupTest();
+
+        await userEvent.tab();
+        await userEvent.keyboard('{Enter}');
+
+        await expect.element(main).toHaveAttribute('tabindex', '-1');
+
+        (main.element() as HTMLElement).blur();
+
+        await expect.element(main).not.toHaveAttribute('tabindex');
+    });
+
+    it('should keep the tabindex that its target already has', async () => {
+        const { main } = await setupTest({ mainTabIndex: 0 });
+
+        await userEvent.tab();
+        await userEvent.keyboard('{Enter}');
+        await expect.element(main).toHaveFocus();
+        (main.element() as HTMLElement).blur();
+
+        await expect.element(main).toHaveAttribute('tabindex', '0');
+    });
+
+    it('should not follow the link when it moves focus', async () => {
+        const { link } = await setupTest();
+
+        expect(clickAndCheckFollowed(link)).toBe(false);
+    });
+
+    it('should follow the link when no element has the id it names', async () => {
+        const { link, main } = await setupTest({ href: '#content' });
+
+        expect(clickAndCheckFollowed(link)).toBe(true);
+        await expect.element(main).not.toHaveFocus();
+    });
+
+    it('should follow a link to another page', async () => {
+        const { link } = await setupTest({ href: '/rules' });
+
+        expect(clickAndCheckFollowed(link)).toBe(true);
     });
 });
