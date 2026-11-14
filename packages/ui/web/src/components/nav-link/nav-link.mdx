@@ -1,0 +1,47 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as NavLinkStories from './nav-link.stories';
+
+<Meta of={NavLinkStories} />
+
+# Nav link
+
+A link to a page of the site in its navigation. It is the Nav link component of the design system in Penpot, and Header and Mobile menu hold it.
+
+<Canvas of={NavLinkStories.BarDefault} />
+
+<Controls of={NavLinkStories.BarDefault} />
+
+## Placing a nav link
+
+Nav link is an attribute on `<a>`, so the element keeps the semantics and keyboard behavior of a native link. Add `routerLink` for a page of the app, or `href` for another site; Nav link needs no router. Place the nav links of a menu in a `<nav>`, so assistive technology announces them as navigation:
+
+```html
+<nav aria-label="Main">
+    <a dma-nav-link routerLink="/features">Features</a>
+    <a dma-nav-link routerLink="/roadmap">Roadmap</a>
+</nav>
+```
+
+## States
+
+`kind` picks how the nav link looks. `NavLinkKind.Bar`, the default, sits in the bar of the header: it is as wide as its label, and at least 44 px tall, so it meets the minimum target size. Its label is muted until the pointer is over it.
+
+### Hover
+
+The nav link fills its box and turns its label to the default foreground color.
+
+<Canvas of={NavLinkStories.BarHover} />
+
+### Focus
+
+The nav link draws the focus ring outside itself on keyboard focus, and keeps the colors of its default state.
+
+<Canvas of={NavLinkStories.BarFocus} />
+
+## Accessibility
+
+The projected content names the nav link to assistive technology. Write a label of a word or two that names the page, since the label is also all a screen reader announces.
+
+## Testing
+
+`NavLinkHarness` from `@dnd-mapp/ui-web/testing` reads a nav link in a test: its text, its colors and font weight, its height, padding, and corners, and its focus ring.
