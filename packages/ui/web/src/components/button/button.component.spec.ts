@@ -9,6 +9,10 @@ import { ButtonHarness, type ButtonLook, setupTestEnvironment } from '@dnd-mapp/
 const ACCENT_DEFAULT = 'rgb(200, 30, 40)';
 const ACCENT_HOVER = 'rgb(130, 20, 30)';
 const FOREGROUND_ON_ACCENT = 'rgb(250, 250, 240)';
+const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
+const BACKGROUND_HOVER = 'rgb(30, 40, 50)';
+const BORDER_STRONG = 'rgb(220, 210, 200)';
+const BORDER_CONTROL = 'rgb(120, 130, 140)';
 const FOCUS_RING = 'rgb(0, 100, 250)';
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
@@ -21,6 +25,10 @@ const TOKENS = `
         --color-accent-default: ${ACCENT_DEFAULT};
         --color-accent-hover: ${ACCENT_HOVER};
         --color-foreground-on-accent: ${FOREGROUND_ON_ACCENT};
+        --color-foreground-default: ${FOREGROUND_DEFAULT};
+        --color-background-hover: ${BACKGROUND_HOVER};
+        --color-border-strong: ${BORDER_STRONG};
+        --color-border-control: ${BORDER_CONTROL};
         --color-focus-ring: ${FOCUS_RING};
         --border-width-default: 1px;
         --border-width-focus: 2px;
@@ -43,6 +51,14 @@ const LOOKS: Record<ButtonKind, { default: ButtonLook; hover: ButtonLook }> = {
     primary: {
         default: { background: ACCENT_DEFAULT, borderColor: TRANSPARENT, color: FOREGROUND_ON_ACCENT },
         hover: { background: ACCENT_HOVER, borderColor: TRANSPARENT, color: FOREGROUND_ON_ACCENT },
+    },
+    secondary: {
+        default: { background: TRANSPARENT, borderColor: BORDER_STRONG, color: FOREGROUND_DEFAULT },
+        hover: { background: BACKGROUND_HOVER, borderColor: BORDER_STRONG, color: FOREGROUND_DEFAULT },
+    },
+    quiet: {
+        default: { background: TRANSPARENT, borderColor: BORDER_CONTROL, color: FOREGROUND_DEFAULT },
+        hover: { background: BACKGROUND_HOVER, borderColor: BORDER_CONTROL, color: FOREGROUND_DEFAULT },
     },
 };
 
