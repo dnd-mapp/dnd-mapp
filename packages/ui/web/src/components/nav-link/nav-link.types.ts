@@ -1,6 +1,10 @@
-/** How a nav link looks: in the bar of the header, as wide as its label. */
+/**
+ * How a nav link looks: in the bar of the header, as wide as its label, or as a row of a menu, as wide as its
+ * container.
+ */
 export const NavLinkKind = {
     Bar: 'bar',
+    Row: 'row',
 } as const;
 
 export type NavLinkKind = (typeof NavLinkKind)[keyof typeof NavLinkKind];

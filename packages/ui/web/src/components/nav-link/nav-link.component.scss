@@ -20,6 +20,14 @@
     @include typography(nav);
 }
 
+// The row kind: as wide as its container, as in the rows of a menu, with a larger label in the default color.
+:host(.row) {
+    display: flex;
+    padding-inline: var(--space-16);
+    color: var(--color-foreground-default);
+    @include typography(title-sm);
+}
+
 :host(:hover) {
     background-color: var(--color-background-hover);
     color: var(--color-foreground-default);
@@ -53,4 +61,17 @@
     .indicator {
         display: block;
     }
+}
+
+// The current row turns its label to the accent color, also on hover, and draws the indicator at its start, as tall as
+// the label.
+:host(.row[aria-current='page']) {
+    color: var(--color-accent-text);
+}
+
+:host(.row) .indicator {
+    inset-block: 0;
+    inset-inline: calc(-1 * var(--space-16)) auto;
+    width: var(--size-indicator);
+    height: auto;
 }
