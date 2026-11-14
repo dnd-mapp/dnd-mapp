@@ -13,7 +13,7 @@ Content that opens on demand, such as the answer to a question. It is the Disclo
 
 ## Placing a disclosure
 
-Disclosure is an attribute on `<details>`, so the browser opens and closes it with no script. Mark the label of the summary with `dma-disclosure-summary`, and put the rest of the content after it:
+Disclosure is an attribute on `<details>`, so the browser opens and closes it with no script. Mark the label of the summary with `dma-disclosure-summary`, and put the content of the panel after it. Add `open` to start with the panel open:
 
 ```html
 <details dma-disclosure>
@@ -22,14 +22,32 @@ Disclosure is an attribute on `<details>`, so the browser opens and closes it wi
 </details>
 ```
 
-The disclosure renders the `<summary>` itself and projects the label into it, so it can end the summary in its icon. The `open` attribute holds the state, and the native `toggle` event fires each time the disclosure opens or closes, so Disclosure has no inputs or outputs of its own.
+The disclosure renders the `<summary>` itself and projects the label into it, so it can end the summary in its icon. The `open` attribute holds the state, and the native `toggle` event fires each time the panel opens or closes, so Disclosure has no inputs or outputs of its own.
 
-The disclosure fills its container up to the measure. Stack several, as for questions and answers, and the divider under each one separates them.
+The disclosure fills its container up to the measure. Stack several, as for questions and answers, and the divider under each one separates them:
+
+<Canvas of={DisclosureStories.Stacked} />
+
+## Panel
+
+### Closed
+
+The panel starts closed: the summary shows the label and ends in a plus.
+
+### Open
+
+The open panel shows its content in muted body text, and the summary ends in a minus. The panel keeps the spacing between its paragraphs, but none above the first or below the last.
+
+<Canvas of={DisclosureStories.OpenDefault} />
 
 ## Accessibility
 
-The whole summary is the target, at least as tall as the minimum target size. The icon hides itself, so the label alone names the summary.
+The whole summary is the target, at least as tall as the minimum target size. A pointer, Enter, or Space on the focused summary opens and closes the panel. The icons hide themselves, so the label alone names the summary.
+
+The content of a closed panel stays in the page. Browsers that support it, such as Chrome and Edge, open a closed panel when find in page matches its text.
 
 ## Testing
 
-`DisclosureHarness` from `@dnd-mapp/ui-web/testing` reads a disclosure in a test: its summary text, whether it is open, the icon it shows, the look and box of its summary, its size, and its divider.
+`DisclosureHarness` from `@dnd-mapp/ui-web/testing` reads a disclosure in a test: its summary and panel text, whether it is open, the icon it shows, the look of its summary and panel, the box of its summary, its size, and its divider.
+
+No test can drive find in page, so `isPanelFindable()` checks what find in page needs instead: the panel holds text, and hides none of it through its display, visibility, content visibility, or `inert`.

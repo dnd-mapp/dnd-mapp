@@ -1,4 +1,8 @@
-// Sets the font of a typography token, such as `title-sm` for the `--typography-title-sm-*` properties.
+// The component turns encapsulation off to style its projected content, so every rule starts with its selector, and
+// uses child combinators, so a disclosure in the panel of another keeps its own look.
+$host: 'details[dma-disclosure]';
+
+// Sets the font of a typography token, such as `body` for the `--typography-body-*` properties.
 @mixin typography($name) {
     font-family: var(--typography-#{$name}-font-family);
     font-size: var(--typography-#{$name}-font-size);
@@ -11,7 +15,7 @@
 
 // The disclosure fills its container up to the measure. Penpot draws the divider over the bottom padding, so the border
 // takes its width from that padding, and the disclosure keeps the height of Penpot.
-:host {
+#{$host} {
     display: block;
     max-width: var(--size-measure);
     padding-block: var(--space-4) calc(var(--space-4) - var(--border-width-default));
@@ -20,7 +24,7 @@
 
 // The whole summary is the target, at least as tall as the minimum target size. A display other than `list-item` drops
 // the marker of the browser in Chromium and Firefox, and the pseudo-element drops it in Safari.
-summary {
+#{$host} > summary {
     display: flex;
     align-items: center;
     gap: var(--space-16);
@@ -37,6 +41,28 @@ summary {
     }
 }
 
-.label {
+#{$host} > summary > .label {
     flex: 1;
+}
+
+// The plus shows while the panel is closed, and the minus while it is open, so the icon follows the `open` attribute
+// without script.
+#{$host}:not([open]) > summary > dma-icon-minus,
+#{$host}[open] > summary > dma-icon-plus {
+    display: none;
+}
+
+// The panel keeps the spacing between its paragraphs, but none above the first or below the last.
+#{$host} > .panel {
+    padding: var(--space-4) var(--space-16) var(--space-16);
+    color: var(--color-foreground-muted);
+    @include typography(body);
+
+    > :first-child {
+        margin-block-start: 0;
+    }
+
+    > :last-child {
+        margin-block-end: 0;
+    }
 }

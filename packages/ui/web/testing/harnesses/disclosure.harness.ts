@@ -5,7 +5,7 @@ export type DisclosureIcon = 'plus' | 'minus';
 
 const ICONS: DisclosureIcon[] = ['plus', 'minus'];
 
-/** How a disclosure draws the text of its summary. */
+/** How a disclosure draws the text of its summary or its panel. */
 export interface DisclosureLook {
     color: string;
     fontWeight: string;
@@ -30,6 +30,7 @@ export class DisclosureHarness extends ComponentHarness {
 
     private readonly summaryLocator = this.locatorFor(':scope > summary');
     private readonly labelLocator = this.locatorFor(':scope > summary > .label');
+    private readonly panelLocator = this.locatorFor(':scope > .panel');
     private readonly iconLocators: Record<DisclosureIcon, () => Promise<TestElement | null>> = {
         plus: this.locatorForOptional(':scope > summary > dma-icon-plus'),
         minus: this.locatorForOptional(':scope > summary > dma-icon-minus'),
@@ -38,6 +39,11 @@ export class DisclosureHarness extends ComponentHarness {
     /** The label of the summary, which names it to assistive technology. */
     public async getSummaryText(): Promise<string> {
         return await (await this.labelLocator()).text();
+    }
+
+    /** The text of the panel, whether it is open or closed. */
+    public async getPanelText(): Promise<string> {
+        return await (await this.panelLocator()).text();
     }
 
     /** Whether the panel is open. */
@@ -55,13 +61,12 @@ export class DisclosureHarness extends ComponentHarness {
 
     /** How the summary draws its label. */
     public async getSummaryLook(): Promise<DisclosureLook> {
-        const summary = await this.summaryLocator();
-        const [color, fontWeight] = await Promise.all([
-            summary.getCssValue('color'),
-            summary.getCssValue('font-weight'),
-        ]);
+        return await getLook(await this.summaryLocator());
+    }
 
-        return { color, fontWeight };
+    /** How the panel draws its text. */
+    public async getPanelLook(): Promise<DisclosureLook> {
+        return await getLook(await this.panelLocator());
     }
 
     /** The height, padding, and corners of the summary. */
@@ -94,6 +99,36 @@ export class DisclosureHarness extends ComponentHarness {
 
         return { style, color, width };
     }
+
+    /**
+     * Whether find in page can reach the text of the panel while it is closed. No test can drive find in page, so this
+     * checks what it needs: the panel holds text and stays in the `<details>`, which hides it only in its own content
+     * slot, and the panel hides none of it through its display, visibility, content visibility, or `inert`.
+     */
+    public async isPanelFindable(): Promise<boolean> {
+        const panel = await this.panelLocator();
+        const [text, display, visibility, contentVisibility, inert] = await Promise.all([
+            panel.text(),
+            panel.getCssValue('display'),
+            panel.getCssValue('visibility'),
+            panel.getCssValue('content-visibility'),
+            panel.getProperty<boolean>('inert'),
+        ]);
+
+        return (
+            text.trim() !== '' &&
+            display !== 'none' &&
+            visibility !== 'hidden' &&
+            contentVisibility !== 'hidden' &&
+            !inert
+        );
+    }
+}
+
+async function getLook(element: TestElement): Promise<DisclosureLook> {
+    const [color, fontWeight] = await Promise.all([element.getCssValue('color'), element.getCssValue('font-weight')]);
+
+    return { color, fontWeight };
 }
 
 async function isShown(element: TestElement | null): Promise<boolean> {
