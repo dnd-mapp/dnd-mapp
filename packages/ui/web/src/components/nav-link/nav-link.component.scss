@@ -1,0 +1,32 @@
+// Sets the font and the underline of a typography token, such as `nav` for the `--typography-nav-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The bar kind: as wide as its label, and at least as tall as the minimum target size.
+:host {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--size-target-min);
+    padding-inline: var(--space-12);
+    border-radius: var(--radius-md);
+    color: var(--color-foreground-muted);
+    @include typography(nav);
+}
+
+:host(:hover) {
+    background-color: var(--color-background-hover);
+    color: var(--color-foreground-default);
+}
+
+// Focus draws the ring outside the nav link, and keeps the colors of the default state.
+:host(:focus-visible) {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}
