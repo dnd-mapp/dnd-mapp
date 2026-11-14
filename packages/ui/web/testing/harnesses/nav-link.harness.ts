@@ -69,6 +69,13 @@ export class NavLinkHarness extends ComponentHarness {
         return { height, paddingLeft, paddingRight, borderRadius };
     }
 
+    /** The width and height of the nav link in pixels. */
+    public async getSize(): Promise<{ width: number; height: number }> {
+        const { width, height } = await (await this.host()).getDimensions();
+
+        return { width, height };
+    }
+
     /** Whether the nav link marks the current page, through `aria-current="page"`. */
     public async isCurrent(): Promise<boolean> {
         return (await (await this.host()).getAttribute('aria-current')) === 'page';
