@@ -82,6 +82,18 @@ const service = TestBed.inject(ThemeService);
 
 Provide an `InMemoryStorage` through `provideBrowserStorage`, so a test leaves the storage of the browser and the other tests alone. Set its `blocked` to make it throw, as a browser does when it blocks storage for the site. `providePlatformId('server')` runs a test as prerendering does. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
 
+### Pointer
+
+[`testing/pointer.ts`](testing/pointer.ts) is a setup file for the browser tests of this package and the packages that build on it. Before each test, it moves the pointer to the bottom-right corner of the viewport, where no test renders a component. Without it, the pointer stays where the previous test left it, and Chrome hovers a component that the next test renders in that spot a frame later, so a test that expects the default look fails in some orders.
+
+The `testing` entry point doesn't export the file. Load it through the `setupFiles` option of the `test` target in `angular.json`, by its path from the project, as [`packages/core/web/angular.json`](../../core/web/angular.json) does, so the Angular unit-test builder compiles it with the tests:
+
+```json
+"setupFiles": ["../../ui/web/testing/pointer.ts"]
+```
+
+The setup file moves the pointer before the test renders anything. A test that hovers a component and then checks the default look still moves the pointer away itself.
+
 ## Tasks
 
 Run each task from the repository root.

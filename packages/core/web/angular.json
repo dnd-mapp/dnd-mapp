@@ -63,6 +63,7 @@
                         "isolate": true,
                         "reporters": ["dot"],
                         "runnerConfig": "vitest.config.ts",
+                        "setupFiles": ["../../ui/web/testing/pointer.ts"],
                         "ui": true,
                         "watch": true
                     },

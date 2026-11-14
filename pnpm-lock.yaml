@@ -571,6 +571,9 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
+      '@dnd-mapp/ui-web':
+        specifier: workspace:*
+        version: link:../../ui/web
       '@types/node':
         specifier: catalog:node
         version: 26.6.6
