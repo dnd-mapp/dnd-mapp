@@ -16,6 +16,12 @@ export {
     type NavLinkLook,
 } from './harnesses/nav-link.harness';
 export {
+    type SkipLinkBox,
+    type SkipLinkFocusRing,
+    SkipLinkHarness,
+    type SkipLinkLook,
+} from './harnesses/skip-link.harness';
+export {
     type ThemeOptionFocusRing,
     ThemeOptionHarness,
     type ThemeOptionHarnessFilters,
