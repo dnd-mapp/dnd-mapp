@@ -132,8 +132,6 @@ describe('ThemePickerComponent', () => {
         if (display) {
             (fixture.componentInstance as TestComponent).display.set(display);
         }
-        // Renders the display before a query of the page, which would otherwise find the picker as the host first
-        // rendered it.
         TestBed.tick();
 
         const setTheme = vi.spyOn(TestBed.inject(ThemeService), 'setTheme');

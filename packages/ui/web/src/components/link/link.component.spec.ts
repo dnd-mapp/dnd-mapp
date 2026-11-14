@@ -83,8 +83,6 @@ describe('LinkComponent', () => {
         if (kind) {
             (fixture.componentInstance as TestComponent).kind.set(kind);
         }
-        // Renders the kind before a query of the page, which would otherwise find the link as the host first
-        // rendered it.
         TestBed.tick();
 
         return { harness, link: page.getByRole('link', { name: 'Rules', exact: true }) };
