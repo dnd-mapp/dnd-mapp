@@ -61,6 +61,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            # The setup file of @dnd-mapp/testing moves the pointer away before each test.
+            - project: "testing"
+              group: "sources"
             - project: "common"
               group: "sources"
             # The styles of the components import the breakpoint from the Sass partial.
@@ -75,6 +78,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            # The setup file of @dnd-mapp/testing moves the pointer away before each test.
+            - project: "testing"
+              group: "sources"
             - project: "common"
               group: "sources"
             # The styles of the components import the breakpoint from the Sass partial.

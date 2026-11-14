@@ -31,6 +31,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            # The setup file of @dnd-mapp/testing moves the pointer away before each test.
+            - project: "testing"
+              group: "sources"
 
     test-ci:
         command: "ng test -c ci"
@@ -38,6 +41,9 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
+            # The setup file of @dnd-mapp/testing moves the pointer away before each test.
+            - project: "testing"
+              group: "sources"
         outputs:
             - "coverage/**/*"
 
