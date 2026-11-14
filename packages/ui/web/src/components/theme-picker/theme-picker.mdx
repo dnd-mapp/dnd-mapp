@@ -1,0 +1,60 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as ThemePickerStories from './theme-picker.stories';
+
+<Meta of={ThemePickerStories} />
+
+# Theme picker
+
+Lets the reader pick the color scheme: System, Light, or Dark. It is the Theme picker component of the design system in Penpot, with a Theme option for each choice, and Header, Mobile menu, and Footer hold it.
+
+<Canvas of={ThemePickerStories.LabelsDefault} />
+
+<Controls of={ThemePickerStories.LabelsDefault} />
+
+## Placing a picker
+
+Theme picker is an attribute on `<fieldset>`, so the options form one group of native radio inputs. It reads and saves the choice through `ThemeService`, so it needs no inputs or outputs to work:
+
+```html
+<fieldset dma-theme-picker></fieldset>
+
+<fieldset dma-theme-picker display="icons"></fieldset>
+```
+
+Each picker gives its radio inputs a name of its own, so a page can hold more than one. Every picker shows the same choice, since they share the service. On a prerendered page, a picker shows System until the app starts and the service reads the saved choice.
+
+## Display
+
+`display` picks how the options show. Each option draws a default, a hover, a focus, and a selected state.
+
+### Labels
+
+`ThemePickerDisplay.Labels`, the default, shows each icon with its label.
+
+<Canvas of={ThemePickerStories.LabelsHover} />
+
+<Canvas of={ThemePickerStories.LabelsFocus} />
+
+<Canvas of={ThemePickerStories.DarkSelected} />
+
+### Icons
+
+`ThemePickerDisplay.Icons` shows the icons alone, for places where space is tight.
+
+<Canvas of={ThemePickerStories.IconsDefault} />
+
+<Canvas of={ThemePickerStories.IconsHover} />
+
+<Canvas of={ThemePickerStories.IconsFocus} />
+
+## Keyboard
+
+Tab moves focus to the selected option, and the arrow keys move the choice to the next or previous option, as in any group of radio inputs. The option with focus draws the focus ring outside itself, and keeps the look of its state.
+
+## Accessibility
+
+The picker is a group named "Theme", and each option is a radio input named by its label. The icons display hides the labels from sight but not from assistive technology, so each option keeps its name. The icons hide themselves, so screen readers announce each label once. In forced colors mode, the selected option takes the highlight color as its border.
+
+## Testing
+
+`ThemePickerHarness` from `@dnd-mapp/ui-web/testing` reads a picker in a test: its themes, its selected theme, the name of its radio inputs, and the look, size, icon size, label, and focus ring of each option. In these stories, a stand-in for `ThemeService` picks the selected option, so a click leaves the theme of the preview to the theme toolbar.
