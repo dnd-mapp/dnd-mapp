@@ -24,11 +24,11 @@ export class SectionIntroHarness extends ComponentHarness {
 
     private readonly parts: Record<SectionIntroPart, () => Promise<TestElement | null>> = {
         eyebrow: this.locatorForOptional(`:scope > p:has(~ ${HEADING})`),
-        heading: this.locatorForOptional(`:scope > ${HEADING}`),
+        heading: this.locatorFor(`:scope > ${HEADING}`),
         intro: this.locatorForOptional(`:scope > ${HEADING} ~ p`),
     };
 
-    /** The text of a part, or `null` when the section intro projects none. */
+    /** The text of a part, or `null` when the section intro projects no eyebrow or intro text. */
     public async getText(part: SectionIntroPart): Promise<string | null> {
         return (await (await this.parts[part]())?.text()) ?? null;
     }
