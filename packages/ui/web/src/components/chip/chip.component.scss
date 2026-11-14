@@ -1,0 +1,31 @@
+// The neutral kind. Every kind draws a border, transparent for DM, so all kinds measure the same, as Penpot's inner
+// strokes do. The padding leaves room for the border inside the space.4 by space.8 of Penpot.
+:host {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    padding: calc(var(--space-4) - var(--border-width-default)) calc(var(--space-8) - var(--border-width-default));
+    border: var(--border-width-default) solid var(--color-border-divider);
+    border-radius: var(--radius-pill);
+    background: var(--color-background-raised);
+    color: var(--color-foreground-default);
+    font-family: var(--typography-label-font-family);
+    font-size: var(--typography-label-font-size);
+    font-weight: var(--typography-label-font-weight);
+    letter-spacing: var(--typography-label-letter-spacing);
+    line-height: var(--typography-label-line-height);
+    text-transform: var(--typography-label-text-case);
+    white-space: nowrap;
+}
+
+:host(.status) {
+    border-color: var(--color-border-control);
+    background: transparent;
+    color: var(--color-foreground-muted);
+}
+
+:host(.dm) {
+    border-color: transparent;
+    background: var(--color-secondary-default);
+    color: var(--color-foreground-on-secondary);
+}
