@@ -17,8 +17,10 @@ const TOKENS = `
     .tokens {
         --color-foreground-default: ${FOREGROUND_DEFAULT};
         --color-foreground-muted: ${FOREGROUND_MUTED};
+        --size-term: 140px;
         --space-4: 4px;
         --space-12: 12px;
+        --space-16: 16px;
         --typography-body-font-size: 16px;
         --typography-body-font-weight: 400;
         --typography-body-line-height: 1.5;
@@ -137,6 +139,53 @@ describe('FactsListComponent', () => {
             const [firstValue, secondTerm] = await Promise.all([harness.getBox(0, 'value'), harness.getBox(1, 'term')]);
 
             expect(secondTerm.top - (firstValue.top + firstValue.height)).toBeCloseTo(12);
+        });
+    });
+
+    describe('on wide screens', () => {
+        const { innerWidth, innerHeight } = window;
+
+        beforeEach(async () => {
+            await page.viewport(1280, 800);
+        });
+
+        afterEach(async () => {
+            await page.viewport(innerWidth, innerHeight);
+        });
+
+        it('should put each term in a 140 px column, 16 px before its value', async () => {
+            const { harness } = await setupTest();
+
+            for (const index of [0, 1]) {
+                const [term, value] = await Promise.all([
+                    harness.getBox(index, 'term'),
+                    harness.getBox(index, 'value'),
+                ]);
+
+                expect(term.left).toBe(0);
+                expect(term.width).toBe(140);
+                expect(value.left).toBe(156);
+                expect(value.width).toBe(CONTAINER_WIDTH - 156);
+                expect(value.top).toBe(term.top);
+            }
+        });
+
+        it('should wrap a long value within its own column', async () => {
+            const { harness } = await setupTest();
+            const [term, value] = await Promise.all([harness.getBox(1, 'term'), harness.getBox(1, 'value')]);
+
+            expect(value.height).toBeGreaterThan(term.height * 2);
+            expect(term.width).toBe(140);
+        });
+
+        it('should space the facts 12 px apart', async () => {
+            const { harness } = await setupTest();
+            const [firstValue, secondValue] = await Promise.all([
+                harness.getBox(0, 'value'),
+                harness.getBox(1, 'value'),
+            ]);
+
+            expect(secondValue.top - (firstValue.top + firstValue.height)).toBeCloseTo(12);
         });
     });
 });
