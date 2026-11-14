@@ -32,10 +32,6 @@ export default meta;
 
 type Story = StoryObj<LinkArgs>;
 
-// The args spell out the kind rather than reading LinkKind: the code snippet of a story follows only constants of this
-// file, so it would print the imported constant into a template that cannot resolve it. Each label is the one of the
-// variant in Penpot. The pseudo parameter of storybook-addon-pseudo-states draws the hover and focus states.
-
 const hover = { pseudo: { hover: true } };
 const focus = { pseudo: { focusVisible: true } };
 

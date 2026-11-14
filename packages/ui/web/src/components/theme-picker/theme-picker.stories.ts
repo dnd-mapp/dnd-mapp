@@ -52,11 +52,6 @@ export default meta;
 
 type Story = StoryObj<ThemePickerComponent>;
 
-// The args spell out the display rather than reading ThemePickerDisplay: the code snippet of a story follows only
-// constants of this file, so it would print the imported constant into a template that cannot resolve it. Each story
-// selects System, as Penpot does. The pseudo parameter of storybook-addon-pseudo-states draws the hover state on
-// Light, and the focus state on System, where keyboard focus lands since it is selected.
-
 const hover = { pseudo: { hover: 'label:has(input[value="light"])' } };
 const focus = { pseudo: { focusVisible: 'input[value="system"]' } };
 
