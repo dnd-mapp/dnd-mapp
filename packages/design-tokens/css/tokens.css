@@ -168,6 +168,8 @@
     --size-card-min: 17.5rem;
     /** Icon beside a standalone link */
     --size-icon-sm: 1.25rem;
+    /** Thickness of the current and selected indicators */
+    --size-indicator: 0.125rem;
     --text-case-none: none;
     --text-case-upper: uppercase;
     --typography-body-font-family: var(--font-family-body);
