@@ -1,3 +1,5 @@
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
 // The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'dl[dma-facts-list]';
 
@@ -20,7 +22,7 @@ $host: 'dl[dma-facts-list]';
     margin: 0;
 }
 
-// Each fact stacks its term above its value, which fills the width of the list.
+// Below the desktop breakpoint, each fact stacks its term above its value, which fills the width of the list.
 #{$host} > div {
     display: flex;
     flex-direction: column;
@@ -32,7 +34,7 @@ $host: 'dl[dma-facts-list]';
     margin: 0;
 }
 
-// The term keeps the width of its text.
+// The term keeps the width of its text, and the top of the line beside a value that wraps.
 #{$host} > div > dt {
     align-self: flex-start;
     color: var(--color-foreground-muted);
@@ -42,4 +44,22 @@ $host: 'dl[dma-facts-list]';
 #{$host} > div > dd {
     color: var(--color-foreground-default);
     @include typography(body);
+}
+
+// From the desktop breakpoint up, each term sits in a column of its own, beside its value.
+@media (min-width: breakpoints.$breakpoint-desktop) {
+    #{$host} > div {
+        flex-direction: row;
+        gap: var(--space-16);
+    }
+
+    #{$host} > div > dt {
+        flex: none;
+        inline-size: var(--size-term);
+    }
+
+    #{$host} > div > dd {
+        flex: 1;
+        min-inline-size: 0;
+    }
 }
