@@ -6,6 +6,13 @@ export {
 } from './harnesses/button.harness';
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
 export {
+    type DisclosureDivider,
+    DisclosureHarness,
+    type DisclosureIcon,
+    type DisclosureLook,
+    type DisclosureSummaryBox,
+} from './harnesses/disclosure.harness';
+export {
     type FactsListFact,
     FactsListHarness,
     type FactsListLook,

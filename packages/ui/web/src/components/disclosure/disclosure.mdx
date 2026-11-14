@@ -1,0 +1,35 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as DisclosureStories from './disclosure.stories';
+
+<Meta of={DisclosureStories} />
+
+# Disclosure
+
+Content that opens on demand, such as the answer to a question. It is the Disclosure component of the design system in Penpot, and On this page holds it on Mobile.
+
+<Canvas of={DisclosureStories.ClosedDefault} />
+
+<Controls of={DisclosureStories.ClosedDefault} />
+
+## Placing a disclosure
+
+Disclosure is an attribute on `<details>`, so the browser opens and closes it with no script. Mark the label of the summary with `dma-disclosure-summary`, and put the rest of the content after it:
+
+```html
+<details dma-disclosure>
+    <span dma-disclosure-summary>What is a saving throw?</span>
+    <p>A roll that decides whether a creature resists a spell, a trap, or a poison.</p>
+</details>
+```
+
+The disclosure renders the `<summary>` itself and projects the label into it, so it can end the summary in its icon. The `open` attribute holds the state, and the native `toggle` event fires each time the disclosure opens or closes, so Disclosure has no inputs or outputs of its own.
+
+The disclosure fills its container up to the measure. Stack several, as for questions and answers, and the divider under each one separates them.
+
+## Accessibility
+
+The whole summary is the target, at least as tall as the minimum target size. The icon hides itself, so the label alone names the summary.
+
+## Testing
+
+`DisclosureHarness` from `@dnd-mapp/ui-web/testing` reads a disclosure in a test: its summary text, whether it is open, the icon it shows, the look and box of its summary, its size, and its divider.

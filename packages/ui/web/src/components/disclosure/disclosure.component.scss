@@ -1,0 +1,42 @@
+// Sets the font of a typography token, such as `title-sm` for the `--typography-title-sm-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The disclosure fills its container up to the measure. Penpot draws the divider over the bottom padding, so the border
+// takes its width from that padding, and the disclosure keeps the height of Penpot.
+:host {
+    display: block;
+    max-width: var(--size-measure);
+    padding-block: var(--space-4) calc(var(--space-4) - var(--border-width-default));
+    border-bottom: var(--border-width-default) solid var(--color-border-divider);
+}
+
+// The whole summary is the target, at least as tall as the minimum target size. A display other than `list-item` drops
+// the marker of the browser in Chromium and Firefox, and the pseudo-element drops it in Safari.
+summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+    box-sizing: border-box;
+    min-height: var(--size-target-min);
+    padding: var(--space-12) var(--space-16);
+    border-radius: var(--radius-sm);
+    color: var(--color-foreground-default);
+    cursor: pointer;
+    @include typography(title-sm);
+
+    &::-webkit-details-marker {
+        display: none;
+    }
+}
+
+.label {
+    flex: 1;
+}
