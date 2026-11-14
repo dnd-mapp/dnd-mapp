@@ -21,6 +21,8 @@ Skip link is an attribute on `<a>`. Place it as the first focusable item of the 
 <main id="main">…</main>
 ```
 
+Activating the link moves focus to the element with that id, rather than following the link, since the `<base href="/">` of the app would resolve `#main` against the root page. An element that can't take focus by itself, such as `<main>`, gets `tabindex="-1"` until it loses focus again. When no element has the id, or `href` names another page, the link works as a native link.
+
 ## States
 
 ### Hidden
@@ -32,6 +34,10 @@ The skip link stays hidden until it gets focus. It hides from sight only, so it 
 ### Focus
 
 On focus, the skip link pins to the top left of the viewport, 16 px from both edges and above the header. It draws the colors of the primary Button and the focus ring, and hides again once it loses focus. Penpot draws this state only, since the link shows only while it has focus; the story at the top of this page shows it.
+
+Press Tab in the story below to show the skip link, then Enter to move focus to the main content:
+
+<Canvas of={SkipLinkStories.OnPage} />
 
 ## Accessibility
 
