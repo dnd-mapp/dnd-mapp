@@ -15,6 +15,16 @@ export interface NavLinkBox {
     borderRadius: string;
 }
 
+/** The indicator of the current page, with its place and size in pixels relative to the top left of the label. */
+export interface NavLinkIndicator {
+    color: string;
+    borderRadius: string;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+}
+
 /** The focus ring a nav link draws, read from its outline. */
 export interface NavLinkFocusRing {
     style: string;
@@ -25,6 +35,9 @@ export interface NavLinkFocusRing {
 
 export class NavLinkHarness extends ComponentHarness {
     public static readonly hostSelector = 'a[dma-nav-link]';
+
+    private readonly labelLocator = this.locatorFor('.label');
+    private readonly indicatorLocator = this.locatorFor('.indicator');
 
     /** The text of the nav link, which names it to assistive technology. */
     public async getText(): Promise<string> {
@@ -54,6 +67,42 @@ export class NavLinkHarness extends ComponentHarness {
         ]);
 
         return { height, paddingLeft, paddingRight, borderRadius };
+    }
+
+    /** Whether the nav link marks the current page, through `aria-current="page"`. */
+    public async isCurrent(): Promise<boolean> {
+        return (await (await this.host()).getAttribute('aria-current')) === 'page';
+    }
+
+    /** The width and height of the label in pixels. */
+    public async getLabelSize(): Promise<{ width: number; height: number }> {
+        const { width, height } = await (await this.labelLocator()).getDimensions();
+
+        return { width, height };
+    }
+
+    /** The indicator of the current page, or null when the nav link draws none. */
+    public async getIndicator(): Promise<NavLinkIndicator | null> {
+        const indicator = await this.indicatorLocator();
+
+        if ((await indicator.getCssValue('display')) === 'none') {
+            return null;
+        }
+        const [label, box, color, borderRadius] = await Promise.all([
+            (await this.labelLocator()).getDimensions(),
+            indicator.getDimensions(),
+            indicator.getCssValue('background-color'),
+            indicator.getCssValue('border-radius'),
+        ]);
+
+        return {
+            color,
+            borderRadius,
+            left: box.left - label.left,
+            top: box.top - label.top,
+            width: box.width,
+            height: box.height,
+        };
     }
 
     /** The focus ring the nav link draws, whose style is `none` when it draws none. */
