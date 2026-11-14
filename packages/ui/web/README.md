@@ -10,7 +10,7 @@ A component belongs here when it is presentational: it takes its content through
 
 | Component    | Selector                                    | Variants                                                                                                                                             |
 |:-------------|:--------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Button       | [`button[dma-button]`, `a[dma-button]`][bu] | `kind`: `primary`.                                                                                                                                   |
+| Button       | [`button[dma-button]`, `a[dma-button]`][bu] | `kind`: `primary`, `secondary`, or `quiet`.                                                                                                          |
 | Icon         | [`dma-icon-<glyph>`][ic]                    | One component per glyph: `menu`, `close`, `arrow-right`, `arrow-down`, `plus`, `minus`, `external`, `sun`, `moon`, `monitor`, `check`, and `github`. |
 | Link         | [`a[dma-link]`][li]                         | `kind`: `inline`, `standalone`, or `quiet`.                                                                                                          |
 | Logo         | [`dma-logo`][lo]                            | `kind`: `full` or `mark`. `size`: `large` or `small`.                                                                                                |

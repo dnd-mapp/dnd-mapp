@@ -1,6 +1,11 @@
-/** How a button looks: primary, for the main action of a view. */
+/**
+ * How a button looks: primary, for the one main action of a view, secondary, for its other calls to action, or quiet,
+ * for the tools in the header and menu.
+ */
 export const ButtonKind = {
     Primary: 'primary',
+    Secondary: 'secondary',
+    Quiet: 'quiet',
 } as const;
 
 export type ButtonKind = (typeof ButtonKind)[keyof typeof ButtonKind];

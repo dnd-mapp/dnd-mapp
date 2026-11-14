@@ -14,7 +14,8 @@ const meta = {
             values: ButtonKind,
             typeName: 'ButtonKind',
             defaultValue: DEFAULT_BUTTON_KIND,
-            description: 'How the button looks: primary, for the main action of a view.',
+            description:
+                'How the button looks: primary, for the one main action of a view, secondary, for its other calls to action, or quiet, for the tools in the header and menu.',
         }),
         label: {
             description: 'The content the button projects, which names it to assistive technology.',
@@ -45,6 +46,34 @@ export const PrimaryHover: Story = {
 
 export const PrimaryFocus: Story = {
     args: { kind: 'primary', label: 'Label' },
+    parameters: focus,
+};
+
+export const SecondaryDefault: Story = {
+    args: { kind: 'secondary', label: 'Label' },
+};
+
+export const SecondaryHover: Story = {
+    args: { kind: 'secondary', label: 'Label' },
+    parameters: hover,
+};
+
+export const SecondaryFocus: Story = {
+    args: { kind: 'secondary', label: 'Label' },
+    parameters: focus,
+};
+
+export const QuietDefault: Story = {
+    args: { kind: 'quiet', label: 'Label' },
+};
+
+export const QuietHover: Story = {
+    args: { kind: 'quiet', label: 'Label' },
+    parameters: hover,
+};
+
+export const QuietFocus: Story = {
+    args: { kind: 'quiet', label: 'Label' },
     parameters: focus,
 };
 
