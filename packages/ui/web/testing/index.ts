@@ -7,6 +7,7 @@ export {
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
 export {
     type DisclosureDivider,
+    type DisclosureFocusRing,
     DisclosureHarness,
     type DisclosureIcon,
     type DisclosureLook,

@@ -46,8 +46,28 @@ export const ClosedDefault: Story = {
     args: { open: false },
 };
 
+export const ClosedHover: Story = {
+    args: { open: false },
+    parameters: { pseudo: { hover: true } },
+};
+
+export const ClosedFocus: Story = {
+    args: { open: false },
+    parameters: { pseudo: { focusVisible: true } },
+};
+
 export const OpenDefault: Story = {
     args: { open: true },
+};
+
+export const OpenHover: Story = {
+    args: { open: true },
+    parameters: { pseudo: { hover: true } },
+};
+
+export const OpenFocus: Story = {
+    args: { open: true },
+    parameters: { pseudo: { focusVisible: true } },
 };
 
 /** Disclosures stacked as questions and answers, the place they are made for, with a divider under each. */

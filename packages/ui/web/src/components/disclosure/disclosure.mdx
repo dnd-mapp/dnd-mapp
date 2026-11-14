@@ -40,6 +40,24 @@ The open panel shows its content in muted body text, and the summary ends in a m
 
 <Canvas of={DisclosureStories.OpenDefault} />
 
+## States
+
+### Hover
+
+The summary fills its box, whether the panel is closed or open.
+
+<Canvas of={DisclosureStories.ClosedHover} />
+
+<Canvas of={DisclosureStories.OpenHover} />
+
+### Focus
+
+The summary draws the focus ring outside itself on keyboard focus, and keeps the look of its default state. A click focuses the summary but draws no ring.
+
+<Canvas of={DisclosureStories.ClosedFocus} />
+
+<Canvas of={DisclosureStories.OpenFocus} />
+
 ## Accessibility
 
 The whole summary is the target, at least as tall as the minimum target size. A pointer, Enter, or Space on the focused summary opens and closes the panel. The icons hide themselves, so the label alone names the summary.
@@ -48,6 +66,6 @@ The content of a closed panel stays in the page. Browsers that support it, such 
 
 ## Testing
 
-`DisclosureHarness` from `@dnd-mapp/ui-web/testing` reads a disclosure in a test: its summary and panel text, whether it is open, the icon it shows, the look of its summary and panel, the box of its summary, its size, and its divider.
+`DisclosureHarness` from `@dnd-mapp/ui-web/testing` reads a disclosure in a test: its summary and panel text, whether it is open, the icon it shows, the fill and text of its summary and panel, the box and focus ring of its summary, its size, and its divider.
 
 No test can drive find in page, so `isPanelFindable()` checks what find in page needs instead: the panel holds text, and hides none of it through its display, visibility, content visibility, or `inert`.

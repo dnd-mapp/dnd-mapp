@@ -41,6 +41,16 @@ $host: 'details[dma-disclosure]';
     }
 }
 
+#{$host} > summary:hover {
+    background: var(--color-background-hover);
+}
+
+// Keyboard focus draws the ring outside the summary, and keeps the look of its state.
+#{$host} > summary:focus-visible {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}
+
 #{$host} > summary > .label {
     flex: 1;
 }

@@ -5,8 +5,9 @@ export type DisclosureIcon = 'plus' | 'minus';
 
 const ICONS: DisclosureIcon[] = ['plus', 'minus'];
 
-/** How a disclosure draws the text of its summary or its panel. */
+/** How a disclosure draws the fill and the text of its summary or its panel. */
 export interface DisclosureLook {
+    background: string;
     color: string;
     fontWeight: string;
 }
@@ -16,6 +17,14 @@ export interface DisclosureSummaryBox {
     height: number;
     padding: string;
     borderRadius: string;
+}
+
+/** The focus ring the summary of a disclosure draws, read from its outline. */
+export interface DisclosureFocusRing {
+    style: string;
+    color: string;
+    width: string;
+    offset: string;
 }
 
 /** The line under a disclosure, read from its bottom border. */
@@ -59,12 +68,12 @@ export class DisclosureHarness extends ComponentHarness {
         return icon && others.length === 0 ? icon : null;
     }
 
-    /** How the summary draws its label. */
+    /** How the summary draws its fill and its label. */
     public async getSummaryLook(): Promise<DisclosureLook> {
         return await getLook(await this.summaryLocator());
     }
 
-    /** How the panel draws its text. */
+    /** How the panel draws its fill and its text. */
     public async getPanelLook(): Promise<DisclosureLook> {
         return await getLook(await this.panelLocator());
     }
@@ -79,6 +88,19 @@ export class DisclosureHarness extends ComponentHarness {
         ]);
 
         return { height, padding, borderRadius };
+    }
+
+    /** The focus ring the summary draws, whose style is `none` when it draws none. */
+    public async getFocusRing(): Promise<DisclosureFocusRing> {
+        const summary = await this.summaryLocator();
+        const [style, color, width, offset] = await Promise.all([
+            summary.getCssValue('outline-style'),
+            summary.getCssValue('outline-color'),
+            summary.getCssValue('outline-width'),
+            summary.getCssValue('outline-offset'),
+        ]);
+
+        return { style, color, width, offset };
     }
 
     /** The width and height of the disclosure, in pixels. */
@@ -126,9 +148,13 @@ export class DisclosureHarness extends ComponentHarness {
 }
 
 async function getLook(element: TestElement): Promise<DisclosureLook> {
-    const [color, fontWeight] = await Promise.all([element.getCssValue('color'), element.getCssValue('font-weight')]);
+    const [background, color, fontWeight] = await Promise.all([
+        element.getCssValue('background-color'),
+        element.getCssValue('color'),
+        element.getCssValue('font-weight'),
+    ]);
 
-    return { color, fontWeight };
+    return { background, color, fontWeight };
 }
 
 async function isShown(element: TestElement | null): Promise<boolean> {
