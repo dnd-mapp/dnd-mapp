@@ -1,13 +1,9 @@
-import { Component, type Type } from '@angular/core';
+import { Component, signal, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { SectionIntroComponent } from './section-intro.component';
-import {
-    SectionIntroHarness,
-    type SectionIntroLook,
-    type SectionIntroPart,
-    setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+import { SectionIntroAlign } from './section-intro.types';
+import { SectionIntroHarness, type SectionIntroPart, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 // Colors that no theme uses, so each part can only take its color from the token the test sets it on.
 const ACCENT_TEXT = 'rgb(200, 30, 40)';
@@ -36,11 +32,11 @@ const TOKENS = `
     }
 `;
 
-/** How each part draws its text, as Penpot draws it. */
-const LOOKS: Record<SectionIntroPart, SectionIntroLook> = {
-    eyebrow: { color: ACCENT_TEXT, fontWeight: '600', textTransform: 'uppercase', textAlign: 'start' },
-    heading: { color: FOREGROUND_DEFAULT, fontWeight: '800', textTransform: 'none', textAlign: 'start' },
-    intro: { color: FOREGROUND_MUTED, fontWeight: '400', textTransform: 'none', textAlign: 'start' },
+/** How each part draws its text, as Penpot draws it, apart from its alignment. */
+const LOOKS: Record<SectionIntroPart, { color: string; fontWeight: string; textTransform: string }> = {
+    eyebrow: { color: ACCENT_TEXT, fontWeight: '600', textTransform: 'uppercase' },
+    heading: { color: FOREGROUND_DEFAULT, fontWeight: '800', textTransform: 'none' },
+    intro: { color: FOREGROUND_MUTED, fontWeight: '400', textTransform: 'none' },
 };
 
 const PARTS = Object.keys(LOOKS) as SectionIntroPart[];
@@ -49,7 +45,7 @@ describe('SectionIntroComponent', () => {
     @Component({
         template: `
             <div class="tokens">
-                <hgroup dma-section-intro>
+                <hgroup dma-section-intro [align]="align()">
                     <p>Tools</p>
                     <h3>Everything at the table</h3>
                     <p>Maps, notes, and rules in one place.</p>
@@ -59,7 +55,9 @@ describe('SectionIntroComponent', () => {
         styles: TOKENS,
         imports: [SectionIntroComponent],
     })
-    class TestComponent {}
+    class TestComponent {
+        public readonly align = signal<SectionIntroAlign>(SectionIntroAlign.Start);
+    }
 
     @Component({
         template: `
@@ -72,9 +70,15 @@ describe('SectionIntroComponent', () => {
     })
     class HeadingOnlyTestComponent {}
 
-    async function setupTest(host: Type<unknown> = TestComponent) {
-        const { harness } = await setupTestEnvironment({ host, harness: SectionIntroHarness });
+    async function setupTest(options: { host?: Type<unknown>; align?: SectionIntroAlign } = {}) {
+        const { fixture, harness } = await setupTestEnvironment({
+            host: options.host ?? TestComponent,
+            harness: SectionIntroHarness,
+        });
 
+        if (options.align) {
+            (fixture.componentInstance as TestComponent).align.set(options.align);
+        }
         TestBed.tick();
 
         return { harness };
@@ -108,8 +112,22 @@ describe('SectionIntroComponent', () => {
         const { harness } = await setupTest();
 
         for (const part of PARTS) {
-            expect(await harness.getLook(part)).toEqual(LOOKS[part]);
+            expect(await harness.getLook(part)).toEqual({ ...LOOKS[part], textAlign: 'start' });
         }
+    });
+
+    it.each([SectionIntroAlign.Start, SectionIntroAlign.Center])('should align every part to the %s', async (align) => {
+        const { harness } = await setupTest({ align });
+
+        for (const part of PARTS) {
+            expect((await harness.getLook(part)).textAlign).toBe(align);
+        }
+    });
+
+    it('should align to the start for an unknown alignment', async () => {
+        const { harness } = await setupTest({ align: 'end' as SectionIntroAlign });
+
+        expect((await harness.getLook('heading')).textAlign).toBe('start');
     });
 
     it('should space the parts 12 px apart, with no margins of their own', async () => {
@@ -132,10 +150,10 @@ describe('SectionIntroComponent', () => {
     });
 
     it('should draw a heading without an eyebrow or intro text', async () => {
-        const { harness } = await setupTest(HeadingOnlyTestComponent);
+        const { harness } = await setupTest({ host: HeadingOnlyTestComponent });
 
         expect(await harness.getText('eyebrow')).toBeNull();
         expect(await harness.getText('intro')).toBeNull();
-        expect(await harness.getLook('heading')).toEqual(LOOKS.heading);
+        expect(await harness.getLook('heading')).toEqual({ ...LOOKS.heading, textAlign: 'start' });
     });
 });
