@@ -92,7 +92,7 @@ catalogs:
     "@storybook/angular-vite": ~10.6.7
     storybook: ~10.6.7
     storybook-addon-pseudo-states: ~10.6.7
-    vite: ~8.3.7
+    vite: ~8.3.8
   style-dictionary:
     "@tokens-studio/sd-transforms": ~2.0.3
     style-dictionary: ~5.8.0
