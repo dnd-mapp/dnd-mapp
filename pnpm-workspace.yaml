@@ -86,7 +86,7 @@ catalogs:
   prettier:
     prettier: ~3.10.0
   storybook:
-    "@analogjs/vite-plugin-angular": ~2.9.6
+    "@analogjs/vite-plugin-angular": ~2.9.7
     "@storybook/addon-docs": ~10.6.7
     "@storybook/addon-themes": ~10.6.7
     "@storybook/angular-vite": ~10.6.7
