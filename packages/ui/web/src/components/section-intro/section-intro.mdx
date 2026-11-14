@@ -1,0 +1,38 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as SectionIntroStories from './section-intro.stories';
+
+<Meta of={SectionIntroStories} />
+
+# Section intro
+
+The opening of a content section: an eyebrow, a heading, and intro text. It is the Section intro component of the design system in Penpot, and Section holds it.
+
+<Canvas of={SectionIntroStories.Start} />
+
+<Controls of={SectionIntroStories.Start} />
+
+## Placing a section intro
+
+Section intro is an attribute on `<hgroup>`, which projects its three parts. The `<p>` before the heading is the eyebrow, and the `<p>` after it the intro text:
+
+```html
+<hgroup dma-section-intro>
+    <p>Tools</p>
+    <h2>Everything at the table</h2>
+    <p>Maps, notes, and rules in one place.</p>
+</hgroup>
+```
+
+Pick the heading level that fits the outline of the page, from `<h1>` to `<h6>`. The heading draws the same at every level. The eyebrow and the intro text are optional.
+
+The section intro fills its container up to the measure, so lines of intro text stay readable. It leaves its own place in the container to the section that holds it.
+
+The section intro aligns every part to the start of the line. Penpot draws no hover or focus state, since a section intro is not interactive.
+
+## Accessibility
+
+Assistive technology reads the parts in their order: the eyebrow and the intro text as paragraphs, and the heading at the level you pick, named by its own text. Since the eyebrow stays out of the heading, a list of headings reads "Everything at the table", not "Tools Everything at the table".
+
+## Testing
+
+`SectionIntroHarness` from `@dnd-mapp/ui-web/testing` reads a section intro in a test: the text, look, and place of each part, and its width.

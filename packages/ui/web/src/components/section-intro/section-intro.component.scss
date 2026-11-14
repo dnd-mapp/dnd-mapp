@@ -1,0 +1,47 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'hgroup[dma-section-intro]';
+$heading: ':is(h1, h2, h3, h4, h5, h6)';
+
+// Sets the font of a typography token, such as `h2` for the `--typography-h2-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The intro fills its container up to the measure, as in Penpot, and leaves its own place in the
+// container to the section that holds it.
+#{$host} {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    max-width: var(--size-measure);
+    text-align: start;
+}
+
+// The gap spaces the children, so none keeps the margin of its element.
+#{$host} > * {
+    margin: 0;
+}
+
+// The eyebrow: the paragraph before the heading.
+#{$host} > p:has(~ #{$heading}) {
+    color: var(--color-accent-text);
+    @include typography(eyebrow);
+}
+
+// The heading draws the h2 typography at every level, so the level follows the outline of the page, not the look.
+#{$host} > #{$heading} {
+    color: var(--color-foreground-default);
+    @include typography(h2);
+}
+
+// The intro text: the paragraph after the heading.
+#{$host} > #{$heading} ~ p {
+    color: var(--color-foreground-muted);
+    @include typography(intro);
+}
