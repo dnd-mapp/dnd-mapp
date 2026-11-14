@@ -1,0 +1,38 @@
+// Hidden until it gets focus. The clip hides the link from sight only, so it stays in the accessibility tree and in
+// the tab order, where `display: none` or `visibility: hidden` would remove it from both.
+:host {
+    position: fixed;
+    top: var(--space-16);
+    left: var(--space-16);
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+// The focused look, the only one Penpot draws: the colors of the primary Button, pinned to the top left above the
+// header. Penpot has no token for the stacking order, so the z-index is a number of its own.
+:host(:focus) {
+    z-index: 1000;
+    display: inline-flex;
+    align-items: center;
+    width: auto;
+    height: auto;
+    min-height: var(--size-target-min);
+    padding: 0 var(--space-16);
+    overflow: visible;
+    clip-path: none;
+    border-radius: var(--radius-md);
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+    background: var(--color-accent-default);
+    color: var(--color-foreground-on-accent);
+    font-family: var(--typography-button-font-family);
+    font-size: var(--typography-button-font-size);
+    font-weight: var(--typography-button-font-weight);
+    letter-spacing: var(--typography-button-letter-spacing);
+    line-height: var(--typography-button-line-height);
+    text-decoration: var(--typography-button-text-decoration);
+    text-transform: var(--typography-button-text-case);
+}

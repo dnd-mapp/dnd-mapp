@@ -1,0 +1,42 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as SkipLinkStories from './skip-link.stories';
+
+<Meta of={SkipLinkStories} />
+
+# Skip link
+
+A link past the header to the main content, for readers who use a keyboard. It is the Skip link component of the design system in Penpot, and every page starts with it.
+
+<Canvas of={SkipLinkStories.Focus} />
+
+<Controls of={SkipLinkStories.Focus} />
+
+## Placing a skip link
+
+Skip link is an attribute on `<a>`. Place it as the first focusable item of the page, before the header, and set `href` to the id of the main content:
+
+```html
+<a dma-skip-link href="#main">Skip to main content</a>
+<header>…</header>
+<main id="main">…</main>
+```
+
+## States
+
+### Hidden
+
+The skip link stays hidden until it gets focus. It hides from sight only, so it stays in the accessibility tree and in the tab order.
+
+<Canvas of={SkipLinkStories.Hidden} />
+
+### Focus
+
+On focus, the skip link pins to the top left of the viewport, 16 px from both edges and above the header. It draws the colors of the primary Button and the focus ring, and hides again once it loses focus. Penpot draws this state only, since the link shows only while it has focus; the story at the top of this page shows it.
+
+## Accessibility
+
+The projected content names the skip link to assistive technology. Write a label that says where the link goes, such as "Skip to main content".
+
+## Testing
+
+`SkipLinkHarness` from `@dnd-mapp/ui-web/testing` reads a skip link in a test: its text, whether it shows, its colors and font weight, its place, height, padding, and corners, and its focus ring.

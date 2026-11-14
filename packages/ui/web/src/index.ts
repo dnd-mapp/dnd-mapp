@@ -4,6 +4,7 @@ export * from './components/icon';
 export * from './components/link';
 export * from './components/logo';
 export * from './components/nav-link';
+export * from './components/skip-link';
 export * from './components/theme-picker';
 export * from './storage';
 export * from './theme';
