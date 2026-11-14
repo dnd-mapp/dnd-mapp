@@ -15,7 +15,8 @@
     "./testing": "./testing/index.ts"
   },
   "dependencies": {
-    "@dnd-mapp/common": "workspace:*"
+    "@dnd-mapp/common": "workspace:*",
+    "@dnd-mapp/design-tokens": "workspace:*"
   },
   "peerDependencies": {
     "@angular/cdk": "catalog:angular",
@@ -35,7 +36,6 @@
     "@angular/compiler-cli": "catalog:angular",
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/design-tokens": "workspace:*",
     "@storybook/addon-docs": "catalog:storybook",
     "@storybook/addon-themes": "catalog:storybook",
     "@storybook/angular-vite": "catalog:storybook",

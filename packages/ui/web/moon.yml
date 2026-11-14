@@ -63,6 +63,9 @@ tasks:
             - "@group(tests)"
             - project: "common"
               group: "sources"
+            # The styles of the components import the breakpoint from the Sass partial.
+            - project: "design-tokens"
+              group: "css"
             # boot-script.spec.ts reads the boot script of the web app to check it against ThemeService.
             - "/apps/web/src/index.html"
 
@@ -74,6 +77,9 @@ tasks:
             - "@group(tests)"
             - project: "common"
               group: "sources"
+            # The styles of the components import the breakpoint from the Sass partial.
+            - project: "design-tokens"
+              group: "css"
             # boot-script.spec.ts reads the boot script of the web app to check it against ThemeService.
             - "/apps/web/src/index.html"
         outputs:

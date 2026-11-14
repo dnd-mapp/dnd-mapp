@@ -51,6 +51,32 @@ A `<button>` in a form submits it unless it has `type="button"`, as in any form,
 
 <Canvas of={ButtonStories.QuietHover} />
 
+## Icons
+
+Place a `dma-icon-*` before the label to lead it, or after it to trail it. The button needs no input for it: it draws the icon 24 px, 8 px from the label, and in the color of the label.
+
+```html
+<button dma-button type="button"><dma-icon-plus />New map</button>
+```
+
+<Canvas of={ButtonStories.LeadingIcon} />
+
+<Canvas of={ButtonStories.TrailingIcon} />
+
+An icon hides itself from assistive technology, so a button with an icon of its own needs an `aria-label` to name it. It keeps the padding of a button with a label.
+
+```html
+<button dma-button type="button" kind="quiet" aria-label="Close"><dma-icon-close /></button>
+```
+
+<Canvas of={ButtonStories.IconOnly} />
+
+## Width
+
+Below the desktop breakpoint, a button fills a block, column, or grid container, as the GitHub button of Mobile menu does. In a flex row, it keeps the width of its content, as the Menu button of Header does. From the breakpoint up, every button keeps the width of its content.
+
+<Canvas of={ButtonStories.NarrowScreen} story={{ inline: false, height: '10rem' }} />
+
 ## Focus
 
 Every kind draws the focus ring outside itself on keyboard focus, and keeps the look of its default state.
@@ -63,8 +89,8 @@ Every kind draws the focus ring outside itself on keyboard focus, and keeps the 
 
 ## Accessibility
 
-The projected content names the button to assistive technology, and the element keeps its role: `button` on `<button>`, and `link` on `<a>`. Every kind meets the 44 px target size.
+The projected content names the button to assistive technology, unless the button has an `aria-label`, and the element keeps its role: `button` on `<button>`, and `link` on `<a>`. Every kind meets the 44 px target size.
 
 ## Testing
 
-`ButtonHarness` from `@dnd-mapp/ui-web/testing` reads a button in a test: its text, its look, its size, and its focus ring.
+`ButtonHarness` from `@dnd-mapp/ui-web/testing` reads a button in a test: its text, its look, its size, its focus ring, and its icons with where each one sits.
