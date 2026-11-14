@@ -1,0 +1,50 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './button.stories';
+
+<Meta of={ButtonStories} />
+
+# Button
+
+An action, such as submitting, opening, or toggling. It is the Button component of the design system in Penpot, and Header and Mobile menu hold it.
+
+<Canvas of={ButtonStories.PrimaryDefault} />
+
+<Controls of={ButtonStories.PrimaryDefault} />
+
+## Placing a button
+
+Button is an attribute on `<button>` or `<a>`, so the element keeps its native semantics and keyboard behavior. Use `<button>` for an action on the page, and `<a>` with `routerLink` or `href` for one that goes to another page; Button needs no router:
+
+```html
+<button dma-button type="button" (click)="save()">Save</button>
+
+<a dma-button routerLink="/maps/new">New map</a>
+```
+
+A `<button>` in a form submits it unless it has `type="button"`, as in any form, so give every other button that type.
+
+## Kind
+
+`kind` picks how the button looks. Each kind draws a default, a hover, and a focus state.
+
+### Primary
+
+`ButtonKind.Primary`, the default, marks the main action of a view. Use one primary button per view, so the reader sees at once what the view is for.
+
+<Canvas of={ButtonStories.PrimaryHover} />
+
+<Canvas of={ButtonStories.OnLink} />
+
+## Focus
+
+Every kind draws the focus ring outside itself on keyboard focus, and keeps the look of its default state.
+
+<Canvas of={ButtonStories.PrimaryFocus} />
+
+## Accessibility
+
+The projected content names the button to assistive technology, and the element keeps its role: `button` on `<button>`, and `link` on `<a>`. Every kind meets the 44 px target size.
+
+## Testing
+
+`ButtonHarness` from `@dnd-mapp/ui-web/testing` reads a button in a test: its text, its look, its size, and its focus ring.
