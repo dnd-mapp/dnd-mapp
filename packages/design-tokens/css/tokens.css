@@ -170,6 +170,8 @@
     --size-icon-sm: 1.25rem;
     /** Thickness of the current and selected indicators */
     --size-indicator: 0.125rem;
+    /** Term column of a Facts list */
+    --size-term: 8.75rem;
     --text-case-none: none;
     --text-case-upper: uppercase;
     --typography-body-font-family: var(--font-family-body);
