@@ -9,6 +9,7 @@ This page lists where each kind of request about D&D Mapp goes, and what respons
 | A question                                                 | A discussion in [Q&A](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/q-a).                                |
 | An idea or proposal                                        | A discussion in [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas). Solid ideas become issues. |
 | Something broken                                           | The [Bug form](https://github.com/dnd-mapp/dnd-mapp/issues/new?template=1-bug.yml).                                    |
+| An accessibility barrier                                   | The [Accessibility barrier form](https://github.com/dnd-mapp/dnd-mapp/issues/new?template=6-accessibility.yml).        |
 | A vulnerability                                            | The [security policy](SECURITY.md#reporting-a-vulnerability), never a public issue, pull request, or discussion.       |
 | Behavior that breaks the code of conduct                   | The [code of conduct](CODE_OF_CONDUCT.md#reporting-a-violation).                                                       |
 | A private matter, such as anything involving personal data | An email to [support@dndmapp.nl.eu.org](mailto:support@dndmapp.nl.eu.org).                                             |

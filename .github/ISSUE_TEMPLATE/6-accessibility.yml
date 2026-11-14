@@ -1,0 +1,76 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-issue-forms.json
+
+name: Accessibility barrier
+description: Report something in D&D Mapp that you can't use with your assistive technology, keyboard, or settings.
+type: Bug
+labels:
+    - accessibility
+body:
+    - type: markdown
+      attributes:
+          value: >
+              Report a barrier that keeps you from using D&D Mapp, such as content your screen reader skips, a control
+              you can't reach with a keyboard, or text you can't read at a high zoom level.
+
+
+              This issue is public, so anyone can read what you write here. To keep the details private, email them
+              to [support@dndmapp.nl.eu.org](mailto:support@dndmapp.nl.eu.org) instead.
+
+    - type: input
+      id: page
+      validations:
+          required: true
+      attributes:
+          label: Page
+          description: The address of the page where you met the barrier.
+          placeholder: https://www.dndmapp.nl.eu.org/
+
+    - type: textarea
+      id: goal
+      validations:
+          required: true
+      attributes:
+          label: What you tried to do
+          description: The task you tried to finish, such as reading the privacy statement or opening the menu.
+
+    - type: textarea
+      id: barrier
+      validations:
+          required: true
+      attributes:
+          label: What got in the way
+          description: What happened instead, or what kept you from finishing the task.
+
+    - type: textarea
+      id: browser
+      validations:
+          required: true
+      attributes:
+          label: Browser and device
+          description: >
+              The browser and device you used, such as Firefox on a Windows laptop or Safari on an iPhone. Versions
+              help but aren't needed.
+
+    - type: textarea
+      id: assistive-technology
+      attributes:
+          label: Assistive technology
+          description: >
+              The assistive technology or settings you use, such as a screen reader, screen magnifier, voice control,
+              a keyboard alone, or a high zoom level. Leave this empty when you use none.
+
+    - type: textarea
+      id: context
+      attributes:
+          label: Additional context
+          description: Screenshots, recordings, or anything else that helps explain the barrier.
+
+    - type: checkboxes
+      id: preflight
+      attributes:
+          label: Before you post
+          options:
+              - label: I checked everything in this post myself, including any part an AI tool wrote, as [Using AI tools](https://github.com/dnd-mapp/dnd-mapp/blob/main/CONTRIBUTING.md#using-ai-tools) describes.
+                required: true
+              - label: I agree to follow this project's [code of conduct](https://github.com/dnd-mapp/dnd-mapp/blob/main/CODE_OF_CONDUCT.md).
+                required: true
