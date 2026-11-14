@@ -14,7 +14,7 @@ The [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) has two boa
 
 - **Expedited bugs.** A bug that cannot wait for a free slot, such as one that breaks the deployed app, may go over the WIP limit of each status it moves through. A maintainer decides when a bug qualifies, and only one issue is expedited at a time. It goes ahead of all other work, and its pull request gets reviewed first.
 - **Epic status.** An epic moves to In progress when its first sub-issue does, and to Done when its last sub-issue does. Epics skip In review, since review happens on the pull requests of their sub-issues.
-- **Blocked epics.** When the epic in progress gets blocked, the next Ready epic moves to In progress, and the blocked epic goes back to Ready until its blocker clears.
+- **Blocked epics.** When an epic in progress gets blocked, the next Ready epic moves to In progress, and the blocked epic goes back to Ready until its blocker clears.
 
 ## Using AI tools
 
