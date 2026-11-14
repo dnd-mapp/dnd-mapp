@@ -1,0 +1,40 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as LinkGroupStories from './link-group.stories';
+
+<Meta of={LinkGroupStories} />
+
+# Link group
+
+A heading with a list of related links, such as a column of the footer. It is the Link group component of the design system in Penpot, and Footer holds it.
+
+<Canvas of={LinkGroupStories.Default} />
+
+<Controls of={LinkGroupStories.Default} />
+
+## Placing a link group
+
+Link group projects a heading and one `<li>` per link, and puts the items in a list of its own. Place a quiet link, `a[dma-link]` with `kind="quiet"`, in each item:
+
+```html
+<dma-link-group>
+    <h2>Project</h2>
+    <li><a dma-link kind="quiet" href="https://github.com/dnd-mapp/dnd-mapp">Source code</a></li>
+    <li><a dma-link kind="quiet" routerLink="/changelog">Changelog</a></li>
+</dma-link-group>
+```
+
+Pick the heading level that fits the outline of the page, from `<h1>` to `<h6>`. The heading draws the same at every level. An `@for` block can project the items, as long as each pass renders one `<li>`. The link group drops any other content.
+
+The link group fills the column it is placed in, while its heading and links keep their own width, so whoever holds it sizes the columns.
+
+## States
+
+Penpot draws Link group in one state. It is not interactive itself; each link draws its own hover and focus states, as the docs page of Link shows.
+
+## Accessibility
+
+Assistive technology reads the heading at the level you pick, then the links as a list with its number of items. The list keeps its list role in Safari too, which drops the role of a list without markers unless the list sets it explicitly.
+
+## Testing
+
+`LinkGroupHarness` from `@dnd-mapp/ui-web/testing` reads a link group in a test: the text and look of its heading, the `LinkHarness` of each link, the place and width of the heading, the list, and each item, and its own width.
