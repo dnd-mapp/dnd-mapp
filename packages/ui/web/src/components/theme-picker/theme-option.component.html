@@ -1,0 +1,24 @@
+<label class="option">
+    <input
+        class="input cdk-visually-hidden"
+        type="radio"
+        [name]="name()"
+        [value]="theme()"
+        [checked]="checked()"
+        (change)="picked.emit(theme())"
+    />
+    <span class="box">
+        @switch (theme()) {
+            @case ('system') {
+                <dma-icon-monitor />
+            }
+            @case ('light') {
+                <dma-icon-sun />
+            }
+            @case ('dark') {
+                <dma-icon-moon />
+            }
+        }
+        <span class="label" [class.cdk-visually-hidden]="display() === 'icons'">{{ label() }}</span>
+    </span>
+</label>

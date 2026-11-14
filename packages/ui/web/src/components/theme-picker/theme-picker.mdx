@@ -5,7 +5,7 @@ import * as ThemePickerStories from './theme-picker.stories';
 
 # Theme picker
 
-Lets the reader pick the color scheme: System, Light, or Dark. It is the Theme picker component of the design system in Penpot, with a Theme option for each choice, and Header, Mobile menu, and Footer hold it.
+Lets the reader pick the color scheme: System, Light, or Dark. It is the Theme picker component of the design system in Penpot, with a Theme option component for each choice, and Header, Mobile menu, and Footer hold it.
 
 <Canvas of={ThemePickerStories.LabelsDefault} />
 
@@ -57,4 +57,4 @@ The picker is a group named "Theme", and each option is a radio input named by i
 
 ## Testing
 
-`ThemePickerHarness` from `@dnd-mapp/ui-web/testing` reads a picker in a test: its themes, its selected theme, the name of its radio inputs, and the look, size, icon size, label, and focus ring of each option. In these stories, a stand-in for `ThemeService` picks the selected option, so a click leaves the theme of the preview to the theme toolbar.
+`ThemePickerHarness` from `@dnd-mapp/ui-web/testing` reads a picker in a test: its themes, its selected theme, the names of its radio inputs, and its options. `ThemeOptionHarness` reads each option: its theme, whether it is checked, and its look, size, icon size, label, and focus ring. In these stories, a stand-in for `ThemeService` picks the selected option, so a click leaves the theme of the preview to the theme toolbar.

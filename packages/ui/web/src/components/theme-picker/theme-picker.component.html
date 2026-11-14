@@ -1,27 +1,10 @@
 <legend class="cdk-visually-hidden">Theme</legend>
-@for (option of options; track option.theme) {
-    <label class="option">
-        <input
-            class="input cdk-visually-hidden"
-            type="radio"
-            [name]="name"
-            [value]="option.theme"
-            [checked]="theme() === option.theme"
-            (change)="select(option.theme)"
-        />
-        <span class="box">
-            @switch (option.theme) {
-                @case ('system') {
-                    <dma-icon-monitor />
-                }
-                @case ('light') {
-                    <dma-icon-sun />
-                }
-                @case ('dark') {
-                    <dma-icon-moon />
-                }
-            }
-            <span class="label" [class.cdk-visually-hidden]="display() === 'icons'">{{ option.label }}</span>
-        </span>
-    </label>
+@for (option of options; track option) {
+    <dma-theme-option
+        [theme]="option"
+        [name]="name"
+        [checked]="theme() === option"
+        [display]="display()"
+        (picked)="select($event)"
+    />
 }

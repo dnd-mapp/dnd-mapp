@@ -1,13 +1,11 @@
 @use '@angular/cdk';
 
-// Hides the legend, each radio input, and the labels of the icons display from sight but not from assistive technology.
+// Hides the legend from sight but not from assistive technology.
 @include cdk.a11y-visually-hidden;
 
 // The picker draws its border inside its 44 px height, as the inner stroke in Penpot does, so its padding gives up the
-// width of the border. Each option fills the height that is left: 36 px.
+// width of the border.
 :host {
-    --option-size: calc(var(--size-target-min) - 2 * var(--space-4));
-
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -18,75 +16,4 @@
     border: var(--border-width-default) solid var(--color-border-control);
     border-radius: var(--radius-md);
     background: var(--color-background-sunken);
-}
-
-// The label holds the hidden radio input, so a click anywhere on the option picks it.
-.option {
-    position: relative;
-    display: block;
-    cursor: pointer;
-}
-
-// The option draws a transparent border in every state, so the border of the selected state moves nothing.
-.box {
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-8);
-    height: var(--option-size);
-    padding-inline: calc(var(--space-12) - var(--border-width-default));
-    border: var(--border-width-default) solid transparent;
-    border-radius: var(--radius-sm);
-    color: var(--color-foreground-muted);
-    font-family: var(--typography-nav-font-family);
-    font-size: var(--typography-nav-font-size);
-    font-weight: var(--typography-nav-font-weight);
-    letter-spacing: var(--typography-nav-letter-spacing);
-    line-height: var(--typography-nav-line-height);
-    text-decoration: var(--typography-nav-text-decoration);
-    text-transform: var(--typography-nav-text-case);
-}
-
-// The icon display draws each option as a square around its icon.
-:host(.icons) .box {
-    width: var(--option-size);
-    padding-inline: 0;
-}
-
-// Each icon draws smaller than the 24 px of the Icon component, as in Penpot, and takes the color of the option.
-dma-icon-monitor,
-dma-icon-sun,
-dma-icon-moon {
-    width: var(--size-icon-sm);
-    height: var(--size-icon-sm);
-}
-
-.option:hover .box {
-    background: var(--color-background-hover);
-    color: var(--color-foreground-default);
-}
-
-// Keyboard focus draws the ring outside the option, and keeps the look of its state.
-.input:focus-visible + .box {
-    outline: var(--border-width-focus) solid var(--color-focus-ring);
-    outline-offset: var(--focus-offset);
-}
-
-.input:checked + .box {
-    border-color: var(--color-border-strong);
-    background: var(--color-background-raised);
-    color: var(--color-foreground-default);
-}
-
-// Forced colors draw every border, the transparent ones included, so the selected option takes the highlight color
-// to stand out from the others.
-@media (forced-colors: active) {
-    .box {
-        border-color: Canvas;
-    }
-
-    .input:checked + .box {
-        border-color: Highlight;
-    }
 }

@@ -10,38 +10,21 @@ import {
     provideBrowserStorage,
     setupTestEnvironment,
     ThemePickerHarness,
-    type ThemePickerLook,
 } from '@dnd-mapp/ui-web/testing';
 
 // Colors that no theme uses, so the picker can only take each one from the token the test sets it on.
 const BACKGROUND_SUNKEN = 'rgb(10, 20, 30)';
-const BACKGROUND_RAISED = 'rgb(40, 50, 60)';
-const BACKGROUND_HOVER = 'rgb(70, 80, 90)';
 const BORDER_CONTROL = 'rgb(100, 110, 120)';
-const BORDER_STRONG = 'rgb(130, 140, 150)';
-const FOREGROUND_DEFAULT = 'rgb(20, 120, 40)';
-const FOREGROUND_MUTED = 'rgb(90, 90, 200)';
-const FOCUS_RING = 'rgb(0, 100, 250)';
-const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
 /**
- * Sets the semantic tokens that the picker reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from.
+ * Sets the semantic tokens that the picker and its options read to values of the test, rather than loading
+ * `tokens.css`, so each expectation names the token it comes from.
  */
 const TOKENS = `
     .tokens {
         --color-background-sunken: ${BACKGROUND_SUNKEN};
-        --color-background-raised: ${BACKGROUND_RAISED};
-        --color-background-hover: ${BACKGROUND_HOVER};
         --color-border-control: ${BORDER_CONTROL};
-        --color-border-strong: ${BORDER_STRONG};
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --color-foreground-muted: ${FOREGROUND_MUTED};
-        --color-focus-ring: ${FOCUS_RING};
         --border-width-default: 1px;
-        --border-width-focus: 2px;
-        --focus-offset: 2px;
-        --radius-sm: 8px;
         --radius-md: 10px;
         --size-icon-sm: 20px;
         --size-target-min: 44px;
@@ -53,13 +36,6 @@ const TOKENS = `
         padding: 1rem;
     }
 `;
-
-/** How an option looks in each state, as Penpot draws it. Focus keeps the look of the state. */
-const LOOKS: Record<'default' | 'hover' | 'selected', ThemePickerLook> = {
-    default: { background: TRANSPARENT, borderColor: TRANSPARENT, color: FOREGROUND_MUTED },
-    hover: { background: BACKGROUND_HOVER, borderColor: TRANSPARENT, color: FOREGROUND_DEFAULT },
-    selected: { background: BACKGROUND_RAISED, borderColor: BORDER_STRONG, color: FOREGROUND_DEFAULT },
-};
 
 const NAMES: Record<Theme, string> = { system: 'System', light: 'Light', dark: 'Dark' };
 
@@ -105,8 +81,8 @@ describe('ThemePickerComponent', () => {
     }
 
     /**
-     * The label of the option of `theme`, which a pointer clicks or hovers: the label draws the option over its hidden
-     * radio input, so Playwright can't reach the input itself.
+     * The label of the option of `theme`, which a pointer clicks: the label draws the option over its hidden radio
+     * input, so Playwright can't reach the input itself.
      */
     function option(theme: Theme) {
         const label = radio(theme).element().closest('label');
@@ -158,6 +134,15 @@ describe('ThemePickerComponent', () => {
             for (const theme of Object.values(Theme)) {
                 await expect.element(radio(theme)).toBeInTheDocument();
             }
+        });
+
+        it('should pass its display to each option', async () => {
+            const { harness } = await setupTest(TestComponent, { display });
+            const options = await harness.getOptions();
+            const shown = await Promise.all(options.map(async (option) => await option.isLabelShown()));
+            const labelsShown = display === ThemePickerDisplay.Labels;
+
+            expect(shown).toEqual([labelsShown, labelsShown, labelsShown]);
         });
 
         it('should select System when nothing is saved', async () => {
@@ -220,98 +205,31 @@ describe('ThemePickerComponent', () => {
         it('should draw the picker around its options', async () => {
             const { harness } = await setupTest(TestComponent, { display });
 
-            const { background, borderColor } = await harness.getLook();
-
-            expect({ background, borderColor }).toEqual({ background: BACKGROUND_SUNKEN, borderColor: BORDER_CONTROL });
+            expect(await harness.getLook()).toEqual({ background: BACKGROUND_SUNKEN, borderColor: BORDER_CONTROL });
             expect((await harness.getSize()).height).toBe(44);
         });
-
-        it('should draw the selected option apart from the others', async () => {
-            const { harness } = await setupTest(TestComponent, { display, saved: Theme.Light });
-
-            expect(await harness.getOptionLook(Theme.Light)).toEqual(LOOKS.selected);
-            expect(await harness.getOptionLook(Theme.System)).toEqual(LOOKS.default);
-            expect(await harness.getOptionLook(Theme.Dark)).toEqual(LOOKS.default);
-        });
-
-        it('should draw its hover look on an option that is not selected', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
-
-            await userEvent.hover(option(Theme.Dark));
-            const look = await harness.getOptionLook(Theme.Dark);
-            await userEvent.unhover(option(Theme.Dark));
-
-            expect(look).toEqual(LOOKS.hover);
-        });
-
-        it('should draw no focus ring until an option has focus', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
-
-            for (const theme of Object.values(Theme)) {
-                expect((await harness.getFocusRing(theme)).style).toBe('none');
-            }
-        });
-
-        it('should draw the focus ring outside the option on keyboard focus, and keep its look', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
-
-            await userEvent.tab();
-
-            expect(await harness.getFocusRing(Theme.System)).toEqual({
-                style: 'solid',
-                color: FOCUS_RING,
-                width: '2px',
-                offset: '2px',
-            });
-            expect(await harness.getOptionLook(Theme.System)).toEqual(LOOKS.selected);
-        });
-
-        it('should draw each icon at 20 px', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
-
-            for (const theme of Object.values(Theme)) {
-                expect(await harness.getIconSize(theme)).toEqual({ width: 20, height: 20 });
-            }
-        });
-    });
-
-    it('should show each label in the labels display', async () => {
-        const { harness } = await setupTest(TestComponent, { display: ThemePickerDisplay.Labels });
-
-        for (const theme of Object.values(Theme)) {
-            expect(await harness.isLabelShown(theme)).toBe(true);
-            expect((await harness.getOptionSize(theme)).height).toBe(36);
-        }
-    });
-
-    it('should show each icon alone in a 36 px square in the icons display', async () => {
-        const { harness } = await setupTest(TestComponent, { display: ThemePickerDisplay.Icons });
-
-        for (const theme of Object.values(Theme)) {
-            expect(await harness.isLabelShown(theme)).toBe(false);
-            expect(await harness.getOptionSize(theme)).toEqual({ width: 36, height: 36 });
-        }
     });
 
     it('should show the labels display by default', async () => {
         const { harness } = await setupTest(DefaultTestComponent);
 
-        expect(await harness.isLabelShown(Theme.System)).toBe(true);
+        expect(await (await harness.getOption(Theme.System)).isLabelShown()).toBe(true);
     });
 
     it('should show the labels display for a display it does not know', async () => {
         const { harness } = await setupTest(TestComponent, { display: 'unknown' as ThemePickerDisplay });
 
-        expect(await harness.isLabelShown(Theme.System)).toBe(true);
+        expect(await (await harness.getOption(Theme.System)).isLabelShown()).toBe(true);
     });
 
     it('should group the options of each picker on a page apart', async () => {
         const { harnessLoader } = await setupTest(TwoPickersTestComponent);
         const pickers = await harnessLoader.getAllHarnesses(ThemePickerHarness);
-        const names = await Promise.all(pickers.map(async (picker) => await picker.getName()));
+        const names = await Promise.all(pickers.map(async (picker) => await picker.getNames()));
         const selected = await Promise.all(pickers.map(async (picker) => await picker.getSelected()));
 
-        expect(new Set(names).size).toBe(2);
+        expect(names.map((group) => new Set(group).size)).toEqual([1, 1]);
+        expect(new Set(names.flat()).size).toBe(2);
         expect(selected).toEqual([Theme.System, Theme.System]);
     });
 });
