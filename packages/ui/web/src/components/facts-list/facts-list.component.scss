@@ -1,0 +1,45 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'dl[dma-facts-list]';
+
+// Sets the font of a typography token, such as `body` for the `--typography-body-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The list fills its container, as in Penpot, and leaves its own place in the container to the section that holds it.
+#{$host} {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin: 0;
+}
+
+// Each fact stacks its term above its value, which fills the width of the list.
+#{$host} > div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+// The gaps space the term and the value, so neither keeps the margin of its element.
+#{$host} > div > :is(dt, dd) {
+    margin: 0;
+}
+
+// The term keeps the width of its text.
+#{$host} > div > dt {
+    align-self: flex-start;
+    color: var(--color-foreground-muted);
+    @include typography(caps);
+}
+
+#{$host} > div > dd {
+    color: var(--color-foreground-default);
+    @include typography(body);
+}
