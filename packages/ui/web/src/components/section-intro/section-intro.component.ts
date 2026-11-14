@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
+import { DEFAULT_SECTION_INTRO_ALIGN, sectionIntroAlignAttr } from './section-intro.types';
 
 /**
  * The opening of a content section, drawn on the `<hgroup>` it is placed on: an eyebrow, a heading, and intro text,
@@ -13,5 +14,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
     templateUrl: './section-intro.component.html',
     styleUrl: './section-intro.component.scss',
     encapsulation: ViewEncapsulation.None,
+    host: {
+        '[class.center]': "align() === 'center'",
+    },
 })
-export class SectionIntroComponent {}
+export class SectionIntroComponent {
+    public readonly align = input(DEFAULT_SECTION_INTRO_ALIGN, { transform: sectionIntroAlignAttr });
+}
