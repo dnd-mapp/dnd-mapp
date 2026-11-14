@@ -19,7 +19,7 @@ The lead maintainer is a maintainer with the final say on every decision. On top
 
 Maintainers run the day-to-day work of the project. A maintainer:
 
-- Triages issues by setting their status to Ready on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and assigns them.
+- Triages issues by setting their status to Backlog on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), moves them to Ready once Ready has room, and assigns them.
 - Files the work that comes out of discussions and bug reports, through the issue forms for tasks, research, and epics.
 - Reviews and approves pull requests as a member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers), the code owners of the repository.
 - Moderates [Discussions](https://github.com/dnd-mapp/dnd-mapp/discussions).
