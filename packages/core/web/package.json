@@ -30,7 +30,7 @@
     "@angular/compiler": "catalog:angular",
     "@angular/compiler-cli": "catalog:angular",
     "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/testing": "workspace:*",
+    "@dnd-mapp/ui-web": "workspace:*",
     "@types/node": "catalog:node",
     "@vitest/browser-playwright": "catalog:vitest",
     "@vitest/coverage-v8": "catalog:vitest",

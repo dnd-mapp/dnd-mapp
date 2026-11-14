@@ -1,7 +1,7 @@
 import { userEvent } from 'vitest/browser';
 
 /**
- * Renders a box over the center of the viewport, away from the corner where the setup file of `@dnd-mapp/testing`
+ * Renders a box over the center of the viewport, away from the corner where the setup file `testing/pointer.ts`
  * moves the pointer.
  */
 function renderBox() {

@@ -571,9 +571,9 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
-      '@dnd-mapp/testing':
+      '@dnd-mapp/ui-web':
         specifier: workspace:*
-        version: link:../../testing
+        version: link:../../ui/web
       '@types/node':
         specifier: catalog:node
         version: 26.6.6
@@ -766,9 +766,6 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
-      '@dnd-mapp/testing':
-        specifier: workspace:*
-        version: link:../../testing
       '@storybook/addon-docs':
         specifier: catalog:storybook
         version: 10.6.7(@types/react@19.3.0)(storybook@10.6.7(@types/react@19.3.0)(prettier@3.10.0)(react@19.3.1))

@@ -36,7 +36,6 @@
     "@angular/compiler-cli": "catalog:angular",
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/testing": "workspace:*",
     "@storybook/addon-docs": "catalog:storybook",
     "@storybook/addon-themes": "catalog:storybook",
     "@storybook/angular-vite": "catalog:storybook",

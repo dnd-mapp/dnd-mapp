@@ -52,28 +52,16 @@ Each call to `mockGit` replaces the state, which stays in place for the next tes
 
 The mock runs `git tag --list`, with any number of patterns, and prints the matching tags sorted by name, one per line, as git does. A pattern takes `*` for any text, `/` included, and `?` for one character. The mock fails for any other command, any other program, and any other syntax of a pattern, such as `[0-9]`, rather than answer differently from git. Add a command to [`src/git/repository.ts`](src/git/repository.ts) when a test needs it. The tests of the mock compare its output with that of the real git, in a temporary repository.
 
-## Pointer
-
-[`src/pointer/index.ts`](src/pointer/index.ts) is a setup file for the browser tests of an Angular project. Before each test, it moves the pointer to the bottom-right corner of the viewport, where no test renders a component. Without it, the pointer stays where the previous test left it, and Chrome hovers a component that the next test renders in that spot a frame later, so a test that expects the default look fails in some orders.
-
-Load it through the `setupFiles` option of the `test` target in `angular.json`, by its path from the project, as [`packages/ui/web/angular.json`](../ui/web/angular.json) does, so the Angular unit-test builder compiles it with the tests:
-
-```json
-"setupFiles": ["../../testing/src/pointer/index.ts"]
-```
-
-The setup file moves the pointer before the test renders anything. A test that hovers a component and then checks the default look still moves the pointer away itself.
-
 ## Tasks
 
 Run each task from the repository root.
 
-| Task        | Command                                                                                                                                          | Runs in CI | Cached |
-|:------------|:-------------------------------------------------------------------------------------------------------------------------------------------------|:----------:|:------:|
-| `test`      | `vitest`                                                                                                                                         |     no     |   no   |
-| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                                                            |    yes     |  yes   |
-| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.browser.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`                                                                                                                      |    yes     |  yes   |
+| Task        | Command                                                                                                   | Runs in CI | Cached |
+|:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
+| `test`      | `vitest`                                                                                                  |     no     |   no   |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
+| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
+| `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
 
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 
@@ -89,7 +77,7 @@ pnpm moon run testing:test-ci
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
 
-The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes. The pointer setup file runs in the browser, so `tsconfig.browser.json` checks it with the DOM types, which the other sources leave out.
+The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes.
 
 Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
 
