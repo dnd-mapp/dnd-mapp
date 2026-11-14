@@ -3,7 +3,7 @@ import { DEFAULT_NAV_LINK_KIND, navLinkKindAttr } from './nav-link.types';
 
 /**
  * A link to a page of the site in its navigation, drawn on the `<a>` it is placed on. Whoever places it adds
- * `routerLink` or `href`, so the nav link needs no router.
+ * `routerLink` or `href`, so the nav link needs no router, and `aria-current="page"` on the link to the current page.
  */
 @Component({
     selector: 'a[dma-nav-link]',

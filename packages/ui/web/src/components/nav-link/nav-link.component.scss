@@ -30,3 +30,27 @@
     outline: var(--border-width-focus) solid var(--color-focus-ring);
     outline-offset: var(--focus-offset);
 }
+
+// The indicator of the current page hangs from the label, so it is always as wide as the label.
+.label {
+    position: relative;
+}
+
+.indicator {
+    display: none;
+    position: absolute;
+    inset-inline: 0;
+    top: calc(100% + var(--space-4));
+    height: var(--size-indicator);
+    border-radius: calc(var(--size-indicator) / 2);
+    background-color: var(--color-accent-text);
+}
+
+// The current page: the default label color, and the indicator under the label. It keeps both on hover and focus.
+:host([aria-current='page']) {
+    color: var(--color-foreground-default);
+
+    .indicator {
+        display: block;
+    }
+}
