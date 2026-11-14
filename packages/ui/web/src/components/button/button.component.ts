@@ -10,6 +10,10 @@ import { buttonKindAttr, DEFAULT_BUTTON_KIND } from './button.types';
     selector: 'button[dma-button], a[dma-button]',
     templateUrl: './button.component.html',
     styleUrl: './button.component.scss',
+    host: {
+        '[class.secondary]': "kind() === 'secondary'",
+        '[class.quiet]': "kind() === 'quiet'",
+    },
 })
 export class ButtonComponent {
     public readonly kind = input(DEFAULT_BUTTON_KIND, { transform: buttonKindAttr });

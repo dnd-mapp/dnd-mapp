@@ -27,6 +27,26 @@
     background: var(--color-accent-hover);
 }
 
+// The secondary and quiet kinds draw no fill until hover, and differ only in the color of their border.
+:host(.secondary),
+:host(.quiet) {
+    background: transparent;
+    color: var(--color-foreground-default);
+}
+
+:host(.secondary) {
+    border-color: var(--color-border-strong);
+}
+
+:host(.quiet) {
+    border-color: var(--color-border-control);
+}
+
+:host(.secondary:hover),
+:host(.quiet:hover) {
+    background: var(--color-background-hover);
+}
+
 // Keyboard focus draws the ring outside the button, and keeps the look of its default state.
 :host(:focus-visible) {
     outline: var(--border-width-focus) solid var(--color-focus-ring);
