@@ -1,4 +1,4 @@
-import { Component, signal, type Type } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ThemePickerComponent } from './theme-picker.component';
@@ -93,26 +93,26 @@ describe('ThemePickerComponent', () => {
         return page.elementLocator(label);
     }
 
-    async function setupTest(host: Type<unknown>, { display, saved, local = false }: SetupOptions = {}) {
+    async function setupTest({ display, saved, local = false }: SetupOptions = {}) {
         const storage = local ? localStorage : new InMemoryStorage();
 
         if (saved) {
             storage.setItem(StorageKey.Theme, saved);
         }
-        const { fixture, harness, harnessLoader } = await setupTestEnvironment({
-            host,
+        const { fixture, harness } = await setupTestEnvironment({
+            host: TestComponent,
             harness: ThemePickerHarness,
             providers: [provideBrowserStorage(storage)],
         });
 
         if (display) {
-            (fixture.componentInstance as TestComponent).display.set(display);
+            fixture.componentInstance.display.set(display);
         }
         TestBed.tick();
 
         const setTheme = vi.spyOn(TestBed.inject(ThemeService), 'setTheme');
 
-        return { harness, harnessLoader, setTheme };
+        return { harness, setTheme };
     }
 
     afterEach(() => {
@@ -122,13 +122,13 @@ describe('ThemePickerComponent', () => {
 
     describe.each<ThemePickerDisplay>(Object.values(ThemePickerDisplay))('with display %s', (display) => {
         it('should be a group named Theme', async () => {
-            await setupTest(TestComponent, { display });
+            await setupTest({ display });
 
             await expect.element(page.getByRole('group', { name: 'Theme', exact: true })).toBeInTheDocument();
         });
 
         it('should offer System, Light, and Dark as radio inputs named by their labels', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
+            const { harness } = await setupTest({ display });
 
             expect(await harness.getThemes()).toEqual([Theme.System, Theme.Light, Theme.Dark]);
             for (const theme of Object.values(Theme)) {
@@ -137,7 +137,7 @@ describe('ThemePickerComponent', () => {
         });
 
         it('should pass its display to each option', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
+            const { harness } = await setupTest({ display });
             const options = await harness.getOptions();
             const shown = await Promise.all(options.map(async (option) => await option.isLabelShown()));
             const labelsShown = display === ThemePickerDisplay.Labels;
@@ -146,14 +146,14 @@ describe('ThemePickerComponent', () => {
         });
 
         it('should select System when nothing is saved', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
+            const { harness } = await setupTest({ display });
 
             expect(await harness.getSelected()).toBe(Theme.System);
             await expect.element(radio(Theme.System)).toBeChecked();
         });
 
         it.each<Theme>([Theme.Light, Theme.Dark])('should select the saved %s', async (theme) => {
-            const { harness } = await setupTest(TestComponent, { display, saved: theme });
+            const { harness } = await setupTest({ display, saved: theme });
 
             expect(await harness.getSelected()).toBe(theme);
         });
@@ -161,7 +161,7 @@ describe('ThemePickerComponent', () => {
         it.each<Theme>([Theme.Light, Theme.Dark, Theme.System])(
             'should pass a click on %s to ThemeService',
             async (theme) => {
-                const { harness, setTheme } = await setupTest(TestComponent, {
+                const { harness, setTheme } = await setupTest({
                     display,
                     saved: theme === Theme.System ? Theme.Dark : undefined,
                 });
@@ -174,7 +174,7 @@ describe('ThemePickerComponent', () => {
         );
 
         it('should move the choice with the arrow keys', async () => {
-            const { harness, setTheme } = await setupTest(TestComponent, { display });
+            const { harness, setTheme } = await setupTest({ display });
 
             await userEvent.tab();
             await expect.element(radio(Theme.System)).toHaveFocus();
@@ -192,7 +192,7 @@ describe('ThemePickerComponent', () => {
         });
 
         it('should show a choice made in another tab', async () => {
-            const { harness } = await setupTest(TestComponent, { display, local: true });
+            const { harness } = await setupTest({ display, local: true });
 
             window.dispatchEvent(
                 new StorageEvent('storage', { key: StorageKey.Theme, newValue: Theme.Dark, storageArea: localStorage }),
@@ -203,7 +203,7 @@ describe('ThemePickerComponent', () => {
         });
 
         it('should draw the picker around its options', async () => {
-            const { harness } = await setupTest(TestComponent, { display });
+            const { harness } = await setupTest({ display });
 
             expect(await harness.getLook()).toEqual({ background: BACKGROUND_SUNKEN, borderColor: BORDER_CONTROL });
             expect((await harness.getSize()).height).toBe(44);
@@ -211,19 +211,27 @@ describe('ThemePickerComponent', () => {
     });
 
     it('should show the labels display by default', async () => {
-        const { harness } = await setupTest(DefaultTestComponent);
+        const { harness } = await setupTestEnvironment({
+            host: DefaultTestComponent,
+            harness: ThemePickerHarness,
+            providers: [provideBrowserStorage(new InMemoryStorage())],
+        });
 
         expect(await (await harness.getOption(Theme.System)).isLabelShown()).toBe(true);
     });
 
     it('should show the labels display for a display it does not know', async () => {
-        const { harness } = await setupTest(TestComponent, { display: 'unknown' as ThemePickerDisplay });
+        const { harness } = await setupTest({ display: 'unknown' as ThemePickerDisplay });
 
         expect(await (await harness.getOption(Theme.System)).isLabelShown()).toBe(true);
     });
 
     it('should group the options of each picker on a page apart', async () => {
-        const { harnessLoader } = await setupTest(TwoPickersTestComponent);
+        const { harnessLoader } = await setupTestEnvironment({
+            host: TwoPickersTestComponent,
+            harness: ThemePickerHarness,
+            providers: [provideBrowserStorage(new InMemoryStorage())],
+        });
         const pickers = await harnessLoader.getAllHarnesses(ThemePickerHarness);
         const names = await Promise.all(pickers.map(async (picker) => await picker.getNames()));
         const selected = await Promise.all(pickers.map(async (picker) => await picker.getSelected()));

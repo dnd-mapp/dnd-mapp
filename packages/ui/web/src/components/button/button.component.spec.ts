@@ -1,5 +1,5 @@
 import type { HarnessLoader } from '@angular/cdk/testing';
-import { Component, signal, type Type } from '@angular/core';
+import { Component, signal, type Type, type WritableSignal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ButtonComponent } from './button.component';
@@ -151,12 +151,10 @@ describe('ButtonComponent', () => {
         { element: 'a', role: 'link', host: LinkHostComponent },
     ] as const;
 
-    async function setupTest(host: Type<unknown>, kind?: ButtonKind) {
+    async function setupTest(host: Type<{ kind: WritableSignal<ButtonKind> }>, kind: ButtonKind) {
         const { fixture, harness } = await setupTestEnvironment({ host, harness: ButtonHarness });
 
-        if (kind) {
-            (fixture.componentInstance as ButtonHostComponent).kind.set(kind);
-        }
+        fixture.componentInstance.kind.set(kind);
         TestBed.tick();
 
         return { harness };
@@ -225,7 +223,7 @@ describe('ButtonComponent', () => {
     });
 
     it('should draw the primary kind by default', async () => {
-        const { harness } = await setupTest(DefaultHostComponent);
+        const { harness } = await setupTestEnvironment({ host: DefaultHostComponent, harness: ButtonHarness });
 
         expect(await harness.getLook()).toEqual(LOOKS.primary.default);
     });

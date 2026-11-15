@@ -1,4 +1,4 @@
-import { Component, signal, type Type } from '@angular/core';
+import { Component, signal, type Type, type WritableSignal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { LinkComponent } from './link.component';
@@ -77,12 +77,10 @@ describe('LinkComponent', () => {
         public readonly kind = signal<LinkKind>(LinkKind.Inline);
     }
 
-    async function setupTest(host: Type<unknown>, kind?: LinkKind) {
+    async function setupTest(host: Type<{ kind: WritableSignal<LinkKind> }>, kind: LinkKind) {
         const { fixture, harness } = await setupTestEnvironment({ host, harness: LinkHarness });
 
-        if (kind) {
-            (fixture.componentInstance as TestComponent).kind.set(kind);
-        }
+        fixture.componentInstance.kind.set(kind);
         TestBed.tick();
 
         return { harness, link: page.getByRole('link', { name: 'Rules', exact: true }) };
@@ -150,7 +148,7 @@ describe('LinkComponent', () => {
     });
 
     it('should draw the inline kind by default', async () => {
-        const { harness } = await setupTest(DefaultTestComponent);
+        const { harness } = await setupTestEnvironment({ host: DefaultTestComponent, harness: LinkHarness });
 
         expect(await readLook(harness)).toEqual(LOOKS.inline.default);
         expect(await harness.hasArrow()).toBe(false);
