@@ -1,0 +1,39 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as CardStories from './card.stories';
+
+<Meta of={CardStories} />
+
+# Card
+
+A block of related content, alone or in a grid, such as a tool on the landing page. It is the Card component of the design system in Penpot.
+
+<Canvas of={CardStories.Surface} />
+
+<Controls of={CardStories.Surface} />
+
+## Placing a card
+
+Card is an element that projects a heading as its title and a `<p>` as its text:
+
+```html
+<dma-card>
+    <h3>Characters</h3>
+    <p>Build character sheets and keep their spell books.</p>
+</dma-card>
+```
+
+Pick the heading level that fits the outline of the page, from `<h1>` to `<h6>`. The title draws the same at every level. Both parts are optional, and a card without text leaves no gap below its title. The card drops any other content.
+
+The card fills its container, such as a column of a grid, and stays at least 280 px wide, so a grid wraps to fewer columns rather than squeezing them. It draws the surface background, for a card on the page background.
+
+## Focus
+
+A card takes no focus, and Penpot draws no hover or focus state for it, since it is not clickable as a whole.
+
+## Accessibility
+
+Assistive technology reads the title at the level you pick, then the text. The card adds no role of its own.
+
+## Testing
+
+`CardHarness` from `@dnd-mapp/ui-web/testing` reads a card in a test: the text, look, and place of its title and text, the look of its box, its size, and whether it has focus.
