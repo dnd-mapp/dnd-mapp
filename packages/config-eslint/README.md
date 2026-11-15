@@ -1,12 +1,8 @@
 # ESLint config
 
-The shared ESLint config of the projects of D&D Mapp. Its presets hold the rules that the projects share, leave formatting to Prettier, and enforce the dependency rules between the projects on the imports of each project. [Architecture](../../docs/architecture.md#dependency-rules) describes those rules.
+The shared ESLint config of the projects of D&D Mapp. Its presets hold the rules that the projects share, leave formatting to Prettier, and enforce the dependency rules between the projects on the imports of each project. [Architecture](../../docs/architecture.md#dependency-rules) describes those rules. [`tsconfig.json`](tsconfig.json) checks the types of the presets, which ESLint loads without checking.
 
-| Task        | Command | Runs in CI | Cached |
-|:------------|:--------|:----------:|:------:|
-| `typecheck` | `tsc`   |    yes     |  yes   |
-
-## Usage
+## Using the package
 
 Add the package to the `devDependencies` of a project, next to `eslint` and `typescript`, which it expects as peers. It brings the ESLint plugins of its presets along, so the project lists none of its own.
 
@@ -14,15 +10,7 @@ Add the package to the `devDependencies` of a project, next to `eslint` and `typ
 "@dnd-mapp/config-eslint": "workspace:*"
 ```
 
-Extend the preset that fits the project:
-
-| Preset       | Import                               | Extended by                                    |
-|:-------------|:-------------------------------------|:-----------------------------------------------|
-| `typescript` | `@dnd-mapp/config-eslint/typescript` | A TypeScript project without a framework.      |
-| `angular`    | `@dnd-mapp/config-eslint/angular`    | An Angular app or module.                      |
-| `playwright` | `@dnd-mapp/config-eslint/playwright` | A project of end-to-end tests with Playwright. |
-
-Pass the preset the folder of the project's `eslint.config.ts`, which holds the project's `package.json`, and add the options of the project after it, such as the folders that ESLint skips:
+Add an `eslint.config.ts` to the root of the project, which extends the [preset](#presets) that fits the project. Pass the preset the folder of the config, which holds the project's `package.json`, and add the options of the project after it, such as the folders that ESLint skips:
 
 ```ts
 import { angular } from '@dnd-mapp/config-eslint/angular';
@@ -33,7 +21,31 @@ export default defineConfig(angular(import.meta.dirname), {
 });
 ```
 
-## Checks
+The `eslint.config.ts` gives the project the `lint` task, which it inherits from [`.moon/tasks/eslint.yml`](../../.moon/tasks/eslint.yml). The task reads the `sources` file group of the project as an input, so define the group in the project's `moon.yml`:
+
+```yaml
+fileGroups:
+    sources:
+        - "src/**/*"
+```
+
+The rules are type-aware: ESLint asks TypeScript for the types of each file it lints, through the tsconfig of the project that includes the file. Every file that ESLint lints, config files included, belongs to a tsconfig of the project, since ESLint fails on any other file with "was not found by the project service". Include such a file in a tsconfig, or add it to `ignores`.
+
+The tsconfig that checks the config files of the project, such as `tsconfig.node.json`, includes `eslint.config.ts`, which imports the presets. moon tracks the files of each project for its own tasks only, so list the `sources` group of `config-eslint` in the inputs of the project's `typecheck` task, as [`packages/common/moon.yml`](../common/moon.yml) does. The inherited `lint` task lists it already.
+
+```yaml
+inputs:
+    - project: "config-eslint"
+      group: "sources"
+```
+
+## Presets
+
+| Preset       | Import                               | Extended by                                    |
+|:-------------|:-------------------------------------|:-----------------------------------------------|
+| `typescript` | `@dnd-mapp/config-eslint/typescript` | A TypeScript project without a framework.      |
+| `angular`    | `@dnd-mapp/config-eslint/angular`    | An Angular app or module.                      |
+| `playwright` | `@dnd-mapp/config-eslint/playwright` | A project of end-to-end tests with Playwright. |
 
 Every preset applies the recommended rules of ESLint and the `strictTypeChecked` and `stylisticTypeChecked` rules of [`typescript-eslint`](https://typescript-eslint.io) to every TypeScript file of the project. The other presets add their own rules:
 
@@ -63,7 +75,15 @@ import { defineConfig } from 'eslint/config';
 export default defineConfig(typescript(import.meta.dirname), tsdoc());
 ```
 
-Check the types of the config, which ESLint loads without checking:
+## Tasks
+
+[`moon.yml`](moon.yml) defines the task below. Run it from the repository root.
+
+| Task        | Command | Runs in CI | Cached |
+|:------------|:--------|:----------:|:------:|
+| `typecheck` | `tsc`   |    yes     |  yes   |
+
+Check the types of the presets:
 
 ```bash
 pnpm moon run config-eslint:typecheck
