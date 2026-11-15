@@ -3,59 +3,37 @@ import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ChipComponent } from './chip.component';
 import { ChipKind } from './chip.types';
-import { ChipHarness, type ChipLook, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { ChipHarness, type ChipLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
-// Colors that no theme uses, so the chip can only take each one from the token the test sets it on.
-const BACKGROUND_RAISED = 'rgb(30, 40, 50)';
-const BORDER_DIVIDER = 'rgb(40, 50, 60)';
-const BORDER_CONTROL = 'rgb(120, 130, 140)';
-const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
-const FOREGROUND_MUTED = 'rgb(170, 180, 190)';
-const SECONDARY_DEFAULT = 'rgb(120, 200, 160)';
-const FOREGROUND_ON_SECONDARY = 'rgb(15, 20, 25)';
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
-/**
- * Sets the semantic tokens that the chip reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from.
- */
-const TOKENS = `
-    .tokens {
-        --color-background-raised: ${BACKGROUND_RAISED};
-        --color-border-divider: ${BORDER_DIVIDER};
-        --color-border-control: ${BORDER_CONTROL};
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --color-foreground-muted: ${FOREGROUND_MUTED};
-        --color-secondary-default: ${SECONDARY_DEFAULT};
-        --color-foreground-on-secondary: ${FOREGROUND_ON_SECONDARY};
-        --border-width-default: 1px;
-        --radius-pill: 999px;
-        --space-4: 4px;
-        --space-8: 8px;
-        --typography-label-font-size: 12px;
-        --typography-label-font-weight: 600;
-        --typography-label-line-height: 1.3;
-        display: inline-block;
-        padding: 1rem;
-    }
-`;
-
-/** How each kind looks, as Penpot draws it. */
-const LOOKS: Record<ChipKind, ChipLook> = {
-    neutral: { background: BACKGROUND_RAISED, borderColor: BORDER_DIVIDER, color: FOREGROUND_DEFAULT },
-    status: { background: TRANSPARENT, borderColor: BORDER_CONTROL, color: FOREGROUND_MUTED },
-    dm: { background: SECONDARY_DEFAULT, borderColor: TRANSPARENT, color: FOREGROUND_ON_SECONDARY },
-};
+/** How each kind looks, as Penpot draws it, in the colors of the theme the test runs in. */
+function readLooks(): Record<ChipKind, ChipLook> {
+    return {
+        neutral: {
+            background: readColorToken('--color-background-raised'),
+            borderColor: readColorToken('--color-border-divider'),
+            color: readColorToken('--color-foreground-default'),
+        },
+        status: {
+            background: TRANSPARENT,
+            borderColor: readColorToken('--color-border-control'),
+            color: readColorToken('--color-foreground-muted'),
+        },
+        dm: {
+            background: readColorToken('--color-secondary-default'),
+            borderColor: TRANSPARENT,
+            color: readColorToken('--color-foreground-on-secondary'),
+        },
+    };
+}
 
 describe('ChipComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
-                <dma-chip [kind]="kind()">Planned</dma-chip>
-                <button type="button">Next</button>
-            </div>
+            <dma-chip [kind]="kind()">Planned</dma-chip>
+            <button type="button">Next</button>
         `,
-        styles: TOKENS,
         imports: [ChipComponent],
     })
     class ChipHostComponent {
@@ -63,8 +41,7 @@ describe('ChipComponent', () => {
     }
 
     @Component({
-        template: `<div class="tokens"><dma-chip>Planned</dma-chip></div>`,
-        styles: TOKENS,
+        template: `<dma-chip>Planned</dma-chip>`,
         imports: [ChipComponent],
     })
     class DefaultHostComponent {}
@@ -88,7 +65,7 @@ describe('ChipComponent', () => {
         it('should draw its look', async () => {
             const { harness } = await setupTest(kind);
 
-            expect(await harness.getLook()).toEqual(LOOKS[kind]);
+            expect(await harness.getLook()).toEqual(readLooks()[kind]);
         });
 
         it('should not take focus', async () => {
@@ -104,12 +81,12 @@ describe('ChipComponent', () => {
     it('should draw the neutral kind by default', async () => {
         const { harness } = await setupTestEnvironment({ host: DefaultHostComponent, harness: ChipHarness });
 
-        expect(await harness.getLook()).toEqual(LOOKS.neutral);
+        expect(await harness.getLook()).toEqual(readLooks().neutral);
     });
 
     it('should draw the neutral kind for a kind it does not know', async () => {
         const { harness } = await setupTest('unknown' as ChipKind);
 
-        expect(await harness.getLook()).toEqual(LOOKS.neutral);
+        expect(await harness.getLook()).toEqual(readLooks().neutral);
     });
 });
