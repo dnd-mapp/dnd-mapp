@@ -27,6 +27,8 @@ Loading the module registers the mocks. `vi.hoisted` loads it before the test fi
 
 Each call to `mockFileSystem` replaces all files, and creates the folders that hold them. The files stay in place for the next test of the file until the next call, so call it in each test or in `beforeEach`. A path resolves against the working directory with `node:path`, as `node:fs` resolves it, so `/repo/package.json` is `D:\repo\package.json` on Windows when the working directory is on drive `D:`. Names are case-sensitive on every OS.
 
+The module exports the type of the argument, `Files`, which maps each path to a `FileContent`: a string or a `Uint8Array`. Without an argument, `mockFileSystem()` resets to an empty file system.
+
 The mock supports these functions, both in `node:fs` with the `Sync` suffix and in `node:fs/promises` without it: `readFile`, `writeFile`, `appendFile`, `mkdir`, `readdir`, `stat`, `lstat`, `access`, `rm`, and `unlink`. `node:fs` also has `existsSync` and `promises`. A call to any other function fails with an error from Vitest, rather than reaching the disk. Add the function to [`src/file-system/node-fs.ts`](src/file-system/node-fs.ts) when a test needs it.
 
 Each function fails with the error that Node.js throws on Linux, with the same `code`, `syscall`, `path`, and message, such as `ENOENT` for a missing file. A test therefore fails the same way on every OS. Two errors differ from the ones Node.js throws on Windows: a path below a file fails with `ENOTDIR` rather than `ENOENT`, and `unlink` on a folder fails with `EISDIR` rather than `EPERM`.
@@ -49,6 +51,8 @@ it('lists the version tags of a project', async () => {
 ```
 
 Each call to `mockGit` replaces the state, which stays in place for the next test of the file until the next call. The mock has one repository, so it ignores the options of `execFile`, such as `cwd`. It answers both through a callback and through `promisify`, which resolves to `{ stdout, stderr }` as for the real `execFile`.
+
+The module exports the type of the argument, `GitState`. Without an argument, `mockGit()` resets to a repository without tags.
 
 The mock runs `git tag --list`, with any number of patterns, and prints the matching tags sorted by name, one per line, as git does. A pattern takes `*` for any text, `/` included, and `?` for one character. The mock fails for any other command, any other program, and any other syntax of a pattern, such as `[0-9]`, rather than answer differently from git. Add a command to [`src/git/repository.ts`](src/git/repository.ts) when a test needs it. The tests of the mock compare its output with that of the real git, in a temporary repository.
 
