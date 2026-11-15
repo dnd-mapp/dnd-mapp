@@ -28,6 +28,13 @@ export {
     type FactsListPart,
     type FactsListPartBox,
 } from './harnesses/facts-list.harness';
+export {
+    HeaderHarness,
+    type HeaderHomeFocusRing,
+    type HeaderLook,
+    type HeaderPart,
+    type HeaderPartInsets,
+} from './harnesses/header.harness';
 export { IconHarness } from './harnesses/icon.harness';
 export { type LinkGroupBox, LinkGroupHarness, type LinkGroupHeadingLook } from './harnesses/link-group.harness';
 export { LinkHarness, type LinkFocusRing } from './harnesses/link.harness';
