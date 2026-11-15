@@ -55,6 +55,12 @@
             "problemMatcher": []
         },
         {
+            "label": "web:build-info",
+            "type": "shell",
+            "command": "pnpm moon run web:build-info",
+            "problemMatcher": []
+        },
+        {
             "label": "web:image",
             "type": "shell",
             "command": "pnpm moon run web:image",
@@ -65,6 +71,24 @@
             "type": "shell",
             "command": "pnpm moon run web:lint",
             "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "web:lint-changelog",
+            "type": "shell",
+            "command": "pnpm moon run web:lint-changelog",
+            "problemMatcher": []
+        },
+        {
+            "label": "web:lint-short-description",
+            "type": "shell",
+            "command": "pnpm moon run web:lint-short-description",
+            "problemMatcher": []
+        },
+        {
+            "label": "web:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run web:typecheck",
+            "problemMatcher": "$tsc"
         },
         {
             "label": "core-web:test",
@@ -89,6 +113,12 @@
             "problemMatcher": "$eslint-stylish"
         },
         {
+            "label": "core-web:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run core-web:typecheck",
+            "problemMatcher": "$tsc"
+        },
+        {
             "label": "web-e2e:e2e",
             "type": "shell",
             "command": "pnpm moon run web-e2e:e2e",
@@ -111,6 +141,156 @@
             "type": "shell",
             "command": "pnpm moon run web-e2e:lint",
             "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "common:test",
+            "type": "shell",
+            "command": "pnpm moon run common:test",
+            "problemMatcher": []
+        },
+        {
+            "label": "common:test-ci",
+            "type": "shell",
+            "command": "pnpm moon run common:test-ci",
+            "problemMatcher": []
+        },
+        {
+            "label": "common:lint",
+            "type": "shell",
+            "command": "pnpm moon run common:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "common:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run common:typecheck",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "config-eslint:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run config-eslint:typecheck",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "design-tokens:build",
+            "type": "shell",
+            "command": "pnpm moon run design-tokens:build",
+            "problemMatcher": []
+        },
+        {
+            "label": "design-tokens:check",
+            "type": "shell",
+            "command": "pnpm moon run design-tokens:check",
+            "problemMatcher": []
+        },
+        {
+            "label": "design-tokens:test",
+            "type": "shell",
+            "command": "pnpm moon run design-tokens:test",
+            "problemMatcher": []
+        },
+        {
+            "label": "design-tokens:test-ci",
+            "type": "shell",
+            "command": "pnpm moon run design-tokens:test-ci",
+            "problemMatcher": []
+        },
+        {
+            "label": "design-tokens:lint",
+            "type": "shell",
+            "command": "pnpm moon run design-tokens:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "design-tokens:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run design-tokens:typecheck",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "release:test",
+            "type": "shell",
+            "command": "pnpm moon run release:test",
+            "problemMatcher": []
+        },
+        {
+            "label": "release:test-ci",
+            "type": "shell",
+            "command": "pnpm moon run release:test-ci",
+            "problemMatcher": []
+        },
+        {
+            "label": "release:lint",
+            "type": "shell",
+            "command": "pnpm moon run release:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "release:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run release:typecheck",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "testing:test",
+            "type": "shell",
+            "command": "pnpm moon run testing:test",
+            "problemMatcher": []
+        },
+        {
+            "label": "testing:test-ci",
+            "type": "shell",
+            "command": "pnpm moon run testing:test-ci",
+            "problemMatcher": []
+        },
+        {
+            "label": "testing:lint",
+            "type": "shell",
+            "command": "pnpm moon run testing:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "testing:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run testing:typecheck",
+            "problemMatcher": "$tsc"
+        },
+        {
+            "label": "ui-web:storybook",
+            "type": "shell",
+            "command": "pnpm moon run ui-web:storybook",
+            "problemMatcher": []
+        },
+        {
+            "label": "ui-web:build-storybook",
+            "type": "shell",
+            "command": "pnpm moon run ui-web:build-storybook",
+            "problemMatcher": []
+        },
+        {
+            "label": "ui-web:test",
+            "type": "shell",
+            "command": "pnpm moon run ui-web:test",
+            "problemMatcher": []
+        },
+        {
+            "label": "ui-web:test-ci",
+            "type": "shell",
+            "command": "pnpm moon run ui-web:test-ci",
+            "problemMatcher": []
+        },
+        {
+            "label": "ui-web:lint",
+            "type": "shell",
+            "command": "pnpm moon run ui-web:lint",
+            "problemMatcher": "$eslint-stylish"
+        },
+        {
+            "label": "ui-web:typecheck",
+            "type": "shell",
+            "command": "pnpm moon run ui-web:typecheck",
+            "problemMatcher": "$tsc"
         }
     ]
 }
