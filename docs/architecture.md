@@ -91,6 +91,7 @@ Define a task that more than one project runs once, in a file in `.moon/tasks/`,
 4. For a module, or a package for the whole workspace in the `library` layer, add a `paths` entry to `tsconfig.base.json` for each TypeScript export in its `package.json`.
 5. Extend a TypeScript preset: `angular.json` for an Angular app or module, which also extends `tsconfig.base.json`, and `node.json` for code that runs in Node.js, such as end-to-end tests, the packages for the whole workspace, and the config files of an Angular project.
 6. Extend an ESLint preset: `angular` for an Angular app or module, `playwright` for end-to-end tests, and `typescript` for any other TypeScript project. Add the `tsdoc` config after it when the project should document its types.
-7. Write a README in the outline of [Project READMEs](README.md#project-readmes), and add the project to the [Projects](../README.md#projects) section of the root README.
-8. Add each new catalog of development tools to Renovate, as [Dependency updates](dependency-updates.md#adding-a-catalog) describes.
-9. For a project that ships releases, follow [Adding a releasable project](releasing.md#adding-a-releasable-project) too.
+7. Set up its tests and their `test` and `test-ci` tasks for its kind, as [Testing](testing.md) describes: Vitest in Node.js for a package for the whole workspace, `ng test` in Chromium for an Angular module, and an `e2e/<app>` project for an app.
+8. Write a README in the outline of [Project READMEs](README.md#project-readmes), and add the project to the [Projects](../README.md#projects) section of the root README.
+9. Add each new catalog of development tools to Renovate, as [Dependency updates](dependency-updates.md#adding-a-catalog) describes.
+10. For a project that ships releases, follow [Adding a releasable project](releasing.md#adding-a-releasable-project) too.

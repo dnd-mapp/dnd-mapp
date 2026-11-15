@@ -28,7 +28,7 @@ mise install
     pnpm install
     ```
 
-2. Install the Chromium build that the unit tests and the end-to-end tests run in, as [Browsers](#browsers) explains:
+2. Install the Chromium build that the unit tests of the Angular modules and the end-to-end tests run in, as [Browsers](#browsers) explains:
 
     ```bash
     pnpm exec playwright install chromium
@@ -55,6 +55,8 @@ Tasks that do the same job share a name across projects:
 | `typecheck`      | Checks the types of the files that the build and the test runner leave out.  |
 | `lint`           | Lints the project with ESLint.                                               |
 | `lint-changelog` | Lints the `CHANGELOG.md` of a releasable project.                            |
+
+[Testing](testing.md#test-tasks) explains what the test tasks do.
 
 Leave out the project to run a task in every project that has it:
 
@@ -90,7 +92,7 @@ pnpm moon run root:lint-md
 
 ## Browsers
 
-The unit tests and the end-to-end tests run in the Chromium build of the Playwright version in the `playwright` catalog. Playwright keeps its browsers in one cache per user, which every project shares, so install Chromium once and again after each Playwright update:
+The unit tests of the Angular modules, `core-web` and `ui-web`, and the end-to-end tests run in the Chromium build of the Playwright version in the `playwright` catalog. The other projects run their unit tests in Node.js, as [Testing](testing.md#how-each-project-runs-its-tests) describes. Playwright keeps its browsers in one cache per user, which every project shares, so install Chromium once and again after each Playwright update:
 
 ```bash
 pnpm exec playwright install chromium

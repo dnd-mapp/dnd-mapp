@@ -117,54 +117,9 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 
 ## Testing
 
-Set up each test with `setupTestEnvironment`, which configures the testing module with the `providers` and `imports` that the test passes.
-
-Test each component through a host component that places it in a template, as an app does, and read it through its harness in [`testing/harnesses/`](testing/harnesses). Given a `host` and a `harness`, `setupTestEnvironment` also creates the host and returns its fixture, a harness loader, and the harness of the component. It configures the `providers` and `imports` before it creates the host, so a component test can pass them too:
-
-```ts
-const { fixture, harness, harnessLoader } = await setupTestEnvironment({
-    host: TestComponent,
-    harness: LogoHarness,
-    providers: [provideBrowserStorage(new InMemoryStorage())],
-});
-```
-
-A test without a component, such as the test of a service, passes the providers alone and injects what it tests:
-
-```ts
-setupTestEnvironment({ providers: [provideBrowserStorage(new InMemoryStorage())] });
-const service = TestBed.inject(ThemeService);
-```
+[Testing](../../../docs/testing.md) covers what the tests of every project share: testing a component through a host and its harness with `setupTestEnvironment`, running the tests against the design tokens in Dark with `readColorToken`, and the pointer setup file. This package holds those helpers, the harness of each of its components in [`testing/harnesses/`](testing/harnesses), and the setup file, [`testing/pointer.ts`](testing/pointer.ts). [`vitest.config.ts`](vitest.config.ts) loads `tokens.css` into its tests, and [`angular.json`](angular.json) loads the setup file.
 
 Provide an `InMemoryStorage` through `provideBrowserStorage`, so a test leaves the storage of the browser and the other tests alone. Set its `blocked` to make it throw, as a browser does when it blocks storage for the site. `providePlatformId('server')` runs a test as prerendering does. A test of a change in another tab still needs `localStorage`, since the browser accepts only its own storage in a `StorageEvent`.
-
-### Design tokens
-
-The tests run against [`tokens.css`](../../design-tokens/README.md), which the `setupFiles` of [`vitest.config.ts`](vitest.config.ts) load into the test page, so a component that reads a token `tokens.css` doesn't define fails its test. The Angular unit-test builder takes no `styles` from the ng-packagr `build` that `test` builds from, and Vite injects the CSS that a setup file imports into the page. `fonts.css` stays out, since the fonts load after the first render and text widths would then depend on timing.
-
-The tests run in Dark, whatever color scheme the system prefers, since [`vitest.config.ts`](vitest.config.ts) sets `colorScheme` on the Playwright context. A spec sets no stand-in values for the tokens. It reads each expected color with `readColorToken` while the test runs, so the color follows the theme that the test runs in:
-
-```ts
-expect(await harness.getLook()).toEqual({
-    background: readColorToken('--color-accent-default'),
-    borderColor: 'rgba(0, 0, 0, 0)',
-    color: readColorToken('--color-foreground-on-accent'),
-});
-```
-
-In Dark, `--color-background-hover` and `--color-background-raised` share a color, so a test that compares two states checks a property that tells them apart, such as the border of a selected Theme option.
-
-### Pointer
-
-[`testing/pointer.ts`](testing/pointer.ts) is a setup file for the browser tests of this package and the packages that build on it. Before each test, it moves the pointer to the bottom-right corner of the viewport, where no test renders a component. Without it, the pointer stays where the previous test left it, and Chrome hovers a component that the next test renders in that spot a frame later, so a test that expects the default look fails in some orders.
-
-The `testing` entry point doesn't export the file. Load it through the `setupFiles` option of the `test` target in `angular.json`, by its path from the project, as [`packages/core/web/angular.json`](../../core/web/angular.json) does, so the Angular unit-test builder compiles it with the tests:
-
-```json
-"setupFiles": ["../../ui/web/testing/pointer.ts"]
-```
-
-The setup file moves the pointer before the test renders anything. A test that hovers a component and then checks the default look still moves the pointer away itself.
 
 ## Tasks
 
