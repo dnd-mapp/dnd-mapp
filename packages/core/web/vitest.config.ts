@@ -16,9 +16,9 @@ export default defineConfig({
             // shell, so the tests run on the browser users run.
             provider: playwright({
                 contextOptions: {
-                    // Keeps the builder's default, which follows the system's prefers-color-scheme rather than
-                    // forcing light.
-                    colorScheme: null,
+                    // Runs every test in Dark, the default theme of the app, rather than following the system's
+                    // prefers-color-scheme, so a test passes or fails alike on every machine, as in ui-web.
+                    colorScheme: 'dark',
                 },
                 launchOptions: {
                     channel: 'chromium',
