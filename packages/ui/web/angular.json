@@ -46,13 +46,6 @@
                         "tsConfig": "tsconfig.lib.json"
                     }
                 },
-                "build-test": {
-                    "builder": "@angular/build:application",
-                    "options": {
-                        "tsConfig": "tsconfig.spec.json",
-                        "styles": ["@dnd-mapp/design-tokens/tokens.css"]
-                    }
-                },
                 "build-storybook": {
                     "builder": "@storybook/angular-vite:build-storybook",
                     "options": {
@@ -79,7 +72,7 @@
                 "test": {
                     "builder": "@angular/build:unit-test",
                     "options": {
-                        "buildTarget": "ui-web:build-test",
+                        "buildTarget": "ui-web:build",
                         "coverage": true,
                         "coverageExclude": ["**/index.ts", "**/testing/**/*.ts"],
                         "coverageReporters": ["text-summary", "html"],

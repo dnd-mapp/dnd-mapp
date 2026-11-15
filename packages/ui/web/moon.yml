@@ -63,7 +63,7 @@ tasks:
             - "@group(tests)"
             - project: "common"
               group: "sources"
-            # The tests run against tokens.css, which angular.json loads into their page, and the styles of the
+            # The tests run against tokens.css, which vitest.config.ts loads into their page, and the styles of the
             # components import the breakpoint from the Sass partial.
             - project: "design-tokens"
               group: "css"
@@ -78,7 +78,7 @@ tasks:
             - "@group(tests)"
             - project: "common"
               group: "sources"
-            # The tests run against tokens.css, which angular.json loads into their page, and the styles of the
+            # The tests run against tokens.css, which vitest.config.ts loads into their page, and the styles of the
             # components import the breakpoint from the Sass partial.
             - project: "design-tokens"
               group: "css"
