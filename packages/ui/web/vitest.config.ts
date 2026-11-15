@@ -16,9 +16,10 @@ export default defineConfig({
             // shell, so the tests run on the browser users run.
             provider: playwright({
                 contextOptions: {
-                    // Keeps the builder's default, which follows the system's prefers-color-scheme rather than
-                    // forcing light.
-                    colorScheme: null,
+                    // Runs every test in Dark, the theme that tokens.css applies without a media query, rather than
+                    // following the system's prefers-color-scheme, so the colors that a test expects match on every
+                    // machine.
+                    colorScheme: 'dark',
                 },
                 launchOptions: {
                     channel: 'chromium',
