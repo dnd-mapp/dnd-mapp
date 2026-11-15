@@ -22,7 +22,9 @@ constraints:
             - "tooling"
         domain:
             - "tooling"
-        tooling: []
+        # moon skips the check for a tag with an empty list, so tooling names its own tag to keep the check on.
+        tooling:
+            - "tooling"
 
 telemetry: false
 
