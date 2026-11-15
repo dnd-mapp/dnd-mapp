@@ -28,11 +28,13 @@ docker run --rm -p 4200:4200 dndmapp/web:pr-<number>
 
 Watchtower updates the containers, but only when a workflow asks it to, so moving a tag alone changes no environment. [ADR 0005](adr/0005-deploys-on-a-workflow-request.md) records why. A deploy job:
 
-1. Joins the tailnet as `tag:ci`, which reaches only the Watchtower API.
+1. Joins the tailnet as `tag:ci`, which reaches only the Watchtower API. The job signs in with its GitHub OIDC token through the Tailscale federated identity of its environment, so no Tailscale secret is stored.
 2. Asks Watchtower to pull the tag that the container follows and restart the container.
 3. Waits up to 60 seconds until the public `build-info.json` of the environment reports the commit of the new image, and fails otherwise.
 
 Each deploy job runs in the GitHub environment of the same name, in the concurrency group `deploy-<environment>`. A group runs one deploy at a time, and a new deploy never cancels one that runs, so no update stops halfway. The deploys of `Push main`, `Release`, and `Roll back` share these groups.
+
+The environment holds the credentials of the deploy, which [Secrets and variables](ci.md#secrets-and-variables) lists, so only its deploy jobs can read them. Its deployment policy keeps out every other ref: development accepts deploys from `main` only, and staging and production from `main` and tags matching `*@v*`, since `Release` runs from the tag and `Roll back` from `main`.
 
 ## Development
 
