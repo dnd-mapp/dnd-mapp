@@ -30,7 +30,7 @@ A value may hold an inline Link. The facts list fills its container, and leaves 
 
 ## Viewport
 
-The layout follows the desktop breakpoint of `@dnd-mapp/design-tokens`, so the facts list takes no input for it. Penpot draws no hover or focus state, since a facts list is not interactive.
+The layout follows the desktop breakpoint of `@dnd-mapp/design-tokens`, so the facts list takes no input for it.
 
 ### Desktop
 
@@ -41,6 +41,10 @@ From the breakpoint up, each term sits in a column of its own beside its value, 
 Below the breakpoint, each term stacks above its value, since the column of terms would leave the values too little room.
 
 <Canvas of={FactsListStories.Mobile} story={{ inline: false, height: '16rem' }} />
+
+## Focus
+
+A facts list takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive. A Link in a value draws its own focus ring.
 
 ## Accessibility
 

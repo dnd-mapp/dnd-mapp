@@ -13,7 +13,7 @@ A label for a status, role, tag, or condition. It is the Chip component of the d
 
 ## Placing a chip
 
-Chip is an element that projects its label. It is a label, not a control: it takes no focus and emits nothing, so wrap no click handler around it.
+Chip is an element that projects its label. It is a label, not a control: it emits nothing, so wrap no click handler around it.
 
 ```html
 <dma-chip kind="status">Planned</dma-chip>
@@ -23,7 +23,7 @@ Chip is an element that projects its label. It is a label, not a control: it tak
 
 ## Kind
 
-`kind` picks how the chip looks. No kind draws a hover or focus state, since a chip is not interactive.
+`kind` picks how the chip looks, and an unknown value draws the default.
 
 ### Neutral
 
@@ -40,6 +40,10 @@ Chip is an element that projects its label. It is a label, not a control: it tak
 `ChipKind.Dm` marks a tool meant for dungeon masters. It draws the secondary fill.
 
 <Canvas of={ChipStories.Dm} />
+
+## Focus
+
+A chip takes no focus, and no kind draws a hover or focus state, since a chip is not interactive.
 
 ## Accessibility
 

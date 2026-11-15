@@ -21,19 +21,21 @@ Button is an attribute on `<button>` or `<a>`, so the element keeps its native s
 <a dma-button routerLink="/maps/new">New map</a>
 ```
 
+A button on `<a>` looks the same as one on `<button>`:
+
+<Canvas of={ButtonStories.OnLink} />
+
 A `<button>` in a form submits it unless it has `type="button"`, as in any form, so give every other button that type.
 
 ## Kind
 
-`kind` picks how the button looks. Each kind draws a default, a hover, and a focus state.
+`kind` picks how the button looks, and an unknown value draws the default. Each kind draws a default, a hover, and a focus state.
 
 ### Primary
 
 `ButtonKind.Primary`, the default, marks the main action of a view. Use one primary button per view, so the reader sees at once what the view is for.
 
 <Canvas of={ButtonStories.PrimaryHover} />
-
-<Canvas of={ButtonStories.OnLink} />
 
 ### Secondary
 

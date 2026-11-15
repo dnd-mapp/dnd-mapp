@@ -25,7 +25,7 @@ Each picker gives its radio inputs a name of its own, so a page can hold more th
 
 ## Display
 
-`display` picks how the options show. Each option draws a default, a hover, a focus, and a selected state.
+`display` picks how the options show, and an unknown value draws the default. Each option draws a default, a hover, a focus, and a selected state. In these stories, a stand-in for `ThemeService` picks the selected option, so a click leaves the theme of the preview to the theme toolbar.
 
 ### Labels
 
@@ -47,7 +47,7 @@ Each picker gives its radio inputs a name of its own, so a page can hold more th
 
 <Canvas of={ThemePickerStories.IconsFocus} />
 
-## Keyboard
+## Focus
 
 Tab moves focus to the selected option, and the arrow keys move the choice to the next or previous option, as in any group of radio inputs. The option with focus draws the focus ring outside itself, and keeps the look of its state.
 
@@ -55,6 +55,8 @@ Tab moves focus to the selected option, and the arrow keys move the choice to th
 
 The picker is a group named "Theme", and each option is a radio input named by its label. The icons display hides the labels from sight but not from assistive technology, so each option keeps its name. The icons hide themselves, so screen readers announce each label once. In forced colors mode, the selected option takes the highlight color as its border.
 
+The picker is 44 px tall, the minimum target size, and each option inside it 36 px.
+
 ## Testing
 
-`ThemePickerHarness` from `@dnd-mapp/ui-web/testing` reads a picker in a test: its themes, its selected theme, the names of its radio inputs, and its options. `ThemeOptionHarness` reads each option: its theme, whether it is checked, and its look, size, icon size, label, and focus ring. In these stories, a stand-in for `ThemeService` picks the selected option, so a click leaves the theme of the preview to the theme toolbar.
+`ThemePickerHarness` from `@dnd-mapp/ui-web/testing` reads a picker in a test: its themes, its selected theme, the names of its radio inputs, its look and size, its options, and the option of a theme. `ThemeOptionHarness` reads each option: its theme, whether it is checked, the name of its radio input, and its look, size, icon size, label, and focus ring. `ThemeOptionHarness.with({ theme })` finds the option of a theme.
