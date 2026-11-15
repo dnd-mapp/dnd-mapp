@@ -7,72 +7,44 @@ import {
     NavLinkHarness,
     type NavLinkIndicator,
     type NavLinkLook,
+    readColorToken,
     setupTestEnvironment,
 } from '@dnd-mapp/ui-web/testing';
 
-// Colors that no theme uses, so the nav link can only take each one from the token the test sets it on.
-const ACCENT_TEXT = 'rgb(200, 30, 40)';
-const BACKGROUND_HOVER = 'rgb(30, 40, 50)';
-const FOREGROUND_DEFAULT = 'rgb(20, 120, 40)';
-const FOREGROUND_MUTED = 'rgb(90, 90, 200)';
-const FOCUS_RING = 'rgb(0, 100, 250)';
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
 /**
- * Sets the semantic tokens that the nav link reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from.
- */
-const TOKENS = `
-    .tokens {
-        --color-accent-text: ${ACCENT_TEXT};
-        --color-background-hover: ${BACKGROUND_HOVER};
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --color-foreground-muted: ${FOREGROUND_MUTED};
-        --color-focus-ring: ${FOCUS_RING};
-        --border-width-focus: 2px;
-        --focus-offset: 2px;
-        --radius-md: 10px;
-        --size-indicator: 2px;
-        --size-target-min: 44px;
-        --space-4: 4px;
-        --space-12: 12px;
-        --space-16: 16px;
-        --typography-nav-font-size: 15px;
-        --typography-nav-font-weight: 600;
-        --typography-nav-line-height: 1.2;
-        --typography-nav-text-decoration: none;
-        --typography-title-sm-font-size: 18px;
-        --typography-title-sm-font-weight: 700;
-        --typography-title-sm-line-height: 1.3;
-        --typography-title-sm-text-decoration: none;
-        padding: 1rem;
-    }
-`;
-
-/**
- * The width of `.tokens`, so the width tests can tell filling it from fitting the label. Angular reads `styles` while it
+ * The width of `.container`, so the width tests can tell filling it from fitting the label. Angular reads `styles` while it
  * compiles, so they repeat the value rather than interpolate it.
  */
 const CONTAINER_WIDTH = 320;
 
 /**
- * How each kind looks in each state, as Penpot draws it. Focus keeps the look of the state it adds to. Penpot draws no
- * hovered current page, which takes the hover fill and keeps the label color of the current page.
+ * How each kind looks in each state, as Penpot draws it, in the colors of the theme the test runs in. Focus keeps the
+ * look of the state it adds to. Penpot draws no hovered current page, which takes the hover fill and keeps the label
+ * color of the current page.
  */
-const LOOKS: Record<NavLinkKind, Record<'default' | 'hover' | 'current' | 'currentHover', NavLinkLook>> = {
-    bar: {
-        default: { background: TRANSPARENT, color: FOREGROUND_MUTED, fontWeight: '600' },
-        hover: { background: BACKGROUND_HOVER, color: FOREGROUND_DEFAULT, fontWeight: '600' },
-        current: { background: TRANSPARENT, color: FOREGROUND_DEFAULT, fontWeight: '600' },
-        currentHover: { background: BACKGROUND_HOVER, color: FOREGROUND_DEFAULT, fontWeight: '600' },
-    },
-    row: {
-        default: { background: TRANSPARENT, color: FOREGROUND_DEFAULT, fontWeight: '700' },
-        hover: { background: BACKGROUND_HOVER, color: FOREGROUND_DEFAULT, fontWeight: '700' },
-        current: { background: TRANSPARENT, color: ACCENT_TEXT, fontWeight: '700' },
-        currentHover: { background: BACKGROUND_HOVER, color: ACCENT_TEXT, fontWeight: '700' },
-    },
-};
+function readLooks(): Record<NavLinkKind, Record<'default' | 'hover' | 'current' | 'currentHover', NavLinkLook>> {
+    const accentText = readColorToken('--color-accent-text');
+    const backgroundHover = readColorToken('--color-background-hover');
+    const foregroundDefault = readColorToken('--color-foreground-default');
+    const foregroundMuted = readColorToken('--color-foreground-muted');
+
+    return {
+        bar: {
+            default: { background: TRANSPARENT, color: foregroundMuted, fontWeight: '600' },
+            hover: { background: backgroundHover, color: foregroundDefault, fontWeight: '600' },
+            current: { background: TRANSPARENT, color: foregroundDefault, fontWeight: '600' },
+            currentHover: { background: backgroundHover, color: foregroundDefault, fontWeight: '600' },
+        },
+        row: {
+            default: { background: TRANSPARENT, color: foregroundDefault, fontWeight: '700' },
+            hover: { background: backgroundHover, color: foregroundDefault, fontWeight: '700' },
+            current: { background: TRANSPARENT, color: accentText, fontWeight: '700' },
+            currentHover: { background: backgroundHover, color: accentText, fontWeight: '700' },
+        },
+    };
+}
 
 /** The inline padding of each kind. */
 const PADDING: Record<NavLinkKind, string> = { bar: '12px', row: '16px' };
@@ -91,18 +63,16 @@ const INDICATOR_PLACES: Record<NavLinkKind, (label: { width: number; height: num
 describe('NavLinkComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <a dma-nav-link [kind]="kind()" [attr.aria-current]="current() ? 'page' : null" href="#">Features</a>
             </div>
         `,
-        styles: [
-            TOKENS,
-            `
-                .tokens {
-                    width: 320px;
-                }
-            `,
-        ],
+        styles: `
+            .container {
+                width: 320px;
+                padding: 1rem;
+            }
+        `,
         imports: [NavLinkComponent],
     })
     class TestComponent {
@@ -125,7 +95,7 @@ describe('NavLinkComponent', () => {
         const place = INDICATOR_PLACES[kind](await harness.getLabelSize());
         const indicator = await harness.getIndicator();
 
-        expect(indicator).toMatchObject({ color: ACCENT_TEXT, borderRadius: '1px' });
+        expect(indicator).toMatchObject({ color: readColorToken('--color-accent-text'), borderRadius: '1px' });
         expect(indicator?.left).toBeCloseTo(place.left);
         expect(indicator?.top).toBeCloseTo(place.top);
         expect(indicator?.width).toBeCloseTo(place.width);
@@ -143,7 +113,7 @@ describe('NavLinkComponent', () => {
         it('should draw its default look', async () => {
             const { harness } = await setupTest(kind);
 
-            expect(await harness.getLook()).toEqual(LOOKS[kind].default);
+            expect(await harness.getLook()).toEqual(readLooks()[kind].default);
         });
 
         it('should draw its hover look', async () => {
@@ -153,7 +123,7 @@ describe('NavLinkComponent', () => {
             const look = await harness.getLook();
             await userEvent.unhover(link);
 
-            expect(look).toEqual(LOOKS[kind].hover);
+            expect(look).toEqual(readLooks()[kind].hover);
         });
 
         it('should be as tall as the minimum target size, with padding at each side and rounded corners', async () => {
@@ -181,7 +151,7 @@ describe('NavLinkComponent', () => {
             await expect.element(link).toHaveFocus();
             expect(await harness.getFocusRing()).toEqual({
                 style: 'solid',
-                color: FOCUS_RING,
+                color: readColorToken('--color-focus-ring'),
                 width: '2px',
                 offset: '2px',
             });
@@ -192,7 +162,7 @@ describe('NavLinkComponent', () => {
 
             await userEvent.tab();
 
-            expect(await harness.getLook()).toEqual(LOOKS[kind].default);
+            expect(await harness.getLook()).toEqual(readLooks()[kind].default);
         });
 
         it('should mark no page and draw no indicator by default', async () => {
@@ -214,7 +184,7 @@ describe('NavLinkComponent', () => {
             it('should draw its current look and the indicator', async () => {
                 const { harness } = await setupTest(kind, true);
 
-                expect(await harness.getLook()).toEqual(LOOKS[kind].current);
+                expect(await harness.getLook()).toEqual(readLooks()[kind].current);
                 await expectIndicator(harness, kind);
             });
 
@@ -226,7 +196,7 @@ describe('NavLinkComponent', () => {
                 await expectIndicator(harness, kind);
                 await userEvent.unhover(link);
 
-                expect(look).toEqual(LOOKS[kind].currentHover);
+                expect(look).toEqual(readLooks()[kind].currentHover);
             });
 
             it('should keep its current look and the indicator on keyboard focus', async () => {
@@ -236,7 +206,7 @@ describe('NavLinkComponent', () => {
 
                 await expect.element(link).toHaveFocus();
                 expect((await harness.getFocusRing()).style).toBe('solid');
-                expect(await harness.getLook()).toEqual(LOOKS[kind].current);
+                expect(await harness.getLook()).toEqual(readLooks()[kind].current);
                 await expectIndicator(harness, kind);
             });
 
@@ -251,7 +221,7 @@ describe('NavLinkComponent', () => {
     it('should draw the bar kind for a kind it does not know', async () => {
         const { harness } = await setupTest('unknown' as NavLinkKind);
 
-        expect(await harness.getLook()).toEqual(LOOKS.bar.default);
+        expect(await harness.getLook()).toEqual(readLooks().bar.default);
         expect((await harness.getBox()).paddingLeft).toBe(PADDING.bar);
     });
 
