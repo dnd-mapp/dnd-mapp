@@ -94,11 +94,24 @@
             "label": "core-web:test",
             "type": "shell",
             "command": "pnpm moon run core-web:test",
+            "isBackground": true,
             "group": {
                 "kind": "test",
                 "isDefault": true
             },
-            "problemMatcher": []
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\bRERUN\b"
+                    },
+                    "endsPattern": {
+                        "regexp": "(Waiting|Watching) for file changes"
+                    }
+                }
+            }
         },
         {
             "label": "core-web:test-ci",
@@ -146,7 +159,20 @@
             "label": "common:test",
             "type": "shell",
             "command": "pnpm moon run common:test",
-            "problemMatcher": []
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\bRERUN\b"
+                    },
+                    "endsPattern": {
+                        "regexp": "(Waiting|Watching) for file changes"
+                    }
+                }
+            }
         },
         {
             "label": "common:test-ci",
@@ -188,7 +214,20 @@
             "label": "design-tokens:test",
             "type": "shell",
             "command": "pnpm moon run design-tokens:test",
-            "problemMatcher": []
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\bRERUN\b"
+                    },
+                    "endsPattern": {
+                        "regexp": "(Waiting|Watching) for file changes"
+                    }
+                }
+            }
         },
         {
             "label": "design-tokens:test-ci",
@@ -212,7 +251,20 @@
             "label": "release:test",
             "type": "shell",
             "command": "pnpm moon run release:test",
-            "problemMatcher": []
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\bRERUN\b"
+                    },
+                    "endsPattern": {
+                        "regexp": "(Waiting|Watching) for file changes"
+                    }
+                }
+            }
         },
         {
             "label": "release:test-ci",
@@ -236,7 +288,20 @@
             "label": "testing:test",
             "type": "shell",
             "command": "pnpm moon run testing:test",
-            "problemMatcher": []
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\bRERUN\b"
+                    },
+                    "endsPattern": {
+                        "regexp": "(Waiting|Watching) for file changes"
+                    }
+                }
+            }
         },
         {
             "label": "testing:test-ci",
@@ -260,7 +325,20 @@
             "label": "ui-web:storybook",
             "type": "shell",
             "command": "pnpm moon run ui-web:storybook",
-            "problemMatcher": []
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "Starting Storybook"
+                    },
+                    "endsPattern": {
+                        "regexp": "Storybook ready!"
+                    }
+                }
+            }
         },
         {
             "label": "ui-web:build-storybook",
@@ -272,7 +350,20 @@
             "label": "ui-web:test",
             "type": "shell",
             "command": "pnpm moon run ui-web:test",
-            "problemMatcher": []
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "typescript",
+                "pattern": "$tsc",
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": {
+                        "regexp": "\bRERUN\b"
+                    },
+                    "endsPattern": {
+                        "regexp": "(Waiting|Watching) for file changes"
+                    }
+                }
+            }
         },
         {
             "label": "ui-web:test-ci",
