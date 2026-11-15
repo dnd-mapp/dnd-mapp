@@ -24,8 +24,11 @@ export interface TestEnvironment<Host, Harness extends ComponentHarness> {
     harnessLoader: HarnessLoader;
 }
 
-/** Configures the testing module of a test without a component, such as the test of a service. */
-export function setupTestEnvironment(options?: TestEnvironmentOptions): void;
+/**
+ * Configures the testing module of a test without a component, such as the test of a service. Options that hold a
+ * `host` skip this overload, so they reach the overload below whether they come as an object literal or a variable.
+ */
+export function setupTestEnvironment(options?: TestEnvironmentOptions & { host?: never }): void;
 
 /**
  * Configures the testing module, creates the host component of a test, and loads the harness of the component under
