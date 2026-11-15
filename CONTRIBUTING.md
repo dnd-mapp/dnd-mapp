@@ -1,6 +1,6 @@
 # Contributing to D&D Mapp
 
-Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, and how to use AI tools. It then sets the conventions for branches, commits, and changelog entries, and explains how to check your changes and how a pull request gets reviewed and merged.
+Thanks for helping build D&D Mapp. This guide covers where a contribution starts, how issues move across the project board, and how to use AI tools. It then sets the conventions for branches, commits, changelog entries, and docs, and explains how to check your changes and how a pull request gets reviewed and merged.
 
 ## Where to start
 
@@ -98,6 +98,10 @@ Start an entry with `**Breaking:**` when the change breaks something users rely 
 ```
 
 `auto` bumps the major version for a `**Breaking:**` entry, as it does for a `### Removed` one. Below `1.0.0`, it bumps the minor version instead, since major version 0 is for initial development. The `!` and `BREAKING CHANGE:` footer of a [commit](#commits) don't reach the version; only the changelog entry does.
+
+## Docs
+
+Follow [Writing docs](docs/README.md#writing-docs) when you write a guide, a project README, or a community file. It covers the style of the docs, where a topic goes, and the outline of a project README.
 
 ## Projects
 

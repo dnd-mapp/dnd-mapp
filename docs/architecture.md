@@ -77,6 +77,6 @@ Define a task that more than one project runs once, in a file in `.moon/tasks/`,
 3. Declare each package of the workspace that it uses in its `package.json`, and add each to the inputs of the tasks that compile it, as [Modules compile from source](#modules-compile-from-source) describes.
 4. For a module, add a `paths` entry to `tsconfig.base.json`.
 5. Extend a TypeScript preset and an ESLint preset: `angular` for an Angular app or module, `playwright` for end-to-end tests, and `typescript` for any other TypeScript project.
-6. Write a README that says what the project is for and lists its tasks, as the existing projects do, and add the project to the [Projects](../README.md#projects) section of the root README.
+6. Write a README in the outline of [Project READMEs](README.md#project-readmes), and add the project to the [Projects](../README.md#projects) section of the root README.
 7. Add each new catalog of development tools to Renovate, as [Dependency updates](dependency-updates.md#adding-a-catalog) describes.
 8. For a project that ships releases, follow [Adding a releasable project](releasing.md#adding-a-releasable-project) too.
