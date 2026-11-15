@@ -3,48 +3,38 @@ import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { SectionIntroComponent } from './section-intro.component';
 import { SectionIntroAlign } from './section-intro.types';
-import { SectionIntroHarness, type SectionIntroPart, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import {
+    readColorToken,
+    SectionIntroHarness,
+    type SectionIntroPart,
+    setupTestEnvironment,
+} from '@dnd-mapp/ui-web/testing';
 
-// Colors that no theme uses, so each part can only take its color from the token the test sets it on.
-const ACCENT_TEXT = 'rgb(200, 30, 40)';
-const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
-const FOREGROUND_MUTED = 'rgb(170, 180, 190)';
-
-/**
- * Sets the semantic tokens that the section intro reads to values of the test, rather than loading `tokens.css`, so
- * each expectation names the token it comes from. The container is wider than the measure, so the width test can
- * tell the two apart.
- */
-const TOKENS = `
-    .tokens {
-        --color-accent-text: ${ACCENT_TEXT};
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --color-foreground-muted: ${FOREGROUND_MUTED};
-        --size-measure: 400px;
-        --space-12: 12px;
-        --typography-eyebrow-font-weight: 600;
-        --typography-eyebrow-text-case: uppercase;
-        --typography-h2-font-weight: 800;
-        --typography-h2-text-case: none;
-        --typography-intro-font-weight: 400;
-        --typography-intro-text-case: none;
-        width: 600px;
+/** Makes the container wider than the measure of `tokens.css`, 720 px, so the width test can tell the two apart. */
+const CONTAINER = `
+    .container {
+        width: 800px;
     }
 `;
 
-/** How each part draws its text, as Penpot draws it, apart from its alignment. */
-const LOOKS: Record<SectionIntroPart, { color: string; fontWeight: string; textTransform: string }> = {
-    eyebrow: { color: ACCENT_TEXT, fontWeight: '600', textTransform: 'uppercase' },
-    heading: { color: FOREGROUND_DEFAULT, fontWeight: '800', textTransform: 'none' },
-    intro: { color: FOREGROUND_MUTED, fontWeight: '400', textTransform: 'none' },
-};
+/**
+ * How each part draws its text, as Penpot draws it, apart from its alignment, in the colors of the theme the test runs
+ * in.
+ */
+function readLooks(): Record<SectionIntroPart, { color: string; fontWeight: string; textTransform: string }> {
+    return {
+        eyebrow: { color: readColorToken('--color-accent-text'), fontWeight: '600', textTransform: 'uppercase' },
+        heading: { color: readColorToken('--color-foreground-default'), fontWeight: '800', textTransform: 'none' },
+        intro: { color: readColorToken('--color-foreground-muted'), fontWeight: '400', textTransform: 'none' },
+    };
+}
 
-const PARTS = Object.keys(LOOKS) as SectionIntroPart[];
+const PARTS: SectionIntroPart[] = ['eyebrow', 'heading', 'intro'];
 
 describe('SectionIntroComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <hgroup dma-section-intro [align]="align()">
                     <p>Tools</p>
                     <h3>Everything at the table</h3>
@@ -52,7 +42,7 @@ describe('SectionIntroComponent', () => {
                 </hgroup>
             </div>
         `,
-        styles: TOKENS,
+        styles: CONTAINER,
         imports: [SectionIntroComponent],
     })
     class TestComponent {
@@ -61,11 +51,11 @@ describe('SectionIntroComponent', () => {
 
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <hgroup dma-section-intro><h2>Everything at the table</h2></hgroup>
             </div>
         `,
-        styles: TOKENS,
+        styles: CONTAINER,
         imports: [SectionIntroComponent],
     })
     class HeadingOnlyTestComponent {}
@@ -108,8 +98,10 @@ describe('SectionIntroComponent', () => {
     it('should draw each part with its own color and typography', async () => {
         const { harness } = await setupTest();
 
+        const looks = readLooks();
+
         for (const part of PARTS) {
-            expect(await harness.getLook(part)).toEqual({ ...LOOKS[part], textAlign: 'start' });
+            expect(await harness.getLook(part)).toEqual({ ...looks[part], textAlign: 'start' });
         }
     });
 
@@ -143,7 +135,7 @@ describe('SectionIntroComponent', () => {
     it('should fill its container up to the measure', async () => {
         const { harness } = await setupTest();
 
-        expect(await harness.getWidth()).toBe(400);
+        expect(await harness.getWidth()).toBe(720);
     });
 
     it('should draw a heading without an eyebrow or intro text', async () => {
@@ -154,6 +146,6 @@ describe('SectionIntroComponent', () => {
 
         expect(await harness.getText('eyebrow')).toBeNull();
         expect(await harness.getText('intro')).toBeNull();
-        expect(await harness.getLook('heading')).toEqual({ ...LOOKS.heading, textAlign: 'start' });
+        expect(await harness.getLook('heading')).toEqual({ ...readLooks().heading, textAlign: 'start' });
     });
 });
