@@ -19,6 +19,18 @@ Give a module a moon `id` that repeats its name without the scope, such as `core
 
 Give every project a `project` block in its `moon.yml`, with a title, a description, the owner, and the maintainers, as the existing projects do. `pnpm moon project <id>` and the moon VS Code extension show it, so contributors can see what a project is for and who to ask without opening its code.
 
+Give every project the `layer` in its `moon.yml` that fits its kind:
+
+| Layer           | For                                                                                                  | Example              |
+|:----------------|:-----------------------------------------------------------------------------------------------------|:---------------------|
+| `automation`    | The end-to-end tests of an app, and the root project, which runs the checks of the whole repository. | `web-e2e`, `root`    |
+| `application`   | An app.                                                                                              | `web`                |
+| `tool`          | A package for the whole workspace that runs as a command.                                            | `release`            |
+| `library`       | A module, or a package for the whole workspace that other projects import.                           | `core-web`, `common` |
+| `configuration` | A package for the whole workspace that holds config presets.                                         | `config-eslint`      |
+
+moon lets a project depend on projects of a lower row in this table, and on projects of its own layer unless that layer is `automation` or `application`. It fails to run a task on any other dependency.
+
 ## Dependency rules
 
 - An app depends on the `core` and the `ui` module of its platform only.
@@ -26,7 +38,8 @@ Give every project a `project` block in its `moon.yml`, with a title, a descript
 - The `ui` module of a platform, such as `ui-web`, depends on packages for the whole workspace only. That keeps the UI components below `core` and the domain modules, so none of them forms a cycle with it, as [ADR 0001](adr/0001-ui-and-token-packages.md) records.
 - A `domain` package may depend on other `domain` packages only.
 - Domain modules never depend on the platform packages of another domain. They meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages.
-- A package for the whole workspace, and the end-to-end tests of an app, depend on other packages for the whole workspace only.
+- A package for the whole workspace depends on other packages for the whole workspace only.
+- The end-to-end tests of an app declare the app in their `package.json`, so the project graph shows which app they test, but never import it. Their code depends on packages for the whole workspace only.
 - Any project may also depend on the packages for the whole workspace, such as the helpers of [`@dnd-mapp/common`](../packages/common/README.md).
 
 Two checks enforce these rules, and [ADR 0003](adr/0003-moon-tasks-and-dependency-rules.md) records why each layer exists and what it catches:
@@ -73,10 +86,11 @@ Define a task that more than one project runs once, in a file in `.moon/tasks/`,
 ## Adding a project
 
 1. Create the folder that fits its kind, as [Projects](#projects) describes, and name the package after it.
-2. Give its `moon.yml` a `project` block, a tag, and for a module an explicit `id`. Add the tag to `tagRelationships` when it names a new platform.
+2. Give its `moon.yml` a `project` block, a `layer`, a tag, and for a module an explicit `id`. Add the tag to `tagRelationships` when it names a new platform.
 3. Declare each package of the workspace that it uses in its `package.json`, and add each to the inputs of the tasks that compile it, as [Modules compile from source](#modules-compile-from-source) describes.
 4. For a module, add a `paths` entry to `tsconfig.base.json`.
-5. Extend a TypeScript preset and an ESLint preset: `angular` for an Angular app or module, `playwright` for end-to-end tests, and `typescript` for any other TypeScript project.
-6. Write a README in the outline of [Project READMEs](README.md#project-readmes), and add the project to the [Projects](../README.md#projects) section of the root README.
-7. Add each new catalog of development tools to Renovate, as [Dependency updates](dependency-updates.md#adding-a-catalog) describes.
-8. For a project that ships releases, follow [Adding a releasable project](releasing.md#adding-a-releasable-project) too.
+5. Extend a TypeScript preset: `angular.json` for an Angular app or module, and `node.json` for code that runs in Node.js, such as end-to-end tests, the packages for the whole workspace, and the config files of an Angular project.
+6. Extend an ESLint preset: `angular` for an Angular app or module, `playwright` for end-to-end tests, and `typescript` for any other TypeScript project. Add the `tsdoc` config after it when the project should document its types.
+7. Write a README in the outline of [Project READMEs](README.md#project-readmes), and add the project to the [Projects](../README.md#projects) section of the root README.
+8. Add each new catalog of development tools to Renovate, as [Dependency updates](dependency-updates.md#adding-a-catalog) describes.
+9. For a project that ships releases, follow [Adding a releasable project](releasing.md#adding-a-releasable-project) too.
