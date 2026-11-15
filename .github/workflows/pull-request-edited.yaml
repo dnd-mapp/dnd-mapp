@@ -9,10 +9,6 @@ on:
 
 permissions: {}
 
-concurrency:
-    group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
-    cancel-in-progress: true
-
 jobs:
     pull-request-title:
         # Keep this job in sync with pull-request.yaml, which runs it on every push to the pull request.
@@ -21,6 +17,10 @@ jobs:
         timeout-minutes: 5
         permissions:
             contents: read
+        # The group sits on this job rather than the workflow, so a later edit never cancels the job below.
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+            cancel-in-progress: true
         steps:
             - name: Check out the repository
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -35,3 +35,56 @@ jobs:
               shell: bash
               env:
                   TITLE: ${{ github.event.pull_request.title }}
+
+    ready-retargeted-pull-request:
+        # Once a stacked slice merges and its branch is deleted, GitHub retargets the next pull request, a draft, to
+        # main. This job marks it ready for review and turns on auto-merge, as a maintainer would by hand.
+        name: Ready retargeted pull request
+        if: >-
+            github.event.pull_request.draft &&
+            github.event.pull_request.base.ref == 'main' &&
+            github.event.changes.base.ref.from
+        runs-on: ubuntu-26.04
+        timeout-minutes: 5
+        # The app token edits the pull request, so GITHUB_TOKEN only reads.
+        permissions:
+            contents: read
+        steps:
+            # A retarget by hand fires the same event, but leaves the old base branch in place.
+            - name: Check that the old base branch is deleted
+              id: old-base
+              run: |
+                  exists="$(gh api "repos/$GH_REPO/git/matching-refs/heads/$OLD_BASE" \
+                      --jq 'any(.[]; .ref == "refs/heads/" + env.OLD_BASE)')"
+
+                  if [ "$exists" = false ]; then
+                      echo "deleted=true" >> "$GITHUB_OUTPUT"
+                  fi
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ github.token }}
+                  GH_REPO: ${{ github.repository }}
+                  OLD_BASE: ${{ github.event.changes.base.ref.from }}
+
+            # A merge that auto-merge makes on behalf of GITHUB_TOKEN triggers no workflows, so Push main would not run
+            # and development would not deploy. The app has write access to Contents and Pull requests.
+            - name: Create a token of the dnd-mapp app
+              id: app-token
+              if: steps.old-base.outputs.deleted == 'true'
+              uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+              with:
+                  client-id: ${{ vars.GH_APP_CLIENT_ID }}
+                  private-key: ${{ secrets.GH_APP_PRIVATE_KEY }}
+                  permission-contents: write
+                  permission-pull-requests: write
+
+            - name: Mark the pull request ready and turn on auto-merge
+              if: steps.old-base.outputs.deleted == 'true'
+              run: |
+                  gh pr ready "$NUMBER"
+                  gh pr merge "$NUMBER" --auto --merge
+              shell: bash
+              env:
+                  GH_TOKEN: ${{ steps.app-token.outputs.token }}
+                  GH_REPO: ${{ github.repository }}
+                  NUMBER: ${{ github.event.pull_request.number }}
