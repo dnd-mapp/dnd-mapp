@@ -2,9 +2,6 @@ import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 
 export default defineConfig({
-    resolve: {
-        tsconfigPaths: true,
-    },
     test: {
         api: {
             port: 4301,

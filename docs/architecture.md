@@ -51,7 +51,7 @@ Two checks enforce these rules, and [ADR 0003](adr/0003-moon-tasks-and-dependenc
 
 The `exports` of a module's `package.json` point at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The TypeScript packages for the whole workspace, such as `@dnd-mapp/common`, do the same, and Node.js runs them through type stripping. [ADR 0004](adr/0004-modules-compile-from-source.md) records why, and what it costs.
 
-The Angular compiler skips the files that TypeScript resolves through `node_modules`, so [`tsconfig.base.json`](../tsconfig.base.json) at the root of the repository maps each module to its sources with a `paths` entry. The file holds nothing but `paths`, so a project of any platform lists it in `extends` next to its preset, as [`apps/web/tsconfig.json`](../apps/web/tsconfig.json) does. Keep `paths` out of the `tsconfig.json` of a project, since it would replace the shared map rather than add to it.
+A project extends [`tsconfig.base.json`](../tsconfig.base.json) at the root of the repository when its build compiles the workspace modules it imports. Today those are the Angular apps and modules, since the Angular compiler skips the files that TypeScript resolves through `node_modules`. The file maps each TypeScript export of every module, and of every package for the whole workspace in the `library` layer, to its sources with a `paths` entry, whether or not a project imports it yet. A project that Node.js runs through type stripping resolves the packages of the workspace through their `exports` instead, and does not extend the file. The file holds nothing but `paths`, so a project lists it in `extends` next to its preset, as [`apps/web/tsconfig.json`](../apps/web/tsconfig.json) does. Keep `paths` out of the `tsconfig.json` of a project, since it would replace the shared map rather than add to it.
 
 To use a package of the workspace, add it to the `dependencies` of the project, or to its `devDependencies` for tooling and test helpers:
 
@@ -88,8 +88,8 @@ Define a task that more than one project runs once, in a file in `.moon/tasks/`,
 1. Create the folder that fits its kind, as [Projects](#projects) describes, and name the package after it.
 2. Give its `moon.yml` a `project` block, a `layer`, a tag, and for a module an explicit `id`. Add the tag to `tagRelationships` when it names a new platform.
 3. Declare each package of the workspace that it uses in its `package.json`, and add each to the inputs of the tasks that compile it, as [Modules compile from source](#modules-compile-from-source) describes.
-4. For a module, add a `paths` entry to `tsconfig.base.json`.
-5. Extend a TypeScript preset: `angular.json` for an Angular app or module, and `node.json` for code that runs in Node.js, such as end-to-end tests, the packages for the whole workspace, and the config files of an Angular project.
+4. For a module, or a package for the whole workspace in the `library` layer, add a `paths` entry to `tsconfig.base.json` for each TypeScript export in its `package.json`.
+5. Extend a TypeScript preset: `angular.json` for an Angular app or module, which also extends `tsconfig.base.json`, and `node.json` for code that runs in Node.js, such as end-to-end tests, the packages for the whole workspace, and the config files of an Angular project.
 6. Extend an ESLint preset: `angular` for an Angular app or module, `playwright` for end-to-end tests, and `typescript` for any other TypeScript project. Add the `tsdoc` config after it when the project should document its types.
 7. Write a README in the outline of [Project READMEs](README.md#project-readmes), and add the project to the [Projects](../README.md#projects) section of the root README.
 8. Add each new catalog of development tools to Renovate, as [Dependency updates](dependency-updates.md#adding-a-catalog) describes.
