@@ -193,6 +193,8 @@ jobs:
         timeout-minutes: 10
         permissions:
             contents: read
+            # The job signs in to the tailnet with its OIDC token.
+            id-token: write
         environment:
             name: development
             url: https://dev.dndmapp.nl.eu.org/
@@ -210,8 +212,8 @@ jobs:
             - name: Join the tailnet
               uses: ./.github/actions/join-tailnet
               with:
-                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+                  oauth-client-id: ${{ vars.TS_OAUTH_CLIENT_ID }}
+                  audience: ${{ vars.TS_AUDIENCE }}
 
             # WATCHTOWER_URL is a secret rather than a variable, so the logs mask the tailnet hostname.
             - name: Update the development container

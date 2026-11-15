@@ -143,6 +143,8 @@ jobs:
         timeout-minutes: 10
         permissions:
             contents: read
+            # The job signs in to the tailnet with its OIDC token.
+            id-token: write
         strategy:
             fail-fast: false
             matrix:
@@ -164,8 +166,8 @@ jobs:
             - name: Join the tailnet
               uses: ./.github/actions/join-tailnet
               with:
-                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+                  oauth-client-id: ${{ vars.TS_OAUTH_CLIENT_ID }}
+                  audience: ${{ vars.TS_AUDIENCE }}
 
             # Push main moves edge and a release moves latest, either of which may happen while this job waits for its
             # turn. Watchtower would then pull that image instead, so the rollback stops and leaves the environment to

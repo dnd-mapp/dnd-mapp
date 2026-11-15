@@ -212,6 +212,8 @@ jobs:
         timeout-minutes: 20
         permissions:
             contents: read
+            # The job signs in to the tailnet with its OIDC token.
+            id-token: write
         environment:
             name: staging
             url: https://staging.dndmapp.nl.eu.org/
@@ -230,8 +232,8 @@ jobs:
             - name: Join the tailnet
               uses: ./.github/actions/join-tailnet
               with:
-                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+                  oauth-client-id: ${{ vars.TS_OAUTH_CLIENT_ID }}
+                  audience: ${{ vars.TS_AUDIENCE }}
 
             # Watchtower pulls whatever latest points at, which a newer release may have pushed since. That image hasn't
             # passed the tests on staging yet, so this release stops and leaves both deploys to the run of the newer
@@ -300,6 +302,8 @@ jobs:
         timeout-minutes: 10
         permissions:
             contents: read
+            # The job signs in to the tailnet with its OIDC token.
+            id-token: write
         environment:
             name: production
             url: https://www.dndmapp.nl.eu.org/
@@ -315,8 +319,8 @@ jobs:
             - name: Join the tailnet
               uses: ./.github/actions/join-tailnet
               with:
-                  oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
-                  oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
+                  oauth-client-id: ${{ vars.TS_OAUTH_CLIENT_ID }}
+                  audience: ${{ vars.TS_AUDIENCE }}
 
             # A newer release or a rollback may move latest while the tests run on staging, so the check runs again right
             # before this update.
