@@ -71,12 +71,17 @@ const LOOKS: Record<ButtonKind, { default: ButtonLook; hover: ButtonLook }> = {
 };
 
 describe('ButtonComponent', () => {
+    /** A host whose button takes its kind from a signal, so `setupTest` can set it. */
+    interface KindHost {
+        readonly kind: WritableSignal<ButtonKind>;
+    }
+
     @Component({
         template: `<div class="tokens"><button dma-button type="button" [kind]="kind()">Save</button></div>`,
         styles: TOKENS,
         imports: [ButtonComponent],
     })
-    class ButtonHostComponent {
+    class ButtonHostComponent implements KindHost {
         public readonly kind = signal<ButtonKind>(ButtonKind.Primary);
     }
 
@@ -85,7 +90,7 @@ describe('ButtonComponent', () => {
         styles: TOKENS,
         imports: [ButtonComponent],
     })
-    class LinkHostComponent {
+    class LinkHostComponent implements KindHost {
         public readonly kind = signal<ButtonKind>(ButtonKind.Primary);
     }
 
@@ -151,7 +156,7 @@ describe('ButtonComponent', () => {
         { element: 'a', role: 'link', host: LinkHostComponent },
     ] as const;
 
-    async function setupTest(host: Type<{ kind: WritableSignal<ButtonKind> }>, kind: ButtonKind) {
+    async function setupTest(host: Type<KindHost>, kind: ButtonKind) {
         const { fixture, harness } = await setupTestEnvironment({ host, harness: ButtonHarness });
 
         fixture.componentInstance.kind.set(kind);

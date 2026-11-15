@@ -1,4 +1,4 @@
-import { Component, signal, type Type, type WritableSignal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { LinkComponent } from './link.component';
@@ -77,8 +77,8 @@ describe('LinkComponent', () => {
         public readonly kind = signal<LinkKind>(LinkKind.Inline);
     }
 
-    async function setupTest(host: Type<{ kind: WritableSignal<LinkKind> }>, kind: LinkKind) {
-        const { fixture, harness } = await setupTestEnvironment({ host, harness: LinkHarness });
+    async function setupTest(kind: LinkKind) {
+        const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: LinkHarness });
 
         fixture.componentInstance.kind.set(kind);
         TestBed.tick();
@@ -96,20 +96,20 @@ describe('LinkComponent', () => {
 
     describe.each<LinkKind>(Object.values(LinkKind))('of kind %s', (kind) => {
         it('should be a link named by its label alone', async () => {
-            const { harness, link } = await setupTest(TestComponent, kind);
+            const { harness, link } = await setupTest(kind);
 
             await expect.element(link).toBeInTheDocument();
             expect(await harness.getText()).toBe('Rules');
         });
 
         it('should draw its default look', async () => {
-            const { harness } = await setupTest(TestComponent, kind);
+            const { harness } = await setupTest(kind);
 
             expect(await readLook(harness)).toEqual(LOOKS[kind].default);
         });
 
         it('should draw its hover look', async () => {
-            const { harness, link } = await setupTest(TestComponent, kind);
+            const { harness, link } = await setupTest(kind);
 
             await userEvent.hover(link);
             const look = await readLook(harness);
@@ -119,13 +119,13 @@ describe('LinkComponent', () => {
         });
 
         it('should draw no focus ring until it has focus', async () => {
-            const { harness } = await setupTest(TestComponent, kind);
+            const { harness } = await setupTest(kind);
 
             expect((await harness.getFocusRing()).style).toBe('none');
         });
 
         it('should draw the focus ring outside itself on keyboard focus', async () => {
-            const { harness, link } = await setupTest(TestComponent, kind);
+            const { harness, link } = await setupTest(kind);
 
             await userEvent.tab();
 
@@ -139,7 +139,7 @@ describe('LinkComponent', () => {
         });
 
         it('should keep its default look on keyboard focus', async () => {
-            const { harness } = await setupTest(TestComponent, kind);
+            const { harness } = await setupTest(kind);
 
             await userEvent.tab();
 
@@ -155,21 +155,21 @@ describe('LinkComponent', () => {
     });
 
     it('should draw the inline kind for a kind it does not know', async () => {
-        const { harness } = await setupTest(TestComponent, 'unknown' as LinkKind);
+        const { harness } = await setupTest('unknown' as LinkKind);
 
         expect(await readLook(harness)).toEqual(LOOKS.inline.default);
         expect(await harness.hasArrow()).toBe(false);
     });
 
     it('should end the standalone kind in a 20 px arrow', async () => {
-        const { harness } = await setupTest(TestComponent, LinkKind.Standalone);
+        const { harness } = await setupTest(LinkKind.Standalone);
 
         expect(await harness.isArrowAtEnd()).toBe(true);
         expect(await harness.getArrowSize()).toEqual({ width: 20, height: 20 });
     });
 
     it.each<LinkKind>([LinkKind.Inline, LinkKind.Quiet])('should draw no arrow for the %s kind', async (kind) => {
-        const { harness } = await setupTest(TestComponent, kind);
+        const { harness } = await setupTest(kind);
 
         expect(await harness.hasArrow()).toBe(false);
         expect(await harness.getArrowSize()).toBeNull();
