@@ -15,10 +15,11 @@ Read the guide that matches the change before you make it:
 - **Personal data, a cookie, or an outside service:** [Privacy](docs/privacy.md).
 - **A release:** [Releasing](docs/releasing.md).
 - **A guide, a project README, or a community file:** [Writing docs](docs/README.md#writing-docs).
+- **A decision that is hard to reverse:** [When to write one](docs/adr/README.md#when-to-write-one) in the ADR README.
 
 ## Working in the repository
 
-- Run every task through moon, as `pnpm moon run <project>:<task>`, since the `package.json` files hold no scripts. Each project's README lists its tasks.
+- Run every task through moon, as `pnpm moon run <project>:<task>`, since the `package.json` files hold no scripts besides `moon`. Each project's README lists its tasks.
 - Add a changelog entry for each change that users of an app notice, as [Changelog](CONTRIBUTING.md#changelog) describes.
 
 ## Before you commit

@@ -45,6 +45,23 @@ mise install
 
 [moon](https://moonrepo.dev) runs the tasks of every project in the repository. It finds the projects in `apps/`, `packages/`, and `e2e/`, plus the `root` project for the checks that cover the whole repository. [`.moon/workspace.yml`](../.moon/workspace.yml) configures the workspace, and each project's `moon.yml` defines its tasks. moon uses the Node.js and pnpm on `PATH`, which `devEngines` in [`package.json`](../package.json) pins. [Architecture](architecture.md#tasks-and-file-groups) explains how the tasks are defined.
 
+Tasks that do the same job share a name across projects:
+
+| Task             | Does                                                                         |
+|:-----------------|:-----------------------------------------------------------------------------|
+| `build`          | Builds the project.                                                          |
+| `test`           | Runs the unit tests in watch mode.                                           |
+| `test-ci`        | Runs the unit tests once, as CI does.                                        |
+| `typecheck`      | Checks the types of the files that the build and the test runner leave out.  |
+| `lint`           | Lints the project with ESLint.                                               |
+| `lint-changelog` | Lints the `CHANGELOG.md` of a releasable project.                            |
+
+Leave out the project to run a task in every project that has it:
+
+```bash
+pnpm moon run :typecheck
+```
+
 On Windows, moon runs the tasks in PowerShell 7. Without it, moon falls back to Windows PowerShell 5.1, which adds CLIXML progress records to the task output.
 
 Generate the JSON schemas that the moon config files reference, so your editor can validate and complete them. moon writes them to `.moon/cache/schemas/` on its first run, and this command refreshes them:

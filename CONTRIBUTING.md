@@ -10,7 +10,7 @@ A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status
 
 ## Project board
 
-The [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) has two boards: one for epics, and one for the work items that epics break into, such as tasks, features, research, and bugs. Triage and Backlog have no limit. Each status from Ready onward has a WIP limit, and only an expedited bug may move into a full status:
+The [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) has two boards: one for epics, and one for the work items that epics break into, such as tasks, features, research, and bugs. Triage and Backlog have no limit. Ready, In progress, and In review have WIP limits, which the [project README](https://github.com/orgs/dnd-mapp/projects/10?pane=info) sets for each board, along with what each status means. Only an expedited bug may move into a full status:
 
 - **Expedited bugs.** A bug that cannot wait for a free slot, such as one that breaks the deployed app, may go over the WIP limit of each status it moves through. A maintainer decides when a bug qualifies, and only one issue is expedited at a time. It goes ahead of all other work, and its pull request gets reviewed first.
 - **Epic status.** An epic moves to In progress when its first sub-issue does, and to Done when its last sub-issue does. Epics skip In review, since review happens on the pull requests of their sub-issues.
@@ -121,6 +121,8 @@ Lint the GitHub Actions workflows with [actionlint](https://github.com/rhysd/act
 actionlint
 ```
 
+The `Web image` and `End-to-end tests` checks run outside the `CI` job. [Web end-to-end tests](e2e/web/README.md) shows how to build the web image from your changes and run the end-to-end tests against it, as these checks do.
+
 ## Pull requests
 
 Open the pull request against `main`, and keep it to one concern: an unrelated fix you find along the way gets a pull request of its own.
@@ -128,6 +130,11 @@ Open the pull request against `main`, and keep it to one concern: an unrelated f
 - Write the title as a Conventional Commit subject, under the same rules as a commit header. The `Pull request title` check lints it again after each edit.
 - Fill in the [pull request template](.github/PULL_REQUEST_TEMPLATE.md). Its comments explain each section.
 - End the description with a `Closes #<number>` line for the issue the pull request resolves, which moves the issue to In review on the project and closes it on merge.
+- Turn on auto-merge once the pull request is ready for review, so it merges as soon as it meets the conditions under [Review and merge](#review-and-merge). Leave it off for a release pull request, since merging it confirms the version, as [Releasing](docs/releasing.md#review-and-merge-the-release-pull-request) explains:
+
+    ```bash
+    gh pr merge <number> --auto --merge
+    ```
 
 ## Review and merge
 

@@ -7,9 +7,10 @@
 Renovate merges these updates once the checks pass, since it may bypass the code owner review of the `Reviews` ruleset:
 
 - Minor, patch, and digest updates of the development tools, the actions, the runners, and the Docker images in workflows.
+- Patch and digest updates of the base images in Dockerfiles. CI builds the image, which checks its nginx configuration.
 - Lock file maintenance, which refreshes the transitive dependencies early on Monday mornings.
 
-Every other update waits for a review: majors, Node.js and pnpm in `devEngines`, and dependencies outside the development tools. A new major of Node.js or pnpm first waits for approval on the Dependency Dashboard.
+Every other update waits for a review: majors, minor updates of the base images in Dockerfiles, Node.js and pnpm in `devEngines`, and dependencies outside the development tools. A new major of Node.js or pnpm first waits for approval on the Dependency Dashboard.
 
 Renovate leaves the images the project publishes, `dndmapp/*`, alone, since their tags move with every push to `main`.
 
