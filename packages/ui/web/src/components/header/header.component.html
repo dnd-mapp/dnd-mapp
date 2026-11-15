@@ -1,0 +1,6 @@
+<ng-content />
+<!-- Mobile menu is a modal <dialog>, so the Menu button tells assistive technology that it opens one. -->
+<button dma-button type="button" kind="quiet" class="menu" aria-haspopup="dialog" (click)="menuPressed.emit()">
+    <dma-icon-menu />
+    Menu
+</button>

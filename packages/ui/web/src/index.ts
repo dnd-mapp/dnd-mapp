@@ -3,6 +3,7 @@ export * from './components/card';
 export * from './components/chip';
 export * from './components/disclosure';
 export * from './components/facts-list';
+export * from './components/header';
 export * from './components/icon';
 export * from './components/link';
 export * from './components/link-group';
