@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-15
+
 ### Added
 
 - A description and a preview image for links to the app, and the D&D Mapp logo as its favicon and home screen icon.
@@ -27,5 +29,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `build-info.json`, which reports the commit and version of the build that a deployment serves.
 - A `/healthz` endpoint and a `HEALTHCHECK` in the image, which report whether the container is healthy.
 
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...HEAD
+[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.0...HEAD
+[0.2.0]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.2.0
 [0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
