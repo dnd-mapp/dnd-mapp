@@ -1,7 +1,7 @@
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
 import { createFixture } from '../testing/fixture.ts';
 
-await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
 
 async function lint(changelog: string) {
     const fixture = createFixture({ changelog });

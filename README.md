@@ -54,7 +54,7 @@ This repository is the monorepo of D&D Mapp, holding all its packages and applic
 - [`packages/config-typescript`](packages/config-typescript/README.md): the TypeScript config presets that the projects extend.
 - [`packages/config-eslint`](packages/config-eslint/README.md): the shared ESLint presets of the projects, which also enforce the dependency rules between them.
 - [`packages/common`](packages/common/README.md): the general helpers that any project can use, such as `tryCatch`.
-- [`packages/testing`](packages/testing/README.md): the helpers for the tests of any project, such as in-memory mocks of `node:fs` and git.
+- [`packages/testing-node`](packages/testing-node/README.md): the helpers for the tests of Node projects, such as in-memory mocks of `node:fs` and git.
 - [`packages/release`](packages/release/README.md): the CLI that the release workflows run on the changelog and manifest of a project.
 
 ## Contributing

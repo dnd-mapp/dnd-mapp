@@ -1,6 +1,6 @@
 import { listGitTags } from './git.ts';
 
-const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing/git'));
+const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing-node/git'));
 
 describe('listGitTags', () => {
     it('lists the tags that start with a prefix', async () => {

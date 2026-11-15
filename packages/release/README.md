@@ -80,7 +80,7 @@ A changelog with releases needs one link reference definition per heading: `unre
 
 ## Testing
 
-The tests of the commands run against projects in the file system mock of [`@dnd-mapp/testing`](../testing/README.md), with fakes for git and the clock. The tests in [`src/adapters`](src/adapters) run the git mock of the same package. Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
+The tests of the commands run against projects in the file system mock of [`@dnd-mapp/testing-node`](../testing-node/README.md), with fakes for git and the clock. The tests in [`src/adapters`](src/adapters) run the git mock of the same package. Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
 
 ## Tasks
 

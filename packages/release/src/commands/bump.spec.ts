@@ -1,7 +1,7 @@
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
 import { createFixture, type FixtureOptions, repositoryField } from '../testing/fixture.ts';
 
-await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
 
 /** A changelog whose newest release is `version`, with the given body in `Unreleased`. */
 function changelogWith(unreleased: string, version = '1.4.2'): string {

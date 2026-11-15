@@ -4,8 +4,8 @@
             "@dnd-mapp/common": ["./packages/common/src/index.ts"],
             "@dnd-mapp/core-web": ["./packages/core/web/src/index.ts"],
             "@dnd-mapp/core-web/testing": ["./packages/core/web/testing/index.ts"],
-            "@dnd-mapp/testing/file-system": ["./packages/testing/src/file-system/index.ts"],
-            "@dnd-mapp/testing/git": ["./packages/testing/src/git/index.ts"],
+            "@dnd-mapp/testing-node/file-system": ["./packages/testing-node/src/file-system/index.ts"],
+            "@dnd-mapp/testing-node/git": ["./packages/testing-node/src/git/index.ts"],
             "@dnd-mapp/ui-web": ["./packages/ui/web/src/index.ts"],
             "@dnd-mapp/ui-web/testing": ["./packages/ui/web/testing/index.ts"]
         }

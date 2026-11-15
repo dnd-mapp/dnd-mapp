@@ -1,20 +1,20 @@
-# Test helpers
+# Node test helpers
 
-Helpers for the tests of any project of D&D Mapp. [`moon.yml`](moon.yml) defines the tasks below.
+Helpers for the tests of the Node projects of D&D Mapp. The helpers mock built-in modules of Node.js, so browser tests cannot use them. [`moon.yml`](moon.yml) defines the tasks below.
 
 ## Using the package
 
-Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer. Add the `sources` group of the `testing` project to the inputs of each task that runs or checks the tests, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes.
+Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer. Add the `sources` group of the `testing-node` project to the inputs of each task that runs or checks the tests, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes.
 
 ## File system
 
-`@dnd-mapp/testing/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
+`@dnd-mapp/testing-node/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
 
 ```ts
 import { expect, it, vi } from 'vitest';
 import { readManifest } from './manifest.ts';
 
-const { mockFileSystem } = await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+const { mockFileSystem } = await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
 
 it('reads the version', async () => {
     mockFileSystem({ '/repo/package.json': '{ "version": "1.0.0" }' });
@@ -27,19 +27,21 @@ Loading the module registers the mocks. `vi.hoisted` loads it before the test fi
 
 Each call to `mockFileSystem` replaces all files, and creates the folders that hold them. The files stay in place for the next test of the file until the next call, so call it in each test or in `beforeEach`. A path resolves against the working directory with `node:path`, as `node:fs` resolves it, so `/repo/package.json` is `D:\repo\package.json` on Windows when the working directory is on drive `D:`. Names are case-sensitive on every OS.
 
+The module exports the type of the argument, `Files`, which maps each path to a `FileContent`: a string or a `Uint8Array`. Without an argument, `mockFileSystem()` resets to an empty file system.
+
 The mock supports these functions, both in `node:fs` with the `Sync` suffix and in `node:fs/promises` without it: `readFile`, `writeFile`, `appendFile`, `mkdir`, `readdir`, `stat`, `lstat`, `access`, `rm`, and `unlink`. `node:fs` also has `existsSync` and `promises`. A call to any other function fails with an error from Vitest, rather than reaching the disk. Add the function to [`src/file-system/node-fs.ts`](src/file-system/node-fs.ts) when a test needs it.
 
 Each function fails with the error that Node.js throws on Linux, with the same `code`, `syscall`, `path`, and message, such as `ENOENT` for a missing file. A test therefore fails the same way on every OS. Two errors differ from the ones Node.js throws on Windows: a path below a file fails with `ENOTDIR` rather than `ENOENT`, and `unlink` on a folder fails with `EISDIR` rather than `EPERM`.
 
 ## Git
 
-`@dnd-mapp/testing/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
+`@dnd-mapp/testing-node/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
 
 ```ts
 import { expect, it, vi } from 'vitest';
 import { listGitTags } from './git.ts';
 
-const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing/git'));
+const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing-node/git'));
 
 it('lists the version tags of a project', async () => {
     mockGit({ tags: ['web@v1.0.0', 'api@v1.0.0'] });
@@ -49,6 +51,8 @@ it('lists the version tags of a project', async () => {
 ```
 
 Each call to `mockGit` replaces the state, which stays in place for the next test of the file until the next call. The mock has one repository, so it ignores the options of `execFile`, such as `cwd`. It answers both through a callback and through `promisify`, which resolves to `{ stdout, stderr }` as for the real `execFile`.
+
+The module exports the type of the argument, `GitState`. Without an argument, `mockGit()` resets to a repository without tags.
 
 The mock runs `git tag --list`, with any number of patterns, and prints the matching tags sorted by name, one per line, as git does. A pattern takes `*` for any text, `/` included, and `?` for one character. The mock fails for any other command, any other program, and any other syntax of a pattern, such as `[0-9]`, rather than answer differently from git. Add a command to [`src/git/repository.ts`](src/git/repository.ts) when a test needs it. The tests of the mock compare its output with that of the real git, in a temporary repository.
 
@@ -66,13 +70,13 @@ Run each task from the repository root.
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 
 ```bash
-pnpm moon run testing:test
+pnpm moon run testing-node:test
 ```
 
 Run the unit tests once, as CI does:
 
 ```bash
-pnpm moon run testing:test-ci
+pnpm moon run testing-node:test-ci
 ```
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
@@ -82,9 +86,9 @@ The `typecheck` task checks the sources, the tests, and the config files each wi
 Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
 
 ```bash
-pnpm moon run testing:typecheck
+pnpm moon run testing-node:typecheck
 ```
 
 ```bash
-pnpm moon run testing:lint
+pnpm moon run testing-node:lint
 ```

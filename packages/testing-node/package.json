@@ -1,13 +1,13 @@
 {
-  "name": "@dnd-mapp/testing",
+  "name": "@dnd-mapp/testing-node",
   "version": "0.0.0",
-  "description": "Test helpers for the projects of D&D Mapp, such as in-memory mocks of the file system and git for Vitest.",
+  "description": "Test helpers for the Node projects of D&D Mapp, such as in-memory mocks of the file system and git for Vitest.",
   "private": true,
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
-    "directory": "packages/testing"
+    "directory": "packages/testing-node"
   },
   "type": "module",
   "exports": {

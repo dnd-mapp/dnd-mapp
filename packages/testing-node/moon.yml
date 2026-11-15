@@ -1,14 +1,15 @@
 $schema: "../../.moon/cache/schemas/project.json"
 
-id: "testing"
+id: "testing-node"
 layer: "library"
-# Every project may depend on a tooling project, so the tag lets the tests of any platform import the helpers.
+# A tooling project may depend on tooling projects only, so the tag lets the Node tooling, such as release, import the
+# helpers in its tests.
 tags:
     - "tooling"
 
 project:
-    title: "Test helpers"
-    description: "Helpers for the tests of any project, such as in-memory mocks of node:fs and git for Vitest."
+    title: "Node test helpers"
+    description: "Helpers for the tests of Node projects, such as in-memory mocks of node:fs and git for Vitest."
     owner: "@dnd-mapp/reviewers"
     maintainers:
         - "@NoNamer777"
