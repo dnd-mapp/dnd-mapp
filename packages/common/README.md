@@ -1,10 +1,22 @@
 # Common helpers
 
-Small, general helpers that any project of D&D Mapp can use. [`moon.yml`](moon.yml) defines the tasks below.
+Small, general helpers that any project of D&D Mapp can use.
 
 ## What belongs here
 
 A helper belongs here when it knows nothing about D&D Mapp, a domain, or a platform: no models or rules of a domain, and no Angular, DOM, or Node.js APIs. Code that the platforms of a domain share goes in the `domain` package of that domain, `packages/<domain>/domain`, as [Architecture](../../docs/architecture.md#projects) describes.
+
+## Using the package
+
+Add the package to the `dependencies` of a project. Each project compiles the helpers from their TypeScript sources in its own build, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes, so add the `sources` group of the `common` project to the inputs of each task that compiles them. Add it to the inputs of `lint` too, since its type-aware rules read the types of the helpers, as [`packages/release/moon.yml`](../release/moon.yml) does:
+
+```yaml
+inputs:
+    - project: "common"
+      group: "sources"
+```
+
+The sources import each other with the `.ts` extension, as Node.js requires, so the `node` and `angular` presets of [`@dnd-mapp/config-typescript`](../config-typescript/README.md) both allow it.
 
 ## Helpers
 
@@ -13,7 +25,7 @@ A helper belongs here when it knows nothing about D&D Mapp, a domain, or a platf
 | `tryCatch(promise)` | Awaits `promise`, and resolves to its value or to the reason it rejected with, never rejecting.          |
 | `tryCatchSync(fn)`  | Calls `fn`, and returns its value or the error it threw, never throwing. Pass a promise to `tryCatch`.   |
 
-Both return a `Result<T>`: `{ ok: true, value }` or `{ ok: false, error }`. Check `ok` to tell the two apart, since JavaScript can throw any value, `undefined` included. The `error` is `unknown` for the same reason. The helpers keep the variable `const` and the happy path flat where a `let` above a `try` block would otherwise take the value:
+Both return a `Result<T>`, which is either a `Success<T>`, `{ ok: true, value }`, or a `Failure`, `{ ok: false, error }`. The package exports all three types. Check `ok` to tell the two apart, since JavaScript can throw any value, `undefined` included. The `error` is `unknown` for the same reason. The helpers keep the variable `const` and the happy path flat where a `let` above a `try` block would otherwise take the value:
 
 ```ts
 import { tryCatch } from '@dnd-mapp/common';
@@ -26,15 +38,9 @@ if (!read.ok) {
 const text = read.value;
 ```
 
-## Using the package
-
-Add the package to the `dependencies` of a project, and the `sources` group of the `common` project to the inputs of each task that compiles it, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes. Each project compiles the helpers from their TypeScript sources in its own build.
-
-The sources import each other with the `.ts` extension, as Node.js requires, so the `node` and `angular` presets of [`@dnd-mapp/config-typescript`](../config-typescript/README.md) both allow it.
-
 ## Tasks
 
-Run each task from the repository root.
+[`moon.yml`](moon.yml) defines the tasks below, and the project inherits `lint` from [`.moon/tasks/eslint.yml`](../../.moon/tasks/eslint.yml). Run each task from the repository root.
 
 | Task        | Command                                                                                                   | Runs in CI | Cached |
 |:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
