@@ -8,31 +8,14 @@ import { Theme, ThemeService } from '../../theme';
 import {
     InMemoryStorage,
     provideBrowserStorage,
+    readColorToken,
     setupTestEnvironment,
     ThemePickerHarness,
 } from '@dnd-mapp/ui-web/testing';
 
-// Colors that no theme uses, so the picker can only take each one from the token the test sets it on.
-const BACKGROUND_SUNKEN = 'rgb(10, 20, 30)';
-const BORDER_CONTROL = 'rgb(100, 110, 120)';
-
-/**
- * Sets the semantic tokens that the picker and its options read to values of the test, rather than loading
- * `tokens.css`, so each expectation names the token it comes from.
- */
-const TOKENS = `
-    .tokens {
-        --color-background-sunken: ${BACKGROUND_SUNKEN};
-        --color-border-control: ${BORDER_CONTROL};
-        --border-width-default: 1px;
-        --radius-md: 10px;
-        --size-icon-sm: 20px;
-        --size-target-min: 44px;
-        --space-4: 4px;
-        --space-8: 8px;
-        --space-12: 12px;
-        --typography-nav-font-size: 15px;
-        --typography-nav-line-height: 1.2;
+/** Leaves room around the picker for the focus rings of its options. */
+const FRAME = `
+    .frame {
         padding: 1rem;
     }
 `;
@@ -41,15 +24,15 @@ const NAMES: Record<Theme, string> = { system: 'System', light: 'Light', dark: '
 
 describe('ThemePickerComponent', () => {
     @Component({
-        template: `<div class="tokens"><fieldset dma-theme-picker></fieldset></div>`,
-        styles: TOKENS,
+        template: `<div class="frame"><fieldset dma-theme-picker></fieldset></div>`,
+        styles: FRAME,
         imports: [ThemePickerComponent],
     })
     class DefaultTestComponent {}
 
     @Component({
-        template: `<div class="tokens"><fieldset dma-theme-picker [display]="display()"></fieldset></div>`,
-        styles: TOKENS,
+        template: `<div class="frame"><fieldset dma-theme-picker [display]="display()"></fieldset></div>`,
+        styles: FRAME,
         imports: [ThemePickerComponent],
     })
     class TestComponent {
@@ -58,12 +41,12 @@ describe('ThemePickerComponent', () => {
 
     @Component({
         template: `
-            <div class="tokens">
+            <div class="frame">
                 <fieldset dma-theme-picker></fieldset>
                 <fieldset dma-theme-picker display="icons"></fieldset>
             </div>
         `,
-        styles: TOKENS,
+        styles: FRAME,
         imports: [ThemePickerComponent],
     })
     class TwoPickersTestComponent {}
@@ -205,7 +188,10 @@ describe('ThemePickerComponent', () => {
         it('should draw the picker around its options', async () => {
             const { harness } = await setupTest({ display });
 
-            expect(await harness.getLook()).toEqual({ background: BACKGROUND_SUNKEN, borderColor: BORDER_CONTROL });
+            expect(await harness.getLook()).toEqual({
+                background: readColorToken('--color-background-sunken'),
+                borderColor: readColorToken('--color-border-control'),
+            });
             expect((await harness.getSize()).height).toBe(44);
         });
     });
