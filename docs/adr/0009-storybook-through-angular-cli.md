@@ -1,6 +1,7 @@
 # 0009. moon starts Storybook through the Angular CLI builders
 
 - **Status:** Accepted
+- **Supersedes:** Part of [0007](0007-storybook-on-vite.md)
 - **Date:** 2026-11-12
 - **Built in:** [#258](https://github.com/dnd-mapp/dnd-mapp/pull/258)
 

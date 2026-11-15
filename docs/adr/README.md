@@ -35,7 +35,14 @@ Skip the ADR when any of them is missing. The pull request that makes the change
 3. Add the ADR to the [Decisions](#decisions) table.
 4. Link the ADR from each guide section that describes the choice, so a reader of the guide finds the reasons.
 
-An ADR records a decision at the time it was made, so leave an accepted ADR as it is. To change the decision, add an ADR that supersedes it, and set the status of the old one to `Superseded by [<number>](<file>)`. Fixing a typo or a broken link needs no new ADR.
+An ADR records a decision at the time it was made, so leave an accepted ADR as it is, apart from its status. To change the decision, add an ADR that supersedes it:
+
+- Add a `- **Supersedes:** [<number>](<file>)` line below the status of the new ADR.
+- Set the status of the old ADR to `Superseded by [<number>](<file>)`, here and in the [Decisions](#decisions) table.
+
+When the new ADR changes only part of the decision, its line reads `- **Supersedes:** Part of [<number>](<file>)`, and the status of the old ADR reads `Partly superseded by [<number>](<file>)`. The new ADR says which part it changes, and that the rest stands.
+
+Fixing a typo or a broken link needs no new ADR.
 
 ## Template
 
