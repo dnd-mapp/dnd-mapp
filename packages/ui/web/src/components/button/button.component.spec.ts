@@ -1,5 +1,5 @@
 import type { HarnessLoader } from '@angular/cdk/testing';
-import { Component, signal, type Type } from '@angular/core';
+import { Component, signal, type Type, type WritableSignal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ButtonComponent } from './button.component';
@@ -71,12 +71,17 @@ const LOOKS: Record<ButtonKind, { default: ButtonLook; hover: ButtonLook }> = {
 };
 
 describe('ButtonComponent', () => {
+    /** A host whose button takes its kind from a signal, so `setupTest` can set it. */
+    interface KindHost {
+        readonly kind: WritableSignal<ButtonKind>;
+    }
+
     @Component({
         template: `<div class="tokens"><button dma-button type="button" [kind]="kind()">Save</button></div>`,
         styles: TOKENS,
         imports: [ButtonComponent],
     })
-    class ButtonHostComponent {
+    class ButtonHostComponent implements KindHost {
         public readonly kind = signal<ButtonKind>(ButtonKind.Primary);
     }
 
@@ -85,7 +90,7 @@ describe('ButtonComponent', () => {
         styles: TOKENS,
         imports: [ButtonComponent],
     })
-    class LinkHostComponent {
+    class LinkHostComponent implements KindHost {
         public readonly kind = signal<ButtonKind>(ButtonKind.Primary);
     }
 
@@ -151,12 +156,10 @@ describe('ButtonComponent', () => {
         { element: 'a', role: 'link', host: LinkHostComponent },
     ] as const;
 
-    async function setupTest(host: Type<unknown>, kind?: ButtonKind) {
+    async function setupTest(host: Type<KindHost>, kind: ButtonKind) {
         const { fixture, harness } = await setupTestEnvironment({ host, harness: ButtonHarness });
 
-        if (kind) {
-            (fixture.componentInstance as ButtonHostComponent).kind.set(kind);
-        }
+        fixture.componentInstance.kind.set(kind);
         TestBed.tick();
 
         return { harness };
@@ -225,7 +228,7 @@ describe('ButtonComponent', () => {
     });
 
     it('should draw the primary kind by default', async () => {
-        const { harness } = await setupTest(DefaultHostComponent);
+        const { harness } = await setupTestEnvironment({ host: DefaultHostComponent, harness: ButtonHarness });
 
         expect(await harness.getLook()).toEqual(LOOKS.primary.default);
     });

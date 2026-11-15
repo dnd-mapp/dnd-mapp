@@ -1,4 +1,4 @@
-import { Component, signal, type Type } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ChipComponent } from './chip.component';
@@ -69,12 +69,10 @@ describe('ChipComponent', () => {
     })
     class DefaultHostComponent {}
 
-    async function setupTest(host: Type<unknown>, kind?: ChipKind) {
-        const { fixture, harness } = await setupTestEnvironment({ host, harness: ChipHarness });
+    async function setupTest(kind: ChipKind) {
+        const { fixture, harness } = await setupTestEnvironment({ host: ChipHostComponent, harness: ChipHarness });
 
-        if (kind) {
-            (fixture.componentInstance as ChipHostComponent).kind.set(kind);
-        }
+        fixture.componentInstance.kind.set(kind);
         TestBed.tick();
 
         return { harness };
@@ -82,19 +80,19 @@ describe('ChipComponent', () => {
 
     describe.each<ChipKind>(Object.values(ChipKind))('of kind %s', (kind) => {
         it('should show its label', async () => {
-            const { harness } = await setupTest(ChipHostComponent, kind);
+            const { harness } = await setupTest(kind);
 
             expect(await harness.getText()).toBe('Planned');
         });
 
         it('should draw its look', async () => {
-            const { harness } = await setupTest(ChipHostComponent, kind);
+            const { harness } = await setupTest(kind);
 
             expect(await harness.getLook()).toEqual(LOOKS[kind]);
         });
 
         it('should not take focus', async () => {
-            const { harness } = await setupTest(ChipHostComponent, kind);
+            const { harness } = await setupTest(kind);
 
             await userEvent.tab();
 
@@ -104,13 +102,13 @@ describe('ChipComponent', () => {
     });
 
     it('should draw the neutral kind by default', async () => {
-        const { harness } = await setupTest(DefaultHostComponent);
+        const { harness } = await setupTestEnvironment({ host: DefaultHostComponent, harness: ChipHarness });
 
         expect(await harness.getLook()).toEqual(LOOKS.neutral);
     });
 
     it('should draw the neutral kind for a kind it does not know', async () => {
-        const { harness } = await setupTest(ChipHostComponent, 'unknown' as ChipKind);
+        const { harness } = await setupTest('unknown' as ChipKind);
 
         expect(await harness.getLook()).toEqual(LOOKS.neutral);
     });

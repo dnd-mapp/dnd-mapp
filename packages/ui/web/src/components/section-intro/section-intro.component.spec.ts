@@ -1,4 +1,4 @@
-import { Component, signal, type Type } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { SectionIntroComponent } from './section-intro.component';
@@ -70,14 +70,11 @@ describe('SectionIntroComponent', () => {
     })
     class HeadingOnlyTestComponent {}
 
-    async function setupTest(options: { host?: Type<unknown>; align?: SectionIntroAlign } = {}) {
-        const { fixture, harness } = await setupTestEnvironment({
-            host: options.host ?? TestComponent,
-            harness: SectionIntroHarness,
-        });
+    async function setupTest(options: { align?: SectionIntroAlign } = {}) {
+        const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: SectionIntroHarness });
 
         if (options.align) {
-            (fixture.componentInstance as TestComponent).align.set(options.align);
+            fixture.componentInstance.align.set(options.align);
         }
         TestBed.tick();
 
@@ -150,7 +147,10 @@ describe('SectionIntroComponent', () => {
     });
 
     it('should draw a heading without an eyebrow or intro text', async () => {
-        const { harness } = await setupTest({ host: HeadingOnlyTestComponent });
+        const { harness } = await setupTestEnvironment({
+            host: HeadingOnlyTestComponent,
+            harness: SectionIntroHarness,
+        });
 
         expect(await harness.getText('eyebrow')).toBeNull();
         expect(await harness.getText('intro')).toBeNull();
