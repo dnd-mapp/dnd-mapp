@@ -58,3 +58,4 @@ export {
     type TestEnvironment,
     type TestEnvironmentOptions,
 } from './test-environment';
+export { readColorToken } from './tokens';
