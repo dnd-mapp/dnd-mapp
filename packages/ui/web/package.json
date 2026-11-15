@@ -30,6 +30,7 @@
     "@analogjs/vite-plugin-angular": "catalog:storybook",
     "@angular-devkit/architect": "catalog:angular",
     "@angular-devkit/core": "catalog:angular",
+    "@angular/animations": "catalog:angular",
     "@angular/build": "catalog:angular",
     "@angular/cli": "catalog:angular",
     "@angular/compiler": "catalog:angular",
