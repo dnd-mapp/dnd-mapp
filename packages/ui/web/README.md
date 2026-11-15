@@ -1,12 +1,24 @@
 # Web UI
 
-The UI components of the [web client](../../../apps/web/README.md), which every app and module of the web platform may import. [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) records why they live in a package of their own. [`angular.json`](angular.json) configures the Angular CLI, and [`moon.yml`](moon.yml) defines the tasks below.
+The UI components of the [web client](../../../apps/web/README.md), which every app and module of the web platform may import. [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) records why they live in a package of their own. [`angular.json`](angular.json) configures the Angular CLI and Storybook, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@dnd-mapp/config-eslint`](../../config-eslint/README.md), which holds the rules.
 
 ## What belongs here
 
 A component belongs here when it is presentational: it takes its content through content projection and its state through inputs, and uses no router or app state. The app or domain module that uses it does the wiring. Theme picker is the one exception: it reads and saves the choice through [`ThemeService`](#theme), as [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) records. The package imports only packages for the whole workspace, as the [dependency rules](../../../docs/architecture.md#dependency-rules) require, so it stays below `core-web` and the domain modules.
 
-[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its types, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component.
+[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
+
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Disclosure, Facts list, Icon, Link group, and Skip link have none.
+- Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
+- Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
+
+## Using the package
+
+Add the package to the `dependencies` of an app or module of the web platform, and import each component from `@dnd-mapp/ui-web`. The components read the [design tokens](../../design-tokens/README.md), so the app loads `fonts.css` and `tokens.css` through the `styles` of its `angular.json`, as [`apps/web/angular.json`](../../../apps/web/angular.json) does.
+
+The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
+
+## Components
 
 | Component     | Selector                                    | Variants                                                                                                                                             |
 |:--------------|:--------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -62,12 +74,46 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 
 ## Entry points
 
-| Import                     | Source                                 | Exports                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-|:---------------------------|:---------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `@dnd-mapp/ui-web`         | [`src/index.ts`](src/index.ts)         | `ButtonComponent`, `ButtonKind`, `DEFAULT_BUTTON_KIND`, `buttonKindAttr`, `ChipComponent`, `ChipKind`, `DEFAULT_CHIP_KIND`, `chipKindAttr`, `DisclosureComponent`, `FactsListComponent`, one `Icon<Glyph>Component` per glyph, such as `IconMenuComponent`, `LinkComponent`, `LinkKind`, `DEFAULT_LINK_KIND`, `linkKindAttr`, `LinkGroupComponent`, `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr`, `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`, `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`, `SkipLinkComponent`, `ThemePickerComponent`, `ThemePickerDisplay`, `DEFAULT_THEME_PICKER_DISPLAY`, `themePickerDisplayAttr`, `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`, `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE`                                                                                                |
-| `@dnd-mapp/ui-web/testing` | [`testing/index.ts`](testing/index.ts) | `ButtonHarness`, `ButtonLook`, `ButtonFocusRing`, `ButtonIconInsets`, `ChipHarness`, `ChipLook`, `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider`, `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`, `IconHarness`, `LinkHarness`, `LinkFocusRing`, `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`, `LogoHarness`, `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`, `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`, `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`, `ThemeOptionHarness`, `ThemeOptionHarnessFilters`, `ThemeOptionLook`, `ThemeOptionFocusRing`, `ThemePickerHarness`, `ThemePickerLook`, `InMemoryStorage`, `provideBrowserStorage`, `providePlatformId`, `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`, `readColorToken` |
+`@dnd-mapp/ui-web`, from [`src/index.ts`](src/index.ts), exports the components and services:
 
-The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the apps and modules that use it, and stays out of the production sources. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
+| Area          | Exports                                                                                                           |
+|:--------------|:------------------------------------------------------------------------------------------------------------------|
+| Button        | `ButtonComponent`, `ButtonKind`, `DEFAULT_BUTTON_KIND`, `buttonKindAttr`                                          |
+| Chip          | `ChipComponent`, `ChipKind`, `DEFAULT_CHIP_KIND`, `chipKindAttr`                                                  |
+| Disclosure    | `DisclosureComponent`                                                                                             |
+| Facts list    | `FactsListComponent`                                                                                              |
+| Icon          | One `Icon<Glyph>Component` per glyph, such as `IconMenuComponent`                                                 |
+| Link          | `LinkComponent`, `LinkKind`, `DEFAULT_LINK_KIND`, `linkKindAttr`                                                  |
+| Link group    | `LinkGroupComponent`                                                                                              |
+| Logo          | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr` |
+| Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
+| Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
+| Skip link     | `SkipLinkComponent`                                                                                               |
+| Theme picker  | `ThemePickerComponent`, `ThemePickerDisplay`, `DEFAULT_THEME_PICKER_DISPLAY`, `themePickerDisplayAttr`            |
+| Theme         | `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`                                         |
+| Storage       | `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE`                                              |
+
+`@dnd-mapp/ui-web/testing`, from [`testing/index.ts`](testing/index.ts), exports the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) and the [test helpers](#testing) for the tests of this package and the apps and modules that use it. It stays out of the production sources.
+
+| Area             | Exports                                                                                                                     |
+|:-----------------|:----------------------------------------------------------------------------------------------------------------------------|
+| Button           | `ButtonHarness`, `ButtonLook`, `ButtonFocusRing`, `ButtonIconInsets`                                                        |
+| Chip             | `ChipHarness`, `ChipLook`                                                                                                   |
+| Disclosure       | `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider` |
+| Facts list       | `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`                                   |
+| Icon             | `IconHarness`                                                                                                               |
+| Link             | `LinkHarness`, `LinkFocusRing`                                                                                              |
+| Link group       | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
+| Logo             | `LogoHarness`                                                                                                               |
+| Nav link         | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
+| Section intro    | `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`                                        |
+| Skip link        | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                       |
+| Theme option     | `ThemeOptionHarness`, `ThemeOptionHarnessFilters`, `ThemeOptionLook`, `ThemeOptionFocusRing`                                |
+| Theme picker     | `ThemePickerHarness`, `ThemePickerLook`                                                                                     |
+| Storage          | `InMemoryStorage`                                                                                                           |
+| Providers        | `provideBrowserStorage`, `providePlatformId`                                                                                |
+| Test environment | `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                      |
+| Design tokens    | `readColorToken`                                                                                                            |
 
 ## Testing
 
@@ -122,7 +168,7 @@ The setup file moves the pointer before the test renders anything. A test that h
 
 ## Tasks
 
-Run each task from the repository root.
+[`moon.yml`](moon.yml) defines the tasks below, and the project inherits `lint` from [`.moon/tasks/eslint.yml`](../../../.moon/tasks/eslint.yml). Run each task from the repository root.
 
 | Task              | Command                                                                              | Runs in CI | Cached |
 |:------------------|:-------------------------------------------------------------------------------------|:----------:|:------:|
@@ -165,7 +211,7 @@ Check the types of what no build checks: the config files, which `ng test` leave
 pnpm moon run ui-web:typecheck
 ```
 
-Lint the TypeScript and the templates with [ESLint](https://eslint.org), [`typescript-eslint`](https://typescript-eslint.io), and [`angular-eslint`](https://github.com/angular-eslint/angular-eslint). The task fails on any finding, warnings included, and [`eslint.config.ts`](eslint.config.ts) holds the rules:
+Lint the TypeScript and the templates with the rules of the `angular` preset. The task fails on any finding, warnings included:
 
 ```bash
 pnpm moon run ui-web:lint
