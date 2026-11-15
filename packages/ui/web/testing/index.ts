@@ -4,6 +4,14 @@ export {
     type ButtonIconInsets,
     type ButtonLook,
 } from './harnesses/button.harness';
+export {
+    CardHarness,
+    type CardLook,
+    type CardPart,
+    type CardPartBox,
+    type CardPartLook,
+    type CardSize,
+} from './harnesses/card.harness';
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
 export {
     type DisclosureDivider,
