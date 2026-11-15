@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { type Files, mockFileSystem } from '@dnd-mapp/testing/file-system';
+import { type Files, mockFileSystem } from '@dnd-mapp/testing-node/file-system';
 import { run } from '../cli.ts';
 
 /** The files, tags, and clock of a fixture. Each option has a default, so a test sets only those it depends on. */
@@ -58,7 +58,7 @@ export const repositoryField = { type: 'git', url: 'git+https://github.com/dnd-m
 
 /**
  * Sets up a repository with a project in the mocked file system, with fakes for git and the clock. Load the mock in the
- * test file first, with `await vi.hoisted(() => import('@dnd-mapp/testing/file-system'))`. Without it, the modules that
+ * test file first, with `await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'))`. Without it, the modules that
  * import `node:fs` before the mock loads keep the real one, so the test reads from `/repo` on the real disk and fails.
  */
 export function createFixture(options: FixtureOptions = {}): Fixture {

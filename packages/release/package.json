@@ -19,7 +19,7 @@
   "devDependencies": {
     "@dnd-mapp/config-eslint": "workspace:*",
     "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/testing": "workspace:*",
+    "@dnd-mapp/testing-node": "workspace:*",
     "@types/node": "catalog:node",
     "@vitest/coverage-v8": "catalog:vitest",
     "eslint": "catalog:eslint",

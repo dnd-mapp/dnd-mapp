@@ -1,20 +1,20 @@
-# Test helpers
+# Node test helpers
 
-Helpers for the tests of any project of D&D Mapp. [`moon.yml`](moon.yml) defines the tasks below.
+Helpers for the tests of the Node projects of D&D Mapp. The helpers mock built-in modules of Node.js, so browser tests cannot use them. [`moon.yml`](moon.yml) defines the tasks below.
 
 ## Using the package
 
-Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer. Add the `sources` group of the `testing` project to the inputs of each task that runs or checks the tests, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes.
+Add the package to the `devDependencies` of a project, next to `vitest`, which it expects as a peer. Add the `sources` group of the `testing-node` project to the inputs of each task that runs or checks the tests, as [Architecture](../../docs/architecture.md#modules-compile-from-source) describes.
 
 ## File system
 
-`@dnd-mapp/testing/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
+`@dnd-mapp/testing-node/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
 
 ```ts
 import { expect, it, vi } from 'vitest';
 import { readManifest } from './manifest.ts';
 
-const { mockFileSystem } = await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+const { mockFileSystem } = await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
 
 it('reads the version', async () => {
     mockFileSystem({ '/repo/package.json': '{ "version": "1.0.0" }' });
@@ -33,13 +33,13 @@ Each function fails with the error that Node.js throws on Linux, with the same `
 
 ## Git
 
-`@dnd-mapp/testing/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
+`@dnd-mapp/testing-node/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
 
 ```ts
 import { expect, it, vi } from 'vitest';
 import { listGitTags } from './git.ts';
 
-const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing/git'));
+const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing-node/git'));
 
 it('lists the version tags of a project', async () => {
     mockGit({ tags: ['web@v1.0.0', 'api@v1.0.0'] });
@@ -66,13 +66,13 @@ Run each task from the repository root.
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 
 ```bash
-pnpm moon run testing:test
+pnpm moon run testing-node:test
 ```
 
 Run the unit tests once, as CI does:
 
 ```bash
-pnpm moon run testing:test-ci
+pnpm moon run testing-node:test-ci
 ```
 
 Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
@@ -82,9 +82,9 @@ The `typecheck` task checks the sources, the tests, and the config files each wi
 Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
 
 ```bash
-pnpm moon run testing:typecheck
+pnpm moon run testing-node:typecheck
 ```
 
 ```bash
-pnpm moon run testing:lint
+pnpm moon run testing-node:lint
 ```

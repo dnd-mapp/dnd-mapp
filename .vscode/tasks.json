@@ -285,9 +285,9 @@
             "problemMatcher": "$tsc"
         },
         {
-            "label": "testing:test",
+            "label": "testing-node:test",
             "type": "shell",
-            "command": "pnpm moon run testing:test",
+            "command": "pnpm moon run testing-node:test",
             "isBackground": true,
             "problemMatcher": {
                 "owner": "typescript",
@@ -304,21 +304,21 @@
             }
         },
         {
-            "label": "testing:test-ci",
+            "label": "testing-node:test-ci",
             "type": "shell",
-            "command": "pnpm moon run testing:test-ci",
+            "command": "pnpm moon run testing-node:test-ci",
             "problemMatcher": []
         },
         {
-            "label": "testing:lint",
+            "label": "testing-node:lint",
             "type": "shell",
-            "command": "pnpm moon run testing:lint",
+            "command": "pnpm moon run testing-node:lint",
             "problemMatcher": "$eslint-stylish"
         },
         {
-            "label": "testing:typecheck",
+            "label": "testing-node:typecheck",
             "type": "shell",
-            "command": "pnpm moon run testing:typecheck",
+            "command": "pnpm moon run testing-node:typecheck",
             "problemMatcher": "$tsc"
         },
         {

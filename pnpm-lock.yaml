@@ -681,9 +681,9 @@ importers:
       '@dnd-mapp/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
-      '@dnd-mapp/testing':
+      '@dnd-mapp/testing-node':
         specifier: workspace:*
-        version: link:../testing
+        version: link:../testing-node
       '@types/node':
         specifier: catalog:node
         version: 26.6.6
@@ -700,7 +700,7 @@ importers:
         specifier: catalog:vitest
         version: 5.1.0(@types/node@26.6.6)(@vitest/browser-playwright@5.1.0)(@vitest/coverage-v8@5.1.0)(@vitest/ui@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.108.1)(sass@1.108.1))
 
-  packages/testing:
+  packages/testing-node:
     devDependencies:
       '@dnd-mapp/config-eslint':
         specifier: workspace:*
@@ -713,7 +713,7 @@ importers:
         version: 26.6.6
       '@vitest/coverage-v8':
         specifier: catalog:vitest
-        version: 5.1.0(@vitest/browser@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.108.1)(sass@1.108.1))(vitest@5.1.0)
+        version: 5.1.0(@vitest/browser@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.108.1)(sass@1.108.2))(vitest@5.1.0)
       eslint:
         specifier: catalog:eslint
         version: 10.14.0(jiti@2.7.0)(supports-color@8.1.1)
@@ -722,7 +722,7 @@ importers:
         version: 6.0.3
       vitest:
         specifier: catalog:vitest
-        version: 5.1.0(@types/node@26.6.6)(@vitest/browser-playwright@5.1.0)(@vitest/coverage-v8@5.1.0)(@vitest/ui@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.108.1)(sass@1.108.1))
+        version: 5.1.0(@types/node@26.6.6)(@vitest/browser-playwright@5.1.0)(@vitest/coverage-v8@5.1.0)(@vitest/ui@5.1.0)(vite@8.3.8(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(less@4.9.1(supports-color@8.1.1))(sass-embedded@1.108.1)(sass@1.108.2))
 
   packages/ui/web:
     dependencies:

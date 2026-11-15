@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { releasedChangelog } from './testing/changelogs.ts';
 import { createFixture, repositoryField } from './testing/fixture.ts';
 
-await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
 
 describe('release', () => {
     it.each([

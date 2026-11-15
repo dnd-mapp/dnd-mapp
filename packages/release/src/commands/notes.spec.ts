@@ -1,7 +1,7 @@
 import { releasedChangelog } from '../testing/changelogs.ts';
 import { createFixture } from '../testing/fixture.ts';
 
-await vi.hoisted(() => import('@dnd-mapp/testing/file-system'));
+await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
 
 describe('release notes', () => {
     it('writes the section of a version to a file, without its heading', async () => {

@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="testing:test-ci" type="js.build_tools.npm" folderName="testing">
+  <configuration default="false" name="testing-node:lint" type="js.build_tools.npm" folderName="testing-node">
     <package-json value="$PROJECT_DIR$/package.json" />
     <command value="run" />
     <scripts>
       <script value="moon" />
     </scripts>
-    <arguments value="run testing:test-ci" />
+    <arguments value="run testing-node:lint" />
     <node-interpreter value="project" />
     <envs />
     <method v="2" />
