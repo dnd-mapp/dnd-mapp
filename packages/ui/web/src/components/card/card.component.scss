@@ -1,0 +1,46 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'dma-card';
+$heading: ':is(h1, h2, h3, h4, h5, h6)';
+
+// Sets the font of a typography token, such as `title` for the `--typography-title-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The Surface background. The card fills its container, such as a column of a grid, and keeps at least the minimum
+// width of Penpot, so a grid wraps to fewer columns instead of squeezing them. Penpot draws the border as an inner
+// stroke, so the padding leaves room for it inside the space.24 of Penpot.
+#{$host} {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-12);
+    min-width: var(--size-card-min);
+    padding: calc(var(--space-24) - var(--border-width-default));
+    border: var(--border-width-default) solid var(--color-border-divider);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-surface);
+}
+
+// The gap spaces the children, so none keeps the margin of its element.
+#{$host} > * {
+    margin: 0;
+}
+
+// The title draws the title typography at every level, so the level follows the outline of the page, not the look.
+#{$host} > #{$heading} {
+    color: var(--color-foreground-default);
+    @include typography(title);
+}
+
+#{$host} > p {
+    color: var(--color-foreground-muted);
+    @include typography(body);
+}

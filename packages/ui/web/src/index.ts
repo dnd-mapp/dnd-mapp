@@ -1,4 +1,5 @@
 export * from './components/button';
+export * from './components/card';
 export * from './components/chip';
 export * from './components/disclosure';
 export * from './components/facts-list';
