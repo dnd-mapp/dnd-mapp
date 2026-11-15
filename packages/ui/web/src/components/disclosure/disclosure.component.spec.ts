@@ -2,48 +2,29 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { DisclosureComponent } from './disclosure.component';
-import { DisclosureHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { DisclosureHarness, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
-// Colors that no theme uses, so each part can only take its color from the token the test sets it on.
-const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
-const FOREGROUND_MUTED = 'rgb(170, 180, 190)';
-const BORDER_DIVIDER = 'rgb(40, 50, 60)';
-const BACKGROUND_HOVER = 'rgb(30, 40, 50)';
-const FOCUS_RING = 'rgb(120, 180, 250)';
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
-/**
- * Sets the semantic tokens that the disclosure reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from. The container is wider than the measure, so the width test can tell the two
- * apart.
- */
-const TOKENS = `
-    .tokens {
-        --border-width-default: 1px;
-        --border-width-focus: 2px;
-        --color-background-hover: ${BACKGROUND_HOVER};
-        --color-border-divider: ${BORDER_DIVIDER};
-        --color-focus-ring: ${FOCUS_RING};
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --color-foreground-muted: ${FOREGROUND_MUTED};
-        --focus-offset: 2px;
-        --radius-sm: 8px;
-        --size-measure: 400px;
-        --size-target-min: 44px;
-        --space-4: 4px;
-        --space-12: 12px;
-        --space-16: 16px;
-        --typography-body-font-weight: 400;
-        --typography-title-sm-font-weight: 700;
-        width: 600px;
+/** Makes the container wider than the measure of `tokens.css`, 720 px, so the width test can tell the two apart. */
+const CONTAINER = `
+    .container {
+        width: 800px;
     }
 `;
 
-/** How the summary looks in each state, as Penpot draws it. Focus keeps the look of the state it adds to. */
-const SUMMARY_LOOKS = {
-    default: { background: TRANSPARENT, color: FOREGROUND_DEFAULT, fontWeight: '700' },
-    hover: { background: BACKGROUND_HOVER, color: FOREGROUND_DEFAULT, fontWeight: '700' },
-};
+/**
+ * How the summary looks in each state, as Penpot draws it, in the colors of the theme the test runs in. Focus keeps
+ * the look of the state it adds to.
+ */
+function readSummaryLooks() {
+    const foregroundDefault = readColorToken('--color-foreground-default');
+
+    return {
+        default: { background: TRANSPARENT, color: foregroundDefault, fontWeight: '700' },
+        hover: { background: readColorToken('--color-background-hover'), color: foregroundDefault, fontWeight: '700' },
+    };
+}
 
 const SUMMARY = 'Can I play offline?';
 const ANSWER = 'Yes, once the app has loaded.';
@@ -51,14 +32,14 @@ const ANSWER = 'Yes, once the app has loaded.';
 describe('DisclosureComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <details dma-disclosure [open]="open()">
                     <span dma-disclosure-summary>Can I play offline?</span>
                     <p>Yes, once the app has loaded.</p>
                 </details>
             </div>
         `,
-        styles: TOKENS,
+        styles: CONTAINER,
         imports: [DisclosureComponent],
     })
     class TestComponent {
@@ -135,10 +116,10 @@ describe('DisclosureComponent', () => {
     it('should draw the summary label and the panel text from their tokens', async () => {
         const { harness } = await setupTest(true);
 
-        expect(await harness.getSummaryLook()).toEqual(SUMMARY_LOOKS.default);
+        expect(await harness.getSummaryLook()).toEqual(readSummaryLooks().default);
         expect(await harness.getPanelLook()).toEqual({
             background: TRANSPARENT,
-            color: FOREGROUND_MUTED,
+            color: readColorToken('--color-foreground-muted'),
             fontWeight: '400',
         });
     });
@@ -154,7 +135,7 @@ describe('DisclosureComponent', () => {
             const look = await harness.getSummaryLook();
             await userEvent.unhover(summary);
 
-            expect(look).toEqual(SUMMARY_LOOKS.hover);
+            expect(look).toEqual(readSummaryLooks().hover);
         });
 
         it('should draw no focus ring until the summary has focus', async () => {
@@ -170,11 +151,11 @@ describe('DisclosureComponent', () => {
 
             expect(await harness.getFocusRing()).toEqual({
                 style: 'solid',
-                color: FOCUS_RING,
+                color: readColorToken('--color-focus-ring'),
                 width: '2px',
                 offset: '2px',
             });
-            expect(await harness.getSummaryLook()).toEqual(SUMMARY_LOOKS.default);
+            expect(await harness.getSummaryLook()).toEqual(readSummaryLooks().default);
         });
     });
 
@@ -201,7 +182,7 @@ describe('DisclosureComponent', () => {
     it('should make the summary at least as tall as the minimum target size', async () => {
         const { harness } = await setupTest();
 
-        document.querySelector<HTMLElement>('.tokens')?.style.setProperty('--size-target-min', '60px');
+        document.querySelector<HTMLElement>('.container')?.style.setProperty('--size-target-min', '60px');
 
         expect((await harness.getSummaryBox()).height).toBe(60);
     });
@@ -209,8 +190,12 @@ describe('DisclosureComponent', () => {
     it('should fill its container up to the measure, with the divider over its bottom padding', async () => {
         const { harness } = await setupTest();
 
-        expect(await harness.getDivider()).toEqual({ style: 'solid', color: BORDER_DIVIDER, width: '1px' });
-        expect(await harness.getSize()).toEqual({ width: 400, height: 4 + 48 + 4 });
+        expect(await harness.getDivider()).toEqual({
+            style: 'solid',
+            color: readColorToken('--color-border-divider'),
+            width: '1px',
+        });
+        expect(await harness.getSize()).toEqual({ width: 720, height: 4 + 48 + 4 });
     });
 
     // Locators find no role for `<summary>`, which Chromium exposes as a disclosure triangle, so the test reads the text

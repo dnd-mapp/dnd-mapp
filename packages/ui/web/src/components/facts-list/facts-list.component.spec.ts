@@ -2,50 +2,26 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { FactsListComponent } from './facts-list.component';
-import { FactsListHarness, type FactsListLook, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
-
-// Colors that no theme uses, so each part can only take its color from the token the test sets it on.
-const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
-const FOREGROUND_MUTED = 'rgb(170, 180, 190)';
+import { FactsListHarness, type FactsListLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
 /**
- * Sets the semantic tokens that the facts list reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from. Angular reads `styles` while it compiles, so the expectations repeat the
- * width of the container rather than interpolate it.
+ * The width of `.container`, which the facts list fills. Angular reads `styles` while it compiles, so the styles of
+ * the host repeat the value rather than interpolate it.
  */
-const TOKENS = `
-    .tokens {
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --color-foreground-muted: ${FOREGROUND_MUTED};
-        --size-term: 140px;
-        --space-4: 4px;
-        --space-12: 12px;
-        --space-16: 16px;
-        --typography-body-font-size: 16px;
-        --typography-body-font-weight: 400;
-        --typography-body-line-height: 1.5;
-        --typography-body-text-case: none;
-        --typography-caps-font-size: 13px;
-        --typography-caps-font-weight: 600;
-        --typography-caps-line-height: 1.4;
-        --typography-caps-text-case: uppercase;
-        width: 360px;
-    }
-`;
-
-/** The width of `.tokens`, which the facts list fills. */
 const CONTAINER_WIDTH = 360;
 
-/** How each part draws its text, as Penpot draws it in both layouts. */
-const LOOKS: Record<'term' | 'value', FactsListLook> = {
-    term: { color: FOREGROUND_MUTED, fontWeight: '600', textTransform: 'uppercase' },
-    value: { color: FOREGROUND_DEFAULT, fontWeight: '400', textTransform: 'none' },
-};
+/** How each part draws its text, as Penpot draws it in both layouts, in the colors of the theme the test runs in. */
+function readLooks(): Record<'term' | 'value', FactsListLook> {
+    return {
+        term: { color: readColorToken('--color-foreground-muted'), fontWeight: '600', textTransform: 'uppercase' },
+        value: { color: readColorToken('--color-foreground-default'), fontWeight: '400', textTransform: 'none' },
+    };
+}
 
 describe('FactsListComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <dl dma-facts-list>
                     <div>
                         <dt>Standard</dt>
@@ -60,7 +36,11 @@ describe('FactsListComponent', () => {
                 </dl>
             </div>
         `,
-        styles: TOKENS,
+        styles: `
+            .container {
+                width: 360px;
+            }
+        `,
         imports: [FactsListComponent],
     })
     class TestComponent {}
@@ -103,9 +83,11 @@ describe('FactsListComponent', () => {
     it('should draw each term and value with its own color and typography', async () => {
         const { harness } = await setupTest();
 
+        const looks = readLooks();
+
         for (const index of [0, 1]) {
-            expect(await harness.getLook(index, 'term')).toEqual(LOOKS.term);
-            expect(await harness.getLook(index, 'value')).toEqual(LOOKS.value);
+            expect(await harness.getLook(index, 'term')).toEqual(looks.term);
+            expect(await harness.getLook(index, 'value')).toEqual(looks.value);
         }
     });
 

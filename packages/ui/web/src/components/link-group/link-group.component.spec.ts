@@ -2,23 +2,11 @@ import { Component, type Type } from '@angular/core';
 import { page } from 'vitest/browser';
 import { LinkGroupComponent } from './link-group.component';
 import { LinkComponent } from '../link';
-import { LinkGroupHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { LinkGroupHarness, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
-// A color that no theme uses, so the heading can only take its color from the token the test sets it on.
-const FOREGROUND_DEFAULT = 'rgb(240, 230, 220)';
-
-/**
- * Sets the semantic tokens that the link group reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from. The container is wider than the group, so the width test can tell the
- * two apart.
- */
-const TOKENS = `
-    .tokens {
-        --color-foreground-default: ${FOREGROUND_DEFAULT};
-        --space-8: 8px;
-        --space-16: 16px;
-        --typography-caps-font-weight: 600;
-        --typography-caps-text-case: uppercase;
+/** Makes the container wider than the link group, so the width test can tell the two apart. */
+const CONTAINER = `
+    .container {
         width: 600px;
     }
 `;
@@ -26,7 +14,7 @@ const TOKENS = `
 describe('LinkGroupComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <dma-link-group>
                     <h3>Project</h3>
                     <li><a dma-link kind="quiet" href="#">Source code</a></li>
@@ -35,14 +23,14 @@ describe('LinkGroupComponent', () => {
                 </dma-link-group>
             </div>
         `,
-        styles: TOKENS,
+        styles: CONTAINER,
         imports: [LinkGroupComponent, LinkComponent],
     })
     class TestComponent {}
 
     @Component({
         template: `
-            <div class="tokens">
+            <div class="container">
                 <dma-link-group>
                     <h2>Rules</h2>
                     @for (link of links; track link) {
@@ -53,7 +41,7 @@ describe('LinkGroupComponent', () => {
                 </dma-link-group>
             </div>
         `,
-        styles: TOKENS,
+        styles: CONTAINER,
         imports: [LinkGroupComponent, LinkComponent],
     })
     class RepeatedLinksTestComponent {
@@ -104,7 +92,7 @@ describe('LinkGroupComponent', () => {
         const { harness } = await setupTest(host);
 
         expect(await harness.getHeadingLook()).toEqual({
-            color: FOREGROUND_DEFAULT,
+            color: readColorToken('--color-foreground-default'),
             fontWeight: '600',
             textTransform: 'uppercase',
         });

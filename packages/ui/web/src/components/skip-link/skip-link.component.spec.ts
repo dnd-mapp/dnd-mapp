@@ -2,42 +2,15 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { SkipLinkComponent } from './skip-link.component';
-import { setupTestEnvironment, SkipLinkHarness } from '@dnd-mapp/ui-web/testing';
-
-// Colors that no theme uses, so the skip link can only take each one from the token the test sets it on.
-const ACCENT_DEFAULT = 'rgb(200, 30, 40)';
-const FOREGROUND_ON_ACCENT = 'rgb(250, 250, 240)';
-const FOCUS_RING = 'rgb(0, 100, 250)';
-
-/**
- * Sets the semantic tokens that the skip link reads to values of the test, rather than loading `tokens.css`, so each
- * expectation names the token it comes from.
- */
-const TOKENS = `
-    .tokens {
-        --color-accent-default: ${ACCENT_DEFAULT};
-        --color-foreground-on-accent: ${FOREGROUND_ON_ACCENT};
-        --color-focus-ring: ${FOCUS_RING};
-        --border-width-focus: 2px;
-        --focus-offset: 2px;
-        --radius-md: 10px;
-        --size-target-min: 44px;
-        --space-16: 16px;
-        --typography-button-font-weight: 600;
-        --typography-button-line-height: 1.2;
-    }
-`;
+import { readColorToken, setupTestEnvironment, SkipLinkHarness } from '@dnd-mapp/ui-web/testing';
 
 describe('SkipLinkComponent', () => {
     @Component({
         template: `
-            <div class="tokens">
-                <a dma-skip-link [attr.href]="href()">Skip to main content</a>
-                <button type="button">Menu</button>
-                <main id="main" [attr.tabindex]="mainTabIndex()"><h1>Main content</h1></main>
-            </div>
+            <a dma-skip-link [attr.href]="href()">Skip to main content</a>
+            <button type="button">Menu</button>
+            <main id="main" [attr.tabindex]="mainTabIndex()"><h1>Main content</h1></main>
         `,
-        styles: TOKENS,
         imports: [SkipLinkComponent],
     })
     class TestComponent {
@@ -126,8 +99,8 @@ describe('SkipLinkComponent', () => {
         await userEvent.tab();
 
         expect(await harness.getLook()).toEqual({
-            background: ACCENT_DEFAULT,
-            color: FOREGROUND_ON_ACCENT,
+            background: readColorToken('--color-accent-default'),
+            color: readColorToken('--color-foreground-on-accent'),
             fontWeight: '600',
         });
     });
@@ -141,7 +114,7 @@ describe('SkipLinkComponent', () => {
 
         expect(await harness.getFocusRing()).toEqual({
             style: 'solid',
-            color: FOCUS_RING,
+            color: readColorToken('--color-focus-ring'),
             width: '2px',
             offset: '2px',
         });
