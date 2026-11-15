@@ -137,4 +137,4 @@ LEFTHOOK=0 git commit
 The repository holds settings for two editors, so either runs the tasks without setup of its own:
 
 - **VS Code.** [`.vscode/extensions.json`](../.vscode/extensions.json) recommends the extensions for the languages and tools of the repository, such as ESLint, Prettier, markdownlint, moon, mise, Playwright, and Vitest. [`.vscode/settings.json`](../.vscode/settings.json) formats on save with Prettier. [`.vscode/tasks.json`](../.vscode/tasks.json) holds a task for each moon task, named after it, and runs the dev servers and test watchers in the background. The `Debug web` launch configuration in [`.vscode/launch.json`](../.vscode/launch.json) starts the dev server and opens the app in Chrome with the debugger attached.
-- **WebStorm and IntelliJ IDEA.** [`.idea/runConfigurations/`](../.idea/runConfigurations) holds a run configuration for each common moon task, named after it, such as `web:start`.
+- **WebStorm and IntelliJ IDEA.** [`.idea/runConfigurations/`](../.idea/runConfigurations) holds a run configuration for each moon task, named after it, such as `web:start`, in a folder per project.
