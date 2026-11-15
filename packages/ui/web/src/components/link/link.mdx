@@ -23,7 +23,7 @@ Link is an attribute on `<a>`, so the element keeps the semantics and keyboard b
 
 ## Kind
 
-`kind` picks how the link looks. Each kind draws a default, a hover, and a focus state.
+`kind` picks how the link looks, and an unknown value draws the default. Each kind draws a default, a hover, and a focus state.
 
 ### Inline
 
@@ -62,6 +62,8 @@ Every kind draws the focus ring outside itself on keyboard focus, and keeps the 
 ## Accessibility
 
 The projected content names the link to assistive technology. The arrow of a standalone link hides itself, so screen readers announce the label alone. Write a label that says where the link goes, rather than "Read more", since a screen reader may list the links of a page out of context.
+
+A link takes the height of its line of text, rather than the 44 px target size of Button, since it sits in a line of text or a list of links. Use Button for an action that needs the larger target.
 
 ## Testing
 

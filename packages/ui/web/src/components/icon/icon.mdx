@@ -30,6 +30,10 @@ Every icon draws in the color of its parent, so it follows the text color of the
 
 <Canvas of={IconStories.InheritedColor} />
 
+## Focus
+
+An icon takes no focus, since it is not interactive. The control that holds it draws the focus ring.
+
 ## Accessibility
 
 Every icon hides itself from assistive technology, so screen readers skip it. The control that holds the icon carries the accessible name: give a control that shows an icon alone an `aria-label`:
@@ -43,3 +47,14 @@ Every icon hides itself from assistive technology, so screen readers skip it. Th
 ## Testing
 
 `IconHarness` from `@dnd-mapp/ui-web/testing` reads any icon in a test: its glyph, whether it is hidden from assistive technology, the color it draws with, and its size.
+
+## Adding a glyph
+
+Add the glyph to the Icon component in Penpot first. Then, for a glyph such as `chevron`, touch these files of the package:
+
+1. `src/components/icon/icon-chevron.component.ts`: the `IconChevronComponent`, with the selector `dma-icon-chevron`, the shared `icon.component.scss`, and `aria-hidden` on its host, as the other glyphs have.
+2. `src/components/icon/icon-chevron.component.html`: the `<svg>` of the glyph from Penpot, with a `viewBox` of `0 0 24 24`, `focusable="false"`, and `currentColor` as its stroke or fill.
+3. `src/components/icon/index.ts`: an export of the component, so apps can import it.
+4. `src/components/icon/icons.ts`: the glyph and its component in the `ICONS` map, in the order of the variants in Penpot, so the spec and the stories cover it.
+5. `testing/harnesses/icon.harness.ts`: the glyph in `GLYPHS`, so `IconHarness` finds it.
+6. `README.md`: the glyph in the list of glyphs of the Components table.

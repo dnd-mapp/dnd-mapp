@@ -40,9 +40,7 @@ The open panel shows its content in muted body text, and the summary ends in a m
 
 <Canvas of={DisclosureStories.OpenDefault} />
 
-## States
-
-### Hover
+## Hover
 
 The summary fills its box, whether the panel is closed or open.
 
@@ -50,7 +48,7 @@ The summary fills its box, whether the panel is closed or open.
 
 <Canvas of={DisclosureStories.OpenHover} />
 
-### Focus
+## Focus
 
 The summary draws the focus ring outside itself on keyboard focus, and keeps the look of its default state. A click focuses the summary but draws no ring.
 
@@ -60,7 +58,7 @@ The summary draws the focus ring outside itself on keyboard focus, and keeps the
 
 ## Accessibility
 
-The whole summary is the target, at least as tall as the minimum target size. A pointer, Enter, or Space on the focused summary opens and closes the panel. The icons hide themselves, so the label alone names the summary.
+The whole summary is the target, at least 44 px tall, the minimum target size. A pointer, Enter, or Space on the focused summary opens and closes the panel. The icons hide themselves, so the label alone names the summary.
 
 The content of a closed panel stays in the page. Browsers that support it, such as Chrome and Edge, open a closed panel when find in page matches its text.
 
