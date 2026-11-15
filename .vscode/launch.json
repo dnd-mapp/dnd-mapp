@@ -8,6 +8,14 @@
             "preLaunchTask": "web:start",
             "url": "https://localhost.www.dndmapp.dev:4200",
             "webRoot": "${workspaceFolder}/apps/web"
+        },
+        {
+            "name": "Debug Storybook",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "ui-web:storybook",
+            "url": "http://localhost:6006",
+            "webRoot": "${workspaceFolder}/packages/ui/web"
         }
     ]
 }
