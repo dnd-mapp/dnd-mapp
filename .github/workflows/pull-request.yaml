@@ -7,6 +7,8 @@ on:
 
 permissions: {}
 
+# pull-request-closed.yaml joins this group by its name, so that closing the pull request cancels a running deploy.
+# Keep both in sync when you rename this workflow.
 concurrency:
     group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
     cancel-in-progress: true

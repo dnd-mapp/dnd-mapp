@@ -9,6 +9,13 @@ on:
 
 permissions: {}
 
+# Join the concurrency group of pull-request.yaml, so that closing the pull request cancels its running run, and the
+# jobs below start only once that run has stopped. A preview or image that the run would push after the jobs ran would
+# otherwise stay behind. Groups span all workflows of the repository, so the group repeats the name of that workflow.
+concurrency:
+    group: Pull request-${{ github.event.pull_request.number }}
+    cancel-in-progress: true
+
 jobs:
     delete-storybook-preview:
         name: Delete the Storybook preview
