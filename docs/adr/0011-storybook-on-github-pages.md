@@ -1,6 +1,6 @@
 # 0011. The workflows publish Storybook to GitHub Pages from a gh-pages branch
 
-- **Status:** Accepted
+- **Status:** Partly superseded by [0012](0012-storybook-previews-noindex.md)
 - **Date:** 2026-11-13
 - **Built in:** [#264](https://github.com/dnd-mapp/dnd-mapp/pull/264)
 

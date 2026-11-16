@@ -51,6 +51,9 @@ tasks:
             # angular.json loads the tokens into the preview, so a story shows the theme it picks.
             - project: "design-tokens"
               group: "css"
+            # .storybook/main.ts leaves out the noindex tag when the variable is true, so moon never reuses the build
+            # of main for a preview, or the other way round.
+            - "$INDEX_STORYBOOK"
         outputs:
             - "dist/storybook/**/*"
 
