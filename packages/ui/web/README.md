@@ -8,7 +8,7 @@ A component belongs here when it is presentational: it takes its content through
 
 [Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
-- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Card, Disclosure, Facts list, Icon, Link group, and Skip link have none.
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Card, Disclosure, Facts list, Header, Icon, Link group, and Skip link have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
 - Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
 
@@ -27,6 +27,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Chip          | [`dma-chip`][ch]                            | `kind`: `neutral`, `status`, or `dm`.                                                                                                                |
 | Disclosure    | [`details[dma-disclosure]`][di]             | The `open` attribute of `<details>`: closed or open.                                                                                                 |
 | Facts list    | [`dl[dma-facts-list]`][fl]                  | None: the layout follows the viewport, Desktop or Mobile.                                                                                            |
+| Header        | [`header[dma-header]`][he]                  | None: the layout follows the viewport. Mobile holds the link home and the Menu button.                                                               |
 | Icon          | [`dma-icon-<glyph>`][ic]                    | One component per glyph: `menu`, `close`, `arrow-right`, `arrow-down`, `plus`, `minus`, `external`, `sun`, `moon`, `monitor`, `check`, and `github`. |
 | Link          | [`a[dma-link]`][li]                         | `kind`: `inline`, `standalone`, or `quiet`.                                                                                                          |
 | Link group    | [`dma-link-group`][lg]                      | None: Penpot draws one look, and its links draw their own states.                                                                                    |
@@ -41,6 +42,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [ch]: src/components/chip/chip.component.ts
 [di]: src/components/disclosure/disclosure.component.ts
 [fl]: src/components/facts-list/facts-list.component.ts
+[he]: src/components/header/header.component.ts
 [ic]: src/components/icon/index.ts
 [li]: src/components/link/link.component.ts
 [lg]: src/components/link-group/link-group.component.ts
@@ -85,6 +87,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Chip          | `ChipComponent`, `ChipKind`, `DEFAULT_CHIP_KIND`, `chipKindAttr`                                                  |
 | Disclosure    | `DisclosureComponent`                                                                                             |
 | Facts list    | `FactsListComponent`                                                                                              |
+| Header        | `HeaderComponent`                                                                                                 |
 | Icon          | One `Icon<Glyph>Component` per glyph, such as `IconMenuComponent`                                                 |
 | Link          | `LinkComponent`, `LinkKind`, `DEFAULT_LINK_KIND`, `linkKindAttr`                                                  |
 | Link group    | `LinkGroupComponent`                                                                                              |
@@ -105,6 +108,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Chip             | `ChipHarness`, `ChipLook`                                                                                                   |
 | Disclosure       | `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider` |
 | Facts list       | `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`                                   |
+| Header           | `HeaderHarness`, `HeaderLook`, `HeaderPart`, `HeaderPartInsets`, `HeaderHomeFocusRing`                                      |
 | Icon             | `IconHarness`                                                                                                               |
 | Link             | `LinkHarness`, `LinkFocusRing`                                                                                              |
 | Link group       | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
