@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { page } from 'vitest/browser';
+import { page, userEvent } from 'vitest/browser';
 import { TabComponent } from './tab.component';
 import { TabListComponent } from './tab-list.component';
 import { TabPanelComponent } from './tab-panel.component';
@@ -56,6 +56,29 @@ describe('Tabs', () => {
     class TestComponent {
         public readonly selected = signal(0);
     }
+
+    /** Tabs too wide for their container, so the tab list scrolls. */
+    @Component({
+        template: `
+            <div class="container">
+                <dma-tab-list aria-label="Character sheet">
+                    <button dma-tab [panel]="overview">Overview</button>
+                    <button dma-tab [panel]="stats">Stats</button>
+                    <button dma-tab [panel]="spells">Spells</button>
+                </dma-tab-list>
+                <dma-tab-panel #overview>The overview of the character.</dma-tab-panel>
+                <dma-tab-panel #stats>The ability scores of the character.</dma-tab-panel>
+                <dma-tab-panel #spells>The spells the character knows.</dma-tab-panel>
+            </div>
+        `,
+        styles: `
+            .container {
+                width: 160px;
+            }
+        `,
+        imports: [TabComponent, TabListComponent, TabPanelComponent],
+    })
+    class OverflowTestComponent {}
 
     async function setupTest(selected?: number) {
         const { fixture, harness, harnessLoader } = await setupTestEnvironment({
@@ -197,6 +220,99 @@ describe('Tabs', () => {
         });
     });
 
+    describe('keyboard', () => {
+        /** Focuses the tab labeled `label`, then presses `keys` as `userEvent.keyboard` spells them. */
+        async function press(harness: TabListHarness, label: string, keys: string) {
+            await (await harness.getTab(label)).focus();
+            await userEvent.keyboard(keys);
+        }
+
+        it('should reach the selected tab with Tab', async () => {
+            const { harness } = await setupTest(1);
+
+            await userEvent.tab();
+
+            expect(await harness.getFocusedLabel()).toBe('Stats');
+        });
+
+        it('should move to the next tab with the right arrow, and select it', async () => {
+            const { harness, panels } = await setupTest();
+
+            await press(harness, 'Overview', '{ArrowRight}');
+
+            expect(await harness.getFocusedLabel()).toBe('Stats');
+            expect(await harness.getSelectedLabel()).toBe('Stats');
+            expect(await readShownPanels(panels)).toEqual(['The ability scores of the character.']);
+        });
+
+        it('should move to the previous tab with the left arrow, and select it', async () => {
+            const { harness } = await setupTest(2);
+
+            await press(harness, 'Spells', '{ArrowLeft}');
+
+            expect(await harness.getFocusedLabel()).toBe('Stats');
+            expect(await harness.getSelectedLabel()).toBe('Stats');
+        });
+
+        it('should wrap from the last tab to the first with the right arrow', async () => {
+            const { harness } = await setupTest(2);
+
+            await press(harness, 'Spells', '{ArrowRight}');
+
+            expect(await harness.getFocusedLabel()).toBe('Overview');
+            expect(await harness.getSelectedLabel()).toBe('Overview');
+        });
+
+        it('should wrap from the first tab to the last with the left arrow', async () => {
+            const { harness } = await setupTest();
+
+            await press(harness, 'Overview', '{ArrowLeft}');
+
+            expect(await harness.getFocusedLabel()).toBe('Spells');
+            expect(await harness.getSelectedLabel()).toBe('Spells');
+        });
+
+        it('should jump to the last tab with End, and to the first with Home', async () => {
+            const { harness } = await setupTest(1);
+
+            await press(harness, 'Stats', '{End}');
+
+            expect(await harness.getFocusedLabel()).toBe('Spells');
+            expect(await harness.getSelectedLabel()).toBe('Spells');
+
+            await userEvent.keyboard('{Home}');
+
+            expect(await harness.getFocusedLabel()).toBe('Overview');
+            expect(await harness.getSelectedLabel()).toBe('Overview');
+        });
+
+        it('should report the tab a key selects through the bound index', async () => {
+            const { fixture, harness } = await setupTest();
+
+            await press(harness, 'Overview', '{End}');
+
+            expect(fixture.componentInstance.selected()).toBe(2);
+        });
+
+        it('should leave an arrow key with Ctrl to the browser', async () => {
+            const { harness } = await setupTest();
+
+            await press(harness, 'Overview', '{Control>}{ArrowRight}{/Control}');
+
+            expect(await harness.getFocusedLabel()).toBe('Overview');
+            expect(await harness.getSelectedLabel()).toBe('Overview');
+        });
+
+        it('should move from the selected tab into its panel with Tab', async () => {
+            const { harness, panels } = await setupTest();
+
+            await press(harness, 'Overview', '{ArrowRight}');
+            await userEvent.tab();
+
+            expect(await panels[1]?.isFocused()).toBe(true);
+        });
+    });
+
     describe('tab', () => {
         it('should draw its default look', async () => {
             const { harness } = await setupTest();
@@ -259,6 +375,28 @@ describe('Tabs', () => {
             const { harness } = await setupTest();
 
             expect(await harness.getDivider()).toEqual({ color: readColorToken('--color-border-divider'), width: 1 });
+        });
+
+        it('should scroll sideways at the height of a tab when its tabs do not fit', async () => {
+            const { harness } = await setupTestEnvironment({ host: OverflowTestComponent, harness: TabListHarness });
+
+            expect(await harness.isScrollable()).toBe(true);
+            expect(await harness.getSize()).toEqual({ width: 160, height: 44 });
+        });
+
+        it('should scroll a tab the keys reach into view', async () => {
+            const { harness } = await setupTestEnvironment({ host: OverflowTestComponent, harness: TabListHarness });
+
+            expect(await harness.isTabInView('Spells')).toBe(false);
+
+            await (await harness.getTab('Overview')).focus();
+            await userEvent.keyboard('{End}');
+
+            expect(await harness.isTabInView('Spells')).toBe(true);
+
+            await userEvent.keyboard('{Home}');
+
+            expect(await harness.isTabInView('Overview')).toBe(true);
         });
     });
 });

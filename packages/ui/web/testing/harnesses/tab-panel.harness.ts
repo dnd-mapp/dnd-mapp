@@ -16,6 +16,11 @@ export class TabPanelHarness extends ComponentHarness {
         return !hidden && display !== 'none';
     }
 
+    /** Whether the panel has the focus. */
+    public async isFocused(): Promise<boolean> {
+        return await (await this.host()).isFocused();
+    }
+
     /** The id of the panel. */
     public async getId(): Promise<string | null> {
         return await (await this.host()).getAttribute('id');
