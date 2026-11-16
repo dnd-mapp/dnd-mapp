@@ -29,6 +29,10 @@ $heading: ':is(h1, h2, h3, h4, h5, h6)';
     background: var(--color-background-surface);
 }
 
+#{$host}.raised {
+    background: var(--color-background-raised);
+}
+
 // The gap spaces the children, so none keeps the margin of its element.
 #{$host} > * {
     margin: 0;

@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
+import { cardBackgroundAttr, DEFAULT_CARD_BACKGROUND } from './card.types';
 
 /**
  * A block of related content, alone or in a grid: a title and text, both projected. The heading is the title and the
@@ -13,5 +14,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
     templateUrl: './card.component.html',
     styleUrl: './card.component.scss',
     encapsulation: ViewEncapsulation.None,
+    host: {
+        '[class.raised]': "background() === 'raised'",
+    },
 })
-export class CardComponent {}
+export class CardComponent {
+    public readonly background = input(DEFAULT_CARD_BACKGROUND, { transform: cardBackgroundAttr });
+}
