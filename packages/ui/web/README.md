@@ -10,7 +10,7 @@ A component belongs here when it is presentational: it takes its content through
 
 - A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Disclosure, Facts list, Footer, Header, Icon, Link group, Skip link, and Tabs have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
-- Tabs holds one component per part, Tab list and Tab, which share a spec, stories, and docs page.
+- Tabs holds one component per part, Tab list, Tab, and Tab panel, which share a spec, stories, and docs page.
 - Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
 
 ## Using the package
@@ -101,7 +101,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
 | Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
 | Skip link     | `SkipLinkComponent`                                                                                               |
-| Tabs          | `TabListComponent`, `TabComponent`                                                                                |
+| Tabs          | `TabListComponent`, `TabComponent`, `TabPanelComponent`                                                           |
 | Theme picker  | `ThemePickerComponent`, `ThemePickerDisplay`, `DEFAULT_THEME_PICKER_DISPLAY`, `themePickerDisplayAttr`            |
 | Theme         | `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`                                         |
 | Storage       | `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE`                                              |
@@ -126,6 +126,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Skip link        | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                       |
 | Tab list         | `TabListHarness`, `TabListDivider`                                                                                          |
 | Tab              | `TabHarness`, `TabHarnessFilters`, `TabLook`, `TabBox`, `TabIndicator`                                                      |
+| Tab panel        | `TabPanelHarness`                                                                                                           |
 | Theme option     | `ThemeOptionHarness`, `ThemeOptionHarnessFilters`, `ThemeOptionLook`, `ThemeOptionFocusRing`                                |
 | Theme picker     | `ThemePickerHarness`, `ThemePickerLook`                                                                                     |
 | Storage          | `InMemoryStorage`                                                                                                           |

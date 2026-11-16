@@ -1,0 +1,9 @@
+// Penpot draws no panel, so the panel lays out its content as the page does. The `display` would override the `hidden`
+// attribute of the browser, so a hidden panel hides itself again.
+:host {
+    display: block;
+}
+
+:host([hidden]) {
+    display: none;
+}

@@ -3,7 +3,14 @@ import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { TabComponent } from './tab.component';
 import { TabListComponent } from './tab-list.component';
-import { readColorToken, setupTestEnvironment, TabListHarness, type TabLook } from '@dnd-mapp/ui-web/testing';
+import { TabPanelComponent } from './tab-panel.component';
+import {
+    readColorToken,
+    setupTestEnvironment,
+    TabListHarness,
+    type TabLook,
+    TabPanelHarness,
+} from '@dnd-mapp/ui-web/testing';
 
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 
@@ -29,10 +36,14 @@ describe('Tabs', () => {
         template: `
             <div class="container">
                 <dma-tab-list aria-label="Character sheet" [(selected)]="selected">
-                    <button dma-tab>Overview</button>
-                    <button dma-tab>Stats</button>
-                    <button dma-tab>Spells</button>
+                    <button dma-tab [panel]="overview">Overview</button>
+                    <button dma-tab [panel]="stats">Stats</button>
+                    <button dma-tab [panel]="spells">Spells</button>
                 </dma-tab-list>
+                <dma-tab-panel #overview>The overview of the character.</dma-tab-panel>
+                <dma-tab-panel #stats>The ability scores of the character.</dma-tab-panel>
+                <dma-tab-panel #spells>The spells the character knows.</dma-tab-panel>
+                <dma-tab-panel>A panel that no tab names.</dma-tab-panel>
             </div>
         `,
         styles: `
@@ -40,20 +51,32 @@ describe('Tabs', () => {
                 width: 480px;
             }
         `,
-        imports: [TabComponent, TabListComponent],
+        imports: [TabComponent, TabListComponent, TabPanelComponent],
     })
     class TestComponent {
         public readonly selected = signal(0);
     }
 
     async function setupTest(selected?: number) {
-        const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: TabListHarness });
+        const { fixture, harness, harnessLoader } = await setupTestEnvironment({
+            host: TestComponent,
+            harness: TabListHarness,
+        });
 
         if (selected !== undefined) {
             fixture.componentInstance.selected.set(selected);
             TestBed.tick();
         }
-        return { fixture, harness };
+        const panels = await harnessLoader.getAllHarnesses(TabPanelHarness);
+
+        return { fixture, harness, panels };
+    }
+
+    /** The texts of the panels that show. */
+    async function readShownPanels(panels: TabPanelHarness[]) {
+        const shown = await Promise.all(panels.map(async (panel) => ((await panel.isShown()) ? panel : null)));
+
+        return await Promise.all(shown.filter((panel) => panel !== null).map(async (panel) => await panel.getText()));
     }
 
     describe('roles', () => {
@@ -79,13 +102,60 @@ describe('Tabs', () => {
             await expect.element(page.getByRole('tab', { name: 'Overview', selected: true })).toBeInTheDocument();
             expect(page.getByRole('tab', { selected: true }).all()).toHaveLength(1);
         });
+
+        it('should show one tab panel, named by its tab', async () => {
+            await setupTest();
+
+            await expect
+                .element(page.getByRole('tabpanel', { name: 'Overview' }))
+                .toHaveTextContent('The overview of the character.');
+            expect(page.getByRole('tabpanel').all()).toHaveLength(1);
+        });
+    });
+
+    describe('links between tabs and panels', () => {
+        it('should point each tab at its panel, and each panel back at its tab', async () => {
+            const { harness, panels } = await setupTest();
+            const tabs = await harness.getTabs();
+
+            for (const [index, tab] of tabs.entries()) {
+                const panel = panels[index];
+
+                expect(await tab.getControls()).toBe(await panel?.getId());
+                expect(await panel?.getLabelledBy()).toBe(await tab.getId());
+            }
+        });
+
+        it('should give every tab and panel an id of its own', async () => {
+            const { harness, panels } = await setupTest();
+            const tabs = await harness.getTabs();
+            const ids = await Promise.all([...tabs, ...panels].map(async (part) => await part.getId()));
+
+            expect(ids.every((id) => id)).toBe(true);
+            expect(new Set(ids).size).toBe(ids.length);
+        });
+
+        it('should hide a panel that no tab names, and leave it unlabeled', async () => {
+            const { panels } = await setupTest();
+            const unnamed = panels[3];
+
+            expect(await unnamed?.isShown()).toBe(false);
+            expect(await unnamed?.getLabelledBy()).toBeNull();
+        });
+
+        it('should put the panel in the tab order', async () => {
+            const { panels } = await setupTest();
+
+            expect(await panels[0]?.getTabIndex()).toBe('0');
+        });
     });
 
     describe('selection', () => {
-        it('should select the first tab by default', async () => {
-            const { harness } = await setupTest();
+        it('should select the first tab and show its panel by default', async () => {
+            const { harness, panels } = await setupTest();
 
             expect(await harness.getSelectedLabel()).toBe('Overview');
+            expect(await readShownPanels(panels)).toEqual(['The overview of the character.']);
         });
 
         it('should mark the selected tab alone, and keep only it in the tab order', async () => {
@@ -97,9 +167,10 @@ describe('Tabs', () => {
         });
 
         it('should start on the tab at the bound index', async () => {
-            const { harness } = await setupTest(2);
+            const { harness, panels } = await setupTest(2);
 
             expect(await harness.getSelectedLabel()).toBe('Spells');
+            expect(await readShownPanels(panels)).toEqual(['The spells the character knows.']);
         });
 
         it('should select the first tab for an index without a tab', async () => {
@@ -108,12 +179,13 @@ describe('Tabs', () => {
             expect(await harness.getSelectedLabel()).toBe('Overview');
         });
 
-        it('should select a tab on a click', async () => {
-            const { harness } = await setupTest();
+        it('should select a tab and show its panel on a click', async () => {
+            const { harness, panels } = await setupTest();
 
             await (await harness.getTab('Stats')).click();
 
             expect(await harness.getSelectedLabel()).toBe('Stats');
+            expect(await readShownPanels(panels)).toEqual(['The ability scores of the character.']);
         });
 
         it('should report the clicked tab through the bound index', async () => {
