@@ -1,34 +1,9 @@
-import { type Signal, signal } from '@angular/core';
-import { applicationConfig, type Meta, type StoryObj } from '@storybook/angular-vite';
+import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { ThemePickerComponent } from './theme-picker.component';
 import { DEFAULT_THEME_PICKER_DISPLAY, ThemePickerDisplay } from './theme-picker.types';
 import { radioArgType } from '../../../.storybook/arg-types';
-import { Theme, ThemeService } from '../../theme';
-
-/**
- * Stands in for `ThemeService`, so each story picks the option it shows as selected, and a click moves the selection
- * without changing the theme of the preview, which the theme toolbar owns.
- */
-class StoryThemeService {
-    private readonly _theme = signal<Theme>(Theme.System);
-
-    public readonly theme: Signal<Theme> = this._theme.asReadonly();
-
-    constructor(selected: Theme) {
-        this._theme.set(selected);
-    }
-
-    public setTheme(theme: Theme): void {
-        this._theme.set(theme);
-    }
-}
-
-/** Provides a `StoryThemeService` that reports `selected`. */
-function withSelected(selected: Theme) {
-    return applicationConfig({
-        providers: [{ provide: ThemeService, useFactory: () => new StoryThemeService(selected) }],
-    });
-}
+import { withSelectedTheme } from '../../../.storybook/theme';
+import { Theme } from '../../theme';
 
 const meta = {
     title: 'Theme picker',
@@ -41,7 +16,7 @@ const meta = {
             description: 'How the options show: each icon with its label, or the icons alone where space is tight.',
         }),
     },
-    decorators: [withSelected(Theme.System)],
+    decorators: [withSelectedTheme(Theme.System)],
     render: (args) => ({
         props: args,
         template: `<fieldset dma-theme-picker [display]="display"></fieldset>`,
@@ -86,5 +61,5 @@ export const IconsFocus: Story = {
 /** Dark selected, as the picker shows it to a reader who picked Dark. */
 export const DarkSelected: Story = {
     args: { display: 'labels' },
-    decorators: [withSelected(Theme.Dark)],
+    decorators: [withSelectedTheme(Theme.Dark)],
 };
