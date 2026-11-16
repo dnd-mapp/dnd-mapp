@@ -1,0 +1,82 @@
+// Sets the font of a typography token, such as `body-sm` for the `--typography-body-sm-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The inline padding follows the Viewport theme of `tokens.css`: 120 px on Desktop, and 20 px on Mobile.
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-32);
+    padding-block: var(--space-48);
+    padding-inline: var(--space-page-inline);
+    background: var(--color-background-footer);
+}
+
+// The brand stacks above the columns, and the columns above each other.
+:host > .top,
+:host > .top > .groups {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-32);
+}
+
+:host > .top > .brand {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-12);
+}
+
+:host > .top > .brand > .tagline {
+    margin: 0;
+    color: var(--color-foreground-muted);
+    @include typography(body-sm);
+}
+
+// The divider line sits on top of the bottom part, as far from the columns as from the legal text.
+:host > .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding-block-start: var(--space-32);
+    border-block-start: var(--border-width-default) solid var(--color-border-divider);
+}
+
+:host > .bottom > .legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-inline-size: var(--size-measure);
+}
+
+:host > .bottom > .legal > p {
+    margin: 0;
+    color: var(--color-foreground-muted);
+    @include typography(body-sm);
+}
+
+// Penpot draws the URLs as plain text. They take its color, and an underline sets them apart from the text around them,
+// so color is not the only cue. A URL breaks anywhere, so it never widens a narrow screen.
+:host > .bottom > .legal a {
+    border-radius: var(--radius-xs);
+    color: inherit;
+    text-decoration: underline;
+    overflow-wrap: anywhere;
+}
+
+:host > .bottom > .legal a:hover {
+    color: var(--color-foreground-default);
+}
+
+:host > .bottom > .legal a:focus-visible {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}

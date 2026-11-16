@@ -1,0 +1,50 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as FooterStories from './footer.stories';
+
+<Meta of={FooterStories} />
+
+# Footer
+
+The bottom of every page: the brand, the columns of links, the license line, and the SRD 5.1 attribution. It is the Footer component of the design system in Penpot.
+
+<Canvas of={FooterStories.Mobile} story={{ inline: false, height: '64rem' }} />
+
+## Placing a footer
+
+Footer is an attribute on `<footer>`. Project each column as a `<nav>` around a Link group, named by the heading of the group:
+
+```html
+<footer dma-footer>
+    <nav aria-labelledby="footer-product">
+        <dma-link-group>
+            <h2 id="footer-product">Product</h2>
+            <li><a dma-link kind="quiet" routerLink="/compendium">Compendium</a></li>
+            <li><a dma-link kind="quiet" routerLink="/dice">Dice</a></li>
+        </dma-link-group>
+    </nav>
+    <nav aria-labelledby="footer-project">
+        <dma-link-group>
+            <h2 id="footer-project">Project</h2>
+            <li><a dma-link kind="quiet" href="https://github.com/dnd-mapp/dnd-mapp">GitHub</a></li>
+        </dma-link-group>
+    </nav>
+</footer>
+```
+
+The footer shows the columns in the order you project them, and drops any other content. The brand, the license line, and the SRD 5.1 attribution are built in, so every page shows them the same. The license of the SRD 5.1 requires the attribution word for word, so no page can change or leave it out.
+
+## Layout
+
+The footer stacks every part in one column, as Penpot draws its Mobile variant: the brand, then the columns 32 px apart, then a divider line, then the legal text, at most 720 px wide. Its inline padding follows the `space.page-inline` token: 120 px on Desktop, and 20 px on Mobile.
+
+## Focus
+
+The footer takes no focus itself. Its links draw their own hover and focus states, as the docs page of Link shows. Penpot draws the two URLs of the attribution as plain text; the footer underlines them, so color is not the only cue that they are links, and draws the focus ring of Link around them.
+
+## Accessibility
+
+The footer is the contentinfo landmark of the page, and each column a navigation landmark named by its heading. The logo names itself "D&D Mapp". The URLs of the attribution break anywhere, so they never widen a narrow screen.
+
+## Testing
+
+`FooterHarness` from `@dnd-mapp/ui-web/testing` reads a footer in a test: its logo and link groups, its texts and their look, the links of the attribution, its own look, and the place and size of each part and column.
