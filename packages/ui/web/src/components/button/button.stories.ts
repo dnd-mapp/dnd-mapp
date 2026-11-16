@@ -153,3 +153,5 @@ export const NarrowScreen: Story = {
         ],
     }),
 };
+
+// Throwaway change to test closing a pull request during its Storybook preview.
