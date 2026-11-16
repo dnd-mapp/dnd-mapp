@@ -173,4 +173,52 @@ describe('FooterComponent', () => {
             expect(legal.top - bottom.top).toBeCloseTo(33);
         });
     });
+
+    describe('on wide screens', () => {
+        const { innerWidth, innerHeight } = window;
+
+        beforeEach(async () => {
+            await page.viewport(1440, 900);
+        });
+
+        afterEach(async () => {
+            await page.viewport(innerWidth, innerHeight);
+        });
+
+        it('should pad itself 48 px above and below, and 120 px at the sides', async () => {
+            const { harness } = await setupTest();
+
+            expect((await harness.getLook()).padding).toBe('48px 120px');
+        });
+
+        it('should put the brand at the start and the columns at the end, 48 px apart in one row', async () => {
+            const { harness } = await setupTest();
+            const [width, brand, groups, columns] = await Promise.all([
+                harness.getWidth(),
+                harness.getBox('brand'),
+                harness.getBox('groups'),
+                harness.getColumnBoxes(),
+            ]);
+
+            expect(brand.left).toBe(120);
+            expect(groups.left + groups.width).toBeCloseTo(width - 120);
+            expect(groups.top).toBe(brand.top);
+            for (const [index, column] of columns.entries()) {
+                const previous = columns[index - 1];
+
+                expect(column.top).toBe(brand.top);
+                if (previous) {
+                    expect(column.left - (previous.left + previous.width)).toBeCloseTo(48);
+                }
+            }
+        });
+
+        it('should let the legal text grow to at most 720 px wide', async () => {
+            const { harness } = await setupTest();
+            const legal = await harness.getBox('legal');
+
+            expect(legal.left).toBe(120);
+            expect(legal.width).toBe(720);
+        });
+    });
 });

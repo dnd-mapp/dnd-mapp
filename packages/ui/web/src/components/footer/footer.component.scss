@@ -1,3 +1,5 @@
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
 // Sets the font of a typography token, such as `body-sm` for the `--typography-body-sm-*` properties.
 @mixin typography($name) {
     font-family: var(--typography-#{$name}-font-family);
@@ -19,7 +21,7 @@
     background: var(--color-background-footer);
 }
 
-// The brand stacks above the columns, and the columns above each other.
+// Below the desktop breakpoint, the brand stacks above the columns, and the columns above each other.
 :host > .top,
 :host > .top > .groups {
     display: flex;
@@ -79,4 +81,24 @@
 :host > .bottom > .legal a:focus-visible {
     outline: var(--border-width-focus) solid var(--color-focus-ring);
     outline-offset: var(--focus-offset);
+}
+
+// From the desktop breakpoint up, the brand sits beside the columns, at both ends of the footer.
+@media (min-width: breakpoints.$breakpoint-desktop) {
+    :host > .top,
+    :host > .bottom {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: var(--space-48);
+    }
+
+    :host > .top > .groups {
+        flex-direction: row;
+        gap: var(--space-48);
+    }
+
+    :host > .bottom > .legal {
+        flex: 1 1 auto;
+    }
 }
