@@ -2,7 +2,24 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { CardComponent } from './card.component';
-import { CardHarness, type CardPartLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { CardBackground } from './card.types';
+import {
+    CardHarness,
+    type CardLook,
+    type CardPartLook,
+    readColorToken,
+    setupTestEnvironment,
+} from '@dnd-mapp/ui-web/testing';
+
+/** How the box of a card looks on each background, as Penpot draws it, in the colors of the theme the test runs in. */
+function readLooks(): Record<CardBackground, CardLook> {
+    const border = { borderColor: readColorToken('--color-border-divider'), borderWidth: '1px', borderRadius: '12px' };
+
+    return {
+        surface: { background: readColorToken('--color-background-surface'), ...border },
+        raised: { background: readColorToken('--color-background-raised'), ...border },
+    };
+}
 
 /** How each part draws its text, as Penpot draws it, in the colors of the theme the test runs in. */
 function readPartLooks(): Record<'title' | 'text', CardPartLook> {
@@ -16,7 +33,7 @@ describe('CardComponent', () => {
     @Component({
         template: `
             <div [style.width.px]="width()">
-                <dma-card>
+                <dma-card [background]="background()">
                     <h3>Characters</h3>
                     <p>Build character sheets and keep their spell books.</p>
                 </dma-card>
@@ -27,6 +44,7 @@ describe('CardComponent', () => {
     })
     class TestComponent {
         public readonly width = signal(600);
+        public readonly background = signal<CardBackground>(CardBackground.Surface);
     }
 
     @Component({
@@ -39,11 +57,14 @@ describe('CardComponent', () => {
     })
     class TitleOnlyTestComponent {}
 
-    async function setupTest(options: { width?: number } = {}) {
+    async function setupTest(options: { width?: number; background?: CardBackground } = {}) {
         const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: CardHarness });
 
         if (options.width) {
             fixture.componentInstance.width.set(options.width);
+        }
+        if (options.background) {
+            fixture.componentInstance.background.set(options.background);
         }
         TestBed.tick();
 
@@ -65,15 +86,25 @@ describe('CardComponent', () => {
             .toBeInTheDocument();
     });
 
-    it('should draw the surface background with a divider border', async () => {
-        const { harness } = await setupTest();
+    it.each<CardBackground>(Object.values(CardBackground))(
+        'should draw the %s background with a divider border',
+        async (background) => {
+            const { harness } = await setupTest({ background });
 
-        expect(await harness.getLook()).toEqual({
-            background: readColorToken('--color-background-surface'),
-            borderColor: readColorToken('--color-border-divider'),
-            borderWidth: '1px',
-            borderRadius: '12px',
-        });
+            expect(await harness.getLook()).toEqual(readLooks()[background]);
+        },
+    );
+
+    it('should draw the surface background by default', async () => {
+        const { harness } = await setupTestEnvironment({ host: TitleOnlyTestComponent, harness: CardHarness });
+
+        expect(await harness.getLook()).toEqual(readLooks().surface);
+    });
+
+    it('should draw the surface background for a background it does not know', async () => {
+        const { harness } = await setupTest({ background: 'page' as CardBackground });
+
+        expect(await harness.getLook()).toEqual(readLooks().surface);
     });
 
     it('should draw the title and the text with their own color and typography', async () => {

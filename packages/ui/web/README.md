@@ -8,7 +8,7 @@ A component belongs here when it is presentational: it takes its content through
 
 [Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
-- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Card, Disclosure, Facts list, Header, Icon, Link group, and Skip link have none.
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Disclosure, Facts list, Header, Icon, Link group, and Skip link have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
 - Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
 
@@ -23,7 +23,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Component     | Selector                                    | Variants                                                                                                                                             |
 |:--------------|:--------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
 | Button        | [`button[dma-button]`, `a[dma-button]`][bu] | `kind`: `primary`, `secondary`, or `quiet`.                                                                                                          |
-| Card          | [`dma-card`][ca]                            | None yet: it draws the Surface background.                                                                                                           |
+| Card          | [`dma-card`][ca]                            | `background`: `surface` or `raised`.                                                                                                                 |
 | Chip          | [`dma-chip`][ch]                            | `kind`: `neutral`, `status`, or `dm`.                                                                                                                |
 | Disclosure    | [`details[dma-disclosure]`][di]             | The `open` attribute of `<details>`: closed or open.                                                                                                 |
 | Facts list    | [`dl[dma-facts-list]`][fl]                  | None: the layout follows the viewport, Desktop or Mobile.                                                                                            |
@@ -83,7 +83,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Area          | Exports                                                                                                           |
 |:--------------|:------------------------------------------------------------------------------------------------------------------|
 | Button        | `ButtonComponent`, `ButtonKind`, `DEFAULT_BUTTON_KIND`, `buttonKindAttr`                                          |
-| Card          | `CardComponent`                                                                                                   |
+| Card          | `CardComponent`, `CardBackground`, `DEFAULT_CARD_BACKGROUND`, `cardBackgroundAttr`                                |
 | Chip          | `ChipComponent`, `ChipKind`, `DEFAULT_CHIP_KIND`, `chipKindAttr`                                                  |
 | Disclosure    | `DisclosureComponent`                                                                                             |
 | Facts list    | `FactsListComponent`                                                                                              |

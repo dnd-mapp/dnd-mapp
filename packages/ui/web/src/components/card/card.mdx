@@ -24,7 +24,28 @@ Card is an element that projects a heading as its title and a `<p>` as its text:
 
 Pick the heading level that fits the outline of the page, from `<h1>` to `<h6>`. The title draws the same at every level. Both parts are optional, and a card without text leaves no gap below its title. The card drops any other content.
 
-The card fills its container, such as a column of a grid, and stays at least 280 px wide, so a grid wraps to fewer columns rather than squeezing them. It draws the surface background, for a card on the page background.
+The card fills its container, such as a column of a grid, and stays at least 280 px wide, so a grid wraps to fewer columns rather than squeezing them.
+
+## Background
+
+`background` picks what the card fills itself with, by what it sits on, so the card always stands one step above its background. An unknown value draws the default.
+
+### Surface
+
+`CardBackground.Surface`, the default, is for a card on the page background, as the card at the top of this page shows.
+
+### Raised
+
+`CardBackground.Raised` is for a card on a surface, such as a section that fills itself with the surface background.
+
+```html
+<dma-card background="raised">
+    <h3>Characters</h3>
+    <p>Build character sheets and keep their spell books.</p>
+</dma-card>
+```
+
+<Canvas of={CardStories.Raised} />
 
 ## Focus
 
