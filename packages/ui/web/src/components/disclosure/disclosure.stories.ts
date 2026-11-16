@@ -23,10 +23,6 @@ const meta = {
             control: 'text',
         },
     },
-    args: {
-        summary: 'Question or heading',
-        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
-    },
     render: (args) => ({
         props: args,
         template: `
@@ -43,30 +39,54 @@ export default meta;
 type Story = StoryObj<DisclosureArgs>;
 
 export const ClosedDefault: Story = {
-    args: { open: false },
+    args: {
+        open: false,
+        summary: 'Question or heading',
+        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
+    },
 };
 
 export const ClosedHover: Story = {
-    args: { open: false },
+    args: {
+        open: false,
+        summary: 'Question or heading',
+        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
+    },
     parameters: { pseudo: { hover: true } },
 };
 
 export const ClosedFocus: Story = {
-    args: { open: false },
+    args: {
+        open: false,
+        summary: 'Question or heading',
+        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
+    },
     parameters: { pseudo: { focusVisible: true } },
 };
 
 export const OpenDefault: Story = {
-    args: { open: true },
+    args: {
+        open: true,
+        summary: 'Question or heading',
+        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
+    },
 };
 
 export const OpenHover: Story = {
-    args: { open: true },
+    args: {
+        open: true,
+        summary: 'Question or heading',
+        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
+    },
     parameters: { pseudo: { hover: true } },
 };
 
 export const OpenFocus: Story = {
-    args: { open: true },
+    args: {
+        open: true,
+        summary: 'Question or heading',
+        content: 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.',
+    },
     parameters: { pseudo: { focusVisible: true } },
 };
 
