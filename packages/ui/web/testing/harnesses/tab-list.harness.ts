@@ -17,11 +17,26 @@ export class TabListHarness extends ComponentHarness {
         return await this.tabsLocator();
     }
 
+    /** The tab labeled `label`. */
+    public async getTab(label: string): Promise<TabHarness> {
+        return await this.locatorFor(TabHarness.with({ label }))();
+    }
+
     /** The labels of the tabs, in the order the list shows them. */
     public async getLabels(): Promise<string[]> {
         const tabs = await this.tabsLocator();
 
         return await Promise.all(tabs.map(async (tab) => await tab.getLabel()));
+    }
+
+    /** The label of the selected tab, or null when none is selected. */
+    public async getSelectedLabel(): Promise<string | null> {
+        for (const tab of await this.tabsLocator()) {
+            if (await tab.isSelected()) {
+                return await tab.getLabel();
+            }
+        }
+        return null;
     }
 
     /** The width and height of the tab list in pixels. */
