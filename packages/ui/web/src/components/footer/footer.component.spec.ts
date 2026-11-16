@@ -4,7 +4,13 @@ import { page } from 'vitest/browser';
 import { FooterComponent } from './footer.component';
 import { LinkComponent } from '../link';
 import { LinkGroupComponent } from '../link-group';
-import { FooterHarness, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import {
+    FooterHarness,
+    InMemoryStorage,
+    provideBrowserStorage,
+    readColorToken,
+    setupTestEnvironment,
+} from '@dnd-mapp/ui-web/testing';
 
 const LICENSE = '© D&D Mapp contributors. Released under the MIT License.';
 
@@ -48,7 +54,11 @@ describe('FooterComponent', () => {
     class TestComponent {}
 
     async function setupTest() {
-        const { harness } = await setupTestEnvironment({ host: TestComponent, harness: FooterHarness });
+        const { harness } = await setupTestEnvironment({
+            host: TestComponent,
+            harness: FooterHarness,
+            providers: [provideBrowserStorage(new InMemoryStorage())],
+        });
 
         TestBed.tick();
 
@@ -112,6 +122,15 @@ describe('FooterComponent', () => {
         );
     });
 
+    it('should hold a Theme picker that shows the label of each option', async () => {
+        const { harness } = await setupTest();
+        const picker = await harness.getThemePicker();
+        const options = await picker.getOptions();
+
+        expect(await picker.getThemes()).toEqual(['system', 'light', 'dark']);
+        expect(await Promise.all(options.map((option) => option.isLabelShown()))).toEqual([true, true, true]);
+    });
+
     it('should draw its background, the divider line, and its own texts from the tokens', async () => {
         const { harness } = await setupTest();
         const muted = { color: readColorToken('--color-foreground-muted'), fontSize: '14px' };
@@ -173,6 +192,25 @@ describe('FooterComponent', () => {
             expect(bottom.top - (groups.top + groups.height)).toBeCloseTo(32);
             expect(legal.top - bottom.top).toBeCloseTo(33);
         });
+
+        it('should stack the Theme picker 24 px below the legal text, filling the width with equal options', async () => {
+            const { harness } = await setupTest();
+            const [width, legal, picker, options] = await Promise.all([
+                harness.getWidth(),
+                harness.getBox('legal'),
+                harness.getBox('themePicker'),
+                harness.getThemePicker().then((themePicker) => themePicker.getOptions()),
+            ]);
+            const sizes = await Promise.all(options.map((option) => option.getSize()));
+
+            expect(picker.top - (legal.top + legal.height)).toBeCloseTo(24);
+            expect(picker.left).toBe(20);
+            expect(picker.width).toBeCloseTo(width - 40);
+            expect(legal.width).toBeCloseTo(width - 40);
+            for (const size of sizes) {
+                expect(size.width).toBeCloseTo(sizes[0]?.width ?? Number.NaN, 1);
+            }
+        });
     });
 
     describe('on wide screens', () => {
@@ -214,12 +252,19 @@ describe('FooterComponent', () => {
             }
         });
 
-        it('should let the legal text grow to at most 720 px wide', async () => {
+        it('should put the legal text, at most 720 px wide, beside the Theme picker at the end', async () => {
             const { harness } = await setupTest();
-            const legal = await harness.getBox('legal');
+            const [width, legal, picker] = await Promise.all([
+                harness.getWidth(),
+                harness.getBox('legal'),
+                harness.getBox('themePicker'),
+            ]);
 
             expect(legal.left).toBe(120);
             expect(legal.width).toBe(720);
+            expect(picker.top).toBe(legal.top);
+            expect(picker.left + picker.width).toBeCloseTo(width - 120);
+            expect(picker.height).toBe(44);
         });
     });
 });

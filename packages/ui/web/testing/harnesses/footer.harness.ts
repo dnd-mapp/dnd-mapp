@@ -1,9 +1,10 @@
 import { ComponentHarness, type TestElement } from '@angular/cdk/testing';
 import { LinkGroupHarness } from './link-group.harness';
 import { LogoHarness } from './logo.harness';
+import { ThemePickerHarness } from './theme-picker.harness';
 
 /** A part of a footer that the footer draws itself, rather than the columns that its consumer projects. */
-export type FooterPart = 'brand' | FooterText | 'groups' | 'bottom' | 'legal';
+export type FooterPart = 'brand' | FooterText | 'groups' | 'bottom' | 'legal' | 'themePicker';
 
 /** A text that a footer draws itself. */
 export type FooterText = 'tagline' | 'license' | 'attribution';
@@ -45,6 +46,7 @@ const PART_SELECTORS: Record<FooterPart, string> = {
     legal: ':scope > .bottom > .legal',
     license: ':scope > .bottom > .legal > .license',
     attribution: ':scope > .bottom > .legal > .attribution',
+    themePicker: ':scope > .bottom > [dma-theme-picker]',
 };
 
 export class FooterHarness extends ComponentHarness {
@@ -55,6 +57,9 @@ export class FooterHarness extends ComponentHarness {
 
     /** The harness of the logo in the brand. */
     public readonly getLogo = this.locatorFor(LogoHarness);
+
+    /** The harness of the Theme picker beside the legal text. */
+    public readonly getThemePicker = this.locatorFor(ThemePickerHarness);
 
     /** The harnesses of the link groups in the projected columns, in their order. */
     public readonly getLinkGroups = this.locatorForAll(LinkGroupHarness);
