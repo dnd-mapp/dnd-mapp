@@ -5,30 +5,46 @@ import * as HeaderStories from './header.stories';
 
 # Header
 
-The bar at the top of every page, with the link home and the Menu button. It is the Header component of the design system in Penpot.
+The bar at the top of every page. It is the Header component of the design system in Penpot. From the desktop breakpoint up, it holds the link home, the nav links, the GitHub button, and the Theme picker:
+
+<Canvas of={HeaderStories.Desktop} />
+
+Below the breakpoint, it holds the link home and the Menu button, which opens Mobile menu:
 
 <Canvas of={HeaderStories.Mobile} />
 
 ## Placing a header
 
-Header is an attribute on `<header>`, so it is the banner of the page. Project the link home around a small logo, and open Mobile menu when the header emits `menuPressed`:
+Header is an attribute on `<header>`, so it is the banner of the page. Project the link home around a small logo, the nav links, and a quiet GitHub button, and open Mobile menu when the header emits `menuPressed`:
 
 ```html
 <header dma-header (menuPressed)="mobileMenu.showModal()">
     <a routerLink="/"><dma-logo size="small" /></a>
+    <a dma-nav-link routerLink="/compendium" aria-current="page">Compendium</a>
+    <a dma-nav-link routerLink="/characters">Characters</a>
+    <a dma-nav-link routerLink="/campaigns">Campaigns</a>
+    <a dma-button kind="quiet" href="https://github.com/dnd-mapp/dnd-mapp"><dma-icon-github />GitHub</a>
 </header>
 ```
 
-The header fills the width of the page, and keeps the inline padding of the page, from `--space-page-inline`.
+The header places each child by its selector: an `a[dma-nav-link]` in its nav, an `a[dma-button]` at the end, and anything else, the link home, at the start. It draws the Theme picker and the Menu button itself. The header fills the width of the page, and keeps the inline padding of the page, from `--space-page-inline`.
+
+## Layouts
+
+The layout follows the viewport, and switches at the desktop breakpoint, `$breakpoint-desktop` from `@dnd-mapp/design-tokens/breakpoints.scss`. Each layout hides the parts of the other, which also hides them from assistive technology. Below the breakpoint, Mobile menu holds the nav links, the GitHub button, and the Theme picker.
 
 ## Focus
 
-The link home takes the size of the logo, and draws the focus ring of Link when it has keyboard focus, since Penpot draws no focus state for it. The Menu button draws the states of a quiet Button.
+The link home takes the size of the logo, and draws the focus ring of Link when it has keyboard focus, since Penpot draws no focus state for it. The nav links, the buttons, and the Theme picker draw their own focus states.
 
 ## Accessibility
 
-The header is the banner landmark of the page. The link home takes its name, "D&D Mapp", from the logo. The Menu button is named by its label, and sets `aria-haspopup="dialog"`, since Mobile menu is a modal dialog. It is 44 px tall, the minimum target size.
+The header is the banner landmark of the page. The link home takes its name, "D&D Mapp", from the logo. The nav links sit in a navigation landmark named "Main". The Theme picker saves the choice of the reader itself, as it does wherever it sits.
+
+The Menu button is named by its label, and sets `aria-haspopup="dialog"`, since Mobile menu is a modal dialog. It is 44 px tall, the minimum target size.
 
 ## Testing
 
-`HeaderHarness` from `@dnd-mapp/ui-web/testing` reads a header in a test: its look and size, the logo in its link home, the `ButtonHarness` of its Menu button and its attributes, how far the link home and the Menu button sit from its edges, and the focus ring of the link home. `pressMenu()` presses the Menu button.
+`HeaderHarness` from `@dnd-mapp/ui-web/testing` reads a header in a test: its look and size, the logo in its link home, the `NavLinkHarness` of each nav link, the `ButtonHarness` of the GitHub button and of the Menu button, the `ThemePickerHarness` of its Theme picker, which parts the current layout shows, how far each part sits from the edges of the header, and the focus ring of the link home. `pressMenu()` presses the Menu button.
+
+A spec that renders a header provides a storage with `provideBrowserStorage`, so the Theme picker saves no choice in `localStorage`.

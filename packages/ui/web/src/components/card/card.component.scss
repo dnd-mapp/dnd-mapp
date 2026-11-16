@@ -48,3 +48,20 @@ $heading: ':is(h1, h2, h3, h4, h5, h6)';
     color: var(--color-foreground-muted);
     @include typography(body);
 }
+
+// The chips wrap onto rows, space.8 apart both ways. The row hides when the card projects no chip, so it takes no gap.
+#{$host} > .chips {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+#{$host} > .chips:empty {
+    display: none;
+}
+
+// The action hugs its label, as in Penpot, so the space beside it is not part of the link.
+#{$host} > a {
+    align-self: flex-start;
+}
