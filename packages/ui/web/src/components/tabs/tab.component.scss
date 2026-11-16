@@ -46,3 +46,16 @@
         display: block;
     }
 }
+
+// Hover fills the tab and turns its label to the default color. The selected tab keeps its indicator.
+:host(:hover) {
+    background-color: var(--color-background-hover);
+    color: var(--color-foreground-default);
+}
+
+// Keyboard focus draws the ring outside the tab, where the tab list makes room for it, and keeps the colors of the state
+// it adds to.
+:host(:focus-visible) {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}
