@@ -1,0 +1,8 @@
+// The tab list fills its container, with its tabs side by side. Penpot draws the divider over the bottom edge of the
+// tabs, so an inset shadow draws it inside the list, under the tabs, and the list keeps the height of a tab.
+:host {
+    display: flex;
+    align-items: flex-end;
+    column-gap: var(--space-4);
+    box-shadow: inset 0 calc(-1 * var(--border-width-default)) 0 var(--color-border-divider);
+}
