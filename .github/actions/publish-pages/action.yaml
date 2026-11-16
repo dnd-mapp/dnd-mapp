@@ -86,7 +86,6 @@ runs:
                   # Pages serves the files as they are rather than through Jekyll, which would skip those that start
                   # with an underscore.
                   touch .nojekyll
-                  printf 'User-agent: *\nDisallow: /pr/\n' > robots.txt
 
                   git add --all
                   tree="$(git write-tree)"

@@ -161,9 +161,12 @@ jobs:
             - name: Set up pnpm and install dependencies
               uses: ./.github/actions/setup
 
+            # Every other build asks search engines to leave its pages out of their results, as ADR 0012 explains.
             - name: Build Storybook
               run: pnpm moon run ui-web:build-storybook
               shell: bash
+              env:
+                  INDEX_STORYBOOK: true
 
             - name: Publish Storybook to the root of the site
               uses: ./.github/actions/publish-pages
