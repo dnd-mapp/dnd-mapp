@@ -1,4 +1,9 @@
-import { ComponentHarness } from '@angular/cdk/testing';
+import { type BaseHarnessFilters, ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+
+/** Filters a tab by its label. */
+export interface TabHarnessFilters extends BaseHarnessFilters {
+    label?: string | RegExp;
+}
 
 /** How a tab draws its label and its fill. */
 export interface TabLook {
@@ -15,12 +20,47 @@ export interface TabBox {
     borderRadius: string;
 }
 
+/** The indicator of the selected tab, with its place and size in pixels relative to the top left of the tab. */
+export interface TabIndicator {
+    color: string;
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+}
+
 export class TabHarness extends ComponentHarness {
     public static readonly hostSelector = 'button[dma-tab]';
+
+    private readonly indicatorLocator = this.locatorFor('.indicator');
+
+    /** Matches the tabs with the label of `options`. */
+    public static with(options: TabHarnessFilters = {}): HarnessPredicate<TabHarness> {
+        return new HarnessPredicate(TabHarness, options).addOption(
+            'label',
+            options.label,
+            async (harness, label) => await HarnessPredicate.stringMatches(harness.getLabel(), label),
+        );
+    }
 
     /** The label of the tab, which names it to assistive technology. */
     public async getLabel(): Promise<string> {
         return await (await this.host()).text();
+    }
+
+    /** Selects the tab with a click. */
+    public async click(): Promise<void> {
+        await (await this.host()).click();
+    }
+
+    /** Whether the tab is selected, through `aria-selected`. */
+    public async isSelected(): Promise<boolean> {
+        return (await (await this.host()).getAttribute('aria-selected')) === 'true';
+    }
+
+    /** The `tabindex` of the tab, which keeps only the selected tab in the tab order. */
+    public async getTabIndex(): Promise<string | null> {
+        return await (await this.host()).getAttribute('tabindex');
     }
 
     /** How the tab draws its label and its fill. */
@@ -53,5 +93,21 @@ export class TabHarness extends ComponentHarness {
         const { width, height } = await (await this.host()).getDimensions();
 
         return { width, height };
+    }
+
+    /** The indicator of the selected tab, or null when the tab draws none. */
+    public async getIndicator(): Promise<TabIndicator | null> {
+        const indicator = await this.indicatorLocator();
+
+        if ((await indicator.getCssValue('display')) === 'none') {
+            return null;
+        }
+        const [tab, box, color] = await Promise.all([
+            (await this.host()).getDimensions(),
+            indicator.getDimensions(),
+            indicator.getCssValue('background-color'),
+        ]);
+
+        return { color, left: box.left - tab.left, top: box.top - tab.top, width: box.width, height: box.height };
     }
 }

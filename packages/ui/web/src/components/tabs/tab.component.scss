@@ -28,3 +28,21 @@
     cursor: pointer;
     @include typography(nav);
 }
+
+// The indicator of the selected tab lies along its bottom edge, as wide as the tab, over the divider of the list.
+.indicator {
+    display: none;
+    position: absolute;
+    inset: auto 0 0;
+    height: var(--size-indicator);
+    background-color: var(--color-accent-text);
+}
+
+// The selected tab: the default label color, and the indicator, so the selection never relies on the color alone.
+:host([aria-selected='true']) {
+    color: var(--color-foreground-default);
+
+    .indicator {
+        display: block;
+    }
+}
