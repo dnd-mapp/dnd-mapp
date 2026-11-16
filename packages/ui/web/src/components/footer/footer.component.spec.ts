@@ -144,14 +144,6 @@ describe('FooterComponent', () => {
         }
     });
 
-    it('should wrap the tagline within 300 px', async () => {
-        const { harness } = await setupTest();
-        const tagline = await harness.getBox('tagline');
-
-        expect(tagline.width).toBeLessThanOrEqual(300);
-        expect(tagline.height).toBeGreaterThan(30);
-    });
-
     describe('on narrow screens', () => {
         it('should pad itself 48 px above and below, and 20 px at the sides', async () => {
             const { harness } = await setupTest();
@@ -179,6 +171,13 @@ describe('FooterComponent', () => {
                     expect(column.top - (previous.top + previous.height)).toBeCloseTo(32);
                 }
             }
+        });
+
+        it('should let the tagline fill the width of the footer', async () => {
+            const { harness } = await setupTest();
+            const [tagline, width] = await Promise.all([harness.getBox('tagline'), harness.getWidth()]);
+
+            expect(tagline.width).toBeCloseTo(width - 2 * 20, 0);
         });
 
         it('should put the divider 32 px below the columns and above the legal text', async () => {

@@ -1,8 +1,10 @@
-// The component turns encapsulation off to style the projected link home, so every rule starts with its selector.
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'header[dma-header]';
 
-// The link home sits at the start and the Menu button at the end, both centered in a bar 68 px tall: the 44 px of the
-// button with the block padding around it. Penpot lays its divider over the bottom edge, so the bottom border takes
+// The start group sits at the start and the end group at the end, both centered in a bar 68 px tall: the 44 px of the
+// buttons with the block padding around them. Penpot lays its divider over the bottom edge, so the bottom border takes
 // its place, and the block-end padding gives up the width of the border.
 #{$host} {
     box-sizing: border-box;
@@ -14,10 +16,29 @@ $host: 'header[dma-header]';
     background: var(--color-background-page);
 }
 
+// The link home and the nav, then the nav links in a row.
+#{$host} > .start {
+    display: flex;
+    align-items: center;
+    gap: var(--space-32);
+}
+
+#{$host} > .start > nav {
+    display: flex;
+    gap: var(--space-4);
+}
+
+// The GitHub button, the Theme picker, and the Menu button. Only the parts of the current layout take a gap.
+#{$host} > .end {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+}
+
 // The link home takes the size of the logo, so no line box below the logo moves it off center. As a flex item, the logo
 // would take the underline of the link, so the link draws none. Penpot draws no focus state for it, so it draws the
 // focus ring of Link.
-#{$host} > a:not([dma-button]) {
+#{$host} > .start > a {
     display: flex;
     border-radius: var(--radius-xs);
     text-decoration: none;
@@ -25,5 +46,20 @@ $host: 'header[dma-header]';
     &:focus-visible {
         outline: var(--border-width-focus) solid var(--color-focus-ring);
         outline-offset: var(--focus-offset);
+    }
+}
+
+// Each layout hides the parts of the other, which also takes them out of the accessibility tree.
+@media (width < breakpoints.$breakpoint-desktop) {
+    #{$host} > .start > nav,
+    #{$host} > .end > a[dma-button],
+    #{$host} > .end > fieldset[dma-theme-picker] {
+        display: none;
+    }
+}
+
+@media (width >= breakpoints.$breakpoint-desktop) {
+    #{$host} > .end > .menu {
+        display: none;
     }
 }
