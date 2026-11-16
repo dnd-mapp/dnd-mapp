@@ -5,7 +5,7 @@ import * as TabsStories from './tabs.stories';
 
 # Tabs
 
-Switches between views of the same content, such as the parts of a character sheet, without leaving the page. It is the Tab list and Tab components of the design system in Penpot. To move between pages, use Nav link instead.
+Switches between views of the same content, such as the parts of a character sheet, without leaving the page. It is the Tab list and Tab components of the design system in Penpot, with a panel for the content of each tab. To move between pages, use Nav link instead.
 
 <Canvas of={TabsStories.Default} />
 
@@ -13,16 +13,20 @@ Switches between views of the same content, such as the parts of a character she
 
 ## Placing tabs
 
-Put a `button[dma-tab]` in a `dma-tab-list` for each view. Name the tab list with `aria-label`, or with `aria-labelledby` when a heading on the page names it:
+Put a `button[dma-tab]` in a `dma-tab-list` for each view, and a `dma-tab-panel` for its content wherever the page needs it. Each tab names its panel through a template reference. Name the tab list with `aria-label`, or with `aria-labelledby` when a heading on the page names it:
 
 ```html
 <dma-tab-list aria-label="Character sheet">
-    <button dma-tab>Stats</button>
-    <button dma-tab>Spells</button>
+    <button dma-tab [panel]="stats">Stats</button>
+    <button dma-tab [panel]="spells">Spells</button>
 </dma-tab-list>
+<dma-tab-panel #stats>…</dma-tab-panel>
+<dma-tab-panel #spells>…</dma-tab-panel>
 ```
 
 The tab list keeps which tab is selected, and starts on the first. `selected` holds the index of the selected tab: bind it to start on another tab, or two-way to follow the selection, as in `[(selected)]="index"`. An index without a tab selects the first.
+
+Each tab links itself to its panel, so the page writes no ids or ARIA attributes. A panel shows only while its tab is selected, and a panel that no tab names stays hidden. A hidden panel stays in the page, so its content keeps its state, such as a scroll position or a form, across a switch of tabs.
 
 ## Tab list
 
@@ -40,10 +44,10 @@ The selected tab shows its label in the default text color, and draws the indica
 
 ## Accessibility
 
-The tab list and each tab take the `tablist` and `tab` roles. The selected tab carries `aria-selected="true"`, and only it is in the tab order.
+The tab list, each tab, and each panel take the `tablist`, `tab`, and `tabpanel` roles. The selected tab carries `aria-selected="true"`, each tab points at its panel through `aria-controls`, and each panel takes its name from its tab through `aria-labelledby`. Only the selected tab is in the tab order, and the panel follows it, so Tab moves from the tab list into the panel.
 
 Each tab is 44 px tall, the minimum target size, and is a `<button type="button">`, so it submits no form it sits in.
 
 ## Testing
 
-`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the label of the selected tab, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected, its `tabindex`, and its look, box, size, and indicator; `click()` selects it, and `TabHarness.with({ label })` finds the tab of a label.
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the label of the selected tab, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected, its id, `aria-controls`, and `tabindex`, and its look, box, size, and indicator; `click()` selects it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows, its id, `aria-labelledby`, and `tabindex`.
