@@ -29,6 +29,15 @@ export {
     type FactsListPartBox,
 } from './harnesses/facts-list.harness';
 export {
+    type FooterAttributionLink,
+    type FooterBox,
+    FooterHarness,
+    type FooterLook,
+    type FooterPart,
+    type FooterText,
+    type FooterTextLook,
+} from './harnesses/footer.harness';
+export {
     HeaderHarness,
     type HeaderHomeFocusRing,
     type HeaderLook,
