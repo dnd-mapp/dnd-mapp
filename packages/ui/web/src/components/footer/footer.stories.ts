@@ -38,7 +38,13 @@ export default meta;
 
 type Story = StoryObj<FooterComponent>;
 
-/** Every part stacks in one column, as Penpot draws the Mobile variant. */
+/** The brand beside the columns, from the desktop breakpoint up. */
+export const Desktop: Story = {};
+
+/**
+ * Every part stacks in one column, below the desktop breakpoint. The docs page shows the story in an iframe narrower
+ * than the breakpoint.
+ */
 export const Mobile: Story = {
     globals: { viewport: { value: 'mobile1', isRotated: false } },
 };

@@ -7,7 +7,7 @@ import * as FooterStories from './footer.stories';
 
 The bottom of every page: the brand, the columns of links, the license line, and the SRD 5.1 attribution. It is the Footer component of the design system in Penpot.
 
-<Canvas of={FooterStories.Mobile} story={{ inline: false, height: '64rem' }} />
+<Canvas of={FooterStories.Desktop} story={{ inline: false, height: '24rem' }} />
 
 ## Placing a footer
 
@@ -33,9 +33,19 @@ Footer is an attribute on `<footer>`. Project each column as a `<nav>` around a 
 
 The footer shows the columns in the order you project them, and drops any other content. The brand, the license line, and the SRD 5.1 attribution are built in, so every page shows them the same. The license of the SRD 5.1 requires the attribution word for word, so no page can change or leave it out.
 
-## Layout
+## Viewport
 
-The footer stacks every part in one column, as Penpot draws its Mobile variant: the brand, then the columns 32 px apart, then a divider line, then the legal text, at most 720 px wide. Its inline padding follows the `space.page-inline` token: 120 px on Desktop, and 20 px on Mobile.
+The layout follows the desktop breakpoint of `@dnd-mapp/design-tokens`, so the footer takes no input for it. Its inline padding follows the `space.page-inline` token: 120 px on Desktop, and 20 px on Mobile.
+
+### Desktop
+
+From the breakpoint up, the brand sits at the start of the footer and the columns at its end, 48 px apart. Below a divider line, the legal text grows to at most 720 px wide, as the top of this page shows.
+
+### Mobile
+
+Below the breakpoint, every part stacks in one column, with the columns 32 px apart.
+
+<Canvas of={FooterStories.Mobile} story={{ inline: false, height: '64rem' }} />
 
 ## Focus
 
