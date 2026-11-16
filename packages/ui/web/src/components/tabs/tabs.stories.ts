@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/angular-vite';
+import { componentWrapperDecorator, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { TabComponent } from './tab.component';
 import { TabListComponent } from './tab-list.component';
 import { TabPanelComponent } from './tab-panel.component';
@@ -15,8 +15,8 @@ const meta = {
             table: { type: { summary: 'number' }, defaultValue: { summary: '0' } },
         },
     },
-    // Hides the selected tab and the select method, which the tabs read, from the table of args.
-    parameters: { controls: { exclude: ['selectedTab', 'select'] } },
+    // Hides the selected tab and the select method, which the tabs read, and the key handler from the table of args.
+    parameters: { controls: { exclude: ['selectedTab', 'select', 'move'] } },
     render: (args) => ({
         props: args,
         moduleMetadata: { imports: [TabComponent, TabPanelComponent] },
@@ -41,4 +41,10 @@ type Story = StoryObj<TabListComponent>;
 
 export const Default: Story = {
     args: { selected: 0 },
+};
+
+/** Tabs too wide for their container: the tab list scrolls sideways, and a key scrolls the tab it reaches into view. */
+export const Overflow: Story = {
+    args: { selected: 0 },
+    decorators: [componentWrapperDecorator((story) => `<div style="max-width: 240px">${story}</div>`)],
 };

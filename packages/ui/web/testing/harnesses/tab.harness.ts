@@ -53,6 +53,16 @@ export class TabHarness extends ComponentHarness {
         await (await this.host()).click();
     }
 
+    /** Moves the focus to the tab, as a click or the Tab key would, without selecting it. */
+    public async focus(): Promise<void> {
+        await (await this.host()).focus();
+    }
+
+    /** Whether the tab has the focus. */
+    public async isFocused(): Promise<boolean> {
+        return await (await this.host()).isFocused();
+    }
+
     /** Whether the tab is selected, through `aria-selected`. */
     public async isSelected(): Promise<boolean> {
         return (await (await this.host()).getAttribute('aria-selected')) === 'true';

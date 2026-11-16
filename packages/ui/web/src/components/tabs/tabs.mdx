@@ -32,6 +32,10 @@ Each tab links itself to its panel, so the page writes no ids or ARIA attributes
 
 The tab list fills its container, with its tabs side by side, each as wide as its label, and draws a divider along its bottom edge.
 
+When the tabs do not fit, the tab list scrolls sideways. It draws no scrollbar, which would add to its height and cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs scroll it, and the tab a key reaches scrolls into view.
+
+<Canvas of={TabsStories.Overflow} />
+
 ## Tab
 
 ### Default
@@ -42,6 +46,17 @@ A tab shows its label in the muted text color.
 
 The selected tab shows its label in the default text color, and draws the indicator in the accent color along its bottom edge, over the divider, so the selection never relies on the text color alone. A click selects a tab.
 
+## Keyboard
+
+The tabs activate automatically, as the ARIA Authoring Practices Guide describes for panels whose content shows without delay: the keys that move between the tabs also select them.
+
+- **Right arrow** moves to and selects the next tab, or the first tab from the last.
+- **Left arrow** moves to and selects the previous tab, or the last tab from the first.
+- **Home** and **End** move to and select the first and the last tab.
+- **Tab** leaves the tab list for the panel of the selected tab.
+
+A key pressed with Alt, Ctrl, or Meta stays with the browser, so Alt with the left arrow still goes back a page.
+
 ## Accessibility
 
 The tab list, each tab, and each panel take the `tablist`, `tab`, and `tabpanel` roles. The selected tab carries `aria-selected="true"`, each tab points at its panel through `aria-controls`, and each panel takes its name from its tab through `aria-labelledby`. Only the selected tab is in the tab order, and the panel follows it, so Tab moves from the tab list into the panel.
@@ -50,4 +65,4 @@ Each tab is 44 px tall, the minimum target size, and is a `<button type="button"
 
 ## Testing
 
-`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the label of the selected tab, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected, its id, `aria-controls`, and `tabindex`, and its look, box, size, and indicator; `click()` selects it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows, its id, `aria-labelledby`, and `tabindex`.
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs show within it, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, and indicator; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its id, `aria-labelledby`, and `tabindex`.

@@ -39,6 +39,37 @@ export class TabListHarness extends ComponentHarness {
         return null;
     }
 
+    /** The label of the tab that has the focus, or null when none has it. */
+    public async getFocusedLabel(): Promise<string | null> {
+        for (const tab of await this.tabsLocator()) {
+            if (await tab.isFocused()) {
+                return await tab.getLabel();
+            }
+        }
+        return null;
+    }
+
+    /** Whether the tabs are wider than the list, so it scrolls sideways. */
+    public async isScrollable(): Promise<boolean> {
+        const host = await this.host();
+        const [scrollWidth, clientWidth] = await Promise.all([
+            host.getProperty<number>('scrollWidth'),
+            host.getProperty<number>('clientWidth'),
+        ]);
+
+        return scrollWidth > clientWidth;
+    }
+
+    /** Whether the whole of the tab labeled `label` shows within the list, rather than scrolled out of it. */
+    public async isTabInView(label: string): Promise<boolean> {
+        const [list, tab] = await Promise.all([
+            (await this.host()).getDimensions(),
+            (await (await this.getTab(label)).host()).getDimensions(),
+        ]);
+
+        return tab.left >= list.left && tab.left + tab.width <= list.left + list.width;
+    }
+
     /** The width and height of the tab list in pixels. */
     public async getSize(): Promise<{ width: number; height: number }> {
         const { width, height } = await (await this.host()).getDimensions();
