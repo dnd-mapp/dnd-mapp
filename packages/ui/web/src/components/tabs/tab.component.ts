@@ -1,4 +1,4 @@
-import { Component, computed, effect, forwardRef, inject, input, type Signal } from '@angular/core';
+import { Component, computed, effect, ElementRef, forwardRef, inject, input, type Signal } from '@angular/core';
 import { TabListComponent } from './tab-list.component';
 import type { TabPanelComponent } from './tab-panel.component';
 import { TAB } from './tabs.tokens';
@@ -28,6 +28,7 @@ let tabCount = 0;
 })
 export class TabComponent {
     private readonly tabList = inject(TabListComponent);
+    private readonly host = inject<ElementRef<HTMLButtonElement>>(ElementRef);
 
     /** The panel the tab shows while it is selected. */
     public readonly panel = input.required<TabPanelComponent>();
@@ -45,6 +46,17 @@ export class TabComponent {
                 panel.tab.set(null);
             });
         });
+    }
+
+    /**
+     * Moves the focus to the tab, and scrolls the whole of it into view when the tab list scrolls. Focus alone leaves a
+     * tab that shows in part where it is.
+     */
+    public focus() {
+        const element = this.host.nativeElement;
+
+        element.focus({ preventScroll: true });
+        element.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     }
 
     protected select() {
