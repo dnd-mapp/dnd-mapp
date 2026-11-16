@@ -69,10 +69,12 @@ The `gh-pages` branch holds the site as one commit without parents. Each deploy 
 
 1. Writes a `build-info.json` that reports the commit into the build.
 2. Fetches `gh-pages` and replaces its own folder. A deploy to the root keeps `pr/`.
-3. Writes `.nojekyll` at the root, so Pages serves the files as they are, and a `robots.txt` that disallows `/pr/`.
+3. Writes `.nojekyll` at the root, so Pages serves the files as they are.
 4. Pushes the tree as a new commit without parents, with `--force-with-lease`. When another deploy pushed in between, it fetches again and starts over, up to 5 times.
 
 Pages deploys the branch in a `pages build and deployment` run of its own, so the job then waits up to 10 minutes until the `build-info.json` of its folder reports the commit.
+
+The previews stay out of search results through a `<meta name="robots" content="noindex">` tag, which [`.storybook/main.ts`](../packages/ui/web/.storybook/main.ts) adds to the pages of every build. The `Storybook` job sets `INDEX_STORYBOOK` to `true` when it builds, which leaves the tag out, so the Storybook of `main` stays indexable. A new job that publishes `main` has to set it too. [ADR 0012](adr/0012-storybook-previews-noindex.md) records why the pages carry the tag rather than the site a `robots.txt`.
 
 `main` deploys through the `storybook` environment of its job. The previews share the `storybook-preview` environment, whose deployments the job creates through the REST API on the head commit of the pull request. The pull request links its preview that way, and the previews of other pull requests stay active. A new preview marks the earlier deployments of its pull request inactive, and `Pull request closed` marks all of them inactive. Pull requests from forks get no preview, since their token cannot push.
 
