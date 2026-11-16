@@ -48,3 +48,15 @@ export const Overflow: Story = {
     args: { selected: 0 },
     decorators: [componentWrapperDecorator((story) => `<div style="max-width: 240px">${story}</div>`)],
 };
+
+/** The pointer over Stats: the tab fills its box, and its label turns to the default color. */
+export const Hover: Story = {
+    args: { selected: 0 },
+    parameters: { pseudo: { hover: ['button[dma-tab]:nth-child(2)'] } },
+};
+
+/** Keyboard focus on the selected tab: the focus ring outside the tab, which keeps its selected look. */
+export const Focus: Story = {
+    args: { selected: 0 },
+    parameters: { pseudo: { focusVisible: ['button[dma-tab]:nth-child(1)'] } },
+};
