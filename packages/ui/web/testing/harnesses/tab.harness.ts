@@ -58,6 +58,16 @@ export class TabHarness extends ComponentHarness {
         return (await (await this.host()).getAttribute('aria-selected')) === 'true';
     }
 
+    /** The id of the tab. */
+    public async getId(): Promise<string | null> {
+        return await (await this.host()).getAttribute('id');
+    }
+
+    /** The id of the panel the tab shows, from `aria-controls`. */
+    public async getControls(): Promise<string | null> {
+        return await (await this.host()).getAttribute('aria-controls');
+    }
+
     /** The `tabindex` of the tab, which keeps only the selected tab in the tab order. */
     public async getTabIndex(): Promise<string | null> {
         return await (await this.host()).getAttribute('tabindex');
