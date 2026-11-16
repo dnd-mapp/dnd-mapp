@@ -1,4 +1,4 @@
-import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
 import * as TabsStories from './tabs.stories';
 
 <Meta of={TabsStories} />
@@ -8,6 +8,8 @@ import * as TabsStories from './tabs.stories';
 Switches between views of the same content, such as the parts of a character sheet, without leaving the page. It is the Tab list and Tab components of the design system in Penpot. To move between pages, use Nav link instead.
 
 <Canvas of={TabsStories.Default} />
+
+<Controls of={TabsStories.Default} />
 
 ## Placing tabs
 
@@ -20,6 +22,8 @@ Put a `button[dma-tab]` in a `dma-tab-list` for each view. Name the tab list wit
 </dma-tab-list>
 ```
 
+The tab list keeps which tab is selected, and starts on the first. `selected` holds the index of the selected tab: bind it to start on another tab, or two-way to follow the selection, as in `[(selected)]="index"`. An index without a tab selects the first.
+
 ## Tab list
 
 The tab list fills its container, with its tabs side by side, each as wide as its label, and draws a divider along its bottom edge.
@@ -30,10 +34,16 @@ The tab list fills its container, with its tabs side by side, each as wide as it
 
 A tab shows its label in the muted text color.
 
+### Selected
+
+The selected tab shows its label in the default text color, and draws the indicator in the accent color along its bottom edge, over the divider, so the selection never relies on the text color alone. A click selects a tab.
+
 ## Accessibility
 
-The tab list and each tab take the `tablist` and `tab` roles. Each tab is 44 px tall, the minimum target size, and is a `<button type="button">`, so it submits no form it sits in.
+The tab list and each tab take the `tablist` and `tab` roles. The selected tab carries `aria-selected="true"`, and only it is in the tab order.
+
+Each tab is 44 px tall, the minimum target size, and is a `<button type="button">`, so it submits no form it sits in.
 
 ## Testing
 
-`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, and its look, box, and size.
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the label of the selected tab, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected, its `tabindex`, and its look, box, size, and indicator; `click()` selects it, and `TabHarness.with({ label })` finds the tab of a label.
