@@ -1,5 +1,5 @@
 {
     "extends": "./tsconfig.json",
-    "include": ["src/**/*.ts", ".storybook/preview.ts", ".storybook/arg-types.ts"],
+    "include": ["src/**/*.ts", ".storybook/preview.ts", ".storybook/arg-types.ts", ".storybook/theme.ts"],
     "exclude": ["src/**/*.spec.ts"]
 }

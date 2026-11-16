@@ -1,12 +1,14 @@
 import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular-vite';
 import { FooterComponent } from './footer.component';
+import { withSelectedTheme } from '../../../.storybook/theme';
+import { Theme } from '../../theme';
 import { LinkComponent } from '../link';
 import { LinkGroupComponent } from '../link-group';
 
 const meta = {
     title: 'Footer',
     component: FooterComponent,
-    decorators: [moduleMetadata({ imports: [LinkGroupComponent, LinkComponent] })],
+    decorators: [moduleMetadata({ imports: [LinkGroupComponent, LinkComponent] }), withSelectedTheme(Theme.System)],
     parameters: { layout: 'fullscreen' },
     // The columns are written out, not looped over, so the snippet of each story shows the markup a page writes.
     render: () => ({
@@ -47,7 +49,7 @@ export default meta;
 
 type Story = StoryObj<FooterComponent>;
 
-/** The brand beside the columns, from the desktop breakpoint up. */
+/** The brand beside the columns, and the legal text beside the Theme picker, from the desktop breakpoint up. */
 export const Desktop: Story = {};
 
 /**

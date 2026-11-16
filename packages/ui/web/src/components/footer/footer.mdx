@@ -5,7 +5,7 @@ import * as FooterStories from './footer.stories';
 
 # Footer
 
-The bottom of every page: the brand, the columns of links, the license line, and the SRD 5.1 attribution. It is the Footer component of the design system in Penpot.
+The bottom of every page: the brand, the columns of links, the license line, the SRD 5.1 attribution, and the Theme picker. It is the Footer component of the design system in Penpot.
 
 <Canvas of={FooterStories.Desktop} />
 
@@ -31,7 +31,7 @@ Footer is an attribute on `<footer>`. Project each column as a `<nav>` around a 
 </footer>
 ```
 
-The footer shows the columns in the order you project them, and drops any other content. The brand, the license line, and the SRD 5.1 attribution are built in, so every page shows them the same. The license of the SRD 5.1 requires the attribution word for word, so no page can change or leave it out.
+The footer shows the columns in the order you project them, and drops any other content. The brand, the license line, the SRD 5.1 attribution, and the Theme picker are built in, so every page shows them the same. The license of the SRD 5.1 requires the attribution word for word, so no page can change or leave it out.
 
 ## Viewport
 
@@ -39,17 +39,17 @@ The layout follows the desktop breakpoint of `@dnd-mapp/design-tokens`, so the f
 
 ### Desktop
 
-From the breakpoint up, the brand sits at the start of the footer and the columns at its end, 48 px apart. Below a divider line, the legal text grows to at most 720 px wide, as the top of this page shows.
+From the breakpoint up, the brand sits at the start of the footer and the columns at its end, 48 px apart. Below a divider line, the legal text, at most 720 px wide, sits beside the Theme picker, as the top of this page shows.
 
 ### Mobile
 
-Below the breakpoint, every part stacks in one column, with the columns 32 px apart.
+Below the breakpoint, every part stacks in one column, with the columns 32 px apart, and the Theme picker fills the width of the footer.
 
-<Canvas of={FooterStories.Mobile} story={{ inline: false, height: '64rem' }} />
+<Canvas of={FooterStories.Mobile} story={{ inline: false, height: '68rem' }} />
 
 ## Focus
 
-The footer takes no focus itself. Its links draw their own hover and focus states, as the docs page of Link shows. Penpot draws the two URLs of the attribution as plain text; the footer underlines them, so color is not the only cue that they are links, and draws the focus ring of Link around them.
+The footer takes no focus itself. Its links draw their own hover and focus states, as the docs page of Link shows, and so do the options of the Theme picker. Penpot draws the two URLs of the attribution as plain text; the footer underlines them, so color is not the only cue that they are links, and draws the focus ring of Link around them.
 
 ## Accessibility
 
@@ -57,4 +57,4 @@ The footer is the contentinfo landmark of the page, and each column a navigation
 
 ## Testing
 
-`FooterHarness` from `@dnd-mapp/ui-web/testing` reads a footer in a test: its logo and link groups, its texts and their look, the links of the attribution, its own look, and the place and size of each part and column.
+`FooterHarness` from `@dnd-mapp/ui-web/testing` reads a footer in a test: its logo, Theme picker, and link groups, its texts and their look, the links of the attribution, its own look, and the place and size of each part and column.
