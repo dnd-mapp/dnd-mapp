@@ -87,6 +87,27 @@ export class TabListHarness extends ComponentHarness {
         return { width: width + (left ?? 0) + (right ?? 0), height: height + (top ?? 0) + (bottom ?? 0) };
     }
 
+    /**
+     * Whether the focus ring of the tab labeled `label` shows whole within the list, which clips what it scrolls. Only a
+     * tab with keyboard focus draws its ring.
+     */
+    public async isFocusRingInView(label: string): Promise<boolean> {
+        const tab = await this.getTab(label);
+        const [list, box, { width, offset }] = await Promise.all([
+            (await this.host()).getDimensions(),
+            (await tab.host()).getDimensions(),
+            tab.getFocusRing(),
+        ]);
+        const room = parseFloat(width) + parseFloat(offset);
+
+        return (
+            box.left - room >= list.left &&
+            box.left + box.width + room <= list.left + list.width &&
+            box.top - room >= list.top &&
+            box.top + box.height + room <= list.top + list.height
+        );
+    }
+
     /** The gap between the tabs. */
     public async getGap(): Promise<string> {
         return await (await this.host()).getCssValue('column-gap');

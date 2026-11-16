@@ -29,6 +29,14 @@ export interface TabIndicator {
     height: number;
 }
 
+/** The focus ring a tab draws, read from its outline. */
+export interface TabFocusRing {
+    style: string;
+    color: string;
+    width: string;
+    offset: string;
+}
+
 export class TabHarness extends ComponentHarness {
     public static readonly hostSelector = 'button[dma-tab]';
 
@@ -129,5 +137,18 @@ export class TabHarness extends ComponentHarness {
         ]);
 
         return { color, left: box.left - tab.left, top: box.top - tab.top, width: box.width, height: box.height };
+    }
+
+    /** The focus ring the tab draws, whose style is `none` when it draws none. */
+    public async getFocusRing(): Promise<TabFocusRing> {
+        const host = await this.host();
+        const [style, color, width, offset] = await Promise.all([
+            host.getCssValue('outline-style'),
+            host.getCssValue('outline-color'),
+            host.getCssValue('outline-width'),
+            host.getCssValue('outline-offset'),
+        ]);
+
+        return { style, color, width, offset };
     }
 }

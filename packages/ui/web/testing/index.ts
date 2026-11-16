@@ -67,10 +67,11 @@ export {
     SkipLinkHarness,
     type SkipLinkLook,
 } from './harnesses/skip-link.harness';
-export { TabPanelHarness } from './harnesses/tab-panel.harness';
+export { type TabPanelFocusRing, TabPanelHarness } from './harnesses/tab-panel.harness';
 export { TabListHarness, type TabListDivider } from './harnesses/tab-list.harness';
 export {
     type TabBox,
+    type TabFocusRing,
     TabHarness,
     type TabHarnessFilters,
     type TabIndicator,

@@ -1,5 +1,13 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 
+/** The focus ring a tab panel draws, read from its outline. */
+export interface TabPanelFocusRing {
+    style: string;
+    color: string;
+    width: string;
+    offset: string;
+}
+
 export class TabPanelHarness extends ComponentHarness {
     public static readonly hostSelector = 'dma-tab-panel';
 
@@ -34,5 +42,18 @@ export class TabPanelHarness extends ComponentHarness {
     /** The `tabindex` of the panel, which puts it in the tab order after its tab list. */
     public async getTabIndex(): Promise<string | null> {
         return await (await this.host()).getAttribute('tabindex');
+    }
+
+    /** The focus ring the panel draws, whose style is `none` when it draws none. */
+    public async getFocusRing(): Promise<TabPanelFocusRing> {
+        const host = await this.host();
+        const [style, color, width, offset] = await Promise.all([
+            host.getCssValue('outline-style'),
+            host.getCssValue('outline-color'),
+            host.getCssValue('outline-width'),
+            host.getCssValue('outline-offset'),
+        ]);
+
+        return { style, color, width, offset };
     }
 }

@@ -23,12 +23,23 @@ const LABELS = ['Overview', 'Stats', 'Spells'];
  */
 const CONTAINER_WIDTH = 480;
 
-/** How a tab looks in each state, as Penpot draws it, in the colors of the theme the test runs in. */
-function readLooks(): Record<'default' | 'selected', TabLook> {
+/**
+ * How a tab looks in each state, as Penpot draws it, in the colors of the theme the test runs in. Focus keeps the look of
+ * the state it adds to.
+ */
+function readLooks(): Record<'default' | 'hover' | 'selected', TabLook> {
+    const foregroundDefault = readColorToken('--color-foreground-default');
+
     return {
         default: { background: TRANSPARENT, color: readColorToken('--color-foreground-muted'), fontWeight: '600' },
-        selected: { background: TRANSPARENT, color: readColorToken('--color-foreground-default'), fontWeight: '600' },
+        hover: { background: readColorToken('--color-background-hover'), color: foregroundDefault, fontWeight: '600' },
+        selected: { background: TRANSPARENT, color: foregroundDefault, fontWeight: '600' },
     };
+}
+
+/** The focus ring of a tab and a panel, as Penpot draws it on a tab: 2 px wide, 2 px outside the box. */
+function readFocusRing() {
+    return { style: 'solid', color: readColorToken('--color-focus-ring'), width: '2px', offset: '2px' };
 }
 
 describe('Tabs', () => {
@@ -341,6 +352,58 @@ describe('Tabs', () => {
             });
         });
 
+        it('should draw its hover look', async () => {
+            const { harness } = await setupTest();
+            const tab = page.getByRole('tab', { name: 'Stats' });
+
+            await userEvent.hover(tab);
+            const look = await (await harness.getTab('Stats')).getLook();
+            await userEvent.unhover(tab);
+
+            expect(look).toEqual(readLooks().hover);
+        });
+
+        it('should keep the indicator of the selected tab on hover', async () => {
+            const { harness } = await setupTest();
+            const tab = page.getByRole('tab', { name: 'Overview' });
+
+            await userEvent.hover(tab);
+            const look = await (await harness.getTab('Overview')).getLook();
+            const indicator = await (await harness.getTab('Overview')).getIndicator();
+            await userEvent.unhover(tab);
+
+            expect(look).toEqual(readLooks().hover);
+            expect(indicator).not.toBeNull();
+        });
+
+        it('should draw no focus ring until it has focus', async () => {
+            const { harness } = await setupTest();
+
+            expect((await (await harness.getTab('Overview')).getFocusRing()).style).toBe('none');
+        });
+
+        it('should draw the focus ring outside itself on keyboard focus, and keep its look', async () => {
+            const { harness } = await setupTest();
+            const tab = await harness.getTab('Overview');
+
+            await userEvent.tab();
+
+            expect(await tab.isFocused()).toBe(true);
+            expect(await tab.getFocusRing()).toEqual(readFocusRing());
+            expect(await tab.getLook()).toEqual(readLooks().selected);
+            expect(await tab.getIndicator()).not.toBeNull();
+        });
+
+        it('should draw no focus ring when a click focuses it', async () => {
+            const { harness } = await setupTest();
+            const tab = await harness.getTab('Stats');
+
+            await userEvent.click(page.getByRole('tab', { name: 'Stats' }));
+
+            expect(await tab.isFocused()).toBe(true);
+            expect((await tab.getFocusRing()).style).toBe('none');
+        });
+
         it('should be as tall as the minimum target size, with padding at each side and rounded corners', async () => {
             const { harness } = await setupTest();
 
@@ -352,6 +415,24 @@ describe('Tabs', () => {
                     borderRadius: '8px',
                 });
             }
+        });
+    });
+
+    describe('tab panel', () => {
+        it('should draw no focus ring until it has focus', async () => {
+            const { panels } = await setupTest();
+
+            expect((await panels[0]?.getFocusRing())?.style).toBe('none');
+        });
+
+        it('should draw the focus ring outside itself on keyboard focus', async () => {
+            const { panels } = await setupTest();
+
+            await userEvent.tab();
+            await userEvent.tab();
+
+            expect(await panels[0]?.isFocused()).toBe(true);
+            expect(await panels[0]?.getFocusRing()).toEqual(readFocusRing());
         });
     });
 
@@ -382,6 +463,25 @@ describe('Tabs', () => {
 
             expect(await harness.isScrollable()).toBe(true);
             expect(await harness.getSize()).toEqual({ width: 160, height: 44 });
+        });
+
+        it('should leave room for the focus ring of a tab at its edge', async () => {
+            const { harness } = await setupTest();
+
+            await userEvent.tab();
+
+            expect((await (await harness.getTab('Overview')).getFocusRing()).style).toBe('solid');
+            expect(await harness.isFocusRingInView('Overview')).toBe(true);
+        });
+
+        it('should scroll the focus ring of a tab the keys reach into view with the tab', async () => {
+            const { harness } = await setupTestEnvironment({ host: OverflowTestComponent, harness: TabListHarness });
+
+            await userEvent.tab();
+            await userEvent.keyboard('{End}');
+
+            expect((await (await harness.getTab('Spells')).getFocusRing()).style).toBe('solid');
+            expect(await harness.isFocusRingInView('Spells')).toBe(true);
         });
 
         it('should scroll a tab the keys reach into view', async () => {
