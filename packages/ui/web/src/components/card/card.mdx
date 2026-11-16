@@ -13,18 +13,40 @@ A block of related content, alone or in a grid, such as a tool on the landing pa
 
 ## Placing a card
 
-Card is an element that projects a heading as its title and a `<p>` as its text:
+Card is an element that projects a heading as its title, a `<p>` as its text, each `<dma-chip>` as a chip, and an `<a>` as its action:
 
 ```html
 <dma-card>
     <h3>Characters</h3>
     <p>Build character sheets and keep their spell books.</p>
+    <dma-chip>Players</dma-chip>
+    <dma-chip kind="dm">DM</dma-chip>
+    <a dma-link kind="standalone" routerLink="/characters">Open your characters</a>
 </dma-card>
 ```
 
-Pick the heading level that fits the outline of the page, from `<h1>` to `<h6>`. The title draws the same at every level. Both parts are optional, and a card without text leaves no gap below its title. The card drops any other content.
+Pick the heading level that fits the outline of the page, from `<h1>` to `<h6>`. The title draws the same at every level. The card draws its parts in the order above, whatever their order in the source, and drops any other content. Every part is optional, and a part the card does not project leaves no gap.
+
+The chips wrap onto as many rows as they need. Make the action a standalone Link, as Penpot draws it; the card keeps it as wide as its label.
 
 The card fills its container, such as a column of a grid, and stays at least 280 px wide, so a grid wraps to fewer columns rather than squeezing them.
+
+## A grid of cards
+
+Place a grid of cards as a list, with each card in an `<li>` of its own, so assistive technology reads how many cards there are. Columns of `repeat(auto-fill, minmax(var(--size-card-min), 1fr))` wrap to fewer columns as the grid narrows, and `display: grid` on each `<li>` stretches its card to the height of its row. Set `role="list"` on a list that drops its markers, since Safari drops its list role otherwise.
+
+```html
+<ul class="cards" role="list">
+    <li>
+        <dma-card>
+            <h3>Characters</h3>
+            <p>Build character sheets and keep their spell books.</p>
+        </dma-card>
+    </li>
+</ul>
+```
+
+<Canvas of={CardStories.Examples} />
 
 ## Background
 
@@ -49,12 +71,12 @@ The card fills its container, such as a column of a grid, and stays at least 280
 
 ## Focus
 
-A card takes no focus, and Penpot draws no hover or focus state for it, since it is not clickable as a whole.
+A card takes no focus, and Penpot draws no hover or focus state for it, since it is not clickable as a whole. Its action is the target, and draws its own hover and focus states.
 
 ## Accessibility
 
-Assistive technology reads the title at the level you pick, then the text. The card adds no role of its own.
+Assistive technology reads the title at the level you pick, then the text, the chips, and the action, in the order the card draws them. The card adds no role of its own, and the chips are no list, so their labels read as part of the card.
 
 ## Testing
 
-`CardHarness` from `@dnd-mapp/ui-web/testing` reads a card in a test: the text, look, and place of its title and text, the look of its box, its size, and whether it has focus.
+`CardHarness` from `@dnd-mapp/ui-web/testing` reads a card in a test: the text, look, and place of each part, the order of its parts, its chips and action as a `ChipHarness` and a `LinkHarness`, the place of each chip, the look of its box, its size, and whether it has focus.
