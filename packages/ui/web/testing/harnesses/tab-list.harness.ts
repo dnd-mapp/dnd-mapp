@@ -1,7 +1,7 @@
 import { ComponentHarness } from '@angular/cdk/testing';
 import { TabHarness } from './tab.harness';
 
-/** The divider the tab list draws along its bottom edge, read from its inset shadow. */
+/** The divider the tab list draws under its tabs, read from the line of its background. */
 export interface TabListDivider {
     color: string;
     width: number;
@@ -70,11 +70,42 @@ export class TabListHarness extends ComponentHarness {
         return tab.left >= list.left && tab.left + tab.width <= list.left + list.width;
     }
 
-    /** The width and height of the tab list in pixels. */
+    /**
+     * The width and height in pixels the tab list takes in its container: its box, less the room for the focus ring it
+     * reaches past the container by.
+     */
     public async getSize(): Promise<{ width: number; height: number }> {
-        const { width, height } = await (await this.host()).getDimensions();
+        const host = await this.host();
+        const [{ width, height }, ...margins] = await Promise.all([
+            host.getDimensions(),
+            ...['margin-top', 'margin-right', 'margin-bottom', 'margin-left'].map(
+                async (property) => await host.getCssValue(property),
+            ),
+        ]);
+        const [top, right, bottom, left] = margins.map((margin) => parseFloat(margin));
 
-        return { width, height };
+        return { width: width + (left ?? 0) + (right ?? 0), height: height + (top ?? 0) + (bottom ?? 0) };
+    }
+
+    /**
+     * Whether the focus ring of the tab labeled `label` shows whole within the list, which clips what it scrolls. Only a
+     * tab with keyboard focus draws its ring.
+     */
+    public async isFocusRingInView(label: string): Promise<boolean> {
+        const tab = await this.getTab(label);
+        const [list, box, { width, offset }] = await Promise.all([
+            (await this.host()).getDimensions(),
+            (await tab.host()).getDimensions(),
+            tab.getFocusRing(),
+        ]);
+        const room = parseFloat(width) + parseFloat(offset);
+
+        return (
+            box.left - room >= list.left &&
+            box.left + box.width + room <= list.left + list.width &&
+            box.top - room >= list.top &&
+            box.top + box.height + room <= list.top + list.height
+        );
     }
 
     /** The gap between the tabs. */
@@ -82,11 +113,16 @@ export class TabListHarness extends ComponentHarness {
         return await (await this.host()).getCssValue('column-gap');
     }
 
-    /** The divider along the bottom edge, or null when the list draws none. */
+    /** The divider under the tabs, or null when the list draws none. */
     public async getDivider(): Promise<TabListDivider | null> {
-        const shadow = await (await this.host()).getCssValue('box-shadow');
-        const match = /^(rgba?\([^)]*\)) 0px (-?[\d.]+)px 0px 0px inset$/.exec(shadow);
+        const host = await this.host();
+        const [image, size] = await Promise.all([
+            host.getCssValue('background-image'),
+            host.getCssValue('background-size'),
+        ]);
+        const color = /^linear-gradient\((rgba?\([^)]*\)), \1\)$/.exec(image)?.[1];
+        const width = / ([\d.]+)px$/.exec(size)?.[1];
 
-        return match ? { color: match[1] ?? '', width: -Number(match[2]) } : null;
+        return color && width ? { color, width: Number(width) } : null;
     }
 }

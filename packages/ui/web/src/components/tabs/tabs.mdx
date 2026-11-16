@@ -36,6 +36,8 @@ When the tabs do not fit, the tab list scrolls sideways. It draws no scrollbar, 
 
 <Canvas of={TabsStories.Overflow} />
 
+A list that scrolls clips what it draws outside its box, so the tab list reaches 4 px past its container on each side, the room of the focus ring of a tab, and pads that room back. It still takes the height of a tab in the page. Leave that room unclipped around the tab list, so the focus ring shows whole.
+
 ## Tab
 
 ### Default
@@ -45,6 +47,18 @@ A tab shows its label in the muted text color.
 ### Selected
 
 The selected tab shows its label in the default text color, and draws the indicator in the accent color along its bottom edge, over the divider, so the selection never relies on the text color alone. A click selects a tab.
+
+### Hover
+
+A tab fills its box, and shows its label in the default text color. The selected tab keeps its indicator.
+
+<Canvas of={TabsStories.Hover} />
+
+### Focus
+
+A tab draws the focus ring outside itself on keyboard focus, and keeps the look of its state. A click draws no ring.
+
+<Canvas of={TabsStories.Focus} />
 
 ## Keyboard
 
@@ -59,10 +73,10 @@ A key pressed with Alt, Ctrl, or Meta stays with the browser, so Alt with the le
 
 ## Accessibility
 
-The tab list, each tab, and each panel take the `tablist`, `tab`, and `tabpanel` roles. The selected tab carries `aria-selected="true"`, each tab points at its panel through `aria-controls`, and each panel takes its name from its tab through `aria-labelledby`. Only the selected tab is in the tab order, and the panel follows it, so Tab moves from the tab list into the panel.
+The tab list, each tab, and each panel take the `tablist`, `tab`, and `tabpanel` roles. The selected tab carries `aria-selected="true"`, each tab points at its panel through `aria-controls`, and each panel takes its name from its tab through `aria-labelledby`. Only the selected tab is in the tab order, and the panel follows it, so Tab moves from the tab list into the panel, which draws the focus ring outside itself as the tabs do.
 
 Each tab is 44 px tall, the minimum target size, and is a `<button type="button">`, so it submits no form it sits in.
 
 ## Testing
 
-`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs show within it, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, and indicator; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its id, `aria-labelledby`, and `tabindex`.
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs and focus rings show within it, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, indicator, and focus ring; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its focus ring, its id, `aria-labelledby`, and `tabindex`.

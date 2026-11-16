@@ -7,3 +7,9 @@
 :host([hidden]) {
     display: none;
 }
+
+// The panel is in the tab order, so keyboard focus draws the ring outside it, as on the tabs.
+:host(:focus-visible) {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}

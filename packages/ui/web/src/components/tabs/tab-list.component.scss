@@ -1,13 +1,26 @@
-// The tab list fills its container, with its tabs side by side. Penpot draws the divider over the bottom edge of the
-// tabs, so an inset shadow draws it inside the list, under the tabs, and the list keeps the height of a tab.
+// The room the focus ring of a tab takes outside the tab.
+$ring-room: calc(var(--border-width-focus) + var(--focus-offset));
+
+// The tab list fills its container, with its tabs side by side.
 :host {
     display: flex;
     align-items: flex-end;
     column-gap: var(--space-4);
-    box-shadow: inset 0 calc(-1 * var(--border-width-default)) 0 var(--color-border-divider);
 
     // When the tabs do not fit, the list scrolls sideways. It draws no scrollbar, which would add to its height and
     // cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs scroll it.
     overflow-x: auto;
     scrollbar-width: none;
+
+    // A list that scrolls clips what its tabs draw outside it, so it reaches past its container by the room of the focus
+    // ring and pads that room back. It still takes the height of a tab, and a tab a key reaches scrolls into view with
+    // its ring.
+    margin: calc(-1 * #{$ring-room});
+    padding: $ring-room;
+    scroll-padding-inline: $ring-room;
+
+    // Penpot draws the divider over the bottom edge of the tabs, so a line under the tabs draws it, as wide as the
+    // container. A background stays put while the tabs scroll.
+    background: linear-gradient(var(--color-border-divider), var(--color-border-divider)) left $ring-room bottom
+        $ring-room / calc(100% - 2 * #{$ring-room}) var(--border-width-default) no-repeat;
 }
