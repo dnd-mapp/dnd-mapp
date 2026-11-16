@@ -2,9 +2,10 @@ import { Component, input, ViewEncapsulation } from '@angular/core';
 import { cardBackgroundAttr, DEFAULT_CARD_BACKGROUND } from './card.types';
 
 /**
- * A block of related content, alone or in a grid: a title and text, both projected. The heading is the title and the
- * `<p>` the text, so whoever places it picks the heading level. A card is not a control, so it takes no focus and
- * emits nothing.
+ * A block of related content, alone or in a grid: a title, text, chips, and an action, each projected. The heading is
+ * the title, the `<p>` the text, each `<dma-chip>` a chip, and the `<a>` the action, so whoever places it picks the
+ * heading level. The card draws them in that order, whatever their order in the source. A card is not a control, so it
+ * takes no focus and emits nothing.
  *
  * The styles reach the projected children, which emulated encapsulation leaves out, so the component turns
  * encapsulation off and scopes every rule to its own selector instead.

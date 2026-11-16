@@ -1,7 +1,17 @@
 import { ComponentHarness, type TestElement } from '@angular/cdk/testing';
+import { ChipHarness } from './chip.harness';
+import { LinkHarness } from './link.harness';
 
-/** A part of a card: the title or the text. */
-export type CardPart = 'title' | 'text';
+/** A part of a card, in the order the card draws them: the title, the text, the row of chips, or the action. */
+export type CardPart = 'title' | 'text' | 'chips' | 'action';
+
+/** What each part matches among the children of a card. The row of chips counts only when it holds a chip. */
+const PART_SELECTORS: Record<CardPart, string> = {
+    title: ':is(h1, h2, h3, h4, h5, h6)',
+    text: 'p',
+    chips: '.chips:not(:empty)',
+    action: 'a',
+};
 
 /** How a card draws its box. */
 export interface CardLook {
@@ -35,14 +45,38 @@ export interface CardSize {
 export class CardHarness extends ComponentHarness {
     public static readonly hostSelector = 'dma-card';
 
-    private readonly parts: Record<CardPart, () => Promise<TestElement | null>> = {
-        title: this.locatorForOptional(':scope > :is(h1, h2, h3, h4, h5, h6)'),
-        text: this.locatorForOptional(':scope > p'),
-    };
+    /** The chips the card projects, in their order. */
+    public readonly getChips = this.locatorForAll(ChipHarness);
+
+    /** The link the card projects as its action, or `null` when it projects none. */
+    public readonly getAction = this.locatorForOptional(LinkHarness);
+
+    private readonly getChildren = this.locatorForAll(':scope > *');
 
     /** The text of a part, or `null` when the card projects no such part. */
     public async getText(part: CardPart): Promise<string | null> {
-        return (await (await this.parts[part]())?.text()) ?? null;
+        return (await (await this.findPart(part))?.text()) ?? null;
+    }
+
+    /** The parts the card draws, in the order it draws them, leaving out the ones it does not project. */
+    public async getParts(): Promise<CardPart[]> {
+        const children = await this.getChildren();
+        const parts = await Promise.all(children.map((child) => this.toPart(child)));
+
+        return parts.filter((part) => part !== null);
+    }
+
+    /** Where each chip sits, measured from the top left of the card. */
+    public async getChipBoxes(): Promise<CardPartBox[]> {
+        const [host, chips] = await Promise.all([(await this.host()).getDimensions(), this.getChips()]);
+        const boxes = await Promise.all(chips.map(async (chip) => (await chip.host()).getDimensions()));
+
+        return boxes.map(({ top, left, width, height }) => ({
+            top: top - host.top,
+            bottom: top - host.top + height,
+            left: left - host.left,
+            width,
+        }));
     }
 
     /** How the card draws its box. */
@@ -90,8 +124,21 @@ export class CardHarness extends ComponentHarness {
         return await (await this.host()).isFocused();
     }
 
+    private async toPart(child: TestElement): Promise<CardPart | null> {
+        for (const [part, selector] of Object.entries(PART_SELECTORS) as [CardPart, string][]) {
+            if (await child.matchesSelector(selector)) {
+                return part;
+            }
+        }
+        return null;
+    }
+
+    private async findPart(part: CardPart): Promise<TestElement | null> {
+        return await this.locatorForOptional(`:scope > ${PART_SELECTORS[part]}`)();
+    }
+
     private async getPart(part: CardPart): Promise<TestElement> {
-        const element = await this.parts[part]();
+        const element = await this.findPart(part);
 
         if (!element) {
             throw new Error(`The card projects no ${part}.`);
