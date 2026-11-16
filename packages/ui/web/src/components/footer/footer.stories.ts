@@ -3,32 +3,41 @@ import { FooterComponent } from './footer.component';
 import { LinkComponent } from '../link';
 import { LinkGroupComponent } from '../link-group';
 
-/** The columns that Penpot draws, each a heading with the labels of its links. */
-const COLUMNS = [
-    { heading: 'Product', links: ['Compendium', 'Dice', 'Characters', 'Campaigns'] },
-    { heading: 'Project', links: ['GitHub', 'Contributing', 'Code of conduct', 'Support'] },
-    { heading: 'Legal', links: ['Privacy', 'Accessibility', 'License'] },
-];
-
 const meta = {
     title: 'Footer',
     component: FooterComponent,
     decorators: [moduleMetadata({ imports: [LinkGroupComponent, LinkComponent] })],
     parameters: { layout: 'fullscreen' },
+    // The columns are written out, not looped over, so the snippet of each story shows the markup a page writes.
     render: () => ({
-        props: { columns: COLUMNS },
         template: `
             <footer dma-footer>
-                @for (column of columns; track column.heading) {
-                    <nav [attr.aria-labelledby]="'footer-' + $index">
-                        <dma-link-group>
-                            <h2 [id]="'footer-' + $index">{{ column.heading }}</h2>
-                            @for (link of column.links; track link) {
-                                <li><a dma-link kind="quiet" href="#">{{ link }}</a></li>
-                            }
-                        </dma-link-group>
-                    </nav>
-                }
+                <nav aria-labelledby="footer-product">
+                    <dma-link-group>
+                        <h2 id="footer-product">Product</h2>
+                        <li><a dma-link kind="quiet" href="#">Compendium</a></li>
+                        <li><a dma-link kind="quiet" href="#">Dice</a></li>
+                        <li><a dma-link kind="quiet" href="#">Characters</a></li>
+                        <li><a dma-link kind="quiet" href="#">Campaigns</a></li>
+                    </dma-link-group>
+                </nav>
+                <nav aria-labelledby="footer-project">
+                    <dma-link-group>
+                        <h2 id="footer-project">Project</h2>
+                        <li><a dma-link kind="quiet" href="#">GitHub</a></li>
+                        <li><a dma-link kind="quiet" href="#">Contributing</a></li>
+                        <li><a dma-link kind="quiet" href="#">Code of conduct</a></li>
+                        <li><a dma-link kind="quiet" href="#">Support</a></li>
+                    </dma-link-group>
+                </nav>
+                <nav aria-labelledby="footer-legal">
+                    <dma-link-group>
+                        <h2 id="footer-legal">Legal</h2>
+                        <li><a dma-link kind="quiet" href="#">Privacy</a></li>
+                        <li><a dma-link kind="quiet" href="#">Accessibility</a></li>
+                        <li><a dma-link kind="quiet" href="#">License</a></li>
+                    </dma-link-group>
+                </nav>
             </footer>
         `,
     }),
