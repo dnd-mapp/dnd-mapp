@@ -1,0 +1,39 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as TabsStories from './tabs.stories';
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+Switches between views of the same content, such as the parts of a character sheet, without leaving the page. It is the Tab list and Tab components of the design system in Penpot. To move between pages, use Nav link instead.
+
+<Canvas of={TabsStories.Default} />
+
+## Placing tabs
+
+Put a `button[dma-tab]` in a `dma-tab-list` for each view. Name the tab list with `aria-label`, or with `aria-labelledby` when a heading on the page names it:
+
+```html
+<dma-tab-list aria-label="Character sheet">
+    <button dma-tab>Stats</button>
+    <button dma-tab>Spells</button>
+</dma-tab-list>
+```
+
+## Tab list
+
+The tab list fills its container, with its tabs side by side, each as wide as its label, and draws a divider along its bottom edge.
+
+## Tab
+
+### Default
+
+A tab shows its label in the muted text color.
+
+## Accessibility
+
+The tab list and each tab take the `tablist` and `tab` roles. Each tab is 44 px tall, the minimum target size, and is a `<button type="button">`, so it submits no form it sits in.
+
+## Testing
+
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, and its look, box, and size.

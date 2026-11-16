@@ -67,6 +67,8 @@ export {
     SkipLinkHarness,
     type SkipLinkLook,
 } from './harnesses/skip-link.harness';
+export { TabListHarness, type TabListDivider } from './harnesses/tab-list.harness';
+export { type TabBox, TabHarness, type TabLook } from './harnesses/tab.harness';
 export {
     type ThemeOptionFocusRing,
     ThemeOptionHarness,

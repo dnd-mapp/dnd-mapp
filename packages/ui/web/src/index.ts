@@ -12,6 +12,7 @@ export * from './components/logo';
 export * from './components/nav-link';
 export * from './components/section-intro';
 export * from './components/skip-link';
+export * from './components/tabs';
 export * from './components/theme-picker';
 export * from './storage';
 export * from './theme';
