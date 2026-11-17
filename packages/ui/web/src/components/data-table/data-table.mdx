@@ -1,0 +1,48 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as DataTableStories from './data-table.stories';
+
+<Meta of={DataTableStories} />
+
+# Data table
+
+Rows of data under a header row, which compare a few attributes across rows, such as the data that the Privacy page lists. It is the Data table component of the design system in Penpot.
+
+<Canvas of={DataTableStories.Desktop} />
+
+## Placing a data table
+
+Data table is an attribute on `<table>`. Give it a `<caption>`, a `<thead>` with one row of `<th scope="col">`, and a `<tbody>` whose rows start with a `<th scope="row">`:
+
+```html
+<table dma-data-table>
+    <caption>Data we process</caption>
+    <thead>
+        <tr>
+            <th scope="col">Data</th>
+            <th scope="col">Kept for</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">Server logs</th>
+            <td>14 days</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+Write the `<thead>` and `<tbody>` yourself, since Angular adds neither. The table fills its container up to the measure, and leaves its own place in the container to the section that holds it.
+
+The browser sizes each column from its content, so the longest column takes the most room, as in Penpot. To fix the width of a column, set it on a `<col>` in a `<colgroup>` after the caption.
+
+## Focus
+
+A data table takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive. A Link in a cell draws its own focus ring.
+
+## Accessibility
+
+The caption names the table for assistive technology and stays out of sight, since the heading of the section names it on the page. The `scope` of each `<th>` tells assistive technology which cells it heads, so a screen reader reads each cell with its column and its row.
+
+## Testing
+
+`DataTableHarness` from `@dnd-mapp/ui-web/testing` reads a data table in a test: its caption and its size, the text and padding of each cell, and its width.
