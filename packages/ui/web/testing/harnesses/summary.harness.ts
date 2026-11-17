@@ -86,6 +86,19 @@ export class SummaryHarness extends ComponentHarness {
         return { top: top - host.top, bottom: top - host.top + height, left: left - host.left, width };
     }
 
+    /** Where each point sits, measured from the top left of the summary, in order. */
+    public async getPointBoxes(): Promise<SummaryPartBox[]> {
+        const [host, points] = await Promise.all([(await this.host()).getDimensions(), this.getPointElements()]);
+
+        return Promise.all(
+            points.map(async (point) => {
+                const { top, left, width, height } = await point.getDimensions();
+
+                return { top: top - host.top, bottom: top - host.top + height, left: left - host.left, width };
+            }),
+        );
+    }
+
     /** The width of the summary, in pixels. */
     public async getWidth(): Promise<number> {
         return (await (await this.host()).getDimensions()).width;
