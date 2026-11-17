@@ -82,5 +82,7 @@ export default meta;
 
 type Story = StoryObj<DataTableComponent>;
 
-/** A table under a header row, which fills its container up to the measure, with the column widths of Penpot. */
+/**
+ * A table under a header row, as wide as its container up to the measure of 720 px, with the column widths of Penpot.
+ */
 export const Desktop: Story = {};

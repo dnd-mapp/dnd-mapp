@@ -31,7 +31,7 @@ Data table is an attribute on `<table>`. Give it a `<caption>`, a `<thead>` with
 </table>
 ```
 
-Write the `<thead>` and `<tbody>` yourself, since Angular adds neither. The table fills its container up to the measure, and leaves its own place in the container to the section that holds it.
+Write the `<thead>` and `<tbody>` yourself, since Angular adds neither. The table is as wide as its container, up to the measure of 720 px (`--size-measure`), so in a wider container, such as the canvas above, it stops at 720 px. It leaves its own place in the container to the section that holds it.
 
 The browser sizes each column from its content, so the longest column takes the most room, as in Penpot. To fix the width of a column, set it on a `<col>` in a `<colgroup>` after the caption.
 
