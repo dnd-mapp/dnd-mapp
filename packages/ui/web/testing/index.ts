@@ -13,6 +13,7 @@ export {
     type CardSize,
 } from './harnesses/card.harness';
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
+export { DataTableHarness, type DataTableInsets } from './harnesses/data-table.harness';
 export {
     type DisclosureDivider,
     type DisclosureFocusRing,
