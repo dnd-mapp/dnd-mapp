@@ -35,6 +35,12 @@ Write the `<thead>` and `<tbody>` yourself, since Angular adds neither. The tabl
 
 The browser sizes each column from its content, so the longest column takes the most room, as in Penpot. To fix the width of a column, set it on a `<col>` in a `<colgroup>` after the caption.
 
+## Viewport
+
+### Desktop
+
+The header row sits on the sunken background, and a divider splits each row from the one above it. The first cell of each row names it in strong body text; the other cells hold its data in small, muted body text.
+
 ## Focus
 
 A data table takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive. A Link in a cell draws its own focus ring.
@@ -45,4 +51,4 @@ The caption names the table for assistive technology and stays out of sight, sin
 
 ## Testing
 
-`DataTableHarness` from `@dnd-mapp/ui-web/testing` reads a data table in a test: its caption and its size, the text and padding of each cell, and its width.
+`DataTableHarness` from `@dnd-mapp/ui-web/testing` reads a data table in a test: its caption and its size, the text, look, and padding of each cell, the divider above each row, its border, and its width.

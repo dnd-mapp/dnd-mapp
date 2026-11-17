@@ -33,6 +33,15 @@ const meta = {
                         <td>14 days</td>
                     </tr>
                     <tr>
+                        <th scope="row">Bot check</th>
+                        <td>
+                            Cloudflare runs a script and sets the cf_clearance cookie to tell people from bots and protect
+                            the site from abuse.
+                        </td>
+                        <td>Legitimate interest, GDPR art. 6(1)(f)</td>
+                        <td>6 months, in your browser</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Theme choice</th>
                         <td>
                             Dark or Light, if you pick one, so the next visit opens in that theme. It stays in your
