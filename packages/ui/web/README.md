@@ -8,7 +8,7 @@ A component belongs here when it is presentational: it takes its content through
 
 [Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
-- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Skip link, and Tabs have none.
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Skip link, Summary, and Tabs have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
 - Tabs holds one component per part, Tab list, Tab, and Tab panel, which share a spec, stories, and docs page.
 - Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
@@ -38,6 +38,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Nav link      | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
 | Section intro | [`hgroup[dma-section-intro]`][si]           | `align`: `start` or `center`.                                                                                                                        |
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
+| Summary       | [`section[dma-summary]`][su]                | None: Penpot draws one look in both viewports.                                                                                                       |
 | Tabs          | [`dma-tab-list` and its parts][ta]          | None: Penpot draws the states of each tab.                                                                                                           |
 | Theme picker  | [`fieldset[dma-theme-picker]`][tp]          | `display`: `labels` or `icons`.                                                                                                                      |
 
@@ -56,6 +57,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [nl]: src/components/nav-link/nav-link.component.ts
 [si]: src/components/section-intro/section-intro.component.ts
 [sl]: src/components/skip-link/skip-link.component.ts
+[su]: src/components/summary/summary.component.ts
 [ta]: src/components/tabs/index.ts
 [tp]: src/components/theme-picker/theme-picker.component.ts
 
@@ -104,6 +106,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
 | Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
 | Skip link     | `SkipLinkComponent`                                                                                               |
+| Summary       | `SummaryComponent`                                                                                                |
 | Tabs          | `TabListComponent`, `TabComponent`, `TabPanelComponent`                                                           |
 | Theme picker  | `ThemePickerComponent`, `ThemePickerDisplay`, `DEFAULT_THEME_PICKER_DISPLAY`, `themePickerDisplayAttr`            |
 | Theme         | `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`                                         |

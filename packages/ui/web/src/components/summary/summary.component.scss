@@ -1,0 +1,40 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'section[dma-summary]';
+$heading: ':is(h1, h2, h3, h4, h5, h6)';
+
+// Sets the font of a typography token, such as `title` for the `--typography-title-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The Surface box. The summary fills its container up to the measure, as Penpot draws it under the title block of
+// the Article. Penpot draws the border as an inner stroke, so the padding leaves room for it inside the space.24 of
+// Penpot.
+#{$host} {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    max-inline-size: var(--size-measure);
+    padding: calc(var(--space-24) - var(--border-width-default));
+    border: var(--border-width-default) solid var(--color-border-divider);
+    border-radius: var(--radius-lg);
+    background: var(--color-background-surface);
+}
+
+// The gap spaces the children, so none keeps the margin of its element.
+#{$host} > * {
+    margin: 0;
+}
+
+// The title draws the title typography at every level, so the level follows the outline of the page, not the look.
+#{$host} > #{$heading} {
+    color: var(--color-foreground-default);
+    @include typography(title);
+}
