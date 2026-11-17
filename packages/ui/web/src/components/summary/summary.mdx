@@ -11,17 +11,19 @@ The box that opens a long text page with a short version of it, such as In short
 
 ## Placing a summary
 
-Summary is an attribute on `<section>`. Project a heading with `dma-summary-title` as its title, then a `<ul>` of its points:
+Summary is an attribute on `<section>`. Project a heading with `dma-summary-title` as its title, then a `<ul role="list">` of its points:
 
 ```html
 <section dma-summary>
     <h2 dma-summary-title>In short</h2>
-    <ul>
+    <ul role="list">
         <li>No accounts, no cookies, no analytics, and no ads.</li>
         <li>Your theme choice stays in your browser and never reaches us.</li>
     </ul>
 </section>
 ```
+
+Each point draws a muted marker 12 px before its text, and a line that wraps starts under the text. The points sit 8 px apart.
 
 Make the title an `<h2>` under the title of the page, so the summary shows in the headings list of a screen reader. The title draws the same at every level.
 
@@ -33,7 +35,7 @@ A summary takes no focus, and Penpot draws no hover or focus state for it, since
 
 ## Accessibility
 
-The title names the section, so assistive technology announces the summary as a region by that name. The title binds an id, generated unless you set one, and the section points `aria-labelledby` at it. A summary without a title throws NG0951.
+The title names the section, so assistive technology announces the summary as a region by that name. The points drop the markers of their list, which makes Safari drop its list role, so give the `<ul>` `role="list"`. Screen readers skip the markers the summary draws. The title binds an id, generated unless you set one, and the section points `aria-labelledby` at it. A summary without a title throws NG0951.
 
 ## Testing
 

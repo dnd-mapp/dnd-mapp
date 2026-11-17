@@ -10,7 +10,7 @@ const meta = {
         template: `
             <section dma-summary>
                 <h2 dma-summary-title>In short</h2>
-                <ul>
+                <ul role="list">
                     <li>No accounts, no cookies, no analytics, and no ads.</li>
                     <li>Our server logs each request, including your IP address, to keep the site running and safe.</li>
                     <li>Your theme choice stays in your browser and never reaches us.</li>
