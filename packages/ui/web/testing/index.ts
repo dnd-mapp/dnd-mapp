@@ -74,6 +74,12 @@ export {
     SkipLinkHarness,
     type SkipLinkLook,
 } from './harnesses/skip-link.harness';
+export {
+    type SummaryLook,
+    SummaryHarness,
+    type SummaryPartBox,
+    type SummaryTitleLook,
+} from './harnesses/summary.harness';
 export { type TabPanelFocusRing, TabPanelHarness } from './harnesses/tab-panel.harness';
 export { TabListHarness, type TabListDivider } from './harnesses/tab-list.harness';
 export {

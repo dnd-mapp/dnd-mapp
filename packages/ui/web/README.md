@@ -131,6 +131,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Nav link         | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
 | Section intro    | `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`                                        |
 | Skip link        | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                       |
+| Summary          | `SummaryHarness`, `SummaryLook`, `SummaryTitleLook`, `SummaryPartBox`                                                       |
 | Tab list         | `TabListHarness`, `TabListDivider`                                                                                          |
 | Tab              | `TabHarness`, `TabHarnessFilters`, `TabLook`, `TabBox`, `TabIndicator`, `TabFocusRing`                                      |
 | Tab panel        | `TabPanelHarness`, `TabPanelFocusRing`                                                                                      |
