@@ -38,7 +38,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Nav link      | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
 | Section intro | [`hgroup[dma-section-intro]`][si]           | `align`: `start` or `center`.                                                                                                                        |
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
-| Summary       | [`section[dma-summary]`][su]                | None: Penpot draws one look in both viewports.                                                                                                       |
+| Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports.                                                                                                       |
 | Tabs          | [`dma-tab-list` and its parts][ta]          | None: Penpot draws the states of each tab.                                                                                                           |
 | Theme picker  | [`fieldset[dma-theme-picker]`][tp]          | `display`: `labels` or `icons`.                                                                                                                      |
 
@@ -57,7 +57,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [nl]: src/components/nav-link/nav-link.component.ts
 [si]: src/components/section-intro/section-intro.component.ts
 [sl]: src/components/skip-link/skip-link.component.ts
-[su]: src/components/summary/summary.component.ts
+[su]: src/components/summary/index.ts
 [ta]: src/components/tabs/index.ts
 [tp]: src/components/theme-picker/theme-picker.component.ts
 
@@ -106,7 +106,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
 | Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
 | Skip link     | `SkipLinkComponent`                                                                                               |
-| Summary       | `SummaryComponent`                                                                                                |
+| Summary       | `SummaryComponent`, `SummaryTitleComponent`                                                                       |
 | Tabs          | `TabListComponent`, `TabComponent`, `TabPanelComponent`                                                           |
 | Theme picker  | `ThemePickerComponent`, `ThemePickerDisplay`, `DEFAULT_THEME_PICKER_DISPLAY`, `themePickerDisplayAttr`            |
 | Theme         | `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`                                         |

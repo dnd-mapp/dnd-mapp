@@ -1,6 +1,6 @@
 // The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'section[dma-summary]';
-$heading: ':is(h1, h2, h3, h4, h5, h6)';
+$title: '[dma-summary-title]';
 
 // Sets the font of a typography token, such as `title` for the `--typography-title-*` properties.
 @mixin typography($name) {
@@ -34,7 +34,7 @@ $heading: ':is(h1, h2, h3, h4, h5, h6)';
 }
 
 // The title draws the title typography at every level, so the level follows the outline of the page, not the look.
-#{$host} > #{$heading} {
+#{$host} > #{$title} {
     color: var(--color-foreground-default);
     @include typography(title);
 }

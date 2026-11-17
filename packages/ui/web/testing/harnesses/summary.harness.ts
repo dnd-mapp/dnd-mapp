@@ -26,7 +26,7 @@ export interface SummaryPartBox {
 export class SummaryHarness extends ComponentHarness {
     public static readonly hostSelector = 'section[dma-summary]';
 
-    private readonly getTitleElement = this.locatorFor(':scope > :is(h1, h2, h3, h4, h5, h6)');
+    private readonly getTitleElement = this.locatorFor(':scope > [dma-summary-title]');
     private readonly getPointsElement = this.locatorFor(':scope > ul');
     private readonly getPointElements = this.locatorForAll(':scope > ul > li');
 

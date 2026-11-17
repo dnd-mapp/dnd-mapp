@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { SummaryComponent } from './summary.component';
+import { SummaryTitleComponent } from './summary-title.component';
 import { readColorToken, setupTestEnvironment, SummaryHarness } from '@dnd-mapp/ui-web/testing';
 
 describe('SummaryComponent', () => {
@@ -9,7 +10,7 @@ describe('SummaryComponent', () => {
         template: `
             <div [style.width.px]="width()">
                 <section dma-summary>
-                    <h2>In short</h2>
+                    <h2 dma-summary-title>In short</h2>
                     <ul>
                         <li>No accounts, no cookies, no analytics, and no ads.</li>
                         <li>Your theme choice stays in your browser and never reaches us.</li>
@@ -17,24 +18,32 @@ describe('SummaryComponent', () => {
                 </section>
             </div>
         `,
-        imports: [SummaryComponent],
+        imports: [SummaryComponent, SummaryTitleComponent],
     })
     class TestComponent {
         public readonly width = signal(600);
     }
 
-    /** Summaries that leave their names to the component, and ones that set an id or `aria-labelledby` themselves. */
+    /** Summaries whose titles generate their ids, and one whose title has an id of the consumer. */
     @Component({
         template: `
-            <p id="other-label">Privacy at a glance</p>
-            <section dma-summary><h2>In short</h2></section>
-            <section dma-summary><h2>At a glance</h2></section>
-            <section dma-summary><h2 id="privacy-summary">Your data</h2></section>
-            <section dma-summary aria-labelledby="other-label"><h2>Our logs</h2></section>
+            <section dma-summary><h2 dma-summary-title>In short</h2></section>
+            <section dma-summary><h2 dma-summary-title>At a glance</h2></section>
+            <section dma-summary><h2 dma-summary-title id="privacy-summary">Your data</h2></section>
         `,
-        imports: [SummaryComponent],
+        imports: [SummaryComponent, SummaryTitleComponent],
     })
     class LabelsTestComponent {}
+
+    @Component({
+        template: `<section dma-summary>
+            <ul>
+                <li>No accounts and no ads.</li>
+            </ul>
+        </section>`,
+        imports: [SummaryComponent],
+    })
+    class NoTitleTestComponent {}
 
     async function setupTest(options: { width?: number } = {}) {
         const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: SummaryHarness });
@@ -88,12 +97,20 @@ describe('SummaryComponent', () => {
         await expect.element(page.getByRole('region', { name: 'At a glance' })).toBeInTheDocument();
     });
 
-    it('should keep an id of the title or an aria-labelledby of the section that the consumer sets', async () => {
-        const [, , yourData, ourLogs] = await setupLabelsTest();
+    it('should keep an id that the consumer sets on the title', async () => {
+        const [, , yourData] = await setupLabelsTest();
 
         expect(yourData).toEqual({ id: 'privacy-summary', label: 'privacy-summary' });
-        expect(ourLogs).toEqual({ id: null, label: 'other-label' });
-        await expect.element(page.getByRole('region', { name: 'Privacy at a glance' })).toBeInTheDocument();
+        await expect.element(page.getByRole('region', { name: 'Your data' })).toBeInTheDocument();
+    });
+
+    it('should throw when the summary has no title', () => {
+        setupTestEnvironment();
+        const fixture = TestBed.createComponent(NoTitleTestComponent);
+
+        expect(() => {
+            fixture.detectChanges();
+        }).toThrow(/NG0951/);
     });
 
     it('should draw the surface background with a divider border, in the colors of the theme', async () => {
