@@ -1,13 +1,26 @@
 // The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'table[dma-data-table]';
 
+// Sets the font of a typography token, such as `body` for the `--typography-body-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
 // The table fills its container up to the measure, as in Penpot, and leaves its own place in the container to the
-// section that holds it.
+// section that holds it. Separate borders let the outer border round its corners, which collapsed borders cannot.
 #{$host} {
     position: relative;
     inline-size: 100%;
     max-inline-size: var(--size-measure);
     margin: 0;
+    border: var(--border-width-default) solid var(--color-border-divider);
+    border-radius: var(--radius-md);
     border-spacing: 0;
 }
 
@@ -33,4 +46,36 @@ $host: 'table[dma-data-table]';
 
 #{$host} > :is(thead, tbody) > tr > :last-child {
     padding-inline-end: var(--space-16);
+}
+
+// The header row sits on the sunken background. Its outer cells round their top corners inside the border, since the
+// table's own corners do not clip its cells.
+#{$host} > thead > tr > th {
+    background: var(--color-background-sunken);
+    color: var(--color-foreground-muted);
+    @include typography(caps);
+}
+
+#{$host} > thead > tr > th:first-child {
+    border-start-start-radius: calc(var(--radius-md) - var(--border-width-default));
+}
+
+#{$host} > thead > tr > th:last-child {
+    border-start-end-radius: calc(var(--radius-md) - var(--border-width-default));
+}
+
+// A divider line splits each row from the one above it, the header row included.
+#{$host} > tbody > tr > :is(th, td) {
+    border-block-start: var(--border-width-default) solid var(--color-border-divider);
+}
+
+// The first cell names the row; the other cells hold its data.
+#{$host} > tbody > tr > th {
+    color: var(--color-foreground-default);
+    @include typography(body-strong);
+}
+
+#{$host} > tbody > tr > td {
+    color: var(--color-foreground-muted);
+    @include typography(body-sm);
 }
