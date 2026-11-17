@@ -11,7 +11,7 @@ describe('SummaryComponent', () => {
             <div [style.width.px]="width()">
                 <section dma-summary>
                     <h2 dma-summary-title>In short</h2>
-                    <ul>
+                    <ul role="list">
                         <li>No accounts, no cookies, no analytics, and no ads.</li>
                         <li>Your theme choice stays in your browser and never reaches us.</li>
                     </ul>
@@ -81,6 +81,14 @@ describe('SummaryComponent', () => {
         ]);
     });
 
+    it('should keep the points a list, through the role that the consumer sets', async () => {
+        await setupTest();
+
+        const list = page.getByRole('list');
+
+        expect(list.getByRole('listitem').elements()).toHaveLength(2);
+    });
+
     it('should keep the title at the level its consumer picks', async () => {
         await setupTest();
 
@@ -141,6 +149,62 @@ describe('SummaryComponent', () => {
         expect(title).toMatchObject({ top: 24, left: 24, width: 552 });
         expect(points.top - title.bottom).toBeCloseTo(12);
         expect(points.width).toBe(552);
+    });
+
+    it('should draw each point in the body typography, after a muted marker 12 px before it', async () => {
+        await setupTest();
+        const point = page.getByRole('listitem').first().element();
+        const marker = getComputedStyle(point, '::before');
+
+        expect(getComputedStyle(point)).toMatchObject({
+            color: readColorToken('--color-foreground-default'),
+            fontSize: '16px',
+            fontWeight: '400',
+        });
+        expect(marker).toMatchObject({
+            content: '"•" / ""',
+            color: readColorToken('--color-foreground-muted'),
+            paddingInlineEnd: '12px',
+        });
+    });
+
+    it('should space the points 8 px apart', async () => {
+        const { harness } = await setupTest();
+        const [first, second] = await harness.getPointBoxes();
+
+        expect((second?.top ?? 0) - (first?.bottom ?? 0)).toBeCloseTo(8);
+    });
+
+    /** The left edge of each point, and of each line of its text, in pixels. */
+    function readPointLines() {
+        return page
+            .getByRole('listitem')
+            .elements()
+            .map((point) => {
+                const range = document.createRange();
+
+                range.selectNodeContents(point);
+                return {
+                    start: point.getBoundingClientRect().left,
+                    lines: Array.from(range.getClientRects(), (line) => line.left),
+                };
+            });
+    }
+
+    it('should start the text of every point at the same place, after its marker', async () => {
+        await setupTest();
+        const [first, second] = readPointLines();
+
+        expect(second?.lines[0]).toBeCloseTo(first?.lines[0] ?? 0);
+        expect((first?.lines[0] ?? 0) - (first?.start ?? 0)).toBeGreaterThan(12);
+    });
+
+    it('should start each wrapped line of a point under its text, not under its marker', async () => {
+        await setupTest({ width: 360 });
+        const [, wrapped] = readPointLines();
+
+        expect(wrapped?.lines).toHaveLength(2);
+        expect(wrapped?.lines[1]).toBeCloseTo(wrapped?.lines[0] ?? 0);
     });
 
     it.each([
