@@ -6,7 +6,7 @@ import { withSelectedTheme } from '../../../.storybook/theme';
 import { Theme } from '../../theme';
 
 const meta = {
-    title: 'Theme picker',
+    title: 'Patterns/Theme picker',
     component: ThemePickerComponent,
     argTypes: {
         display: radioArgType({

@@ -203,6 +203,7 @@ The Storybook of `main` is online at <https://dnd-mapp.github.io/dnd-mapp/>. Eac
 
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.
+- Title the stories of each component with its category in the Penpot Component inventory and its name, such as `Elements/Button`, `Patterns/Card`, or `Regions/Header`. [`.storybook/preview.ts`](.storybook/preview.ts) sorts the categories in the order of the inventory.
 - Describe each input that takes one value of a constant object, such as `LogoKind`, with `radioArgType` from [`.storybook/arg-types.ts`](.storybook/arg-types.ts). It gives the input a radio control and a table row with its description, its values, and its default, which Storybook cannot read from the component without Compodoc.
 - Draw a hover or focus state in a story of its own with the `pseudo` parameter of [`storybook-addon-pseudo-states`](https://github.com/chromaui/storybook-addon-pseudo-states), such as `parameters: { pseudo: { hover: true } }` or `{ focusVisible: true }`. The addon applies the styles of the state without a pointer or keyboard, so the story stays in that state for comparison with Penpot.
 - Write the docs page of each component as `<name>.mdx` next to its stories, with `<Meta of={...} />` pointing at them, so Storybook shows it as the Docs entry of the component. Import the doc blocks, such as `Canvas` and `Controls`, from `@storybook/addon-docs/blocks`.

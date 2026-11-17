@@ -4,7 +4,7 @@ import { DEFAULT_LOGO_KIND, DEFAULT_LOGO_SIZE, LogoKind, LogoSize } from './logo
 import { radioArgType } from '../../../.storybook/arg-types';
 
 const meta = {
-    title: 'Logo',
+    title: 'Elements/Logo',
     component: LogoComponent,
     argTypes: {
         kind: radioArgType({

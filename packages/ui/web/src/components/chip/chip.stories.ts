@@ -7,7 +7,7 @@ import { radioArgType } from '../../../.storybook/arg-types';
 type ChipArgs = ChipComponent & { label: string };
 
 const meta = {
-    title: 'Chip',
+    title: 'Elements/Chip',
     component: ChipComponent,
     argTypes: {
         kind: radioArgType({

@@ -9,7 +9,7 @@ import { radioArgType } from '../../../.storybook/arg-types';
 type CardArgs = CardComponent & { title: string; text: string };
 
 const meta = {
-    title: 'Card',
+    title: 'Patterns/Card',
     component: CardComponent,
     decorators: [moduleMetadata({ imports: [ChipComponent, LinkComponent] })],
     argTypes: {

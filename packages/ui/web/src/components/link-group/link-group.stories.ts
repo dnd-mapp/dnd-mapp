@@ -6,7 +6,7 @@ import { LinkComponent } from '../link';
 type LinkGroupArgs = LinkGroupComponent & { heading: string; links: string[] };
 
 const meta = {
-    title: 'Link group',
+    title: 'Patterns/Link group',
     component: LinkGroupComponent,
     decorators: [moduleMetadata({ imports: [LinkComponent] })],
     argTypes: {

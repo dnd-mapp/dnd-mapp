@@ -6,7 +6,7 @@ import { LinkComponent } from '../link';
 import { LinkGroupComponent } from '../link-group';
 
 const meta = {
-    title: 'Footer',
+    title: 'Regions/Footer',
     component: FooterComponent,
     decorators: [moduleMetadata({ imports: [LinkGroupComponent, LinkComponent] }), withSelectedTheme(Theme.System)],
     parameters: { layout: 'fullscreen' },

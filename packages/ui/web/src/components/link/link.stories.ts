@@ -7,7 +7,7 @@ import { radioArgType } from '../../../.storybook/arg-types';
 type LinkArgs = LinkComponent & { label: string };
 
 const meta = {
-    title: 'Link',
+    title: 'Elements/Link',
     component: LinkComponent,
     argTypes: {
         kind: radioArgType({

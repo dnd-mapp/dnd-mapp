@@ -10,4 +10,10 @@ export default {
             defaultTheme: 'Dark',
         }),
     ],
+    parameters: {
+        options: {
+            // Lists the categories of the Penpot Component inventory in its order, from the smallest pieces up.
+            storySort: { order: ['Elements', 'Patterns', 'Regions'] },
+        },
+    },
 } satisfies Preview;

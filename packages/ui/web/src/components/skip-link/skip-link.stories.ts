@@ -6,7 +6,7 @@ import { NavLinkComponent } from '../nav-link';
 type SkipLinkArgs = SkipLinkComponent & { label: string };
 
 const meta = {
-    title: 'Skip link',
+    title: 'Elements/Skip link',
     component: SkipLinkComponent,
     argTypes: {
         label: {
