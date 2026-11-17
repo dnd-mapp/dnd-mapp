@@ -1,3 +1,5 @@
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
 // The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'table[dma-data-table]';
 
@@ -12,6 +14,16 @@ $host: 'table[dma-data-table]';
     text-transform: var(--typography-#{$name}-text-case);
 }
 
+// The clip hides an element from sight but keeps it in the accessibility tree, where `display: none` would remove it.
+@mixin visually-hidden {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
 // The table fills its container up to the measure, as in Penpot, and leaves its own place in the container to the
 // section that holds it. Separate borders let the outer border round its corners, which collapsed borders cannot.
 #{$host} {
@@ -24,15 +36,9 @@ $host: 'table[dma-data-table]';
     border-spacing: 0;
 }
 
-// The caption names the table for assistive technology only. The clip hides it from sight but keeps it in the
-// accessibility tree, where `display: none` would remove it.
+// The caption names the table for assistive technology only.
 #{$host} > caption {
-    position: absolute;
-    inline-size: 1px;
-    block-size: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+    @include visually-hidden;
 }
 
 // Each cell takes the block padding of its row. Every cell but the last starts 16 px after the one before it, which
@@ -78,4 +84,54 @@ $host: 'table[dma-data-table]';
 #{$host} > tbody > tr > td {
     color: var(--color-foreground-muted);
     @include typography(body-sm);
+}
+
+// Below the desktop breakpoint, each row is a card, and each cell after the first draws the label of its column above
+// its data. The header row leaves the screen but stays in the accessibility tree, so a screen reader still reads each
+// cell with its column, and the label takes no text alternative, which would read the column twice.
+@media (width < breakpoints.$breakpoint-desktop) {
+    #{$host} {
+        display: block;
+        border: none;
+    }
+
+    #{$host} > colgroup {
+        display: none;
+    }
+
+    #{$host} > thead {
+        @include visually-hidden;
+    }
+
+    #{$host} > tbody {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+    }
+
+    // Penpot draws the border inside the padding of the card.
+    #{$host} > tbody > tr {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+        padding: calc(var(--space-16) - var(--border-width-default));
+        border: var(--border-width-default) solid var(--color-border-divider);
+        border-radius: var(--radius-md);
+    }
+
+    // The cells drop the padding and the divider of the rows above. The `:last-child` raises the rule to the
+    // specificity of the one that pads the last cell of each row.
+    #{$host} > tbody > tr > :is(th, td, :last-child) {
+        display: block;
+        padding: 0;
+        border: none;
+    }
+
+    #{$host} > tbody > tr > td::before {
+        content: attr(data-label) / '';
+        display: block;
+        margin-block-end: var(--space-4);
+        color: var(--color-foreground-muted);
+        @include typography(caps);
+    }
 }

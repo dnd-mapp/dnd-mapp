@@ -2,10 +2,24 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { DataTableComponent } from './data-table.component';
-import { DataTableHarness, type DataTableLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import {
+    type DataTableBox,
+    DataTableHarness,
+    type DataTableLook,
+    readColorToken,
+    setupTestEnvironment,
+} from '@dnd-mapp/ui-web/testing';
 
 /** The width of `--size-measure`, which caps the width of the data table, in pixels. */
 const MEASURE = 720;
+
+/** The height of a line of `typography.caps` and of `typography.body-sm`, in pixels. */
+const CAPS_LINE = 13 * 1.4;
+const BODY_SM_LINE = 14 * 1.5;
+
+function bottom(box: DataTableBox): number {
+    return box.top + box.height;
+}
 
 /** How each kind of cell draws, as Penpot draws it, in the colors of the theme the test runs in. */
 function readLooks(): Record<'columnHeader' | 'rowHeader' | 'cell', DataTableLook> {
@@ -41,20 +55,17 @@ describe('DataTableComponent', () => {
                         <tr>
                             <th scope="col">Data</th>
                             <th scope="col">Why</th>
-                            <th scope="col">Kept for</th>
+                            <th scope="col">{{ keptFor() }}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">Server logs</th>
-                            <td>To deliver pages, find errors, and stop abuse</td>
-                            <td>14 days</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Theme choice</th>
-                            <td>So the next visit opens in the theme you picked</td>
-                            <td>Until you clear your site data</td>
-                        </tr>
+                        @for (row of rows(); track row[0]) {
+                            <tr>
+                                <th scope="row">{{ row[0] }}</th>
+                                <td>{{ row[1] }}</td>
+                                <td>{{ row[2] }}</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -63,7 +74,23 @@ describe('DataTableComponent', () => {
     })
     class TestComponent {
         public readonly width = signal(600);
+        public readonly keptFor = signal('Kept for');
+        public readonly rows = signal([
+            ['Server logs', 'To deliver pages, find errors, and stop abuse', '14 days'],
+            ['Theme choice', 'So the next visit opens in the theme you picked', 'Until you clear your site data'],
+        ]);
     }
+
+    // The tests run on a wide screen, and the ones on narrow screens set a viewport below the desktop breakpoint.
+    const { innerWidth, innerHeight } = window;
+
+    beforeEach(async () => {
+        await page.viewport(1280, 800);
+    });
+
+    afterEach(async () => {
+        await page.viewport(innerWidth, innerHeight);
+    });
 
     async function setupTest(options: { width?: number } = {}) {
         const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: DataTableHarness });
@@ -73,7 +100,7 @@ describe('DataTableComponent', () => {
         }
         TestBed.tick();
 
-        return { harness };
+        return { host: fixture.componentInstance, harness };
     }
 
     it('should project the caption, the header row, and each row', async () => {
@@ -161,5 +188,79 @@ describe('DataTableComponent', () => {
         const { harness } = await setupTest({ width: 1000 });
 
         expect(await harness.getWidth()).toBe(MEASURE);
+    });
+
+    describe('on narrow screens', () => {
+        beforeEach(async () => {
+            await page.viewport(375, 812);
+        });
+
+        it('should leave the table to assistive technology, named by its caption', async () => {
+            await setupTest({ width: 360 });
+            const table = page.getByRole('table', { name: 'Data we process' });
+
+            await expect.element(table).toBeInTheDocument();
+            expect(table.getByRole('columnheader').all()).toHaveLength(3);
+            expect(table.getByRole('rowheader').all()).toHaveLength(2);
+            expect(table.getByRole('cell').all()).toHaveLength(4);
+        });
+
+        it('should take no room for the header row', async () => {
+            const { harness } = await setupTest({ width: 360 });
+
+            expect((await harness.getRowBox(1)).top).toBe(0);
+        });
+
+        it('should draw each row as a card with a rounded border, 12 px apart', async () => {
+            const { harness } = await setupTest({ width: 360 });
+            const [first, second] = await Promise.all([harness.getRowBox(1), harness.getRowBox(2)]);
+
+            expect(first).toEqual(expect.objectContaining({ left: 0, width: 360 }));
+            expect(second.top - bottom(first)).toBeCloseTo(12);
+            expect(await harness.getRowBorder(1)).toEqual({
+                color: readColorToken('--color-border-divider'),
+                width: '1px',
+                radius: '10px',
+            });
+            expect((await harness.getBorder()).width).toBe('0px');
+        });
+
+        it('should inset the cells of each card 16 px, 12 px apart', async () => {
+            const { harness } = await setupTest({ width: 360 });
+            const [card, title, why, keptFor] = await Promise.all([
+                harness.getRowBox(1),
+                harness.getCellBox(1, 0),
+                harness.getCellBox(1, 1),
+                harness.getCellBox(1, 2),
+            ]);
+
+            for (const cell of [title, why, keptFor]) {
+                expect(cell).toEqual(expect.objectContaining({ left: 16, width: 360 - 32 }));
+            }
+            expect(title.top - card.top).toBeCloseTo(16);
+            expect(why.top - bottom(title)).toBeCloseTo(12);
+            expect(keptFor.top - bottom(why)).toBeCloseTo(12);
+            expect(bottom(card) - bottom(keptFor)).toBeCloseTo(16);
+        });
+
+        it('should label each data cell with its column, 4 px above its data', async () => {
+            const { harness } = await setupTest({ width: 360 });
+
+            expect(await harness.getLabel(1, 1)).toBe('Why');
+            expect(await harness.getLabel(2, 2)).toBe('Kept for');
+            // Chromium lays out lines in steps of 1/64 px, so a line of 18.2 px takes 18.1875 px.
+            expect((await harness.getCellBox(1, 2)).height).toBeCloseTo(CAPS_LINE + 4 + BODY_SM_LINE, 1);
+        });
+
+        it('should label the cells again when a column header or the rows change', async () => {
+            const { host, harness } = await setupTest({ width: 360 });
+
+            host.keptFor.set('Stored for');
+            host.rows.update((rows) => [...rows, ['Emails to us', 'So we can answer you', '1 year']]);
+            TestBed.tick();
+
+            await expect.poll(async () => harness.getLabel(1, 2)).toBe('Stored for');
+            await expect.poll(async () => harness.getLabel(3, 1)).toBe('Why');
+        });
     });
 });

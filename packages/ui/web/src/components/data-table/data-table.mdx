@@ -37,9 +37,17 @@ The browser sizes each column from its content, so the longest column takes the 
 
 ## Viewport
 
+The layout follows the desktop breakpoint of `@dnd-mapp/design-tokens`, so the data table takes no input for it.
+
 ### Desktop
 
-The header row sits on the sunken background, and a divider splits each row from the one above it. The first cell of each row names it in strong body text; the other cells hold its data in small, muted body text.
+From the breakpoint up, the rows sit under the header row, as the data table at the top of this page shows. The header row sits on the sunken background, and a divider splits each row from the one above it. The first cell of each row names it in strong body text; the other cells hold its data in small, muted body text.
+
+### Mobile
+
+Below the breakpoint, each row is a card, since the columns would leave each cell too little room. The first cell titles the card, and each other cell draws the label of its column above its data. The component copies each label from the text of the column header, again whenever the rows or the header row change, so a page sets no labels of its own.
+
+<Canvas of={DataTableStories.Mobile} story={{ inline: false, height: '40rem' }} />
 
 ## Focus
 
@@ -49,6 +57,8 @@ A data table takes no focus, and Penpot draws no hover or focus state for it, si
 
 The caption names the table for assistive technology and stays out of sight, since the heading of the section names it on the page. The `scope` of each `<th>` tells assistive technology which cells it heads, so a screen reader reads each cell with its column and its row.
 
+Below the breakpoint, the header row leaves the screen but stays in the accessibility tree, so a screen reader still announces a table and reads each cell with its column. The card layout drops the table semantics of the elements in some browsers, so the component sets their roles itself. The label on each cell takes no text alternative, since a screen reader already reads the column header with the cell.
+
 ## Testing
 
-`DataTableHarness` from `@dnd-mapp/ui-web/testing` reads a data table in a test: its caption and its size, the text, look, and padding of each cell, the divider above each row, its border, and its width.
+`DataTableHarness` from `@dnd-mapp/ui-web/testing` reads a data table in a test: its caption and its size, the text, look, padding, box, and column label of each cell, the box, card border, and divider of each row, its border, and its width.

@@ -22,6 +22,14 @@ export interface DataTableLine {
     width: string;
 }
 
+/** The box of a row or a cell, in pixels from the top-left corner of the data table. */
+export interface DataTableBox {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+}
+
 /**
  * Reads a data table. A cell is addressed by its row and column, both from 0, where row 0 is the header row and the
  * rows of the body follow it.
@@ -111,6 +119,33 @@ export class DataTableHarness extends ComponentHarness {
         return { start, end };
     }
 
+    /** The border of the row at `row`, which draws it as a card below the desktop breakpoint. */
+    public async getRowBorder(row: number): Promise<DataTableLine & { radius: string }> {
+        const element = await this.getRow(row);
+        const [color, width, radius] = await Promise.all([
+            element.getCssValue('border-top-color'),
+            element.getCssValue('border-top-width'),
+            element.getCssValue('border-top-left-radius'),
+        ]);
+
+        return { color, width, radius };
+    }
+
+    /** The label of its column that the cell at `row` and `column` draws above its data below the desktop breakpoint. */
+    public async getLabel(row: number, column: number): Promise<string | null> {
+        return (await this.getCell(row, column)).getAttribute('data-label');
+    }
+
+    /** The box of the row at `row`. */
+    public async getRowBox(row: number): Promise<DataTableBox> {
+        return this.getBoxOf(await this.getRow(row));
+    }
+
+    /** The box of the cell at `row` and `column`. */
+    public async getCellBox(row: number, column: number): Promise<DataTableBox> {
+        return this.getBoxOf(await this.getCell(row, column));
+    }
+
     /** The size of the caption, in pixels. */
     public async getCaptionSize(): Promise<{ width: number; height: number }> {
         const { width, height } = await (await this.caption()).getDimensions();
@@ -125,6 +160,24 @@ export class DataTableHarness extends ComponentHarness {
 
     private rowSelector(row: number): string {
         return row === 0 ? ':scope > thead > tr:first-child' : `:scope > tbody > tr:nth-child(${String(row)})`;
+    }
+
+    private async getBoxOf(element: TestElement): Promise<DataTableBox> {
+        const [host, { top, left, width, height }] = await Promise.all([
+            (await this.host()).getDimensions(),
+            element.getDimensions(),
+        ]);
+
+        return { top: top - host.top, left: left - host.left, width, height };
+    }
+
+    private async getRow(row: number): Promise<TestElement> {
+        const element = await this.locatorForOptional(this.rowSelector(row))();
+
+        if (!element) {
+            throw new Error(`The data table holds no row at ${String(row)}.`);
+        }
+        return element;
     }
 
     private async getCell(row: number, column: number): Promise<TestElement> {

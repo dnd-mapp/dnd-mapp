@@ -86,3 +86,11 @@ type Story = StoryObj<DataTableComponent>;
  * A table under a header row, as wide as its container up to the measure of 720 px, with the column widths of Penpot.
  */
 export const Desktop: Story = {};
+
+/**
+ * Each row is a card that labels each cell with its column, below the desktop breakpoint. The docs page shows the story
+ * in an iframe narrower than the breakpoint.
+ */
+export const Mobile: Story = {
+    globals: { viewport: { value: 'mobile1', isRotated: false } },
+};

@@ -116,7 +116,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Button           | `ButtonHarness`, `ButtonLook`, `ButtonFocusRing`, `ButtonIconInsets`                                                        |
 | Card             | `CardHarness`, `CardLook`, `CardPart`, `CardPartLook`, `CardPartBox`, `CardSize`                                            |
 | Chip             | `ChipHarness`, `ChipLook`                                                                                                   |
-| Data table       | `DataTableHarness`, `DataTableLook`, `DataTableInsets`, `DataTableLine`                                                     |
+| Data table       | `DataTableHarness`, `DataTableLook`, `DataTableInsets`, `DataTableLine`, `DataTableBox`                                     |
 | Disclosure       | `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider` |
 | Facts list       | `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`                                   |
 | Footer           | `FooterHarness`, `FooterPart`, `FooterText`, `FooterLook`, `FooterTextLook`, `FooterAttributionLink`, `FooterBox`           |

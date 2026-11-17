@@ -14,6 +14,7 @@ export {
 } from './harnesses/card.harness';
 export { ChipHarness, type ChipLook } from './harnesses/chip.harness';
 export {
+    type DataTableBox,
     DataTableHarness,
     type DataTableInsets,
     type DataTableLine,
