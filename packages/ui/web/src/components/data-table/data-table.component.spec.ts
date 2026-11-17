@@ -1,0 +1,109 @@
+import { Component, signal } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { page } from 'vitest/browser';
+import { DataTableComponent } from './data-table.component';
+import { DataTableHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+
+/** The width of `--size-measure`, which caps the width of the data table, in pixels. */
+const MEASURE = 720;
+
+describe('DataTableComponent', () => {
+    @Component({
+        template: `
+            <div [style.width.px]="width()">
+                <table dma-data-table>
+                    <caption>
+                        Data we process
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Data</th>
+                            <th scope="col">Why</th>
+                            <th scope="col">Kept for</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Server logs</th>
+                            <td>To deliver pages, find errors, and stop abuse</td>
+                            <td>14 days</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Theme choice</th>
+                            <td>So the next visit opens in the theme you picked</td>
+                            <td>Until you clear your site data</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        `,
+        imports: [DataTableComponent],
+    })
+    class TestComponent {
+        public readonly width = signal(600);
+    }
+
+    async function setupTest(options: { width?: number } = {}) {
+        const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: DataTableHarness });
+
+        if (options.width) {
+            fixture.componentInstance.width.set(options.width);
+        }
+        TestBed.tick();
+
+        return { harness };
+    }
+
+    it('should project the caption, the header row, and each row', async () => {
+        const { harness } = await setupTest();
+
+        expect(await harness.getCaption()).toBe('Data we process');
+        expect(await harness.getCells()).toEqual([
+            ['Data', 'Why', 'Kept for'],
+            ['Server logs', 'To deliver pages, find errors, and stop abuse', '14 days'],
+            ['Theme choice', 'So the next visit opens in the theme you picked', 'Until you clear your site data'],
+        ]);
+    });
+
+    it('should leave the table to assistive technology, named by its caption', async () => {
+        await setupTest();
+        const table = page.getByRole('table', { name: 'Data we process' });
+
+        await expect.element(table).toBeInTheDocument();
+        expect(table.getByRole('columnheader').all()).toHaveLength(3);
+        await expect.element(table.getByRole('columnheader').nth(1)).toHaveTextContent('Why');
+        expect(table.getByRole('rowheader').all()).toHaveLength(2);
+        await expect.element(table.getByRole('rowheader').nth(1)).toHaveTextContent('Theme choice');
+        expect(table.getByRole('cell').all()).toHaveLength(4);
+    });
+
+    it('should hide the caption from sight', async () => {
+        const { harness } = await setupTest();
+        const { width, height } = await harness.getCaptionSize();
+
+        expect(width).toBeLessThanOrEqual(1);
+        expect(height).toBeLessThanOrEqual(1);
+    });
+
+    it('should pad each row 12 px on the block axis and 16 px on the inline axis, with cells 16 px apart', async () => {
+        const { harness } = await setupTest();
+
+        for (const row of [0, 1, 2]) {
+            expect(await harness.getInsets(row, 0)).toEqual({ top: 12, right: 0, bottom: 12, left: 16 });
+            expect(await harness.getInsets(row, 1)).toEqual({ top: 12, right: 0, bottom: 12, left: 16 });
+            expect(await harness.getInsets(row, 2)).toEqual({ top: 12, right: 16, bottom: 12, left: 16 });
+        }
+    });
+
+    it('should fill a narrow container', async () => {
+        const { harness } = await setupTest({ width: 360 });
+
+        expect(await harness.getWidth()).toBe(360);
+    });
+
+    it('should grow no wider than the measure', async () => {
+        const { harness } = await setupTest({ width: 1000 });
+
+        expect(await harness.getWidth()).toBe(MEASURE);
+    });
+});

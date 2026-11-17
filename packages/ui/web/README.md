@@ -8,7 +8,7 @@ A component belongs here when it is presentational: it takes its content through
 
 [Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
-- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Disclosure, Facts list, Footer, Header, Icon, Link group, Skip link, and Tabs have none.
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Skip link, and Tabs have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
 - Tabs holds one component per part, Tab list, Tab, and Tab panel, which share a spec, stories, and docs page.
 - Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
@@ -26,6 +26,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Button        | [`button[dma-button]`, `a[dma-button]`][bu] | `kind`: `primary`, `secondary`, or `quiet`.                                                                                                          |
 | Card          | [`dma-card`][ca]                            | `background`: `surface` or `raised`.                                                                                                                 |
 | Chip          | [`dma-chip`][ch]                            | `kind`: `neutral`, `status`, or `dm`.                                                                                                                |
+| Data table    | [`table[dma-data-table]`][dt]               | None: Penpot draws one look, since a data table is not interactive.                                                                                  |
 | Disclosure    | [`details[dma-disclosure]`][di]             | The `open` attribute of `<details>`: closed or open.                                                                                                 |
 | Facts list    | [`dl[dma-facts-list]`][fl]                  | None: the layout follows the viewport, Desktop or Mobile.                                                                                            |
 | Footer        | [`footer[dma-footer]`][fo]                  | None: the layout follows the viewport, Desktop or Mobile.                                                                                            |
@@ -43,6 +44,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [bu]: src/components/button/button.component.ts
 [ca]: src/components/card/card.component.ts
 [ch]: src/components/chip/chip.component.ts
+[dt]: src/components/data-table/data-table.component.ts
 [di]: src/components/disclosure/disclosure.component.ts
 [fl]: src/components/facts-list/facts-list.component.ts
 [fo]: src/components/footer/footer.component.ts
@@ -90,6 +92,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Button        | `ButtonComponent`, `ButtonKind`, `DEFAULT_BUTTON_KIND`, `buttonKindAttr`                                          |
 | Card          | `CardComponent`, `CardBackground`, `DEFAULT_CARD_BACKGROUND`, `cardBackgroundAttr`                                |
 | Chip          | `ChipComponent`, `ChipKind`, `DEFAULT_CHIP_KIND`, `chipKindAttr`                                                  |
+| Data table    | `DataTableComponent`                                                                                              |
 | Disclosure    | `DisclosureComponent`                                                                                             |
 | Facts list    | `FactsListComponent`                                                                                              |
 | Footer        | `FooterComponent`                                                                                                 |
@@ -113,6 +116,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Button           | `ButtonHarness`, `ButtonLook`, `ButtonFocusRing`, `ButtonIconInsets`                                                        |
 | Card             | `CardHarness`, `CardLook`, `CardPart`, `CardPartLook`, `CardPartBox`, `CardSize`                                            |
 | Chip             | `ChipHarness`, `ChipLook`                                                                                                   |
+| Data table       | `DataTableHarness`, `DataTableInsets`                                                                                       |
 | Disclosure       | `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider` |
 | Facts list       | `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`                                   |
 | Footer           | `FooterHarness`, `FooterPart`, `FooterText`, `FooterLook`, `FooterTextLook`, `FooterAttributionLink`, `FooterBox`           |

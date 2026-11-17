@@ -1,6 +1,7 @@
 export * from './components/button';
 export * from './components/card';
 export * from './components/chip';
+export * from './components/data-table';
 export * from './components/disclosure';
 export * from './components/facts-list';
 export * from './components/footer';

@@ -1,0 +1,36 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'table[dma-data-table]';
+
+// The table fills its container up to the measure, as in Penpot, and leaves its own place in the container to the
+// section that holds it.
+#{$host} {
+    position: relative;
+    inline-size: 100%;
+    max-inline-size: var(--size-measure);
+    margin: 0;
+    border-spacing: 0;
+}
+
+// The caption names the table for assistive technology only. The clip hides it from sight but keeps it in the
+// accessibility tree, where `display: none` would remove it.
+#{$host} > caption {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+// Each cell takes the block padding of its row. Every cell but the last starts 16 px after the one before it, which
+// gives the row its inline padding and its gaps, as the flex layout of the row in Penpot does.
+#{$host} > :is(thead, tbody) > tr > :is(th, td) {
+    padding-block: var(--space-12);
+    padding-inline: var(--space-16) 0;
+    text-align: start;
+    vertical-align: top;
+}
+
+#{$host} > :is(thead, tbody) > tr > :last-child {
+    padding-inline-end: var(--space-16);
+}
