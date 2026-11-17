@@ -1,0 +1,40 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as SummaryStories from './summary.stories';
+
+<Meta of={SummaryStories} />
+
+# Summary
+
+The box that opens a long text page with a short version of it, such as In short on the Privacy page and At a glance on the Accessibility page. It is the Summary component of the design system in Penpot.
+
+<Canvas of={SummaryStories.Points} />
+
+## Placing a summary
+
+Summary is an attribute on `<section>`. Project a heading as its title, then a `<ul>` of its points:
+
+```html
+<section dma-summary>
+    <h2>In short</h2>
+    <ul>
+        <li>No accounts, no cookies, no analytics, and no ads.</li>
+        <li>Your theme choice stays in your browser and never reaches us.</li>
+    </ul>
+</section>
+```
+
+Make the title an `<h2>` under the title of the page, so the summary shows in the headings list of a screen reader. The title draws the same at every level.
+
+Place the summary under the title block of the page. It fills its container up to the measure, 720 px, and leaves its own place in the container to the page that holds it. Penpot draws it the same in both viewports, so it takes no input for them.
+
+## Focus
+
+A summary takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive. A Link in a point draws its own focus ring.
+
+## Accessibility
+
+The title names the section, so assistive technology announces the summary as a region by that name. The component links the two after its first render: it gives the heading an id when it has none, and points `aria-labelledby` at it. A section that already has an `aria-labelledby` keeps it.
+
+## Testing
+
+`SummaryHarness` from `@dnd-mapp/ui-web/testing` reads a summary in a test: its title and points, the id that names it, the look of its box and title, and the place of its parts.
