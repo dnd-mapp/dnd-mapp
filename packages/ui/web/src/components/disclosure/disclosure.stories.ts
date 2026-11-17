@@ -5,7 +5,7 @@ import { DisclosureComponent } from './disclosure.component';
 type DisclosureArgs = DisclosureComponent & { open: boolean; summary: string; content: string };
 
 const meta = {
-    title: 'Disclosure',
+    title: 'Patterns/Disclosure',
     component: DisclosureComponent,
     argTypes: {
         open: {

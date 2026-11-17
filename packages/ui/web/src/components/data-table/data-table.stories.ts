@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { DataTableComponent } from './data-table.component';
 
 const meta = {
-    title: 'Data table',
+    title: 'Patterns/Data table',
     component: DataTableComponent,
     render: () => ({
         template: `

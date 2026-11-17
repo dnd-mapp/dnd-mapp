@@ -8,7 +8,7 @@ import { radioArgType } from '../../../.storybook/arg-types';
 type ButtonArgs = ButtonComponent & { label: string };
 
 const meta = {
-    title: 'Button',
+    title: 'Elements/Button',
     component: ButtonComponent,
     decorators: [
         moduleMetadata({

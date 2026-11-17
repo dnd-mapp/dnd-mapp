@@ -7,7 +7,7 @@ import { radioArgType } from '../../../.storybook/arg-types';
 type SectionIntroArgs = SectionIntroComponent & { eyebrow: string; heading: string; intro: string };
 
 const meta = {
-    title: 'Section intro',
+    title: 'Patterns/Section intro',
     component: SectionIntroComponent,
     argTypes: {
         align: radioArgType({

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular-vite';
 import { FactsListComponent } from './facts-list.component';
 
 const meta = {
-    title: 'Facts list',
+    title: 'Patterns/Facts list',
     component: FactsListComponent,
     render: () => ({
         template: `

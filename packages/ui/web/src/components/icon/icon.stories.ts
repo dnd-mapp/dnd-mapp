@@ -2,7 +2,7 @@ import { moduleMetadata, type Meta, type StoryObj } from '@storybook/angular-vit
 import { ICONS } from './icons';
 
 const meta = {
-    title: 'Icon',
+    title: 'Elements/Icon',
     decorators: [
         moduleMetadata({
             imports: Object.values(ICONS),

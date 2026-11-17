@@ -4,7 +4,7 @@ import { TabListComponent } from './tab-list.component';
 import { TabPanelComponent } from './tab-panel.component';
 
 const meta = {
-    title: 'Tabs',
+    title: 'Patterns/Tabs',
     component: TabListComponent,
     subcomponents: { TabComponent, TabPanelComponent },
     argTypes: {

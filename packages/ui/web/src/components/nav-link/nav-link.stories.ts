@@ -7,7 +7,7 @@ import { radioArgType } from '../../../.storybook/arg-types';
 type NavLinkArgs = NavLinkComponent & { label: string; current: boolean };
 
 const meta = {
-    title: 'Nav link',
+    title: 'Elements/Nav link',
     component: NavLinkComponent,
     argTypes: {
         kind: radioArgType({

@@ -6,7 +6,7 @@ import { LogoComponent } from '../logo';
 import { NavLinkComponent } from '../nav-link';
 
 const meta = {
-    title: 'Header',
+    title: 'Regions/Header',
     component: HeaderComponent,
     decorators: [moduleMetadata({ imports: [LogoComponent, NavLinkComponent, ButtonComponent, IconGithubComponent] })],
     render: () => ({
