@@ -1,5 +1,7 @@
 import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular-vite';
 import { MobileMenuComponent } from './mobile-menu.component';
+import { withSelectedTheme } from '../../../.storybook/theme';
+import { Theme } from '../../theme';
 import { ButtonComponent } from '../button';
 import { HeaderComponent } from '../header';
 import { IconGithubComponent } from '../icon';
@@ -22,6 +24,7 @@ const meta = {
         moduleMetadata({
             imports: [HeaderComponent, LogoComponent, NavLinkComponent, ButtonComponent, IconGithubComponent],
         }),
+        withSelectedTheme(Theme.System),
     ],
     parameters: { layout: 'fullscreen' },
     // The menu shows below the desktop breakpoint only, at the size of the Mobile menu in Penpot.

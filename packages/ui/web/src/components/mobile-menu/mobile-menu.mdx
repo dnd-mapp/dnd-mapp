@@ -5,7 +5,7 @@ import * as MobileMenuStories from './mobile-menu.stories';
 
 # Mobile menu
 
-The navigation of every page below the desktop breakpoint, which the Menu button of Header opens. It is the Mobile menu component of the design system in Penpot. It covers the viewport, with the link home and a Close button in the bar of Header at the top:
+The navigation of every page below the desktop breakpoint, which the Menu button of Header opens. It is the Mobile menu component of the design system in Penpot. It covers the viewport, with the link home and a Close button in the bar of Header at the top, and below it the nav links as rows, the GitHub button, and the Theme picker:
 
 <Canvas of={MobileMenuStories.Open} story={{ inline: false, height: '812px' }} />
 
@@ -26,7 +26,7 @@ Mobile menu is an attribute on `<dialog>`. Place it next to Header, project the 
 
 A template reference points at the component rather than the `<dialog>`, so the component passes `showModal()` and `close()` on to the dialog. The browser keeps the state in the `open` attribute, and fires the native `close` event each time the menu closes, so Mobile menu has no inputs or outputs of its own. The menu knows no router, so a page that navigates from a nav link closes the menu itself, for example with `(click)="mobileMenu.close()"`.
 
-The menu places each child by its selector: an `a[dma-nav-link]` in its nav, an `a[dma-button]` after the nav, and anything else, the link home, at the start of its bar. It draws the Close button itself.
+The menu places each child by its selector: an `a[dma-nav-link]` in its nav, an `a[dma-button]` after the nav, and anything else, the link home, at the start of its bar. It draws the Close button and the Theme picker itself, since every page shows them the same. Below the nav, the GitHub button and the Theme picker fill the width of the menu, and the options of the picker share it equally.
 
 Press Menu to open the menu below Header, and Close or Escape to close it:
 
@@ -46,8 +46,10 @@ The menu is a dialog named "Menu". The link home takes its name, "D&D Mapp", fro
 
 The Close button is named by its label, and is 44 px tall, the minimum target size.
 
+The Theme picker is a group named "Theme" by its legend. The visible Theme title above it is hidden from assistive technology, so the name isn't read twice.
+
 ## Testing
 
-`MobileMenuHarness` from `@dnd-mapp/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. `pressClose()` presses the Close button.
+`MobileMenuHarness` from `@dnd-mapp/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. For the body, it reads the `NavLinkHarness` of each row, the `ButtonHarness` of the GitHub button, the `ThemePickerHarness`, the look of the divider and the Theme title, and where each part sits in the menu. `pressClose()` presses the Close button.
 
 A spec that opens the menu from the Menu button clicks it through `userEvent` rather than the harness, so the button takes focus, as it does in the browser, and the menu has a focus to return to.
