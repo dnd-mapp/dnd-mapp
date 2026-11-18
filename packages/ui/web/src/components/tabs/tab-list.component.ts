@@ -4,7 +4,7 @@ import {
     computed,
     contentChildren,
     DestroyRef,
-    type ElementRef,
+    ElementRef,
     inject,
     model,
     type Signal,
@@ -37,7 +37,8 @@ const TOLERANCE = 1;
  *
  * When the tabs do not fit, the list scrolls sideways, and shows a scroll button at each end that has more tabs past
  * it, over a fade of its tabs. The buttons are for the pointer alone: they stay out of the tab order and the
- * accessibility tree. The list watches its size in the browser only, and shows no buttons during prerendering.
+ * accessibility tree, and a press on one leaves the focus where it was. The list watches its size in the browser only,
+ * and shows no buttons during prerendering.
  */
 @Component({
     selector: 'dma-tab-list',
@@ -56,6 +57,9 @@ export class TabListComponent {
     public readonly selected = model(0);
 
     private readonly tabs = contentChildren(TAB);
+    private readonly tabElements: Signal<readonly ElementRef<HTMLElement>[]> = contentChildren(TAB, {
+        read: ElementRef,
+    });
     private readonly scroller = viewChild.required<ElementRef<HTMLElement>>('tabs');
 
     /** Whether more tabs lie past the start of the list, so it shows the scroll button there. */
@@ -122,5 +126,27 @@ export class TabListComponent {
 
         this.scrollsStart.set(scrollLeft > TOLERANCE);
         this.scrollsEnd.set(scrollWidth - clientWidth - scrollLeft > TOLERANCE);
+    }
+
+    /**
+     * Scrolls until the next tab past `edge` shows whole, clear of the scroll button and its fade there, which the
+     * scroll padding of the list leaves room for. The scroll is smooth, unless the reader prefers reduced motion.
+     */
+    protected scroll(edge: 'start' | 'end') {
+        const scroller = this.scroller().nativeElement;
+        const box = scroller.getBoundingClientRect();
+        const { scrollPaddingLeft, scrollPaddingRight } = getComputedStyle(scroller);
+        const start = box.left + parseFloat(scrollPaddingLeft);
+        const end = box.right - parseFloat(scrollPaddingRight);
+        const tabs = this.tabElements().map((tab) => tab.nativeElement.getBoundingClientRect());
+        const distance =
+            edge === 'start'
+                ? (tabs.findLast((tab) => tab.left < start - TOLERANCE)?.left ?? start) - start
+                : (tabs.find((tab) => tab.right > end + TOLERANCE)?.right ?? end) - end;
+
+        scroller.scrollBy({
+            left: distance,
+            behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+        });
     }
 }
