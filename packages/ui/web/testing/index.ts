@@ -63,6 +63,12 @@ export {
     type NavLinkLook,
 } from './harnesses/nav-link.harness';
 export {
+    type OnThisPageBox,
+    OnThisPageHarness,
+    type OnThisPageStickiness,
+    type OnThisPageTitleLook,
+} from './harnesses/on-this-page.harness';
+export {
     type OnThisPageLinkBox,
     type OnThisPageLinkFocusRing,
     OnThisPageLinkHarness,

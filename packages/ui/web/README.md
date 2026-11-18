@@ -133,6 +133,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Link group        | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
 | Logo              | `LogoHarness`                                                                                                               |
 | Nav link          | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
+| On this page      | `OnThisPageHarness`, `OnThisPageTitleLook`, `OnThisPageBox`, `OnThisPageStickiness`                                         |
 | On this page link | `OnThisPageLinkHarness`, `OnThisPageLinkLook`, `OnThisPageLinkBox`, `OnThisPageLinkFocusRing`, `OnThisPageLinkIndicator`    |
 | Section intro     | `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`                                        |
 | Skip link         | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                       |
