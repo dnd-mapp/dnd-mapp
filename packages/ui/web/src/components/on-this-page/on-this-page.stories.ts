@@ -1,4 +1,4 @@
-import { componentWrapperDecorator, type Meta, type StoryObj } from '@storybook/angular-vite';
+import { type Meta, type StoryObj } from '@storybook/angular-vite';
 import { OnThisPageLinkComponent } from './on-this-page-link.component';
 import { OnThisPageComponent } from './on-this-page.component';
 
@@ -21,14 +21,15 @@ const meta = {
             table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
         },
     },
-    // Draws each story in the 240 px column of Penpot, since the nav and its links fill their container.
-    decorators: [componentWrapperDecorator((story) => `<div style="width: 240px">${story}</div>`)],
+    // Each story draws the nav or its links in the 240 px column of Penpot, since they fill their container.
     render: (args) => ({
         props: args,
         template: `
-            <a dma-on-this-page-link [attr.aria-current]="current ? 'location' : null" href="#section-heading">
-                {{ label }}
-            </a>
+            <div style="width: 240px">
+                <a dma-on-this-page-link [attr.aria-current]="current ? 'location' : null" href="#section-heading">
+                    {{ label }}
+                </a>
+            </div>
         `,
     }),
 } satisfies Meta<OnThisPageLinkArgs>;
@@ -59,22 +60,27 @@ export const LinkCurrent: Story = {
 export const Links: Story = {
     render: () => ({
         template: `
-            <a dma-on-this-page-link aria-current="location" href="#who-is-responsible">Who is responsible</a>
-            <a dma-on-this-page-link href="#what-we-process">What we process</a>
-            <a dma-on-this-page-link href="#what-we-dont-do">What we don’t do</a>
-            <a dma-on-this-page-link href="#who-else-sees-it">Who else sees it</a>
-            <a dma-on-this-page-link href="#your-rights">Your rights</a>
-            <a dma-on-this-page-link href="#changes-to-this-statement">Changes to this statement</a>
+            <div style="width: 240px">
+                <a dma-on-this-page-link aria-current="location" href="#who-is-responsible">Who is responsible</a>
+                <a dma-on-this-page-link href="#what-we-process">What we process</a>
+                <a dma-on-this-page-link href="#what-we-dont-do">What we don’t do</a>
+                <a dma-on-this-page-link href="#who-else-sees-it">Who else sees it</a>
+                <a dma-on-this-page-link href="#your-rights">Your rights</a>
+                <a dma-on-this-page-link href="#changes-to-this-statement">Changes to this statement</a>
+            </div>
         `,
     }),
 };
 
-/** On this page beside the Privacy page on Desktop, as Penpot draws it, with the first section in view. */
+/**
+ * On this page on Desktop, as Penpot draws it, with the first section in view. The page has no headings for its links,
+ * so the nav leaves the marked link as it is.
+ */
 export const Desktop: Story = {
     render: () => ({
         moduleMetadata: { imports: [OnThisPageComponent] },
         template: `
-            <nav dma-on-this-page>
+            <nav dma-on-this-page style="width: 240px">
                 <li><a dma-on-this-page-link aria-current="location" href="#who-is-responsible">Who is responsible</a></li>
                 <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
                 <li><a dma-on-this-page-link href="#what-we-dont-do">What we don’t do</a></li>
@@ -82,6 +88,47 @@ export const Desktop: Story = {
                 <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
                 <li><a dma-on-this-page-link href="#changes-to-this-statement">Changes to this statement</a></li>
             </nav>
+        `,
+    }),
+};
+
+/** The sections of the article of the Article story, in their order. */
+const SECTIONS = [
+    { id: 'article-who-is-responsible', heading: 'Who is responsible' },
+    { id: 'article-what-we-process', heading: 'What we process' },
+    { id: 'article-what-we-dont-do', heading: 'What we don’t do' },
+    { id: 'article-who-else-sees-it', heading: 'Who else sees it' },
+    { id: 'article-your-rights', heading: 'Your rights' },
+    { id: 'article-changes-to-this-statement', heading: 'Changes to this statement' },
+];
+
+/**
+ * On this page beside a long article on Desktop, as the Privacy page places it. As the article scrolls, the nav sticks
+ * and marks the section whose heading has reached the top third of the viewport.
+ */
+export const Article: Story = {
+    render: () => ({
+        moduleMetadata: { imports: [OnThisPageComponent] },
+        props: { sections: SECTIONS, paragraphs: [1, 2, 3, 4] },
+        template: `
+            <div style="display: grid; grid-template-columns: 240px minmax(0, 60ch); gap: var(--space-48)">
+                <nav dma-on-this-page>
+                    @for (section of sections; track section.id) {
+                        <li><a dma-on-this-page-link [href]="'#' + section.id">{{ section.heading }}</a></li>
+                    }
+                </nav>
+                <article>
+                    @for (section of sections; track section.id) {
+                        <h2 [id]="section.id">{{ section.heading }}</h2>
+                        @for (paragraph of paragraphs; track paragraph) {
+                            <p>
+                                A paragraph of {{ section.heading }}. The article runs long enough that the page scrolls
+                                past each of its sections, so the mark in the nav follows the reader down the page.
+                            </p>
+                        }
+                    }
+                </article>
+            </div>
         `,
     }),
 };
