@@ -11,6 +11,7 @@ export class TabListHarness extends ComponentHarness {
     public static readonly hostSelector = 'dma-tab-list';
 
     private readonly tabsLocator = this.locatorForAll(TabHarness);
+    private readonly scrollerLocator = this.locatorFor('.tabs');
 
     /** The tabs of the list, in the order it shows them. */
     public async getTabs(): Promise<TabHarness[]> {
@@ -51,10 +52,10 @@ export class TabListHarness extends ComponentHarness {
 
     /** Whether the tabs are wider than the list, so it scrolls sideways. */
     public async isScrollable(): Promise<boolean> {
-        const host = await this.host();
+        const scroller = await this.scrollerLocator();
         const [scrollWidth, clientWidth] = await Promise.all([
-            host.getProperty<number>('scrollWidth'),
-            host.getProperty<number>('clientWidth'),
+            scroller.getProperty<number>('scrollWidth'),
+            scroller.getProperty<number>('clientWidth'),
         ]);
 
         return scrollWidth > clientWidth;
@@ -110,7 +111,7 @@ export class TabListHarness extends ComponentHarness {
 
     /** The gap between the tabs. */
     public async getGap(): Promise<string> {
-        return await (await this.host()).getCssValue('column-gap');
+        return await (await this.scrollerLocator()).getCssValue('column-gap');
     }
 
     /** The divider under the tabs, or null when the list draws none. */
