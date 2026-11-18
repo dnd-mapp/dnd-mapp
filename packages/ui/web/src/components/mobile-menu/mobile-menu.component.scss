@@ -2,7 +2,8 @@
 $host: 'dialog[dma-mobile-menu]';
 
 // The menu covers the viewport, so it drops the margin, border, padding, and maximum sizes that the browser gives a
-// modal dialog. Its content scrolls inside it when it runs past the bottom of a short screen.
+// modal dialog. Its content scrolls inside it when it runs past the bottom of a short screen, and the scroll stops at
+// the menu rather than passing on to the page behind.
 #{$host} {
     box-sizing: border-box;
     inset: 0;
@@ -16,12 +17,18 @@ $host: 'dialog[dma-mobile-menu]';
     background: var(--color-background-page);
     color: var(--color-foreground-default);
     overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 // The browser shows the dialog only while it is open, so the layout applies to the open dialog alone.
 #{$host}[open] {
     display: flex;
     flex-direction: column;
+}
+
+// The page behind stops scrolling while the menu is open.
+:root:has(#{$host}:modal) {
+    overflow: hidden;
 }
 
 // The bar of Header, with the Close button in place of the Menu button: the link home at the start and Close at the

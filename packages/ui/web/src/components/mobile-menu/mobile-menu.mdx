@@ -26,14 +26,28 @@ Mobile menu is an attribute on `<dialog>`. Place it next to Header, project the 
 
 A template reference points at the component rather than the `<dialog>`, so the component passes `showModal()` and `close()` on to the dialog. The browser keeps the state in the `open` attribute, and fires the native `close` event each time the menu closes, so Mobile menu has no inputs or outputs of its own. The menu knows no router, so a page that navigates from a nav link closes the menu itself, for example with `(click)="mobileMenu.close()"`.
 
-The menu places each child by its selector: an `a[dma-nav-link]` in its nav, an `a[dma-button]` after the nav, and anything else, the link home, at the start of its bar. It draws the Close button itself, which closes the menu.
+The menu places each child by its selector: an `a[dma-nav-link]` in its nav, an `a[dma-button]` after the nav, and anything else, the link home, at the start of its bar. It draws the Close button itself.
+
+Press Menu to open the menu below Header, and Close or Escape to close it:
+
+<Canvas of={MobileMenuStories.WithHeader} story={{ inline: false, height: '812px' }} />
+
+## Opening and closing
+
+The menu is a modal dialog, so the browser does most of the work:
+
+- Opening moves focus to the Close button, as Penpot asks, rather than to the link home before it.
+- While the menu is open, the page behind is inert: Tab moves between the links and buttons of the menu only. The page behind stops scrolling too, and a scroll inside the menu stops at its edge.
+- Close and Escape close the menu, and the browser returns focus to the element that had it before the menu opened, the Menu button.
 
 ## Accessibility
 
-The menu is a dialog named "Menu". The link home takes its name, "D&D Mapp", from the logo. The nav links sit in a navigation landmark named "Main", as in Header.
+The menu is a dialog named "Menu". The link home takes its name, "D&D Mapp", from the logo. The nav links sit in a navigation landmark named "Main", as in Header; the header is inert while the menu is open, so only one of them is exposed at a time.
 
 The Close button is named by its label, and is 44 px tall, the minimum target size.
 
 ## Testing
 
 `MobileMenuHarness` from `@dnd-mapp/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. `pressClose()` presses the Close button.
+
+A spec that opens the menu from the Menu button clicks it through `userEvent` rather than the harness, so the button takes focus, as it does in the browser, and the menu has a focus to return to.
