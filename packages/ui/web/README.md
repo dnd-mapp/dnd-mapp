@@ -8,7 +8,7 @@ A component belongs here when it is presentational: it takes its content through
 
 [Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
-- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Mobile menu, On this page, Skip link, Summary, and Tabs have none.
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Mobile menu, On this page, Skip link, Summary, Tabs, and Text page have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
 - On this page also holds On this page link, the component of each link, which shares its spec, stories, and docs page.
 - Tabs holds one component per part, Tab list, Tab, and Tab panel, which share a spec, stories, and docs page.
@@ -44,6 +44,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
 | Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports, with points or a Facts list.                                                                          |
 | Tabs          | [`dma-tab-list` and its parts][ta]          | None: Penpot draws the states of each tab.                                                                                                           |
+| Text page     | [`article[dma-text-page]`][tx]              | None: the size of the title follows the viewport, Desktop or Mobile.                                                                                 |
 | Theme picker  | [`fieldset[dma-theme-picker]`][tp]          | `display`: `labels` or `icons`.                                                                                                                      |
 
 [bu]: src/components/button/button.component.ts
@@ -66,6 +67,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [sl]: src/components/skip-link/skip-link.component.ts
 [su]: src/components/summary/index.ts
 [ta]: src/components/tabs/index.ts
+[tx]: src/components/text-page/text-page.component.ts
 [tp]: src/components/theme-picker/theme-picker.component.ts
 
 ## Theme
@@ -118,6 +120,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Skip link     | `SkipLinkComponent`                                                                                               |
 | Summary       | `SummaryComponent`, `SummaryTitleComponent`                                                                       |
 | Tabs          | `TabListComponent`, `TabComponent`, `TabPanelComponent`                                                           |
+| Text page     | `TextPageComponent`                                                                                               |
 | Theme picker  | `ThemePickerComponent`, `ThemePickerDisplay`, `DEFAULT_THEME_PICKER_DISPLAY`, `themePickerDisplayAttr`            |
 | Theme         | `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`                                         |
 | Storage       | `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE`                                              |

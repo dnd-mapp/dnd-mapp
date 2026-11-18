@@ -18,6 +18,7 @@ export * from './components/section-intro';
 export * from './components/skip-link';
 export * from './components/summary';
 export * from './components/tabs';
+export * from './components/text-page';
 export * from './components/theme-picker';
 export * from './storage';
 export * from './theme';
