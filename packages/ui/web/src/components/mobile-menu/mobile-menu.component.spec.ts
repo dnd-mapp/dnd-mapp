@@ -66,6 +66,15 @@ describe('MobileMenuComponent', () => {
         return test;
     }
 
+    /** Waits until the browser has rendered twice, and so has reported a change to a media query. */
+    async function nextFrames() {
+        await new Promise((resolve) => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(resolve);
+            });
+        });
+    }
+
     // The size of the Mobile menu in Penpot, below the desktop breakpoint.
     beforeEach(async () => {
         await page.viewport(375, 812);
@@ -282,5 +291,49 @@ describe('MobileMenuComponent', () => {
 
         expect(await harness.isModal()).toBe(true);
         await expect.element(closeButton()).toHaveFocus();
+    });
+
+    describe('when the window grows', () => {
+        it('should close at the desktop breakpoint, and leave the page behind usable again', async () => {
+            const { host, harness } = await setupOpenTest();
+            const linkHome = document.querySelector<HTMLAnchorElement>('header[dma-header] a');
+
+            await page.viewport(1024, 812);
+
+            await expect.poll(() => host.closes).toBe(1);
+            expect(await harness.isOpen()).toBe(false);
+            linkHome?.focus();
+            expect(document.activeElement).toBe(linkHome);
+        });
+
+        it('should stay open while the window stays below the desktop breakpoint', async () => {
+            const { host, harness } = await setupOpenTest();
+
+            await page.viewport(1023, 812);
+            await nextFrames();
+
+            expect(await harness.isModal()).toBe(true);
+            expect(host.closes).toBe(0);
+        });
+
+        it('should fire no close event when the menu is closed', async () => {
+            const { host } = await setupTest();
+
+            await page.viewport(1440, 812);
+            await nextFrames();
+
+            expect(host.closes).toBe(0);
+        });
+
+        it('should stay closed when the window shrinks below the desktop breakpoint again', async () => {
+            const { harness } = await setupOpenTest();
+
+            await page.viewport(1024, 812);
+            await expect.poll(() => harness.isOpen()).toBe(false);
+            await page.viewport(375, 812);
+            await nextFrames();
+
+            expect(await harness.isOpen()).toBe(false);
+        });
     });
 });
