@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ApplicationRef, Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { TabComponent } from './tab.component';
@@ -22,6 +22,15 @@ const LABELS = ['Overview', 'Stats', 'Spells'];
  * it compiles, so they repeat the value rather than interpolate it.
  */
 const CONTAINER_WIDTH = 480;
+
+/** The labels of the tabs of the host whose tabs scroll, in order. */
+const SCROLL_LABELS = ['Overview', 'Stats', 'Spells', 'Inventory', 'Features', 'Notes'];
+
+/**
+ * The fade at an end with more tabs past it, as Penpot draws it: the tabs hide under the room of the focus ring, and show
+ * whole again 16 px past it.
+ */
+const FADE = { hide: 4, show: 4 + 16 };
 
 /**
  * How a tab looks in each state, as Penpot draws it, in the colors of the theme the test runs in. Focus keeps the look of
@@ -90,6 +99,35 @@ describe('Tabs', () => {
         imports: [TabComponent, TabListComponent, TabPanelComponent],
     })
     class OverflowTestComponent {}
+
+    /**
+     * Six tabs too wide for their container, which still leaves room between its ends for a tab to show whole. The
+     * container is `width` pixels wide, so a test can resize it.
+     */
+    @Component({
+        template: `
+            <div [style.width.px]="width()">
+                <dma-tab-list aria-label="Character sheet">
+                    <button dma-tab [panel]="overview">Overview</button>
+                    <button dma-tab [panel]="stats">Stats</button>
+                    <button dma-tab [panel]="spells">Spells</button>
+                    <button dma-tab [panel]="inventory">Inventory</button>
+                    <button dma-tab [panel]="features">Features</button>
+                    <button dma-tab [panel]="notes">Notes</button>
+                </dma-tab-list>
+                <dma-tab-panel #overview>The overview of the character.</dma-tab-panel>
+                <dma-tab-panel #stats>The ability scores of the character.</dma-tab-panel>
+                <dma-tab-panel #spells>The spells the character knows.</dma-tab-panel>
+                <dma-tab-panel #inventory>What the character carries.</dma-tab-panel>
+                <dma-tab-panel #features>The class features of the character.</dma-tab-panel>
+                <dma-tab-panel #notes>Whatever the player wants to remember.</dma-tab-panel>
+            </div>
+        `,
+        imports: [TabComponent, TabListComponent, TabPanelComponent],
+    })
+    class ScrollTestComponent {
+        public readonly width = signal(320);
+    }
 
     async function setupTest(selected?: number) {
         const { fixture, harness, harnessLoader } = await setupTestEnvironment({
@@ -497,6 +535,105 @@ describe('Tabs', () => {
             await userEvent.keyboard('{Home}');
 
             expect(await harness.isTabInView('Overview')).toBe(true);
+        });
+    });
+
+    /** Sets up the host whose tabs scroll, once its tab list has measured itself. */
+    async function setupScrollTest() {
+        const { fixture, harness } = await setupTestEnvironment({
+            host: ScrollTestComponent,
+            harness: TabListHarness,
+        });
+        const scroller = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('.tabs');
+
+        if (!scroller) {
+            throw new Error('The tab list has no element that scrolls its tabs.');
+        }
+        // The list measures itself once the browser lays it out.
+        await expect.poll(async () => (await harness.getFade()).end).toEqual(FADE);
+
+        return { fixture, harness, scroller };
+    }
+
+    /** Scrolls the tabs to `left`, or to the end, and waits for the list to follow. */
+    async function scrollTo(scroller: HTMLElement, left: number | 'end') {
+        scroller.scrollTo({ left: left === 'end' ? scroller.scrollWidth : left, behavior: 'instant' });
+        await new Promise(requestAnimationFrame);
+        await TestBed.inject(ApplicationRef).whenStable();
+    }
+
+    /** The left edge in pixels of each tab. */
+    async function readTabLefts(harness: TabListHarness) {
+        const tabs = await harness.getTabs();
+
+        return await Promise.all(tabs.map(async (tab) => (await (await tab.host()).getDimensions()).left));
+    }
+
+    describe('overflow', () => {
+        it('should fade neither end while the tabs fit', async () => {
+            const { harness } = await setupTest();
+
+            expect(await harness.getFade()).toEqual({ start: null, end: null });
+        });
+
+        it('should fade the end alone while the tabs start at the start', async () => {
+            const { harness } = await setupScrollTest();
+
+            expect(await harness.getFade()).toEqual({ start: null, end: FADE });
+        });
+
+        it('should fade both ends while more tabs lie past both', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 100);
+
+            expect(await harness.getFade()).toEqual({ start: FADE, end: FADE });
+        });
+
+        it('should fade the start alone once the tabs reach the end', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 'end');
+
+            expect(await harness.getFade()).toEqual({ start: FADE, end: null });
+        });
+
+        it('should follow the list as its container resizes', async () => {
+            const { fixture, harness } = await setupScrollTest();
+
+            fixture.componentInstance.width.set(1000);
+
+            await expect.poll(async () => await harness.getFade()).toEqual({ start: null, end: null });
+
+            fixture.componentInstance.width.set(320);
+
+            await expect.poll(async () => await harness.getFade()).toEqual({ start: null, end: FADE });
+        });
+
+        it('should leave the tabs where they are as the start of the list fades', async () => {
+            const { harness, scroller } = await setupScrollTest();
+            const before = await readTabLefts(harness);
+
+            await scrollTo(scroller, 8);
+            const after = await readTabLefts(harness);
+
+            expect(await harness.getFade()).toEqual({ start: FADE, end: FADE });
+            expect(after.map((left, index) => Math.round((before[index] ?? 0) - left))).toEqual(
+                SCROLL_LABELS.map(() => 8),
+            );
+        });
+
+        it('should scroll a tab the keys reach clear of the fades', async () => {
+            const { harness } = await setupScrollTest();
+
+            await (await harness.getTab('Overview')).focus();
+
+            for (const label of SCROLL_LABELS.slice(1)) {
+                await userEvent.keyboard('{ArrowRight}');
+
+                expect(await harness.getFocusedLabel()).toBe(label);
+                expect(await harness.isTabClear(label)).toBe(true);
+            }
         });
     });
 });
