@@ -1,11 +1,9 @@
 import {
-    afterNextRender,
+    afterRenderEffect,
     Component,
     computed,
     contentChildren,
-    DestroyRef,
     ElementRef,
-    inject,
     model,
     type Signal,
     signal,
@@ -37,8 +35,8 @@ const TOLERANCE = 1;
  *
  * When the tabs do not fit, the list scrolls sideways, and shows a scroll button at each end that has more tabs past
  * it, over a fade of its tabs. The buttons are for the pointer alone: they stay out of the tab order and the
- * accessibility tree, and a press on one leaves the focus where it was. The list watches its size in the browser only,
- * and shows no buttons during prerendering.
+ * accessibility tree, and a press on one leaves the focus where it was. The list watches its size and its tabs in the
+ * browser only, and shows no buttons during prerendering.
  */
 @Component({
     selector: 'dma-tab-list',
@@ -75,16 +73,22 @@ export class TabListComponent {
         return tabs[this.selected()] ?? tabs[0] ?? null;
     });
 
+    /**
+     * Watches the size of the list and of each tab once the browser renders them, so the scroll buttons follow a resize
+     * of the container, a tab that changes width, and each time the tabs change. A new observer reports every size it
+     * watches at once, so a tab that leaves the list updates the buttons too.
+     */
     public constructor() {
-        const destroyRef = inject(DestroyRef);
-
-        afterNextRender(() => {
+        afterRenderEffect((onCleanup) => {
+            const elements = [this.scroller(), ...this.tabElements()].map((element) => element.nativeElement);
             const observer = new ResizeObserver(() => {
                 this.update();
             });
 
-            observer.observe(this.scroller().nativeElement);
-            destroyRef.onDestroy(() => {
+            for (const element of elements) {
+                observer.observe(element);
+            }
+            onCleanup(() => {
                 observer.disconnect();
             });
         });
