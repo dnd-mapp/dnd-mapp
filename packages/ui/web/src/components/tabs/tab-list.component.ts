@@ -11,6 +11,7 @@ import {
     signal,
     viewChild,
 } from '@angular/core';
+import { IconChevronLeftComponent, IconChevronRightComponent } from '../icon';
 import type { TabComponent } from './tab.component';
 import { TAB } from './tabs.tokens';
 
@@ -34,13 +35,15 @@ const TOLERANCE = 1;
  * The arrow keys, Home, and End move the selection and the focus. Whoever places it names it with `aria-label` or
  * `aria-labelledby`.
  *
- * When the tabs do not fit, the list scrolls sideways, and fades its tabs out at each end that has more tabs past it.
- * The list watches its size in the browser only, and draws no fade during prerendering.
+ * When the tabs do not fit, the list scrolls sideways, and shows a scroll button at each end that has more tabs past
+ * it, over a fade of its tabs. The buttons are for the pointer alone: they stay out of the tab order and the
+ * accessibility tree. The list watches its size in the browser only, and shows no buttons during prerendering.
  */
 @Component({
     selector: 'dma-tab-list',
     templateUrl: './tab-list.component.html',
     styleUrl: './tab-list.component.scss',
+    imports: [IconChevronLeftComponent, IconChevronRightComponent],
     host: {
         'role': 'tablist',
         '[class.scrolls-start]': 'scrollsStart()',
@@ -55,10 +58,10 @@ export class TabListComponent {
     private readonly tabs = contentChildren(TAB);
     private readonly scroller = viewChild.required<ElementRef<HTMLElement>>('tabs');
 
-    /** Whether more tabs lie past the start of the list, so it fades its tabs out there. */
+    /** Whether more tabs lie past the start of the list, so it shows the scroll button there. */
     protected readonly scrollsStart = signal(false);
 
-    /** Whether more tabs lie past the end of the list, so it fades its tabs out there. */
+    /** Whether more tabs lie past the end of the list, so it shows the scroll button there. */
     protected readonly scrollsEnd = signal(false);
 
     /** The selected tab: the one at `selected`, or the first when no tab is at that index. */
@@ -113,7 +116,7 @@ export class TabListComponent {
         }
     }
 
-    /** Fades the tabs out at each end of the list that has more tabs past it. */
+    /** Shows the scroll button at each end of the list that has more tabs past it. */
     protected update() {
         const { scrollLeft, scrollWidth, clientWidth } = this.scroller().nativeElement;
 

@@ -1,9 +1,11 @@
 // The room the focus ring of a tab takes outside the tab.
 $ring-room: calc(var(--border-width-focus) + var(--focus-offset));
 
-// The room a fade takes at its end of the list, past which a tab shows whole: the room of the focus ring, then the
-// fade.
-$cover-room: calc(#{$ring-room} + var(--space-16));
+// The room a scroll button hides at its end of the list: the room of the focus ring, then the button.
+$button-room: calc(#{$ring-room} + var(--size-target-min));
+
+// The room a scroll button and its fade take at its end of the list, past which a tab shows whole.
+$cover-room: calc(#{$button-room} + var(--space-16));
 
 // The tab list fills its container, and reaches past it by the room of the focus ring, which its tabs pad back. It
 // still takes the height of a tab.
@@ -22,7 +24,7 @@ $cover-room: calc(#{$ring-room} + var(--space-16));
 // to its height and cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs
 // scroll it.
 .tabs {
-    // Where the mask hides the tabs from each end, and where it shows them whole again. A fade sets them.
+    // Where the mask hides the tabs from each end, and where it shows them whole again. A scroll button sets them.
     --hide-start: 0px;
     --show-start: 0px;
     --hide-end: 0px;
@@ -40,17 +42,17 @@ $cover-room: calc(#{$ring-room} + var(--space-16));
     scroll-padding-inline: $ring-room;
 }
 
-// The tabs fade out at each end that has more tabs, and hide under the room of the focus ring there. A tab a key
-// reaches scrolls into view past the fade.
+// A scroll button shows at each end that has more tabs. The tabs fade out before they reach it and hide under it, ring
+// room included, and a tab a key reaches scrolls into view past it.
 :host(.scrolls-start) .tabs {
-    --hide-start: #{$ring-room};
+    --hide-start: #{$button-room};
     --show-start: #{$cover-room};
 
     scroll-padding-inline-start: $cover-room;
 }
 
 :host(.scrolls-end) .tabs {
-    --hide-end: #{$ring-room};
+    --hide-end: #{$button-room};
     --show-end: #{$cover-room};
 
     scroll-padding-inline-end: $cover-room;
@@ -65,4 +67,39 @@ $cover-room: calc(#{$ring-room} + var(--space-16));
         black calc(100% - var(--show-end)),
         transparent calc(100% - var(--hide-end))
     );
+}
+
+// A scroll button lies over its end of the list, beside the tabs, in the quiet look: no fill, no border, and the muted
+// text color. It takes no focus, so it draws no focus ring.
+.scroll-button {
+    position: absolute;
+    top: $ring-room;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: var(--size-target-min);
+    height: var(--size-target-min);
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--color-foreground-muted);
+    cursor: pointer;
+    outline: none;
+
+    &.start {
+        left: $ring-room;
+    }
+
+    &.end {
+        right: $ring-room;
+    }
+
+    // Hover fills the button and turns its chevron to the default color, as it does a tab.
+    &:hover {
+        background-color: var(--color-background-hover);
+        color: var(--color-foreground-default);
+    }
 }

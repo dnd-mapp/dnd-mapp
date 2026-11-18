@@ -1,3 +1,13 @@
 <div #tabs class="tabs" role="presentation" (scroll)="update()">
     <ng-content />
 </div>
+@if (scrollsStart()) {
+    <button type="button" class="scroll-button start" tabindex="-1" aria-hidden="true">
+        <dma-icon-chevron-left />
+    </button>
+}
+@if (scrollsEnd()) {
+    <button type="button" class="scroll-button end" tabindex="-1" aria-hidden="true">
+        <dma-icon-chevron-right />
+    </button>
+}

@@ -27,10 +27,10 @@ const CONTAINER_WIDTH = 480;
 const SCROLL_LABELS = ['Overview', 'Stats', 'Spells', 'Inventory', 'Features', 'Notes'];
 
 /**
- * The fade at an end with more tabs past it, as Penpot draws it: the tabs hide under the room of the focus ring, and show
- * whole again 16 px past it.
+ * The fade at an end with a scroll button, as Penpot draws it: the tabs hide under the room of the focus ring and the
+ * 44 px button, and show whole again 16 px past it.
  */
-const FADE = { hide: 4, show: 4 + 16 };
+const FADE = { hide: 4 + 44, show: 4 + 44 + 16 };
 
 /**
  * How a tab looks in each state, as Penpot draws it, in the colors of the theme the test runs in. Focus keeps the look of
