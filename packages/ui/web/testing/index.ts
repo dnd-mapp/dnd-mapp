@@ -116,6 +116,7 @@ export {
     type TabIndicator,
     type TabLook,
 } from './harnesses/tab.harness';
+export { type TextPageBox, TextPageHarness, type TextPageLook, type TextPagePart } from './harnesses/text-page.harness';
 export {
     type ThemeOptionFocusRing,
     ThemeOptionHarness,
