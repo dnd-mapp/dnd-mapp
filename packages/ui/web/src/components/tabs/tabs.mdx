@@ -40,7 +40,15 @@ A list that scrolls clips what it draws outside its box, so the tab list reaches
 
 ### Fades
 
-The tab list fades its tabs out at each end that has more tabs past it, and draws no fade while its tabs fit. At that end, the tabs hide under the room of the focus ring, and fade in over the next 16 px. The fades follow the list as it scrolls and as its container resizes, and leave the tabs where they are. A tab the keys reach scrolls into view clear of the fades.
+The tab list fades its tabs out at each end that has more tabs past it, and draws no fade while its tabs fit. At that end, the tabs hide under the scroll button and the room of the focus ring, and fade in over the next 16 px. The fades follow the list as it scrolls and as its container resizes, and leave the tabs where they are. A tab the keys reach scrolls into view clear of the fades.
+
+### Scroll buttons
+
+The tab list shows a scroll button over each end that has more tabs past it, with a chevron that points the way it scrolls, and none while its tabs fit. The buttons follow the list as it scrolls and as its container resizes.
+
+Each button is 44 px square, the minimum target size, and lies over its end of the list, so the tabs stay where they are as it shows and hides. It draws the quiet look: no fill or border, and a chevron in the muted text color. Hover fills it, and turns the chevron to the default text color, as it does a tab.
+
+The buttons stay out of the tab order and the accessibility tree, since the keys reach every tab, and draw no focus ring.
 
 ## Tab
 
@@ -83,4 +91,4 @@ Each tab is 44 px tall, the minimum target size, and is a `<button type="button"
 
 ## Testing
 
-`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs and focus rings show within it, which tabs show clear of its fades, its fades, its size, the gap between its tabs, and its divider. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, indicator, and focus ring; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its focus ring, its id, `aria-labelledby`, and `tabindex`.
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs and focus rings show within it, which tabs show clear of its scroll buttons, which ends show a scroll button and where, its fades, its size, the gap between its tabs, and its divider. `TabListScrollButtonHarness` reads each scroll button: its end, its chevron, its look, its `type`, `tabindex`, and `aria-hidden`. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, indicator, and focus ring; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its focus ring, its id, `aria-labelledby`, and `tabindex`.

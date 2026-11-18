@@ -45,7 +45,7 @@ export const Default: Story = {
 };
 
 /**
- * Tabs too wide for their container: the tab list scrolls sideways, and fades its tabs out at each end that has more
+ * Tabs too wide for their container: the tab list scrolls sideways, and shows a scroll button at each end that has more
  * tabs. A key scrolls the tab it reaches into view.
  */
 export const Overflow: Story = {
