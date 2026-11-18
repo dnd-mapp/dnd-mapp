@@ -12,7 +12,7 @@ $host: 'article[dma-text-page]';
     text-transform: var(--typography-#{$name}-text-case);
 }
 
-// The Article. It fills its container up to the measure, and stacks the title block and the rest of its content.
+// The Article. It fills its container up to the measure, and stacks the title block and the prose.
 #{$host} {
     display: flex;
     flex-direction: column;
@@ -39,4 +39,42 @@ $host: 'article[dma-text-page]';
 #{$host} > header > p {
     color: var(--color-foreground-muted);
     @include typography(body-sm);
+}
+
+// The prose is plain HTML, with no boards for its sections, so the margin above each element stands in for the gaps
+// of Penpot: space.16 within a section, space.40 above the heading of the next section, and space.8 more above the
+// heading of a subsection.
+#{$host} > .prose > * {
+    margin: 0;
+}
+
+#{$host} > .prose > * + * {
+    margin-block-start: var(--space-16);
+}
+
+#{$host} > .prose > * + h2 {
+    margin-block-start: var(--space-40);
+}
+
+#{$host} > .prose > * + h3 {
+    margin-block-start: calc(var(--space-16) + var(--space-8));
+}
+
+// An h2 draws the h3 typography, since the h2 typography is too heavy under the title of the page in long text, and
+// an h3 draws the title typography.
+#{$host} > .prose > :is(h2, h3) {
+    color: var(--color-foreground-default);
+}
+
+#{$host} > .prose > h2 {
+    @include typography(h3);
+}
+
+#{$host} > .prose > h3 {
+    @include typography(title);
+}
+
+#{$host} > .prose > p {
+    color: var(--color-foreground-default);
+    @include typography(body);
 }
