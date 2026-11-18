@@ -48,11 +48,41 @@ export const Default: Story = {
 
 /**
  * Tabs too wide for their container: the tab list scrolls sideways, and shows a scroll button at each end that has more
- * tabs. A click on one, or a key, scrolls the next tab into view.
+ * tabs. A click on one, or a key, scrolls the next tab into view. Turn off `moreTabs` to remove two tabs, so the rest
+ * fit and the buttons hide.
  */
-export const Overflow: Story = {
-    args: { selected: 0 },
-    decorators: [componentWrapperDecorator((story) => `<div style="max-width: 240px">${story}</div>`)],
+export const Overflow: StoryObj<TabListComponent & { moreTabs: boolean }> = {
+    args: { selected: 0, moreTabs: true },
+    argTypes: {
+        moreTabs: {
+            description: 'Whether the list holds the Inventory and Features tabs, which no longer fit beside the rest.',
+            control: { type: 'boolean' },
+            table: { type: { summary: 'boolean' } },
+        },
+    },
+    decorators: [componentWrapperDecorator((story) => `<div style="max-width: 360px">${story}</div>`)],
+    render: (args) => ({
+        props: args,
+        moduleMetadata: { imports: [TabComponent, TabPanelComponent] },
+        template: `
+            <dma-tab-list aria-label="Character sheet" [(selected)]="selected">
+                <button dma-tab [panel]="overview">Overview</button>
+                <button dma-tab [panel]="stats">Stats</button>
+                <button dma-tab [panel]="spells">Spells</button>
+                @if (moreTabs) {
+                    <button dma-tab [panel]="inventory">Inventory</button>
+                    <button dma-tab [panel]="features">Features</button>
+                }
+                <button dma-tab [panel]="notes">Notes</button>
+            </dma-tab-list>
+            <dma-tab-panel #overview><p>The class, level, and background of the character.</p></dma-tab-panel>
+            <dma-tab-panel #stats><p>The six ability scores and their modifiers.</p></dma-tab-panel>
+            <dma-tab-panel #spells><p>The spells the character knows, by level.</p></dma-tab-panel>
+            <dma-tab-panel #inventory><p>What the character carries.</p></dma-tab-panel>
+            <dma-tab-panel #features><p>The class features of the character.</p></dma-tab-panel>
+            <dma-tab-panel #notes><p>Whatever the player wants to remember.</p></dma-tab-panel>
+        `,
+    }),
 };
 
 /** The pointer over Stats: the tab fills its box, and its label turns to the default color. */
