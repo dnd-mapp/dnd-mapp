@@ -3,12 +3,18 @@ import { ComponentHarness, type TestElement } from '@angular/cdk/testing';
 /** A part of the title block of a text page: the title, or the date it was last updated. */
 export type TextPagePart = 'title' | 'date';
 
-/** How a text page draws the text of a part. */
+/** How a text page draws the text of a part, or of an element of its prose. */
 export interface TextPageLook {
     color: string;
     fontSize: string;
     fontWeight: string;
     lineHeight: string;
+}
+
+/** An element of the prose of a text page: its tag name in lowercase, and its text. */
+export interface TextPageProseElement {
+    tag: string;
+    text: string;
 }
 
 /** The place and size of a part of a text page, relative to the text page, in pixels. */
@@ -29,6 +35,7 @@ export class TextPageHarness extends ComponentHarness {
 
     private readonly getTimeElement = this.locatorFor(':scope > header > p time');
     private readonly getProseElement = this.locatorFor(':scope > .prose');
+    private readonly getProseElements = this.locatorForAll(':scope > .prose > *');
 
     /** The text of a part. */
     public async getText(part: TextPagePart): Promise<string> {
@@ -40,14 +47,35 @@ export class TextPageHarness extends ComponentHarness {
         return await (await this.getTimeElement()).getAttribute('datetime');
     }
 
+    /** The tag name and the text of each element of the prose, in order. */
+    public async getProse(): Promise<TextPageProseElement[]> {
+        return await Promise.all(
+            (await this.getProseElements()).map(async (element) => {
+                const [tag, text] = await Promise.all([element.getProperty<string>('localName'), element.text()]);
+
+                return { tag, text };
+            }),
+        );
+    }
+
     /** How the text page draws the text of a part. */
     public async getLook(part: TextPagePart): Promise<TextPageLook> {
         return await this.toLook(await this.parts[part]());
     }
 
+    /** How the text page draws the text of each element of the prose, in order. */
+    public async getProseLooks(): Promise<TextPageLook[]> {
+        return await Promise.all((await this.getProseElements()).map((element) => this.toLook(element)));
+    }
+
     /** Where a part, or the prose as a whole, sits, measured from the top left of the text page. */
     public async getBox(part: TextPagePart | 'prose'): Promise<TextPageBox> {
         return await this.toBox(await (part === 'prose' ? this.getProseElement() : this.parts[part]()));
+    }
+
+    /** Where each element of the prose sits, in order, measured from the top left of the text page. */
+    public async getProseBoxes(): Promise<TextPageBox[]> {
+        return await Promise.all((await this.getProseElements()).map((element) => this.toBox(element)));
     }
 
     /** The width of the text page, in pixels. */
