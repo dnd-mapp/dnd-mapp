@@ -2,14 +2,23 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { SectionComponent } from './section.component';
+import { SectionBackground } from './section.types';
 import { SectionIntroComponent } from '../section-intro';
 import { readColorToken, type SectionBox, SectionHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+
+/** The fill of each background, as Penpot draws it, in the colors of the theme the test runs in. */
+function readBackgrounds(): Record<SectionBackground, string> {
+    return {
+        page: readColorToken('--color-background-page'),
+        surface: readColorToken('--color-background-surface'),
+    };
+}
 
 describe('SectionComponent', () => {
     @Component({
         template: `
             <div [style.width.px]="width()">
-                <section dma-section>
+                <section dma-section [background]="background()">
                     <hgroup dma-section-intro>
                         <p>Tools</p>
                         <h2>Everything at the table</h2>
@@ -23,13 +32,23 @@ describe('SectionComponent', () => {
     })
     class TestComponent {
         public readonly width = signal(1440);
+        public readonly background = signal<SectionBackground>(SectionBackground.Page);
     }
 
-    async function setupTest(options: { width?: number } = {}) {
+    @Component({
+        template: `<section dma-section><p>The content of the section.</p></section>`,
+        imports: [SectionComponent],
+    })
+    class DefaultTestComponent {}
+
+    async function setupTest(options: { width?: number; background?: SectionBackground } = {}) {
         const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: SectionHarness });
 
         if (options.width) {
             fixture.componentInstance.width.set(options.width);
+        }
+        if (options.background) {
+            fixture.componentInstance.background.set(options.background);
         }
         TestBed.tick();
 
@@ -58,10 +77,25 @@ describe('SectionComponent', () => {
         expect(text).toContain('The content of the section.');
     });
 
-    it('should fill itself with the page background', async () => {
-        const { harness } = await setupTest();
+    it.each<SectionBackground>(Object.values(SectionBackground))(
+        'should fill itself with the %s background',
+        async (background) => {
+            const { harness } = await setupTest({ background });
 
-        expect((await harness.getLook()).background).toBe(readColorToken('--color-background-page'));
+            expect((await harness.getLook()).background).toBe(readBackgrounds()[background]);
+        },
+    );
+
+    it('should fill itself with the page background by default', async () => {
+        const { harness } = await setupTestEnvironment({ host: DefaultTestComponent, harness: SectionHarness });
+
+        expect((await harness.getLook()).background).toBe(readBackgrounds().page);
+    });
+
+    it('should fill itself with the page background for a background it does not know', async () => {
+        const { harness } = await setupTest({ background: 'raised' as SectionBackground });
+
+        expect((await harness.getLook()).background).toBe(readBackgrounds().page);
     });
 
     describe('on narrow screens', () => {

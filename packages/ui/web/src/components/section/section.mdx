@@ -1,4 +1,4 @@
-import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
 import * as SectionStories from './section.stories';
 
 <Meta of={SectionStories} />
@@ -8,6 +8,8 @@ import * as SectionStories from './section.stories';
 A full-width band of a page, such as a part of the landing page, which stacks its content in a column. It is the Section component of the design system in Penpot.
 
 <Canvas of={SectionStories.Page} />
+
+<Controls of={SectionStories.Page} />
 
 ## Placing a section
 
@@ -28,11 +30,31 @@ Section is an attribute on `<section>`, which projects its content, usually a Se
 
 The section fills its container, and centers its content in a column at most 1200 px wide. It stacks the children of that column with the section gap, stretches each across the column, and drops their margins. A child with a width of its own keeps it, so a Section intro stays within the measure.
 
+## Background
+
+`background` picks what the section fills itself with, so a run of sections can tell one from the next. An unknown value draws the default.
+
+### Page
+
+`SectionBackground.Page`, the default, fills the section with the page background, as the section at the top of this page shows.
+
+### Surface
+
+`SectionBackground.Surface` fills the section with the surface background. Place a Card on it with the raised background, so the card stands one step above the section.
+
+```html
+<section dma-section background="surface">...</section>
+```
+
+<Canvas of={SectionStories.Surface} />
+
 ## Viewport
 
 The padding and the gap follow the Viewport tokens, so the section needs no input for the viewport. Below the desktop breakpoint, it pads itself 56 px above and below and 20 px at the sides, and stacks its children 28 px apart. From the breakpoint up, those grow to 96 px, 120 px, and 40 px.
 
 <Canvas of={SectionStories.PageMobile} />
+
+<Canvas of={SectionStories.SurfaceMobile} />
 
 ## Focus
 

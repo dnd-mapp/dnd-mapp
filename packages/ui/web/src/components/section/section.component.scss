@@ -11,6 +11,10 @@ $host: 'section[dma-section]';
     background: var(--color-background-page);
 }
 
+#{$host}.surface {
+    background: var(--color-background-surface);
+}
+
 // The content fills the section up to the content width, and stretches each child across it, as Penpot does. A child
 // with a width of its own, such as a Section intro, keeps it.
 #{$host} > .content {

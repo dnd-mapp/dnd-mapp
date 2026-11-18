@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, input, ViewEncapsulation } from '@angular/core';
+import { DEFAULT_SECTION_BACKGROUND, sectionBackgroundAttr } from './section.types';
 
 /**
  * A full-width band of a page, drawn on the `<section>` it is placed on. It projects its content, such as a Section
@@ -13,5 +14,10 @@ import { Component, ViewEncapsulation } from '@angular/core';
     templateUrl: './section.component.html',
     styleUrl: './section.component.scss',
     encapsulation: ViewEncapsulation.None,
+    host: {
+        '[class.surface]': "background() === 'surface'",
+    },
 })
-export class SectionComponent {}
+export class SectionComponent {
+    public readonly background = input(DEFAULT_SECTION_BACKGROUND, { transform: sectionBackgroundAttr });
+}

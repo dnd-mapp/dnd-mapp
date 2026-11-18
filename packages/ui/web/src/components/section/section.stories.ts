@@ -1,16 +1,27 @@
 import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular-vite';
 import { SectionComponent } from './section.component';
+import { DEFAULT_SECTION_BACKGROUND, SectionBackground } from './section.types';
 import { SectionIntroComponent } from '../section-intro';
+import { radioArgType } from '../../../.storybook/arg-types';
 
 const meta = {
     title: 'Regions/Section',
     component: SectionComponent,
     decorators: [moduleMetadata({ imports: [SectionIntroComponent] })],
     parameters: { layout: 'fullscreen' },
+    argTypes: {
+        background: radioArgType({
+            values: SectionBackground,
+            typeName: 'SectionBackground',
+            defaultValue: DEFAULT_SECTION_BACKGROUND,
+            description: 'What the section fills itself with: the page background, or the surface background.',
+        }),
+    },
     // The dashed box stands in for the content of a section, as the Slot of Penpot does.
-    render: () => ({
+    render: (args) => ({
+        props: args,
         template: `
-            <section dma-section aria-labelledby="section-heading">
+            <section dma-section [background]="background" aria-labelledby="section-heading">
                 <hgroup dma-section-intro>
                     <p>Eyebrow</p>
                     <h2 id="section-heading">Section heading</h2>
@@ -41,7 +52,14 @@ export default meta;
 type Story = StoryObj<SectionComponent>;
 
 /** A section on the page background, from the desktop breakpoint up. */
-export const Page: Story = {};
+export const Page: Story = {
+    args: { background: 'page' },
+};
+
+/** A section on the surface background, from the desktop breakpoint up. */
+export const Surface: Story = {
+    args: { background: 'surface' },
+};
 
 /**
  * A section on the page background, with the smaller padding and gap below the desktop breakpoint. The docs page shows
@@ -49,5 +67,11 @@ export const Page: Story = {};
  */
 export const PageMobile: Story = {
     ...Page,
+    globals: { viewport: { value: 'mobile1', isRotated: false } },
+};
+
+/** A section on the surface background, below the desktop breakpoint. */
+export const SurfaceMobile: Story = {
+    ...Surface,
     globals: { viewport: { value: 'mobile1', isRotated: false } },
 };
