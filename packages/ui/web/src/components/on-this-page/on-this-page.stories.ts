@@ -1,5 +1,6 @@
 import { componentWrapperDecorator, type Meta, type StoryObj } from '@storybook/angular-vite';
 import { OnThisPageLinkComponent } from './on-this-page-link.component';
+import { OnThisPageComponent } from './on-this-page.component';
 
 /** The args of a story: the label the link projects, and whether it marks the section in view. */
 type OnThisPageLinkArgs = OnThisPageLinkComponent & { label: string; current: boolean };
@@ -7,6 +8,7 @@ type OnThisPageLinkArgs = OnThisPageLinkComponent & { label: string; current: bo
 const meta = {
     title: 'Patterns/On this page',
     component: OnThisPageLinkComponent,
+    subcomponents: { OnThisPageComponent },
     argTypes: {
         label: {
             description:
@@ -19,7 +21,7 @@ const meta = {
             table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
         },
     },
-    // Draws each link in the 240 px column of Penpot, since the link fills its container.
+    // Draws each story in the 240 px column of Penpot, since the nav and its links fill their container.
     decorators: [componentWrapperDecorator((story) => `<div style="width: 240px">${story}</div>`)],
     render: (args) => ({
         props: args,
@@ -63,6 +65,23 @@ export const Links: Story = {
             <a dma-on-this-page-link href="#who-else-sees-it">Who else sees it</a>
             <a dma-on-this-page-link href="#your-rights">Your rights</a>
             <a dma-on-this-page-link href="#changes-to-this-statement">Changes to this statement</a>
+        `,
+    }),
+};
+
+/** On this page beside the Privacy page on Desktop, as Penpot draws it, with the first section in view. */
+export const Desktop: Story = {
+    render: () => ({
+        moduleMetadata: { imports: [OnThisPageComponent] },
+        template: `
+            <nav dma-on-this-page>
+                <li><a dma-on-this-page-link aria-current="location" href="#who-is-responsible">Who is responsible</a></li>
+                <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
+                <li><a dma-on-this-page-link href="#what-we-dont-do">What we don’t do</a></li>
+                <li><a dma-on-this-page-link href="#who-else-sees-it">Who else sees it</a></li>
+                <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+                <li><a dma-on-this-page-link href="#changes-to-this-statement">Changes to this statement</a></li>
+            </nav>
         `,
     }),
 };

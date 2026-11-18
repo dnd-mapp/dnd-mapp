@@ -5,7 +5,30 @@ import * as OnThisPageStories from './on-this-page.stories';
 
 # On this page
 
-Links to the sections of a long text page, such as Privacy or Accessibility, with a marker on the section in view. It is the On this page component of the design system in Penpot. This page covers its item, On this page link.
+Links to the sections of a long text page, such as Privacy or Accessibility, with a marker on the section in view. It is the On this page component of the design system in Penpot, and its links are On this page link.
+
+<Canvas of={OnThisPageStories.Desktop} />
+
+## Placing it
+
+On this page is an attribute on `<nav>`. Place it in a column of its own beside the article, and project one `<li>` per section, each holding an On this page link. The nav puts the items in a list of its own under its title, so the links reach assistive technology as a list:
+
+```html
+<nav dma-on-this-page>
+    <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
+    <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+</nav>
+```
+
+The nav fills the column the page gives it, so the page sets the 240 px of Penpot. It sticks 24 px (space.24) below the top of the viewport while the article scrolls. In a grid or flex column it keeps its own height, which leaves it room to stick.
+
+### Accessibility
+
+The title "On this page" names the nav through `aria-labelledby`, so screen readers announce it as the On this page navigation. The title is not a heading, so it stays out of the outline of the page.
+
+### Testing
+
+`OnThisPageHarness` from `@dnd-mapp/ui-web/testing` reads the nav in a test: the text and look of its title, the harnesses of its links, where its parts start and end, its width, and how it sticks.
 
 ## On this page link
 

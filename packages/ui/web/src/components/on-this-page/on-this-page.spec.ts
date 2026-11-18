@@ -1,8 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, type Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { OnThisPageLinkComponent } from './on-this-page-link.component';
+import { OnThisPageComponent } from './on-this-page.component';
 import {
+    OnThisPageHarness,
     OnThisPageLinkHarness,
     type OnThisPageLinkLook,
     readColorToken,
@@ -193,5 +195,163 @@ describe('OnThisPageLinkComponent', () => {
             expect(await harness.getLook()).toEqual(readLooks().current);
             await expectIndicator(harness, '--color-accent-text');
         });
+    });
+});
+
+describe('OnThisPageComponent', () => {
+    @Component({
+        template: `
+            <div class="container">
+                <nav dma-on-this-page>
+                    <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
+                    <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
+                    <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+                </nav>
+            </div>
+        `,
+        styles: `
+            .container {
+                width: 300px;
+            }
+        `,
+        imports: [OnThisPageComponent, OnThisPageLinkComponent],
+    })
+    class TestComponent {}
+
+    /** Two navs on one page, such as one for each of two articles side by side. */
+    @Component({
+        template: `
+            <nav dma-on-this-page>
+                <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+            </nav>
+            <nav dma-on-this-page>
+                <li><a dma-on-this-page-link href="#scope">Scope</a></li>
+            </nav>
+        `,
+        imports: [OnThisPageComponent, OnThisPageLinkComponent],
+    })
+    class TwoNavsTestComponent {}
+
+    /**
+     * A page that scrolls, with the nav in a 240 px column beside a long article, as the Privacy page places it. The
+     * page scrolls within itself, so the test scrolls it without scrolling the test runner.
+     */
+    @Component({
+        template: `
+            <div class="page">
+                <div class="columns">
+                    <nav dma-on-this-page>
+                        <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+                    </nav>
+                    <article class="article"></article>
+                </div>
+            </div>
+        `,
+        styles: `
+            .page {
+                height: 400px;
+                overflow: auto;
+            }
+
+            .columns {
+                display: grid;
+                grid-template-columns: 240px 1fr;
+            }
+
+            .article {
+                height: 2000px;
+            }
+        `,
+        imports: [OnThisPageComponent, OnThisPageLinkComponent],
+    })
+    class ScrollingPageTestComponent {}
+
+    async function setupTest(host: Type<unknown> = TestComponent) {
+        const { harness } = await setupTestEnvironment({ host, harness: OnThisPageHarness });
+
+        return { harness };
+    }
+
+    it('should be a navigation named by its title', async () => {
+        const { harness } = await setupTest();
+
+        await expect.element(page.getByRole('navigation', { name: 'On this page', exact: true })).toBeInTheDocument();
+        expect(await harness.getTitleText()).toBe('On this page');
+    });
+
+    it('should give the title of each nav an id of its own', async () => {
+        await setupTest(TwoNavsTestComponent);
+        const navs = page.getByRole('navigation', { name: 'On this page', exact: true });
+        const [first, second] = navs.elements().map((nav) => nav.getAttribute('aria-labelledby'));
+
+        expect(navs.elements()).toHaveLength(2);
+        expect(first).not.toBe(second);
+    });
+
+    it('should project the links in their order', async () => {
+        const { harness } = await setupTest();
+        const links = await harness.getLinks();
+
+        expect(await Promise.all(links.map((link) => link.getText()))).toEqual([
+            'Who is responsible',
+            'What we process',
+            'Your rights',
+        ]);
+    });
+
+    it('should render the links as a list, one link per item', async () => {
+        await setupTest();
+        const list = page.getByRole('navigation').getByRole('list');
+
+        expect(list.getByRole('listitem').elements()).toHaveLength(3);
+        expect(list.getByRole('link').elements()).toHaveLength(3);
+        await expect.element(list.getByRole('listitem').nth(1)).toHaveTextContent('What we process');
+    });
+
+    it('should draw the title in the caps typography', async () => {
+        const { harness } = await setupTest();
+
+        expect(await harness.getTitleLook()).toEqual({
+            color: readColorToken('--color-foreground-default'),
+            fontWeight: '600',
+            textTransform: 'uppercase',
+        });
+    });
+
+    it('should space the list 12 px below the title, and stack the links with no gap', async () => {
+        const { harness } = await setupTest();
+        const [title, list, items] = await Promise.all([
+            harness.getTitleBox(),
+            harness.getListBox(),
+            harness.getItemBoxes(),
+        ]);
+        const gaps = items.slice(1).map((item, index) => item.top - (items[index]?.bottom ?? Number.NaN));
+
+        expect(title.top).toBe(0);
+        expect(list.top - title.bottom).toBeCloseTo(12);
+        expect(items[0]?.top).toBeCloseTo(list.top);
+        expect(gaps).toEqual([0, 0]);
+    });
+
+    it('should fill its container, and stretch its links to its width', async () => {
+        const { harness } = await setupTest();
+        const links = await harness.getLinks();
+
+        expect(await harness.getWidth()).toBe(300);
+        for (const link of links) {
+            expect((await link.getSize()).width).toBe(300);
+        }
+    });
+
+    it('should stick 24 px below the top of the page as the article scrolls', async () => {
+        const { harness } = await setupTest(ScrollingPageTestComponent);
+        const scroller = document.querySelector<HTMLElement>('.page');
+        const pageTop = scroller?.getBoundingClientRect().top ?? Number.NaN;
+
+        expect(await harness.getStickiness()).toEqual({ position: 'sticky', top: '24px' });
+
+        scroller?.scrollTo({ top: 600 });
+
+        expect((await harness.getTop()) - pageTop).toBeCloseTo(24);
     });
 });
