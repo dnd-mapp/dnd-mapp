@@ -6,13 +6,14 @@ The design tokens of D&D Mapp, which the [design system](../../docs/design.md) i
 
 ## Using the package
 
-Add the package to the `dependencies` of a project. It exports three files, which `build` generates and the repository commits, so a project reads them without running the task:
+Add the package to the `dependencies` of a project. It exports the four files below. `build` generates the CSS files and the Sass partial, and the repository commits them, so a project reads them without running the task:
 
 | Export                                     | Holds                                                                      |
 |:-------------------------------------------|:---------------------------------------------------------------------------|
 | `@dnd-mapp/design-tokens/tokens.css`       | The CSS custom properties of the tokens, as [The CSS](#the-css) describes. |
 | `@dnd-mapp/design-tokens/fonts.css`        | The `@font-face` rules of the fonts, as [The fonts](#the-fonts) describes. |
 | `@dnd-mapp/design-tokens/breakpoints.scss` | The desktop breakpoint, as the Sass variable `$breakpoint-desktop`.        |
+| `@dnd-mapp/design-tokens/breakpoints`      | The desktop breakpoint, as the constant `desktopBreakpoint`, for a script. |
 
 An Angular project loads both CSS files for the whole page through the `styles` option of each builder in `angular.json` that renders it, as [`apps/web/angular.json`](../../apps/web/angular.json) does for `build` and [`packages/ui/web/angular.json`](../ui/web/angular.json) for Storybook:
 
@@ -36,7 +37,15 @@ A component then reads a token through `var()`, such as `var(--color-background-
 }
 ```
 
-moon hashes the inputs of a project's own tasks only, so a change to the tokens would rerun none of the tasks that read them. The `css` file group of the `design-tokens` project holds the files that the package exports. Add it to the inputs of each task that builds, serves, or tests the styles, as [`apps/web/moon.yml`](../../apps/web/moon.yml) and [`packages/ui/web/moon.yml`](../ui/web/moon.yml) do:
+A script that follows the breakpoint imports the constant instead, which Node.js and the Angular build read from the TypeScript source:
+
+```ts
+import { desktopBreakpoint } from '@dnd-mapp/design-tokens/breakpoints';
+
+const desktop = matchMedia(`(min-width: ${desktopBreakpoint})`);
+```
+
+moon hashes the inputs of a project's own tasks only, so a change to the tokens would rerun none of the tasks that read them. The `css` file group of the `design-tokens` project holds the files that the package exports. Add it to the inputs of each task that builds, serves, tests, or checks the styles or scripts that read them, as [`apps/web/moon.yml`](../../apps/web/moon.yml) and [`packages/ui/web/moon.yml`](../ui/web/moon.yml) do:
 
 ```yaml
 inputs:

@@ -72,6 +72,8 @@ No custom property can appear in a media query, so a component style that needs 
 }
 ```
 
+A script that follows the breakpoint, such as a `matchMedia()` query, imports `desktopBreakpoint` from `@dnd-mapp/design-tokens/breakpoints` instead.
+
 The breakpoint is `64em` rather than `1024px`, since an `em` in a media query follows the reader's font size setting. A reader who enlarges the text keeps the Mobile layout up to a wider window, as the `rem` sizes grow with it. [`src/breakpoints.ts`](../packages/design-tokens/src/breakpoints.ts) holds the value, and the build writes it to both the media query and the partial.
 
 ## Fonts

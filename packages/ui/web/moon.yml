@@ -106,9 +106,14 @@ tasks:
               group: "sources"
             - project: "config-eslint"
               group: "sources"
+            # Mobile menu imports the breakpoint from the package.
+            - project: "design-tokens"
+              group: "css"
 
     lint:
-        # Extends the inherited task, since the type-aware rules read the types of the helpers.
+        # Extends the inherited task, since the type-aware rules read the types of the helpers and the breakpoint.
         inputs:
             - project: "common"
               group: "sources"
+            - project: "design-tokens"
+              group: "css"
