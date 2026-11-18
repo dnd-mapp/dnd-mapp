@@ -1,0 +1,5 @@
+<p class="title" [id]="titleId">On this page</p>
+<!-- The list drops its markers, which makes Safari drop its list role, so the role is set explicitly. -->
+<ul role="list">
+    <ng-content select="li" />
+</ul>

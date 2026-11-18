@@ -10,7 +10,7 @@ A component belongs here when it is presentational: it takes its content through
 
 - A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, On this page, Skip link, Summary, and Tabs have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
-- On this page holds On this page link, the component of each link, whose spec, stories, and docs page carry the name of the folder.
+- On this page also holds On this page link, the component of each link, which shares its spec, stories, and docs page.
 - Tabs holds one component per part, Tab list, Tab, and Tab panel, which share a spec, stories, and docs page.
 - Theme picker also holds the Theme option, the component of each choice, which the package doesn't export.
 
@@ -37,7 +37,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Link group    | [`dma-link-group`][lg]                      | None: Penpot draws one look, and its links draw their own states.                                                                                    |
 | Logo          | [`dma-logo`][lo]                            | `kind`: `full` or `mark`. `size`: `large` or `small`.                                                                                                |
 | Nav link      | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
-| On this page  | [`a[dma-on-this-page-link]`][ot]            | None: Penpot draws the states of each link.                                                                                                          |
+| On this page  | [`nav[dma-on-this-page]` and its links][ot] | None: Penpot draws the states of each link.                                                                                                          |
 | Section intro | [`hgroup[dma-section-intro]`][si]           | `align`: `start` or `center`.                                                                                                                        |
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
 | Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports, with points or a Facts list.                                                                          |
@@ -107,7 +107,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Link group    | `LinkGroupComponent`                                                                                              |
 | Logo          | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr` |
 | Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
-| On this page  | `OnThisPageLinkComponent`                                                                                         |
+| On this page  | `OnThisPageComponent`, `OnThisPageLinkComponent`                                                                  |
 | Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
 | Skip link     | `SkipLinkComponent`                                                                                               |
 | Summary       | `SummaryComponent`, `SummaryTitleComponent`                                                                       |

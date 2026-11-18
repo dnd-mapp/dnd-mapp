@@ -1,0 +1,35 @@
+// Sets the font of a typography token, such as `caps` for the `--typography-caps-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The nav fills the column the page gives it, so the page sets the 240 px of Penpot. It sticks space.24 below the top
+// of the viewport, which Penpot leaves to the page. In a grid or flex column, it keeps its own height rather than
+// stretch to the height of the column, so it has room to stick.
+:host {
+    position: sticky;
+    top: var(--space-24);
+    align-self: start;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+}
+
+.title {
+    margin: 0;
+    color: var(--color-foreground-default);
+    @include typography(caps);
+}
+
+// The links stack with no gap, and the list keeps neither the spacing nor the markers of its element.
+ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
