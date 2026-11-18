@@ -25,6 +25,28 @@ Summary is an attribute on `<section>`. Project a heading with `dma-summary-titl
 
 Each point draws a muted marker 12 px before its text, and a line that wraps starts under the text. The points sit 8 px apart.
 
+### With a Facts list
+
+Project a Facts list in place of the points, as At a glance on the Accessibility page does. The summary spaces it 12 px below the title, and it fills the box:
+
+```html
+<section dma-summary>
+    <h2 dma-summary-title>At a glance</h2>
+    <dl dma-facts-list>
+        <div>
+            <dt>Standard</dt>
+            <dd>WCAG 2.2, level AA</dd>
+        </div>
+    </dl>
+</section>
+```
+
+<Canvas of={SummaryStories.FactsList} />
+
+Below the desktop breakpoint, the Facts list stacks each term above its value by itself:
+
+<Canvas of={SummaryStories.FactsListMobile} story={{ inline: false, height: '24rem' }} />
+
 Make the title an `<h2>` under the title of the page, so the summary shows in the headings list of a screen reader. The title draws the same at every level.
 
 Place the summary under the title block of the page. It fills its container up to the measure, 720 px, and leaves its own place in the container to the page that holds it. Penpot draws it the same in both viewports, so it takes no input for them.
