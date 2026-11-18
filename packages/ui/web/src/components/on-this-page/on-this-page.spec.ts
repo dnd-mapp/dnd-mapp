@@ -269,7 +269,14 @@ describe('OnThisPageComponent', () => {
     async function setupTest(host: Type<unknown> = TestComponent) {
         const { harness } = await setupTestEnvironment({ host, harness: OnThisPageHarness });
 
-        return { harness };
+        return { harness, summary: page.getByText('On this page', { exact: true }).nth(1) };
+    }
+
+    /** The links of `TestComponent`, which a locator finds whether or not they show. */
+    function findLinks() {
+        return ['Who is responsible', 'What we process', 'Your rights'].map((name) =>
+            page.getByText(name, { exact: true }),
+        );
     }
 
     it('should be a navigation named by its title', async () => {
@@ -299,97 +306,249 @@ describe('OnThisPageComponent', () => {
         ]);
     });
 
-    it('should render the links as a list, one link per item', async () => {
-        await setupTest();
-        const list = page.getByRole('navigation').getByRole('list');
+    // The width of the Mobile variant in Penpot, below the desktop breakpoint.
+    describe('with the Mobile layout', () => {
+        const { innerWidth, innerHeight } = window;
 
-        expect(list.getByRole('listitem').elements()).toHaveLength(3);
-        expect(list.getByRole('link').elements()).toHaveLength(3);
-        await expect.element(list.getByRole('listitem').nth(1)).toHaveTextContent('What we process');
-    });
+        beforeEach(async () => {
+            await page.viewport(375, 812);
+        });
 
-    it('should draw the title in the caps typography', async () => {
-        const { harness } = await setupTest();
+        afterEach(async () => {
+            await page.viewport(innerWidth, innerHeight);
+        });
 
-        expect(await harness.getTitleLook()).toEqual({
-            color: readColorToken('--color-foreground-default'),
-            fontWeight: '600',
-            textTransform: 'uppercase',
+        it('should hide its links in a closed Disclosure, whose summary shows the title', async () => {
+            const { harness, summary } = await setupTest();
+            const disclosure = await harness.getDisclosure();
+
+            expect(await harness.isShown('title')).toBe(false);
+            expect(await harness.isShown('summary')).toBe(true);
+            expect(await disclosure.getSummaryText()).toBe('On this page');
+            expect(await disclosure.isOpen()).toBe(false);
+            expect(await disclosure.getIcon()).toBe('plus');
+            await expect.element(summary).toBeVisible();
+            for (const link of findLinks()) {
+                await expect.element(link).not.toBeVisible();
+            }
+        });
+
+        it('should show its links when the summary is clicked, and hide them on the next click', async () => {
+            const { harness, summary } = await setupTest();
+            const disclosure = await harness.getDisclosure();
+
+            await userEvent.click(summary);
+            expect(await disclosure.isOpen()).toBe(true);
+            expect(await disclosure.getIcon()).toBe('minus');
+            for (const link of findLinks()) {
+                await expect.element(link).toBeVisible();
+            }
+
+            await userEvent.click(summary);
+            expect(await disclosure.isOpen()).toBe(false);
+            for (const link of findLinks()) {
+                await expect.element(link).not.toBeVisible();
+            }
+        });
+
+        it('should render the links of the open panel as a list, one link per item', async () => {
+            const { summary } = await setupTest();
+
+            await userEvent.click(summary);
+            const list = page.getByRole('navigation').getByRole('list');
+
+            expect(list.getByRole('listitem').elements()).toHaveLength(3);
+            expect(list.getByRole('link').elements()).toHaveLength(3);
+            await expect.element(list.getByRole('listitem').nth(1)).toHaveTextContent('What we process');
+        });
+
+        it('should fill its container as Penpot draws the Disclosure, with the links in its panel', async () => {
+            const { harness, summary } = await setupTest();
+            const disclosure = await harness.getDisclosure();
+
+            expect(await disclosure.getSize()).toEqual({ width: 300, height: 4 + 48 + 4 });
+            expect(await disclosure.getDivider()).toEqual({
+                style: 'solid',
+                color: readColorToken('--color-border-divider'),
+                width: '1px',
+            });
+
+            await userEvent.click(summary);
+            const [{ height }, list, links] = await Promise.all([
+                disclosure.getSize(),
+                harness.getListBox(),
+                harness.getLinks(),
+            ]);
+
+            expect(list.top).toBe(4 + 48 + 4);
+            expect(height).toBe(list.bottom + 16 + 4);
+            for (const link of links) {
+                expect((await link.getSize()).width).toBe(300 - 2 * 16);
+            }
+        });
+
+        it('should stay in the flow of the page', async () => {
+            const { harness } = await setupTest();
+
+            expect((await harness.getStickiness()).position).toBe('static');
+        });
+
+        it('should reach the summary from the keyboard, and the links once the panel is open', async () => {
+            await setupTest();
+            const [first] = findLinks();
+            const summary = document.querySelector('summary');
+
+            await userEvent.tab();
+            expect(document.activeElement).toBe(summary);
+            await userEvent.tab();
+            expect(document.activeElement).not.toBe(first?.element());
+
+            await userEvent.tab({ shift: true });
+            expect(document.activeElement).toBe(summary);
+            await userEvent.keyboard('{Enter}');
+            await userEvent.tab();
+            expect(document.activeElement).toBe(first?.element());
         });
     });
 
-    it('should space the list 12 px below the title, and stack the links with no gap', async () => {
-        const { harness } = await setupTest();
-        const [title, list, items] = await Promise.all([
-            harness.getTitleBox(),
-            harness.getListBox(),
-            harness.getItemBoxes(),
-        ]);
-        const gaps = items.slice(1).map((item, index) => item.top - (items[index]?.bottom ?? Number.NaN));
+    // The width of the Desktop variant in Penpot, from the desktop breakpoint up.
+    describe('with the Desktop layout', () => {
+        const { innerWidth, innerHeight } = window;
 
-        expect(title.top).toBe(0);
-        expect(list.top - title.bottom).toBeCloseTo(12);
-        expect(items[0]?.top).toBeCloseTo(list.top);
-        expect(gaps).toEqual([0, 0]);
+        beforeEach(async () => {
+            await page.viewport(1280, 800);
+        });
+
+        afterEach(async () => {
+            await page.viewport(innerWidth, innerHeight);
+        });
+
+        it('should show its title over the links, with no summary and no box of the Disclosure', async () => {
+            const { harness } = await setupTest();
+            const disclosure = await harness.getDisclosure();
+
+            expect(await harness.isShown('title')).toBe(true);
+            expect(await harness.isShown('summary')).toBe(false);
+            expect(await disclosure.isOpen()).toBe(false);
+            expect((await disclosure.getDivider()).style).toBe('none');
+            for (const link of findLinks()) {
+                await expect.element(link).toBeVisible();
+            }
+        });
+
+        it('should render the links as a list, one link per item', async () => {
+            await setupTest();
+            const list = page.getByRole('navigation').getByRole('list');
+
+            expect(list.getByRole('listitem').elements()).toHaveLength(3);
+            expect(list.getByRole('link').elements()).toHaveLength(3);
+            await expect.element(list.getByRole('listitem').nth(1)).toHaveTextContent('What we process');
+        });
+
+        it('should draw the title in the caps typography', async () => {
+            const { harness } = await setupTest();
+
+            expect(await harness.getTitleLook()).toEqual({
+                color: readColorToken('--color-foreground-default'),
+                fontWeight: '600',
+                textTransform: 'uppercase',
+            });
+        });
+
+        it('should space the list 12 px below the title, and stack the links with no gap', async () => {
+            const { harness } = await setupTest();
+            const [title, list, items] = await Promise.all([
+                harness.getTitleBox(),
+                harness.getListBox(),
+                harness.getItemBoxes(),
+            ]);
+            const gaps = items.slice(1).map((item, index) => item.top - (items[index]?.bottom ?? Number.NaN));
+
+            expect(title.top).toBe(0);
+            expect(list.top - title.bottom).toBeCloseTo(12);
+            expect(items[0]?.top).toBeCloseTo(list.top);
+            expect(gaps).toEqual([0, 0]);
+        });
+
+        it('should fill its container, and stretch its links to its width', async () => {
+            const { harness } = await setupTest();
+            const links = await harness.getLinks();
+
+            expect(await harness.getWidth()).toBe(300);
+            for (const link of links) {
+                expect((await link.getSize()).width).toBe(300);
+            }
+        });
+
+        it('should stick 24 px below the top of the page as the article scrolls', async () => {
+            const { harness } = await setupTest(ScrollingPageTestComponent);
+            const scroller = document.querySelector<HTMLElement>('.page');
+            const pageTop = scroller?.getBoundingClientRect().top ?? Number.NaN;
+
+            expect(await harness.getStickiness()).toEqual({ position: 'sticky', top: '24px' });
+
+            scroller?.scrollTo({ top: 600 });
+
+            expect((await harness.getTop()) - pageTop).toBeCloseTo(24);
+        });
+
+        it('should move the keyboard focus from link to link, past the hidden summary', async () => {
+            await setupTest();
+            const [first, second] = findLinks();
+
+            await userEvent.tab();
+            expect(document.activeElement).toBe(first?.element());
+            await userEvent.tab();
+            expect(document.activeElement).toBe(second?.element());
+        });
     });
 
-    it('should fill its container, and stretch its links to its width', async () => {
-        const { harness } = await setupTest();
-        const links = await harness.getLinks();
+    /**
+     * A long article beside the nav, which scrolls the document as the pages of the app do. Each part of the article is
+     * taller than the viewport, so the test can place a heading anywhere in it. Cookies has no heading.
+     */
+    @Component({
+        template: `
+            <nav dma-on-this-page>
+                <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
+                <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
+                <li><a dma-on-this-page-link href="#cookies">Cookies</a></li>
+                <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+            </nav>
+            <article>
+                <p class="part">Introduction</p>
+                <h2 id="who-is-responsible">Who is responsible</h2>
+                <p class="part">Who is responsible</p>
+                <h2 id="what-we-process">What we process</h2>
+                <p class="part">What we process</p>
+                <h2 id="your-rights">Your rights</h2>
+                <p class="part">Your rights</p>
+            </article>
+        `,
+        styles: `
+            .part {
+                height: 2000px;
+            }
+        `,
+        imports: [OnThisPageComponent, OnThisPageLinkComponent],
+    })
+    class ArticleTestComponent {}
 
-        expect(await harness.getWidth()).toBe(300);
-        for (const link of links) {
-            expect((await link.getSize()).width).toBe(300);
-        }
-    });
+    // The nav marks the links in either layout, and on Mobile while the panel is closed.
+    describe.each([
+        ['Mobile', 375, 812],
+        ['Desktop', 1280, 800],
+    ])('as the reader scrolls, with the %s layout', (_, width, height) => {
+        const { innerWidth, innerHeight } = window;
 
-    it('should stick 24 px below the top of the page as the article scrolls', async () => {
-        const { harness } = await setupTest(ScrollingPageTestComponent);
-        const scroller = document.querySelector<HTMLElement>('.page');
-        const pageTop = scroller?.getBoundingClientRect().top ?? Number.NaN;
+        beforeEach(async () => {
+            await page.viewport(width, height);
+        });
 
-        expect(await harness.getStickiness()).toEqual({ position: 'sticky', top: '24px' });
-
-        scroller?.scrollTo({ top: 600 });
-
-        expect((await harness.getTop()) - pageTop).toBeCloseTo(24);
-    });
-
-    describe('as the reader scrolls', () => {
-        /**
-         * A long article beside the nav, which scrolls the document as the pages of the app do. Each part of the
-         * article is taller than the viewport, so the test can place a heading anywhere in it. Cookies has no heading.
-         */
-        @Component({
-            template: `
-                <nav dma-on-this-page>
-                    <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
-                    <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
-                    <li><a dma-on-this-page-link href="#cookies">Cookies</a></li>
-                    <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
-                </nav>
-                <article>
-                    <p class="part">Introduction</p>
-                    <h2 id="who-is-responsible">Who is responsible</h2>
-                    <p class="part">Who is responsible</p>
-                    <h2 id="what-we-process">What we process</h2>
-                    <p class="part">What we process</p>
-                    <h2 id="your-rights">Your rights</h2>
-                    <p class="part">Your rights</p>
-                </article>
-            `,
-            styles: `
-                .part {
-                    height: 2000px;
-                }
-            `,
-            imports: [OnThisPageComponent, OnThisPageLinkComponent],
-        })
-        class ArticleTestComponent {}
-
-        afterEach(() => {
+        afterEach(async () => {
             vi.restoreAllMocks();
             vi.unstubAllGlobals();
+            await page.viewport(innerWidth, innerHeight);
         });
 
         /** Scrolls the document so the top of the heading of `id` sits `offset` pixels below the top of the viewport. */
@@ -428,7 +587,7 @@ describe('OnThisPageComponent', () => {
 
             expect(await harness.getCurrentLinkTexts()).toEqual(['Who is responsible']);
             await expect
-                .element(page.getByRole('link', { name: 'Who is responsible' }))
+                .element(page.getByRole('navigation').getByText('Who is responsible', { exact: true }))
                 .toHaveAttribute('aria-current', 'location');
         });
 
@@ -471,7 +630,9 @@ describe('OnThisPageComponent', () => {
 
             await placeHeading('your-rights', 0);
             expect(await harness.getCurrentLinkTexts()).toEqual(['Your rights']);
-            await expect.element(page.getByRole('link', { name: 'Cookies' })).not.toHaveAttribute('aria-current');
+            await expect
+                .element(page.getByRole('navigation').getByText('Cookies', { exact: true }))
+                .not.toHaveAttribute('aria-current');
         });
 
         it('should stop watching the headings once the nav is destroyed', async () => {

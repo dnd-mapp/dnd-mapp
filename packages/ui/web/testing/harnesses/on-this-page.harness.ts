@@ -1,5 +1,9 @@
 import { ComponentHarness, type TestElement } from '@angular/cdk/testing';
+import { DisclosureHarness } from './disclosure.harness';
 import { OnThisPageLinkHarness } from './on-this-page-link.harness';
+
+/** A part of On this page that shows in one layout only: the title on Desktop, or the summary on Mobile. */
+export type OnThisPagePart = 'title' | 'summary';
 
 /** How On this page draws the text of its title. */
 export interface OnThisPageTitleLook {
@@ -25,9 +29,14 @@ export class OnThisPageHarness extends ComponentHarness {
     public static readonly hostSelector = 'nav[dma-on-this-page]';
 
     private readonly titleLocator = this.locatorFor(':scope > .title');
-    private readonly listLocator = this.locatorFor(':scope > ul');
-    private readonly itemsLocator = this.locatorForAll(':scope > ul > li');
+    private readonly listLocator = this.locatorFor(':scope > details > .panel > ul');
+    private readonly itemsLocator = this.locatorForAll(':scope > details > .panel > ul > li');
     private readonly linksLocator = this.locatorForAll(OnThisPageLinkHarness);
+    private readonly disclosureLocator = this.locatorFor(DisclosureHarness);
+    private readonly partLocators: Record<OnThisPagePart, () => Promise<TestElement>> = {
+        title: this.titleLocator,
+        summary: this.locatorFor(':scope > details > summary'),
+    };
 
     /** The text of the title, which names the nav. */
     public async getTitleText(): Promise<string> {
@@ -44,6 +53,16 @@ export class OnThisPageHarness extends ComponentHarness {
         ]);
 
         return { color, fontWeight, textTransform };
+    }
+
+    /** Whether `part` shows, rather than hides through its display. */
+    public async isShown(part: OnThisPagePart): Promise<boolean> {
+        return (await (await this.partLocators[part]()).getCssValue('display')) !== 'none';
+    }
+
+    /** The harness of the Disclosure that holds the links, which draws the nav on Mobile. */
+    public async getDisclosure(): Promise<DisclosureHarness> {
+        return await this.disclosureLocator();
     }
 
     /** The harnesses of the links of the nav, in their order. */
