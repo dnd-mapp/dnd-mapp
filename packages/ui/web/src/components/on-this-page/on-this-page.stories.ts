@@ -73,8 +73,8 @@ export const Links: Story = {
 };
 
 /**
- * On this page on Desktop, as Penpot draws it, with the first section in view. The page has no headings for its links,
- * so the nav leaves the marked link as it is.
+ * On this page on Desktop, as Penpot draws it, with the first section in view, from the desktop breakpoint up. The page
+ * has no headings for its links, so the nav leaves the marked link as it is.
  */
 export const Desktop: Story = {
     render: () => ({
@@ -90,6 +90,35 @@ export const Desktop: Story = {
             </nav>
         `,
     }),
+};
+
+/**
+ * On this page on Mobile, as Penpot draws it: a closed Disclosure that fills the width of the page, below the desktop
+ * breakpoint. The docs page shows the story in an iframe narrower than the breakpoint.
+ */
+export const MobileClosed: Story = {
+    render: () => ({
+        moduleMetadata: { imports: [OnThisPageComponent] },
+        template: `
+            <nav dma-on-this-page>
+                <li><a dma-on-this-page-link aria-current="location" href="#who-is-responsible">Who is responsible</a></li>
+                <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
+                <li><a dma-on-this-page-link href="#what-we-dont-do">What we don’t do</a></li>
+                <li><a dma-on-this-page-link href="#who-else-sees-it">Who else sees it</a></li>
+                <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+                <li><a dma-on-this-page-link href="#changes-to-this-statement">Changes to this statement</a></li>
+            </nav>
+        `,
+    }),
+    globals: { viewport: { value: 'mobile1', isRotated: false } },
+};
+
+/** On this page on Mobile with its panel open, as the reader opens it with a click on the summary. */
+export const MobileOpen: Story = {
+    ...MobileClosed,
+    play: ({ canvasElement }) => {
+        canvasElement.querySelector<HTMLElement>('nav[dma-on-this-page] summary')?.click();
+    },
 };
 
 /** The sections of the article of the Article story, in their order. */

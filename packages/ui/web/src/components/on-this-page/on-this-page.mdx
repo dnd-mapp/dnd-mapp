@@ -9,6 +9,10 @@ Links to the sections of a long text page, such as Privacy or Accessibility, wit
 
 <Canvas of={OnThisPageStories.Desktop} />
 
+Below the breakpoint, the links sit in a closed Disclosure:
+
+<Canvas of={OnThisPageStories.MobileClosed} />
+
 ## Placing it
 
 On this page is an attribute on `<nav>`. Place it in a column of its own beside the article, and project one `<li>` per section, each holding an On this page link to the id of the heading of its section. The nav puts the items in a list of its own under its title, so the links reach assistive technology as a list:
@@ -20,7 +24,17 @@ On this page is an attribute on `<nav>`. Place it in a column of its own beside 
 </nav>
 ```
 
-The nav fills the column the page gives it, so the page sets the 240 px of Penpot. It sticks 24 px (space.24) below the top of the viewport while the article scrolls. In a grid or flex column it keeps its own height, which leaves it room to stick.
+The nav fills the column the page gives it, so on Desktop the page sets the 240 px of Penpot. There it sticks 24 px (space.24) below the top of the viewport while the article scrolls. In a grid or flex column it keeps its own height, which leaves it room to stick.
+
+## Layouts
+
+The layout follows the viewport, and switches at the desktop breakpoint, `$breakpoint-desktop` from `@dnd-mapp/design-tokens/breakpoints.scss`. Both layouts show the same links, since content projects only once, so CSS switches between them with no script, and the nav renders the same on the server.
+
+From the breakpoint up, the nav shows its title over the links. Below it, the links sit in the panel of a Disclosure, whose summary shows the title. The panel starts closed, opens and closes as Disclosure does, and the nav stays in the flow of the page:
+
+<Canvas of={OnThisPageStories.MobileOpen} />
+
+The nav renders the Disclosure in both layouts. From the breakpoint up, it hides the summary and the box of the Disclosure, and shows the links whether or not the panel is open, through `::details-content`.
 
 ## Marking the section in view
 
@@ -32,11 +46,13 @@ The nav watches the headings with an `IntersectionObserver` once it has rendered
 
 ### Accessibility
 
-The title "On this page" names the nav through `aria-labelledby`, so screen readers announce it as the On this page navigation. The title is not a heading, so it stays out of the outline of the page. The nav marks the link of the section in view with `aria-current="location"`, so screen readers announce it as the current location.
+The title "On this page" names the nav through `aria-labelledby`, so screen readers announce it as the On this page navigation. It names the nav on Mobile too, where it hides. The title is not a heading, so it stays out of the outline of the page.
+
+On Mobile, the summary is the target, at least 44 px tall, and a pointer, Enter, or Space opens the panel. The links of a closed panel stay out of the tab order. On Desktop, the hidden summary is out of the tab order, so Tab moves from link to link. The nav marks the link of the section in view with `aria-current="location"`, so screen readers announce it as the current location.
 
 ### Testing
 
-`OnThisPageHarness` from `@dnd-mapp/ui-web/testing` reads the nav in a test: the text and look of its title, the harnesses of its links, the link that marks the section in view, where its parts start and end, its width, and how it sticks.
+`OnThisPageHarness` from `@dnd-mapp/ui-web/testing` reads the nav in a test: the text and look of its title, which parts the current layout shows, the `DisclosureHarness` of its Disclosure, the harnesses of its links, the link that marks the section in view, where its parts start and end, its width, and how it sticks.
 
 ## On this page link
 
