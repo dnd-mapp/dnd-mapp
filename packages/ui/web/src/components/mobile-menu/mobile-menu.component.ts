@@ -1,4 +1,5 @@
-import { Component, ElementRef, inject, ViewEncapsulation } from '@angular/core';
+import { afterNextRender, Component, DestroyRef, ElementRef, inject, ViewEncapsulation } from '@angular/core';
+import { desktopBreakpoint } from '@dnd-mapp/design-tokens/breakpoints';
 import { ButtonComponent } from '../button';
 import { IconCloseComponent } from '../icon';
 import { ThemePickerComponent } from '../theme-picker';
@@ -13,6 +14,10 @@ import { ThemePickerComponent } from '../theme-picker';
  * inside, makes the page behind inert, closes the menu on Escape, and returns focus to the Menu button once the menu
  * closes. The native `close` event fires each time the menu closes, so Mobile menu has no outputs of its own.
  *
+ * Header shows the desktop nav from the desktop breakpoint up, so the menu closes itself when the window grows past it,
+ * rather than covering that nav and keeping the page behind inert. It watches the breakpoint in the browser only, and
+ * does nothing during prerendering.
+ *
  * The styles reach the projected children and the options of the Theme picker, which emulated encapsulation leaves out,
  * so the component turns encapsulation off and scopes every rule to its own selector instead.
  */
@@ -26,6 +31,24 @@ import { ThemePickerComponent } from '../theme-picker';
 })
 export class MobileMenuComponent {
     private readonly dialog = inject<ElementRef<HTMLDialogElement>>(ElementRef).nativeElement;
+
+    public constructor() {
+        const destroyRef = inject(DestroyRef);
+
+        afterNextRender(() => {
+            const desktop = matchMedia(`(min-width: ${desktopBreakpoint})`);
+            const onChange = ({ matches }: MediaQueryListEvent) => {
+                if (matches) {
+                    this.dialog.close();
+                }
+            };
+
+            desktop.addEventListener('change', onChange);
+            destroyRef.onDestroy(() => {
+                desktop.removeEventListener('change', onChange);
+            });
+        });
+    }
 
     /**
      * Opens the menu as a modal dialog, which moves focus to the Close button. A template reference to the menu points
