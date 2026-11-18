@@ -1,6 +1,9 @@
 <div class="bar">
     <ng-content />
-    <button dma-button type="button" kind="quiet" class="close" (click)="close()">
+    <!-- The browser focuses Close when the menu opens, as Penpot asks, rather than the link home before it. The rule
+         guards against autofocus on page load, while the HTML spec picks the focus of an opening dialog this way. -->
+    <!-- eslint-disable-next-line @angular-eslint/template/no-autofocus -- A dialog picks its focus by autofocus. -->
+    <button dma-button type="button" kind="quiet" class="close" autofocus (click)="close()">
         <dma-icon-close />
         Close
     </button>
