@@ -130,6 +130,43 @@ describe('Tabs', () => {
         public readonly width = signal(320);
     }
 
+    /**
+     * Three tabs that fit their container, and three more that join them while `more` is true, which no longer fit. The
+     * first tab shows `firstLabel`, so a test can widen it.
+     */
+    @Component({
+        template: `
+            <div class="container">
+                <dma-tab-list aria-label="Character sheet">
+                    <button dma-tab [panel]="overview">{{ firstLabel() }}</button>
+                    <button dma-tab [panel]="stats">Stats</button>
+                    <button dma-tab [panel]="spells">Spells</button>
+                    @if (more()) {
+                        <button dma-tab [panel]="inventory">Inventory</button>
+                        <button dma-tab [panel]="features">Features</button>
+                        <button dma-tab [panel]="notes">Notes</button>
+                    }
+                </dma-tab-list>
+                <dma-tab-panel #overview>The overview of the character.</dma-tab-panel>
+                <dma-tab-panel #stats>The ability scores of the character.</dma-tab-panel>
+                <dma-tab-panel #spells>The spells the character knows.</dma-tab-panel>
+                <dma-tab-panel #inventory>What the character carries.</dma-tab-panel>
+                <dma-tab-panel #features>The class features of the character.</dma-tab-panel>
+                <dma-tab-panel #notes>Whatever the player wants to remember.</dma-tab-panel>
+            </div>
+        `,
+        styles: `
+            .container {
+                width: 320px;
+            }
+        `,
+        imports: [TabComponent, TabListComponent, TabPanelComponent],
+    })
+    class ChangingTestComponent {
+        public readonly more = signal(false);
+        public readonly firstLabel = signal('Overview');
+    }
+
     async function setupTest(selected?: number) {
         const { fixture, harness, harnessLoader } = await setupTestEnvironment({
             host: TestComponent,
@@ -830,6 +867,57 @@ describe('Tabs', () => {
 
             expect(await harness.getFocusedLabel()).toBe('Overview');
             expect(await harness.getSelectedLabel()).toBe('Overview');
+        });
+
+        describe('as the tabs change', () => {
+            /**
+             * Sets up the host whose tabs change, once its tab list has measured itself. The browser reports sizes after
+             * the frame callbacks of the frame that lays the list out, so the setup waits for the frame after it.
+             */
+            async function setupChangingTest() {
+                const { fixture, harness } = await setupTestEnvironment({
+                    host: ChangingTestComponent,
+                    harness: TabListHarness,
+                });
+
+                await new Promise(requestAnimationFrame);
+                await new Promise(requestAnimationFrame);
+                await TestBed.inject(ApplicationRef).whenStable();
+
+                return { fixture, harness };
+            }
+
+            it('should show the end button once added tabs no longer fit', async () => {
+                const { fixture, harness } = await setupChangingTest();
+
+                expect(await harness.getScrollButtonEdges()).toEqual([]);
+
+                fixture.componentInstance.more.set(true);
+
+                await expect.poll(async () => await harness.getScrollButtonEdges()).toEqual(['end']);
+                expect(await harness.getFade()).toEqual({ start: null, end: FADE });
+            });
+
+            it('should hide the buttons once the tabs left after a removal fit', async () => {
+                const { fixture, harness } = await setupChangingTest();
+
+                fixture.componentInstance.more.set(true);
+
+                await expect.poll(async () => await harness.getScrollButtonEdges()).toEqual(['end']);
+
+                fixture.componentInstance.more.set(false);
+
+                await expect.poll(async () => await harness.getScrollButtonEdges()).toEqual([]);
+                expect(await harness.getFade()).toEqual({ start: null, end: null });
+            });
+
+            it('should show the end button once a tab grows too wide for the tabs to fit', async () => {
+                const { fixture, harness } = await setupChangingTest();
+
+                fixture.componentInstance.firstLabel.set('Overview of the character and their background');
+
+                await expect.poll(async () => await harness.getScrollButtonEdges()).toEqual(['end']);
+            });
         });
     });
 });
