@@ -65,6 +65,7 @@ export {
 export {
     type OnThisPageBox,
     OnThisPageHarness,
+    type OnThisPagePart,
     type OnThisPageStickiness,
     type OnThisPageTitleLook,
 } from './harnesses/on-this-page.harness';
