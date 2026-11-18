@@ -1,5 +1,17 @@
-// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+// The component turns encapsulation off to style its projected children and the options of its Theme picker, so every
+// rule starts with its selector.
 $host: 'dialog[dma-mobile-menu]';
+
+// Sets the font of a typography token, such as `caps` for the `--typography-caps-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
 
 // The menu covers the viewport, so it drops the margin, border, padding, and maximum sizes that the browser gives a
 // modal dialog. Its content scrolls inside it when it runs past the bottom of a short screen, and the scroll stops at
@@ -53,4 +65,43 @@ $host: 'dialog[dma-mobile-menu]';
         outline: var(--border-width-focus) solid var(--color-focus-ring);
         outline-offset: var(--focus-offset);
     }
+}
+
+// The body stacks the nav, the GitHub button, and the Theme picker, each as wide as the body.
+#{$host} > .body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    padding: var(--space-16) var(--space-page-inline) var(--space-24);
+}
+
+// The nav rows stack with a small gap, and the divider sits below them, as far from the last row as from the GitHub
+// button.
+#{$host} > .body > nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-block-end: var(--space-24);
+    border-block-end: var(--border-width-default) solid var(--color-border-divider);
+}
+
+#{$host} > .body > .theme {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+}
+
+#{$host} > .body > .theme > .title {
+    margin: 0;
+    color: var(--color-foreground-default);
+    @include typography(caps);
+}
+
+// The Theme picker fills the width of the body, and its options share it equally, as in Footer.
+#{$host} > .body > .theme > [dma-theme-picker] {
+    display: flex;
+}
+
+#{$host} > .body > .theme > [dma-theme-picker] > dma-theme-option {
+    flex: 1 1 0;
 }

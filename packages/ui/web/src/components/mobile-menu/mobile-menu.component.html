@@ -13,4 +13,9 @@
         <ng-content select="a[dma-nav-link]" />
     </nav>
     <ng-content select="a[dma-button]" />
+    <div class="theme">
+        <!-- The legend of the picker names the group for assistive technology, so the title isn't read twice. -->
+        <p class="title" aria-hidden="true">Theme</p>
+        <fieldset dma-theme-picker></fieldset>
+    </div>
 </div>

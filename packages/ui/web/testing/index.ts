@@ -59,9 +59,12 @@ export {
     type MobileMenuBarLook,
     type MobileMenuBarPart,
     type MobileMenuBarPartInsets,
+    type MobileMenuBodyPart,
     type MobileMenuBox,
+    type MobileMenuDividerLook,
     MobileMenuHarness,
     type MobileMenuLook,
+    type MobileMenuThemeTitleLook,
 } from './harnesses/mobile-menu.harness';
 export {
     type NavLinkBox,
