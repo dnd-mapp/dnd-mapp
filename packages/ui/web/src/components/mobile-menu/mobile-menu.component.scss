@@ -1,0 +1,49 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'dialog[dma-mobile-menu]';
+
+// The menu covers the viewport, so it drops the margin, border, padding, and maximum sizes that the browser gives a
+// modal dialog. Its content scrolls inside it when it runs past the bottom of a short screen.
+#{$host} {
+    box-sizing: border-box;
+    inset: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    max-inline-size: none;
+    max-block-size: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--color-background-page);
+    color: var(--color-foreground-default);
+    overflow-y: auto;
+}
+
+// The browser shows the dialog only while it is open, so the layout applies to the open dialog alone.
+#{$host}[open] {
+    display: flex;
+    flex-direction: column;
+}
+
+// The bar of Header, with the Close button in place of the Menu button: the link home at the start and Close at the
+// end, centered in a bar 68 px tall, with the divider along its bottom edge.
+#{$host} > .bar {
+    box-sizing: border-box;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-12) var(--space-page-inline) calc(var(--space-12) - var(--border-width-default));
+    border-block-end: var(--border-width-default) solid var(--color-border-divider);
+}
+
+// The link home takes the size of the logo and draws no underline, with the focus ring of Link, as in Header.
+#{$host} > .bar > a {
+    display: flex;
+    border-radius: var(--radius-xs);
+    text-decoration: none;
+
+    &:focus-visible {
+        outline: var(--border-width-focus) solid var(--color-focus-ring);
+        outline-offset: var(--focus-offset);
+    }
+}

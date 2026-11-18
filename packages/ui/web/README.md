@@ -8,7 +8,7 @@ A component belongs here when it is presentational: it takes its content through
 
 [Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
-- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, On this page, Skip link, Summary, and Tabs have none.
+- A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Mobile menu, On this page, Skip link, Summary, and Tabs have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
 - On this page also holds On this page link, the component of each link, which shares its spec, stories, and docs page.
 - Tabs holds one component per part, Tab list, Tab, and Tab panel, which share a spec, stories, and docs page.
@@ -36,6 +36,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Link          | [`a[dma-link]`][li]                         | `kind`: `inline`, `standalone`, or `quiet`.                                                                                                          |
 | Link group    | [`dma-link-group`][lg]                      | None: Penpot draws one look, and its links draw their own states.                                                                                    |
 | Logo          | [`dma-logo`][lo]                            | `kind`: `full` or `mark`. `size`: `large` or `small`.                                                                                                |
+| Mobile menu   | [`dialog[dma-mobile-menu]`][mm]             | None: Penpot draws the open menu only, which the browser opens and closes.                                                                           |
 | Nav link      | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
 | On this page  | [`nav[dma-on-this-page]` and its links][ot] | None: the layout follows the viewport, Desktop or Mobile, and Penpot draws the states of each link.                                                  |
 | Section intro | [`hgroup[dma-section-intro]`][si]           | `align`: `start` or `center`.                                                                                                                        |
@@ -56,6 +57,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [li]: src/components/link/link.component.ts
 [lg]: src/components/link-group/link-group.component.ts
 [lo]: src/components/logo/logo.component.ts
+[mm]: src/components/mobile-menu/mobile-menu.component.ts
 [nl]: src/components/nav-link/nav-link.component.ts
 [ot]: src/components/on-this-page/index.ts
 [si]: src/components/section-intro/section-intro.component.ts
@@ -106,6 +108,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Link          | `LinkComponent`, `LinkKind`, `DEFAULT_LINK_KIND`, `linkKindAttr`                                                  |
 | Link group    | `LinkGroupComponent`                                                                                              |
 | Logo          | `LogoComponent`, `LogoKind`, `LogoSize`, `DEFAULT_LOGO_KIND`, `DEFAULT_LOGO_SIZE`, `logoKindAttr`, `logoSizeAttr` |
+| Mobile menu   | `MobileMenuComponent`                                                                                             |
 | Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
 | On this page  | `OnThisPageComponent`, `OnThisPageLinkComponent`                                                                  |
 | Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
@@ -132,6 +135,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Link              | `LinkHarness`, `LinkFocusRing`                                                                                              |
 | Link group        | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
 | Logo              | `LogoHarness`                                                                                                               |
+| Mobile menu       | `MobileMenuHarness`, `MobileMenuLook`, `MobileMenuBox`, `MobileMenuBarLook`, `MobileMenuBarPart`, `MobileMenuBarPartInsets` |
 | Nav link          | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
 | On this page      | `OnThisPageHarness`, `OnThisPageTitleLook`, `OnThisPageBox`, `OnThisPageStickiness`                                         |
 | On this page link | `OnThisPageLinkHarness`, `OnThisPageLinkLook`, `OnThisPageLinkBox`, `OnThisPageLinkFocusRing`, `OnThisPageLinkIndicator`    |

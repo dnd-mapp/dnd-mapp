@@ -10,6 +10,7 @@ export * from './components/icon';
 export * from './components/link';
 export * from './components/link-group';
 export * from './components/logo';
+export * from './components/mobile-menu';
 export * from './components/nav-link';
 export * from './components/on-this-page';
 export * from './components/section-intro';

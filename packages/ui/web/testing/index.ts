@@ -56,6 +56,14 @@ export { type LinkGroupBox, LinkGroupHarness, type LinkGroupHeadingLook } from '
 export { LinkHarness, type LinkFocusRing } from './harnesses/link.harness';
 export { LogoHarness } from './harnesses/logo.harness';
 export {
+    type MobileMenuBarLook,
+    type MobileMenuBarPart,
+    type MobileMenuBarPartInsets,
+    type MobileMenuBox,
+    MobileMenuHarness,
+    type MobileMenuLook,
+} from './harnesses/mobile-menu.harness';
+export {
     type NavLinkBox,
     type NavLinkFocusRing,
     NavLinkHarness,

@@ -1,0 +1,39 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as MobileMenuStories from './mobile-menu.stories';
+
+<Meta of={MobileMenuStories} />
+
+# Mobile menu
+
+The navigation of every page below the desktop breakpoint, which the Menu button of Header opens. It is the Mobile menu component of the design system in Penpot. It covers the viewport, with the link home and a Close button in the bar of Header at the top:
+
+<Canvas of={MobileMenuStories.Open} story={{ inline: false, height: '812px' }} />
+
+## Placing a menu
+
+Mobile menu is an attribute on `<dialog>`. Place it next to Header, project the link home around a small logo, the nav links as rows, and a quiet GitHub button, and open it with `showModal()` when the header emits `menuPressed`:
+
+```html
+<header dma-header (menuPressed)="mobileMenu.showModal()">…</header>
+<dialog dma-mobile-menu #mobileMenu>
+    <a routerLink="/"><dma-logo size="small" /></a>
+    <a dma-nav-link kind="row" routerLink="/compendium" aria-current="page">Compendium</a>
+    <a dma-nav-link kind="row" routerLink="/characters">Characters</a>
+    <a dma-nav-link kind="row" routerLink="/campaigns">Campaigns</a>
+    <a dma-button kind="quiet" href="https://github.com/dnd-mapp/dnd-mapp"><dma-icon-github />GitHub</a>
+</dialog>
+```
+
+A template reference points at the component rather than the `<dialog>`, so the component passes `showModal()` and `close()` on to the dialog. The browser keeps the state in the `open` attribute, and fires the native `close` event each time the menu closes, so Mobile menu has no inputs or outputs of its own. The menu knows no router, so a page that navigates from a nav link closes the menu itself, for example with `(click)="mobileMenu.close()"`.
+
+The menu places each child by its selector: an `a[dma-nav-link]` in its nav, an `a[dma-button]` after the nav, and anything else, the link home, at the start of its bar. It draws the Close button itself, which closes the menu.
+
+## Accessibility
+
+The menu is a dialog named "Menu". The link home takes its name, "D&D Mapp", from the logo. The nav links sit in a navigation landmark named "Main", as in Header.
+
+The Close button is named by its label, and is 44 px tall, the minimum target size.
+
+## Testing
+
+`MobileMenuHarness` from `@dnd-mapp/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. `pressClose()` presses the Close button.
