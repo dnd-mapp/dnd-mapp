@@ -118,33 +118,34 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 
 `@dnd-mapp/ui-web/testing`, from [`testing/index.ts`](testing/index.ts), exports the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) and the [test helpers](#testing) for the tests of this package and the apps and modules that use it. It stays out of the production sources.
 
-| Area             | Exports                                                                                                                     |
-|:-----------------|:----------------------------------------------------------------------------------------------------------------------------|
-| Button           | `ButtonHarness`, `ButtonLook`, `ButtonFocusRing`, `ButtonIconInsets`                                                        |
-| Card             | `CardHarness`, `CardLook`, `CardPart`, `CardPartLook`, `CardPartBox`, `CardSize`                                            |
-| Chip             | `ChipHarness`, `ChipLook`                                                                                                   |
-| Data table       | `DataTableHarness`, `DataTableLook`, `DataTableInsets`, `DataTableLine`, `DataTableBox`                                     |
-| Disclosure       | `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider` |
-| Facts list       | `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`                                   |
-| Footer           | `FooterHarness`, `FooterPart`, `FooterText`, `FooterLook`, `FooterTextLook`, `FooterAttributionLink`, `FooterBox`           |
-| Header           | `HeaderHarness`, `HeaderLook`, `HeaderPart`, `HeaderPartInsets`, `HeaderHomeFocusRing`                                      |
-| Icon             | `IconHarness`                                                                                                               |
-| Link             | `LinkHarness`, `LinkFocusRing`                                                                                              |
-| Link group       | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
-| Logo             | `LogoHarness`                                                                                                               |
-| Nav link         | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
-| Section intro    | `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`                                        |
-| Skip link        | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                       |
-| Summary          | `SummaryHarness`, `SummaryLook`, `SummaryTitleLook`, `SummaryPartBox`                                                       |
-| Tab list         | `TabListHarness`, `TabListDivider`                                                                                          |
-| Tab              | `TabHarness`, `TabHarnessFilters`, `TabLook`, `TabBox`, `TabIndicator`, `TabFocusRing`                                      |
-| Tab panel        | `TabPanelHarness`, `TabPanelFocusRing`                                                                                      |
-| Theme option     | `ThemeOptionHarness`, `ThemeOptionHarnessFilters`, `ThemeOptionLook`, `ThemeOptionFocusRing`                                |
-| Theme picker     | `ThemePickerHarness`, `ThemePickerLook`                                                                                     |
-| Storage          | `InMemoryStorage`                                                                                                           |
-| Providers        | `provideBrowserStorage`, `providePlatformId`                                                                                |
-| Test environment | `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                      |
-| Design tokens    | `readColorToken`                                                                                                            |
+| Area              | Exports                                                                                                                     |
+|:------------------|:----------------------------------------------------------------------------------------------------------------------------|
+| Button            | `ButtonHarness`, `ButtonLook`, `ButtonFocusRing`, `ButtonIconInsets`                                                        |
+| Card              | `CardHarness`, `CardLook`, `CardPart`, `CardPartLook`, `CardPartBox`, `CardSize`                                            |
+| Chip              | `ChipHarness`, `ChipLook`                                                                                                   |
+| Data table        | `DataTableHarness`, `DataTableLook`, `DataTableInsets`, `DataTableLine`, `DataTableBox`                                     |
+| Disclosure        | `DisclosureHarness`, `DisclosureIcon`, `DisclosureLook`, `DisclosureFocusRing`, `DisclosureSummaryBox`, `DisclosureDivider` |
+| Facts list        | `FactsListHarness`, `FactsListFact`, `FactsListPart`, `FactsListLook`, `FactsListPartBox`                                   |
+| Footer            | `FooterHarness`, `FooterPart`, `FooterText`, `FooterLook`, `FooterTextLook`, `FooterAttributionLink`, `FooterBox`           |
+| Header            | `HeaderHarness`, `HeaderLook`, `HeaderPart`, `HeaderPartInsets`, `HeaderHomeFocusRing`                                      |
+| Icon              | `IconHarness`                                                                                                               |
+| Link              | `LinkHarness`, `LinkFocusRing`                                                                                              |
+| Link group        | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
+| Logo              | `LogoHarness`                                                                                                               |
+| Nav link          | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
+| On this page link | `OnThisPageLinkHarness`, `OnThisPageLinkLook`, `OnThisPageLinkBox`, `OnThisPageLinkFocusRing`, `OnThisPageLinkIndicator`    |
+| Section intro     | `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`                                        |
+| Skip link         | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                       |
+| Summary           | `SummaryHarness`, `SummaryLook`, `SummaryTitleLook`, `SummaryPartBox`                                                       |
+| Tab list          | `TabListHarness`, `TabListDivider`                                                                                          |
+| Tab               | `TabHarness`, `TabHarnessFilters`, `TabLook`, `TabBox`, `TabIndicator`, `TabFocusRing`                                      |
+| Tab panel         | `TabPanelHarness`, `TabPanelFocusRing`                                                                                      |
+| Theme option      | `ThemeOptionHarness`, `ThemeOptionHarnessFilters`, `ThemeOptionLook`, `ThemeOptionFocusRing`                                |
+| Theme picker      | `ThemePickerHarness`, `ThemePickerLook`                                                                                     |
+| Storage           | `InMemoryStorage`                                                                                                           |
+| Providers         | `provideBrowserStorage`, `providePlatformId`                                                                                |
+| Test environment  | `setupTestEnvironment`, `TestEnvironment`, `TestEnvironmentOptions`, `ComponentTestEnvironmentOptions`                      |
+| Design tokens     | `readColorToken`                                                                                                            |
 
 ## Testing
 
