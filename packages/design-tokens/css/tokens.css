@@ -172,6 +172,8 @@
     --size-indicator: 0.125rem;
     /** Term column of a Facts list */
     --size-term: 8.75rem;
+    /** Column of On this page beside a Text page */
+    --size-on-this-page: 15rem;
     --text-case-none: none;
     --text-case-upper: uppercase;
     --typography-body-font-family: var(--font-family-body);
