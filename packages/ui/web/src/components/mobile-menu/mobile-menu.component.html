@@ -1,0 +1,13 @@
+<div class="bar">
+    <ng-content />
+    <button dma-button type="button" kind="quiet" class="close" (click)="close()">
+        <dma-icon-close />
+        Close
+    </button>
+</div>
+<div class="body">
+    <nav aria-label="Main">
+        <ng-content select="a[dma-nav-link]" />
+    </nav>
+    <ng-content select="a[dma-button]" />
+</div>
