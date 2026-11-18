@@ -135,6 +135,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Link              | `LinkHarness`, `LinkFocusRing`                                                                                              |
 | Link group        | `LinkGroupHarness`, `LinkGroupHeadingLook`, `LinkGroupBox`                                                                  |
 | Logo              | `LogoHarness`                                                                                                               |
+| Mobile menu       | `MobileMenuHarness`, `MobileMenuLook`, `MobileMenuBox`, `MobileMenuBarLook`, `MobileMenuBarPart`, `MobileMenuBarPartInsets` |
 | Nav link          | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                       |
 | On this page      | `OnThisPageHarness`, `OnThisPageTitleLook`, `OnThisPageBox`, `OnThisPageStickiness`                                         |
 | On this page link | `OnThisPageLinkHarness`, `OnThisPageLinkLook`, `OnThisPageLinkBox`, `OnThisPageLinkFocusRing`, `OnThisPageLinkIndicator`    |
