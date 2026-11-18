@@ -1,3 +1,9 @@
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
+// The component turns encapsulation off to style the summary and the panel of its Disclosure, so every rule starts with
+// its selector, which also outranks the rules of the Disclosure it overrides.
+$host: 'nav[dma-on-this-page]';
+
 // Sets the font of a typography token, such as `caps` for the `--typography-caps-*` properties.
 @mixin typography($name) {
     font-family: var(--typography-#{$name}-font-family);
@@ -9,27 +15,59 @@
     text-transform: var(--typography-#{$name}-text-case);
 }
 
-// The nav fills the column the page gives it, so the page sets the 240 px of Penpot. It sticks space.24 below the top
-// of the viewport, which Penpot leaves to the page. In a grid or flex column, it keeps its own height rather than
-// stretch to the height of the column, so it has room to stick.
-:host {
-    position: sticky;
-    top: var(--space-24);
-    align-self: start;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-12);
+// The nav fills the column the page gives it. Below the desktop breakpoint, it is the Disclosure that Penpot draws for
+// Mobile, in the flow of the page. Its title hides, since the summary shows the same label, but still names the nav.
+#{$host} {
+    display: block;
 }
 
-.title {
+#{$host} > .title {
+    display: none;
     margin: 0;
     color: var(--color-foreground-default);
     @include typography(caps);
 }
 
 // The links stack with no gap, and the list keeps neither the spacing nor the markers of its element.
-ul {
+#{$host} > details > .panel > ul {
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+// From the desktop breakpoint up, the nav shows its title over the links, and the page sets the 240 px of Penpot. It
+// sticks space.24 below the top of the viewport, which Penpot leaves to the page. In a grid or flex column, it keeps its
+// own height rather than stretch to the height of the column, so it has room to stick. The Disclosure hides its summary,
+// draws none of its own box, and shows the links whether or not it is open.
+@media (min-width: breakpoints.$breakpoint-desktop) {
+    #{$host} {
+        position: sticky;
+        top: var(--space-24);
+        align-self: start;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-12);
+    }
+
+    #{$host} > .title {
+        display: block;
+    }
+
+    #{$host} > details[dma-disclosure] {
+        max-width: none;
+        padding: 0;
+        border-bottom: none;
+    }
+
+    #{$host} > details[dma-disclosure] > summary {
+        display: none;
+    }
+
+    #{$host} > details[dma-disclosure]::details-content {
+        content-visibility: visible;
+    }
+
+    #{$host} > details[dma-disclosure] > .panel {
+        padding: 0;
+    }
 }

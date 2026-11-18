@@ -1,4 +1,14 @@
-import { afterNextRender, Component, contentChildren, DestroyRef, DOCUMENT, ElementRef, inject } from '@angular/core';
+import {
+    afterNextRender,
+    Component,
+    contentChildren,
+    DestroyRef,
+    DOCUMENT,
+    ElementRef,
+    inject,
+    ViewEncapsulation,
+} from '@angular/core';
+import { DisclosureComponent } from '../disclosure';
 import { OnThisPageLinkComponent } from './on-this-page-link.component';
 
 /** Counts the On this page navs, so the title of each gets an id of its own. */
@@ -29,13 +39,20 @@ interface Section {
  * the server with no link marked. A heading counts as reached once the document scrolls it up, so the page scrolls the
  * document rather than a container of its own.
  *
- * The nav fills the column the page gives it, and sticks near the top of the viewport while the article beside it
- * scrolls.
+ * The nav fills the column the page gives it. From the desktop breakpoint up, it shows its title over the links, and
+ * sticks near the top of the viewport while the article beside it scrolls. Below it, the links sit in a closed
+ * Disclosure, whose summary shows the title. The same links serve both layouts, since content projects only once, so
+ * CSS switches between them with no script, and the nav renders the same on the server.
+ *
+ * The styles reach the summary and the panel of the Disclosure, which emulated encapsulation leaves out, so the
+ * component turns encapsulation off and scopes every rule to its own selector instead.
  */
 @Component({
     selector: 'nav[dma-on-this-page]',
     templateUrl: './on-this-page.component.html',
     styleUrl: './on-this-page.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    imports: [DisclosureComponent],
     host: {
         '[attr.aria-labelledby]': 'titleId',
     },
