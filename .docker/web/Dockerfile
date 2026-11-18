@@ -53,7 +53,7 @@ ARG VERSION
 
 RUN node apps/web/scripts/build-info.ts
 
-FROM nginx:1.30.6-alpine-slim@sha256:e2355aa95529a7999dad94ddcb45a8768abf6fb0b204c93b1a3ffce477d7b893
+FROM nginx:1.30.7-alpine-slim@sha256:b6c9aa217a1a855d53b0fb502a9a19f356404584e0bd1fc3d62a989e8dfcb6ca
 
 # Patch the main configuration of the base image to run without root. The user directive applies to root only, and only
 # root can write the PID file to /run. A conf.d file cannot change either, since both sit outside the http block. grep
