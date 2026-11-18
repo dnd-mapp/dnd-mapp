@@ -1,0 +1,42 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'article[dma-text-page]';
+
+// Sets the font of a typography token, such as `body` for the `--typography-body-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The Article. It fills its container up to the measure, and stacks the title block and the rest of its content.
+#{$host} {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+    max-inline-size: var(--size-measure);
+}
+
+// The title block: the title of the page, then the date it was last updated.
+#{$host} > header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+}
+
+#{$host} > header > * {
+    margin: 0;
+}
+
+#{$host} > header > h1 {
+    color: var(--color-foreground-default);
+    @include typography(h1);
+}
+
+#{$host} > header > p {
+    color: var(--color-foreground-muted);
+    @include typography(body-sm);
+}
