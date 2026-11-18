@@ -36,6 +36,7 @@ export class TextPageHarness extends ComponentHarness {
     private readonly getTimeElement = this.locatorFor(':scope > header > p time');
     private readonly getProseElement = this.locatorFor(':scope > .prose');
     private readonly getProseElements = this.locatorForAll(':scope > .prose > *');
+    private readonly getListItemElements = this.locatorForAll(':scope > .prose > :is(ul, ol) > li');
 
     /** The text of a part. */
     public async getText(part: TextPagePart): Promise<string> {
@@ -58,6 +59,11 @@ export class TextPageHarness extends ComponentHarness {
         );
     }
 
+    /** The text of each item of the lists of the prose, in order. */
+    public async getListItems(): Promise<string[]> {
+        return await Promise.all((await this.getListItemElements()).map((item) => item.text()));
+    }
+
     /** How the text page draws the text of a part. */
     public async getLook(part: TextPagePart): Promise<TextPageLook> {
         return await this.toLook(await this.parts[part]());
@@ -76,6 +82,11 @@ export class TextPageHarness extends ComponentHarness {
     /** Where each element of the prose sits, in order, measured from the top left of the text page. */
     public async getProseBoxes(): Promise<TextPageBox[]> {
         return await Promise.all((await this.getProseElements()).map((element) => this.toBox(element)));
+    }
+
+    /** Where each item of the lists of the prose sits, in order, measured from the top left of the text page. */
+    public async getListItemBoxes(): Promise<TextPageBox[]> {
+        return await Promise.all((await this.getListItemElements()).map((item) => this.toBox(item)));
     }
 
     /** The width of the text page, in pixels. */
