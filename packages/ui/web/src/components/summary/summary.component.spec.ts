@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
+import { FactsListComponent } from '../facts-list';
 import { SummaryComponent } from './summary.component';
 import { SummaryTitleComponent } from './summary-title.component';
-import { readColorToken, setupTestEnvironment, SummaryHarness } from '@dnd-mapp/ui-web/testing';
+import { FactsListHarness, readColorToken, setupTestEnvironment, SummaryHarness } from '@dnd-mapp/ui-web/testing';
 
 describe('SummaryComponent', () => {
     @Component({
@@ -23,6 +24,29 @@ describe('SummaryComponent', () => {
     class TestComponent {
         public readonly width = signal(600);
     }
+
+    /** A summary that holds a Facts list in place of its points. */
+    @Component({
+        template: `
+            <div style="width: 600px">
+                <section dma-summary>
+                    <h2 dma-summary-title>At a glance</h2>
+                    <dl dma-facts-list>
+                        <div>
+                            <dt>Standard</dt>
+                            <dd>WCAG 2.2, level AA</dd>
+                        </div>
+                        <div>
+                            <dt>Status</dt>
+                            <dd>Partially conformant</dd>
+                        </div>
+                    </dl>
+                </section>
+            </div>
+        `,
+        imports: [SummaryComponent, SummaryTitleComponent, FactsListComponent],
+    })
+    class FactsTestComponent {}
 
     /** Summaries whose titles generate their ids, and one whose title has an id of the consumer. */
     @Component({
@@ -205,6 +229,34 @@ describe('SummaryComponent', () => {
 
         expect(wrapped?.lines).toHaveLength(2);
         expect(wrapped?.lines[1]).toBeCloseTo(wrapped?.lines[0] ?? 0);
+    });
+
+    it('should hold a Facts list in place of the points, under the title that names it', async () => {
+        const { harnessLoader } = await setupTestEnvironment({ host: FactsTestComponent, harness: SummaryHarness });
+        const factsList = await harnessLoader.getHarness(FactsListHarness);
+
+        expect(await factsList.getFacts()).toEqual([
+            { term: 'Standard', value: 'WCAG 2.2, level AA' },
+            { term: 'Status', value: 'Partially conformant' },
+        ]);
+        await expect.element(page.getByRole('region', { name: 'At a glance' })).toBeInTheDocument();
+    });
+
+    it('should space the Facts list 12 px below the title, across the width of the box', async () => {
+        const { harness, harnessLoader } = await setupTestEnvironment({
+            host: FactsTestComponent,
+            harness: SummaryHarness,
+        });
+        const factsList = await harnessLoader.getHarness(FactsListHarness);
+        const [summary, title, facts] = await Promise.all([
+            harness.host().then((host) => host.getDimensions()),
+            harness.getBox('title'),
+            factsList.host().then((host) => host.getDimensions()),
+        ]);
+
+        expect(facts.top - summary.top - title.bottom).toBeCloseTo(12);
+        expect(facts.left - summary.left).toBe(24);
+        expect(facts.width).toBe(552);
     });
 
     it.each([

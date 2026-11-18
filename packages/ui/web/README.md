@@ -38,7 +38,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Nav link      | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
 | Section intro | [`hgroup[dma-section-intro]`][si]           | `align`: `start` or `center`.                                                                                                                        |
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
-| Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports.                                                                                                       |
+| Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports, with points or a Facts list.                                                                          |
 | Tabs          | [`dma-tab-list` and its parts][ta]          | None: Penpot draws the states of each tab.                                                                                                           |
 | Theme picker  | [`fieldset[dma-theme-picker]`][tp]          | `display`: `labels` or `icons`.                                                                                                                      |
 
