@@ -44,7 +44,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
 | Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports, with points or a Facts list.                                                                          |
 | Tabs          | [`dma-tab-list` and its parts][ta]          | None: Penpot draws the states of each tab.                                                                                                           |
-| Text page     | [`article[dma-text-page]`][tx]              | None: the size of the title follows the viewport, Desktop or Mobile.                                                                                 |
+| Text page     | [`article[dma-text-page]`][tx]              | None: the layout follows the viewport, Desktop or Mobile.                                                                                            |
 | Theme picker  | [`fieldset[dma-theme-picker]`][tp]          | `display`: `labels` or `icons`.                                                                                                                      |
 
 [bu]: src/components/button/button.component.ts

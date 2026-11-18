@@ -15,7 +15,7 @@ Below the breakpoint, the links sit in a closed Disclosure:
 
 ## Placing it
 
-On this page is an attribute on `<nav>`. Place it in a column of its own beside the article, and project one `<li>` per section, each holding an On this page link to the id of the heading of its section. The nav puts the items in a list of its own under its title, so the links reach assistive technology as a list:
+On this page is an attribute on `<nav>`. Project it into a Text page, which places it beside the prose on Desktop and under the title block on Mobile, or place it in a column of its own beside the article. Project one `<li>` per section, each holding an On this page link to the id of the heading of its section. The nav puts the items in a list of its own under its title, so the links reach assistive technology as a list:
 
 ```html
 <nav dma-on-this-page>
@@ -24,7 +24,7 @@ On this page is an attribute on `<nav>`. Place it in a column of its own beside 
 </nav>
 ```
 
-The nav fills the column the page gives it, so on Desktop the page sets the 240 px of Penpot. There it sticks 24 px (space.24) below the top of the viewport while the article scrolls. In a grid or flex column it keeps its own height, which leaves it room to stick.
+The nav fills the column the page gives it, so on Desktop the page sets the 240 px of Penpot, `size.on-this-page`, as Text page does. There it sticks 24 px (space.24) below the top of the viewport while the article scrolls. In a grid or flex column it keeps its own height, which leaves it room to stick.
 
 ## Layouts
 

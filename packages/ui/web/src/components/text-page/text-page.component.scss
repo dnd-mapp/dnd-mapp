@@ -1,5 +1,8 @@
+@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+
 // The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'article[dma-text-page]';
+$nav: 'nav[dma-on-this-page]';
 
 // Sets the font of a typography token, such as `body` for the `--typography-body-*` properties.
 @mixin typography($name) {
@@ -12,12 +15,39 @@ $host: 'article[dma-text-page]';
     text-transform: var(--typography-#{$name}-text-case);
 }
 
-// The Article. It fills its container up to the measure, and stacks the title block and the prose.
+// The Article. It fills its container up to the measure, and stacks the title block, On this page, the Summary, and
+// the prose, in that order, as the template projects them.
 #{$host} {
     display: flex;
     flex-direction: column;
     gap: var(--space-48);
     max-inline-size: var(--size-measure);
+}
+
+// From the desktop breakpoint up, On this page moves to a column of its own, size.on-this-page wide and space.64 beside
+// the rest, and the article grows by that column. The nav spans every row, so it sticks while the whole article
+// scrolls past. The rows drop their gap for a margin above each part after the title block, so an article without a
+// Summary leaves no gap for its empty row.
+@media (min-width: breakpoints.$breakpoint-desktop) {
+    #{$host}:has(> #{$nav}) {
+        display: grid;
+        grid-template-columns: minmax(0, var(--size-measure)) var(--size-on-this-page);
+        gap: 0 var(--space-64);
+        max-inline-size: calc(var(--size-measure) + var(--space-64) + var(--size-on-this-page));
+    }
+
+    #{$host}:has(> #{$nav}) > :not(#{$nav}) {
+        grid-column: 1;
+    }
+
+    #{$host}:has(> #{$nav}) > :not(header, #{$nav}) {
+        margin-block-start: var(--space-48);
+    }
+
+    #{$host}:has(> #{$nav}) > #{$nav} {
+        grid-column: 2;
+        grid-row: 1 / span 3;
+    }
 }
 
 // The title block: the title of the page, then the date it was last updated.

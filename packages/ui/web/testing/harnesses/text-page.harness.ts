@@ -3,6 +3,9 @@ import { ComponentHarness, type TestElement } from '@angular/cdk/testing';
 /** A part of the title block of a text page: the title, or the date it was last updated. */
 export type TextPagePart = 'title' | 'date';
 
+/** A region of a text page: On this page, the Summary, or the prose. */
+export type TextPageRegion = 'nav' | 'summary' | 'prose';
+
 /** How a text page draws the text of a part, or of an element of its prose. */
 export interface TextPageLook {
     color: string;
@@ -28,13 +31,15 @@ export interface TextPageBox {
 export class TextPageHarness extends ComponentHarness {
     public static readonly hostSelector = 'article[dma-text-page]';
 
-    private readonly parts: Record<TextPagePart, () => Promise<TestElement>> = {
+    private readonly parts: Record<TextPagePart | TextPageRegion, () => Promise<TestElement>> = {
         title: this.locatorFor(':scope > header > h1'),
         date: this.locatorFor(':scope > header > p'),
+        nav: this.locatorFor(':scope > nav[dma-on-this-page]'),
+        summary: this.locatorFor(':scope > section[dma-summary]'),
+        prose: this.locatorFor(':scope > .prose'),
     };
 
     private readonly getTimeElement = this.locatorFor(':scope > header > p time');
-    private readonly getProseElement = this.locatorFor(':scope > .prose');
     private readonly getProseElements = this.locatorForAll(':scope > .prose > *');
     private readonly getListItemElements = this.locatorForAll(':scope > .prose > :is(ul, ol) > li');
 
@@ -74,9 +79,9 @@ export class TextPageHarness extends ComponentHarness {
         return await Promise.all((await this.getProseElements()).map((element) => this.toLook(element)));
     }
 
-    /** Where a part, or the prose as a whole, sits, measured from the top left of the text page. */
-    public async getBox(part: TextPagePart | 'prose'): Promise<TextPageBox> {
-        return await this.toBox(await (part === 'prose' ? this.getProseElement() : this.parts[part]()));
+    /** Where a part or a region sits, measured from the top left of the text page. */
+    public async getBox(part: TextPagePart | TextPageRegion): Promise<TextPageBox> {
+        return await this.toBox(await this.parts[part]());
     }
 
     /** Where each element of the prose sits, in order, measured from the top left of the text page. */
