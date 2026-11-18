@@ -39,6 +39,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 | Mobile menu   | [`dialog[dma-mobile-menu]`][mm]             | None: Penpot draws the open menu only, which the browser opens and closes.                                                                           |
 | Nav link      | [`a[dma-nav-link]`][nl]                     | `kind`: `bar` or `row`.                                                                                                                              |
 | On this page  | [`nav[dma-on-this-page]` and its links][ot] | None: the layout follows the viewport, Desktop or Mobile, and Penpot draws the states of each link.                                                  |
+| Section       | [`section[dma-section]`][se]                | None yet.                                                                                                                                            |
 | Section intro | [`hgroup[dma-section-intro]`][si]           | `align`: `start` or `center`.                                                                                                                        |
 | Skip link     | [`a[dma-skip-link]`][sl]                    | None: Penpot draws its focused look only.                                                                                                            |
 | Summary       | [`section[dma-summary]` and its title][su]  | None: Penpot draws one look in both viewports, with points or a Facts list.                                                                          |
@@ -60,6 +61,7 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 [mm]: src/components/mobile-menu/mobile-menu.component.ts
 [nl]: src/components/nav-link/nav-link.component.ts
 [ot]: src/components/on-this-page/index.ts
+[se]: src/components/section/section.component.ts
 [si]: src/components/section-intro/section-intro.component.ts
 [sl]: src/components/skip-link/skip-link.component.ts
 [su]: src/components/summary/index.ts
@@ -111,6 +113,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Mobile menu   | `MobileMenuComponent`                                                                                             |
 | Nav link      | `NavLinkComponent`, `NavLinkKind`, `DEFAULT_NAV_LINK_KIND`, `navLinkKindAttr`                                     |
 | On this page  | `OnThisPageComponent`, `OnThisPageLinkComponent`                                                                  |
+| Section       | `SectionComponent`                                                                                                |
 | Section intro | `SectionIntroComponent`, `SectionIntroAlign`, `DEFAULT_SECTION_INTRO_ALIGN`, `sectionIntroAlignAttr`              |
 | Skip link     | `SkipLinkComponent`                                                                                               |
 | Summary       | `SummaryComponent`, `SummaryTitleComponent`                                                                       |
@@ -139,6 +142,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Nav link          | `NavLinkHarness`, `NavLinkLook`, `NavLinkBox`, `NavLinkFocusRing`, `NavLinkIndicator`                                                                                                                  |
 | On this page      | `OnThisPageHarness`, `OnThisPageTitleLook`, `OnThisPageBox`, `OnThisPageStickiness`                                                                                                                    |
 | On this page link | `OnThisPageLinkHarness`, `OnThisPageLinkLook`, `OnThisPageLinkBox`, `OnThisPageLinkFocusRing`, `OnThisPageLinkIndicator`                                                                               |
+| Section           | `SectionHarness`, `SectionLook`, `SectionBox`, `SectionSize`                                                                                                                                           |
 | Section intro     | `SectionIntroHarness`, `SectionIntroPart`, `SectionIntroLook`, `SectionIntroPartBox`                                                                                                                   |
 | Skip link         | `SkipLinkHarness`, `SkipLinkLook`, `SkipLinkBox`, `SkipLinkFocusRing`                                                                                                                                  |
 | Summary           | `SummaryHarness`, `SummaryLook`, `SummaryTitleLook`, `SummaryPartBox`                                                                                                                                  |

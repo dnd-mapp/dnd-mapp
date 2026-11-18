@@ -87,6 +87,7 @@ export {
     type OnThisPageLinkIndicator,
     type OnThisPageLinkLook,
 } from './harnesses/on-this-page-link.harness';
+export { type SectionBox, SectionHarness, type SectionLook, type SectionSize } from './harnesses/section.harness';
 export {
     type SectionIntroLook,
     SectionIntroHarness,

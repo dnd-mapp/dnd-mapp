@@ -1,0 +1,47 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as SectionStories from './section.stories';
+
+<Meta of={SectionStories} />
+
+# Section
+
+A full-width band of a page, such as a part of the landing page, which stacks its content in a column. It is the Section component of the design system in Penpot.
+
+<Canvas of={SectionStories.Page} />
+
+## Placing a section
+
+Section is an attribute on `<section>`, which projects its content, usually a Section intro and what follows it:
+
+```html
+<section dma-section aria-labelledby="tools-heading">
+    <hgroup dma-section-intro>
+        <p>Tools</p>
+        <h2 id="tools-heading">Everything at the table</h2>
+        <p>Maps, notes, and rules in one place.</p>
+    </hgroup>
+    <ul class="cards" role="list">
+        ...
+    </ul>
+</section>
+```
+
+The section fills its container, and centers its content in a column at most 1200 px wide. It stacks the children of that column with the section gap, stretches each across the column, and drops their margins. A child with a width of its own keeps it, so a Section intro stays within the measure.
+
+## Viewport
+
+The padding and the gap follow the Viewport tokens, so the section needs no input for the viewport. Below the desktop breakpoint, it pads itself 56 px above and below and 20 px at the sides, and stacks its children 28 px apart. From the breakpoint up, those grow to 96 px, 120 px, and 40 px.
+
+<Canvas of={SectionStories.PageMobile} />
+
+## Focus
+
+A section takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive.
+
+## Accessibility
+
+A `<section>` is a region landmark only once it has a name. Give a section that a reader should find in the list of landmarks an `aria-labelledby` that points at its heading, as the example above does. Without a name, assistive technology reads its content as part of the page.
+
+## Testing
+
+`SectionHarness` from `@dnd-mapp/ui-web/testing` reads a section in a test: the text of its content, the look of its box, the place of its content and of each child, and its size.

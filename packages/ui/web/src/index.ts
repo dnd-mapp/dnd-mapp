@@ -13,6 +13,7 @@ export * from './components/logo';
 export * from './components/mobile-menu';
 export * from './components/nav-link';
 export * from './components/on-this-page';
+export * from './components/section';
 export * from './components/section-intro';
 export * from './components/skip-link';
 export * from './components/summary';
