@@ -1,0 +1,50 @@
+// Sets the font and the underline of a typography token, such as `body-sm` for the `--typography-body-sm-*` properties.
+@mixin typography($name) {
+    font-family: var(--typography-#{$name}-font-family);
+    font-size: var(--typography-#{$name}-font-size);
+    font-weight: var(--typography-#{$name}-font-weight);
+    letter-spacing: var(--typography-#{$name}-letter-spacing);
+    line-height: var(--typography-#{$name}-line-height);
+    text-decoration: var(--typography-#{$name}-text-decoration);
+    text-transform: var(--typography-#{$name}-text-case);
+}
+
+// The link fills its container, as each row of the list of links does in Penpot.
+:host {
+    position: relative;
+    display: block;
+    padding: var(--space-8) var(--space-16);
+    border-radius: var(--radius-sm);
+    color: var(--color-foreground-muted);
+    @include typography(body-sm);
+}
+
+:host(:hover) {
+    color: var(--color-foreground-default);
+}
+
+// Focus draws the ring outside the link, and keeps the colors of the state it adds to.
+:host(:focus-visible) {
+    outline: var(--border-width-focus) solid var(--color-focus-ring);
+    outline-offset: var(--focus-offset);
+}
+
+// The indicator runs along the start of the link, as tall as its label. Together, the indicators of the links draw the
+// track that the current one stands out from.
+.indicator {
+    position: absolute;
+    inset-block: var(--space-8);
+    inset-inline-start: 0;
+    width: var(--size-indicator);
+    border-radius: calc(var(--size-indicator) / 2);
+    background-color: var(--color-border-divider);
+}
+
+// The link of the section in view turns its label and its indicator to the accent color, also on hover and focus.
+:host([aria-current='location']) {
+    color: var(--color-accent-text);
+
+    .indicator {
+        background-color: var(--color-accent-text);
+    }
+}
