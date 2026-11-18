@@ -107,7 +107,16 @@ export {
     type SummaryTitleLook,
 } from './harnesses/summary.harness';
 export { type TabPanelFocusRing, TabPanelHarness } from './harnesses/tab-panel.harness';
-export { type TabListDivider, type TabListFade, TabListHarness } from './harnesses/tab-list.harness';
+export {
+    type TabListDivider,
+    type TabListEdge,
+    type TabListFade,
+    TabListHarness,
+    type TabListScrollButtonBox,
+    TabListScrollButtonHarness,
+    type TabListScrollButtonHarnessFilters,
+    type TabListScrollButtonLook,
+} from './harnesses/tab-list.harness';
 export {
     type TabBox,
     type TabFocusRing,

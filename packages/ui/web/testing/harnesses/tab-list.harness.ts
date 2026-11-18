@@ -1,10 +1,36 @@
-import { ComponentHarness } from '@angular/cdk/testing';
+import { type BaseHarnessFilters, ComponentHarness, HarnessPredicate } from '@angular/cdk/testing';
+import { IconHarness } from './icon.harness';
 import { TabHarness } from './tab.harness';
 
 /** The divider the tab list draws under its tabs, read from the line of its background. */
 export interface TabListDivider {
     color: string;
     width: number;
+}
+
+/** An end of a tab list, where a scroll button shows while more tabs lie past it. */
+export type TabListEdge = 'start' | 'end';
+
+/** Filters a scroll button by the end of the list it lies over. */
+export interface TabListScrollButtonHarnessFilters extends BaseHarnessFilters {
+    edge?: TabListEdge;
+}
+
+/** How a scroll button draws its fill, its chevron, its border, and its outline. */
+export interface TabListScrollButtonLook {
+    background: string;
+    color: string;
+    borderStyle: string;
+    outlineStyle: string;
+}
+
+/** The place and size in pixels of a scroll button relative to the top left of its tab list, and its corners. */
+export interface TabListScrollButtonBox {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+    borderRadius: string;
 }
 
 /**
@@ -16,11 +42,66 @@ export interface TabListFade {
     show: number;
 }
 
+/** A scroll button of a tab list, which shows while more tabs lie past its end of the list. */
+export class TabListScrollButtonHarness extends ComponentHarness {
+    public static readonly hostSelector = 'dma-tab-list > .scroll-button';
+
+    private readonly iconLocator = this.locatorFor(IconHarness);
+
+    /** Matches the scroll buttons over the end of the list that `options` names. */
+    public static with(options: TabListScrollButtonHarnessFilters = {}): HarnessPredicate<TabListScrollButtonHarness> {
+        return new HarnessPredicate(TabListScrollButtonHarness, options).addOption(
+            'edge',
+            options.edge,
+            async (harness, edge) => (await harness.getEdge()) === edge,
+        );
+    }
+
+    /** The end of the list the button lies over. */
+    public async getEdge(): Promise<TabListEdge> {
+        return (await (await this.host()).hasClass('start')) ? 'start' : 'end';
+    }
+
+    /** The glyph of the chevron the button shows. */
+    public async getGlyph(): Promise<string> {
+        return await (await this.iconLocator()).getGlyph();
+    }
+
+    /** The `type` of the button. */
+    public async getType(): Promise<string | null> {
+        return await (await this.host()).getAttribute('type');
+    }
+
+    /** The `tabindex` of the button. */
+    public async getTabIndex(): Promise<string | null> {
+        return await (await this.host()).getAttribute('tabindex');
+    }
+
+    /** Whether the button is hidden from assistive technology, through `aria-hidden`. */
+    public async isHidden(): Promise<boolean> {
+        return (await (await this.host()).getAttribute('aria-hidden')) === 'true';
+    }
+
+    /** How the button draws its fill, its chevron, its border, and its outline. */
+    public async getLook(): Promise<TabListScrollButtonLook> {
+        const host = await this.host();
+        const [background, color, borderStyle, outlineStyle] = await Promise.all([
+            host.getCssValue('background-color'),
+            host.getCssValue('color'),
+            host.getCssValue('border-top-style'),
+            host.getCssValue('outline-style'),
+        ]);
+
+        return { background, color, borderStyle, outlineStyle };
+    }
+}
+
 export class TabListHarness extends ComponentHarness {
     public static readonly hostSelector = 'dma-tab-list';
 
     private readonly tabsLocator = this.locatorForAll(TabHarness);
     private readonly scrollerLocator = this.locatorFor('.tabs');
+    private readonly scrollButtonsLocator = this.locatorForAll(TabListScrollButtonHarness);
 
     /** The tabs of the list, in the order it shows them. */
     public async getTabs(): Promise<TabHarness[]> {
@@ -81,8 +162,9 @@ export class TabListHarness extends ComponentHarness {
     }
 
     /**
-     * Whether the whole of the tab labeled `label` shows clear of the fades, rather than in one of them or scrolled out
-     * of the list. A tab may lie a pixel into a fade, since the list scrolls by fractions of a pixel on a zoomed page.
+     * Whether the whole of the tab labeled `label` shows clear of the scroll buttons and their fades, rather than under
+     * one of them or scrolled out of the list. A tab may lie a pixel into a fade, since the list scrolls by fractions of
+     * a pixel on a zoomed page.
      */
     public async isTabClear(label: string): Promise<boolean> {
         const [list, tab, fade] = await Promise.all([
@@ -94,6 +176,42 @@ export class TabListHarness extends ComponentHarness {
         const end = list.left + list.width - (fade.end?.show ?? 0);
 
         return tab.left >= start - 1 && tab.left + tab.width <= end + 1;
+    }
+
+    /** The ends of the list that show a scroll button, from start to end. */
+    public async getScrollButtonEdges(): Promise<TabListEdge[]> {
+        const buttons = await this.scrollButtonsLocator();
+        const edges = await Promise.all(buttons.map(async (button) => await button.getEdge()));
+
+        return (['start', 'end'] as const).filter((edge) => edges.includes(edge));
+    }
+
+    /** The scroll button over `edge`, or null while the list shows none there. */
+    public async getScrollButton(edge: TabListEdge): Promise<TabListScrollButtonHarness | null> {
+        return await this.locatorForOptional(TabListScrollButtonHarness.with({ edge }))();
+    }
+
+    /** The place and size of the scroll button over `edge`, or null while the list shows none there. */
+    public async getScrollButtonBox(edge: TabListEdge): Promise<TabListScrollButtonBox | null> {
+        const button = await this.getScrollButton(edge);
+
+        if (!button) {
+            return null;
+        }
+        const host = await button.host();
+        const [list, box, borderRadius] = await Promise.all([
+            (await this.host()).getDimensions(),
+            host.getDimensions(),
+            host.getCssValue('border-top-left-radius'),
+        ]);
+
+        return {
+            left: box.left - list.left,
+            top: box.top - list.top,
+            width: box.width,
+            height: box.height,
+            borderRadius,
+        };
     }
 
     /**
