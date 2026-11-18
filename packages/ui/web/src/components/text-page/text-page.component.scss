@@ -78,3 +78,39 @@ $host: 'article[dma-text-page]';
     color: var(--color-foreground-default);
     @include typography(body);
 }
+
+// The items of a list draw their own markers, as the points of Summary do, so the list drops the ones of its element.
+// Safari then drops the list role, which `role="list"` on the list restores.
+#{$host} > .prose > :is(ul, ol) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+    padding: 0;
+    list-style: none;
+}
+
+// Each item lays out as a table, so its marker takes a cell and the rest of the item, text and links together, the
+// other. A wrapped line then starts under the text, not under the marker. The items hug their content, since a
+// stretched table would hand its spare width to the marker too.
+#{$host} > .prose > :is(ul, ol) > li {
+    display: table;
+    color: var(--color-foreground-default);
+    @include typography(body);
+}
+
+#{$host} > .prose > :is(ul, ol) > li::before {
+    display: table-cell;
+    padding-inline-end: var(--space-12);
+    color: var(--color-foreground-muted);
+}
+
+// Screen readers skip the markers, through the empty alternative text of their content, since the list role already
+// tells them where each item starts and how many there are.
+#{$host} > .prose > ul > li::before {
+    content: '•' / '';
+}
+
+#{$host} > .prose > ol > li::before {
+    content: counter(list-item) '.' / '';
+}
