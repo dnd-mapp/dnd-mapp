@@ -1,0 +1,27 @@
+// The component turns encapsulation off to style its projected children, so every rule starts with its selector.
+$host: 'section[dma-section]';
+
+// The Page background. The section fills its container, and centers its content in it, inside the block and inline
+// padding of the Viewport tokens.
+#{$host} {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-section-block) var(--space-page-inline);
+    background: var(--color-background-page);
+}
+
+// The content fills the section up to the content width, and stretches each child across it, as Penpot does. A child
+// with a width of its own, such as a Section intro, keeps it.
+#{$host} > .content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-section-gap);
+    inline-size: 100%;
+    max-inline-size: var(--size-content-max);
+}
+
+// The gap spaces the children, so none keeps the margin of its element.
+#{$host} > .content > * {
+    margin: 0;
+}
