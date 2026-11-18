@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
+import { OnThisPageComponent, OnThisPageLinkComponent } from '../on-this-page';
+import { SummaryComponent, SummaryTitleComponent } from '../summary';
 import { TextPageComponent } from './text-page.component';
 import { readColorToken, type TextPageBox, TextPageHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
 
@@ -76,6 +78,84 @@ describe('TextPageComponent', () => {
         public readonly width = signal(1000);
     }
 
+    /**
+     * A text page with On this page and a Summary, which it writes after the prose and in reverse order, so the test can
+     * tell the order the article draws from the order the page writes. The Summary can be left out. The page leaves room
+     * above the article, as the Header does, so On this page has not reached the place where it sticks.
+     */
+    @Component({
+        template: `
+            <div class="container" [style.width.px]="width()">
+                <article dma-text-page>
+                    <h2 id="who-is-responsible">Who is responsible</h2>
+                    <p>D&amp;D Mapp is an open-source project, run by its maintainers.</p>
+                    @if (summary()) {
+                        <section dma-summary>
+                            <h2 dma-summary-title>In short</h2>
+                            <ul role="list">
+                                <li>No accounts, no cookies, no analytics, and no ads.</li>
+                            </ul>
+                        </section>
+                    }
+                    <nav dma-on-this-page>
+                        <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
+                    </nav>
+                    <header>
+                        <h1>Privacy</h1>
+                        <p>Last updated <time datetime="2026-11-11">November 11, 2026</time></p>
+                    </header>
+                </article>
+            </div>
+        `,
+        styles: `
+            .container {
+                padding-block-start: 68px;
+            }
+        `,
+        imports: [
+            TextPageComponent,
+            OnThisPageComponent,
+            OnThisPageLinkComponent,
+            SummaryComponent,
+            SummaryTitleComponent,
+        ],
+    })
+    class PlacedTestComponent {
+        public readonly width = signal(1100);
+        public readonly summary = signal(true);
+    }
+
+    /** A text page with On this page, in a page 400 px tall that scrolls within itself, so the test can scroll it. */
+    @Component({
+        template: `
+            <div class="page">
+                <article dma-text-page>
+                    <header>
+                        <h1>Privacy</h1>
+                        <p>Last updated <time datetime="2026-11-11">November 11, 2026</time></p>
+                    </header>
+                    <nav dma-on-this-page>
+                        <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
+                    </nav>
+                    <h2 id="who-is-responsible">Who is responsible</h2>
+                    <p class="long">D&amp;D Mapp is an open-source project, run by its maintainers.</p>
+                </article>
+            </div>
+        `,
+        styles: `
+            .page {
+                height: 400px;
+                overflow: auto;
+            }
+
+            .long {
+                height: 2000px;
+            }
+        `,
+        imports: [TextPageComponent, OnThisPageComponent, OnThisPageLinkComponent],
+    })
+    class ScrollingPageTestComponent {}
+
     async function setupTest(options: { width?: number } = {}) {
         const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: TextPageHarness });
 
@@ -85,6 +165,26 @@ describe('TextPageComponent', () => {
         TestBed.tick();
 
         return { harness };
+    }
+
+    async function setupPlacedTest(options: { width?: number; summary?: boolean } = {}) {
+        const { fixture, harness } = await setupTestEnvironment({
+            host: PlacedTestComponent,
+            harness: TextPageHarness,
+        });
+
+        if (options.width) {
+            fixture.componentInstance.width.set(options.width);
+        }
+        fixture.componentInstance.summary.set(options.summary ?? true);
+        TestBed.tick();
+
+        return { harness };
+    }
+
+    /** The height of the article, in pixels. */
+    function readArticleHeight(): number {
+        return page.getByRole('article').element().getBoundingClientRect().height;
     }
 
     /** The box of each element of the prose of `TestComponent`, in order. */
@@ -293,6 +393,27 @@ describe('TextPageComponent', () => {
             expect(h2).toEqual({ color, fontSize: '24px', fontWeight: '800', lineHeight: '28.8px' });
             expect(h3).toEqual({ color, fontSize: '20px', fontWeight: '800', lineHeight: '25px' });
         });
+
+        it('should stack the header, On this page, the Summary, and the prose 48 px apart, in that order', async () => {
+            const { harness } = await setupPlacedTest({ width: 335 });
+            const [date, nav, summary, prose] = await Promise.all([
+                harness.getBox('date'),
+                harness.getBox('nav'),
+                harness.getBox('summary'),
+                harness.getBox('prose'),
+            ]);
+
+            expect(nav.top - date.bottom).toBeCloseTo(48);
+            expect(summary.top - nav.bottom).toBeCloseTo(48);
+            expect(prose.top - summary.bottom).toBeCloseTo(48);
+        });
+
+        it('should give On this page the width of the article', async () => {
+            const { harness } = await setupPlacedTest({ width: 335 });
+
+            expect(await harness.getBox('nav')).toMatchObject({ left: 0, width: 335 });
+            expect(await harness.getWidth()).toBe(335);
+        });
     });
 
     describe('on wide screens', () => {
@@ -318,6 +439,70 @@ describe('TextPageComponent', () => {
 
             expect(h2).toEqual({ color, fontSize: '28px', fontWeight: '800', lineHeight: '33.6px' });
             expect(h3).toEqual({ color, fontSize: '20px', fontWeight: '800', lineHeight: '25px' });
+        });
+
+        it('should place On this page in a column 240 px wide, 64 px beside the rest, at the top', async () => {
+            const { harness } = await setupPlacedTest();
+            const [title, nav, summary, prose] = await Promise.all([
+                harness.getBox('title'),
+                harness.getBox('nav'),
+                harness.getBox('summary'),
+                harness.getBox('prose'),
+            ]);
+
+            expect(nav).toMatchObject({ top: 0, left: 720 + 64, width: 240 });
+            expect(title).toMatchObject({ top: 0, left: 0, width: 720 });
+            expect(summary).toMatchObject({ left: 0, width: 720 });
+            expect(prose).toMatchObject({ left: 0, width: 720 });
+        });
+
+        it('should grow the article by the column of On this page, to 1024 px', async () => {
+            const { harness } = await setupPlacedTest();
+
+            expect(await harness.getWidth()).toBe(1024);
+        });
+
+        it('should keep the article at the measure without On this page', async () => {
+            const { harness } = await setupTest({ width: 1100 });
+
+            expect(await harness.getWidth()).toBe(720);
+        });
+
+        it('should stack the header, the Summary, and the prose 48 px apart beside On this page', async () => {
+            const { harness } = await setupPlacedTest();
+            const [date, summary, prose] = await Promise.all([
+                harness.getBox('date'),
+                harness.getBox('summary'),
+                harness.getBox('prose'),
+            ]);
+
+            expect(summary.top - date.bottom).toBeCloseTo(48);
+            expect(prose.top - summary.bottom).toBeCloseTo(48);
+            expect(readArticleHeight()).toBeCloseTo(prose.bottom);
+        });
+
+        it('should end the article at the end of the prose without a Summary', async () => {
+            const { harness } = await setupPlacedTest({ summary: false });
+            const [date, prose] = await Promise.all([harness.getBox('date'), harness.getBox('prose')]);
+
+            expect(prose.top - date.bottom).toBeCloseTo(48);
+            expect(readArticleHeight()).toBeCloseTo(prose.bottom);
+        });
+
+        it('should keep On this page 24 px below the top of the page while the article scrolls past', async () => {
+            const { harness } = await setupTestEnvironment({
+                host: ScrollingPageTestComponent,
+                harness: TextPageHarness,
+            });
+            const scroller = page.getByRole('article').element().parentElement;
+
+            scroller?.scrollTo({ top: 1000 });
+            const [nav, article] = await Promise.all([
+                harness.getBox('nav'),
+                Promise.resolve(page.getByRole('article').element().getBoundingClientRect()),
+            ]);
+
+            expect(article.top + nav.top - (scroller?.getBoundingClientRect().top ?? 0)).toBeCloseTo(24);
         });
     });
 });

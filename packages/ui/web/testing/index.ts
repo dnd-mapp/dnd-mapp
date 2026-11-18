@@ -122,6 +122,7 @@ export {
     type TextPageLook,
     type TextPagePart,
     type TextPageProseElement,
+    type TextPageRegion,
 } from './harnesses/text-page.harness';
 export {
     type ThemeOptionFocusRing,
