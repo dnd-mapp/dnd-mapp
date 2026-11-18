@@ -15,9 +15,11 @@ const meta = {
             table: { type: { summary: 'number' }, defaultValue: { summary: '0' } },
         },
     },
-    // Hides the selected tab and the select method, which the tabs read, the key handler, and the scroll state and its
-    // handler from the table of args.
-    parameters: { controls: { exclude: ['selectedTab', 'select', 'move', 'scrollsStart', 'scrollsEnd', 'update'] } },
+    // Hides the selected tab and the select method, which the tabs read, the key handler, and the state and handlers of
+    // the scroll buttons from the table of args.
+    parameters: {
+        controls: { exclude: ['selectedTab', 'select', 'move', 'scrollsStart', 'scrollsEnd', 'update', 'scroll'] },
+    },
     render: (args) => ({
         props: args,
         moduleMetadata: { imports: [TabComponent, TabPanelComponent] },
@@ -46,7 +48,7 @@ export const Default: Story = {
 
 /**
  * Tabs too wide for their container: the tab list scrolls sideways, and shows a scroll button at each end that has more
- * tabs. A key scrolls the tab it reaches into view.
+ * tabs. A click on one, or a key, scrolls the next tab into view.
  */
 export const Overflow: Story = {
     args: { selected: 0 },
