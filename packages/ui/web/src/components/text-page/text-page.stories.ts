@@ -1,9 +1,11 @@
-import { type Meta, type StoryObj } from '@storybook/angular-vite';
+import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular-vite';
 import { TextPageComponent } from './text-page.component';
+import { LinkComponent } from '../link';
 
 const meta = {
     title: 'Regions/Text page',
     component: TextPageComponent,
+    decorators: [moduleMetadata({ imports: [LinkComponent] })],
     // The article holds the text of the Text page boards of Penpot.
     render: () => ({
         template: `
@@ -22,9 +24,15 @@ const meta = {
                     so each one reads as part of the text that follows it.
                 </p>
                 <h3>Subheading</h3>
-                <p>A subsection adds space.8 above its heading.</p>
+                <p>Lists hold short, parallel items:</p>
+                <ul role="list">
+                    <li>Each item starts with a marker in foreground.muted.</li>
+                    <li>Items sit space.8 apart.</li>
+                    <li>Use a numbered list when the order matters.</li>
+                </ul>
                 <h2>Another section</h2>
-                <p>Sections sit space.40 apart.</p>
+                <p>Sections sit space.40 apart. Inline links use the Link component, Inline type.</p>
+                <p>For an example, read the <a dma-link href="#">accessibility statement</a>.</p>
             </article>
         `,
     }),
