@@ -17,10 +17,12 @@ fileGroups:
     sources:
         - "src/**/*"
 
-    # The generated CSS and Sass partial that the apps load, so their tasks can list them as inputs.
+    # The files that the package exports: the generated CSS and Sass partial, and the breakpoint for scripts. The apps
+    # and the UI packages load them, so their tasks can list them as inputs.
     css:
         - "css/**/*"
         - "scss/**/*"
+        - "src/breakpoints.ts"
 
     tests:
         - "vitest.config.ts"

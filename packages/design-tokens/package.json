@@ -11,6 +11,7 @@
   },
   "type": "module",
   "exports": {
+    "./breakpoints": "./src/breakpoints.ts",
     "./breakpoints.scss": "./scss/breakpoints.scss",
     "./fonts.css": "./css/fonts.css",
     "./tokens.css": "./css/tokens.css"
