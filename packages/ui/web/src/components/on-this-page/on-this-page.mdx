@@ -1,0 +1,60 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks';
+import * as OnThisPageStories from './on-this-page.stories';
+
+<Meta of={OnThisPageStories} />
+
+# On this page
+
+Links to the sections of a long text page, such as Privacy or Accessibility, with a marker on the section in view. It is the On this page component of the design system in Penpot. This page covers its item, On this page link.
+
+## On this page link
+
+A link to one section of the page.
+
+<Canvas of={OnThisPageStories.LinkDefault} />
+
+<Controls of={OnThisPageStories.LinkDefault} />
+
+### Placing a link
+
+On this page link is an attribute on `<a>`, so the element keeps the semantics and keyboard behavior of a native link. Point its `href` at the id of the heading of its section, and use the text of that heading as its label:
+
+```html
+<a dma-on-this-page-link href="#your-rights">Your rights</a>
+```
+
+The link fills its container. Stacked, the indicators at their starts draw a track down the list:
+
+<Canvas of={OnThisPageStories.Links} />
+
+### Hover
+
+The label turns to the default foreground color. The link draws no fill.
+
+<Canvas of={OnThisPageStories.LinkHover} />
+
+### Focus
+
+The link draws the focus ring outside itself on keyboard focus, and keeps the colors of its state.
+
+<Canvas of={OnThisPageStories.LinkFocus} />
+
+### Current
+
+The link of the section in view turns its label and its indicator to the accent color, and keeps them on hover and focus. It reads the state from `aria-current="location"` on the link, which also tells assistive technology:
+
+```html
+<a dma-on-this-page-link href="#your-rights" aria-current="location">Your rights</a>
+```
+
+<Canvas of={OnThisPageStories.LinkCurrent} />
+
+### Accessibility
+
+The projected heading names the link to assistive technology. Mark the link of the section in view with `aria-current="location"` rather than a class, so screen readers announce it as the current location, and color is not the only cue.
+
+The link is 37 px tall on one line, as Penpot draws it. That is below the 44 px minimum target size that Nav link keeps, but above the 24 px that WCAG 2.5.8 asks for, and the links stack with no gap, so each row of the list is a target.
+
+### Testing
+
+`OnThisPageLinkHarness` from `@dnd-mapp/ui-web/testing` reads a link in a test: its text, its colors and font weight, its size, padding, and corners, whether it marks the section in view, its indicator, and its focus ring.
