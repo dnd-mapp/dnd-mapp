@@ -47,6 +47,35 @@ describe('TextPageComponent', () => {
     })
     class HeaderLastTestComponent {}
 
+    /** A text page whose prose holds a bulleted and a numbered list. */
+    @Component({
+        template: `
+            <div [style.width.px]="width()">
+                <article dma-text-page>
+                    <header>
+                        <h1>Privacy</h1>
+                        <p>Last updated <time datetime="2026-11-11">November 11, 2026</time></p>
+                    </header>
+                    <p>We hold:</p>
+                    <ul role="list">
+                        <li>Your email address, when you write to the support address.</li>
+                        <li>The theme you pick.</li>
+                    </ul>
+                    <p>To ask for a copy:</p>
+                    <ol role="list">
+                        <li>Write to the support address.</li>
+                        <li>Name your account.</li>
+                    </ol>
+                    <h2>Your rights</h2>
+                </article>
+            </div>
+        `,
+        imports: [TextPageComponent],
+    })
+    class ListsTestComponent {
+        public readonly width = signal(1000);
+    }
+
     async function setupTest(options: { width?: number } = {}) {
         const { fixture, harness } = await setupTestEnvironment({ host: TestComponent, harness: TextPageHarness });
 
@@ -64,6 +93,33 @@ describe('TextPageComponent', () => {
 
         expect(boxes).toHaveLength(PROSE_TAGS.length);
         return boxes;
+    }
+
+    async function setupListsTest(options: { width?: number } = {}) {
+        const { fixture, harness } = await setupTestEnvironment({ host: ListsTestComponent, harness: TextPageHarness });
+
+        if (options.width) {
+            fixture.componentInstance.width.set(options.width);
+        }
+        TestBed.tick();
+
+        return { harness };
+    }
+
+    /** The left edge of each list item, and of each line of its text, in pixels. */
+    function readItemLines() {
+        return page
+            .getByRole('listitem')
+            .elements()
+            .map((item) => {
+                const range = document.createRange();
+
+                range.selectNodeContents(item);
+                return {
+                    start: item.getBoundingClientRect().left,
+                    lines: Array.from(range.getClientRects(), (line) => line.left),
+                };
+            });
     }
 
     const { innerWidth, innerHeight } = window;
@@ -145,6 +201,63 @@ describe('TextPageComponent', () => {
         expect((nextHeading?.top ?? 0) - (third?.bottom ?? 0)).toBeCloseTo(40);
         expect((last?.top ?? 0) - (nextHeading?.bottom ?? 0)).toBeCloseTo(16);
         expect(prose.bottom).toBeCloseTo(last?.bottom ?? 0);
+    });
+
+    it('should project the lists and their items', async () => {
+        const { harness } = await setupListsTest();
+
+        expect((await harness.getProse()).map(({ tag }) => tag)).toEqual(['p', 'ul', 'p', 'ol', 'h2']);
+        expect(await harness.getListItems()).toEqual([
+            'Your email address, when you write to the support address.',
+            'The theme you pick.',
+            'Write to the support address.',
+            'Name your account.',
+        ]);
+    });
+
+    it('should draw each item in the body typography, after a muted marker 12 px before it', async () => {
+        await setupListsTest();
+        const [bullet, , number] = page.getByRole('listitem').elements();
+        const muted = { color: readColorToken('--color-foreground-muted'), paddingInlineEnd: '12px' };
+
+        expect(getComputedStyle(bullet as Element)).toMatchObject({
+            color: readColorToken('--color-foreground-default'),
+            fontSize: '16px',
+            fontWeight: '400',
+            lineHeight: '24px',
+        });
+        expect(getComputedStyle(bullet as Element, '::before')).toMatchObject({ content: '"•" / ""', ...muted });
+        expect(getComputedStyle(number as Element, '::before')).toMatchObject({
+            content: 'counter(list-item) "." / ""',
+            ...muted,
+        });
+    });
+
+    it('should space the items 8 px apart, and the lists 16 px from the prose around them', async () => {
+        const { harness } = await setupListsTest();
+        const [first, second, third, fourth] = await harness.getListItemBoxes();
+        const [intro, bullets, , numbers, heading] = await harness.getProseBoxes();
+
+        expect((second?.top ?? 0) - (first?.bottom ?? 0)).toBeCloseTo(8);
+        expect((fourth?.top ?? 0) - (third?.bottom ?? 0)).toBeCloseTo(8);
+        expect((bullets?.top ?? 0) - (intro?.bottom ?? 0)).toBeCloseTo(16);
+        expect((heading?.top ?? 0) - (numbers?.bottom ?? 0)).toBeCloseTo(40);
+    });
+
+    it('should start the text of every item at the same place, after its marker', async () => {
+        await setupListsTest();
+        const [first, second] = readItemLines();
+
+        expect(second?.lines[0]).toBeCloseTo(first?.lines[0] ?? 0);
+        expect((first?.lines[0] ?? 0) - (first?.start ?? 0)).toBeGreaterThan(12);
+    });
+
+    it('should start each wrapped line of an item under its text, not under its marker', async () => {
+        await setupListsTest({ width: 360 });
+        const [wrapped] = readItemLines();
+
+        expect(wrapped?.lines).toHaveLength(2);
+        expect(wrapped?.lines[1]).toBeCloseTo(wrapped?.lines[0] ?? 0);
     });
 
     it.each([

@@ -23,7 +23,10 @@ Text page is an attribute on `<article>`. Project a `<header>` with the title of
         <h2 id="who-is-responsible">Who is responsible</h2>
         <p>...</p>
         <h3 id="contact">Contact</h3>
-        <p>...</p>
+        <p>Write to the <a dma-link href="mailto:...">support address</a>.</p>
+        <ul role="list">
+            <li>...</li>
+        </ul>
     </article>
 </main>
 ```
@@ -41,8 +44,17 @@ The prose styles apply to the elements the article projects, so a page writes it
 - **`<h2>`** draws the h3 typography, 40 px below the element before it.
 - **`<h3>`** draws the title typography, 24 px below the element before it.
 - **`<p>`** draws the body typography, 16 px below the element before it.
+- **`<ul>` and `<ol>`** draw their items in the body typography, 8 px apart, 16 px below the element before them.
 
 An h2 draws the h3 typography, since the h2 typography is too heavy under the title of the page in long text. The first element of the prose takes no space above, and the article drops the margins of the elements, so these spaces are the only ones.
+
+### Lists
+
+Each item of a `<ul>` starts with a bullet, and each item of an `<ol>` with its number, in the muted color, 12 px before its text. A wrapped line starts under the text, not under the marker. The items draw their own markers, so the lists drop the ones of their elements, which makes Safari drop their list role: give each list `role="list"`.
+
+### Links
+
+Place a link in the prose as an inline Link, `<a dma-link>`, which draws its own color and underline. Text page adds no styles to links.
 
 ## Viewport
 
@@ -52,12 +64,12 @@ The sizes of the title and the section headings follow the Viewport tokens, so t
 
 ## Focus
 
-A text page takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive.
+A text page takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive. The links in its prose take focus and draw the focus ring of Link.
 
 ## Accessibility
 
-Place the article in the `<main>` of the page, and keep its title the only `<h1>` of the page. The headings of the prose keep the levels the page writes, so the outline of the page follows its sections: an h2 for each section, and an h3 for each subsection. A `<header>` inside an article is not a banner landmark, so it adds nothing to the landmarks of the page.
+Place the article in the `<main>` of the page, and keep its title the only `<h1>` of the page. The headings of the prose keep the levels the page writes, so the outline of the page follows its sections: an h2 for each section, and an h3 for each subsection. A `<header>` inside an article is not a banner landmark, so it adds nothing to the landmarks of the page. Screen readers skip the markers the lists draw, since the list role tells them where each item starts.
 
 ## Testing
 
-`TextPageHarness` from `@dnd-mapp/ui-web/testing` reads a text page in a test: the text of its title and date, the `datetime` of the date, the tag and text of each element of the prose, how each draws its text, where each sits, and the width of the article.
+`TextPageHarness` from `@dnd-mapp/ui-web/testing` reads a text page in a test: the text of its title and date, the `datetime` of the date, the tag and text of each element of the prose, how each draws its text, where each sits, the text and place of each list item, and the width of the article.
