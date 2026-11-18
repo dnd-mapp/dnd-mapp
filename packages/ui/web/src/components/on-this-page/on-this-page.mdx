@@ -11,7 +11,7 @@ Links to the sections of a long text page, such as Privacy or Accessibility, wit
 
 ## Placing it
 
-On this page is an attribute on `<nav>`. Place it in a column of its own beside the article, and project one `<li>` per section, each holding an On this page link. The nav puts the items in a list of its own under its title, so the links reach assistive technology as a list:
+On this page is an attribute on `<nav>`. Place it in a column of its own beside the article, and project one `<li>` per section, each holding an On this page link to the id of the heading of its section. The nav puts the items in a list of its own under its title, so the links reach assistive technology as a list:
 
 ```html
 <nav dma-on-this-page>
@@ -22,13 +22,21 @@ On this page is an attribute on `<nav>`. Place it in a column of its own beside 
 
 The nav fills the column the page gives it, so the page sets the 240 px of Penpot. It sticks 24 px (space.24) below the top of the viewport while the article scrolls. In a grid or flex column it keeps its own height, which leaves it room to stick.
 
+## Marking the section in view
+
+The nav marks the link of the section in view: the last section whose heading has reached the top third of the viewport. The section stays marked while the reader reads the rest of it, and before the first heading, the first link is marked. The nav never marks a link whose heading is missing from the page. Scroll the article to see the mark follow it:
+
+<Canvas of={OnThisPageStories.Article} />
+
+The nav watches the headings with an `IntersectionObserver` once it has rendered in the browser, and stops when it is destroyed. On the server it renders with no link marked. A heading counts as reached once the document scrolls it up, so the page scrolls the document rather than a container of its own.
+
 ### Accessibility
 
-The title "On this page" names the nav through `aria-labelledby`, so screen readers announce it as the On this page navigation. The title is not a heading, so it stays out of the outline of the page.
+The title "On this page" names the nav through `aria-labelledby`, so screen readers announce it as the On this page navigation. The title is not a heading, so it stays out of the outline of the page. The nav marks the link of the section in view with `aria-current="location"`, so screen readers announce it as the current location.
 
 ### Testing
 
-`OnThisPageHarness` from `@dnd-mapp/ui-web/testing` reads the nav in a test: the text and look of its title, the harnesses of its links, where its parts start and end, its width, and how it sticks.
+`OnThisPageHarness` from `@dnd-mapp/ui-web/testing` reads the nav in a test: the text and look of its title, the harnesses of its links, the link that marks the section in view, where its parts start and end, its width, and how it sticks.
 
 ## On this page link
 
@@ -64,7 +72,7 @@ The link draws the focus ring outside itself on keyboard focus, and keeps the co
 
 ### Current
 
-The link of the section in view turns its label and its indicator to the accent color, and keeps them on hover and focus. It reads the state from `aria-current="location"` on the link, which also tells assistive technology:
+The link of the section in view turns its label and its indicator to the accent color, and keeps them on hover and focus. It reads the state from `aria-current="location"` on the link, which the nav sets, and which also tells assistive technology:
 
 ```html
 <a dma-on-this-page-link href="#your-rights" aria-current="location">Your rights</a>
@@ -74,7 +82,7 @@ The link of the section in view turns its label and its indicator to the accent 
 
 ### Accessibility
 
-The projected heading names the link to assistive technology. Mark the link of the section in view with `aria-current="location"` rather than a class, so screen readers announce it as the current location, and color is not the only cue.
+The projected heading names the link to assistive technology. The current state comes from `aria-current="location"` rather than a class, so screen readers announce it as the current location, and color is not the only cue.
 
 The link is 37 px tall on one line, as Penpot draws it. That is below the 44 px minimum target size that Nav link keeps, but above the 24 px that WCAG 2.5.8 asks for, and the links stack with no gap, so each row of the list is a target.
 

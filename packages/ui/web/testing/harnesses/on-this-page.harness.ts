@@ -51,6 +51,14 @@ export class OnThisPageHarness extends ComponentHarness {
         return await this.linksLocator();
     }
 
+    /** The text of each link that marks the section in view, which is one link at most. */
+    public async getCurrentLinkTexts(): Promise<string[]> {
+        const links = await this.linksLocator();
+        const current = await Promise.all(links.map((link) => link.isCurrent()));
+
+        return await Promise.all(links.filter((_, index) => current[index]).map((link) => link.getText()));
+    }
+
     /** Where the title starts and ends, measured down from the top of the nav. */
     public async getTitleBox(): Promise<OnThisPageBox> {
         return await this.getBox(await this.titleLocator());

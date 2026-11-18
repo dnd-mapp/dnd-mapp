@@ -354,4 +354,143 @@ describe('OnThisPageComponent', () => {
 
         expect((await harness.getTop()) - pageTop).toBeCloseTo(24);
     });
+
+    describe('as the reader scrolls', () => {
+        /**
+         * A long article beside the nav, which scrolls the document as the pages of the app do. Each part of the
+         * article is taller than the viewport, so the test can place a heading anywhere in it. Cookies has no heading.
+         */
+        @Component({
+            template: `
+                <nav dma-on-this-page>
+                    <li><a dma-on-this-page-link href="#who-is-responsible">Who is responsible</a></li>
+                    <li><a dma-on-this-page-link href="#what-we-process">What we process</a></li>
+                    <li><a dma-on-this-page-link href="#cookies">Cookies</a></li>
+                    <li><a dma-on-this-page-link href="#your-rights">Your rights</a></li>
+                </nav>
+                <article>
+                    <p class="part">Introduction</p>
+                    <h2 id="who-is-responsible">Who is responsible</h2>
+                    <p class="part">Who is responsible</p>
+                    <h2 id="what-we-process">What we process</h2>
+                    <p class="part">What we process</p>
+                    <h2 id="your-rights">Your rights</h2>
+                    <p class="part">Your rights</p>
+                </article>
+            `,
+            styles: `
+                .part {
+                    height: 2000px;
+                }
+            `,
+            imports: [OnThisPageComponent, OnThisPageLinkComponent],
+        })
+        class ArticleTestComponent {}
+
+        afterEach(() => {
+            vi.restoreAllMocks();
+            vi.unstubAllGlobals();
+        });
+
+        /** Scrolls the document so the top of the heading of `id` sits `offset` pixels below the top of the viewport. */
+        async function placeHeading(id: string, offset: number) {
+            const heading = document.getElementById(id);
+            const top = (heading?.getBoundingClientRect().top ?? Number.NaN) + window.scrollY - offset;
+
+            window.scrollTo({ top, behavior: 'instant' });
+            await nextFrames();
+        }
+
+        /** Waits until the browser has rendered twice and delivered what the observers noticed. */
+        async function nextFrames() {
+            await new Promise<void>((resolve) => {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        setTimeout(resolve);
+                    });
+                });
+            });
+        }
+
+        async function setupArticle() {
+            const { fixture, harness } = await setupTestEnvironment({
+                host: ArticleTestComponent,
+                harness: OnThisPageHarness,
+            });
+
+            await nextFrames();
+
+            return { fixture, harness };
+        }
+
+        it('should mark the first section before the reader reaches its heading', async () => {
+            const { harness } = await setupArticle();
+
+            expect(await harness.getCurrentLinkTexts()).toEqual(['Who is responsible']);
+            await expect
+                .element(page.getByRole('link', { name: 'Who is responsible' }))
+                .toHaveAttribute('aria-current', 'location');
+        });
+
+        it('should mark a section once its heading reaches the top third of the viewport', async () => {
+            const { harness } = await setupArticle();
+
+            await placeHeading('what-we-process', window.innerHeight / 2);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['Who is responsible']);
+
+            await placeHeading('what-we-process', window.innerHeight / 4);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['What we process']);
+        });
+
+        it('should keep the section marked while the reader reads the rest of it', async () => {
+            const { harness } = await setupArticle();
+
+            await placeHeading('what-we-process', -1000);
+
+            expect(await harness.getCurrentLinkTexts()).toEqual(['What we process']);
+        });
+
+        it('should mark the section the page jumps to, in either direction', async () => {
+            const { harness } = await setupArticle();
+
+            await placeHeading('your-rights', -1000);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['Your rights']);
+
+            await placeHeading('who-is-responsible', -1000);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['Who is responsible']);
+
+            await placeHeading('who-is-responsible', window.innerHeight / 2);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['Who is responsible']);
+        });
+
+        it('should never mark a link whose heading is missing from the page', async () => {
+            const { harness } = await setupArticle();
+
+            await placeHeading('what-we-process', -1000);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['What we process']);
+
+            await placeHeading('your-rights', 0);
+            expect(await harness.getCurrentLinkTexts()).toEqual(['Your rights']);
+            await expect.element(page.getByRole('link', { name: 'Cookies' })).not.toHaveAttribute('aria-current');
+        });
+
+        it('should stop watching the headings once the nav is destroyed', async () => {
+            const disconnect = vi.spyOn(IntersectionObserver.prototype, 'disconnect');
+            const { fixture } = await setupArticle();
+
+            fixture.destroy();
+
+            expect(disconnect).toHaveBeenCalledOnce();
+        });
+
+        it('should render on the server with no link marked, and watch no heading', async () => {
+            vi.stubGlobal('ngServerMode', true);
+            const observe = vi.spyOn(IntersectionObserver.prototype, 'observe');
+            const { harness } = await setupArticle();
+
+            expect(await harness.getLinks()).toHaveLength(4);
+            expect(await harness.getCurrentLinkTexts()).toEqual([]);
+            expect(observe).not.toHaveBeenCalled();
+        });
+    });
 });
