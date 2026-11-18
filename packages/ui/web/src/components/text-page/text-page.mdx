@@ -1,0 +1,50 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks';
+import * as TextPageStories from './text-page.stories';
+
+<Meta of={TextPageStories} />
+
+# Text page
+
+The article of a long text page, such as Privacy or Accessibility: a title, the date it was last updated, and the prose. It is the Article of the Text page layout of the design system in Penpot.
+
+<Canvas of={TextPageStories.Desktop} />
+
+## Placing a text page
+
+Text page is an attribute on `<article>`. Project a `<header>` with the title of the page as its `<h1>` and the date as a `<p>`, then the prose:
+
+```html
+<main>
+    <article dma-text-page>
+        <header>
+            <h1>Privacy</h1>
+            <p>Last updated <time datetime="2026-11-11">November 11, 2026</time></p>
+        </header>
+        ...
+    </article>
+</main>
+```
+
+The article draws the header first, whatever order the page writes it in, and stacks the prose 48 px below it. It fills its container up to the measure, 720 px, and leaves its own place on the page, such as the padding of the main area, to the page that holds it. Header and Footer belong to the app shell, not to the article.
+
+## Title block
+
+The title draws the h1 typography in the default foreground color, and the date draws the small body typography in the muted color, 12 px below the title. Put the date in a `<time>` with a `datetime` attribute, so machines read it as well as people.
+
+## Viewport
+
+The size of the title follows the Viewport tokens, so the article needs no input for the viewport. Below the desktop breakpoint, the title is 34 px; from the breakpoint up, it grows to 54 px.
+
+<Canvas of={TextPageStories.Mobile} />
+
+## Focus
+
+A text page takes no focus, and Penpot draws no hover or focus state for it, since it is not interactive.
+
+## Accessibility
+
+Place the article in the `<main>` of the page, and keep its title the only `<h1>` of the page. A `<header>` inside an article is not a banner landmark, so it adds nothing to the landmarks of the page.
+
+## Testing
+
+`TextPageHarness` from `@dnd-mapp/ui-web/testing` reads a text page in a test: the text of its title and date, the `datetime` of the date, how each draws its text, where each sits, where the prose starts, and the width of the article.
