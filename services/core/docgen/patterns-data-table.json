@@ -1,0 +1,21 @@
+{
+  "components": {
+    "patterns-data-table": {
+      "id": "patterns-data-table",
+      "name": "DataTableComponent",
+      "path": "./src/components/data-table/data-table.stories.ts",
+      "description": "Rows of data under a header row, drawn on the `<table>` it is placed on. The table projects a `<caption>`, a\n`<thead>` with one row of `<th scope=\"col\">`, and a `<tbody>` whose rows start with a `<th scope=\"row\">`. The caption\nnames the table for assistive technology and stays out of sight.\n\nFrom the desktop breakpoint up, the rows sit under the header row; below it, each row is a card that draws the label\nof its column above each cell. The component copies the text of each column header onto the cells of its column, as\n`data-label`, for the styles to draw. The card layout drops the table semantics of the elements in some browsers, so\nthe component also sets the role of the table, of each row group and row, and of each cell.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "DataTableComponent",
+        "selector": "table[dma-data-table]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

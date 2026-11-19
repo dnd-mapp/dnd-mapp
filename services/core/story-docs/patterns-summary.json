@@ -1,0 +1,29 @@
+{
+  "components": {
+    "patterns-summary": {
+      "id": "patterns-summary",
+      "name": "SummaryComponent",
+      "path": "./src/components/summary/summary.stories.ts",
+      "stories": {
+        "patterns-summary--points": {
+          "id": "patterns-summary--points",
+          "name": "Points",
+          "snippet": "import { Component } from '@angular/core';\nimport { SummaryComponent } from './summary.component';\nimport { SummaryTitleComponent } from './summary-title.component';\nimport { FactsListComponent } from '../facts-list';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SummaryComponent, SummaryTitleComponent, FactsListComponent],\n  template: `\n    <section dma-summary>\n        <h2 dma-summary-title>In short</h2>\n        <ul role=\"list\">\n            <li>No accounts, no cookies, no analytics, and no ads.</li>\n            <li>\n                Our server logs each request, including your IP address, to keep the site running and safe.\n            </li>\n            <li>Your theme choice stays in your browser and never reaches us.</li>\n            <li>\n                Questions or requests about your data go to the support address.\n            </li>\n        </ul>\n    </section>`,\n})\nexport class DemoComponent {}",
+          "description": "A title and its points, as the Privacy page opens."
+        },
+        "patterns-summary--facts-list": {
+          "id": "patterns-summary--facts-list",
+          "name": "Facts List",
+          "snippet": "import { Component } from '@angular/core';\nimport { SummaryComponent } from './summary.component';\nimport { SummaryTitleComponent } from './summary-title.component';\nimport { FactsListComponent } from '../facts-list';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SummaryComponent, SummaryTitleComponent, FactsListComponent],\n  template: `\n    <section dma-summary>\n        <h2 dma-summary-title>At a glance</h2>\n        <dl dma-facts-list>\n            <div>\n                <dt>Standard</dt>\n                <dd>WCAG 2.2, level AA</dd>\n            </div>\n            <div>\n                <dt>Status</dt>\n                <dd>Partially conformant</dd>\n            </div>\n            <div>\n                <dt>Last checked</dt>\n                <dd>November 11, 2026</dd>\n            </div>\n            <div>\n                <dt>Method</dt>\n                <dd>Our own checks; no outside audit yet</dd>\n            </div>\n        </dl>\n    </section>`,\n})\nexport class DemoComponent {}",
+          "description": "A title and a Facts list in place of the points, as the Accessibility page opens."
+        },
+        "patterns-summary--facts-list-mobile": {
+          "id": "patterns-summary--facts-list-mobile",
+          "name": "Facts List Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { SummaryComponent } from './summary.component';\nimport { SummaryTitleComponent } from './summary-title.component';\nimport { FactsListComponent } from '../facts-list';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SummaryComponent, SummaryTitleComponent, FactsListComponent],\n  template: `\n    <section dma-summary>\n        <h2 dma-summary-title>At a glance</h2>\n        <dl dma-facts-list>\n            <div>\n                <dt>Standard</dt>\n                <dd>WCAG 2.2, level AA</dd>\n            </div>\n            <div>\n                <dt>Status</dt>\n                <dd>Partially conformant</dd>\n            </div>\n            <div>\n                <dt>Last checked</dt>\n                <dd>November 11, 2026</dd>\n            </div>\n            <div>\n                <dt>Method</dt>\n                <dd>Our own checks; no outside audit yet</dd>\n            </div>\n        </dl>\n    </section>`,\n})\nexport class DemoComponent {}",
+          "description": "The Facts list stacks each term above its value, below the desktop breakpoint. The docs page shows the story in an\niframe narrower than the breakpoint."
+        }
+      }
+    }
+  }
+}

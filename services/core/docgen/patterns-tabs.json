@@ -1,0 +1,163 @@
+{
+  "components": {
+    "patterns-tabs": {
+      "id": "patterns-tabs",
+      "name": "TabListComponent",
+      "path": "./src/components/tabs/tabs.stories.ts",
+      "description": "The row of tabs that switches between views of the same content, drawn on the `<dma-tab-list>` it is placed on. It\nholds the `button[dma-tab]` elements, and keeps which of them is selected as state of its own, starting on the first.\nThe arrow keys, Home, and End move the selection and the focus. Whoever places it names it with `aria-label` or\n`aria-labelledby`.\n\nWhenever the selection changes, the list scrolls the selected tab fully into view, its focus ring included, however\nthe selection changed. It scrolls only itself, never the page, and leaves the focus where it was.\n\nWhen the tabs do not fit, the list scrolls sideways, and shows a scroll button at each end that has more tabs past\nit, over a fade of its tabs. The buttons are for the pointer alone: they stay out of the tab order and the\naccessibility tree, and a press on one leaves the focus where it was. The list watches its size and its tabs in the\nbrowser only, and shows no buttons during prerendering.",
+      "jsDocTags": {},
+      "argTypes": {
+        "scrollsEnd": {
+          "name": "scrollsEnd",
+          "description": "Whether more tabs lie past the end of the list, so it shows the scroll button there.",
+          "type": {
+            "name": "other",
+            "value": "empty-enum"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "WritableSignal<boolean>"
+            },
+            "defaultValue": {}
+          }
+        },
+        "scrollsStart": {
+          "name": "scrollsStart",
+          "description": "Whether more tabs lie past the start of the list, so it shows the scroll button there.",
+          "type": {
+            "name": "other",
+            "value": "empty-enum"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "WritableSignal<boolean>"
+            },
+            "defaultValue": {}
+          }
+        },
+        "selectedTab": {
+          "name": "selectedTab",
+          "description": "The selected tab: the one at `selected`, or the first when no tab is at that index.",
+          "type": {
+            "name": "other",
+            "value": "empty-enum"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "Signal<TabComponent | null>"
+            },
+            "defaultValue": {}
+          }
+        },
+        "selected": {
+          "name": "selected",
+          "description": "The index of the selected tab. Bind it to start on another tab, or to follow the selection.",
+          "type": {
+            "name": "number"
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "number"
+            },
+            "defaultValue": {
+              "summary": 0
+            }
+          }
+        },
+        "selectedChange": {
+          "name": "selectedChange",
+          "description": "The index of the selected tab. Bind it to start on another tab, or to follow the selection.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "action": "selectedChange",
+          "table": {
+            "category": "outputs",
+            "type": {
+              "summary": "(e: number) => void"
+            }
+          }
+        },
+        "move": {
+          "name": "move",
+          "description": "Selects and focuses the tab a key reaches from the selected tab, as automatic activation does. The arrow keys\nwrap at either end. A key with Alt, Ctrl, or Meta stays with the browser, such as Alt+Left for back.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "(event: KeyboardEvent) => void"
+            },
+            "defaultValue": {}
+          }
+        },
+        "scroll": {
+          "name": "scroll",
+          "description": "Scrolls until the next tab past `edge` shows whole, clear of the scroll button and its fade there, which the\nscroll padding of the list leaves room for. The scroll is smooth, unless the reader prefers reduced motion.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "(edge: \"start\" | \"end\") => void"
+            },
+            "defaultValue": {}
+          }
+        },
+        "select": {
+          "name": "select",
+          "description": "Selects `tab`, when it is one of the tabs of the list.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "(tab: TabComponent) => void"
+            },
+            "defaultValue": {}
+          }
+        },
+        "update": {
+          "name": "update",
+          "description": "Shows the scroll button at each end of the list that has more tabs past it.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "() => void"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type TabListComponentInputs = {\n  /**\n   * The index of the selected tab. Bind it to start on another tab, or to follow the selection.\n   *\n   * @default 0\n   */\n  selected?: number; // two-way: [(selected)]\n}\n```\n\n## Outputs\n\n```\nexport type TabListComponentOutputs = {\n  /** The index of the selected tab. Bind it to start on another tab, or to follow the selection. */\n  selectedChange: (e: number) => void;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "TabListComponent",
+        "selector": "dma-tab-list",
+        "standalone": true,
+        "inputs": [
+          "selected"
+        ],
+        "outputs": [
+          "selectedChange"
+        ],
+        "enums": []
+      }
+    }
+  }
+}

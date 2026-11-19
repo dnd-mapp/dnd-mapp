@@ -1,0 +1,29 @@
+{
+  "components": {
+    "patterns-card": {
+      "id": "patterns-card",
+      "name": "CardComponent",
+      "path": "./src/components/card/card.stories.ts",
+      "stories": {
+        "patterns-card--surface": {
+          "id": "patterns-card--surface",
+          "name": "Surface",
+          "snippet": "import { Component } from '@angular/core';\nimport { CardComponent } from './card.component';\nimport { ChipComponent } from '../chip';\nimport { LinkComponent } from '../link';\n\n@Component({\n  selector: 'app-demo',\n  imports: [CardComponent, ChipComponent, LinkComponent],\n  template: `\n    <div class=\"column\">\n        <dma-card [background]=\"background\">\n            <h3>{{ title }}</h3>\n            <p>{{ text }}</p>\n        </dma-card>\n    </div>`,\n})\nexport class DemoComponent {\n  background = 'surface';\n  title = 'Card title';\n  text = 'A sentence or two of supporting text that explains the title.';\n}",
+          "description": "A card on the page background, with its title and text, as Penpot draws it by default."
+        },
+        "patterns-card--raised": {
+          "id": "patterns-card--raised",
+          "name": "Raised",
+          "snippet": "import { Component } from '@angular/core';\nimport { CardComponent } from './card.component';\nimport { ChipComponent } from '../chip';\nimport { LinkComponent } from '../link';\n\n@Component({\n  selector: 'app-demo',\n  imports: [CardComponent, ChipComponent, LinkComponent],\n  template: `\n    <div class=\"column\">\n        <dma-card [background]=\"background\">\n            <h3>{{ title }}</h3>\n            <p>{{ text }}</p>\n        </dma-card>\n    </div>`,\n})\nexport class DemoComponent {\n  background = 'raised';\n  title = 'Card title';\n  text = 'A sentence or two of supporting text that explains the title.';\n}",
+          "description": "A card on a surface, which the story draws around it, so the card stands one step above its background."
+        },
+        "patterns-card--examples": {
+          "id": "patterns-card--examples",
+          "name": "Examples",
+          "snippet": "import { Component } from '@angular/core';\nimport { CardComponent } from './card.component';\nimport { ChipComponent } from '../chip';\nimport { LinkComponent } from '../link';\n\n@Component({\n  selector: 'app-demo',\n  imports: [CardComponent, ChipComponent, LinkComponent],\n  template: `\n    <ul class=\"cards\" role=\"list\">\n        <li>\n            <dma-card>\n                <h3>Characters</h3>\n                <p>Build character sheets and keep their spell books.</p>\n                <dma-chip>Players</dma-chip>\n                <dma-chip kind=\"dm\">DM</dma-chip>\n                <a dma-link kind=\"standalone\" href=\"#\">Open your characters</a>\n            </dma-card>\n        </li>\n        <li>\n            <dma-card>\n                <h3>Worlds and campaigns</h3>\n                <p>\n                    Write the lore of your world, draw its maps, and keep notes of every session.\n                </p>\n                <a dma-link kind=\"standalone\" href=\"#\">Start a world</a>\n            </dma-card>\n        </li>\n        <li>\n            <dma-card>\n                <h3>Encounters</h3>\n                <p>Build encounters and write stats for custom monsters.</p>\n                <dma-chip kind=\"status\">Planned</dma-chip>\n            </dma-card>\n        </li>\n    </ul>`,\n})\nexport class DemoComponent {}",
+          "description": "A grid of cards in a list, each in an `<li>` of its own, with and without chips and an action."
+        }
+      }
+    }
+  }
+}

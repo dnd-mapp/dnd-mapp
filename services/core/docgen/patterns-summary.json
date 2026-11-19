@@ -1,0 +1,37 @@
+{
+  "components": {
+    "patterns-summary": {
+      "id": "patterns-summary",
+      "name": "SummaryComponent",
+      "path": "./src/components/summary/summary.stories.ts",
+      "description": "A box that opens a long text page with a short version of it, drawn on the `<section>` it is placed on: a\n`dma-summary-title` heading as its title, then its points as a `<ul>`, all projected. Whoever places it picks the\nheading level.\n\nThe title names the section through `aria-labelledby`, so assistive technology announces the summary as a region by\nthat name. A summary without a title throws NG0951.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {
+        "title": {
+          "name": "title",
+          "description": "The heading that names the summary.",
+          "type": {
+            "name": "other",
+            "value": "empty-enum"
+          },
+          "table": {
+            "category": "properties",
+            "type": {
+              "summary": "Signal<SummaryTitleComponent>"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "SummaryComponent",
+        "selector": "section[dma-summary]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

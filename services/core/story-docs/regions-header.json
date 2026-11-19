@@ -1,0 +1,23 @@
+{
+  "components": {
+    "regions-header": {
+      "id": "regions-header",
+      "name": "HeaderComponent",
+      "path": "./src/components/header/header.stories.ts",
+      "stories": {
+        "regions-header--desktop": {
+          "id": "regions-header--desktop",
+          "name": "Desktop",
+          "snippet": "import { Component } from '@angular/core';\nimport { HeaderComponent } from './header.component';\nimport { LogoComponent } from '../logo';\nimport { NavLinkComponent } from '../nav-link';\nimport { ButtonComponent } from '../button';\nimport { IconGithubComponent } from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [HeaderComponent, LogoComponent, NavLinkComponent, ButtonComponent, IconGithubComponent],\n  template: `\n    <header dma-header>\n        <a href=\"#\">\n            <dma-logo size=\"small\" />\n        </a>\n        <a dma-nav-link href=\"#\" aria-current=\"page\">Compendium</a>\n        <a dma-nav-link href=\"#\">Characters</a>\n        <a dma-nav-link href=\"#\">Campaigns</a>\n        <a dma-button kind=\"quiet\" href=\"#\">\n            <dma-icon-github />\n            GitHub\n        </a>\n    </header>`,\n})\nexport class DemoComponent {}",
+          "description": "The link home and the nav links at the start, and the GitHub button and the Theme picker at the end, from the\ndesktop breakpoint up."
+        },
+        "regions-header--mobile": {
+          "id": "regions-header--mobile",
+          "name": "Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { HeaderComponent } from './header.component';\nimport { LogoComponent } from '../logo';\nimport { NavLinkComponent } from '../nav-link';\nimport { ButtonComponent } from '../button';\nimport { IconGithubComponent } from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [HeaderComponent, LogoComponent, NavLinkComponent, ButtonComponent, IconGithubComponent],\n  template: `\n    <header dma-header>\n        <a href=\"#\">\n            <dma-logo size=\"small\" />\n        </a>\n        <a dma-nav-link href=\"#\" aria-current=\"page\">Compendium</a>\n        <a dma-nav-link href=\"#\">Characters</a>\n        <a dma-nav-link href=\"#\">Campaigns</a>\n        <a dma-button kind=\"quiet\" href=\"#\">\n            <dma-icon-github />\n            GitHub\n        </a>\n    </header>`,\n})\nexport class DemoComponent {}",
+          "description": "The link home at the start and the Menu button at the end, below the desktop breakpoint. The docs page shows the\nstory in an iframe narrower than the breakpoint."
+        }
+      }
+    }
+  }
+}

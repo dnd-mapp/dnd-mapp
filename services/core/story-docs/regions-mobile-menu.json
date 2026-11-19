@@ -1,0 +1,25 @@
+{
+  "components": {
+    "regions-mobile-menu": {
+      "id": "regions-mobile-menu",
+      "name": "MobileMenuComponent",
+      "path": "./src/components/mobile-menu/mobile-menu.stories.ts",
+      "stories": {
+        "regions-mobile-menu--open": {
+          "id": "regions-mobile-menu--open",
+          "name": "Open",
+          "snippet": "import { Component } from '@angular/core';\nimport { MobileMenuComponent } from './mobile-menu.component';\nimport { HeaderComponent } from '../header';\nimport { LogoComponent } from '../logo';\nimport { NavLinkComponent } from '../nav-link';\nimport { ButtonComponent } from '../button';\nimport { IconGithubComponent } from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [MobileMenuComponent, HeaderComponent, LogoComponent, NavLinkComponent, ButtonComponent, IconGithubComponent],\n  template: `<dialog dma-mobile-menu></dialog>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: ``<dialog dma-mobile-menu>${content}</dialog>`` could not be resolved statically.",
+          "description": "The menu open over the page, as the Menu button of Header leaves it. The docs page shows the story in an iframe, so\nthe modal covers the story rather than the docs page."
+        },
+        "regions-mobile-menu--with-header": {
+          "id": "regions-mobile-menu--with-header",
+          "name": "With Header",
+          "snippet": "import { Component } from '@angular/core';\nimport { MobileMenuComponent } from './mobile-menu.component';\nimport { HeaderComponent } from '../header';\nimport { LogoComponent } from '../logo';\nimport { NavLinkComponent } from '../nav-link';\nimport { ButtonComponent } from '../button';\nimport { IconGithubComponent } from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [MobileMenuComponent, HeaderComponent, LogoComponent, NavLinkComponent, ButtonComponent, IconGithubComponent],\n  template: `<dialog dma-mobile-menu></dialog>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: ``\n            <header dma-header (menuPressed)=\"mobileMenu.showModal()\">\n                <a href=\"#\"><dma-logo size=\"small\" /></a>\n            </header>\n            <dialog dma-mobile-menu #mobileMenu>${content}</dialog>\n        `` could not be resolved statically.",
+          "description": "The closed menu below Header. Press Menu to open it, and Close or Escape to close it again."
+        }
+      }
+    }
+  }
+}

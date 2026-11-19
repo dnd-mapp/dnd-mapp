@@ -1,0 +1,47 @@
+{
+  "components": {
+    "patterns-disclosure": {
+      "id": "patterns-disclosure",
+      "name": "DisclosureComponent",
+      "path": "./src/components/disclosure/disclosure.stories.ts",
+      "stories": {
+        "patterns-disclosure--closed-default": {
+          "id": "patterns-disclosure--closed-default",
+          "name": "Closed Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure [open]=\"open\">\n        <span dma-disclosure-summary>{{ summary }}</span>\n        <p>{{ content }}</p>\n    </details>`,\n})\nexport class DemoComponent {\n  open = false;\n  summary = 'Question or heading';\n  content = 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.';\n}"
+        },
+        "patterns-disclosure--closed-hover": {
+          "id": "patterns-disclosure--closed-hover",
+          "name": "Closed Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure [open]=\"open\">\n        <span dma-disclosure-summary>{{ summary }}</span>\n        <p>{{ content }}</p>\n    </details>`,\n})\nexport class DemoComponent {\n  open = false;\n  summary = 'Question or heading';\n  content = 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.';\n}"
+        },
+        "patterns-disclosure--closed-focus": {
+          "id": "patterns-disclosure--closed-focus",
+          "name": "Closed Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure [open]=\"open\">\n        <span dma-disclosure-summary>{{ summary }}</span>\n        <p>{{ content }}</p>\n    </details>`,\n})\nexport class DemoComponent {\n  open = false;\n  summary = 'Question or heading';\n  content = 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.';\n}"
+        },
+        "patterns-disclosure--open-default": {
+          "id": "patterns-disclosure--open-default",
+          "name": "Open Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure [open]=\"open\">\n        <span dma-disclosure-summary>{{ summary }}</span>\n        <p>{{ content }}</p>\n    </details>`,\n})\nexport class DemoComponent {\n  open = true;\n  summary = 'Question or heading';\n  content = 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.';\n}"
+        },
+        "patterns-disclosure--open-hover": {
+          "id": "patterns-disclosure--open-hover",
+          "name": "Open Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure [open]=\"open\">\n        <span dma-disclosure-summary>{{ summary }}</span>\n        <p>{{ content }}</p>\n    </details>`,\n})\nexport class DemoComponent {\n  open = true;\n  summary = 'Question or heading';\n  content = 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.';\n}"
+        },
+        "patterns-disclosure--open-focus": {
+          "id": "patterns-disclosure--open-focus",
+          "name": "Open Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure [open]=\"open\">\n        <span dma-disclosure-summary>{{ summary }}</span>\n        <p>{{ content }}</p>\n    </details>`,\n})\nexport class DemoComponent {\n  open = true;\n  summary = 'Question or heading';\n  content = 'The answer or content, in one or more short paragraphs. It shows only while the disclosure is open.';\n}"
+        },
+        "patterns-disclosure--stacked": {
+          "id": "patterns-disclosure--stacked",
+          "name": "Stacked",
+          "snippet": "import { Component } from '@angular/core';\nimport { DisclosureComponent } from './disclosure.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [DisclosureComponent],\n  template: `\n    <details dma-disclosure>\n        <span dma-disclosure-summary>What is a saving throw?</span>\n        <p>\n            A roll that decides whether a creature resists a spell, a trap, or a poison.\n        </p>\n    </details>\n    <details dma-disclosure open>\n        <span dma-disclosure-summary>How long is a round?</span>\n        <p>About six seconds in the world of the game.</p>\n        <p>\n            Each creature in the fight takes one turn in it, in the order of initiative.\n        </p>\n    </details>\n    <details dma-disclosure>\n        <span dma-disclosure-summary>What does advantage do?</span>\n        <p>You roll two d20s and use the higher roll.</p>\n    </details>`,\n})\nexport class DemoComponent {}",
+          "description": "Disclosures stacked as questions and answers, the place they are made for, with a divider under each."
+        }
+      }
+    }
+  }
+}

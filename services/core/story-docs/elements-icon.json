@@ -1,0 +1,19 @@
+{
+  "components": {
+    "elements-icon": {
+      "id": "elements-icon",
+      "name": "Icon",
+      "path": "./src/components/icon/icon.stories.ts",
+      "stories": {
+        "elements-icon--all-glyphs": {
+          "id": "elements-icon--all-glyphs",
+          "name": "All Glyphs"
+        },
+        "elements-icon--inherited-color": {
+          "id": "elements-icon--inherited-color",
+          "name": "Inherited Color"
+        }
+      }
+    }
+  }
+}

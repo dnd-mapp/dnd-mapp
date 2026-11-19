@@ -1,0 +1,21 @@
+{
+  "components": {
+    "patterns-on-this-page": {
+      "id": "patterns-on-this-page",
+      "name": "OnThisPageLinkComponent",
+      "path": "./src/components/on-this-page/on-this-page.stories.ts",
+      "description": "A link to a section of the page in On this page, drawn on the `<a>` it is placed on. Whoever places it adds the\n`href` of the heading of the section, such as `#your-rights`. The nav sets `aria-current=\"location\"` on the link of\nthe section in view.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "OnThisPageLinkComponent",
+        "selector": "a[dma-on-this-page-link]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "components": {
+    "regions-header": {
+      "id": "regions-header",
+      "name": "HeaderComponent",
+      "path": "./src/components/header/header.stories.ts",
+      "description": "The bar at the top of every page, drawn on the `<header>` it is placed on. Whoever places it projects the link home\naround the logo, the nav links, and the GitHub button, and opens Mobile menu when the header emits `menuPressed`, so\nthe header needs no router or app state. The Theme picker saves the choice of the reader itself.\n\nBelow the desktop breakpoint, the header shows the link home and the Menu button. From the breakpoint up, it shows\nthe nav links, the GitHub button, and the Theme picker instead of the Menu button. The Menu button focuses itself when\npressed, before the header emits `menuPressed`, so Mobile menu has a focus to return to in Safari, which doesn't\nfocus a button that the reader clicks.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {
+        "menuPressed": {
+          "name": "menuPressed",
+          "description": "Emits each time the reader presses the Menu button.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "action": "menuPressed",
+          "table": {
+            "category": "outputs",
+            "type": {
+              "summary": "void"
+            },
+            "defaultValue": {}
+          }
+        },
+        "pressMenu": {
+          "name": "pressMenu",
+          "description": "Focuses the Menu button before it emits `menuPressed`. Safari doesn't focus a button that the reader clicks or\ntaps, so without this, Mobile menu has no focus to return to when it closes, and focus lands on the page body.",
+          "type": {
+            "name": "other",
+            "value": "void"
+          },
+          "table": {
+            "category": "methods",
+            "type": {
+              "summary": "(event: Event) => void"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Outputs\n\n```\nexport type HeaderComponentOutputs = {\n  /** Emits each time the reader presses the Menu button. */\n  menuPressed: void;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "HeaderComponent",
+        "selector": "header[dma-header]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [
+          "menuPressed"
+        ],
+        "enums": []
+      }
+    }
+  }
+}

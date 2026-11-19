@@ -1,0 +1,47 @@
+{
+  "components": {
+    "patterns-theme-picker": {
+      "id": "patterns-theme-picker",
+      "name": "ThemePickerComponent",
+      "path": "./src/components/theme-picker/theme-picker.stories.ts",
+      "stories": {
+        "patterns-theme-picker--labels-default": {
+          "id": "patterns-theme-picker--labels-default",
+          "name": "Labels Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'labels';\n}"
+        },
+        "patterns-theme-picker--labels-hover": {
+          "id": "patterns-theme-picker--labels-hover",
+          "name": "Labels Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'labels';\n}"
+        },
+        "patterns-theme-picker--labels-focus": {
+          "id": "patterns-theme-picker--labels-focus",
+          "name": "Labels Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'labels';\n}"
+        },
+        "patterns-theme-picker--icons-default": {
+          "id": "patterns-theme-picker--icons-default",
+          "name": "Icons Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'icons';\n}"
+        },
+        "patterns-theme-picker--icons-hover": {
+          "id": "patterns-theme-picker--icons-hover",
+          "name": "Icons Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'icons';\n}"
+        },
+        "patterns-theme-picker--icons-focus": {
+          "id": "patterns-theme-picker--icons-focus",
+          "name": "Icons Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'icons';\n}"
+        },
+        "patterns-theme-picker--dark-selected": {
+          "id": "patterns-theme-picker--dark-selected",
+          "name": "Dark Selected",
+          "snippet": "import { Component } from '@angular/core';\nimport { ThemePickerComponent } from './theme-picker.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ThemePickerComponent],\n  template: `<fieldset dma-theme-picker [display]=\"display\"></fieldset>`,\n})\nexport class DemoComponent {\n  display = 'labels';\n}",
+          "description": "Dark selected, as the picker shows it to a reader who picked Dark."
+        }
+      }
+    }
+  }
+}

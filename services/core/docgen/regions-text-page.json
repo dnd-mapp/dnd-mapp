@@ -1,0 +1,21 @@
+{
+  "components": {
+    "regions-text-page": {
+      "id": "regions-text-page",
+      "name": "TextPageComponent",
+      "path": "./src/components/text-page/text-page.stories.ts",
+      "description": "The article of a long text page, such as a policy or a guide, drawn on the `<article>` it is placed on. Whoever places\nit projects a `<header>` with the title of the page as its `<h1>` and the date it was last updated as a `<p>`, then\nthe prose as plain headings, paragraphs, and lists. It may also project a `nav[dma-on-this-page]` with links to the\nsections of the prose, and a `section[dma-summary]` that opens the page with a short version of it. The article\ndraws the header first, then the nav, the summary, and the prose, whatever the order of the content.\n\nThe article fills its container up to the measure. From the desktop breakpoint up, the nav moves to a column of its\nown beside the rest, where it sticks while the article scrolls, and the article grows by that column. Its type sizes\nfollow the Viewport tokens, so it needs no input for the viewport.\n\nThe styles reach the projected elements, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "TextPageComponent",
+        "selector": "article[dma-text-page]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

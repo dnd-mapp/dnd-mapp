@@ -1,0 +1,86 @@
+{
+  "components": {
+    "elements-button": {
+      "id": "elements-button",
+      "name": "ButtonComponent",
+      "path": "./src/components/button/button.stories.ts",
+      "stories": {
+        "elements-button--primary-default": {
+          "id": "elements-button--primary-default",
+          "name": "Primary Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'primary';\n  label = 'Label';\n}"
+        },
+        "elements-button--primary-hover": {
+          "id": "elements-button--primary-hover",
+          "name": "Primary Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'primary';\n  label = 'Label';\n}"
+        },
+        "elements-button--primary-focus": {
+          "id": "elements-button--primary-focus",
+          "name": "Primary Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'primary';\n  label = 'Label';\n}"
+        },
+        "elements-button--secondary-default": {
+          "id": "elements-button--secondary-default",
+          "name": "Secondary Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'secondary';\n  label = 'Label';\n}"
+        },
+        "elements-button--secondary-hover": {
+          "id": "elements-button--secondary-hover",
+          "name": "Secondary Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'secondary';\n  label = 'Label';\n}"
+        },
+        "elements-button--secondary-focus": {
+          "id": "elements-button--secondary-focus",
+          "name": "Secondary Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'secondary';\n  label = 'Label';\n}"
+        },
+        "elements-button--quiet-default": {
+          "id": "elements-button--quiet-default",
+          "name": "Quiet Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n  label = 'Label';\n}"
+        },
+        "elements-button--quiet-hover": {
+          "id": "elements-button--quiet-hover",
+          "name": "Quiet Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n  label = 'Label';\n}"
+        },
+        "elements-button--quiet-focus": {
+          "id": "elements-button--quiet-focus",
+          "name": "Quiet Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n  label = 'Label';\n}"
+        },
+        "elements-button--on-link": {
+          "id": "elements-button--on-link",
+          "name": "On Link",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `<a dma-button [kind]=\"kind\" href=\"#\">{{ label }}</a>`,\n})\nexport class DemoComponent {\n  kind = 'primary';\n  label = 'Label';\n}",
+          "description": "A button on `<a>`, which looks the same and keeps the semantics of a link."
+        },
+        "elements-button--leading-icon": {
+          "id": "elements-button--leading-icon",
+          "name": "Leading Icon",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `\n    <button dma-button type=\"button\" [kind]=\"kind\">\n        <dma-icon-plus />\n        {{ label }}\n    </button>`,\n})\nexport class DemoComponent {\n  kind = 'primary';\n  label = 'New map';\n}",
+          "description": "An icon before the label, which leads it."
+        },
+        "elements-button--trailing-icon": {
+          "id": "elements-button--trailing-icon",
+          "name": "Trailing Icon",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `\n    <button dma-button type=\"button\" [kind]=\"kind\">\n        {{ label }}\n        <dma-icon-arrow-right />\n    </button>`,\n})\nexport class DemoComponent {\n  kind = 'secondary';\n  label = 'Get started';\n}",
+          "description": "An icon after the label, which trails it."
+        },
+        "elements-button--icon-only": {
+          "id": "elements-button--icon-only",
+          "name": "Icon Only",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `\n    <button dma-button type=\"button\" [kind]=\"kind\" aria-label=\"Close\">\n        <dma-icon-close />\n    </button>`,\n})\nexport class DemoComponent {\n  kind = 'quiet';\n}",
+          "description": "An icon of its own, which takes its name from `aria-label`, as the Close button of Mobile menu does."
+        },
+        "elements-button--narrow-screen": {
+          "id": "elements-button--narrow-screen",
+          "name": "Narrow Screen",
+          "snippet": "import { Component } from '@angular/core';\nimport { ButtonComponent } from './button.component';\nimport {\n  IconArrowRightComponent,\n  IconCloseComponent,\n  IconMenuComponent,\n  IconPlusComponent,\n} from '../icon';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ButtonComponent, IconArrowRightComponent, IconCloseComponent, IconMenuComponent, IconPlusComponent],\n  template: `\n    <div class=\"column\">\n        <div class=\"row\">\n            <button dma-button type=\"button\" kind=\"quiet\" aria-label=\"Menu\">\n                <dma-icon-menu />\n            </button>\n            <button dma-button type=\"button\" kind=\"quiet\" aria-label=\"Close\">\n                <dma-icon-close />\n            </button>\n        </div>\n        <button dma-button type=\"button\" [kind]=\"kind\">{{ label }}</button>\n    </div>`,\n})\nexport class DemoComponent {\n  kind = 'secondary';\n  label = 'Label';\n}",
+          "description": "Buttons on a small mobile screen: in a flex row, they keep the width of their content, as in Header, while a button\nin a block container fills it, as in Mobile menu. The docs page shows the story in an iframe narrower than the\ndesktop breakpoint, and the column keeps it at the width of a small mobile screen."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "components": {
+    "patterns-tabs": {
+      "id": "patterns-tabs",
+      "name": "TabListComponent",
+      "path": "./src/components/tabs/tabs.stories.ts",
+      "stories": {
+        "patterns-tabs--default": {
+          "id": "patterns-tabs--default",
+          "name": "Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { TabListComponent } from './tab-list.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TabListComponent],\n  template: `\n    <dma-tab-list aria-label=\"Character sheet\" [(selected)]=\"selected\">\n        <button dma-tab [panel]=\"overview\">Overview</button>\n        <button dma-tab [panel]=\"stats\">Stats</button>\n        <button dma-tab [panel]=\"spells\">Spells</button>\n        <button dma-tab [panel]=\"notes\">Notes</button>\n    </dma-tab-list>\n    <dma-tab-panel #overview>\n        <p>The class, level, and background of the character.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #stats>\n        <p>The six ability scores and their modifiers.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #spells>\n        <p>The spells the character knows, by level.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #notes>\n        <p>Whatever the player wants to remember.</p>\n    </dma-tab-panel>`,\n})\nexport class DemoComponent {\n  selected = 0;\n  selectedChange(event: unknown) {}\n}"
+        },
+        "patterns-tabs--overflow": {
+          "id": "patterns-tabs--overflow",
+          "name": "Overflow",
+          "snippet": "import { Component } from '@angular/core';\nimport { TabListComponent } from './tab-list.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TabListComponent],\n  template: `\n    <dma-tab-list aria-label=\"Character sheet\" [(selected)]=\"selected\">\n        <button dma-tab [panel]=\"overview\">Overview</button>\n        <button dma-tab [panel]=\"stats\">Stats</button>\n        <button dma-tab [panel]=\"spells\">Spells</button>\n        @if (moreTabs) {\n        <button dma-tab [panel]=\"inventory\">Inventory</button>\n        <button dma-tab [panel]=\"features\">Features</button>\n        }\n        <button dma-tab [panel]=\"notes\">Notes</button>\n    </dma-tab-list>\n    <dma-tab-panel #overview>\n        <p>The class, level, and background of the character.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #stats>\n        <p>The six ability scores and their modifiers.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #spells>\n        <p>The spells the character knows, by level.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #inventory>\n        <p>What the character carries.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #features>\n        <p>The class features of the character.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #notes>\n        <p>Whatever the player wants to remember.</p>\n    </dma-tab-panel>`,\n})\nexport class DemoComponent {\n  selected = 0;\n  moreTabs = true;\n  selectedChange(event: unknown) {}\n}",
+          "description": "Tabs too wide for their container: the tab list scrolls sideways, and shows a scroll button at each end that has more\ntabs. A click on one scrolls the next tab into view. Set `selected` to a tab past the edge, such as 4 for Features, and\nthe list scrolls it fully into view, as it does for a click on a tab or a key. Turn off `moreTabs` to remove two tabs,\nso the rest fit and the buttons hide."
+        },
+        "patterns-tabs--hover": {
+          "id": "patterns-tabs--hover",
+          "name": "Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { TabListComponent } from './tab-list.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TabListComponent],\n  template: `\n    <dma-tab-list aria-label=\"Character sheet\" [(selected)]=\"selected\">\n        <button dma-tab [panel]=\"overview\">Overview</button>\n        <button dma-tab [panel]=\"stats\">Stats</button>\n        <button dma-tab [panel]=\"spells\">Spells</button>\n        <button dma-tab [panel]=\"notes\">Notes</button>\n    </dma-tab-list>\n    <dma-tab-panel #overview>\n        <p>The class, level, and background of the character.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #stats>\n        <p>The six ability scores and their modifiers.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #spells>\n        <p>The spells the character knows, by level.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #notes>\n        <p>Whatever the player wants to remember.</p>\n    </dma-tab-panel>`,\n})\nexport class DemoComponent {\n  selected = 0;\n  selectedChange(event: unknown) {}\n}",
+          "description": "The pointer over Stats: the tab fills its box, and its label turns to the default color."
+        },
+        "patterns-tabs--focus": {
+          "id": "patterns-tabs--focus",
+          "name": "Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { TabListComponent } from './tab-list.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TabListComponent],\n  template: `\n    <dma-tab-list aria-label=\"Character sheet\" [(selected)]=\"selected\">\n        <button dma-tab [panel]=\"overview\">Overview</button>\n        <button dma-tab [panel]=\"stats\">Stats</button>\n        <button dma-tab [panel]=\"spells\">Spells</button>\n        <button dma-tab [panel]=\"notes\">Notes</button>\n    </dma-tab-list>\n    <dma-tab-panel #overview>\n        <p>The class, level, and background of the character.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #stats>\n        <p>The six ability scores and their modifiers.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #spells>\n        <p>The spells the character knows, by level.</p>\n    </dma-tab-panel>\n    <dma-tab-panel #notes>\n        <p>Whatever the player wants to remember.</p>\n    </dma-tab-panel>`,\n})\nexport class DemoComponent {\n  selected = 0;\n  selectedChange(event: unknown) {}\n}",
+          "description": "Keyboard focus on the selected tab: the focus ring outside the tab, which keeps its selected look."
+        }
+      }
+    }
+  }
+}

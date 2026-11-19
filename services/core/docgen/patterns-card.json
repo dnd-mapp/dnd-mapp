@@ -1,0 +1,42 @@
+{
+  "components": {
+    "patterns-card": {
+      "id": "patterns-card",
+      "name": "CardComponent",
+      "path": "./src/components/card/card.stories.ts",
+      "description": "A block of related content, alone or in a grid: a title, text, chips, and an action, each projected. The heading is\nthe title, the `<p>` the text, each `<dma-chip>` a chip, and the `<a>` the action, so whoever places it picks the\nheading level. The card draws them in that order, whatever their order in the source. A card is not a control, so it\ntakes no focus and emits nothing.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {
+        "background": {
+          "name": "background",
+          "type": {
+            "name": "enum",
+            "value": [
+              "surface",
+              "raised"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "CardBackground"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type CardComponentInputs = {\n  background?: CardBackground;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "CardComponent",
+        "selector": "dma-card",
+        "standalone": true,
+        "inputs": [
+          "background"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

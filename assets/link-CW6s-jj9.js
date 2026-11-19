@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-vtgMY1y5.js";import{a as t,n}from"./link.component-wSLcnZDx.js";function init_link(){return(init_link=e((()=>{n(),t()})))()}export{init_link as t};

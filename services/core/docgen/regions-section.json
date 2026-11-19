@@ -1,0 +1,42 @@
+{
+  "components": {
+    "regions-section": {
+      "id": "regions-section",
+      "name": "SectionComponent",
+      "path": "./src/components/section/section.stories.ts",
+      "description": "A full-width band of a page, drawn on the `<section>` it is placed on. It projects its content, such as a Section\nintro and what follows it, into a column at most the content width wide, centered in the band, and stacks it with\nthe section gap. Its padding and gap follow the Viewport tokens, so it needs no input for the viewport.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {
+        "background": {
+          "name": "background",
+          "type": {
+            "name": "enum",
+            "value": [
+              "surface",
+              "page"
+            ]
+          },
+          "table": {
+            "category": "inputs",
+            "type": {
+              "summary": "SectionBackground"
+            },
+            "defaultValue": {}
+          }
+        }
+      },
+      "apiDescription": "## Inputs\n\n```\nexport type SectionComponentInputs = {\n  background?: SectionBackground;\n}\n```",
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "SectionComponent",
+        "selector": "section[dma-section]",
+        "standalone": true,
+        "inputs": [
+          "background"
+        ],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

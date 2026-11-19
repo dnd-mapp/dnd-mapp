@@ -1,0 +1,21 @@
+{
+  "components": {
+    "patterns-link-group": {
+      "id": "patterns-link-group",
+      "name": "LinkGroupComponent",
+      "path": "./src/components/link-group/link-group.stories.ts",
+      "description": "A titled list of related links, such as a column of the footer. Whoever places it projects a heading and one `<li>`\nper link, and the link group puts the items in a list of its own, so the links always reach assistive technology as\na list. The heading keeps the level its consumer picks.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "LinkGroupComponent",
+        "selector": "dma-link-group",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "components": {
+    "regions-text-page": {
+      "id": "regions-text-page",
+      "name": "TextPageComponent",
+      "path": "./src/components/text-page/text-page.stories.ts",
+      "stories": {
+        "regions-text-page--desktop": {
+          "id": "regions-text-page--desktop",
+          "name": "Desktop",
+          "snippet": "import { Component } from '@angular/core';\nimport { TextPageComponent } from './text-page.component';\nimport { LinkComponent } from '../link';\nimport { OnThisPageComponent, OnThisPageLinkComponent } from '../on-this-page';\nimport { SummaryComponent, SummaryTitleComponent } from '../summary';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TextPageComponent, LinkComponent, OnThisPageComponent, OnThisPageLinkComponent, SummaryComponent, SummaryTitleComponent],\n  template: `<article dma-text-page></article>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: ``<article dma-text-page>${HEADER}${PROSE}</article>`` could not be resolved statically.",
+          "description": "The article from the desktop breakpoint up, with its title, date, and prose."
+        },
+        "regions-text-page--mobile": {
+          "id": "regions-text-page--mobile",
+          "name": "Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { TextPageComponent } from './text-page.component';\nimport { LinkComponent } from '../link';\nimport { OnThisPageComponent, OnThisPageLinkComponent } from '../on-this-page';\nimport { SummaryComponent, SummaryTitleComponent } from '../summary';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TextPageComponent, LinkComponent, OnThisPageComponent, OnThisPageLinkComponent, SummaryComponent, SummaryTitleComponent],\n  template: `<article dma-text-page></article>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: ``<article dma-text-page>${HEADER}${PROSE}</article>`` could not be resolved statically.",
+          "description": "The article below the desktop breakpoint, with the smaller title and section headings. The docs page shows the story\nin an iframe narrower than the breakpoint."
+        },
+        "regions-text-page--summary-and-on-this-page": {
+          "id": "regions-text-page--summary-and-on-this-page",
+          "name": "Summary And On This Page",
+          "snippet": "import { Component } from '@angular/core';\nimport { TextPageComponent } from './text-page.component';\nimport { LinkComponent } from '../link';\nimport { OnThisPageComponent, OnThisPageLinkComponent } from '../on-this-page';\nimport { SummaryComponent, SummaryTitleComponent } from '../summary';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TextPageComponent, LinkComponent, OnThisPageComponent, OnThisPageLinkComponent, SummaryComponent, SummaryTitleComponent],\n  template: `<article dma-text-page></article>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: ``<article dma-text-page>${HEADER}${NAV}${SUMMARY}${PROSE}</article>`` could not be resolved statically.",
+          "description": "The article with On this page and a Summary, from the desktop breakpoint up. The nav takes a column of its own beside\nthe rest, and sticks while the article scrolls."
+        },
+        "regions-text-page--summary-and-on-this-page-mobile": {
+          "id": "regions-text-page--summary-and-on-this-page-mobile",
+          "name": "Summary And On This Page Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { TextPageComponent } from './text-page.component';\nimport { LinkComponent } from '../link';\nimport { OnThisPageComponent, OnThisPageLinkComponent } from '../on-this-page';\nimport { SummaryComponent, SummaryTitleComponent } from '../summary';\n\n@Component({\n  selector: 'app-demo',\n  imports: [TextPageComponent, LinkComponent, OnThisPageComponent, OnThisPageLinkComponent, SummaryComponent, SummaryTitleComponent],\n  template: `<article dma-text-page></article>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: ``<article dma-text-page>${HEADER}${NAV}${SUMMARY}${PROSE}</article>`` could not be resolved statically.",
+          "description": "The article with On this page and a Summary, below the desktop breakpoint. The nav sits under the title block, in a\nclosed Disclosure, and the Summary under the nav."
+        }
+      }
+    }
+  }
+}

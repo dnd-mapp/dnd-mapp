@@ -1,0 +1,21 @@
+{
+  "components": {
+    "patterns-facts-list": {
+      "id": "patterns-facts-list",
+      "name": "FactsListComponent",
+      "path": "./src/components/facts-list/facts-list.stories.ts",
+      "description": "Pairs of a term and a value, drawn on the `<dl>` it is placed on. Each pair is a `<div>` that projects a `<dt>` and a\n`<dd>`. From the desktop breakpoint up, each term sits beside its value; below it, above its value.\n\nThe styles reach the projected children, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "FactsListComponent",
+        "selector": "dl[dma-facts-list]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

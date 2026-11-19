@@ -1,0 +1,35 @@
+{
+  "components": {
+    "regions-section": {
+      "id": "regions-section",
+      "name": "SectionComponent",
+      "path": "./src/components/section/section.stories.ts",
+      "stories": {
+        "regions-section--page": {
+          "id": "regions-section--page",
+          "name": "Page",
+          "snippet": "import { Component } from '@angular/core';\nimport { SectionComponent } from './section.component';\nimport { SectionIntroComponent } from '../section-intro';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SectionComponent, SectionIntroComponent],\n  template: `\n    <section\n        dma-section\n        [background]=\"background\"\n        aria-labelledby=\"section-heading\">\n        <hgroup dma-section-intro>\n            <p>Eyebrow</p>\n            <h2 id=\"section-heading\">Section heading</h2>\n            <p>\n                One or two sentences that say what this section covers and why it matters to the reader.\n            </p>\n        </hgroup>\n        <div class=\"slot\">Section content</div>\n    </section>`,\n})\nexport class DemoComponent {\n  background = 'page';\n}",
+          "description": "A section on the page background, from the desktop breakpoint up."
+        },
+        "regions-section--surface": {
+          "id": "regions-section--surface",
+          "name": "Surface",
+          "snippet": "import { Component } from '@angular/core';\nimport { SectionComponent } from './section.component';\nimport { SectionIntroComponent } from '../section-intro';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SectionComponent, SectionIntroComponent],\n  template: `\n    <section\n        dma-section\n        [background]=\"background\"\n        aria-labelledby=\"section-heading\">\n        <hgroup dma-section-intro>\n            <p>Eyebrow</p>\n            <h2 id=\"section-heading\">Section heading</h2>\n            <p>\n                One or two sentences that say what this section covers and why it matters to the reader.\n            </p>\n        </hgroup>\n        <div class=\"slot\">Section content</div>\n    </section>`,\n})\nexport class DemoComponent {\n  background = 'surface';\n}",
+          "description": "A section on the surface background, from the desktop breakpoint up."
+        },
+        "regions-section--page-mobile": {
+          "id": "regions-section--page-mobile",
+          "name": "Page Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { SectionComponent } from './section.component';\nimport { SectionIntroComponent } from '../section-intro';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SectionComponent, SectionIntroComponent],\n  template: `\n    <section\n        dma-section\n        [background]=\"background\"\n        aria-labelledby=\"section-heading\">\n        <hgroup dma-section-intro>\n            <p>Eyebrow</p>\n            <h2 id=\"section-heading\">Section heading</h2>\n            <p>\n                One or two sentences that say what this section covers and why it matters to the reader.\n            </p>\n        </hgroup>\n        <div class=\"slot\">Section content</div>\n    </section>`,\n})\nexport class DemoComponent {\n  background = 'page';\n}",
+          "description": "A section on the page background, with the smaller padding and gap below the desktop breakpoint. The docs page shows\nthe story in an iframe narrower than the breakpoint."
+        },
+        "regions-section--surface-mobile": {
+          "id": "regions-section--surface-mobile",
+          "name": "Surface Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { SectionComponent } from './section.component';\nimport { SectionIntroComponent } from '../section-intro';\n\n@Component({\n  selector: 'app-demo',\n  imports: [SectionComponent, SectionIntroComponent],\n  template: `\n    <section\n        dma-section\n        [background]=\"background\"\n        aria-labelledby=\"section-heading\">\n        <hgroup dma-section-intro>\n            <p>Eyebrow</p>\n            <h2 id=\"section-heading\">Section heading</h2>\n            <p>\n                One or two sentences that say what this section covers and why it matters to the reader.\n            </p>\n        </hgroup>\n        <div class=\"slot\">Section content</div>\n    </section>`,\n})\nexport class DemoComponent {\n  background = 'surface';\n}",
+          "description": "A section on the surface background, below the desktop breakpoint."
+        }
+      }
+    }
+  }
+}

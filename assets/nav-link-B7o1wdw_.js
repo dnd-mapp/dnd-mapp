@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-vtgMY1y5.js";import{a as t,n}from"./nav-link.component-vrSCSt3S.js";function init_nav_link(){return(init_nav_link=e((()=>{n(),t()})))()}export{init_nav_link as t};

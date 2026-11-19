@@ -1,0 +1,21 @@
+{
+  "components": {
+    "patterns-disclosure": {
+      "id": "patterns-disclosure",
+      "name": "DisclosureComponent",
+      "path": "./src/components/disclosure/disclosure.stories.ts",
+      "description": "Content that opens on demand, such as the answer to a question, drawn on the `<details>` it is placed on. The\ncomponent renders the `<summary>`, which projects the element marked `dma-disclosure-summary` as its label, and\nprojects the rest of the content into the panel. The browser opens and closes it, and its `open` attribute and\n`toggle` event are the state and the event of the disclosure.\n\nThe styles reach the projected content of the panel, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "DisclosureComponent",
+        "selector": "details[dma-disclosure]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+import{n as e}from"./rolldown-runtime-vtgMY1y5.js";import{C as t,E as n,H as r,R as i,j as a,mt as o,pt as s}from"./angular-platform-e5VfW5pO.js";import{a as c,n as l,t as u}from"./button.component-C24ZEmEz.js";import{d}from"./icon-sun.component-DF1-h-2U.js";import{t as f}from"./icon-C-gfMzhi.js";import{t as p}from"./theme-picker-C3D1BOT2.js";import{t as m}from"./theme-picker.component-Bk-ZepiW.js";var h;function init_vite_plugin_angular_raw_L2hvbWUvcnVubmVyL3dvcmsvY3JpdHNvdXJjZS9jcml0c291cmNlL3BhY2thZ2VzL3VpL3dlYi9zcmMvY29tcG9uZW50cy9oZWFkZXIvaGVhZGVyLmNvbXBvbmVudC5odG1s(){return(init_vite_plugin_angular_raw_L2hvbWUvcnVubmVyL3dvcmsvY3JpdHNvdXJjZS9jcml0c291cmNlL3BhY2thZ2VzL3VpL3dlYi9zcmMvY29tcG9uZW50cy9oZWFkZXIvaGVhZGVyLmNvbXBvbmVudC5odG1s=e((()=>{h=`<div class="start">
+    <ng-content />
+    <nav aria-label="Main">
+        <ng-content select="a[dma-nav-link]" />
+    </nav>
+</div>
+<div class="end">
+    <ng-content select="a[dma-button]" />
+    <fieldset dma-theme-picker display="icons"></fieldset>
+    <!-- Mobile menu is a modal <dialog>, so the Menu button tells assistive technology that it opens one. -->
+    <button dma-button type="button" kind="quiet" class="menu" aria-haspopup="dialog" (click)="pressMenu($event)">
+        <dma-icon-menu />
+        Menu
+    </button>
+</div>
+`})))()}var g;function init_header_component(){return(init_header_component=e((()=>{g=`header[dma-header]{box-sizing:border-box;padding:var(--space-12) var(--space-page-inline) calc(var(--space-12) - var(--border-width-default));border-block-end:var(--border-width-default) solid var(--color-border-divider);background:var(--color-background-page);justify-content:space-between;align-items:center;display:flex}header[dma-header]>.start{align-items:center;gap:var(--space-32);display:flex}header[dma-header]>.start>nav{gap:var(--space-4);display:flex}header[dma-header]>.end{align-items:center;gap:var(--space-12);display:flex}header[dma-header]>.start>a{border-radius:var(--radius-xs);text-decoration:none;display:flex}header[dma-header]>.start>a:focus-visible{outline:var(--border-width-focus) solid var(--color-focus-ring);outline-offset:var(--focus-offset)}@media (width<64em){header[dma-header]>.start>nav,header[dma-header]>.end>a[dma-button],header[dma-header]>.end>fieldset[dma-theme-picker]{display:none}}@media (width>=64em){header[dma-header]>.end>.menu{display:none}}`})))()}function init_button(){return(init_button=e((()=>{l(),c()})))()}var _;function init_header_component$1(){return(init_header_component$1=e((()=>{o(),init_vite_plugin_angular_raw_L2hvbWUvcnVubmVyL3dvcmsvY3JpdHNvdXJjZS9jcml0c291cmNlL3BhY2thZ2VzL3VpL3dlYi9zcmMvY29tcG9uZW50cy9oZWFkZXIvaGVhZGVyLmNvbXBvbmVudC5odG1s(),init_header_component(),t(),init_button(),f(),p(),_=class HeaderComponent{menuPressed=n();pressMenu(e){e.currentTarget instanceof HTMLElement&&e.currentTarget.focus(),this.menuPressed.emit()}static propDecorators={menuPressed:[{type:i,args:[`menuPressed`]}]}},_=s([a({selector:`header[dma-header]`,template:h,encapsulation:r.None,imports:[u,d,m],styles:[g]})],_)})))()}export{init_header_component$1 as n,init_button as r,_ as t};

@@ -1,0 +1,32 @@
+{
+  "components": {
+    "elements-chip": {
+      "id": "elements-chip",
+      "name": "ChipComponent",
+      "path": "./src/components/chip/chip.stories.ts",
+      "stories": {
+        "elements-chip--neutral": {
+          "id": "elements-chip--neutral",
+          "name": "Neutral",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `<dma-chip [kind]=\"kind\">{{ label }}</dma-chip>`,\n})\nexport class DemoComponent {\n  kind = 'neutral';\n  label = 'Label';\n}"
+        },
+        "elements-chip--status": {
+          "id": "elements-chip--status",
+          "name": "Status",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `<dma-chip [kind]=\"kind\">{{ label }}</dma-chip>`,\n})\nexport class DemoComponent {\n  kind = 'status';\n  label = 'Planned';\n}"
+        },
+        "elements-chip--dm": {
+          "id": "elements-chip--dm",
+          "name": "Dm",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `<dma-chip [kind]=\"kind\">{{ label }}</dma-chip>`,\n})\nexport class DemoComponent {\n  kind = 'dm';\n  label = 'DM';\n}"
+        },
+        "elements-chip--examples": {
+          "id": "elements-chip--examples",
+          "name": "Examples",
+          "snippet": "import { Component } from '@angular/core';\nimport { ChipComponent } from './chip.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [ChipComponent],\n  template: `\n    <div style=\"display: flex; flex-wrap: wrap; gap: var(--space-8)\">\n        <dma-chip kind=\"status\">Planned</dma-chip>\n        <dma-chip kind=\"status\">Concept</dma-chip>\n        <dma-chip kind=\"dm\">DM</dma-chip>\n        <dma-chip>Poisoned</dma-chip>\n        <dma-chip>Prone</dma-chip>\n        <dma-chip>Spreadsheets</dma-chip>\n    </div>`,\n})\nexport class DemoComponent {}",
+          "description": "Chips in a row, as Card holds them."
+        }
+      }
+    }
+  }
+}

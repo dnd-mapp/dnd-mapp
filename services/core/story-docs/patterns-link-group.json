@@ -1,0 +1,17 @@
+{
+  "components": {
+    "patterns-link-group": {
+      "id": "patterns-link-group",
+      "name": "LinkGroupComponent",
+      "path": "./src/components/link-group/link-group.stories.ts",
+      "stories": {
+        "patterns-link-group--default": {
+          "id": "patterns-link-group--default",
+          "name": "Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { LinkGroupComponent } from './link-group.component';\nimport { LinkComponent } from '../link';\n\n@Component({\n  selector: 'app-demo',\n  imports: [LinkGroupComponent, LinkComponent],\n  template: `\n    <dma-link-group>\n        <h2>{{ heading }}</h2>\n        @for (link of links; track $index) {\n        <li>\n            <a dma-link kind=\"quiet\" href=\"#\">{{ link }}</a>\n        </li>\n        }\n    </dma-link-group>`,\n})\nexport class DemoComponent {\n  heading = 'Group title';\n  links = ['Link 1', 'Link 2', 'Link 3', 'Link 4'];\n}",
+          "description": "The link group as Penpot draws it, with the same placeholder text."
+        }
+      }
+    }
+  }
+}

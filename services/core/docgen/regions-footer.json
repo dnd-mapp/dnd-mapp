@@ -1,0 +1,21 @@
+{
+  "components": {
+    "regions-footer": {
+      "id": "regions-footer",
+      "name": "FooterComponent",
+      "path": "./src/components/footer/footer.stories.ts",
+      "description": "The bottom of every page, drawn on the `<footer>` it is placed on. Whoever places it projects the columns of links,\none `<nav>` around a Link group each. The brand, the license line, the SRD 5.1 attribution, the unofficial notice,\nand the Theme picker are built in, since every page shows them the same, and the license of the SRD 5.1 requires the\nattribution.\n\nThe styles reach the options of the Theme picker, which emulated encapsulation leaves out, so the component turns\nencapsulation off and scopes every rule to its own selector instead.",
+      "jsDocTags": {},
+      "argTypes": {},
+      "renderer": "angular",
+      "angularComponentMeta": {
+        "name": "FooterComponent",
+        "selector": "footer[dma-footer]",
+        "standalone": true,
+        "inputs": [],
+        "outputs": [],
+        "enums": []
+      }
+    }
+  }
+}

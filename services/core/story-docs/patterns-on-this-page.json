@@ -1,0 +1,62 @@
+{
+  "components": {
+    "patterns-on-this-page": {
+      "id": "patterns-on-this-page",
+      "name": "OnThisPageLinkComponent",
+      "path": "./src/components/on-this-page/on-this-page.stories.ts",
+      "stories": {
+        "patterns-on-this-page--link-default": {
+          "id": "patterns-on-this-page--link-default",
+          "name": "Link Default",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <div style=\"width: 240px\">\n        <a\n            dma-on-this-page-link\n            [attr.aria-current]=\"current ? 'location' : null\"\n            href=\"#section-heading\">\n            {{ label }}\n        </a>\n    </div>`,\n})\nexport class DemoComponent {\n  label = 'Section heading';\n  current = false;\n}"
+        },
+        "patterns-on-this-page--link-hover": {
+          "id": "patterns-on-this-page--link-hover",
+          "name": "Link Hover",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <div style=\"width: 240px\">\n        <a\n            dma-on-this-page-link\n            [attr.aria-current]=\"current ? 'location' : null\"\n            href=\"#section-heading\">\n            {{ label }}\n        </a>\n    </div>`,\n})\nexport class DemoComponent {\n  label = 'Section heading';\n  current = false;\n}"
+        },
+        "patterns-on-this-page--link-focus": {
+          "id": "patterns-on-this-page--link-focus",
+          "name": "Link Focus",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <div style=\"width: 240px\">\n        <a\n            dma-on-this-page-link\n            [attr.aria-current]=\"current ? 'location' : null\"\n            href=\"#section-heading\">\n            {{ label }}\n        </a>\n    </div>`,\n})\nexport class DemoComponent {\n  label = 'Section heading';\n  current = false;\n}"
+        },
+        "patterns-on-this-page--link-current": {
+          "id": "patterns-on-this-page--link-current",
+          "name": "Link Current",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <div style=\"width: 240px\">\n        <a\n            dma-on-this-page-link\n            [attr.aria-current]=\"current ? 'location' : null\"\n            href=\"#section-heading\">\n            {{ label }}\n        </a>\n    </div>`,\n})\nexport class DemoComponent {\n  label = 'Section heading';\n  current = true;\n}"
+        },
+        "patterns-on-this-page--links": {
+          "id": "patterns-on-this-page--links",
+          "name": "Links",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <div style=\"width: 240px\">\n        <a\n            dma-on-this-page-link\n            aria-current=\"location\"\n            href=\"#who-is-responsible\">\n            Who is responsible\n        </a>\n        <a dma-on-this-page-link href=\"#what-we-process\">What we process</a>\n        <a dma-on-this-page-link href=\"#what-we-dont-do\">What we don’t do</a>\n        <a dma-on-this-page-link href=\"#who-else-sees-it\">Who else sees it</a>\n        <a dma-on-this-page-link href=\"#your-rights\">Your rights</a>\n        <a\n            dma-on-this-page-link\n            href=\"#changes-to-this-statement\">\n            Changes to this statement\n        </a>\n    </div>`,\n})\nexport class DemoComponent {}",
+          "description": "The links of the Privacy page stacked as On this page lists them, with the first section in view."
+        },
+        "patterns-on-this-page--desktop": {
+          "id": "patterns-on-this-page--desktop",
+          "name": "Desktop",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <nav dma-on-this-page style=\"width: 240px\">\n        <li>\n            <a\n                dma-on-this-page-link\n                aria-current=\"location\"\n                href=\"#who-is-responsible\">\n                Who is responsible\n            </a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#what-we-process\">What we process</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#what-we-dont-do\">What we don’t do</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#who-else-sees-it\">Who else sees it</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#your-rights\">Your rights</a>\n        </li>\n        <li>\n            <a\n                dma-on-this-page-link\n                href=\"#changes-to-this-statement\">\n                Changes to this statement\n            </a>\n        </li>\n    </nav>`,\n})\nexport class DemoComponent {}",
+          "description": "On this page on Desktop, as Penpot draws it, with the first section in view, from the desktop breakpoint up. The page\nhas no headings for its links, so the nav leaves the marked link as it is."
+        },
+        "patterns-on-this-page--mobile-closed": {
+          "id": "patterns-on-this-page--mobile-closed",
+          "name": "Mobile Closed",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <nav dma-on-this-page>\n        <li>\n            <a\n                dma-on-this-page-link\n                aria-current=\"location\"\n                href=\"#who-is-responsible\">\n                Who is responsible\n            </a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#what-we-process\">What we process</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#what-we-dont-do\">What we don’t do</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#who-else-sees-it\">Who else sees it</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#your-rights\">Your rights</a>\n        </li>\n        <li>\n            <a\n                dma-on-this-page-link\n                href=\"#changes-to-this-statement\">\n                Changes to this statement\n            </a>\n        </li>\n    </nav>`,\n})\nexport class DemoComponent {}",
+          "description": "On this page on Mobile, as Penpot draws it: a closed Disclosure that fills the width of the page, below the desktop\nbreakpoint. The docs page shows the story in an iframe narrower than the breakpoint."
+        },
+        "patterns-on-this-page--mobile-open": {
+          "id": "patterns-on-this-page--mobile-open",
+          "name": "Mobile Open",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <nav dma-on-this-page>\n        <li>\n            <a\n                dma-on-this-page-link\n                aria-current=\"location\"\n                href=\"#who-is-responsible\">\n                Who is responsible\n            </a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#what-we-process\">What we process</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#what-we-dont-do\">What we don’t do</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#who-else-sees-it\">Who else sees it</a>\n        </li>\n        <li>\n            <a dma-on-this-page-link href=\"#your-rights\">Your rights</a>\n        </li>\n        <li>\n            <a\n                dma-on-this-page-link\n                href=\"#changes-to-this-statement\">\n                Changes to this statement\n            </a>\n        </li>\n    </nav>`,\n})\nexport class DemoComponent {}",
+          "description": "On this page on Mobile with its panel open, as the reader opens it with a click on the summary."
+        },
+        "patterns-on-this-page--article": {
+          "id": "patterns-on-this-page--article",
+          "name": "Article",
+          "snippet": "import { Component } from '@angular/core';\nimport { OnThisPageLinkComponent } from './on-this-page-link.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [OnThisPageLinkComponent],\n  template: `\n    <div\n        style=\"display: grid; grid-template-columns: 240px minmax(0, 60ch); gap: var(--space-48)\">\n        <nav dma-on-this-page>\n            @for (section of sections; track section.id) {\n            <li>\n                <a\n                    dma-on-this-page-link\n                    [href]=\"'#' + section.id\">\n                    {{ section.heading }}\n                </a>\n            </li>\n            }\n        </nav>\n        <article>\n            @for (section of sections; track section.id) {\n            <h2 [id]=\"section.id\">{{ section.heading }}</h2>\n            @for (paragraph of paragraphs; track paragraph) {\n            <p>\n                A paragraph of {{ section.heading }}. The article runs long enough that the page scrolls\n                                    past each of its sections, so the mark in the nav follows the reader down the page.\n            </p>\n            }\n                        }\n        </article>\n    </div>`,\n})\nexport class DemoComponent {}",
+          "warning": "Incomplete snippet: `sections`, `paragraphs` could not be provided, since the story declares no such arg.",
+          "description": "On this page beside a long article on Desktop, as the Privacy page places it. As the article scrolls, the nav sticks\nand marks the section whose heading has reached the top third of the viewport."
+        }
+      }
+    }
+  }
+}

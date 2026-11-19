@@ -1,0 +1,23 @@
+{
+  "components": {
+    "patterns-facts-list": {
+      "id": "patterns-facts-list",
+      "name": "FactsListComponent",
+      "path": "./src/components/facts-list/facts-list.stories.ts",
+      "stories": {
+        "patterns-facts-list--desktop": {
+          "id": "patterns-facts-list--desktop",
+          "name": "Desktop",
+          "snippet": "import { Component } from '@angular/core';\nimport { FactsListComponent } from './facts-list.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [FactsListComponent],\n  template: `\n    <div class=\"column\">\n        <dl dma-facts-list>\n            <div>\n                <dt>Standard</dt>\n                <dd>WCAG 2.2, level AA</dd>\n            </div>\n            <div>\n                <dt>Status</dt>\n                <dd>Partially conformant</dd>\n            </div>\n            <div>\n                <dt>Last checked</dt>\n                <dd>November 11, 2026</dd>\n            </div>\n            <div>\n                <dt>Method</dt>\n                <dd>Our own checks; no outside audit yet</dd>\n            </div>\n        </dl>\n    </div>`,\n})\nexport class DemoComponent {}",
+          "description": "Each term sits beside its value, from the desktop breakpoint up."
+        },
+        "patterns-facts-list--mobile": {
+          "id": "patterns-facts-list--mobile",
+          "name": "Mobile",
+          "snippet": "import { Component } from '@angular/core';\nimport { FactsListComponent } from './facts-list.component';\n\n@Component({\n  selector: 'app-demo',\n  imports: [FactsListComponent],\n  template: `\n    <div class=\"column\">\n        <dl dma-facts-list>\n            <div>\n                <dt>Standard</dt>\n                <dd>WCAG 2.2, level AA</dd>\n            </div>\n            <div>\n                <dt>Status</dt>\n                <dd>Partially conformant</dd>\n            </div>\n            <div>\n                <dt>Last checked</dt>\n                <dd>November 11, 2026</dd>\n            </div>\n            <div>\n                <dt>Method</dt>\n                <dd>Our own checks; no outside audit yet</dd>\n            </div>\n        </dl>\n    </div>`,\n})\nexport class DemoComponent {}",
+          "description": "Each term stacks above its value, below the desktop breakpoint. The docs page shows the story in an iframe narrower\nthan the breakpoint."
+        }
+      }
+    }
+  }
+}
