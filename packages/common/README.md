@@ -16,19 +16,19 @@ inputs:
       group: "sources"
 ```
 
-The sources import each other with the `.ts` extension, as Node.js requires, so the `node` and `angular` presets of [`@dnd-mapp/config-typescript`](../config-typescript/README.md) both allow it.
+The sources import each other with the `.ts` extension, as Node.js requires, so the `node` and `angular` presets of [`@critsource/config-typescript`](../config-typescript/README.md) both allow it.
 
 ## Helpers
 
-| Helper              | Does                                                                                                     |
-|:--------------------|:---------------------------------------------------------------------------------------------------------|
-| `tryCatch(promise)` | Awaits `promise`, and resolves to its value or to the reason it rejected with, never rejecting.          |
-| `tryCatchSync(fn)`  | Calls `fn`, and returns its value or the error it threw, never throwing. Pass a promise to `tryCatch`.   |
+| Helper              | Does                                                                                                   |
+|:--------------------|:-------------------------------------------------------------------------------------------------------|
+| `tryCatch(promise)` | Awaits `promise`, and resolves to its value or to the reason it rejected with, never rejecting.        |
+| `tryCatchSync(fn)`  | Calls `fn`, and returns its value or the error it threw, never throwing. Pass a promise to `tryCatch`. |
 
 Both return a `Result<T>`, which is either a `Success<T>`, `{ ok: true, value }`, or a `Failure`, `{ ok: false, error }`. The package exports all three types. Check `ok` to tell the two apart, since JavaScript can throw any value, `undefined` included. The `error` is `unknown` for the same reason. The helpers keep the variable `const` and the happy path flat where a `let` above a `try` block would otherwise take the value:
 
 ```ts
-import { tryCatch } from '@dnd-mapp/common';
+import { tryCatch } from '@critsource/common';
 
 const read = await tryCatch(readFile(path, 'utf8'));
 
@@ -44,10 +44,10 @@ const text = read.value;
 
 | Task        | Command                                                                                                   | Runs in CI | Cached |
 |:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
-| `test`      | `vitest`                                                                                                  |     no     |   no   |
-| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
-| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
+| `test`      | `vitest`                                                                                                  | no         | no     |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     | yes        | yes    |
+| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` | yes        | yes    |
+| `lint`      | `eslint . --max-warnings 0`                                                                               | yes        | yes    |
 
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 
@@ -65,7 +65,7 @@ Both test tasks collect coverage into `coverage/` and fail when statements, bran
 
 The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes.
 
-Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
+Check the types, and lint the sources with the `typescript` preset of [`@critsource/config-eslint`](../config-eslint/README.md):
 
 ```bash
 pnpm moon run common:typecheck

@@ -7,14 +7,14 @@ The TypeScript config presets that the projects of D&D Mapp extend, so each `tsc
 Add the package to the `devDependencies` of a project:
 
 ```json
-"@dnd-mapp/config-typescript": "workspace:*"
+"@critsource/config-typescript": "workspace:*"
 ```
 
 Extend a preset from the project's `tsconfig.json`. An Angular app or module also extends [`tsconfig.base.json`](../../tsconfig.base.json), which maps each module to its sources, as [Architecture](../../docs/architecture.md#modules-compile-from-source) explains. The `tsconfig.json` of an Angular module in `packages/<domain>/web` extends both, and references a tsconfig for each kind of file:
 
 ```json
 {
-    "extends": ["@dnd-mapp/config-typescript/angular.json", "../../../tsconfig.base.json"],
+    "extends": ["@critsource/config-typescript/angular.json", "../../../tsconfig.base.json"],
     "references": [
         { "path": "./tsconfig.lib.json" },
         { "path": "./tsconfig.spec.json" },
@@ -38,7 +38,7 @@ inputs:
 | Preset                         | Extends                  | For                                                                                                                                                                                                                               |
 |:-------------------------------|:-------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | [`base.json`](base.json)       |                          | The strict compiler options and the `es2025` target and lib.                                                                                                                                                                      |
-| [`angular.json`](angular.json) | [`base.json`](base.json) | Angular apps and modules, such as `web`, `core-web`, and `ui-web`: adds the DOM lib, decorators, the strict options of the Angular compiler, and the `.ts` extension in relative imports, which `@dnd-mapp/common` uses.          |
+| [`angular.json`](angular.json) | [`base.json`](base.json) | Angular apps and modules, such as `web`, `core-web`, and `ui-web`: adds the DOM lib, decorators, the strict options of the Angular compiler, and the `.ts` extension in relative imports, which `@critsource/common` uses.        |
 | [`node.json`](node.json)       | [`base.json`](base.json) | Code that runs in Node.js, such as the packages for the whole workspace, end-to-end tests, and the config files of every project: adds the Node.js types and allows the `.ts` extension in relative imports, as Node.js requires. |
 
 ### Options that shape the code

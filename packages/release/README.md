@@ -1,12 +1,12 @@
 # Release CLI
 
-The `release` CLI bumps, verifies, and lints the `CHANGELOG.md` of a project in [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format, sets the version in its `package.json`, and writes the notes of a release. It works in any repository: a pnpm, npm, or Yarn workspace, or a repository with one package. Node.js runs it from source through type stripping, and [`eslint.config.ts`](eslint.config.ts) applies the `typescript` preset and the `tsdoc` config of [`@dnd-mapp/config-eslint`](../config-eslint/README.md).
+The `release` CLI bumps, verifies, and lints the `CHANGELOG.md` of a project in [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format, sets the version in its `package.json`, and writes the notes of a release. It works in any repository: a pnpm, npm, or Yarn workspace, or a repository with one package. Node.js runs it from source through type stripping, and [`eslint.config.ts`](eslint.config.ts) applies the `typescript` preset and the `tsdoc` config of [`@critsource/config-eslint`](../config-eslint/README.md).
 
 [Releasing](../../docs/releasing.md) walks a maintainer through a release. The [`Release pull request`](../../.github/workflows/release-pull-request.yaml) workflow runs `verify` and `bump`, the [`Release`](../../.github/workflows/release.yaml) workflow runs `verify <version>` and `notes`, and the `lint-changelog` task runs `lint` in CI.
 
 ## Using the package
 
-Each project with a `CHANGELOG.md` inherits the `lint-changelog` task of [`.moon/tasks/changelog.yml`](../../.moon/tasks/changelog.yml), which runs `release lint` in CI whenever the changelog or the CLI changes. moon accepts task inputs from direct dependencies only, so such a project lists `@dnd-mapp/release` in its `devDependencies`, as [`apps/web/package.json`](../../apps/web/package.json) does.
+Each project with a `CHANGELOG.md` inherits the `lint-changelog` task of [`.moon/tasks/changelog.yml`](../../.moon/tasks/changelog.yml), which runs `release lint` in CI whenever the changelog or the CLI changes. moon accepts task inputs from direct dependencies only, so such a project lists `@critsource/release` in its `devDependencies`, as [`apps/web/package.json`](../../apps/web/package.json) does.
 
 Run the CLI in the folder of the package to release. The root `package.json` depends on the package, and `pnpm exec` finds it from any folder of the workspace:
 
@@ -66,7 +66,7 @@ It then writes the changelog and `package.json`, and keeps the line endings and 
 
 ## Tags and compare links
 
-A package at the root of the git repository tags its releases `v<version>`. A package below the root tags them `<name>@v<version>`, with the `name` in its `package.json` without the scope, such as `web@v1.2.0` for `@dnd-mapp/web`. Two packages whose names differ only in the scope would share their tags, so give each package a name of its own.
+A package at the root of the git repository tags its releases `v<version>`. A package below the root tags them `<name>@v<version>`, with the `name` in its `package.json` without the scope, such as `web@v1.2.0` for `@critsource/web`. Two packages whose names differ only in the scope would share their tags, so give each package a name of its own.
 
 The compare links of the changelog point at these tags, in the repository that the `repository` field of the project's `package.json` names. That field takes a URL or the `github:` shorthand, and the links follow the URLs of GitHub. Each command fails when the field is missing, or when a package below the root has no `name`.
 
@@ -80,7 +80,7 @@ A changelog with releases needs one link reference definition per heading: `unre
 
 ## Testing
 
-The tests of the commands run against projects in the file system mock of [`@dnd-mapp/testing-node`](../testing-node/README.md), with fakes for git and the clock. The tests in [`src/adapters`](src/adapters) run the git mock of the same package. Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
+The tests of the commands run against projects in the file system mock of [`@critsource/testing-node`](../testing-node/README.md), with fakes for git and the clock. The tests in [`src/adapters`](src/adapters) run the git mock of the same package. Both test tasks collect coverage into `coverage/` and fail when statements, branches, functions, or lines drop below 80%.
 
 ## Tasks
 
@@ -88,10 +88,10 @@ The tests of the commands run against projects in the file system mock of [`@dnd
 
 | Task        | Command                                                                                                   | Runs in CI | Cached |
 |:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
-| `test`      | `vitest`                                                                                                  |     no     |   no   |
-| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
-| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
+| `test`      | `vitest`                                                                                                  | no         | no     |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     | yes        | yes    |
+| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` | yes        | yes    |
+| `lint`      | `eslint . --max-warnings 0`                                                                               | yes        | yes    |
 
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 

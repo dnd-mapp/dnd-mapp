@@ -8,19 +8,19 @@ The design tokens of D&D Mapp, which the [design system](../../docs/design.md) i
 
 Add the package to the `dependencies` of a project. It exports the four files below. `build` generates the CSS files and the Sass partial, and the repository commits them, so a project reads them without running the task:
 
-| Export                                     | Holds                                                                      |
-|:-------------------------------------------|:---------------------------------------------------------------------------|
-| `@dnd-mapp/design-tokens/tokens.css`       | The CSS custom properties of the tokens, as [The CSS](#the-css) describes. |
-| `@dnd-mapp/design-tokens/fonts.css`        | The `@font-face` rules of the fonts, as [The fonts](#the-fonts) describes. |
-| `@dnd-mapp/design-tokens/breakpoints.scss` | The desktop breakpoint, as the Sass variable `$breakpoint-desktop`.        |
-| `@dnd-mapp/design-tokens/breakpoints`      | The desktop breakpoint, as the constant `desktopBreakpoint`, for a script. |
+| Export                                       | Holds                                                                      |
+|:---------------------------------------------|:---------------------------------------------------------------------------|
+| `@critsource/design-tokens/tokens.css`       | The CSS custom properties of the tokens, as [The CSS](#the-css) describes. |
+| `@critsource/design-tokens/fonts.css`        | The `@font-face` rules of the fonts, as [The fonts](#the-fonts) describes. |
+| `@critsource/design-tokens/breakpoints.scss` | The desktop breakpoint, as the Sass variable `$breakpoint-desktop`.        |
+| `@critsource/design-tokens/breakpoints`      | The desktop breakpoint, as the constant `desktopBreakpoint`, for a script. |
 
 An Angular project loads both CSS files for the whole page through the `styles` option of each builder in `angular.json` that renders it, as [`apps/web/angular.json`](../../apps/web/angular.json) does for `build` and [`packages/ui/web/angular.json`](../ui/web/angular.json) for Storybook:
 
 ```json
 "styles": [
-    "@dnd-mapp/design-tokens/fonts.css",
-    "@dnd-mapp/design-tokens/tokens.css",
+    "@critsource/design-tokens/fonts.css",
+    "@critsource/design-tokens/tokens.css",
     "src/styles.scss"
 ]
 ```
@@ -28,7 +28,7 @@ An Angular project loads both CSS files for the whole page through the `styles` 
 A component then reads a token through `var()`, such as `var(--color-background-page)`, and uses the semantic tokens only, as [Design tokens](../../docs/design.md#design-tokens) asks. No custom property can appear in a media query, so a component whose styles change at the desktop breakpoint imports the Sass partial instead, as [`button.component.scss`](../ui/web/src/components/button/button.component.scss) does:
 
 ```scss
-@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+@use '@critsource/design-tokens/breakpoints.scss' as breakpoints;
 
 @media (min-width: breakpoints.$breakpoint-desktop) {
     :host {
@@ -40,7 +40,7 @@ A component then reads a token through `var()`, such as `var(--color-background-
 A script that follows the breakpoint imports the constant instead, which Node.js and the Angular build read from the TypeScript source:
 
 ```ts
-import { desktopBreakpoint } from '@dnd-mapp/design-tokens/breakpoints';
+import { desktopBreakpoint } from '@critsource/design-tokens/breakpoints';
 
 const desktop = matchMedia(`(min-width: ${desktopBreakpoint})`);
 ```
@@ -79,12 +79,12 @@ Each token becomes a variable named after its path in kebab case, with no prefix
 
 | Task        | Command                                                                                                   | Runs in CI | Cached |
 |:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
-| `build`     | `node src/main.ts`                                                                                        |     no     |  yes   |
-| `check`     | `node src/main.ts --check`                                                                                |    yes     |  yes   |
-| `test`      | `vitest`                                                                                                  |     no     |   no   |
-| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
-| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
+| `build`     | `node src/main.ts`                                                                                        | no         | yes    |
+| `check`     | `node src/main.ts --check`                                                                                | yes        | yes    |
+| `test`      | `vitest`                                                                                                  | no         | no     |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     | yes        | yes    |
+| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` | yes        | yes    |
+| `lint`      | `eslint . --max-warnings 0`                                                                               | yes        | yes    |
 
 Generate the files that the package exports. Run it after each export, each change to the fonts or the breakpoint, and each update of a Fontsource package, and commit the files it writes:
 
@@ -114,7 +114,7 @@ Run the unit tests once, as CI does. Both test tasks collect coverage into `cove
 pnpm moon run design-tokens:test-ci
 ```
 
-The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes. The `lint` task lints them with the `typescript` preset and the `tsdoc` config of [`@dnd-mapp/config-eslint`](../config-eslint/README.md). `moon.yml` adds the `sources` group of `common` to the inputs of both, since the build script imports the helpers and the type-aware rules read their types:
+The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes. The `lint` task lints them with the `typescript` preset and the `tsdoc` config of [`@critsource/config-eslint`](../config-eslint/README.md). `moon.yml` adds the `sources` group of `common` to the inputs of both, since the build script imports the helpers and the type-aware rules read their types:
 
 ```bash
 pnpm moon run design-tokens:typecheck

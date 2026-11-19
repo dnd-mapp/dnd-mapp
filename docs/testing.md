@@ -36,12 +36,12 @@ Both tasks collect coverage with V8, print a summary, and write an HTML report: 
 
 Two packages hold the helpers that the tests of more than one project share, one for each place the tests run:
 
-- [`@dnd-mapp/testing-node`](../packages/testing-node/README.md) mocks built-in modules of Node.js, such as `node:fs` and the git it runs through `node:child_process`, for the tests in Node.js. Tests in Chromium cannot use it.
-- `@dnd-mapp/ui-web/testing`, the `/testing` entry point of [`ui-web`](../packages/ui/web/README.md#entry-points), holds `setupTestEnvironment`, the harnesses of its components, and the other helpers of the tests in Chromium, as [Testing a component](#testing-a-component) describes.
+- [`@critsource/testing-node`](../packages/testing-node/README.md) mocks built-in modules of Node.js, such as `node:fs` and the git it runs through `node:child_process`, for the tests in Node.js. Tests in Chromium cannot use it.
+- `@critsource/ui-web/testing`, the `/testing` entry point of [`ui-web`](../packages/ui/web/README.md#entry-points), holds `setupTestEnvironment`, the harnesses of its components, and the other helpers of the tests in Chromium, as [Testing a component](#testing-a-component) describes.
 
 ## Testing a component
 
-Test each component through a host component that places it in a template, as an app does, and read the component through its [component harness](https://angular.dev/guide/testing/component-harnesses-overview) rather than through its DOM. Set up the test with `setupTestEnvironment` from `@dnd-mapp/ui-web/testing`. Given a `host` and a `harness`, it configures the testing module with the `providers` and `imports` that the test passes, creates the host, and returns its fixture, a harness loader, and the harness of the component:
+Test each component through a host component that places it in a template, as an app does, and read the component through its [component harness](https://angular.dev/guide/testing/component-harnesses-overview) rather than through its DOM. Set up the test with `setupTestEnvironment` from `@critsource/ui-web/testing`. Given a `host` and a `harness`, it configures the testing module with the `providers` and `imports` that the test passes, creates the host, and returns its fixture, a harness loader, and the harness of the component:
 
 ```ts
 @Component({
@@ -95,6 +95,6 @@ The `/testing` entry point of `ui-web` doesn't export the file. List it under `s
 "setupFiles": ["../../ui/web/testing/pointer.ts"]
 ```
 
-A project outside `ui-web` then adds `@dnd-mapp/ui-web` to its `devDependencies`, and the `sources` group of the `ui-web` project to the inputs of both test tasks.
+A project outside `ui-web` then adds `@critsource/ui-web` to its `devDependencies`, and the `sources` group of the `ui-web` project to the inputs of both test tasks.
 
 The setup file moves the pointer before the test renders anything. A test that hovers a component and then checks the default look still moves the pointer away itself.

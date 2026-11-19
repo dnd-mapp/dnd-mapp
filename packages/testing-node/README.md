@@ -8,13 +8,13 @@ Add the package to the `devDependencies` of a project, next to `vitest`, which i
 
 ## File system
 
-`@dnd-mapp/testing-node/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
+`@critsource/testing-node/file-system` mocks `node:fs` and `node:fs/promises` with one set of files in memory, so a test never touches the disk. Load it through `vi.hoisted` in the test file, then call `mockFileSystem` with the content of each file by its path:
 
 ```ts
 import { expect, it, vi } from 'vitest';
 import { readManifest } from './manifest.ts';
 
-const { mockFileSystem } = await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
+const { mockFileSystem } = await vi.hoisted(() => import('@critsource/testing-node/file-system'));
 
 it('reads the version', async () => {
     mockFileSystem({ '/repo/package.json': '{ "version": "1.0.0" }' });
@@ -35,13 +35,13 @@ Each function fails with the error that Node.js throws on Linux, with the same `
 
 ## Git
 
-`@dnd-mapp/testing-node/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
+`@critsource/testing-node/git` mocks `execFile` of `node:child_process` with a git repository in memory, so a test needs neither git nor a repository on the disk. Load it through `vi.hoisted`, as the [file system mock](#file-system), then call `mockGit` with the state of the repository:
 
 ```ts
 import { expect, it, vi } from 'vitest';
 import { listGitTags } from './git.ts';
 
-const { mockGit } = await vi.hoisted(() => import('@dnd-mapp/testing-node/git'));
+const { mockGit } = await vi.hoisted(() => import('@critsource/testing-node/git'));
 
 it('lists the version tags of a project', async () => {
     mockGit({ tags: ['web@v1.0.0', 'api@v1.0.0'] });
@@ -62,10 +62,10 @@ Run each task from the repository root.
 
 | Task        | Command                                                                                                   | Runs in CI | Cached |
 |:------------|:----------------------------------------------------------------------------------------------------------|:----------:|:------:|
-| `test`      | `vitest`                                                                                                  |     no     |   no   |
-| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     |    yes     |  yes   |
-| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`                                                                               |    yes     |  yes   |
+| `test`      | `vitest`                                                                                                  | no         | no     |
+| `test-ci`   | `vitest run --reporter dot --reporter github-actions`                                                     | yes        | yes    |
+| `typecheck` | `tsc --project tsconfig.lib.json && tsc --project tsconfig.spec.json && tsc --project tsconfig.node.json` | yes        | yes    |
+| `lint`      | `eslint . --max-warnings 0`                                                                               | yes        | yes    |
 
 Run the unit tests with [Vitest](https://vitest.dev), and rerun them when a file changes:
 
@@ -83,7 +83,7 @@ Both test tasks collect coverage into `coverage/` and fail when statements, bran
 
 The `typecheck` task checks the sources, the tests, and the config files each with its own tsconfig, as [Architecture](../../docs/architecture.md#typescript-configs) describes.
 
-Check the types, and lint the sources with the `typescript` preset of [`@dnd-mapp/config-eslint`](../config-eslint/README.md):
+Check the types, and lint the sources with the `typescript` preset of [`@critsource/config-eslint`](../config-eslint/README.md):
 
 ```bash
 pnpm moon run testing-node:typecheck

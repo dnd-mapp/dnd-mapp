@@ -1,6 +1,6 @@
 # Web UI
 
-The UI components of the [web client](../../../apps/web/README.md), which every app and module of the web platform may import. [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) records why they live in a package of their own. [`angular.json`](angular.json) configures the Angular CLI and Storybook, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@dnd-mapp/config-eslint`](../../config-eslint/README.md), which holds the rules.
+The UI components of the [web client](../../../apps/web/README.md), which every app and module of the web platform may import. [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) records why they live in a package of their own. [`angular.json`](angular.json) configures the Angular CLI and Storybook, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@critsource/config-eslint`](../../config-eslint/README.md), which holds the rules.
 
 ## What belongs here
 
@@ -16,14 +16,14 @@ A component belongs here when it is presentational: it takes its content through
 
 ## Using the package
 
-Add the package to the `dependencies` of an app or module of the web platform, and import each component from `@dnd-mapp/ui-web`. The components read the [design tokens](../../design-tokens/README.md), so the app loads `fonts.css` and `tokens.css` through the `styles` of its `angular.json`, as [`apps/web/angular.json`](../../../apps/web/angular.json) does.
+Add the package to the `dependencies` of an app or module of the web platform, and import each component from `@critsource/ui-web`. The components read the [design tokens](../../design-tokens/README.md), so the app loads `fonts.css` and `tokens.css` through the `styles` of its `angular.json`, as [`apps/web/angular.json`](../../../apps/web/angular.json) does.
 
 The `exports` of [`package.json`](package.json) point at the TypeScript sources, and each app compiles them as part of its own build, as [Architecture](../../../docs/architecture.md#modules-compile-from-source) describes. Each entry point has an `ng-package.json`, which the unit-test builder reads and which an `ng build` with ng-packagr would package as is.
 
 ## Components
 
 | Component     | Selector                                    | Variants                                                                                                                                                                              |
-| :------------ | :------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|:--------------|:--------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Button        | [`button[dma-button]`, `a[dma-button]`][bu] | `kind`: `primary`, `secondary`, or `quiet`.                                                                                                                                           |
 | Card          | [`dma-card`][ca]                            | `background`: `surface` or `raised`.                                                                                                                                                  |
 | Chip          | [`dma-chip`][ch]                            | `kind`: `neutral`, `status`, or `dm`.                                                                                                                                                 |
@@ -92,11 +92,11 @@ Each method takes a key of `StorageKey`, so a misspelled key fails to compile an
 - `set(key, value)` and `remove(key)` return whether they worked, since the browser can block storage or run out of room. None of the methods throws.
 - `watch(key, listener)` calls `listener` with the new value each time another tab changes `key`, and `null` when that tab removes it or clears the storage. It stops when the app is destroyed, or when you call the function it returns.
 
-The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md), so the inputs of the tasks below list the sources of that package.
+The methods use `tryCatchSync` from [`@critsource/common`](../../common/README.md), so the inputs of the tasks below list the sources of that package.
 
 ## Entry points
 
-`@dnd-mapp/ui-web`, from [`src/index.ts`](src/index.ts), exports the components and services:
+`@critsource/ui-web`, from [`src/index.ts`](src/index.ts), exports the components and services:
 
 | Area          | Exports                                                                                                           |
 |:--------------|:------------------------------------------------------------------------------------------------------------------|
@@ -125,7 +125,7 @@ The methods use `tryCatchSync` from [`@dnd-mapp/common`](../../common/README.md)
 | Theme         | `ThemeService`, `Theme`, `DEFAULT_THEME`, `THEME_ATTRIBUTE`, `parseTheme`                                         |
 | Storage       | `StorageService`, `StorageListener`, `StorageKey`, `BROWSER_STORAGE`                                              |
 
-`@dnd-mapp/ui-web/testing`, from [`testing/index.ts`](testing/index.ts), exports the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) and the [test helpers](#testing) for the tests of this package and the apps and modules that use it. It stays out of the production sources.
+`@critsource/ui-web/testing`, from [`testing/index.ts`](testing/index.ts), exports the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) and the [test helpers](#testing) for the tests of this package and the apps and modules that use it. It stays out of the production sources.
 
 | Area              | Exports                                                                                                                                                                                                |
 |:------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -171,12 +171,12 @@ Provide an `InMemoryStorage` through `provideBrowserStorage`, so a test leaves t
 
 | Task              | Command                                                                              | Runs in CI | Cached |
 |:------------------|:-------------------------------------------------------------------------------------|:----------:|:------:|
-| `test`            | `ng test`                                                                            |     no     |   no   |
-| `test-ci`         | `ng test -c ci`                                                                      |    yes     |  yes   |
-| `storybook`       | `ng run ui-web:storybook`                                                            |     no     |   no   |
-| `build-storybook` | `ng run ui-web:build-storybook`                                                      |    yes     |  yes   |
-| `typecheck`       | `tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit` |    yes     |  yes   |
-| `lint`            | `eslint . --max-warnings 0`                                                          |    yes     |  yes   |
+| `test`            | `ng test`                                                                            | no         | no     |
+| `test-ci`         | `ng test -c ci`                                                                      | yes        | yes    |
+| `storybook`       | `ng run ui-web:storybook`                                                            | no         | no     |
+| `build-storybook` | `ng run ui-web:build-storybook`                                                      | yes        | yes    |
+| `typecheck`       | `tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit` | yes        | yes    |
+| `lint`            | `eslint . --max-warnings 0`                                                          | yes        | yes    |
 
 Run the unit tests with [Vitest](https://vitest.dev) in headless Chromium, rerun them when a file changes, and open the Vitest UI:
 
@@ -204,7 +204,7 @@ Build the static Storybook into `dist/storybook/`. The build fails on a story th
 pnpm moon run ui-web:build-storybook
 ```
 
-Check the types of what no build checks: the config files, which `ng test` leaves out and ESLint, Vitest, and Storybook load without checking, and the components, stories, and their templates, which Storybook compiles without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../config-typescript/README.md), and `ngc` checks the templates of [`tsconfig.storybook.json`](tsconfig.storybook.json) as the app build does:
+Check the types of what no build checks: the config files, which `ng test` leaves out and ESLint, Vitest, and Storybook load without checking, and the components, stories, and their templates, which Storybook compiles without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@critsource/config-typescript`](../../config-typescript/README.md), and `ngc` checks the templates of [`tsconfig.storybook.json`](tsconfig.storybook.json) as the app build does:
 
 ```bash
 pnpm moon run ui-web:typecheck

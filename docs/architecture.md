@@ -9,7 +9,7 @@ Every project has a folder that tells its kind:
 | Folder                     | Holds                                                                    | Example                                               |
 |:---------------------------|:-------------------------------------------------------------------------|:------------------------------------------------------|
 | `apps/<platform>`          | An app, which holds only what makes it deployable.                       | [`apps/web`](../apps/web/README.md)                   |
-| `packages/<domain>/<slot>` | A module of an app, named `@dnd-mapp/<domain>-<slot>`.                   | [`packages/core/web`](../packages/core/web/README.md) |
+| `packages/<domain>/<slot>` | A module of an app, named `@critsource/<domain>-<slot>`.                 | [`packages/core/web`](../packages/core/web/README.md) |
 | `packages/<name>`          | A package for the whole workspace, such as tooling, configs, or helpers. | [`packages/common`](../packages/common/README.md)     |
 | `e2e/<platform>`           | The end-to-end tests of an app.                                          | [`e2e/web`](../e2e/web/README.md)                     |
 
@@ -40,23 +40,23 @@ moon lets a project depend on projects of a lower row in this table, and on proj
 - Domain modules never depend on the platform packages of another domain. They meet through the router of `core`, which lazy-loads them with `import()`, or through `domain` packages.
 - A package for the whole workspace depends on other packages for the whole workspace only.
 - The end-to-end tests of an app declare the app in their `package.json`, so the project graph shows which app they test, but never import it. Their code depends on packages for the whole workspace only.
-- Any project may also depend on the packages for the whole workspace, such as the helpers of [`@dnd-mapp/common`](../packages/common/README.md).
+- Any project may also depend on the packages for the whole workspace, such as the helpers of [`@critsource/common`](../packages/common/README.md).
 
 Two checks enforce these rules, and [ADR 0003](adr/0003-moon-tasks-and-dependency-rules.md) records why each layer exists and what it catches:
 
 - **moon.** Tag each project in its `moon.yml` with the platform it runs on, such as `web` or `server`, with `domain` for a `domain` package, or with `tooling` for the root project and the packages of the whole workspace. Under `constraints.tagRelationships`, [`.moon/workspace.yml`](../.moon/workspace.yml) lets a platform project depend on projects of its own platform, `domain`, and `tooling`, a `domain` package on `domain` and `tooling` projects, and a `tooling` project on `tooling` projects only. moon fails to build its project graph on any other dependency, including one on a project without a tag, so every `moon` command reports it. Add a tag to `tagRelationships` along with the first project of a new platform. moon also checks the `layer` of each project by default, through [`enforceLayerRelationships`](https://moonrepo.dev/docs/config/workspace#enforcelayerrelationships), as the [layer table](#projects) describes.
-- **ESLint.** moon reads dependencies from `package.json` only, while the path aliases let a project import any module. Every preset of [`@dnd-mapp/config-eslint`](../packages/config-eslint/README.md) applies a rule that fails the `lint` task on an import that breaks the rules above, and on an import of a project that the project's `package.json` does not declare. Its README explains how the rule sorts each file.
+- **ESLint.** moon reads dependencies from `package.json` only, while the path aliases let a project import any module. Every preset of [`@critsource/config-eslint`](../packages/config-eslint/README.md) applies a rule that fails the `lint` task on an import that breaks the rules above, and on an import of a project that the project's `package.json` does not declare. Its README explains how the rule sorts each file.
 
 ## Modules compile from source
 
-The `exports` of a module's `package.json` point at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The TypeScript packages for the whole workspace, such as `@dnd-mapp/common`, do the same, and Node.js runs them through type stripping. [ADR 0004](adr/0004-modules-compile-from-source.md) records why, and what it costs.
+The `exports` of a module's `package.json` point at its TypeScript sources, so the app compiles the module in its own build and the module needs no build of its own. The TypeScript packages for the whole workspace, such as `@critsource/common`, do the same, and Node.js runs them through type stripping. [ADR 0004](adr/0004-modules-compile-from-source.md) records why, and what it costs.
 
 A project extends [`tsconfig.base.json`](../tsconfig.base.json) at the root of the repository when its build compiles the workspace modules it imports. Today those are the Angular apps and modules, since the Angular compiler skips the files that TypeScript resolves through `node_modules`. The file maps each TypeScript export of every module, and of every package for the whole workspace in the `library` layer, to its sources with a `paths` entry, whether or not a project imports it yet. A project that Node.js runs through type stripping resolves the packages of the workspace through their `exports` instead, and does not extend the file. The file holds nothing but `paths`, so a project lists it in `extends` next to its preset, as [`apps/web/tsconfig.json`](../apps/web/tsconfig.json) does. Keep `paths` out of the `tsconfig.json` of a project, since it would replace the shared map rather than add to it.
 
 To use a package of the workspace, add it to the `dependencies` of the project, or to its `devDependencies` for tooling and test helpers:
 
 ```json
-"@dnd-mapp/common": "workspace:*"
+"@critsource/common": "workspace:*"
 ```
 
 moon hashes the inputs of a project's own tasks only, so a change to the package would rerun none of the tasks that compile it. Add the package to the inputs of each such task, as a project input with the package's `sources` group:
@@ -69,13 +69,13 @@ inputs:
 
 ## TypeScript configs
 
-Extend a preset of [`@dnd-mapp/config-typescript`](../packages/config-typescript/README.md) from the `tsconfig.json` of a new TypeScript project, and add `@group(configs)` to the inputs of its tasks, as the package README explains. Without that group, a change to a preset reruns none of the project's tasks.
+Extend a preset of [`@critsource/config-typescript`](../packages/config-typescript/README.md) from the `tsconfig.json` of a new TypeScript project, and add `@group(configs)` to the inputs of its tasks, as the package README explains. Without that group, a change to a preset reruns none of the project's tasks.
 
 The `typecheck` task of a project checks what its build or test runner leaves unchecked:
 
 - A package with Vitest tests checks its sources, its tests, and its config files, each with its own tsconfig: `tsconfig.lib.json`, `tsconfig.spec.json`, and `tsconfig.node.json`. Only the tests then see the Vitest globals that its `vitest.config.ts` turns on.
 - An Angular project checks its config files and scripts with `tsconfig.node.json`, since `ng build` and `ng test` leave them out, and ESLint, Vitest, and Node.js load them without checking.
-- Any other project checks all of its files with its `tsconfig.json`, such as the Playwright tests of `e2e/web` and the presets of `@dnd-mapp/config-eslint`, which Playwright and ESLint load without checking.
+- Any other project checks all of its files with its `tsconfig.json`, such as the Playwright tests of `e2e/web` and the presets of `@critsource/config-eslint`, which Playwright and ESLint load without checking.
 
 ## Tasks and file groups
 
