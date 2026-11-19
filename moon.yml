@@ -59,7 +59,7 @@ tasks:
     ssl-certs:
         # mkcert creates no missing folders, so .ssl/.gitkeep keeps the folder in the repository. The script lists each host,
         # since a wildcard matches one label only, and adding a host changes the script, which invalidates the cache.
-        script: mkcert -cert-file .ssl/cert.pem -key-file .ssl/key.pem localhost.www.dndmapp.dev localhost 127.0.0.1
+        script: mkcert -cert-file .ssl/cert.pem -key-file .ssl/key.pem localhost.www.critsource.com localhost 127.0.0.1
         # The certificate depends on no files, only on the hosts in the script.
         inputs: []
         outputs:

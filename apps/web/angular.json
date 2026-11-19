@@ -86,7 +86,7 @@
                 "serve": {
                     "builder": "@angular/build:dev-server",
                     "options": {
-                        "allowedHosts": ["localhost.www.dndmapp.dev"],
+                        "allowedHosts": ["localhost.www.critsource.com"],
                         "buildTarget": "web:build:development",
                         "host": "127.0.0.1",
                         "port": 4200,

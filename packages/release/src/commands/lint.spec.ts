@@ -158,7 +158,7 @@ describe('release lint', () => {
         });
 
         it('fails on any other link reference definition', async () => {
-            const result = await lint(`${releasedChangelog}[docs]: https://dndmapp.dev\n`);
+            const result = await lint(`${releasedChangelog}[docs]: https://critsource.com\n`);
 
             expect(result.stderr).toContain(':26: unexpected link reference definition [docs]');
         });
