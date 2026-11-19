@@ -173,6 +173,15 @@ describe('HeaderComponent', () => {
             expect(host.presses).toBe(1);
         });
 
+        // `pressMenu()` moves no focus, like a click in Safari, which doesn't focus a button it clicks.
+        it('should focus the Menu button when the reader presses it', async () => {
+            const { harness } = await setupTest();
+
+            await harness.pressMenu();
+
+            await expect.element(page.getByRole('button', { name: 'Menu', exact: true })).toHaveFocus();
+        });
+
         it.each(['{Enter}', ' '])(
             'should emit menuPressed when the reader presses %s on the Menu button',
             async (key) => {
