@@ -157,14 +157,14 @@ async function declare(sets: TokenSets, names: readonly string[], declared: read
         expand: { include: ['typography'], typesMap: expandTypesMap },
         log: { verbosity: 'silent', warnings: 'error' },
         hooks: {
-            transforms: { 'dnd-mapp/size/pxToRem': pxToRem, 'dnd-mapp/font/stack': fontStackTransform },
-            formats: { 'dnd-mapp/declarations': (args) => formatDeclarations(args, sets, names, declared) },
+            transforms: { 'critsource/size/pxToRem': pxToRem, 'critsource/font/stack': fontStackTransform },
+            formats: { 'critsource/declarations': (args) => formatDeclarations(args, sets, names, declared) },
         },
         platforms: {
             css: {
                 transformGroup: 'tokens-studio',
-                transforms: ['name/kebab', 'dnd-mapp/size/pxToRem', 'dnd-mapp/font/stack'],
-                files: [{ destination: 'tokens.css', format: 'dnd-mapp/declarations' }],
+                transforms: ['name/kebab', 'critsource/size/pxToRem', 'critsource/font/stack'],
+                files: [{ destination: 'tokens.css', format: 'critsource/declarations' }],
             },
         },
     });
