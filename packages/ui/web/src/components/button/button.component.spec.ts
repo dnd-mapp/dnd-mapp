@@ -5,7 +5,7 @@ import { page, userEvent } from 'vitest/browser';
 import { ButtonComponent } from './button.component';
 import { ButtonKind } from './button.types';
 import { IconArrowRightComponent, IconCloseComponent, IconPlusComponent } from '../icon';
-import { ButtonHarness, type ButtonLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { ButtonHarness, type ButtonLook, readColorToken, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 

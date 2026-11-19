@@ -40,7 +40,7 @@ The menu is a modal dialog, so the browser does most of the work:
 - While the menu is open, the page behind is inert: Tab moves between the links and buttons of the menu only. The page behind stops scrolling too, and a scroll inside the menu stops at its edge.
 - Close and Escape close the menu, and the browser returns focus to the element that had it before the menu opened, the Menu button.
 
-The menu also closes itself when the window grows to the desktop breakpoint, since Header shows its desktop nav from there, and the page behind is usable again. The native `close` event fires then too. The menu reads the breakpoint from `@dnd-mapp/design-tokens/breakpoints` and watches it in the browser only, so prerendering leaves it alone.
+The menu also closes itself when the window grows to the desktop breakpoint, since Header shows its desktop nav from there, and the page behind is usable again. The native `close` event fires then too. The menu reads the breakpoint from `@critsource/design-tokens/breakpoints` and watches it in the browser only, so prerendering leaves it alone.
 
 ## Accessibility
 
@@ -52,4 +52,4 @@ The Theme picker is a group named "Theme" by its legend. The visible Theme title
 
 ## Testing
 
-`MobileMenuHarness` from `@dnd-mapp/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. For the body, it reads the `NavLinkHarness` of each row, the `ButtonHarness` of the GitHub button, the `ThemePickerHarness`, the look of the divider and the Theme title, and where each part sits in the menu. `pressClose()` presses the Close button.
+`MobileMenuHarness` from `@critsource/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. For the body, it reads the `NavLinkHarness` of each row, the `ButtonHarness` of the GitHub button, the `ThemePickerHarness`, the look of the divider and the Theme title, and where each part sits in the menu. `pressClose()` presses the Close button.

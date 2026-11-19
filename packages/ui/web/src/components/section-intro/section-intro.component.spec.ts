@@ -8,7 +8,7 @@ import {
     SectionIntroHarness,
     type SectionIntroPart,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 /** Makes the container wider than the measure of `tokens.css`, 720 px, so the width test can tell the two apart. */
 const CONTAINER = `

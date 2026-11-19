@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { ChipComponent } from './chip.component';
 import { ChipKind } from './chip.types';
-import { ChipHarness, type ChipLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { ChipHarness, type ChipLook, readColorToken, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 

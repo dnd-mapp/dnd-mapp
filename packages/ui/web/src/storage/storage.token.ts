@@ -1,6 +1,6 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { inject, InjectionToken, PLATFORM_ID } from '@angular/core';
-import { tryCatchSync } from '@dnd-mapp/common';
+import { tryCatchSync } from '@critsource/common';
 
 /**
  * The storage that `StorageService` reads and writes: `localStorage` by default. It is `null` during prerendering, and

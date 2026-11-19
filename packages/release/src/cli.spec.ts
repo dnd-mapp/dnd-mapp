@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { releasedChangelog } from './testing/changelogs.ts';
 import { createFixture, repositoryField } from './testing/fixture.ts';
 
-await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
+await vi.hoisted(() => import('@critsource/testing-node/file-system'));
 
 describe('release', () => {
     it.each([
@@ -124,7 +124,7 @@ describe('release', () => {
 
     describe('the repository field', () => {
         it('fails when package.json has none', async () => {
-            const fixture = createFixture({ changelog: releasedChangelog, manifest: '{ "name": "@dnd-mapp/web" }' });
+            const fixture = createFixture({ changelog: releasedChangelog, manifest: '{ "name": "@critsource/web" }' });
 
             const result = await fixture.run('lint');
 
@@ -137,7 +137,7 @@ describe('release', () => {
         it('fails when it holds no URL of a git repository', async () => {
             const fixture = createFixture({
                 changelog: releasedChangelog,
-                manifest: '{ "name": "@dnd-mapp/web", "repository": "gitlab:critsource/critsource" }',
+                manifest: '{ "name": "@critsource/web", "repository": "gitlab:critsource/critsource" }',
             });
 
             const result = await fixture.run('lint');

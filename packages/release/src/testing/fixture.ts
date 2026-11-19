@@ -1,12 +1,12 @@
 import { readFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
-import { type Files, mockFileSystem } from '@dnd-mapp/testing-node/file-system';
+import { type Files, mockFileSystem } from '@critsource/testing-node/file-system';
 import { run } from '../cli.ts';
 
 /** The files, tags, and clock of a fixture. Each option has a default, so a test sets only those it depends on. */
 export interface FixtureOptions {
     /**
-     * Whether the project is the package at the root of the repository, rather than the package `@dnd-mapp/<project>`
+     * Whether the project is the package at the root of the repository, rather than the package `@critsource/<project>`
      * in `apps/<project>`.
      */
     atRoot?: boolean;
@@ -58,14 +58,14 @@ export const repositoryField = { type: 'git', url: 'git+https://github.com/crits
 
 /**
  * Sets up a repository with a project in the mocked file system, with fakes for git and the clock. Load the mock in the
- * test file first, with `await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'))`. Without it, the modules that
+ * test file first, with `await vi.hoisted(() => import('@critsource/testing-node/file-system'))`. Without it, the modules that
  * import `node:fs` before the mock loads keep the real one, so the test reads from `/repo` on the real disk and fails.
  */
 export function createFixture(options: FixtureOptions = {}): Fixture {
     const project = options.project ?? 'web';
     const atRoot = options.atRoot ?? false;
     const cwd = atRoot ? repositoryRoot : join(repositoryRoot, 'apps', project);
-    const name = atRoot ? project : `@dnd-mapp/${project}`;
+    const name = atRoot ? project : `@critsource/${project}`;
     const manifest =
         options.manifest ??
         `${JSON.stringify({ name, version: options.version ?? '0.0.0', repository: repositoryField }, null, 2)}\n`;

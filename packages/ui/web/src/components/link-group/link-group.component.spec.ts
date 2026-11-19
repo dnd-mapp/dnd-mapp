@@ -2,7 +2,7 @@ import { Component, type Type } from '@angular/core';
 import { page } from 'vitest/browser';
 import { LinkGroupComponent } from './link-group.component';
 import { LinkComponent } from '../link';
-import { LinkGroupHarness, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { LinkGroupHarness, readColorToken, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 /** Makes the container wider than the link group, so the width test can tell the two apart. */
 const CONTAINER = `

@@ -1,6 +1,6 @@
 import { access, readFile, writeFile } from 'node:fs/promises';
 import { basename, dirname, join, relative, resolve, sep } from 'node:path';
-import { tryCatch, tryCatchSync } from '@dnd-mapp/common';
+import { tryCatch, tryCatchSync } from '@critsource/common';
 import { type Changelog, parseChangelog } from './changelog.ts';
 import { ReleaseError } from './errors.ts';
 import { repositoryUrl } from './repository.ts';
@@ -105,7 +105,7 @@ function displayPath(from: string, path: string): string {
     return relative(from, path).split(sep).join('/');
 }
 
-/** The name of a package without its scope, such as `web` for `@dnd-mapp/web`. */
+/** The name of a package without its scope, such as `web` for `@critsource/web`. */
 function unscopedName(name: string): string {
     return name.replace(/^@[^/]+\//, '');
 }

@@ -29,12 +29,12 @@ function undeclaredPackages(projectRoot: string): string {
         ...packageJson.dependencies,
         ...packageJson.devDependencies,
         ...packageJson.peerDependencies,
-    }).filter((name) => name.startsWith('@dnd-mapp/'));
+    }).filter((name) => name.startsWith('@critsource/'));
 
     if (declared.length === 0) {
         return '**';
     }
-    // Each package adds its root and its subpaths, such as `@dnd-mapp/core-web/testing`, so the braces always hold at
+    // Each package adds its root and its subpaths, such as `@critsource/core-web/testing`, so the braces always hold at
     // least two patterns.
     return `!{${declared.flatMap((name) => [name, `${name}/**`]).join(',')}}`;
 }

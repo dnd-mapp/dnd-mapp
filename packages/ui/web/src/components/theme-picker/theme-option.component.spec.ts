@@ -10,7 +10,7 @@ import {
     setupTestEnvironment,
     ThemeOptionHarness,
     type ThemeOptionLook,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 

@@ -1,6 +1,6 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
-import { tryCatch } from '@dnd-mapp/common';
+import { tryCatch } from '@critsource/common';
 import { buildBreakpoints } from './breakpoints.ts';
 import { buildCss } from './build.ts';
 import { checkFile } from './check.ts';

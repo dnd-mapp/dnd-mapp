@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-mapp/core-web",
+  "name": "@critsource/core-web",
   "version": "0.0.0",
   "description": "The core of the D&D Mapp web client: the root component, the app config, and the routes.",
   "private": true,
@@ -24,13 +24,13 @@
     "tslib": "catalog:angular"
   },
   "devDependencies": {
-    "@dnd-mapp/config-eslint": "workspace:*",
+    "@critsource/config-eslint": "workspace:*",
     "@angular/build": "catalog:angular",
     "@angular/cli": "catalog:angular",
     "@angular/compiler": "catalog:angular",
     "@angular/compiler-cli": "catalog:angular",
-    "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/ui-web": "workspace:*",
+    "@critsource/config-typescript": "workspace:*",
+    "@critsource/ui-web": "workspace:*",
     "@types/node": "catalog:node",
     "@vitest/browser-playwright": "catalog:vitest",
     "@vitest/coverage-v8": "catalog:vitest",

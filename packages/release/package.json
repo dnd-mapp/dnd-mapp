@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-mapp/release",
+  "name": "@critsource/release",
   "version": "0.0.0",
   "description": "The release CLI of D&D Mapp, which bumps, verifies, and lints the changelogs and manifests of the projects.",
   "private": true,
@@ -14,12 +14,12 @@
     "release": "./src/main.ts"
   },
   "dependencies": {
-    "@dnd-mapp/common": "workspace:*"
+    "@critsource/common": "workspace:*"
   },
   "devDependencies": {
-    "@dnd-mapp/config-eslint": "workspace:*",
-    "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/testing-node": "workspace:*",
+    "@critsource/config-eslint": "workspace:*",
+    "@critsource/config-typescript": "workspace:*",
+    "@critsource/testing-node": "workspace:*",
     "@types/node": "catalog:node",
     "@vitest/coverage-v8": "catalog:vitest",
     "eslint": "catalog:eslint",

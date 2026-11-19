@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-mapp/testing-node",
+  "name": "@critsource/testing-node",
   "version": "0.0.0",
   "description": "Test helpers for the Node projects of D&D Mapp, such as in-memory mocks of the file system and git for Vitest.",
   "private": true,
@@ -18,8 +18,8 @@
     "vitest": "catalog:vitest"
   },
   "devDependencies": {
-    "@dnd-mapp/config-eslint": "workspace:*",
-    "@dnd-mapp/config-typescript": "workspace:*",
+    "@critsource/config-eslint": "workspace:*",
+    "@critsource/config-typescript": "workspace:*",
     "@types/node": "catalog:node",
     "@vitest/coverage-v8": "catalog:vitest",
     "eslint": "catalog:eslint",
