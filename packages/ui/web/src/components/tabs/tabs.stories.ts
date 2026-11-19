@@ -48,8 +48,9 @@ export const Default: Story = {
 
 /**
  * Tabs too wide for their container: the tab list scrolls sideways, and shows a scroll button at each end that has more
- * tabs. A click on one, or a key, scrolls the next tab into view. Turn off `moreTabs` to remove two tabs, so the rest
- * fit and the buttons hide.
+ * tabs. A click on one scrolls the next tab into view. Set `selected` to a tab past the edge, such as 4 for Features, and
+ * the list scrolls it fully into view, as it does for a click on a tab or a key. Turn off `moreTabs` to remove two tabs,
+ * so the rest fit and the buttons hide.
  */
 export const Overflow: StoryObj<TabListComponent & { moreTabs: boolean }> = {
     args: { selected: 0, moreTabs: true },
