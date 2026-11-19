@@ -1,6 +1,8 @@
 export { IconArrowDownComponent } from './icon-arrow-down.component';
 export { IconArrowRightComponent } from './icon-arrow-right.component';
 export { IconCheckComponent } from './icon-check.component';
+export { IconChevronLeftComponent } from './icon-chevron-left.component';
+export { IconChevronRightComponent } from './icon-chevron-right.component';
 export { IconCloseComponent } from './icon-close.component';
 export { IconExternalComponent } from './icon-external.component';
 export { IconGithubComponent } from './icon-github.component';

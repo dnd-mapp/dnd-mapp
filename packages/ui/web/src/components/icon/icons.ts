@@ -2,6 +2,8 @@ import type { Type } from '@angular/core';
 import { IconArrowDownComponent } from './icon-arrow-down.component';
 import { IconArrowRightComponent } from './icon-arrow-right.component';
 import { IconCheckComponent } from './icon-check.component';
+import { IconChevronLeftComponent } from './icon-chevron-left.component';
+import { IconChevronRightComponent } from './icon-chevron-right.component';
 import { IconCloseComponent } from './icon-close.component';
 import { IconExternalComponent } from './icon-external.component';
 import { IconGithubComponent } from './icon-github.component';
@@ -21,6 +23,8 @@ export const ICONS: Record<string, Type<unknown>> = {
     'close': IconCloseComponent,
     'arrow-right': IconArrowRightComponent,
     'arrow-down': IconArrowDownComponent,
+    'chevron-left': IconChevronLeftComponent,
+    'chevron-right': IconChevronRightComponent,
     'plus': IconPlusComponent,
     'minus': IconMinusComponent,
     'external': IconExternalComponent,

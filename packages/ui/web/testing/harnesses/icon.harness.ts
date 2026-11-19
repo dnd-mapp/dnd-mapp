@@ -9,6 +9,8 @@ const GLYPHS = [
     'close',
     'arrow-right',
     'arrow-down',
+    'chevron-left',
+    'chevron-right',
     'plus',
     'minus',
     'external',
