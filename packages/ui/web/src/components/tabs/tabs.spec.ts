@@ -167,6 +167,18 @@ describe('Tabs', () => {
         public readonly firstLabel = signal('Overview');
     }
 
+    /** Restores the motion preference of the browser, which a test may emulate. */
+    afterEach(async () => {
+        await preferReducedMotion(false);
+    });
+
+    /** Emulates the reader's preference for reduced motion, or drops it. */
+    async function preferReducedMotion(reduce: boolean) {
+        await cdp().send('Emulation.setEmulatedMedia', {
+            features: [{ name: 'prefers-reduced-motion', value: reduce ? 'reduce' : '' }],
+        });
+    }
+
     async function setupTest(selected?: number) {
         const { fixture, harness, harnessLoader } = await setupTestEnvironment({
             host: TestComponent,
@@ -553,6 +565,7 @@ describe('Tabs', () => {
         it('should scroll the focus ring of a tab the keys reach into view with the tab', async () => {
             const { harness } = await setupTestEnvironment({ host: OverflowTestComponent, harness: TabListHarness });
 
+            await preferReducedMotion(true);
             await userEvent.tab();
             await userEvent.keyboard('{End}');
 
@@ -565,6 +578,7 @@ describe('Tabs', () => {
 
             expect(await harness.isTabInView('Spells')).toBe(false);
 
+            await preferReducedMotion(true);
             await (await harness.getTab('Overview')).focus();
             await userEvent.keyboard('{End}');
 
@@ -696,30 +710,20 @@ describe('Tabs', () => {
         it('should scroll a tab the keys reach clear of the fades', async () => {
             const { harness } = await setupScrollTest();
 
+            await preferReducedMotion(true);
             await (await harness.getTab('Overview')).focus();
 
             for (const label of SCROLL_LABELS.slice(1)) {
                 await userEvent.keyboard('{ArrowRight}');
 
                 expect(await harness.getFocusedLabel()).toBe(label);
-                expect(await harness.isTabClear(label)).toBe(true);
+                // The fades follow the scroll a frame later.
+                await expect.poll(async () => await harness.isTabClear(label)).toBe(true);
             }
         });
     });
 
     describe('scroll buttons', () => {
-        /** Restores the motion preference of the browser, which a test may emulate. */
-        afterEach(async () => {
-            await preferReducedMotion(false);
-        });
-
-        /** Emulates the reader's preference for reduced motion, or drops it. */
-        async function preferReducedMotion(reduce: boolean) {
-            await cdp().send('Emulation.setEmulatedMedia', {
-                features: [{ name: 'prefers-reduced-motion', value: reduce ? 'reduce' : '' }],
-            });
-        }
-
         it('should show none while the tabs fit', async () => {
             const { harness } = await setupTest();
 

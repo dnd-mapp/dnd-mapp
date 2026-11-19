@@ -48,15 +48,9 @@ export class TabComponent {
         });
     }
 
-    /**
-     * Moves the focus to the tab, and scrolls the whole of it into view when the tab list scrolls. Focus alone leaves a
-     * tab that shows in part where it is.
-     */
+    /** Moves the focus to the tab without scrolling, since the tab list scrolls the selected tab into view itself. */
     public focus() {
-        const element = this.host.nativeElement;
-
-        element.focus({ preventScroll: true });
-        element.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        this.host.nativeElement.focus({ preventScroll: true });
     }
 
     protected select() {
