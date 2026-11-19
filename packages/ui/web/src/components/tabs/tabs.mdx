@@ -38,9 +38,15 @@ When the tabs do not fit, the tab list scrolls sideways. It draws no scrollbar, 
 
 A list that scrolls clips what it draws outside its box, so the tab list reaches 4 px past its container on each side, the room of the focus ring of a tab, and pads that room back. It still takes the height of a tab in the page. Leave that room unclipped around the tab list, so the focus ring shows whole.
 
+### Selected tab in view
+
+The selected tab always scrolls fully into view, clear of the fades and with the room of its focus ring: when the list starts, when the page changes `selected`, on a click, and on a key. The list scrolls the least distance that shows the tab whole, and leaves a tab that already shows whole where it is. It scrolls only itself, never the page, and leaves the focus where it was.
+
+The scroll on start is instant. Every later scroll is smooth, and instant when the reader prefers reduced motion. The list scrolls only when the selection changes, so a resize, or tabs that are added, removed, or change width, leave the tabs where they are.
+
 ### Fades
 
-The tab list fades its tabs out at each end that has more tabs past it, and draws no fade while its tabs fit. At that end, the tabs hide under the scroll button and the room of the focus ring, and fade in over the next 16 px. The fades follow the list as it scrolls, as its container resizes, and as tabs are added, removed, or change width. They leave the tabs where they are. A tab the keys reach scrolls into view clear of the fades.
+The tab list fades its tabs out at each end that has more tabs past it, and draws no fade while its tabs fit. At that end, the tabs hide under the scroll button and the room of the focus ring, and fade in over the next 16 px. The fades follow the list as it scrolls, as its container resizes, and as tabs are added, removed, or change width. They leave the tabs where they are.
 
 ### Scroll buttons
 

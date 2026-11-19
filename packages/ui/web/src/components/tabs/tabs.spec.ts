@@ -1,4 +1,4 @@
-import { ApplicationRef, Component, signal } from '@angular/core';
+import { ApplicationRef, Component, inject, InjectionToken, signal, type WritableSignal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { cdp, page, userEvent } from 'vitest/browser';
 import { TabComponent } from './tab.component';
@@ -26,6 +26,12 @@ const CONTAINER_WIDTH = 480;
 
 /** The labels of the tabs of the host whose tabs scroll, in order. */
 const SCROLL_LABELS = ['Overview', 'Stats', 'Spells', 'Inventory', 'Features', 'Notes'];
+
+/** The index of the tab the host whose tabs scroll starts on. */
+const START = new InjectionToken<number>('START', { factory: () => 0 });
+
+/** How a test changes the selection: from outside the list, with a click, or with a key. */
+type SelectionSource = 'outside' | 'click' | 'key';
 
 /**
  * The fade at an end with a scroll button, as Penpot draws it: the tabs hide under the room of the focus ring and the
@@ -103,12 +109,12 @@ describe('Tabs', () => {
 
     /**
      * Six tabs too wide for their container, which still leaves room between its ends for a tab to show whole. The
-     * container is `width` pixels wide, so a test can resize it.
+     * container is `width` pixels wide, so a test can resize it, and the list starts on the tab at `START`.
      */
     @Component({
         template: `
             <div [style.width.px]="width()">
-                <dma-tab-list aria-label="Character sheet">
+                <dma-tab-list aria-label="Character sheet" [(selected)]="selected">
                     <button dma-tab [panel]="overview">Overview</button>
                     <button dma-tab [panel]="stats">Stats</button>
                     <button dma-tab [panel]="spells">Spells</button>
@@ -128,6 +134,54 @@ describe('Tabs', () => {
     })
     class ScrollTestComponent {
         public readonly width = signal(320);
+        public readonly selected = signal(inject(START));
+    }
+
+    /**
+     * The six tabs of `ScrollTestComponent`, below the fold of a page that scrolls, after a button that can hold the
+     * focus, so a test can tell whether the tab list scrolls the page or moves the focus.
+     */
+    @Component({
+        template: `
+            <div class="page">
+                <button type="button">Elsewhere</button>
+                <div class="fold"></div>
+                <div class="container">
+                    <dma-tab-list aria-label="Character sheet" [(selected)]="selected">
+                        <button dma-tab [panel]="overview">Overview</button>
+                        <button dma-tab [panel]="stats">Stats</button>
+                        <button dma-tab [panel]="spells">Spells</button>
+                        <button dma-tab [panel]="inventory">Inventory</button>
+                        <button dma-tab [panel]="features">Features</button>
+                        <button dma-tab [panel]="notes">Notes</button>
+                    </dma-tab-list>
+                </div>
+                <dma-tab-panel #overview>The overview of the character.</dma-tab-panel>
+                <dma-tab-panel #stats>The ability scores of the character.</dma-tab-panel>
+                <dma-tab-panel #spells>The spells the character knows.</dma-tab-panel>
+                <dma-tab-panel #inventory>What the character carries.</dma-tab-panel>
+                <dma-tab-panel #features>The class features of the character.</dma-tab-panel>
+                <dma-tab-panel #notes>Whatever the player wants to remember.</dma-tab-panel>
+            </div>
+        `,
+        styles: `
+            .page {
+                height: 200px;
+                overflow: auto;
+            }
+
+            .fold {
+                height: 400px;
+            }
+
+            .container {
+                width: 320px;
+            }
+        `,
+        imports: [TabComponent, TabListComponent, TabPanelComponent],
+    })
+    class PageTestComponent {
+        public readonly selected = signal(0);
     }
 
     /**
@@ -165,6 +219,18 @@ describe('Tabs', () => {
     class ChangingTestComponent {
         public readonly more = signal(false);
         public readonly firstLabel = signal('Overview');
+    }
+
+    /** Restores the motion preference of the browser, which a test may emulate. */
+    afterEach(async () => {
+        await preferReducedMotion(false);
+    });
+
+    /** Emulates the reader's preference for reduced motion, or drops it. */
+    async function preferReducedMotion(reduce: boolean) {
+        await cdp().send('Emulation.setEmulatedMedia', {
+            features: [{ name: 'prefers-reduced-motion', value: reduce ? 'reduce' : '' }],
+        });
     }
 
     async function setupTest(selected?: number) {
@@ -553,6 +619,7 @@ describe('Tabs', () => {
         it('should scroll the focus ring of a tab the keys reach into view with the tab', async () => {
             const { harness } = await setupTestEnvironment({ host: OverflowTestComponent, harness: TabListHarness });
 
+            await preferReducedMotion(true);
             await userEvent.tab();
             await userEvent.keyboard('{End}');
 
@@ -565,6 +632,7 @@ describe('Tabs', () => {
 
             expect(await harness.isTabInView('Spells')).toBe(false);
 
+            await preferReducedMotion(true);
             await (await harness.getTab('Overview')).focus();
             await userEvent.keyboard('{End}');
 
@@ -591,6 +659,35 @@ describe('Tabs', () => {
         await expect.poll(async () => (await harness.getFade()).end).toEqual(FADE);
 
         return { fixture, harness, scroller };
+    }
+
+    /**
+     * Waits for the list to follow a change, through the frame in which the browser reports sizes and the change
+     * detection that follows it.
+     */
+    async function settle() {
+        await new Promise(requestAnimationFrame);
+        await new Promise(requestAnimationFrame);
+        await TestBed.inject(ApplicationRef).whenStable();
+    }
+
+    /** Selects the tab labeled `label` from `source`. A key reaches it from the selected tab with End. */
+    async function select(
+        fixture: { componentInstance: { selected: WritableSignal<number> } },
+        harness: TabListHarness,
+        source: SelectionSource,
+        label: string,
+    ) {
+        if (source === 'outside') {
+            fixture.componentInstance.selected.set(SCROLL_LABELS.indexOf(label));
+            await TestBed.inject(ApplicationRef).whenStable();
+        } else if (source === 'click') {
+            await (await harness.getTab(label)).click();
+        } else {
+            await (await harness.getTab((await harness.getSelectedLabel()) ?? '')).focus();
+            await userEvent.keyboard('{End}');
+            await TestBed.inject(ApplicationRef).whenStable();
+        }
     }
 
     /** Scrolls the tabs to `left`, or to the end, and waits for the list to follow. */
@@ -696,30 +793,151 @@ describe('Tabs', () => {
         it('should scroll a tab the keys reach clear of the fades', async () => {
             const { harness } = await setupScrollTest();
 
+            await preferReducedMotion(true);
             await (await harness.getTab('Overview')).focus();
 
             for (const label of SCROLL_LABELS.slice(1)) {
                 await userEvent.keyboard('{ArrowRight}');
 
                 expect(await harness.getFocusedLabel()).toBe(label);
-                expect(await harness.isTabClear(label)).toBe(true);
+                // The fades follow the scroll a frame later.
+                await expect.poll(async () => await harness.isTabClear(label)).toBe(true);
             }
         });
     });
 
-    describe('scroll buttons', () => {
-        /** Restores the motion preference of the browser, which a test may emulate. */
-        afterEach(async () => {
-            await preferReducedMotion(false);
-        });
-
-        /** Emulates the reader's preference for reduced motion, or drops it. */
-        async function preferReducedMotion(reduce: boolean) {
-            await cdp().send('Emulation.setEmulatedMedia', {
-                features: [{ name: 'prefers-reduced-motion', value: reduce ? 'reduce' : '' }],
-            });
+    describe('selected tab', () => {
+        /**
+         * The tab each source selects, out of view while the list starts at the start: a tab past the end of the list
+         * for a change from outside, the last tab for End, and for a click, the first tab that shows only in part.
+         */
+        async function findTarget(harness: TabListHarness, source: SelectionSource) {
+            switch (source) {
+                case 'outside':
+                    return 'Features';
+                case 'key':
+                    return 'Notes';
+                case 'click':
+                    return await findHiddenLabel(harness, 'start');
+            }
         }
 
+        /** The label of the first tab that shows clear of the fades and isn't selected. */
+        async function findClearLabel(harness: TabListHarness) {
+            const selected = await harness.getSelectedLabel();
+
+            for (const label of SCROLL_LABELS) {
+                if (label !== selected && (await harness.isTabClear(label))) {
+                    return label;
+                }
+            }
+            throw new Error('No tab but the selected one shows clear of the fades.');
+        }
+
+        /** Whether the tab labeled `label` shows clear of the fades, with room for its focus ring. */
+        async function isRevealed(harness: TabListHarness, label: string) {
+            return (await harness.isTabClear(label)) && (await harness.isFocusRingInView(label));
+        }
+
+        it('should start on a tab past its edge fully in view, without a smooth scroll', async () => {
+            const { harness } = await setupTestEnvironment({
+                host: ScrollTestComponent,
+                harness: TabListHarness,
+                providers: [{ provide: START, useValue: SCROLL_LABELS.indexOf('Features') }],
+            });
+
+            await settle();
+
+            expect(await harness.getSelectedLabel()).toBe('Features');
+            expect(await isRevealed(harness, 'Features')).toBe(true);
+        });
+
+        it.each<SelectionSource>(['outside', 'click', 'key'])(
+            'should scroll a tab selected by %s fully into view, smoothly',
+            async (source) => {
+                const { fixture, harness } = await setupScrollTest();
+                const label = await findTarget(harness, source);
+
+                expect(await harness.isTabClear(label)).toBe(false);
+
+                await select(fixture, harness, source, label);
+
+                expect(await harness.getSelectedLabel()).toBe(label);
+                expect(await harness.isTabClear(label)).toBe(false);
+                await expect.poll(async () => await isRevealed(harness, label)).toBe(true);
+            },
+        );
+
+        it.each<SelectionSource>(['outside', 'click', 'key'])(
+            'should scroll a tab selected by %s fully into view at once when the reader prefers reduced motion',
+            async (source) => {
+                const { fixture, harness } = await setupScrollTest();
+                const label = await findTarget(harness, source);
+
+                await preferReducedMotion(true);
+                await select(fixture, harness, source, label);
+                // The fades follow the scroll a frame later, long before a smooth scroll would end.
+                await settle();
+
+                expect(await isRevealed(harness, label)).toBe(true);
+            },
+        );
+
+        it.each<Exclude<SelectionSource, 'key'>>(['outside', 'click'])(
+            'should leave the list where it is when %s selects a tab already fully in view',
+            async (source) => {
+                const { fixture, harness, scroller } = await setupScrollTest();
+
+                await scrollTo(scroller, 100);
+                const label = await findClearLabel(harness);
+
+                await select(fixture, harness, source, label);
+                await settle();
+
+                expect(await harness.getSelectedLabel()).toBe(label);
+                expect(scroller.scrollLeft).toBe(100);
+            },
+        );
+
+        it.each<SelectionSource>(['outside', 'click', 'key'])(
+            'should neither scroll the page nor move the focus when %s selects a tab',
+            async (source) => {
+                const { fixture, harness } = await setupTestEnvironment({
+                    host: PageTestComponent,
+                    harness: TabListHarness,
+                });
+                const host = fixture.nativeElement as HTMLElement;
+                const scrollingPage = host.querySelector<HTMLElement>('.page');
+                const elsewhere = host.querySelector<HTMLElement>('button:not([dma-tab])');
+
+                if (!scrollingPage || !elsewhere) {
+                    throw new Error('The page host lacks its page or its button.');
+                }
+                await settle();
+                await preferReducedMotion(true);
+
+                if (source === 'key') {
+                    // Focusing the tab scrolls the page to it, so the page scrolls back before the key.
+                    await (await harness.getTab('Overview')).focus();
+                    scrollingPage.scrollTop = 0;
+                } else {
+                    elsewhere.focus();
+                }
+                await select(fixture, harness, source, 'Notes');
+                await settle();
+
+                expect(await harness.isTabClear('Notes')).toBe(true);
+                expect(scrollingPage.scrollTop).toBe(0);
+                if (source === 'key') {
+                    expect(await harness.getFocusedLabel()).toBe('Notes');
+                } else {
+                    expect(document.activeElement).toBe(elsewhere);
+                }
+            },
+        );
+    });
+
+    describe('scroll buttons', () => {
         it('should show none while the tabs fit', async () => {
             const { harness } = await setupTest();
 
