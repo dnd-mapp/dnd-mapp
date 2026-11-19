@@ -7,6 +7,7 @@ import { TabPanelComponent } from './tab-panel.component';
 import {
     readColorToken,
     setupTestEnvironment,
+    type TabListEdge,
     TabListHarness,
     type TabLook,
     TabPanelHarness,
@@ -27,10 +28,10 @@ const CONTAINER_WIDTH = 480;
 const SCROLL_LABELS = ['Overview', 'Stats', 'Spells', 'Inventory', 'Features', 'Notes'];
 
 /**
- * The fade at an end with more tabs past it, as Penpot draws it: the tabs hide under the room of the focus ring, and show
- * whole again 16 px past it.
+ * The fade at an end with a scroll button, as Penpot draws it: the tabs hide under the room of the focus ring and the
+ * 44 px button, and show whole again 16 px past it.
  */
-const FADE = { hide: 4, show: 4 + 16 };
+const FADE = { hide: 4 + 44, show: 4 + 44 + 16 };
 
 /**
  * How a tab looks in each state, as Penpot draws it, in the colors of the theme the test runs in. Focus keeps the look of
@@ -569,6 +570,26 @@ describe('Tabs', () => {
         return await Promise.all(tabs.map(async (tab) => (await (await tab.host()).getDimensions()).left));
     }
 
+    /** The scroll button over `edge`, which the test expects to show. */
+    async function getScrollButton(harness: TabListHarness, edge: TabListEdge) {
+        const button = await harness.getScrollButton(edge);
+
+        if (!button) {
+            throw new Error(`The tab list shows no scroll button at its ${edge}.`);
+        }
+        return button;
+    }
+
+    /** The scroll button over `edge` as a locator, to press it with a real pointer. */
+    function locateScrollButton(scroller: HTMLElement, edge: TabListEdge) {
+        const button = scroller.parentElement?.querySelector(`.scroll-button.${edge}`);
+
+        if (!button) {
+            throw new Error(`The tab list shows no scroll button at its ${edge}.`);
+        }
+        return page.elementLocator(button);
+    }
+
     describe('overflow', () => {
         it('should fade neither end while the tabs fit', async () => {
             const { harness } = await setupTest();
@@ -634,6 +655,120 @@ describe('Tabs', () => {
                 expect(await harness.getFocusedLabel()).toBe(label);
                 expect(await harness.isTabClear(label)).toBe(true);
             }
+        });
+    });
+
+    describe('scroll buttons', () => {
+        it('should show none while the tabs fit', async () => {
+            const { harness } = await setupTest();
+
+            expect(await harness.getScrollButtonEdges()).toEqual([]);
+        });
+
+        it('should show one at the end alone while the tabs start at the start', async () => {
+            const { harness } = await setupScrollTest();
+
+            expect(await harness.getScrollButtonEdges()).toEqual(['end']);
+        });
+
+        it('should show one at each end while more tabs lie past both', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 100);
+
+            expect(await harness.getScrollButtonEdges()).toEqual(['start', 'end']);
+        });
+
+        it('should show one at the start alone once the tabs reach the end', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 'end');
+
+            expect(await harness.getScrollButtonEdges()).toEqual(['start']);
+        });
+
+        it('should follow the list as its container resizes', async () => {
+            const { fixture, harness } = await setupScrollTest();
+
+            fixture.componentInstance.width.set(1000);
+
+            await expect.poll(async () => await harness.getScrollButtonEdges()).toEqual([]);
+
+            fixture.componentInstance.width.set(320);
+
+            await expect.poll(async () => await harness.getScrollButtonEdges()).toEqual(['end']);
+        });
+
+        it('should show the chevron that points the way each scrolls', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 100);
+
+            expect(await (await getScrollButton(harness, 'start')).getGlyph()).toBe('chevron-left');
+            expect(await (await getScrollButton(harness, 'end')).getGlyph()).toBe('chevron-right');
+        });
+
+        it('should stay out of the tab order and the accessibility tree', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 100);
+
+            for (const edge of ['start', 'end'] as const) {
+                const button = await getScrollButton(harness, edge);
+
+                expect(await button.getType()).toBe('button');
+                expect(await button.getTabIndex()).toBe('-1');
+                expect(await button.isHidden()).toBe(true);
+            }
+            expect(page.getByRole('button').elements()).toHaveLength(0);
+        });
+
+        it('should draw the quiet look, with no border or focus ring', async () => {
+            const { harness } = await setupScrollTest();
+
+            expect(await (await getScrollButton(harness, 'end')).getLook()).toEqual({
+                background: TRANSPARENT,
+                color: readColorToken('--color-foreground-muted'),
+                borderStyle: 'none',
+                outlineStyle: 'none',
+            });
+        });
+
+        it('should draw its hover look', async () => {
+            const { harness, scroller } = await setupScrollTest();
+            const button = locateScrollButton(scroller, 'end');
+
+            await userEvent.hover(button);
+            const look = await (await getScrollButton(harness, 'end')).getLook();
+            await userEvent.unhover(button);
+
+            expect(look).toEqual({
+                background: readColorToken('--color-background-hover'),
+                color: readColorToken('--color-foreground-default'),
+                borderStyle: 'none',
+                outlineStyle: 'none',
+            });
+        });
+
+        it('should lie over each end beside the tabs, at the minimum target size', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await scrollTo(scroller, 100);
+
+            expect(await harness.getScrollButtonBox('start')).toEqual({
+                left: 4,
+                top: 4,
+                width: 44,
+                height: 44,
+                borderRadius: '8px',
+            });
+            expect(await harness.getScrollButtonBox('end')).toEqual({
+                left: 320 + 4 - 44,
+                top: 4,
+                width: 44,
+                height: 44,
+                borderRadius: '8px',
+            });
         });
     });
 });
