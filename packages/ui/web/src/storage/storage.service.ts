@@ -1,6 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { DestroyRef, inject, Injectable } from '@angular/core';
-import { tryCatchSync } from '@dnd-mapp/common';
+import { tryCatchSync } from '@critsource/common';
 import { BROWSER_STORAGE } from './storage.token';
 import type { StorageKey } from './storage.types';
 

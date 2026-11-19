@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { FactsListComponent } from '../facts-list';
 import { SummaryComponent } from './summary.component';
 import { SummaryTitleComponent } from './summary-title.component';
-import { FactsListHarness, readColorToken, setupTestEnvironment, SummaryHarness } from '@dnd-mapp/ui-web/testing';
+import { FactsListHarness, readColorToken, setupTestEnvironment, SummaryHarness } from '@critsource/ui-web/testing';
 
 describe('SummaryComponent', () => {
     @Component({

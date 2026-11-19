@@ -1,4 +1,4 @@
-import { tryCatchSync } from '@dnd-mapp/common';
+import { tryCatchSync } from '@critsource/common';
 import { ReleaseError } from './errors.ts';
 
 /** Formats the day of `now` in an IANA time zone as YYYY-MM-DD. */

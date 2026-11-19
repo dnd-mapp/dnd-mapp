@@ -1,4 +1,4 @@
-@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+@use '@critsource/design-tokens/breakpoints.scss' as breakpoints;
 
 // The component turns encapsulation off to style its projected children, so every rule starts with its selector.
 $host: 'header[dma-header]';

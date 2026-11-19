@@ -12,7 +12,7 @@ import {
     type CardPartLook,
     readColorToken,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 /** How the box of a card looks on each background, as Penpot draws it, in the colors of the theme the test runs in. */
 function readLooks(): Record<CardBackground, CardLook> {

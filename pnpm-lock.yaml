@@ -362,7 +362,7 @@ importers:
       '@commitlint/config-conventional':
         specifier: catalog:commitlint
         version: 21.2.4
-      '@dnd-mapp/release':
+      '@critsource/release':
         specifier: workspace:*
         version: link:packages/release
       '@moonrepo/cli':
@@ -407,10 +407,10 @@ importers:
       '@angular/router':
         specifier: catalog:angular
         version: 22.2.6(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2))(@angular/platform-browser@22.2.6(@angular/animations@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)))(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)))(rxjs@7.8.2)
-      '@dnd-mapp/core-web':
+      '@critsource/core-web':
         specifier: workspace:*
         version: link:../../packages/core/web
-      '@dnd-mapp/design-tokens':
+      '@critsource/design-tokens':
         specifier: workspace:*
         version: link:../../packages/design-tokens
       rxjs:
@@ -429,13 +429,13 @@ importers:
       '@angular/compiler-cli':
         specifier: catalog:angular
         version: 22.2.6(@angular/compiler@22.2.6)(typescript@6.0.3)
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../../packages/config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../../packages/config-typescript
-      '@dnd-mapp/release':
+      '@critsource/release':
         specifier: workspace:*
         version: link:../../packages/release
       '@types/node':
@@ -453,13 +453,13 @@ importers:
 
   e2e/web:
     devDependencies:
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../../packages/config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../../packages/config-typescript
-      '@dnd-mapp/web':
+      '@critsource/web':
         specifier: workspace:*
         version: link:../../apps/web
       '@playwright/test':
@@ -477,10 +477,10 @@ importers:
 
   packages/common:
     devDependencies:
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
       '@types/node':
@@ -526,7 +526,7 @@ importers:
         specifier: catalog:eslint
         version: 8.72.2(eslint@10.15.0(jiti@2.7.0)(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
     devDependencies:
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
       '@types/node':
@@ -577,13 +577,13 @@ importers:
       '@angular/compiler-cli':
         specifier: catalog:angular
         version: 22.2.6(@angular/compiler@22.2.6)(typescript@6.0.3)
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../../config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
-      '@dnd-mapp/ui-web':
+      '@critsource/ui-web':
         specifier: workspace:*
         version: link:../../ui/web
       '@types/node':
@@ -635,13 +635,13 @@ importers:
       '@capsizecss/unpack':
         specifier: catalog:capsize
         version: 4.0.1
-      '@dnd-mapp/common':
+      '@critsource/common':
         specifier: workspace:*
         version: link:../common
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
       '@tokens-studio/sd-transforms':
@@ -671,17 +671,17 @@ importers:
 
   packages/release:
     dependencies:
-      '@dnd-mapp/common':
+      '@critsource/common':
         specifier: workspace:*
         version: link:../common
     devDependencies:
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
-      '@dnd-mapp/testing-node':
+      '@critsource/testing-node':
         specifier: workspace:*
         version: link:../testing-node
       '@types/node':
@@ -702,10 +702,10 @@ importers:
 
   packages/testing-node:
     devDependencies:
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
       '@types/node':
@@ -738,10 +738,10 @@ importers:
       '@angular/platform-browser':
         specifier: catalog:angular
         version: 22.2.6(@angular/animations@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2)))(@angular/common@22.2.6(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2))(rxjs@7.8.2))(@angular/core@22.2.6(@angular/compiler@22.2.6)(rxjs@7.8.2))
-      '@dnd-mapp/common':
+      '@critsource/common':
         specifier: workspace:*
         version: link:../../common
-      '@dnd-mapp/design-tokens':
+      '@critsource/design-tokens':
         specifier: workspace:*
         version: link:../../design-tokens
       rxjs:
@@ -775,10 +775,10 @@ importers:
       '@angular/compiler-cli':
         specifier: catalog:angular
         version: 22.2.6(@angular/compiler@22.2.6)(typescript@6.0.3)
-      '@dnd-mapp/config-eslint':
+      '@critsource/config-eslint':
         specifier: workspace:*
         version: link:../../config-eslint
-      '@dnd-mapp/config-typescript':
+      '@critsource/config-typescript':
         specifier: workspace:*
         version: link:../../config-typescript
       '@storybook/addon-docs':

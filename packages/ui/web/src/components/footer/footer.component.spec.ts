@@ -10,7 +10,7 @@ import {
     provideBrowserStorage,
     readColorToken,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 const LICENSE = '© D&D Mapp contributors. Released under the MIT License.';
 

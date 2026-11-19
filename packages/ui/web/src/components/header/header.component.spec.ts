@@ -13,7 +13,7 @@ import {
     provideBrowserStorage,
     readColorToken,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 /** The parts each layout shows, and hides from sight and from assistive technology. */
 const PARTS: Record<'mobile' | 'desktop', { shown: HeaderPart[]; hidden: HeaderPart[] }> = {

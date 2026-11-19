@@ -13,7 +13,7 @@ import {
     provideBrowserStorage,
     readColorToken,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 describe('MobileMenuComponent', () => {
     @Component({

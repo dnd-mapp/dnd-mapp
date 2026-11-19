@@ -6,7 +6,7 @@ import {
     provideBrowserStorage,
     providePlatformId,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 import { StorageKey } from '../storage';
 
 interface SetupOptions {

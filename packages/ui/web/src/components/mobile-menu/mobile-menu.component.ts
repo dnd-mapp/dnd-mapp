@@ -1,5 +1,5 @@
 import { afterNextRender, Component, DestroyRef, ElementRef, inject, ViewEncapsulation } from '@angular/core';
-import { desktopBreakpoint } from '@dnd-mapp/design-tokens/breakpoints';
+import { desktopBreakpoint } from '@critsource/design-tokens/breakpoints';
 import { ButtonComponent } from '../button';
 import { IconCloseComponent } from '../icon';
 import { ThemePickerComponent } from '../theme-picker';

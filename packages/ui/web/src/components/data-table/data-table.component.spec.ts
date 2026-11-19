@@ -8,7 +8,7 @@ import {
     type DataTableLook,
     readColorToken,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 /** The width of `--size-measure`, which caps the width of the data table, in pixels. */
 const MEASURE = 720;

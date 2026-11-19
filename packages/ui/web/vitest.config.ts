@@ -38,6 +38,6 @@ export default defineConfig({
         },
         // Loads tokens.css into the test page, since the unit-test builder takes no styles from the ng-packagr build
         // target that the tests build from. Vite injects the CSS that a setup file imports into the page.
-        setupFiles: ['@dnd-mapp/design-tokens/tokens.css'],
+        setupFiles: ['@critsource/design-tokens/tokens.css'],
     },
 });

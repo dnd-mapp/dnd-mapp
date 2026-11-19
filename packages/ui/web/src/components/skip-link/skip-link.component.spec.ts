@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { SkipLinkComponent } from './skip-link.component';
-import { readColorToken, setupTestEnvironment, SkipLinkHarness } from '@dnd-mapp/ui-web/testing';
+import { readColorToken, setupTestEnvironment, SkipLinkHarness } from '@critsource/ui-web/testing';
 
 describe('SkipLinkComponent', () => {
     @Component({

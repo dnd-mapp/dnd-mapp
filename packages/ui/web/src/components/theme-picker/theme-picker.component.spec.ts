@@ -11,7 +11,7 @@ import {
     readColorToken,
     setupTestEnvironment,
     ThemePickerHarness,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 /** Leaves room around the picker for the focus rings of its options. */
 const FRAME = `

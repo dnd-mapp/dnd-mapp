@@ -7,13 +7,13 @@ The shared ESLint config of the projects of D&D Mapp. Its presets hold the rules
 Add the package to the `devDependencies` of a project, next to `eslint` and `typescript`, which it expects as peers. It brings the ESLint plugins of its presets along, so the project lists none of its own.
 
 ```json
-"@dnd-mapp/config-eslint": "workspace:*"
+"@critsource/config-eslint": "workspace:*"
 ```
 
 Add an `eslint.config.ts` to the root of the project, which extends the [preset](#presets) that fits the project. Pass the preset the folder of the config, which holds the project's `package.json`, and add the options of the project after it, such as the folders that ESLint skips:
 
 ```ts
-import { angular } from '@dnd-mapp/config-eslint/angular';
+import { angular } from '@critsource/config-eslint/angular';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig(angular(import.meta.dirname), {
@@ -41,11 +41,11 @@ inputs:
 
 ## Presets
 
-| Preset       | Import                               | Extended by                                    |
-|:-------------|:-------------------------------------|:-----------------------------------------------|
-| `typescript` | `@dnd-mapp/config-eslint/typescript` | A TypeScript project without a framework.      |
-| `angular`    | `@dnd-mapp/config-eslint/angular`    | An Angular app or module.                      |
-| `playwright` | `@dnd-mapp/config-eslint/playwright` | A project of end-to-end tests with Playwright. |
+| Preset       | Import                                 | Extended by                                    |
+|:-------------|:---------------------------------------|:-----------------------------------------------|
+| `typescript` | `@critsource/config-eslint/typescript` | A TypeScript project without a framework.      |
+| `angular`    | `@critsource/config-eslint/angular`    | An Angular app or module.                      |
+| `playwright` | `@critsource/config-eslint/playwright` | A project of end-to-end tests with Playwright. |
 
 Every preset applies the recommended rules of ESLint and the `strictTypeChecked` and `stylisticTypeChecked` rules of [`typescript-eslint`](https://typescript-eslint.io) to every TypeScript file of the project. The other presets add their own rules:
 
@@ -68,8 +68,8 @@ Run ESLint with the `ESLINT_PLUGIN_BOUNDARIES_DEBUG=1` environment variable to p
 The `tsdoc` config, which no preset applies, requires a doc comment on every interface and type alias of the project, and on each of their properties and methods, through the `require-jsdoc` rule of [`eslint-plugin-jsdoc`](https://github.com/gajus/eslint-plugin-jsdoc). The members of an inline type, such as the type of a cast, need none. Add the config after the preset:
 
 ```ts
-import { tsdoc } from '@dnd-mapp/config-eslint/tsdoc';
-import { typescript } from '@dnd-mapp/config-eslint/typescript';
+import { tsdoc } from '@critsource/config-eslint/tsdoc';
+import { typescript } from '@critsource/config-eslint/typescript';
 import { defineConfig } from 'eslint/config';
 
 export default defineConfig(typescript(import.meta.dirname), tsdoc());
@@ -81,7 +81,7 @@ export default defineConfig(typescript(import.meta.dirname), tsdoc());
 
 | Task        | Command | Runs in CI | Cached |
 |:------------|:--------|:----------:|:------:|
-| `typecheck` | `tsc`   |    yes     |  yes   |
+| `typecheck` | `tsc`   | yes        | yes    |
 
 Check the types of the presets:
 

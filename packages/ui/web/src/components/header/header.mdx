@@ -31,7 +31,7 @@ The header places each child by its selector: an `a[dma-nav-link]` in its nav, a
 
 ## Layouts
 
-The layout follows the viewport, and switches at the desktop breakpoint, `$breakpoint-desktop` from `@dnd-mapp/design-tokens/breakpoints.scss`. Each layout hides the parts of the other, which also hides them from assistive technology. Below the breakpoint, Mobile menu holds the nav links, the GitHub button, and the Theme picker.
+The layout follows the viewport, and switches at the desktop breakpoint, `$breakpoint-desktop` from `@critsource/design-tokens/breakpoints.scss`. Each layout hides the parts of the other, which also hides them from assistive technology. Below the breakpoint, Mobile menu holds the nav links, the GitHub button, and the Theme picker.
 
 ## Focus
 
@@ -47,6 +47,6 @@ The Menu button focuses itself when pressed, before the header emits `menuPresse
 
 ## Testing
 
-`HeaderHarness` from `@dnd-mapp/ui-web/testing` reads a header in a test: its look and size, the logo in its link home, the `NavLinkHarness` of each nav link, the `ButtonHarness` of the GitHub button and of the Menu button, the `ThemePickerHarness` of its Theme picker, which parts the current layout shows, how far each part sits from the edges of the header, and the focus ring of the link home. `pressMenu()` presses the Menu button.
+`HeaderHarness` from `@critsource/ui-web/testing` reads a header in a test: its look and size, the logo in its link home, the `NavLinkHarness` of each nav link, the `ButtonHarness` of the GitHub button and of the Menu button, the `ThemePickerHarness` of its Theme picker, which parts the current layout shows, how far each part sits from the edges of the header, and the focus ring of the link home. `pressMenu()` presses the Menu button.
 
 A spec that renders a header provides a storage with `provideBrowserStorage`, so the Theme picker saves no choice in `localStorage`.

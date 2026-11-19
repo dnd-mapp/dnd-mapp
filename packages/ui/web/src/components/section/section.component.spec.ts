@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { SectionComponent } from './section.component';
 import { SectionBackground } from './section.types';
 import { SectionIntroComponent } from '../section-intro';
-import { readColorToken, type SectionBox, SectionHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { readColorToken, type SectionBox, SectionHarness, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 /** The fill of each background, as Penpot draws it, in the colors of the theme the test runs in. */
 function readBackgrounds(): Record<SectionBackground, string> {

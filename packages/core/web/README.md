@@ -1,6 +1,6 @@
 # Web core
 
-The core of the [web client](../../../apps/web/README.md): the root component, the app config, and the routes, which lazy-load the domain modules of the web client. [`angular.json`](angular.json) configures the Angular CLI, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@dnd-mapp/config-eslint`](../../config-eslint/README.md), which holds the rules.
+The core of the [web client](../../../apps/web/README.md): the root component, the app config, and the routes, which lazy-load the domain modules of the web client. [`angular.json`](angular.json) configures the Angular CLI, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@critsource/config-eslint`](../../config-eslint/README.md), which holds the rules.
 
 ## What belongs here
 
@@ -20,10 +20,10 @@ The `exports` of [`package.json`](package.json) point at the TypeScript sources,
 
 ## Entry points
 
-| Import                       | Source                                 | Exports                      |
-|:-----------------------------|:---------------------------------------|:-----------------------------|
-| `@dnd-mapp/core-web`         | [`src/index.ts`](src/index.ts)         | `RootComponent`, `appConfig` |
-| `@dnd-mapp/core-web/testing` | [`testing/index.ts`](testing/index.ts) | `RootHarness`                |
+| Import                         | Source                                 | Exports                      |
+|:-------------------------------|:---------------------------------------|:-----------------------------|
+| `@critsource/core-web`         | [`src/index.ts`](src/index.ts)         | `RootComponent`, `appConfig` |
+| `@critsource/core-web/testing` | [`testing/index.ts`](testing/index.ts) | `RootHarness`                |
 
 The `testing` entry point holds the [component harnesses](https://angular.dev/guide/testing/component-harnesses-overview) for the tests of this package and the packages that build on it, and stays out of the production sources.
 
@@ -37,10 +37,10 @@ The tests load the [pointer setup file](../../../docs/testing.md#the-pointer-set
 
 | Task        | Command                            | Runs in CI | Cached |
 |:------------|:-----------------------------------|:----------:|:------:|
-| `test`      | `ng test`                          |     no     |   no   |
-| `test-ci`   | `ng test -c ci`                    |    yes     |  yes   |
-| `typecheck` | `tsc --project tsconfig.node.json` |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0`        |    yes     |  yes   |
+| `test`      | `ng test`                          | no         | no     |
+| `test-ci`   | `ng test -c ci`                    | yes        | yes    |
+| `typecheck` | `tsc --project tsconfig.node.json` | yes        | yes    |
+| `lint`      | `eslint . --max-warnings 0`        | yes        | yes    |
 
 Run the unit tests with [Vitest](https://vitest.dev) in headless Chromium, rerun them when a file changes, and open the Vitest UI:
 
@@ -56,7 +56,7 @@ pnpm moon run core-web:test-ci
 
 Both test tasks collect coverage into `coverage/core-web/` and fail when statements, branches, functions, or lines drop below 80%. The tests run in Chromium through [Playwright](https://playwright.dev), which [Development](../../../docs/development.md#browsers) installs.
 
-Check the types of the config files, which `ng test` leaves out and ESLint and Vitest load without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../config-typescript/README.md):
+Check the types of the config files, which `ng test` leaves out and ESLint and Vitest load without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@critsource/config-typescript`](../../config-typescript/README.md):
 
 ```bash
 pnpm moon run core-web:typecheck

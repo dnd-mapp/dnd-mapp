@@ -146,7 +146,7 @@ Take the broken build out of the environment with the `Roll back` workflow, as [
 
 The release workflow finds a project from its tag, so the moon id of the project must match the `name` in its `package.json` without the scope. Then:
 
-1. Give its `package.json` a `version` of `0.0.0` and a `repository` field, as [`apps/web/package.json`](../apps/web/package.json) has, and add `@dnd-mapp/release` to its `devDependencies`.
+1. Give its `package.json` a `version` of `0.0.0` and a `repository` field, as [`apps/web/package.json`](../apps/web/package.json) has, and add `@critsource/release` to its `devDependencies`.
 2. Add a `CHANGELOG.md` in the format of [`apps/web/CHANGELOG.md`](../apps/web/CHANGELOG.md), with entries under `Unreleased` for what the project does today. The project then inherits the `lint-changelog` task.
 3. Add the moon id to the `project` options of [`release-pull-request.yaml`](../.github/workflows/release-pull-request.yaml).
 4. Add a case for the project to the `Verify the tag` step of [`release.yaml`](../.github/workflows/release.yaml), with its Docker Hub image and bake target. The workflow publishes an image for every project, so a project that ships something else needs a change to the workflow.

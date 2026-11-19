@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { LinkComponent } from './link.component';
 import { LinkKind } from './link.types';
-import { LinkHarness, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { LinkHarness, readColorToken, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 /** Leaves room around the link for its focus ring. */
 const FRAME = `

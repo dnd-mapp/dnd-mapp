@@ -1,14 +1,14 @@
 # Web
 
-The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders in the browser only. [`angular.json`](angular.json) configures the Angular CLI, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@dnd-mapp/config-eslint`](../../packages/config-eslint/README.md), which holds the rules.
+The web client of D&D Mapp: an [Angular](https://angular.dev) app that renders in the browser only. [`angular.json`](angular.json) configures the Angular CLI, and [`eslint.config.ts`](eslint.config.ts) applies the `angular` preset of [`@critsource/config-eslint`](../../packages/config-eslint/README.md), which holds the rules.
 
 ## What belongs here
 
-The app bootstraps the root component and app config of [`@dnd-mapp/core-web`](../../packages/core/web/README.md), and holds only what makes it deployable. Every feature goes in `core-web` or a module that it builds on, as [Architecture](../../docs/architecture.md#projects) describes:
+The app bootstraps the root component and app config of [`@critsource/core-web`](../../packages/core/web/README.md), and holds only what makes it deployable. Every feature goes in `core-web` or a module that it builds on, as [Architecture](../../docs/architecture.md#projects) describes:
 
 - [`src/main.ts`](src/main.ts) bootstraps the app.
 - [`src/index.html`](src/index.html) holds the page shell and its metadata. An inline boot script in its `<head>` applies the theme that the reader saved before the stylesheets load. [Theme](../../packages/ui/web/README.md#theme) in the `ui-web` README explains the script, and a spec there keeps it in step with `ThemeService`.
-- The global styles load in the order of `angular.json`: `fonts.css` and `tokens.css` of [`@dnd-mapp/design-tokens`](../../packages/design-tokens/README.md), then [`src/styles.scss`](src/styles.scss).
+- The global styles load in the order of `angular.json`: `fonts.css` and `tokens.css` of [`@critsource/design-tokens`](../../packages/design-tokens/README.md), then [`src/styles.scss`](src/styles.scss).
 - [`public/`](public) holds the icons, the image of link previews, and the [build info](#build-info), which the build copies as they are.
 
 ## Build info
@@ -66,14 +66,14 @@ The app has no unit tests, since its code lives in `core-web` and the modules th
 
 | Task                     | Command                                          | Runs in CI | Cached |
 |:-------------------------|:-------------------------------------------------|:----------:|:------:|
-| `start`                  | `ng serve`                                       |     no     |   no   |
-| `build`                  | `ng build`                                       |     no     |  yes   |
-| `build-info`             | `node scripts/build-info.ts`                     |     no     |   no   |
-| `image`                  | `docker buildx bake --file .docker/bake.hcl web` |     no     |   no   |
-| `typecheck`              | `tsc --project tsconfig.node.json`               |    yes     |  yes   |
-| `lint`                   | `eslint . --max-warnings 0`                      |    yes     |  yes   |
-| `lint-changelog`         | `release lint`                                   |    yes     |  yes   |
-| `lint-short-description` | `node scripts/lint-short-description.ts`         |    yes     |  yes   |
+| `start`                  | `ng serve`                                       | no         | no     |
+| `build`                  | `ng build`                                       | no         | yes    |
+| `build-info`             | `node scripts/build-info.ts`                     | no         | no     |
+| `image`                  | `docker buildx bake --file .docker/bake.hcl web` | no         | no     |
+| `typecheck`              | `tsc --project tsconfig.node.json`               | yes        | yes    |
+| `lint`                   | `eslint . --max-warnings 0`                      | yes        | yes    |
+| `lint-changelog`         | `release lint`                                   | yes        | yes    |
+| `lint-short-description` | `node scripts/lint-short-description.ts`         | yes        | yes    |
 
 Serve the app at <https://localhost.www.critsource.com:4200>, and rebuild it when a file changes. The dev server needs the [one-time HTTPS setup](../../docs/development.md#https-for-the-dev-server) first:
 
@@ -123,7 +123,7 @@ Check that the [short description](#docker-hub-page) of the image fits in 100 ch
 pnpm moon run web:lint-short-description
 ```
 
-Check the types of the config files and of [`scripts/`](scripts), which `ng build` leaves out and Node.js runs without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
+Check the types of the config files and of [`scripts/`](scripts), which `ng build` leaves out and Node.js runs without checking. [`tsconfig.node.json`](tsconfig.node.json) extends the `node.json` preset of [`@critsource/config-typescript`](../../packages/config-typescript/README.md):
 
 ```bash
 pnpm moon run web:typecheck

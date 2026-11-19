@@ -4,7 +4,7 @@ import { page } from 'vitest/browser';
 import { OnThisPageComponent, OnThisPageLinkComponent } from '../on-this-page';
 import { SummaryComponent, SummaryTitleComponent } from '../summary';
 import { TextPageComponent } from './text-page.component';
-import { readColorToken, type TextPageBox, TextPageHarness, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { readColorToken, type TextPageBox, TextPageHarness, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 /** The tag names of the prose of `TestComponent`, in order. */
 const PROSE_TAGS = ['h2', 'p', 'p', 'h3', 'p', 'h2', 'p'];

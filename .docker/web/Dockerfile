@@ -38,7 +38,7 @@ COPY . .
 
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm-store \
     pnpm install --frozen-lockfile --prefer-offline --ignore-scripts --store-dir /pnpm-store \
-        --filter "@dnd-mapp/web..." --filter dnd-mapp
+        --filter "@critsource/web..." --filter dnd-mapp
 
 # The base path that the app is served under, such as /pr-42/. It starts and ends with a slash. --no-actions skips the
 # install and sync actions of moon, since the step above installed what the build needs.

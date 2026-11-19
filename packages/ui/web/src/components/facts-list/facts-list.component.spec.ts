@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page } from 'vitest/browser';
 import { FactsListComponent } from './facts-list.component';
-import { FactsListHarness, type FactsListLook, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { FactsListHarness, type FactsListLook, readColorToken, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 /**
  * The width of `.container`, which the facts list fills. Angular reads `styles` while it compiles, so the styles of

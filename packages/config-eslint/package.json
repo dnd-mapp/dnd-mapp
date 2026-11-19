@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-mapp/config-eslint",
+  "name": "@critsource/config-eslint",
   "version": "0.0.0",
   "description": "The shared ESLint config of the projects of D&D Mapp.",
   "private": true,
@@ -31,7 +31,7 @@
     "typescript": "catalog:angular"
   },
   "devDependencies": {
-    "@dnd-mapp/config-typescript": "workspace:*",
+    "@critsource/config-typescript": "workspace:*",
     "@types/node": "catalog:node",
     "eslint": "catalog:eslint",
     "typescript": "catalog:angular"

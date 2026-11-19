@@ -37,7 +37,7 @@ Build a component once it is Designed, and give it the name it has in Penpot, so
 
 ## Design tokens
 
-The Design system file holds the design tokens, and [`@dnd-mapp/design-tokens`](../packages/design-tokens/README.md) keeps them in `tokens.json`, the single-file export of that file, and in `tokens.css`, the CSS custom properties generated from it. [ADR 0006](adr/0006-design-token-pipeline.md) records how they reach the code. A token changes in Penpot first, as [Source of truth](#source-of-truth) asks, so never edit either file by hand. After you change a token, export the tokens again:
+The Design system file holds the design tokens, and [`@critsource/design-tokens`](../packages/design-tokens/README.md) keeps them in `tokens.json`, the single-file export of that file, and in `tokens.css`, the CSS custom properties generated from it. [ADR 0006](adr/0006-design-token-pipeline.md) records how they reach the code. A token changes in Penpot first, as [Source of truth](#source-of-truth) asks, so never edit either file by hand. After you change a token, export the tokens again:
 
 1. Open the Design system file, and switch the sidebar to the Tokens tab.
 2. Choose **Tools** at the bottom of the tab, then **Export**, and pick **Single file**.
@@ -55,24 +55,24 @@ The Design system file groups its themes in two: Color scheme holds Dark and Lig
 
 | Theme   | Selector                                                                                                    | Sets `color-scheme` |
 |:--------|:------------------------------------------------------------------------------------------------------------|:-------------------:|
-| Dark    | `:root`                                                                                                     |        `dark`       |
-| Light   | `:root:not([data-theme='dark'])` in `@media (prefers-color-scheme: light)`, and `:root[data-theme='light']` |       `light`       |
-| Mobile  | `:root`                                                                                                     |          no         |
-| Desktop | `:root` in `@media (min-width: 64em)`                                                                       |          no         |
+| Dark    | `:root`                                                                                                     | `dark`              |
+| Light   | `:root:not([data-theme='dark'])` in `@media (prefers-color-scheme: light)`, and `:root[data-theme='light']` | `light`             |
+| Mobile  | `:root`                                                                                                     | no                  |
+| Desktop | `:root` in `@media (min-width: 64em)`                                                                       | no                  |
 
 The color scheme follows the device until the reader picks one. The `data-theme` attribute on `<html>` overrides it: `dark` picks Dark, `light` picks Light, and no attribute, or any other value, follows the device. Each color block sets `color-scheme`, so the scrollbars and form controls that the browser draws match the theme. In [Storybook](../packages/ui/web/README.md#storybook), the theme toolbar sets `data-theme`, and the viewport control switches Mobile and Desktop.
 
 No custom property can appear in a media query, so a component style that needs the breakpoint imports it from the Sass partial:
 
 ```scss
-@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+@use '@critsource/design-tokens/breakpoints.scss' as breakpoints;
 
 @media (min-width: breakpoints.$breakpoint-desktop) {
     // The Desktop layout.
 }
 ```
 
-A script that follows the breakpoint, such as a `matchMedia()` query, imports `desktopBreakpoint` from `@dnd-mapp/design-tokens/breakpoints` instead.
+A script that follows the breakpoint, such as a `matchMedia()` query, imports `desktopBreakpoint` from `@critsource/design-tokens/breakpoints` instead.
 
 The breakpoint is `64em` rather than `1024px`, since an `em` in a media query follows the reader's font size setting. A reader who enlarges the text keeps the Mobile layout up to a wider window, as the `rem` sizes grow with it. [`src/breakpoints.ts`](../packages/design-tokens/src/breakpoints.ts) holds the value, and the build writes it to both the media query and the partial.
 
@@ -82,13 +82,13 @@ The app loads the three families of the `font.family` tokens: Manrope for headin
 
 ### Why the fonts are self-hosted
 
-The web image serves the font files itself, so no reader's browser contacts a third party for them. A CDN would send each reader's IP address elsewhere, and browsers no longer share its cache between sites, so it would load no faster. The files come from the [Fontsource](https://fontsource.org) packages that `@dnd-mapp/design-tokens` lists under `dependencies`, so dependency updates reach them. Each family loads one variable WOFF2 file per subset and style, which covers every weight, and a browser downloads a subset only for a page that uses its characters.
+The web image serves the font files itself, so no reader's browser contacts a third party for them. A CDN would send each reader's IP address elsewhere, and browsers no longer share its cache between sites, so it would load no faster. The files come from the [Fontsource](https://fontsource.org) packages that `@critsource/design-tokens` lists under `dependencies`, so dependency updates reach them. Each family loads one variable WOFF2 file per subset and style, which covers every weight, and a browser downloads a subset only for a page that uses its characters.
 
 ### The font config
 
 [`src/fonts.ts`](../packages/design-tokens/src/fonts.ts) lists each family with its Fontsource package, its styles, the local font of its fallback, and its generic family. From it, `design-tokens:build` writes:
 
-- `css/fonts.css`, with an `@font-face` rule for each subset and style, and a fallback face for each family. The package exports it as `@dnd-mapp/design-tokens/fonts.css`, and the web app and Storybook load it next to `tokens.css`.
+- `css/fonts.css`, with an `@font-face` rule for each subset and style, and a fallback face for each family. The package exports it as `@critsource/design-tokens/fonts.css`, and the web app and Storybook load it next to `tokens.css`.
 - A full stack for each `fontFamilies` token in `tokens.css`, such as `--font-family-body: 'Source Sans 3', 'Source Sans 3 Fallback', sans-serif`. Penpot renders only the first family of a token, so the stack comes from the config rather than from Penpot.
 
 ### Adding a family or a weight
@@ -96,7 +96,7 @@ The web image serves the font files itself, so no reader's browser contacts a th
 A variable file covers every weight of its family, so a new weight needs only its `font.weight` token in Penpot, as long as the family offers it. The page of each family on [Fontsource](https://fontsource.org) lists its weight range. To add a family:
 
 1. Add its `font.family` token in Penpot, and export the tokens, as [Design tokens](#design-tokens) describes.
-2. Add the `@fontsource-variable` package of the family to the `fontsource` catalog and to the `dependencies` of `@dnd-mapp/design-tokens`, as [Adding a dependency](dependency-updates.md#adding-a-dependency) describes.
+2. Add the `@fontsource-variable` package of the family to the `fontsource` catalog and to the `dependencies` of `@critsource/design-tokens`, as [Adding a dependency](dependency-updates.md#adding-a-dependency) describes.
 3. Add the family to `src/fonts.ts`, named as its token names it.
 4. Run `pnpm moon run design-tokens:build`, and commit `fonts.css` and `tokens.css` with the export.
 

@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-mapp/config-typescript",
+  "name": "@critsource/config-typescript",
   "version": "0.0.0",
   "description": "The TypeScript config presets that the projects of D&D Mapp extend.",
   "private": true,

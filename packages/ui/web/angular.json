@@ -51,8 +51,8 @@
                     "options": {
                         "outputDir": "dist/storybook",
                         "styles": [
-                            "@dnd-mapp/design-tokens/fonts.css",
-                            "@dnd-mapp/design-tokens/tokens.css",
+                            "@critsource/design-tokens/fonts.css",
+                            "@critsource/design-tokens/tokens.css",
                             ".storybook/preview.css"
                         ]
                     }
@@ -63,8 +63,8 @@
                         "open": false,
                         "port": 6006,
                         "styles": [
-                            "@dnd-mapp/design-tokens/fonts.css",
-                            "@dnd-mapp/design-tokens/tokens.css",
+                            "@critsource/design-tokens/fonts.css",
+                            "@critsource/design-tokens/tokens.css",
                             ".storybook/preview.css"
                         ]
                     }

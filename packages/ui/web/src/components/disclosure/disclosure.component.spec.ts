@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { page, userEvent } from 'vitest/browser';
 import { DisclosureComponent } from './disclosure.component';
-import { DisclosureHarness, readColorToken, setupTestEnvironment } from '@dnd-mapp/ui-web/testing';
+import { DisclosureHarness, readColorToken, setupTestEnvironment } from '@critsource/ui-web/testing';
 
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 

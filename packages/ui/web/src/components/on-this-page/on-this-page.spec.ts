@@ -9,7 +9,7 @@ import {
     type OnThisPageLinkLook,
     readColorToken,
     setupTestEnvironment,
-} from '@dnd-mapp/ui-web/testing';
+} from '@critsource/ui-web/testing';
 
 const TRANSPARENT = 'rgba(0, 0, 0, 0)';
 

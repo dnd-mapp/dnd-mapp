@@ -1,11 +1,11 @@
 {
-  "name": "@dnd-mapp/web-e2e",
+  "name": "@critsource/web-e2e",
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@dnd-mapp/config-eslint": "workspace:*",
-    "@dnd-mapp/config-typescript": "workspace:*",
-    "@dnd-mapp/web": "workspace:*",
+    "@critsource/config-eslint": "workspace:*",
+    "@critsource/config-typescript": "workspace:*",
+    "@critsource/web": "workspace:*",
     "@playwright/test": "catalog:playwright",
     "@types/node": "catalog:node",
     "eslint": "catalog:eslint",

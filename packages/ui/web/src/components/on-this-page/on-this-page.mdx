@@ -28,7 +28,7 @@ The nav fills the column the page gives it, so on Desktop the page sets the 240 
 
 ## Layouts
 
-The layout follows the viewport, and switches at the desktop breakpoint, `$breakpoint-desktop` from `@dnd-mapp/design-tokens/breakpoints.scss`. Both layouts show the same links, since content projects only once, so CSS switches between them with no script, and the nav renders the same on the server.
+The layout follows the viewport, and switches at the desktop breakpoint, `$breakpoint-desktop` from `@critsource/design-tokens/breakpoints.scss`. Both layouts show the same links, since content projects only once, so CSS switches between them with no script, and the nav renders the same on the server.
 
 From the breakpoint up, the nav shows its title over the links. Below it, the links sit in the panel of a Disclosure, whose summary shows the title. The panel starts closed, opens and closes as Disclosure does, and the nav stays in the flow of the page:
 
@@ -52,7 +52,7 @@ On Mobile, the summary is the target, at least 44 px tall, and a pointer, Enter,
 
 ### Testing
 
-`OnThisPageHarness` from `@dnd-mapp/ui-web/testing` reads the nav in a test: the text and look of its title, which parts the current layout shows, the `DisclosureHarness` of its Disclosure, the harnesses of its links, the link that marks the section in view, where its parts start and end, its width, and how it sticks.
+`OnThisPageHarness` from `@critsource/ui-web/testing` reads the nav in a test: the text and look of its title, which parts the current layout shows, the `DisclosureHarness` of its Disclosure, the harnesses of its links, the link that marks the section in view, where its parts start and end, its width, and how it sticks.
 
 ## On this page link
 
@@ -104,4 +104,4 @@ The link is 37 px tall on one line, as Penpot draws it. That is below the 44 px 
 
 ### Testing
 
-`OnThisPageLinkHarness` from `@dnd-mapp/ui-web/testing` reads a link in a test: its text, its colors and font weight, its size, padding, and corners, whether it marks the section in view, its indicator, and its focus ring.
+`OnThisPageLinkHarness` from `@critsource/ui-web/testing` reads a link in a test: its text, its colors and font weight, its size, padding, and corners, whether it marks the section in view, its indicator, and its focus ring.

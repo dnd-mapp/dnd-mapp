@@ -1,15 +1,15 @@
 # Web end-to-end tests
 
-The end-to-end tests of the [web client](../../apps/web/README.md): [Playwright](https://playwright.dev) tests that run against the app in Chromium. [`playwright.config.ts`](playwright.config.ts) configures Playwright, and [`eslint.config.ts`](eslint.config.ts) applies the `playwright` preset of [`@dnd-mapp/config-eslint`](../../packages/config-eslint/README.md), which holds the rules.
+The end-to-end tests of the [web client](../../apps/web/README.md): [Playwright](https://playwright.dev) tests that run against the app in Chromium. [`playwright.config.ts`](playwright.config.ts) configures Playwright, and [`eslint.config.ts`](eslint.config.ts) applies the `playwright` preset of [`@critsource/config-eslint`](../../packages/config-eslint/README.md), which holds the rules.
 
 ## What belongs here
 
 The project tests what only the running app shows: that it boots, and what happens before it does. Each spec in [`src/`](src) covers one area of the app:
 
-| Spec                                   | Covers                                                                                                                         |
-|:---------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------|
-| [`app.spec.ts`](src/app.spec.ts)       | The app loads and bootstraps.                                                                                                  |
-| [`theme.spec.ts`](src/theme.spec.ts)   | The boot script in `index.html` applies a saved Light theme before the app boots, and the app follows the device under System. |
+| Spec                                 | Covers                                                                                                                         |
+|:-------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------|
+| [`app.spec.ts`](src/app.spec.ts)     | The app loads and bootstraps.                                                                                                  |
+| [`theme.spec.ts`](src/theme.spec.ts) | The boot script in `index.html` applies a saved Light theme before the app boots, and the app follows the device under System. |
 
 Add a test to the spec of its area, or a new `src/<area>.spec.ts` for a new area. Test the behavior of a component or service in the unit tests of the project that holds it instead.
 
@@ -19,10 +19,10 @@ Add a test to the spec of its area, or a new `src/<area>.spec.ts` for a new area
 
 | Task        | Command                     | Runs in CI | Cached |
 |:------------|:----------------------------|:----------:|:------:|
-| `e2e`       | `playwright test --ui`      |     no     |   no   |
-| `e2e-ci`    | `playwright test`           |    yes     |   no   |
-| `typecheck` | `tsc`                       |    yes     |  yes   |
-| `lint`      | `eslint . --max-warnings 0` |    yes     |  yes   |
+| `e2e`       | `playwright test --ui`      | no         | no     |
+| `e2e-ci`    | `playwright test`           | yes        | no     |
+| `typecheck` | `tsc`                       | yes        | yes    |
+| `lint`      | `eslint . --max-warnings 0` | yes        | yes    |
 
 Open the Playwright UI to run and debug the tests. The tests reach the dev server at <https://localhost:4200> when it is already up, and start one otherwise, which needs the [one-time HTTPS setup](../../docs/development.md#https-for-the-dev-server). That is the same server as <https://localhost.www.critsource.com:4200>, under a host that the tests need no hosts file entry for:
 
@@ -58,7 +58,7 @@ To test a deployed environment instead, set `BASE_URL` to its URL. The tests the
 BASE_URL=https://staging.dndmapp.nl.eu.org/ pnpm moon run web-e2e:e2e-ci
 ```
 
-Check the types of the tests, `global-setup.ts`, and the config files, which Playwright and ESLint run without checking. [`tsconfig.json`](tsconfig.json) extends the `node.json` preset of [`@dnd-mapp/config-typescript`](../../packages/config-typescript/README.md):
+Check the types of the tests, `global-setup.ts`, and the config files, which Playwright and ESLint run without checking. [`tsconfig.json`](tsconfig.json) extends the `node.json` preset of [`@critsource/config-typescript`](../../packages/config-typescript/README.md):
 
 ```bash
 pnpm moon run web-e2e:typecheck

@@ -1,4 +1,4 @@
-@use '@dnd-mapp/design-tokens/breakpoints.scss' as breakpoints;
+@use '@critsource/design-tokens/breakpoints.scss' as breakpoints;
 
 // The component turns encapsulation off to style the summary and the panel of its Disclosure, so every rule starts with
 // its selector, which also outranks the rules of the Disclosure it overrides.

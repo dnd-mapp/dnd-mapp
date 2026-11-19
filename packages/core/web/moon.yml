@@ -31,7 +31,7 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
-            # The setup file of @dnd-mapp/ui-web moves the pointer away before each test.
+            # The setup file of @critsource/ui-web moves the pointer away before each test.
             - project: "ui-web"
               group: "sources"
 
@@ -41,7 +41,7 @@ tasks:
             - "@group(sources)"
             - "@group(configs)"
             - "@group(tests)"
-            # The setup file of @dnd-mapp/ui-web moves the pointer away before each test.
+            # The setup file of @critsource/ui-web moves the pointer away before each test.
             - project: "ui-web"
               group: "sources"
         outputs:

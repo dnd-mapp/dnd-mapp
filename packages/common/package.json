@@ -1,5 +1,5 @@
 {
-  "name": "@dnd-mapp/common",
+  "name": "@critsource/common",
   "version": "0.0.0",
   "description": "General helpers that any project of D&D Mapp can use, which know nothing about a domain or a platform.",
   "private": true,
@@ -14,8 +14,8 @@
     ".": "./src/index.ts"
   },
   "devDependencies": {
-    "@dnd-mapp/config-eslint": "workspace:*",
-    "@dnd-mapp/config-typescript": "workspace:*",
+    "@critsource/config-eslint": "workspace:*",
+    "@critsource/config-typescript": "workspace:*",
     "@types/node": "catalog:node",
     "@vitest/coverage-v8": "catalog:vitest",
     "eslint": "catalog:eslint",

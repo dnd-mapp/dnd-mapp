@@ -94,7 +94,7 @@ tasks:
         # The Angular builders check the sources and the tests of the package only, and Storybook compiles the stories
         # without checking them, so the task checks the config files that tsconfig.node.json includes, and the stories
         # and their templates that tsconfig.storybook.json includes. moon tracks the files of each project for its own
-        # tasks only, so the inputs also list the helpers of @dnd-mapp/common and the shared ESLint config that
+        # tasks only, so the inputs also list the helpers of @critsource/common and the shared ESLint config that
         # eslint.config.ts imports.
         script: "tsc --project tsconfig.node.json && ngc --project tsconfig.storybook.json --noEmit"
         inputs:

@@ -1,5 +1,5 @@
 import { PLATFORM_ID, type Provider } from '@angular/core';
-import { BROWSER_STORAGE } from '@dnd-mapp/ui-web';
+import { BROWSER_STORAGE } from '@critsource/ui-web';
 
 /** Provides `storage` as `BROWSER_STORAGE`, such as an `InMemoryStorage`, or `null` for a browser without storage. */
 export function provideBrowserStorage(storage: Storage | null): Provider {

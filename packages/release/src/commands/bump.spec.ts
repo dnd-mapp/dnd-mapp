@@ -1,7 +1,7 @@
 import { releasedChangelog, unreleasedChangelog } from '../testing/changelogs.ts';
 import { createFixture, type FixtureOptions, repositoryField } from '../testing/fixture.ts';
 
-await vi.hoisted(() => import('@dnd-mapp/testing-node/file-system'));
+await vi.hoisted(() => import('@critsource/testing-node/file-system'));
 
 /** A changelog whose newest release is `version`, with the given body in `Unreleased`. */
 function changelogWith(unreleased: string, version = '1.4.2'): string {
@@ -48,7 +48,7 @@ All notable changes to the web app are documented in this file.
 [0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0
 `);
         expect(JSON.parse(await fixture.read('apps/web/package.json'))).toEqual({
-            name: '@dnd-mapp/web',
+            name: '@critsource/web',
             version: '0.1.0',
             repository: repositoryField,
         });
@@ -309,7 +309,7 @@ All notable changes to the web app are documented in this file.
 
     it('keeps the line endings of the changelog and the indentation of package.json', async () => {
         const manifest =
-            '{\r\n    "name": "@dnd-mapp/web",\r\n    "version": "0.2.0",\r\n    "repository": "github:critsource/critsource"\r\n}\r\n';
+            '{\r\n    "name": "@critsource/web",\r\n    "version": "0.2.0",\r\n    "repository": "github:critsource/critsource"\r\n}\r\n';
         const { fixture } = await bump(
             { changelog: releasedChangelog.replaceAll('\n', '\r\n'), manifest, version: '0.2.0' },
             'auto',
@@ -323,14 +323,14 @@ All notable changes to the web app are documented in this file.
 
     it('sets the top-level version of package.json, not a nested one before it', async () => {
         const manifest =
-            '{\n  "name": "@dnd-mapp/web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0",\n  "repository": "critsource/critsource"\n}\n';
+            '{\n  "name": "@critsource/web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0",\n  "repository": "critsource/critsource"\n}\n';
         const { fixture } = await bump({ changelog: releasedChangelog, manifest, version: '0.2.0' }, 'auto');
 
         expect(await fixture.read('apps/web/package.json')).toBe(manifest.replace('0.2.0', '0.2.1'));
     });
 
     it('links to the repository in the repository field of package.json', async () => {
-        const manifest = `${JSON.stringify({ name: '@dnd-mapp/web', version: '0.0.0', repository: 'git@git.example.com:team/maps.git' })}\n`;
+        const manifest = `${JSON.stringify({ name: '@critsource/web', version: '0.0.0', repository: 'git@git.example.com:team/maps.git' })}\n`;
         const { fixture } = await bump({ changelog: unreleasedChangelog, manifest }, 'auto');
 
         expect(await fixture.read('apps/web/CHANGELOG.md')).toContain(
