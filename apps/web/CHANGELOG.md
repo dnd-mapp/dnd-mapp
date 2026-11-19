@@ -29,6 +29,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `build-info.json`, which reports the commit and version of the build that a deployment serves.
 - A `/healthz` endpoint and a `HEALTHCHECK` in the image, which report whether the container is healthy.
 
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.0...HEAD
-[0.2.0]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.2.0
-[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
+[unreleased]: https://github.com/critsource/critsource/compare/web@v0.2.0...HEAD
+[0.2.0]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.2.0
+[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0

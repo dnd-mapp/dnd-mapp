@@ -9,7 +9,7 @@ tags:
 project:
     title: "Design tokens"
     description: "The design tokens of the Penpot design system, and the CSS custom properties generated from them."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"
 

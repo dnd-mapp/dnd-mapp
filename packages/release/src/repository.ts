@@ -1,6 +1,6 @@
 /**
  * Turns the `repository` field of a `package.json` into the web URL of the repository, such as
- * `https://github.com/dnd-mapp/dnd-mapp`, or returns `undefined` when the field names no repository it can link to.
+ * `https://github.com/critsource/critsource`, or returns `undefined` when the field names no repository it can link to.
  * The field takes a URL, as a string or as the `url` of an object, or the `github:` shorthand, with or without its
  * prefix, as npm reads it.
  */

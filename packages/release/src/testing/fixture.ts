@@ -54,7 +54,7 @@ export interface Fixture {
 const repositoryRoot = resolve('/repo');
 
 /** The `repository` field of the packages of D&D Mapp. */
-export const repositoryField = { type: 'git', url: 'git+https://github.com/dnd-mapp/dnd-mapp.git' };
+export const repositoryField = { type: 'git', url: 'git+https://github.com/critsource/critsource.git' };
 
 /**
  * Sets up a repository with a project in the mocked file system, with fakes for git and the clock. Load the mock in the

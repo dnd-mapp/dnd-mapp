@@ -8,7 +8,7 @@ body:
       attributes:
           value: >
               For maintainers. To propose an idea, start a discussion in
-              [Ideas](https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas) instead.
+              [Ideas](https://github.com/critsource/critsource/discussions/categories/ideas) instead.
 
 
               Use an epic for a goal too large for one pull request, possibly across repositories. Attach its parts as

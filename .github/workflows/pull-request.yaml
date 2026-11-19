@@ -161,7 +161,7 @@ jobs:
             GH_TOKEN: ${{ github.token }}
             HEAD_SHA: ${{ github.event.pull_request.head.sha }}
             NUMBER: ${{ github.event.pull_request.number }}
-            URL: https://dnd-mapp.github.io/dnd-mapp/pr/${{ github.event.pull_request.number }}/
+            URL: https://critsource.github.io/critsource/pr/${{ github.event.pull_request.number }}/
         steps:
             # The previews of all pull requests share one environment, which a job-level environment key would empty on
             # each deploy, so the job creates its deployment through the REST API. A transient deployment that stays

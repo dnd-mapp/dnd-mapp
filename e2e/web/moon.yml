@@ -8,7 +8,7 @@ tags:
 project:
     title: "Web end-to-end tests"
     description: "The Playwright tests that run against the web client in Chromium."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"
 

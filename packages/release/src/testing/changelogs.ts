@@ -21,9 +21,9 @@ All notable changes to the web app are documented in this file.
 
 - Open a map.
 
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.0...HEAD
-[0.2.0]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.2.0
-[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
+[unreleased]: https://github.com/critsource/critsource/compare/web@v0.2.0...HEAD
+[0.2.0]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.2.0
+[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0
 `;
 
 /** A changelog of the `web` project before its first release. */

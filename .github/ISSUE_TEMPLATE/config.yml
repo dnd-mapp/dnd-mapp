@@ -3,13 +3,13 @@
 blank_issues_enabled: false
 contact_links:
     - name: Propose a feature
-      url: https://github.com/dnd-mapp/dnd-mapp/discussions/categories/ideas
+      url: https://github.com/critsource/critsource/discussions/categories/ideas
       about: Share or upvote an idea in Discussions. Solid ideas become issues.
 
     - name: Ask a question
-      url: https://github.com/dnd-mapp/dnd-mapp/discussions/categories/q-a
+      url: https://github.com/critsource/critsource/discussions/categories/q-a
       about: Ask the community for help in Discussions.
 
     - name: Get support
-      url: https://github.com/dnd-mapp/dnd-mapp/blob/main/SUPPORT.md
+      url: https://github.com/critsource/critsource/blob/main/SUPPORT.md
       about: Find where any other request goes, such as a private matter or a conduct report.

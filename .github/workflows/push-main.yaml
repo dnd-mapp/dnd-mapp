@@ -149,7 +149,7 @@ jobs:
             contents: write
         environment:
             name: storybook
-            url: https://dnd-mapp.github.io/dnd-mapp/
+            url: https://critsource.github.io/critsource/
         steps:
             # In CI, moon diffs against the base branch before it runs a task, which needs the history of both.
             - name: Check out the repository
@@ -180,7 +180,7 @@ jobs:
             - name: Wait for the site to serve the commit
               uses: ./.github/actions/wait-for-commit
               with:
-                  url: https://dnd-mapp.github.io/dnd-mapp/build-info.json
+                  url: https://critsource.github.io/critsource/build-info.json
                   commit: ${{ github.sha }}
                   timeout: "600"
 

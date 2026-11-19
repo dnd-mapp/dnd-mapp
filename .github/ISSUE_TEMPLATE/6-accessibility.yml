@@ -70,7 +70,7 @@ body:
       attributes:
           label: Before you post
           options:
-              - label: I checked everything in this post myself, including any part an AI tool wrote, as [Using AI tools](https://github.com/dnd-mapp/dnd-mapp/blob/main/CONTRIBUTING.md#using-ai-tools) describes.
+              - label: I checked everything in this post myself, including any part an AI tool wrote, as [Using AI tools](https://github.com/critsource/critsource/blob/main/CONTRIBUTING.md#using-ai-tools) describes.
                 required: true
-              - label: I agree to follow this project's [code of conduct](https://github.com/dnd-mapp/dnd-mapp/blob/main/CODE_OF_CONDUCT.md).
+              - label: I agree to follow this project's [code of conduct](https://github.com/critsource/critsource/blob/main/CODE_OF_CONDUCT.md).
                 required: true

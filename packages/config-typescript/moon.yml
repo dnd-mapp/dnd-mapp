@@ -8,6 +8,6 @@ tags:
 project:
     title: "TypeScript config"
     description: "The TypeScript config presets that the projects extend."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"

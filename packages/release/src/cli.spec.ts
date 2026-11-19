@@ -137,7 +137,7 @@ describe('release', () => {
         it('fails when it holds no URL of a git repository', async () => {
             const fixture = createFixture({
                 changelog: releasedChangelog,
-                manifest: '{ "name": "@dnd-mapp/web", "repository": "gitlab:dnd-mapp/dnd-mapp" }',
+                manifest: '{ "name": "@dnd-mapp/web", "repository": "gitlab:critsource/critsource" }',
             });
 
             const result = await fixture.run('lint');
