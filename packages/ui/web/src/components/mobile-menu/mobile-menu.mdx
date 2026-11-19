@@ -53,5 +53,3 @@ The Theme picker is a group named "Theme" by its legend. The visible Theme title
 ## Testing
 
 `MobileMenuHarness` from `@dnd-mapp/ui-web/testing` reads a menu in a test: whether it is open and modal, its look and place in the viewport, the logo in its link home, the `ButtonHarness` of its Close button, the look of its bar, and how far each part of the bar sits from the edges of the menu. For the body, it reads the `NavLinkHarness` of each row, the `ButtonHarness` of the GitHub button, the `ThemePickerHarness`, the look of the divider and the Theme title, and where each part sits in the menu. `pressClose()` presses the Close button.
-
-A spec that opens the menu from the Menu button clicks it through `userEvent` rather than the harness, so the button takes focus, as it does in the browser, and the menu has a focus to return to.

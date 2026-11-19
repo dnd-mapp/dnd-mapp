@@ -7,6 +7,7 @@ import { IconGithubComponent } from '../icon';
 import { LogoComponent } from '../logo';
 import { NavLinkComponent } from '../nav-link';
 import {
+    HeaderHarness,
     InMemoryStorage,
     MobileMenuHarness,
     provideBrowserStorage,
@@ -42,26 +43,26 @@ describe('MobileMenuComponent', () => {
     }
 
     async function setupTest() {
-        const { fixture, harness } = await setupTestEnvironment({
+        const { fixture, harness, harnessLoader } = await setupTestEnvironment({
             host: TestComponent,
             harness: MobileMenuHarness,
             providers: [provideBrowserStorage(new InMemoryStorage())],
         });
 
-        return { host: fixture.componentInstance, harness };
+        return { host: fixture.componentInstance, harness, harnessLoader };
     }
 
     const menuButton = () => page.getByRole('button', { name: 'Menu', exact: true });
     const closeButton = () => page.getByRole('button', { name: 'Close', exact: true });
 
     /**
-     * Opens the menu from the Menu button of the header, as the reader does. The click comes from the browser rather
-     * than the harness, so the Menu button takes focus first, as in Chromium, and the menu has a focus to return to.
+     * Opens the menu from the Menu button of the header, as the reader does. The harness moves no focus, like a click
+     * in Safari, so the menu has a focus to return to only because the Menu button focuses itself when pressed.
      */
     async function setupOpenTest() {
         const test = await setupTest();
 
-        await userEvent.click(menuButton());
+        await (await test.harnessLoader.getHarness(HeaderHarness)).pressMenu();
 
         return test;
     }

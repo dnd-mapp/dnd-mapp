@@ -9,7 +9,9 @@ import { ThemePickerComponent } from '../theme-picker';
  * the header needs no router or app state. The Theme picker saves the choice of the reader itself.
  *
  * Below the desktop breakpoint, the header shows the link home and the Menu button. From the breakpoint up, it shows
- * the nav links, the GitHub button, and the Theme picker instead of the Menu button.
+ * the nav links, the GitHub button, and the Theme picker instead of the Menu button. The Menu button focuses itself when
+ * pressed, before the header emits `menuPressed`, so Mobile menu has a focus to return to in Safari, which doesn't
+ * focus a button that the reader clicks.
  *
  * The styles reach the projected children, which emulated encapsulation leaves out, so the component turns
  * encapsulation off and scopes every rule to its own selector instead.
@@ -24,4 +26,15 @@ import { ThemePickerComponent } from '../theme-picker';
 export class HeaderComponent {
     /** Emits each time the reader presses the Menu button. */
     public readonly menuPressed = output();
+
+    /**
+     * Focuses the Menu button before it emits `menuPressed`. Safari doesn't focus a button that the reader clicks or
+     * taps, so without this, Mobile menu has no focus to return to when it closes, and focus lands on the page body.
+     */
+    protected pressMenu(event: Event) {
+        if (event.currentTarget instanceof HTMLElement) {
+            event.currentTarget.focus();
+        }
+        this.menuPressed.emit();
+    }
 }
