@@ -43,6 +43,8 @@ The header is the banner landmark of the page. The link home takes its name, "D&
 
 The Menu button is named by its label, and sets `aria-haspopup="dialog"`, since Mobile menu is a modal dialog. It is 44 px tall, the minimum target size.
 
+The Menu button focuses itself when pressed, before the header emits `menuPressed`. Safari doesn't focus a button that the reader clicks or taps, so without it Mobile menu has no focus to return to when it closes. Mobile menu leaves the focus return to the browser.
+
 ## Testing
 
 `HeaderHarness` from `@dnd-mapp/ui-web/testing` reads a header in a test: its look and size, the logo in its link home, the `NavLinkHarness` of each nav link, the `ButtonHarness` of the GitHub button and of the Menu button, the `ThemePickerHarness` of its Theme picker, which parts the current layout shows, how far each part sits from the edges of the header, and the focus ring of the link home. `pressMenu()` presses the Menu button.
