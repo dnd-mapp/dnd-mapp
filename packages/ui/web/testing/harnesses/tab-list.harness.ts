@@ -67,6 +67,11 @@ export class TabListScrollButtonHarness extends ComponentHarness {
         return await (await this.iconLocator()).getGlyph();
     }
 
+    /** Scrolls the list with a click. */
+    public async click(): Promise<void> {
+        await (await this.host()).click();
+    }
+
     /** The `type` of the button. */
     public async getType(): Promise<string | null> {
         return await (await this.host()).getAttribute('type');

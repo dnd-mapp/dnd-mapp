@@ -1,6 +1,6 @@
 import { ApplicationRef, Component, signal } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { page, userEvent } from 'vitest/browser';
+import { cdp, page, userEvent } from 'vitest/browser';
 import { TabComponent } from './tab.component';
 import { TabListComponent } from './tab-list.component';
 import { TabPanelComponent } from './tab-panel.component';
@@ -590,6 +590,18 @@ describe('Tabs', () => {
         return page.elementLocator(button);
     }
 
+    /** The label of the first tab, counted from `edge`, that does not show clear of the scroll buttons. */
+    async function findHiddenLabel(harness: TabListHarness, edge: TabListEdge) {
+        const labels = edge === 'start' ? SCROLL_LABELS : [...SCROLL_LABELS].reverse();
+
+        for (const label of labels) {
+            if (!(await harness.isTabClear(label))) {
+                return label;
+            }
+        }
+        throw new Error('Every tab shows clear of the scroll buttons.');
+    }
+
     describe('overflow', () => {
         it('should fade neither end while the tabs fit', async () => {
             const { harness } = await setupTest();
@@ -659,6 +671,18 @@ describe('Tabs', () => {
     });
 
     describe('scroll buttons', () => {
+        /** Restores the motion preference of the browser, which a test may emulate. */
+        afterEach(async () => {
+            await preferReducedMotion(false);
+        });
+
+        /** Emulates the reader's preference for reduced motion, or drops it. */
+        async function preferReducedMotion(reduce: boolean) {
+            await cdp().send('Emulation.setEmulatedMedia', {
+                features: [{ name: 'prefers-reduced-motion', value: reduce ? 'reduce' : '' }],
+            });
+        }
+
         it('should show none while the tabs fit', async () => {
             const { harness } = await setupTest();
 
@@ -769,6 +793,43 @@ describe('Tabs', () => {
                 height: 44,
                 borderRadius: '8px',
             });
+        });
+
+        it.each<TabListEdge>(['end', 'start'])(
+            'should scroll the next tab past the %s fully into view on a click',
+            async (edge) => {
+                const { harness, scroller } = await setupScrollTest();
+
+                await preferReducedMotion(true);
+                if (edge === 'start') {
+                    await scrollTo(scroller, 'end');
+                }
+                const label = await findHiddenLabel(harness, edge === 'end' ? 'start' : 'end');
+
+                await (await getScrollButton(harness, edge)).click();
+
+                expect(await harness.isTabClear(label)).toBe(true);
+            },
+        );
+
+        it('should scroll smoothly unless the reader prefers reduced motion', async () => {
+            const { harness } = await setupScrollTest();
+            const label = await findHiddenLabel(harness, 'start');
+
+            await (await getScrollButton(harness, 'end')).click();
+
+            expect(await harness.isTabClear(label)).toBe(false);
+            await expect.poll(async () => await harness.isTabClear(label)).toBe(true);
+        });
+
+        it('should leave the focus and the selection where they were on a press', async () => {
+            const { harness, scroller } = await setupScrollTest();
+
+            await userEvent.tab();
+            await userEvent.click(locateScrollButton(scroller, 'end'));
+
+            expect(await harness.getFocusedLabel()).toBe('Overview');
+            expect(await harness.getSelectedLabel()).toBe('Overview');
         });
     });
 });

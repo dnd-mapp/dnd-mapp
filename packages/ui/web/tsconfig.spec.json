@@ -2,6 +2,6 @@
     "extends": "./tsconfig.json",
     "include": ["src/**/*.d.ts", "src/**/*.spec.ts", "testing/**/*.ts"],
     "compilerOptions": {
-        "types": ["vitest/globals"]
+        "types": ["vitest/globals", "@vitest/browser-playwright"]
     }
 }

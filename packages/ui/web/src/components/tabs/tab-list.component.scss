@@ -21,8 +21,8 @@ $cover-room: calc(#{$button-room} + var(--space-16));
 }
 
 // The tabs sit side by side. When they do not fit, they scroll sideways. The list draws no scrollbar, which would add
-// to its height and cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs
-// scroll it.
+// to its height and cover the divider: a swipe, Shift with the mouse wheel, the scroll buttons, or the keys that move
+// between the tabs scroll it.
 .tabs {
     // Where the mask hides the tabs from each end, and where it shows them whole again. A scroll button sets them.
     --hide-start: 0px;

@@ -32,7 +32,7 @@ Each tab links itself to its panel, so the page writes no ids or ARIA attributes
 
 The tab list fills its container, with its tabs side by side, each as wide as its label, and draws a divider along its bottom edge.
 
-When the tabs do not fit, the tab list scrolls sideways. It draws no scrollbar, which would add to its height and cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs scroll it.
+When the tabs do not fit, the tab list scrolls sideways. It draws no scrollbar, which would add to its height and cover the divider: a swipe, Shift with the mouse wheel, a scroll button, or the keys that move between the tabs scroll it.
 
 <Canvas of={TabsStories.Overflow} />
 
@@ -44,11 +44,11 @@ The tab list fades its tabs out at each end that has more tabs past it, and draw
 
 ### Scroll buttons
 
-The tab list shows a scroll button over each end that has more tabs past it, with a chevron that points the way it scrolls, and none while its tabs fit. The buttons follow the list as it scrolls and as its container resizes.
+The tab list shows a scroll button over each end that has more tabs past it, with a chevron that points the way it scrolls, and none while its tabs fit. A click scrolls until the next tab past that end shows whole. The scroll is smooth, and instant when the reader prefers reduced motion. The buttons follow the list as it scrolls and as its container resizes.
 
 Each button is 44 px square, the minimum target size, and lies over its end of the list, so the tabs stay where they are as it shows and hides. It draws the quiet look: no fill or border, and a chevron in the muted text color. Hover fills it, and turns the chevron to the default text color, as it does a tab.
 
-The buttons stay out of the tab order and the accessibility tree, since the keys reach every tab, and draw no focus ring.
+The buttons are for the pointer, and work the same with a mouse, a pen, or touch. They stay out of the tab order and the accessibility tree, since the keys reach every tab, and a press on one leaves the focus where it was. They draw no focus ring, since they take no focus.
 
 ## Tab
 
@@ -91,4 +91,4 @@ Each tab is 44 px tall, the minimum target size, and is a `<button type="button"
 
 ## Testing
 
-`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs and focus rings show within it, which tabs show clear of its scroll buttons, which ends show a scroll button and where, its fades, its size, the gap between its tabs, and its divider. `TabListScrollButtonHarness` reads each scroll button: its end, its chevron, its look, its `type`, `tabindex`, and `aria-hidden`. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, indicator, and focus ring; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its focus ring, its id, `aria-labelledby`, and `tabindex`.
+`TabListHarness` from `@dnd-mapp/ui-web/testing` reads a tab list in a test: its tabs and their labels, the labels of the selected and the focused tab, whether it scrolls and which tabs and focus rings show within it, which tabs show clear of its scroll buttons, which ends show a scroll button and where, its fades, its size, the gap between its tabs, and its divider. `TabListScrollButtonHarness` reads each scroll button: its end, its chevron, its look, its `type`, `tabindex`, and `aria-hidden`; `click()` scrolls the list. `TabHarness` reads each tab: its label, whether it is selected or focused, its id, `aria-controls`, and `tabindex`, and its look, box, size, indicator, and focus ring; `click()` selects it, `focus()` focuses it so a test can press keys from it, and `TabHarness.with({ label })` finds the tab of a label. `TabPanelHarness` reads each panel: its text, whether it shows or has the focus, its focus ring, its id, `aria-labelledby`, and `tabindex`.
