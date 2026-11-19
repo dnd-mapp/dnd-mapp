@@ -24,7 +24,7 @@ Add a test to the spec of its area, or a new `src/<area>.spec.ts` for a new area
 | `typecheck` | `tsc`                       |    yes     |  yes   |
 | `lint`      | `eslint . --max-warnings 0` |    yes     |  yes   |
 
-Open the Playwright UI to run and debug the tests. The tests reach the dev server at <https://localhost:4200> when it is already up, and start one otherwise, which needs the [one-time HTTPS setup](../../docs/development.md#https-for-the-dev-server). That is the same server as <https://localhost.www.dndmapp.dev:4200>, under a host that the tests need no hosts file entry for:
+Open the Playwright UI to run and debug the tests. The tests reach the dev server at <https://localhost:4200> when it is already up, and start one otherwise, which needs the [one-time HTTPS setup](../../docs/development.md#https-for-the-dev-server). That is the same server as <https://localhost.www.critsource.com:4200>, under a host that the tests need no hosts file entry for:
 
 ```bash
 pnpm moon run web-e2e:e2e
