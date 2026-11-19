@@ -15,8 +15,9 @@ const meta = {
             table: { type: { summary: 'number' }, defaultValue: { summary: '0' } },
         },
     },
-    // Hides the selected tab and the select method, which the tabs read, and the key handler from the table of args.
-    parameters: { controls: { exclude: ['selectedTab', 'select', 'move'] } },
+    // Hides the selected tab and the select method, which the tabs read, the key handler, and the scroll state and its
+    // handler from the table of args.
+    parameters: { controls: { exclude: ['selectedTab', 'select', 'move', 'scrollsStart', 'scrollsEnd', 'update'] } },
     render: (args) => ({
         props: args,
         moduleMetadata: { imports: [TabComponent, TabPanelComponent] },
@@ -43,7 +44,10 @@ export const Default: Story = {
     args: { selected: 0 },
 };
 
-/** Tabs too wide for their container: the tab list scrolls sideways, and a key scrolls the tab it reaches into view. */
+/**
+ * Tabs too wide for their container: the tab list scrolls sideways, and fades its tabs out at each end that has more
+ * tabs. A key scrolls the tab it reaches into view.
+ */
 export const Overflow: Story = {
     args: { selected: 0 },
     decorators: [componentWrapperDecorator((story) => `<div style="max-width: 240px">${story}</div>`)],

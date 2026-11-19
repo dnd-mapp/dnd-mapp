@@ -7,10 +7,20 @@ export interface TabListDivider {
     width: number;
 }
 
+/**
+ * The fade at an end of a tab list, read from the mask of its tabs: how far in pixels from that end the tabs hide, and
+ * how far from it they show whole again.
+ */
+export interface TabListFade {
+    hide: number;
+    show: number;
+}
+
 export class TabListHarness extends ComponentHarness {
     public static readonly hostSelector = 'dma-tab-list';
 
     private readonly tabsLocator = this.locatorForAll(TabHarness);
+    private readonly scrollerLocator = this.locatorFor('.tabs');
 
     /** The tabs of the list, in the order it shows them. */
     public async getTabs(): Promise<TabHarness[]> {
@@ -51,10 +61,10 @@ export class TabListHarness extends ComponentHarness {
 
     /** Whether the tabs are wider than the list, so it scrolls sideways. */
     public async isScrollable(): Promise<boolean> {
-        const host = await this.host();
+        const scroller = await this.scrollerLocator();
         const [scrollWidth, clientWidth] = await Promise.all([
-            host.getProperty<number>('scrollWidth'),
-            host.getProperty<number>('clientWidth'),
+            scroller.getProperty<number>('scrollWidth'),
+            scroller.getProperty<number>('clientWidth'),
         ]);
 
         return scrollWidth > clientWidth;
@@ -68,6 +78,42 @@ export class TabListHarness extends ComponentHarness {
         ]);
 
         return tab.left >= list.left && tab.left + tab.width <= list.left + list.width;
+    }
+
+    /**
+     * Whether the whole of the tab labeled `label` shows clear of the fades, rather than in one of them or scrolled out
+     * of the list. A tab may lie a pixel into a fade, since the list scrolls by fractions of a pixel on a zoomed page.
+     */
+    public async isTabClear(label: string): Promise<boolean> {
+        const [list, tab, fade] = await Promise.all([
+            (await this.host()).getDimensions(),
+            (await (await this.getTab(label)).host()).getDimensions(),
+            this.getFade(),
+        ]);
+        const start = list.left + (fade.start?.show ?? 0);
+        const end = list.left + list.width - (fade.end?.show ?? 0);
+
+        return tab.left >= start - 1 && tab.left + tab.width <= end + 1;
+    }
+
+    /**
+     * The fade at each end of the list, read from the stops of the mask over its tabs, or null at an end where the
+     * tabs show up to the edge.
+     */
+    public async getFade(): Promise<{ start: TabListFade | null; end: TabListFade | null }> {
+        const scroller = await this.scrollerLocator();
+        const [mask, { width }] = await Promise.all([scroller.getCssValue('mask-image'), scroller.getDimensions()]);
+        const stops = [...mask.matchAll(/\) (calc\(100% - [\d.]+px\)|[\d.]+px)/g)].map(([, stop = '']) => {
+            const fromEnd = /^calc\(100% - ([\d.]+)px\)$/.exec(stop)?.[1];
+
+            return fromEnd === undefined ? parseFloat(stop) : width - Number(fromEnd);
+        });
+        const [hideStart = 0, showStart = 0, showEnd = width, hideEnd = width] = stops;
+
+        return {
+            start: showStart > 0 ? { hide: hideStart, show: showStart } : null,
+            end: showEnd < width ? { hide: width - hideEnd, show: width - showEnd } : null,
+        };
     }
 
     /**
@@ -110,7 +156,7 @@ export class TabListHarness extends ComponentHarness {
 
     /** The gap between the tabs. */
     public async getGap(): Promise<string> {
-        return await (await this.host()).getCssValue('column-gap');
+        return await (await this.scrollerLocator()).getCssValue('column-gap');
     }
 
     /** The divider under the tabs, or null when the list draws none. */

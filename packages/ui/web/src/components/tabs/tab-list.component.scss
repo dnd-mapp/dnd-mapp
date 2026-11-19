@@ -1,26 +1,68 @@
 // The room the focus ring of a tab takes outside the tab.
 $ring-room: calc(var(--border-width-focus) + var(--focus-offset));
 
-// The tab list fills its container, with its tabs side by side.
+// The room a fade takes at its end of the list, past which a tab shows whole: the room of the focus ring, then the
+// fade.
+$cover-room: calc(#{$ring-room} + var(--space-16));
+
+// The tab list fills its container, and reaches past it by the room of the focus ring, which its tabs pad back. It
+// still takes the height of a tab.
 :host {
-    display: flex;
-    align-items: flex-end;
-    column-gap: var(--space-4);
-
-    // When the tabs do not fit, the list scrolls sideways. It draws no scrollbar, which would add to its height and
-    // cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs scroll it.
-    overflow-x: auto;
-    scrollbar-width: none;
-
-    // A list that scrolls clips what its tabs draw outside it, so it reaches past its container by the room of the focus
-    // ring and pads that room back. It still takes the height of a tab, and a tab a key reaches scrolls into view with
-    // its ring.
+    position: relative;
+    display: block;
     margin: calc(-1 * #{$ring-room});
-    padding: $ring-room;
-    scroll-padding-inline: $ring-room;
 
     // Penpot draws the divider over the bottom edge of the tabs, so a line under the tabs draws it, as wide as the
     // container. A background stays put while the tabs scroll.
     background: linear-gradient(var(--color-border-divider), var(--color-border-divider)) left $ring-room bottom
         $ring-room / calc(100% - 2 * #{$ring-room}) var(--border-width-default) no-repeat;
+}
+
+// The tabs sit side by side. When they do not fit, they scroll sideways. The list draws no scrollbar, which would add
+// to its height and cover the divider: a swipe, Shift with the mouse wheel, or the keys that move between the tabs
+// scroll it.
+.tabs {
+    // Where the mask hides the tabs from each end, and where it shows them whole again. A fade sets them.
+    --hide-start: 0px;
+    --show-start: 0px;
+    --hide-end: 0px;
+    --show-end: 0px;
+
+    display: flex;
+    align-items: flex-end;
+    column-gap: var(--space-4);
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    // A list that scrolls clips what its tabs draw outside it, so it pads the room of the focus ring, and a tab a key
+    // reaches scrolls into view with its ring.
+    padding: $ring-room;
+    scroll-padding-inline: $ring-room;
+}
+
+// The tabs fade out at each end that has more tabs, and hide under the room of the focus ring there. A tab a key
+// reaches scrolls into view past the fade.
+:host(.scrolls-start) .tabs {
+    --hide-start: #{$ring-room};
+    --show-start: #{$cover-room};
+
+    scroll-padding-inline-start: $cover-room;
+}
+
+:host(.scrolls-end) .tabs {
+    --hide-end: #{$ring-room};
+    --show-end: #{$cover-room};
+
+    scroll-padding-inline-end: $cover-room;
+}
+
+:host(.scrolls-start) .tabs,
+:host(.scrolls-end) .tabs {
+    mask-image: linear-gradient(
+        to right,
+        transparent var(--hide-start),
+        black var(--show-start),
+        black calc(100% - var(--show-end)),
+        transparent calc(100% - var(--hide-end))
+    );
 }
