@@ -20,6 +20,10 @@ const ATTRIBUTION =
     'Creative Commons Attribution 4.0 International License available at ' +
     'https://creativecommons.org/licenses/by/4.0/legalcode.';
 
+const NOTICE =
+    'D&D Mapp is an unofficial fan project and is not affiliated with Wizards of the Coast. Dungeons & Dragons and D&D ' +
+    'are trademarks of Wizards of the Coast LLC.';
+
 describe('FooterComponent', () => {
     @Component({
         template: `
@@ -110,6 +114,14 @@ describe('FooterComponent', () => {
         expect(await harness.getText('attribution')).toBe(ATTRIBUTION);
     });
 
+    it('should show the unofficial notice word for word, on the line below the SRD 5.1 attribution', async () => {
+        const { harness } = await setupTest();
+        const [attribution, notice] = await Promise.all([harness.getBox('attribution'), harness.getBox('notice')]);
+
+        expect(await harness.getText('notice')).toBe(NOTICE);
+        expect(notice.top - (attribution.top + attribution.height)).toBeCloseTo(0);
+    });
+
     it('should link both URLs of the attribution, underlined', async () => {
         const { harness } = await setupTest();
         const urls = [
@@ -139,7 +151,7 @@ describe('FooterComponent', () => {
         expect(look.background).toBe(readColorToken('--color-background-footer'));
         expect(look.dividerColor).toBe(readColorToken('--color-border-divider'));
         expect(look.dividerWidth).toBe('1px');
-        for (const part of ['tagline', 'license', 'attribution'] as const) {
+        for (const part of ['tagline', 'license', 'attribution', 'notice'] as const) {
             expect(await harness.getTextLook(part)).toEqual(muted);
         }
     });
