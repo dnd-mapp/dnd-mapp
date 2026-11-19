@@ -258,7 +258,8 @@ export class TabListHarness extends ComponentHarness {
 
     /**
      * Whether the focus ring of the tab labeled `label` shows whole within the list, which clips what it scrolls. Only a
-     * tab with keyboard focus draws its ring.
+     * tab with keyboard focus draws its ring. The ring may lie a pixel past either end, since the browser rounds how far
+     * the list scrolls to whole pixels, so the last tab can stop a fraction of a pixel short of its ring room.
      */
     public async isFocusRingInView(label: string): Promise<boolean> {
         const tab = await this.getTab(label);
@@ -270,8 +271,8 @@ export class TabListHarness extends ComponentHarness {
         const room = parseFloat(width) + parseFloat(offset);
 
         return (
-            box.left - room >= list.left &&
-            box.left + box.width + room <= list.left + list.width &&
+            box.left - room >= list.left - 1 &&
+            box.left + box.width + room <= list.left + list.width + 1 &&
             box.top - room >= list.top &&
             box.top + box.height + room <= list.top + list.height
         );
