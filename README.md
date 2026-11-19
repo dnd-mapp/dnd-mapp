@@ -1,8 +1,8 @@
 # D&D Mapp
 
-[![Push main](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml/badge.svg?branch=main)](https://github.com/dnd-mapp/dnd-mapp/actions/workflows/push-main.yaml?query=branch%3Amain)
+[![Push main](https://github.com/critsource/critsource/actions/workflows/push-main.yaml/badge.svg?branch=main)](https://github.com/critsource/critsource/actions/workflows/push-main.yaml?query=branch%3Amain)
 [![Docker image version](https://img.shields.io/docker/v/dndmapp/web?sort=semver&label=dndmapp%2Fweb)](https://hub.docker.com/r/dndmapp/web)
-[![License: MIT](https://img.shields.io/github/license/dnd-mapp/dnd-mapp)](LICENSE)
+[![License: MIT](https://img.shields.io/github/license/critsource/critsource)](LICENSE)
 
 D&D Mapp is an open-source web app for dungeon masters and players of Dungeons & Dragons 5th edition. It covers the 2014 rules from the System Reference Document 5.1, and users add their own homebrew content on top.
 

@@ -35,7 +35,7 @@ Check two things before you merge:
 - **The version.** When `auto` picked the wrong level, dispatch again with an explicit one. When you set a level below the one `auto` picks, the description names what `auto` would pick.
 - **The entries.** They become the body of the GitHub Release as they are. Fix an entry in a pull request to `main` and dispatch again, since a dispatch replaces the release branch.
 
-The app pushed the release branch, so any member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers) can approve it, you included. Auto-merge stays off, since merging is how a maintainer confirms the version. Merging publishes nothing yet: the release waits for the tag.
+The app pushed the release branch, so any member of [@critsource/reviewers](https://github.com/orgs/critsource/teams/reviewers) can approve it, you included. Auto-merge stays off, since merging is how a maintainer confirms the version. Merging publishes nothing yet: the release waits for the tag.
 
 ## Sign and push the tag
 

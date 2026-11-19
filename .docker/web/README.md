@@ -1,6 +1,6 @@
 # D&D Mapp web
 
-The web client of [D&D Mapp](https://github.com/dnd-mapp/dnd-mapp). The app renders in the browser only, so the image serves its static files with [nginx](https://nginx.org) and needs no other service. Each tag holds an image for `linux/amd64` and `linux/arm64`.
+The web client of [D&D Mapp](https://github.com/critsource/critsource). The app renders in the browser only, so the image serves its static files with [nginx](https://nginx.org) and needs no other service. Each tag holds an image for `linux/amd64` and `linux/arm64`.
 
 ## Tags
 
@@ -14,7 +14,7 @@ The web client of [D&D Mapp](https://github.com/dnd-mapp/dnd-mapp). The app rend
 | `sha-<short>`     | A commit of `main` that changed the image, such as `sha-41b5eb9`.                     |
 | `pr-<number>`     | A pull request, for review only. The tag is deleted once the pull request closes.     |
 
-Run `latest` or a version tag for a release. The [GitHub Releases](https://github.com/dnd-mapp/dnd-mapp/releases) list what each version changes.
+Run `latest` or a version tag for a release. The [GitHub Releases](https://github.com/critsource/critsource/releases) list what each version changes.
 
 ## Running
 
@@ -66,4 +66,4 @@ nginx serves the file with `Cache-Control: no-store`, so neither browsers nor pr
 
 ## Source
 
-The image is built from [`.docker/web/Dockerfile`](https://github.com/dnd-mapp/dnd-mapp/blob/main/.docker/web/Dockerfile), and [`.docker/web/nginx.conf`](https://github.com/dnd-mapp/dnd-mapp/blob/main/.docker/web/nginx.conf) configures nginx. The [README of the web app](https://github.com/dnd-mapp/dnd-mapp/blob/main/apps/web/README.md) explains how to build the image yourself, for example under another base path. Report problems in the [issues](https://github.com/dnd-mapp/dnd-mapp/issues) of the repository. The image is licensed under the [MIT License](https://github.com/dnd-mapp/dnd-mapp/blob/main/LICENSE).
+The image is built from [`.docker/web/Dockerfile`](https://github.com/critsource/critsource/blob/main/.docker/web/Dockerfile), and [`.docker/web/nginx.conf`](https://github.com/critsource/critsource/blob/main/.docker/web/nginx.conf) configures nginx. The [README of the web app](https://github.com/critsource/critsource/blob/main/apps/web/README.md) explains how to build the image yourself, for example under another base path. Report problems in the [issues](https://github.com/critsource/critsource/issues) of the repository. The image is licensed under the [MIT License](https://github.com/critsource/critsource/blob/main/LICENSE).

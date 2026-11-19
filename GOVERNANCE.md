@@ -11,7 +11,7 @@ Everyone in every role is accountable for what they submit, whatever tools helpe
 The lead maintainer is a maintainer with the final say on every decision. On top of the maintainer responsibilities, the lead maintainer:
 
 - Sets the direction and the roadmap of the project.
-- Administers the dnd-mapp GitHub organization and the settings of its repository, such as rulesets, secrets, and teams.
+- Administers the critsource GitHub organization and the settings of its repository, such as rulesets, secrets, and teams.
 - Handles security advisories.
 - Enforces the [code of conduct](CODE_OF_CONDUCT.md).
 
@@ -21,8 +21,8 @@ Maintainers run the day-to-day work of the project. A maintainer:
 
 - Triages issues and assigns them, as [Where to start](CONTRIBUTING.md#where-to-start) describes.
 - Files the work that comes out of discussions and bug reports, through the [issue forms](.github/ISSUE_TEMPLATE) for features, tasks, research, and epics.
-- Reviews and approves pull requests as a member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers), the code owners of the repository.
-- Moderates [Discussions](https://github.com/dnd-mapp/dnd-mapp/discussions).
+- Reviews and approves pull requests as a member of [@critsource/reviewers](https://github.com/orgs/critsource/teams/reviewers), the code owners of the repository.
+- Moderates [Discussions](https://github.com/critsource/critsource/discussions).
 
 ### Contributors
 
@@ -32,7 +32,7 @@ The repository lets only its collaborators open pull requests, so maintainers ma
 
 ### Automation
 
-`dnd-mapp-bot` is an account that the lead maintainer runs. GitHub does not let authors approve their own pull requests, so the lead maintainer reviews their own pull requests with this account, which is why it belongs to @dnd-mapp/reviewers. It is not a maintainer, and the lead maintainer is accountable for every pull request it approves.
+`critsource-bot` is an account that the lead maintainer runs. GitHub does not let authors approve their own pull requests, so the lead maintainer reviews their own pull requests with this account, which is why it belongs to @critsource/reviewers. It is not a maintainer, and the lead maintainer is accountable for every pull request it approves.
 
 Renovate merges some dependency updates without a review, as [Dependency updates](docs/dependency-updates.md) explains.
 
@@ -60,8 +60,8 @@ Significant decisions need the approval of the lead maintainer:
 
 Every decision is recorded where it is made:
 
-- [Discussions](https://github.com/dnd-mapp/dnd-mapp/discussions) hold ideas and questions, and whether an idea becomes work.
-- Issues and the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) hold the accepted work and its status.
+- [Discussions](https://github.com/critsource/critsource/discussions) hold ideas and questions, and whether an idea becomes work.
+- Issues and the [Critsource project](https://github.com/orgs/critsource/projects/10) hold the accepted work and its status.
 - Pull requests hold how the work is built, and the review that accepted it.
 - [Architecture decision records](docs/adr/README.md) hold why the workspace is built the way it is, for each choice that is hard to reverse.
 
@@ -71,15 +71,15 @@ Every decision is recorded where it is made:
 
 The path to maintainer opens together with pull requests from contributors. From then on, the lead maintainer invites contributors who have made sustained, good-quality contributions; there is no fixed count. A contributor who wants the role may ask the lead maintainer.
 
-An invited contributor accepts by opening a pull request that adds them to [People](#people). Once it merges, the lead maintainer adds them to @dnd-mapp/reviewers and to the `maintainers` of the moon projects they look after.
+An invited contributor accepts by opening a pull request that adds them to [People](#people). Once it merges, the lead maintainer adds them to @critsource/reviewers and to the `maintainers` of the moon projects they look after.
 
 ### Stepping down
 
-A maintainer steps down by opening a pull request that moves them from [People](#people) to an Emeritus section below it. The lead maintainer may do the same for a maintainer who has been inactive for six months, after asking them first. Either way, the lead maintainer then removes them from @dnd-mapp/reviewers and from the `maintainers` of the moon projects.
+A maintainer steps down by opening a pull request that moves them from [People](#people) to an Emeritus section below it. The lead maintainer may do the same for a maintainer who has been inactive for six months, after asking them first. Either way, the lead maintainer then removes them from @critsource/reviewers and from the `maintainers` of the moon projects.
 
 ### Succession
 
-When the lead maintainer steps down, they hand the role, and the ownership of the dnd-mapp GitHub organization, to a maintainer. When no maintainer can take over, they archive the repository.
+When the lead maintainer steps down, they hand the role, and the ownership of the critsource GitHub organization, to a maintainer. When no maintainer can take over, they archive the repository.
 
 No successor exists today, so the project stops if the lead maintainer can no longer lead it.
 

@@ -6,11 +6,11 @@ Thanks for helping build D&D Mapp. This guide covers where a contribution starts
 
 [`SUPPORT.md`](SUPPORT.md) lists where questions, ideas, bug reports, and other requests go. A code or docs change starts from an issue that a maintainer has triaged, and for now only maintainers make these changes, as [`GOVERNANCE.md`](GOVERNANCE.md#contributors) explains.
 
-A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Backlog on the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10), and moves it to Ready once Ready has room. The maintainer assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
+A [maintainer](GOVERNANCE.md#maintainers) triages an issue by setting its status to Backlog on the [Critsource project](https://github.com/orgs/critsource/projects/10), and moves it to Ready once Ready has room. The maintainer assigns it to whoever picks it up, so no one else starts on it. The other issue forms are for maintainers, who file the work that comes out of discussions and bug reports.
 
 ## Project board
 
-The [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10) has two boards: one for epics, and one for the work items that epics break into, such as tasks, features, research, and bugs. Triage and Backlog have no limit. Ready, In progress, and In review have WIP limits, which the [project README](https://github.com/orgs/dnd-mapp/projects/10?pane=info) sets for each board, along with what each status means. Only an expedited bug may move into a full status:
+The [Critsource project](https://github.com/orgs/critsource/projects/10) has two boards: one for epics, and one for the work items that epics break into, such as tasks, features, research, and bugs. Triage and Backlog have no limit. Ready, In progress, and In review have WIP limits, which the [project README](https://github.com/orgs/critsource/projects/10?pane=info) sets for each board, along with what each status means. Only an expedited bug may move into a full status:
 
 - **Expedited bugs.** A bug that cannot wait for a free slot, such as one that breaks the deployed app, may go over the WIP limit of each status it moves through. A maintainer decides when a bug qualifies, and only one issue is expedited at a time. It goes ahead of all other work, and its pull request gets reviewed first.
 - **Epic status.** An epic moves to In progress when its first sub-issue does, and to Done when its last sub-issue does. Epics skip In review, since review happens on the pull requests of their sub-issues.
@@ -141,7 +141,7 @@ Open the pull request against `main`, and keep it to one concern: an unrelated f
 A pull request merges once all of these hold:
 
 - The required checks pass: `CI`, `Pull request title`, `Web image`, and `End-to-end tests`. The `Web image` job skips when the change does not affect the web app, and the `End-to-end tests` job skips when the change affects neither the web app nor its tests. A skipped job counts as passing.
-- A member of [@dnd-mapp/reviewers](https://github.com/orgs/dnd-mapp/teams/reviewers), the code owners in [`CODEOWNERS`](.github/CODEOWNERS), approves it. [`GOVERNANCE.md`](GOVERNANCE.md#roles) explains who belongs to the team.
+- A member of [@critsource/reviewers](https://github.com/orgs/critsource/teams/reviewers), the code owners in [`CODEOWNERS`](.github/CODEOWNERS), approves it. [`GOVERNANCE.md`](GOVERNANCE.md#roles) explains who belongs to the team.
 - Someone other than you approves your last push. A new push dismisses earlier approvals, so the reviewer sees the final state.
 
 Reviewers leave comments in threads; answer each one with the commit that addresses it, or with the reason you disagree. Since the merge commit keeps every commit of the branch, clean up the history before you ask for review, and squash fixups into the commit they fix.
