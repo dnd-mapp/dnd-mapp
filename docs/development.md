@@ -35,7 +35,7 @@ mise install
     ```
 
 3. Set up [HTTPS for the dev server](#https-for-the-dev-server).
-4. Serve the web client at <https://localhost.www.dndmapp.dev:4200>:
+4. Serve the web client at <https://localhost.www.critsource.com:4200>:
 
     ```bash
     pnpm moon run web:start
@@ -100,7 +100,7 @@ pnpm exec playwright install chromium
 
 ## HTTPS for the dev server
 
-The web client's dev server serves the app over HTTPS at `https://localhost.www.dndmapp.dev:4200`, so `Secure` cookies, `SameSite`, and CORS work across sibling hosts as they do in production. The certificate also covers `https://localhost:4200` and `https://127.0.0.1:4200`. Those reach the same server but are separate sites, so cookies shared with sibling hosts work only on the `www` host. Set this up once per machine:
+The web client's dev server serves the app over HTTPS at `https://localhost.www.critsource.com:4200`, so `Secure` cookies, `SameSite`, and CORS work across sibling hosts as they do in production. The certificate also covers `https://localhost:4200` and `https://127.0.0.1:4200`. Those reach the same server but are separate sites, so cookies shared with sibling hosts work only on the `www` host. Set this up once per machine:
 
 1. Install [mkcert](https://github.com/FiloSottile/mkcert#installation). Firefox also needs NSS `certutil`, which the mkcert install guide covers.
 2. Create a local certificate authority and add it to the trust stores of your system and browsers:
@@ -112,7 +112,7 @@ The web client's dev server serves the app over HTTPS at `https://localhost.www.
 3. Point the dev host at your machine. Add this line to your hosts file: `/etc/hosts` on macOS and Linux, or `C:\Windows\System32\drivers\etc\hosts` on Windows. Without it, only `localhost` and `127.0.0.1` reach the dev server:
 
     ```text
-    127.0.0.1 localhost.www.dndmapp.dev
+    127.0.0.1 localhost.www.critsource.com
     ```
 
 The first `web:start` runs `root:ssl-certs`, which has mkcert write a certificate and its key to `.ssl/`, and later runs restore them from the moon cache. moon keeps restoring that certificate after you install a new mkcert CA, or once the certificate expires after about two years. Regenerate it then:
