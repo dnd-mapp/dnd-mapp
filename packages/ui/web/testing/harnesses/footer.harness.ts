@@ -7,7 +7,7 @@ import { ThemePickerHarness } from './theme-picker.harness';
 export type FooterPart = 'brand' | FooterText | 'groups' | 'bottom' | 'legal' | 'themePicker';
 
 /** A text that a footer draws itself. */
-export type FooterText = 'tagline' | 'license' | 'attribution';
+export type FooterText = 'tagline' | 'license' | 'attribution' | 'notice';
 
 /** How a footer draws itself: its background, its padding, and the line above its legal text. */
 export interface FooterLook {
@@ -46,6 +46,7 @@ const PART_SELECTORS: Record<FooterPart, string> = {
     legal: ':scope > .bottom > .legal',
     license: ':scope > .bottom > .legal > .license',
     attribution: ':scope > .bottom > .legal > .attribution',
+    notice: ':scope > .bottom > .legal > .notice',
     themePicker: ':scope > .bottom > [dma-theme-picker]',
 };
 

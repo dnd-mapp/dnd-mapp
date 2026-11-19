@@ -69,6 +69,12 @@ $host: 'footer[dma-footer]';
     @include typography(body-sm);
 }
 
+// Penpot draws the unofficial notice as the next line of the attribution text, so it cancels the gap between the legal
+// paragraphs.
+#{$host} > .bottom > .legal > .notice {
+    margin-block-start: calc(-1 * var(--space-8));
+}
+
 // Penpot draws the URLs as plain text. They take its color, and an underline sets them apart from the text around them,
 // so color is not the only cue. A URL breaks anywhere, so it never widens a narrow screen.
 #{$host} > .bottom > .legal a {
