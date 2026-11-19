@@ -6,7 +6,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git",
+    "url": "git+https://github.com/critsource/critsource.git",
     "directory": "packages/testing-node"
   },
   "type": "module",

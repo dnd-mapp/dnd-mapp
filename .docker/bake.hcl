@@ -95,8 +95,8 @@ function "web_labels" {
         "org.opencontainers.image.title"       = "D&D Mapp web"
         "org.opencontainers.image.description" = "The web client of D&D Mapp."
         "org.opencontainers.image.licenses"    = "MIT"
-        "org.opencontainers.image.source"      = "https://github.com/dnd-mapp/dnd-mapp"
-        "org.opencontainers.image.url"         = "https://github.com/dnd-mapp/dnd-mapp"
+        "org.opencontainers.image.source"      = "https://github.com/critsource/critsource"
+        "org.opencontainers.image.url"         = "https://github.com/critsource/critsource"
     }
 }
 

@@ -31,16 +31,16 @@ The `web` target of [`.docker/bake.hcl`](../../.docker/bake.hcl) builds the imag
 
 The target sets these labels, of which the `org.opencontainers.image` ones follow the [OCI annotations](https://github.com/opencontainers/image-spec/blob/main/annotations.md):
 
-| Label                                  | Value                                  |
-|:---------------------------------------|:---------------------------------------|
-| `maintainer`                           | `D&D Mapp`                             |
-| `org.opencontainers.image.title`       | `D&D Mapp web`                         |
-| `org.opencontainers.image.description` | `The web client of D&D Mapp.`          |
-| `org.opencontainers.image.licenses`    | `MIT`                                  |
-| `org.opencontainers.image.source`      | `https://github.com/dnd-mapp/dnd-mapp` |
-| `org.opencontainers.image.url`         | `https://github.com/dnd-mapp/dnd-mapp` |
-| `org.opencontainers.image.version`     | The first tag in `TAGS`.               |
-| `org.opencontainers.image.created`     | The time of the build.                 |
+| Label                                  | Value                                      |
+|:---------------------------------------|:-------------------------------------------|
+| `maintainer`                           | `D&D Mapp`                                 |
+| `org.opencontainers.image.title`       | `D&D Mapp web`                             |
+| `org.opencontainers.image.description` | `The web client of D&D Mapp.`              |
+| `org.opencontainers.image.licenses`    | `MIT`                                      |
+| `org.opencontainers.image.source`      | `https://github.com/critsource/critsource` |
+| `org.opencontainers.image.url`         | `https://github.com/critsource/critsource` |
+| `org.opencontainers.image.version`     | The first tag in `TAGS`.                   |
+| `org.opencontainers.image.created`     | The time of the build.                     |
 
 [`.docker/web/nginx.conf`](../../.docker/web/nginx.conf) serves the app on port 4200 under its base path, and answers every path under it without a file extension with `index.html`, so the router handles it. A missing file with an extension, such as a bundle of an older build, gets a `404`. nginx serves `index.html` with `Cache-Control: no-cache`, so browsers load a new release, and `build-info.json` with `Cache-Control: no-store`.
 

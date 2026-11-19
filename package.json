@@ -3,11 +3,11 @@
   "description": "The monorepo for D&D Mapp: all packages and applications of the project.",
   "private": true,
   "license": "MIT",
-  "homepage": "https://github.com/dnd-mapp/dnd-mapp#readme",
-  "bugs": "https://github.com/dnd-mapp/dnd-mapp/issues",
+  "homepage": "https://github.com/critsource/critsource#readme",
+  "bugs": "https://github.com/critsource/critsource/issues",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dnd-mapp/dnd-mapp.git"
+    "url": "git+https://github.com/critsource/critsource.git"
   },
   "scripts": {
     "moon": "moon"

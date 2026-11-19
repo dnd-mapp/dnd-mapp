@@ -8,7 +8,7 @@ tags:
 project:
     title: "Release CLI"
     description: "The CLI that the release workflows run to bump, verify, and lint the changelog and manifest of a project."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"
 

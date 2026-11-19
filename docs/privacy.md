@@ -32,4 +32,4 @@ Each November, around the date the Privacy page names:
 
 When a change adds a kind of data, a cookie, a script, or a recipient, or changes how long data is kept, update the Privacy page, this guide, and the page's Last updated date in the same pull request.
 
-The statement was published without a legal check, as [#293](https://github.com/dnd-mapp/dnd-mapp/issues/293#issuecomment-6883518077) records. Get one before the site adds accounts, analytics, or error monitoring, or processes any other personal data.
+The statement was published without a legal check, as [#293](https://github.com/critsource/critsource/issues/293#issuecomment-6883518077) records. Get one before the site adds accounts, analytics, or error monitoring, or processes any other personal data.

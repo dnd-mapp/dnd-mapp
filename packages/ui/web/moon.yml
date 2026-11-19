@@ -9,7 +9,7 @@ tags:
 project:
     title: "Web UI"
     description: "The UI components of the web client, which every app and module of the web platform may import."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"
 

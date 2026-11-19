@@ -16,8 +16,8 @@ ${unreleased}
 
 - Open a map.
 
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v${version}...HEAD
-[${version}]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v${version}
+[unreleased]: https://github.com/critsource/critsource/compare/web@v${version}...HEAD
+[${version}]: https://github.com/critsource/critsource/releases/tag/web@v${version}
 `;
 }
 
@@ -44,8 +44,8 @@ All notable changes to the web app are documented in this file.
 
 - Open a map.
 
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...HEAD
-[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
+[unreleased]: https://github.com/critsource/critsource/compare/web@v0.1.0...HEAD
+[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0
 `);
         expect(JSON.parse(await fixture.read('apps/web/package.json'))).toEqual({
             name: '@dnd-mapp/web',
@@ -82,10 +82,10 @@ All notable changes to the web app are documented in this file.
 
 - Open a map.
 
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.1...HEAD
-[0.2.1]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.0...web@v0.2.1
-[0.2.0]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.2.0
-[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
+[unreleased]: https://github.com/critsource/critsource/compare/web@v0.2.1...HEAD
+[0.2.1]: https://github.com/critsource/critsource/compare/web@v0.2.0...web@v0.2.1
+[0.2.0]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.2.0
+[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0
 `);
     });
 
@@ -309,7 +309,7 @@ All notable changes to the web app are documented in this file.
 
     it('keeps the line endings of the changelog and the indentation of package.json', async () => {
         const manifest =
-            '{\r\n    "name": "@dnd-mapp/web",\r\n    "version": "0.2.0",\r\n    "repository": "github:dnd-mapp/dnd-mapp"\r\n}\r\n';
+            '{\r\n    "name": "@dnd-mapp/web",\r\n    "version": "0.2.0",\r\n    "repository": "github:critsource/critsource"\r\n}\r\n';
         const { fixture } = await bump(
             { changelog: releasedChangelog.replaceAll('\n', '\r\n'), manifest, version: '0.2.0' },
             'auto',
@@ -323,7 +323,7 @@ All notable changes to the web app are documented in this file.
 
     it('sets the top-level version of package.json, not a nested one before it', async () => {
         const manifest =
-            '{\n  "name": "@dnd-mapp/web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0",\n  "repository": "dnd-mapp/dnd-mapp"\n}\n';
+            '{\n  "name": "@dnd-mapp/web",\n  "config": {\n    "version": "9.9.9"\n  },\n  "version": "0.2.0",\n  "repository": "critsource/critsource"\n}\n';
         const { fixture } = await bump({ changelog: releasedChangelog, manifest, version: '0.2.0' }, 'auto');
 
         expect(await fixture.read('apps/web/package.json')).toBe(manifest.replace('0.2.0', '0.2.1'));
@@ -352,7 +352,7 @@ All notable changes to the web app are documented in this file.
                 stderr: '',
             });
             expect(await fixture.read('CHANGELOG.md')).toContain(
-                '[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/v0.2.1...HEAD\n[0.2.1]: https://github.com/dnd-mapp/dnd-mapp/compare/v0.2.0...v0.2.1\n',
+                '[unreleased]: https://github.com/critsource/critsource/compare/v0.2.1...HEAD\n[0.2.1]: https://github.com/critsource/critsource/compare/v0.2.0...v0.2.1\n',
             );
             expect(JSON.parse(await fixture.read('package.json'))).toMatchObject({ version: '0.2.1' });
         });

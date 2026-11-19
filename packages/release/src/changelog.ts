@@ -149,7 +149,7 @@ export function entriesOf(section: Section): Entry[] {
 
 /** Where the compare links of a changelog point: the repository, and the tags of the project in it. */
 export interface LinkTarget {
-    /** The web URL of the repository, such as `https://github.com/dnd-mapp/dnd-mapp`. */
+    /** The web URL of the repository, such as `https://github.com/critsource/critsource`. */
     repository: string;
     /** The text before the version in a tag of the project, such as `web@v`, or `v`. */
     tagPrefix: string;

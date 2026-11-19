@@ -4,7 +4,7 @@ This policy covers which versions of D&D Mapp get security fixes, what is in sco
 
 ## Supported versions
 
-Security fixes land on `main` and ship in the next release. Older releases get no fixes, so upgrade to the [latest release](https://github.com/dnd-mapp/dnd-mapp/releases).
+Security fixes land on `main` and ship in the next release. Older releases get no fixes, so upgrade to the [latest release](https://github.com/critsource/critsource/releases).
 
 | Version                                                 | Supported |
 |:--------------------------------------------------------|:---------:|
@@ -35,7 +35,7 @@ Out of scope:
 
 Report a vulnerability privately, never in a public issue, pull request, or discussion:
 
-- Open a [security advisory](https://github.com/dnd-mapp/dnd-mapp/security/advisories/new).
+- Open a [security advisory](https://github.com/critsource/critsource/security/advisories/new).
 - Without a GitHub account, email [security@dndmapp.nl.eu.org](mailto:security@dndmapp.nl.eu.org).
 
 Include the affected version or commit, the steps to reproduce the weakness, and what an attacker could do with it.

@@ -59,11 +59,11 @@ Docker Hub keeps one overview per repository rather than per tag, so only `Push 
 
 The `Storybook` and `Storybook preview` jobs publish the [Storybook](../packages/ui/web/README.md#storybook) of `ui-web` to GitHub Pages. Like the `Web image` job, they run next to `CI`, so a failing check still publishes. [ADR 0011](adr/0011-storybook-on-github-pages.md) records why the site works this way.
 
-| Event                         | Folder                 | URL                                                | Environment                                        |
-|:------------------------------|:-----------------------|:---------------------------------------------------|:---------------------------------------------------|
-| Push to `main`                | The root               | <https://dnd-mapp.github.io/dnd-mapp/>             | `storybook`                                        |
-| Push to a pull request        | `pr/<number>/`         | `https://dnd-mapp.github.io/dnd-mapp/pr/<number>/` | `storybook-preview`                                |
-| Pull request merged or closed | Deletes `pr/<number>/` | None                                               | Marks the deployments of the pull request inactive |
+| Event                         | Folder                 | URL                                                    | Environment                                        |
+|:------------------------------|:-----------------------|:-------------------------------------------------------|:---------------------------------------------------|
+| Push to `main`                | The root               | <https://critsource.github.io/critsource/>             | `storybook`                                        |
+| Push to a pull request        | `pr/<number>/`         | `https://critsource.github.io/critsource/pr/<number>/` | `storybook-preview`                                |
+| Pull request merged or closed | Deletes `pr/<number>/` | None                                                   | Marks the deployments of the pull request inactive |
 
 The `gh-pages` branch holds the site as one commit without parents. Each deploy builds Storybook, then runs the [`publish-pages`](../.github/actions/publish-pages/action.yaml) action, which:
 
@@ -85,7 +85,7 @@ The previews stay out of search results through a `<meta name="robots" content="
 A maintainer sets up Pages once:
 
 1. Let the first deploy create `gh-pages`. It fails while it waits for the site, since Pages does not serve the branch yet.
-2. Have Pages deploy from the root of `gh-pages`, under **Settings** > **Pages**, or with `gh api repos/dnd-mapp/dnd-mapp/pages -f 'source[branch]=gh-pages' -f 'source[path]=/'`.
+2. Have Pages deploy from the root of `gh-pages`, under **Settings** > **Pages**, or with `gh api repos/critsource/critsource/pages -f 'source[branch]=gh-pages' -f 'source[path]=/'`.
 3. Add a branch ruleset for `gh-pages` that blocks deletion, and leave every other rule off. The deploys force-push unsigned commits, and GitHub rejects GitHub Actions as a bypass actor, so no deploy could get past a rule that restricts updates.
 4. Rerun the failed deploy.
 
@@ -107,7 +107,7 @@ The workflows read these repository secrets and variables:
 
 The deploy jobs read these from the GitHub environment they deploy to, so no other job can read them. Each of `development`, `staging`, and `production` holds its own:
 
-| Name                                     | Kind     | Used for                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|:-----------------------------------------|:---------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `TS_OAUTH_CLIENT_ID`, `TS_AUDIENCE`      | Variable | The client ID and audience of the Tailscale federated identity of the environment. The job signs in to it with its GitHub OIDC token and joins the tailnet as `tag:ci`, which reaches the Watchtower API. The identity trusts only the subject `repo:dnd-mapp@207037107/dnd-mapp@1431406650:environment:<name>`, which names the owner and repository by ID since the repository uses immutable OIDC subjects, so a job in another environment cannot sign in to it. |
-| `WATCHTOWER_URL`, `WATCHTOWER_API_TOKEN` | Secret   | Asking Watchtower to update a container. Watchtower accepts a single token, so each environment holds a copy. The URL is a secret, so the logs mask the tailnet hostname.                                                                                                                                                                                                                                                                                            |
+| Name                                     | Kind     | Used for                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|:-----------------------------------------|:---------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `TS_OAUTH_CLIENT_ID`, `TS_AUDIENCE`      | Variable | The client ID and audience of the Tailscale federated identity of the environment. The job signs in to it with its GitHub OIDC token and joins the tailnet as `tag:ci`, which reaches the Watchtower API. The identity trusts only the subject `repo:critsource@207037107/critsource@1431406650:environment:<name>`, which names the owner and repository by ID since the repository uses immutable OIDC subjects, so a job in another environment cannot sign in to it. |
+| `WATCHTOWER_URL`, `WATCHTOWER_API_TOKEN` | Secret   | Asking Watchtower to update a container. Watchtower accepts a single token, so each environment holds a copy. The URL is a secret, so the logs mask the tailnet hostname.                                                                                                                                                                                                                                                                                                |

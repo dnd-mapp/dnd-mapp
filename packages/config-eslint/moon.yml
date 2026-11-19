@@ -8,7 +8,7 @@ tags:
 project:
     title: "ESLint config"
     description: "The shared ESLint presets of the projects, which also enforce the dependency rules between them."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"
 

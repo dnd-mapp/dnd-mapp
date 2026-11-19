@@ -71,8 +71,8 @@ describe('release lint', () => {
                 .replace('## [0.2.0] - 2026-10-01', '## [0.0.9] - 2026-10-01')
                 .replace('web@v0.2.0...HEAD', 'web@v0.0.9...HEAD')
                 .replace(
-                    '[0.2.0]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.2.0',
-                    '[0.0.9]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.0.9',
+                    '[0.2.0]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.2.0',
+                    '[0.0.9]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.0.9',
                 ),
         );
 
@@ -131,13 +131,13 @@ describe('release lint', () => {
         it('fails on a missing compare link', async () => {
             const result = await lint(
                 releasedChangelog.replace(
-                    '[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0\n',
+                    '[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0\n',
                     '',
                 ),
             );
 
             expect(result.stderr).toContain(
-                ':17: missing link reference definition "[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0"',
+                ':17: missing link reference definition "[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0"',
             );
         });
 
@@ -145,13 +145,13 @@ describe('release lint', () => {
             const result = await lint(releasedChangelog.replace('web@v0.2.0...HEAD', 'web@v0.1.0...HEAD'));
 
             expect(result.stderr).toContain(
-                ':23: wrong link for [unreleased], expected "https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.0...HEAD"',
+                ':23: wrong link for [unreleased], expected "https://github.com/critsource/critsource/compare/web@v0.2.0...HEAD"',
             );
         });
 
         it('fails on an Unreleased link before the first release', async () => {
             const result = await lint(
-                `${unreleasedChangelog}\n[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...HEAD\n`,
+                `${unreleasedChangelog}\n[unreleased]: https://github.com/critsource/critsource/compare/web@v0.1.0...HEAD\n`,
             );
 
             expect(result.stderr).toContain(':11: unexpected link reference definition [unreleased]');
@@ -165,7 +165,7 @@ describe('release lint', () => {
 
         it('fails on a duplicate link reference definition', async () => {
             const result = await lint(
-                `${releasedChangelog}[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0\n`,
+                `${releasedChangelog}[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0\n`,
             );
 
             expect(result.stderr).toContain(':26: duplicate link reference definition [0.1.0]');

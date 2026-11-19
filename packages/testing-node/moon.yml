@@ -10,7 +10,7 @@ tags:
 project:
     title: "Node test helpers"
     description: "Helpers for the tests of Node projects, such as in-memory mocks of node:fs and git for Vitest."
-    owner: "@dnd-mapp/reviewers"
+    owner: "@critsource/reviewers"
     maintainers:
         - "@NoNamer777"
 

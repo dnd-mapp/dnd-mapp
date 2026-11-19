@@ -78,7 +78,7 @@ These steps are a guideline. They do not limit the lead maintainer's discretion 
 
 ## Scope
 
-This code of conduct applies in every space of the [dnd-mapp GitHub organization](https://github.com/dnd-mapp): the [repository](https://github.com/dnd-mapp/dnd-mapp), its issues, pull requests, and [Discussions](https://github.com/dnd-mapp/dnd-mapp/discussions), and the [D&D Mapp project](https://github.com/orgs/dnd-mapp/projects/10). It also applies to anyone officially representing D&D Mapp in public, such as by using an official email address, posting from an official social media account, or acting as an appointed representative at an online or offline event.
+This code of conduct applies in every space of the [critsource GitHub organization](https://github.com/critsource): the [repository](https://github.com/critsource/critsource), its issues, pull requests, and [Discussions](https://github.com/critsource/critsource/discussions), and the [Critsource project](https://github.com/orgs/critsource/projects/10). It also applies to anyone officially representing D&D Mapp in public, such as by using an official email address, posting from an official social media account, or acting as an appointed representative at an online or offline event.
 
 ## Attribution
 

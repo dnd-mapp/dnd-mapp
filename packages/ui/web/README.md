@@ -6,7 +6,7 @@ The UI components of the [web client](../../../apps/web/README.md), which every 
 
 A component belongs here when it is presentational: it takes its content through content projection and its state through inputs, and uses no router or app state. The app or domain module that uses it does the wiring. Theme picker is the one exception: it reads and saves the choice through [`ThemeService`](#theme), as [ADR 0001](../../../docs/adr/0001-ui-and-token-packages.md) records. Footer holds a Theme picker, so it reaches the service through it. The package imports only packages for the whole workspace, as the [dependency rules](../../../docs/architecture.md#dependency-rules) require, so it stays below `core-web` and the domain modules.
 
-[Build the design system in code](https://github.com/dnd-mapp/dnd-mapp/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
+[Build the design system in code](https://github.com/critsource/critsource/issues/199) adds the components, in the build order of the Component inventory in [Penpot](../../../docs/design.md#from-design-to-code). Each one takes its name from Penpot, and keeps its files in a folder of that name under [`src/components/`](src/components): the component, its template and styles, its spec, its stories, its docs page, and an `index.ts` that lists what the package exports of it. [`src/index.ts`](src/index.ts) takes one `export *` line per component. A few folders differ:
 
 - A component with variant inputs, such as `kind`, also keeps their values in `<name>.types.ts`. Data table, Disclosure, Facts list, Footer, Header, Icon, Link group, Mobile menu, On this page, Skip link, Summary, Tabs, and Text page have none.
 - Icon holds one component per glyph, which share a stylesheet, spec, stories, and docs page. Its `icons.ts` maps each glyph to its component for the spec and the stories, and stays out of `index.ts`.
@@ -220,7 +220,7 @@ pnpm moon run ui-web:lint
 
 [Storybook](https://storybook.js.org) shows each component on its own, in the states its stories set up, so it can be checked against its [Penpot design](../../../docs/design.md). The stories and the docs pages document the components; the Vitest specs test them. [ADR 0007](../../../docs/adr/0007-storybook-on-vite.md) records why it runs on the Vite framework of Storybook, which is in preview, and [ADR 0009](../../../docs/adr/0009-storybook-through-angular-cli.md) why moon starts it through the Angular CLI.
 
-The Storybook of `main` is online at <https://dnd-mapp.github.io/dnd-mapp/>. Each pull request that changes it publishes a preview under `pr/<number>/` and links it as a deployment, as [CI](../../../docs/ci.md#storybook) describes.
+The Storybook of `main` is online at <https://critsource.github.io/critsource/>. Each pull request that changes it publishes a preview under `pr/<number>/` and links it as a deployment, as [CI](../../../docs/ci.md#storybook) describes.
 
 - Put each story next to its component, as `<name>.stories.ts`, so the glob in [`.storybook/main.ts`](.storybook/main.ts) picks it up.
 - Import `Meta` and `StoryObj` from `@storybook/angular-vite`.

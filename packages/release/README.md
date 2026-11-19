@@ -73,9 +73,9 @@ The compare links of the changelog point at these tags, in the repository that t
 A changelog with releases needs one link reference definition per heading: `unreleased` compares the newest release to `HEAD`, each release compares the release below it to itself, and the oldest release links to its tag. A changelog without releases needs none. `bump` rewrites the definitions where the first one stood, or appends them to the end of the changelog:
 
 ```markdown
-[unreleased]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.2.0...HEAD
-[0.2.0]: https://github.com/dnd-mapp/dnd-mapp/compare/web@v0.1.0...web@v0.2.0
-[0.1.0]: https://github.com/dnd-mapp/dnd-mapp/releases/tag/web@v0.1.0
+[unreleased]: https://github.com/critsource/critsource/compare/web@v0.2.0...HEAD
+[0.2.0]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.2.0
+[0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0
 ```
 
 ## Testing
