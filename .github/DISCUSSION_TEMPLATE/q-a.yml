@@ -28,7 +28,7 @@ body:
           label: Version
           description: >
               The `version` that `build-info.json` reports on the site your question is about, if any, as
-              <https://www.dndmapp.nl.eu.org/build-info.json> does for production.
+              <https://www.critsource.com/build-info.json> does for production.
           placeholder: 0.1.0, edge, or pr-42
 
     - type: dropdown
@@ -37,9 +37,9 @@ body:
           label: Environment
           description: Where you run D&D Mapp, if your question depends on it.
           options:
-              - Production (www.dndmapp.nl.eu.org)
-              - Staging (staging.dndmapp.nl.eu.org)
-              - Development (dev.dndmapp.nl.eu.org)
+              - Production (www.critsource.com)
+              - Staging (staging.critsource.com)
+              - Development (dev.critsource.com)
               - My own deployment of the dndmapp/web image
               - A local build from source
 

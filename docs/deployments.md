@@ -6,16 +6,16 @@ This guide describes where the web client runs, how a workflow deploys it there,
 
 Each environment runs a container of the [web image](https://hub.docker.com/r/dndmapp/web) that follows one of its tags:
 
-| Environment | URL                                 | Container         | Follows  | Deployed by                                              |
-|:------------|:------------------------------------|:------------------|:---------|:---------------------------------------------------------|
-| development | <https://dev.dndmapp.nl.eu.org>     | `dndmapp-dev`     | `edge`   | The `Deploy development` job of `Push main`.             |
-| staging     | <https://staging.dndmapp.nl.eu.org> | `dndmapp-staging` | `latest` | The `Deploy staging` job of `Release`.                   |
-| production  | <https://www.dndmapp.nl.eu.org>     | `dndmapp-prod`    | `latest` | The `Deploy production` job of `Release`, after staging. |
+| Environment | URL                              | Container         | Follows  | Deployed by                                              |
+|:------------|:---------------------------------|:------------------|:---------|:---------------------------------------------------------|
+| development | <https://dev.critsource.com>     | `dndmapp-dev`     | `edge`   | The `Deploy development` job of `Push main`.             |
+| staging     | <https://staging.critsource.com> | `dndmapp-staging` | `latest` | The `Deploy staging` job of `Release`.                   |
+| production  | <https://www.critsource.com>     | `dndmapp-prod`    | `latest` | The `Deploy production` job of `Release`, after staging. |
 
 Each environment serves `build-info.json`, which reports the commit and version of the build it runs:
 
 ```bash
-curl https://dev.dndmapp.nl.eu.org/build-info.json
+curl https://dev.critsource.com/build-info.json
 ```
 
 The `pr-<number>` image of a pull request runs in no environment. Run it on your machine at <http://localhost:4200>, or run the end-to-end tests against it, as the [end-to-end tests README](../e2e/web/README.md) describes:
@@ -45,6 +45,12 @@ When several pushes land in a row, a newer deploy may replace one that still wai
 ## Staging and production
 
 Staging and production both run `latest`, which only a release of `web` moves. The `Release` workflow deploys staging first and runs the end-to-end tests against it, then deploys production once they pass. [What the release workflow checks](releasing.md#what-the-release-workflow-checks) describes each job.
+
+## HTTPS and headers
+
+Cloudflare answers every request for an environment, so its zone settings decide the `Strict-Transport-Security` header. The HSTS setting of the `critsource.com` zone, under **SSL/TLS** > **Edge Certificates**, sends `Strict-Transport-Security: max-age=0` and `X-Content-Type-Options: nosniff`. A `max-age` of 0 leaves HSTS off and clears any rule that a browser stored earlier, so browsers don't yet insist on HTTPS for the domain. Traefik still redirects every HTTP request to HTTPS.
+
+Switching HSTS on is a separate decision, since browsers then refuse plain HTTP for the whole domain for the length of the `max-age`, and can't be told otherwise until it ends.
 
 ## Rolling back
 
