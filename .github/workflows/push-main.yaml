@@ -200,7 +200,7 @@ jobs:
             id-token: write
         environment:
             name: development
-            url: https://dev.dndmapp.nl.eu.org/
+            url: https://dev.critsource.com/
         # A new deploy never cancels one that runs, so no update stops halfway. A newer deploy may replace one that waits,
         # which is safe since edge moves to the newest image anyway: an older deploy would pull that image too.
         concurrency:
@@ -231,7 +231,7 @@ jobs:
             - name: Wait for development to run the commit
               uses: ./.github/actions/wait-for-commit
               with:
-                  url: https://dev.dndmapp.nl.eu.org/build-info.json
+                  url: https://dev.critsource.com/build-info.json
                   commit: ${{ github.sha }}
                   timeout: "60"
 

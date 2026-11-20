@@ -216,7 +216,7 @@ jobs:
             id-token: write
         environment:
             name: staging
-            url: https://staging.dndmapp.nl.eu.org/
+            url: https://staging.critsource.com/
         # A new deploy never cancels one that runs, so no update or test run stops halfway.
         concurrency:
             group: deploy-staging
@@ -259,7 +259,7 @@ jobs:
             - name: Wait for staging to run the commit
               uses: ./.github/actions/wait-for-commit
               with:
-                  url: https://staging.dndmapp.nl.eu.org/build-info.json
+                  url: https://staging.critsource.com/build-info.json
                   commit: ${{ github.sha }}
                   timeout: "60"
 
@@ -278,7 +278,7 @@ jobs:
               run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -uE 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
               shell: bash
               env:
-                  BASE_URL: https://staging.dndmapp.nl.eu.org/
+                  BASE_URL: https://staging.critsource.com/
 
             # A re-run of the failed jobs uploads to the same run, which holds one artifact per name, so the name
             # carries the attempt.
@@ -306,7 +306,7 @@ jobs:
             id-token: write
         environment:
             name: production
-            url: https://www.dndmapp.nl.eu.org/
+            url: https://www.critsource.com/
         concurrency:
             group: deploy-production
             cancel-in-progress: false
@@ -341,6 +341,6 @@ jobs:
             - name: Wait for production to run the commit
               uses: ./.github/actions/wait-for-commit
               with:
-                  url: https://www.dndmapp.nl.eu.org/build-info.json
+                  url: https://www.critsource.com/build-info.json
                   commit: ${{ github.sha }}
                   timeout: "60"

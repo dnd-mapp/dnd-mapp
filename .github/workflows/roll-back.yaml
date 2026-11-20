@@ -59,13 +59,13 @@ jobs:
                           pattern='^sha-[0-9a-f]{7}$'
                           example=sha-0123abc
                           followed=edge
-                          environments='[{"name":"development","container":"dndmapp-dev","url":"https://dev.dndmapp.nl.eu.org/"}]'
+                          environments='[{"name":"development","container":"dndmapp-dev","url":"https://dev.critsource.com/"}]'
                           ;;
                       release)
                           pattern='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
                           example=1.2.0
                           followed=latest
-                          environments='[{"name":"staging","container":"dndmapp-staging","url":"https://staging.dndmapp.nl.eu.org/"},{"name":"production","container":"dndmapp-prod","url":"https://www.dndmapp.nl.eu.org/"}]'
+                          environments='[{"name":"staging","container":"dndmapp-staging","url":"https://staging.critsource.com/"},{"name":"production","container":"dndmapp-prod","url":"https://www.critsource.com/"}]'
                           ;;
                       *)
                           echo "::error::$TARGET names no environments to roll back. Pick development or release."
