@@ -12,7 +12,7 @@ This page lists where each kind of request about D&D Mapp goes, and what respons
 | An accessibility barrier                                   | The [Accessibility barrier form](https://github.com/critsource/critsource/issues/new?template=6-accessibility.yml).        |
 | A vulnerability                                            | The [security policy](SECURITY.md#reporting-a-vulnerability), never a public issue, pull request, or discussion.           |
 | Behavior that breaks the code of conduct                   | The [code of conduct](CODE_OF_CONDUCT.md#reporting-a-violation).                                                           |
-| A private matter, such as anything involving personal data | An email to [support@dndmapp.nl.eu.org](mailto:support@dndmapp.nl.eu.org).                                                 |
+| A private matter, such as anything involving personal data | An email to [support@critsource.com](mailto:support@critsource.com).                                                       |
 
 Before you open a discussion or a bug report, search for an existing one. When you find one, add your details or a 👍 to it rather than opening a duplicate.
 

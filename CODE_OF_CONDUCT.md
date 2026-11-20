@@ -42,7 +42,7 @@ The community does not allow the following behaviors. Committing, threatening, o
 
 Tensions can arise between community members even when they try their best to collaborate. Not every conflict violates this code of conduct, and the behaviors it encourages help avoid conflicts and minimize harm.
 
-When an incident does occur, report it promptly by email to [conduct@dndmapp.nl.eu.org](mailto:conduct@dndmapp.nl.eu.org). The [lead maintainer](GOVERNANCE.md#lead-maintainer) reads every report and keeps it private. When your report concerns the lead maintainer, you can also [report the content to GitHub](https://docs.github.com/en/communities/maintaining-your-safety-on-github/reporting-abuse-or-spam).
+When an incident does occur, report it promptly by email to [conduct@critsource.com](mailto:conduct@critsource.com). The [lead maintainer](GOVERNANCE.md#lead-maintainer) reads every report and keeps it private. When your report concerns the lead maintainer, you can also [report the content to GitHub](https://docs.github.com/en/communities/maintaining-your-safety-on-github/reporting-abuse-or-spam).
 
 The lead maintainer takes every report seriously and responds as soon as they can, though D&D Mapp is a volunteer project and promises no response time. They investigate every report, which can include reviewing messages and logs and talking to witnesses and other participants. They keep investigations and enforcement as transparent as possible while putting safety and confidentiality first. Enforcement therefore happens in private with the people involved, though a resolution they agree on can include telling the whole community.
 

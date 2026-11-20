@@ -36,7 +36,7 @@ Out of scope:
 Report a vulnerability privately, never in a public issue, pull request, or discussion:
 
 - Open a [security advisory](https://github.com/critsource/critsource/security/advisories/new).
-- Without a GitHub account, email [security@dndmapp.nl.eu.org](mailto:security@dndmapp.nl.eu.org).
+- Without a GitHub account, email [security@critsource.com](mailto:security@critsource.com).
 
 Include the affected version or commit, the steps to reproduce the weakness, and what an attacker could do with it.
 
