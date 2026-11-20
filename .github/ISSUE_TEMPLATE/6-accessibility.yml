@@ -23,7 +23,7 @@ body:
       attributes:
           label: Page
           description: The address of the page where you met the barrier.
-          placeholder: https://www.dndmapp.nl.eu.org/
+          placeholder: https://www.critsource.com/
 
     - type: textarea
       id: goal

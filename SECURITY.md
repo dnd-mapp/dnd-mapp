@@ -19,7 +19,7 @@ In scope:
 - The code in this repository.
 - The `dndmapp/web` image.
 - The GitHub Actions workflows of this repository.
-- The production site at <https://www.dndmapp.nl.eu.org>.
+- The production site at <https://www.critsource.com>.
 
 Where you can, reproduce a weakness against a local `dndmapp/web` container, as [its README](.docker/web/README.md) describes, rather than against production.
 

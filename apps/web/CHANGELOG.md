@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- The app now runs at `www.critsource.com`, and the page names that address as its canonical URL and in link previews, instead of `www.dndmapp.nl.eu.org`.
+
 ## [0.2.0] - 2026-11-15
 
 ### Added

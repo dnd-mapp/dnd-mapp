@@ -24,7 +24,7 @@ The nginx access log holds the visitor's IP address, the time, the page, the ref
 Each November, around the date the Privacy page names:
 
 - [ ] In Gmail, delete every support email whose question was resolved more than a year ago, then empty them from the trash.
-- [ ] Open <https://www.dndmapp.nl.eu.org> in a private window and check in the browser's dev tools that `cf_clearance` is still the only cookie, and that it expires after 6 months.
+- [ ] Open <https://www.critsource.com> in a private window and check in the browser's dev tools that `cf_clearance` is still the only cookie, and that it expires after 6 months.
 - [ ] In the same dev tools, check that the network tab shows no request to another company, apart from Cloudflare's `/cdn-cgi/challenge-platform/` script.
 - [ ] Check that the host's list of Cloudflare's IP ranges matches <https://www.cloudflare.com/ips-v4/>.
 
