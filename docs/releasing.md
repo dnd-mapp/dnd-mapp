@@ -155,4 +155,6 @@ The release workflow finds a project from its tag, so the moon id of the project
 
 Add the public SSH signing key of the maintainer to [`.github/allowed_signers`](../.github/allowed_signers) in a pull request, as one line in the format of the existing one: an email, `namespaces="git"`, and the key. The release workflow reads the file from `main`, so the key can sign release tags once the pull request merges. Removing a line stops its key from releasing, even on an older commit.
 
+The workflow matches the key of the signature, not the email in the line, which only labels the key. A maintainer who changes their commit email therefore adds a second line with the same key and the new email, and keeps the old line until no one needs the old label.
+
 The signer also needs the maintain or admin role on the repository, which the [lead maintainer](../GOVERNANCE.md#lead-maintainer) grants.
