@@ -80,7 +80,7 @@ jobs:
                   esac
               shell: bash
               env:
-                  IMAGE: dndmapp/web
+                  IMAGE: critsource/web
                   TAG: pr-${{ github.event.pull_request.number }}
                   DOCKERHUB_USERNAME: ${{ vars.DOCKERHUB_USERNAME }}
                   DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN_DELETE }}

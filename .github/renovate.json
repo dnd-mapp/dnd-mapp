@@ -72,7 +72,7 @@
         {
             "description": "Leave the images the project publishes alone. Their tags, such as edge, move with every push to main, so a pinned digest would test an old image.",
             "matchDatasources": ["docker"],
-            "matchPackageNames": ["dndmapp/**"],
+            "matchPackageNames": ["critsource/**"],
             "enabled": false
         },
         {

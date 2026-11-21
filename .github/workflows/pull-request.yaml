@@ -79,7 +79,7 @@ jobs:
         permissions:
             contents: read
         outputs:
-            image: dndmapp/web@${{ steps.image.outputs.digest }}
+            image: critsource/web@${{ steps.image.outputs.digest }}
         steps:
             - name: Check out the repository
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -90,7 +90,7 @@ jobs:
               id: image
               uses: ./.github/actions/docker-image
               with:
-                  image: dndmapp/web
+                  image: critsource/web
                   target: web-gha
                   dockerhub-username: ${{ vars.DOCKERHUB_USERNAME }}
                   dockerhub-token: ${{ secrets.DOCKERHUB_TOKEN_WRITE }}
@@ -134,7 +134,7 @@ jobs:
               run: pnpm moon run web-e2e:e2e-ci --summary minimal | sed -uE 's/^[[:space:]]*[^[:space:]]+ \| (::)/\1/'
               shell: bash
               env:
-                  WEB_IMAGE: ${{ needs.web-image.outputs.image || 'dndmapp/web:edge' }}
+                  WEB_IMAGE: ${{ needs.web-image.outputs.image || 'critsource/web:edge' }}
 
             - name: Upload the Playwright report
               if: failure()
