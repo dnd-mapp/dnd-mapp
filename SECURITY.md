@@ -6,22 +6,22 @@ This policy covers which versions of D&D Mapp get security fixes, what is in sco
 
 Security fixes land on `main` and ship in the next release. Older releases get no fixes, so upgrade to the [latest release](https://github.com/critsource/critsource/releases).
 
-| Version                                                 | Supported |
-|:--------------------------------------------------------|:---------:|
-| The latest release of `web` and its `dndmapp/web` image |    Yes    |
-| `main`                                                  |    Yes    |
-| Older releases                                          |    No     |
+| Version                                                    | Supported |
+|:-----------------------------------------------------------|:---------:|
+| The latest release of `web` and its `critsource/web` image |    Yes    |
+| `main`                                                     |    Yes    |
+| Older releases                                             |    No     |
 
 ## Scope
 
 In scope:
 
 - The code in this repository.
-- The `dndmapp/web` image.
+- The `critsource/web` image.
 - The GitHub Actions workflows of this repository.
 - The production site at <https://www.critsource.com>.
 
-Where you can, reproduce a weakness against a local `dndmapp/web` container, as [its README](.docker/web/README.md) describes, rather than against production.
+Where you can, reproduce a weakness against a local `critsource/web` container, as [its README](.docker/web/README.md) describes, rather than against production.
 
 Out of scope:
 

@@ -12,7 +12,7 @@ Renovate merges these updates once the checks pass, since it may bypass the code
 
 Every other update waits for a review: majors, minor updates of the base images in Dockerfiles, Node.js and pnpm in `devEngines`, and dependencies outside the development tools. A new major of Node.js or pnpm first waits for approval on the Dependency Dashboard.
 
-Renovate leaves the images the project publishes, `dndmapp/*`, alone, since their tags move with every push to `main`.
+Renovate leaves the images the project publishes, `critsource/*`, alone, since their tags move with every push to `main`.
 
 ## Adding a dependency
 

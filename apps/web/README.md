@@ -19,7 +19,7 @@ The app bootstraps the root component and app config of [`@critsource/core-web`]
 
 [`.docker/web/Dockerfile`](../../.docker/web/Dockerfile) packages the app in a Docker image that serves it with [nginx](https://nginx.org). The first stage runs on the platform of the builder. It installs pnpm with its [install script](https://pnpm.io/installation), installs the dependencies with the pnpm store in a cache mount, builds the app with `moon run web:build`, and stamps `build-info.json` with `scripts/build-info.ts`. The final stage copies the bundle into the nginx image.
 
-The `web` target of [`.docker/bake.hcl`](../../.docker/bake.hcl) builds the image with [Docker Bake](https://docs.docker.com/build/bake/) for the platform of your machine, and tags it `dndmapp/web:local`. Set `TAGS` to a comma-separated list of other tags, of which the first becomes the version. Bake passes these variables from the environment to the Dockerfile as build arguments:
+The `web` target of [`.docker/bake.hcl`](../../.docker/bake.hcl) builds the image with [Docker Bake](https://docs.docker.com/build/bake/) for the platform of your machine, and tags it `critsource/web:local`. Set `TAGS` to a comma-separated list of other tags, of which the first becomes the version. Bake passes these variables from the environment to the Dockerfile as build arguments:
 
 | Variable     | Purpose                                                        | Default                 |
 |:-------------|:---------------------------------------------------------------|:------------------------|
@@ -48,7 +48,7 @@ nginx answers `/healthz` with an empty `200` at the root, whatever the base path
 
 The image builds on the official `nginx` image but runs nginx as the unprivileged `nginx` user (UID 101) and starts it without the entrypoint scripts of the base image. It needs no added capabilities, writes to `/tmp` only, and runs under any other UID too.
 
-CI builds the image for `linux/amd64` and `linux/arm64` and pushes it to [Docker Hub](https://hub.docker.com/r/dndmapp/web), as [The web image](../../docs/ci.md#the-web-image) describes. There, [`docker/metadata-action`](https://github.com/docker/metadata-action) sets the tags and the version and creation labels, and adds an `org.opencontainers.image.revision` label.
+CI builds the image for `linux/amd64` and `linux/arm64` and pushes it to [Docker Hub](https://hub.docker.com/r/critsource/web), as [The web image](../../docs/ci.md#the-web-image) describes. There, [`docker/metadata-action`](https://github.com/docker/metadata-action) sets the tags and the version and creation labels, and adds an `org.opencontainers.image.revision` label.
 
 ## Docker Hub page
 
@@ -102,13 +102,13 @@ pnpm moon run web:image
 Run a container of the image at <http://localhost:4200>:
 
 ```bash
-docker run --rm -p 4200:4200 dndmapp/web:local
+docker run --rm -p 4200:4200 critsource/web:local
 ```
 
 Harden a container by dropping every capability and making the root file system read-only, with a tmpfs at `/tmp`:
 
 ```bash
-docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges dndmapp/web:local
+docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges critsource/web:local
 ```
 
 Build the image under another base path, and open the app at <http://localhost:4200/pr-42/> once the container runs:

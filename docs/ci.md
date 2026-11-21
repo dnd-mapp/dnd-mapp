@@ -43,7 +43,7 @@ When `End-to-end tests` fails, the run keeps the HTML report of Playwright for 7
 
 The `Web image` job builds the `web-gha` target of [`.docker/bake.hcl`](../.docker/bake.hcl) with [`docker/bake-action`](https://github.com/docker/bake-action), rather than running `web:image`. The target builds the app once on the platform of the runner, then the image for `linux/amd64` and `linux/arm64`. It attaches an SBOM and a provenance attestation to each image, and caches its layers in the GitHub Actions cache. [`docker/metadata-action`](https://github.com/docker/metadata-action) computes its tags and its version, revision, and creation labels. `build-info.json` in the image reports the head commit of the pull request or push, and the version of the image.
 
-Each event pushes or moves these tags of [`dndmapp/web`](https://hub.docker.com/r/dndmapp/web) on Docker Hub:
+Each event pushes or moves these tags of [`critsource/web`](https://hub.docker.com/r/critsource/web) on Docker Hub:
 
 | Event                         | Tags                                                                                                    |
 |:------------------------------|:--------------------------------------------------------------------------------------------------------|

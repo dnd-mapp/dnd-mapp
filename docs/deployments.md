@@ -4,13 +4,13 @@ This guide describes where the web client runs, how a workflow deploys it there,
 
 ## Environments
 
-Each environment runs a container of the [web image](https://hub.docker.com/r/dndmapp/web) that follows one of its tags:
+Each environment runs a container of the [web image](https://hub.docker.com/r/critsource/web) that follows one of its tags:
 
-| Environment | URL                              | Container         | Follows  | Deployed by                                              |
-|:------------|:---------------------------------|:------------------|:---------|:---------------------------------------------------------|
-| development | <https://dev.critsource.com>     | `dndmapp-dev`     | `edge`   | The `Deploy development` job of `Push main`.             |
-| staging     | <https://staging.critsource.com> | `dndmapp-staging` | `latest` | The `Deploy staging` job of `Release`.                   |
-| production  | <https://www.critsource.com>     | `dndmapp-prod`    | `latest` | The `Deploy production` job of `Release`, after staging. |
+| Environment | URL                              | Container            | Follows  | Deployed by                                              |
+|:------------|:---------------------------------|:---------------------|:---------|:---------------------------------------------------------|
+| development | <https://dev.critsource.com>     | `critsource-dev`     | `edge`   | The `Deploy development` job of `Push main`.             |
+| staging     | <https://staging.critsource.com> | `critsource-staging` | `latest` | The `Deploy staging` job of `Release`.                   |
+| production  | <https://www.critsource.com>     | `critsource-prod`    | `latest` | The `Deploy production` job of `Release`, after staging. |
 
 Each environment serves `build-info.json`, which reports the commit and version of the build it runs:
 
@@ -21,7 +21,7 @@ curl https://dev.critsource.com/build-info.json
 The `pr-<number>` image of a pull request runs in no environment. Run it on your machine at <http://localhost:4200>, or run the end-to-end tests against it, as the [end-to-end tests README](../e2e/web/README.md) describes:
 
 ```bash
-docker run --rm -p 4200:4200 dndmapp/web:pr-<number>
+docker run --rm -p 4200:4200 critsource/web:pr-<number>
 ```
 
 ## How a deploy works
@@ -70,7 +70,7 @@ The workflow fails before it moves a tag when `tag` doesn't fit `target` or does
 Keep in mind:
 
 - **Development stays rolled back only until the next merge that rebuilds the image**, since that moves `edge` again.
-- **`sha-<short>` exists only for commits that changed the web app.** The tag takes the first seven characters of the commit, as `git rev-parse --short=7 <commit>` prints them. Check that it exists with `docker buildx imagetools inspect dndmapp/web:sha-<short>`.
-- **Moving `latest` also changes what anyone who pulls `dndmapp/web` gets.** The `<major>.<minor>` and `<major>` tags stay on the broken release until the next release moves them.
+- **`sha-<short>` exists only for commits that changed the web app.** The tag takes the first seven characters of the commit, as `git rev-parse --short=7 <commit>` prints them. Check that it exists with `docker buildx imagetools inspect critsource/web:sha-<short>`.
+- **Moving `latest` also changes what anyone who pulls `critsource/web` gets.** The `<major>.<minor>` and `<major>` tags stay on the broken release until the next release moves them.
 - **A rollback waits for a deploy that runs in the same environment.** A release that hasn't reached production yet stops at its next check of `latest`, as [From a superseded release](releasing.md#from-a-superseded-release) describes.
 - **A rollback stops when a newer run moves the tag while it waits**, with an error that names the image the tag points at. The newer run deploys that image, so dispatch the rollback again when it is broken too.
