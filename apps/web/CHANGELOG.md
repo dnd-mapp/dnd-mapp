@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-21
+
 ### Changed
 
 - **Breaking:** The Docker image is published as `critsource/web` instead of `dndmapp/web`. Pull `critsource/web` in your deployment, since `dndmapp/web` gets no further releases and keeps the tags it has.
@@ -34,6 +36,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - `build-info.json`, which reports the commit and version of the build that a deployment serves.
 - A `/healthz` endpoint and a `HEALTHCHECK` in the image, which report whether the container is healthy.
 
-[unreleased]: https://github.com/critsource/critsource/compare/web@v0.2.0...HEAD
+[unreleased]: https://github.com/critsource/critsource/compare/web@v0.3.0...HEAD
+[0.3.0]: https://github.com/critsource/critsource/compare/web@v0.2.0...web@v0.3.0
 [0.2.0]: https://github.com/critsource/critsource/compare/web@v0.1.0...web@v0.2.0
 [0.1.0]: https://github.com/critsource/critsource/releases/tag/web@v0.1.0
