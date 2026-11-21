@@ -38,7 +38,7 @@ catalogs:
     "@angular-devkit/core": ~22.2.7
     "@angular/animations": ~22.2.6
     "@angular/build": ~22.2.7
-    "@angular/cdk": ~22.2.7
+    "@angular/cdk": ~22.3.0
     "@angular/cli": ~22.2.7
     "@angular/common": ~22.2.6
     "@angular/compiler": ~22.2.6
