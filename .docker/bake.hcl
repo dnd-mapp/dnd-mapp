@@ -42,7 +42,7 @@ target "web" {
     context    = "."
     dockerfile = ".docker/web/Dockerfile"
 
-    tags   = image_tags("dndmapp/web")
+    tags   = image_tags("critsource/web")
     output = ["type=docker"]
 
     args = {

@@ -47,7 +47,7 @@ jobs:
 
                   case "$project" in
                       web)
-                          image=dndmapp/web
+                          image=critsource/web
                           target=web-gha
                           ;;
                       *)
@@ -253,7 +253,7 @@ jobs:
               with:
                   url: ${{ secrets.WATCHTOWER_URL }}
                   token: ${{ secrets.WATCHTOWER_API_TOKEN }}
-                  container: dndmapp-staging
+                  container: critsource-staging
 
             # Watchtower answers once it has restarted the container, so the wait covers only the start of the new one.
             - name: Wait for staging to run the commit
@@ -336,7 +336,7 @@ jobs:
               with:
                   url: ${{ secrets.WATCHTOWER_URL }}
                   token: ${{ secrets.WATCHTOWER_API_TOKEN }}
-                  container: dndmapp-prod
+                  container: critsource-prod
 
             - name: Wait for production to run the commit
               uses: ./.github/actions/wait-for-commit

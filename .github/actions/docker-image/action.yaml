@@ -5,7 +5,7 @@ description: Build a target of .docker/bake.hcl and push its image to Docker Hub
 
 inputs:
     image:
-        description: The Docker Hub repository of the image, such as `dndmapp/web`.
+        description: The Docker Hub repository of the image, such as `critsource/web`.
         required: true
     target:
         description: The bake target that builds the image. It must inherit the docker-metadata-action target.

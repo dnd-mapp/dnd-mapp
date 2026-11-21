@@ -40,7 +40,7 @@ body:
               - Production (www.critsource.com)
               - Staging (staging.critsource.com)
               - Development (dev.critsource.com)
-              - My own deployment of the dndmapp/web image
+              - My own deployment of the critsource/web image
               - A local build from source
 
     - type: dropdown

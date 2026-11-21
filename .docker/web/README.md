@@ -21,7 +21,7 @@ Run `latest` or a version tag for a release. The [GitHub Releases](https://githu
 Run the newest release, and open the app at <http://localhost:4200>:
 
 ```bash
-docker run --rm -p 4200:4200 dndmapp/web
+docker run --rm -p 4200:4200 critsource/web
 ```
 
 The container serves the app on port 4200, under the path `/`. It answers every path without a file extension with `index.html`, so the router of the app handles it, and a missing file with an extension, such as a bundle of an older release, with `404`. nginx serves `index.html` with `Cache-Control: no-cache`, so browsers check for a new release on every visit.
@@ -29,7 +29,7 @@ The container serves the app on port 4200, under the path `/`. It answers every 
 The container runs nginx as the unprivileged `nginx` user (UID 101), needs no added capabilities, writes to `/tmp` only, and runs under any other UID too. Harden it by dropping every capability and making the root file system read-only, with a tmpfs at `/tmp`:
 
 ```bash
-docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges dndmapp/web
+docker run --rm -p 4200:4200 --read-only --tmpfs /tmp --cap-drop ALL --security-opt no-new-privileges critsource/web
 ```
 
 To run it with Docker Compose, hardened the same way, save this as `compose.yaml` and run `docker compose up -d`:
@@ -37,7 +37,7 @@ To run it with Docker Compose, hardened the same way, save this as `compose.yaml
 ```yaml
 services:
     web:
-        image: dndmapp/web
+        image: critsource/web
         ports:
             - "4200:4200"
         read_only: true

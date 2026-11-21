@@ -38,19 +38,19 @@ pnpm moon run web-e2e:e2e-ci
 
 [`global-setup.ts`](global-setup.ts) starts the stack of [`compose.yaml`](compose.yaml) and stops it once the tests finish:
 
-- `web` runs `dndmapp/web:edge`, the image of the latest commit of `main` that changed it, or the image that `WEB_IMAGE` names. The stack pulls it on every run, except an image with the `local` tag, which no registry holds.
+- `web` runs `critsource/web:edge`, the image of the latest commit of `main` that changed it, or the image that `WEB_IMAGE` names. The stack pulls it on every run, except an image with the `local` tag, which no registry holds.
 - `caddy` serves the app at <https://localhost:4200>, on the port of the dev server, with a certificate of its internal CA. [`Caddyfile`](Caddyfile) configures it.
 
 When a server already listens on port 4200, the tests run against that server instead, and the stack stays down. The dev server works, but a container of the web image serves plain HTTP on that port, so the tests fail against it. Stop such a container before you run the task.
 
-To test your local changes to the web app, build `dndmapp/web:local` and point the stack at it:
+To test your local changes to the web app, build `critsource/web:local` and point the stack at it:
 
 ```bash
 pnpm moon run web:image
-WEB_IMAGE=dndmapp/web:local pnpm moon run web-e2e:e2e-ci
+WEB_IMAGE=critsource/web:local pnpm moon run web-e2e:e2e-ci
 ```
 
-CI sets `WEB_IMAGE` to the image that it pushed for the commit, and tests `dndmapp/web:edge` when it pushed none, as [CI](../../docs/ci.md#pull-requests-and-main) describes.
+CI sets `WEB_IMAGE` to the image that it pushed for the commit, and tests `critsource/web:edge` when it pushed none, as [CI](../../docs/ci.md#pull-requests-and-main) describes.
 
 To test a deployed environment instead, set `BASE_URL` to its URL. The tests then start no stack and use no dev server, and the browser checks the certificate of the environment. A release runs them against staging this way before it reaches production, as [Releasing](../../docs/releasing.md#what-the-release-workflow-checks) describes:
 

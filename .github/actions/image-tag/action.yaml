@@ -5,7 +5,7 @@ description: Fail unless a tag of an image on Docker Hub points at a digest, and
 
 inputs:
     image:
-        description: The Docker Hub repository of the image, such as `dndmapp/web`.
+        description: The Docker Hub repository of the image, such as `critsource/web`.
         required: true
     tag:
         description: The tag to check, such as `latest`.
