@@ -60,7 +60,7 @@ catalogs:
     "@commitlint/config-conventional": ~21.2.4
   eslint:
     "@eslint/js": ~10.0.1
-    angular-eslint: ~22.7.0
+    angular-eslint: ~22.8.0
     eslint: ~10.15.0
     eslint-config-prettier: ~10.1.8
     eslint-import-resolver-typescript: ~4.4.5
